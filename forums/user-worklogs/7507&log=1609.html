@@ -1,0 +1,228 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Baystep Productions</h1><h1>PsychoScript</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Alpha Soon?</td><td align="right"><font class="tiny">(Posted 2009-03-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yup. Alpha soon. I've been creating a temporary IDE console for the 
+scripting language. Nothing too fancy but something to do the job. So 
+far the console opens and saves source-codes to tabbed text areas. Of 
+course comes with color formatting so you can tell keywords from math 
+and strings. Conveniently schemed like Blitz Max. It will compile with 
+text output to the IDE. Working on a event system for it that will drive
+ textual events to you for control. IE, when PS wants to print, you tell
+ it where to print. This allows be to easily direct it from GUI output 
+on PRINT to standard IO on PRINT. Cool?<br><br>The only thing that it 
+really lacks is a Debugging system. Theres no step processing or pausing
+ the execution. You press RUN and it Runs. I did still supply a Debug 
+Log option for Run, which when active will output all variables 
+functions and classes. There names and locations in PS memory.<br><br>The
+ alpha test will be STAND ALONE. You won't have access to the PS3 Source
+ Code, for reasons of if I sell it. You will be able to write, save, and
+ execute, PsychoScript source code. And given that requests come in, I 
+will add IDE Test Objects to play with in your scripts. Stuff like 2D 
+Graphic objects, GUI Components, etc. This way you won't just write 
+Command Line programs, but actually be able to come up with something 
+with more "beef" to it. Share your scripts, give some comments!<br><br>As
+ for internal workings. Class creation is done. It now separates 
+variables functions methods etc. And saves them to its on memory bank. 
+Properly names them and gives them unique location/ID numbers. Next up 
+is objects. Which for me should be a variation of variables but links 
+the class structure. Maybe extends? IDK. When it's all working and 
+polished, I'll have that IDE Alpha Test for you guys. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Reality of PS3</td><td align="right"><font class="tiny">(Posted 2009-03-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> NOTE: PS3 IS MY SHORT NAME FOR PSYSCHO SCRIPT 3, NOT PLAYSTATION! DUMMY!<br><br>PS3
+ (Psycho Script 3) is the BlitzMax version, previous worklogs may be 
+confusing cause they are version 2 which was B3D. So remember, PS3 = 
+BMAX.<br><br>PS3 Is comming along. Slowly cause I do a million things at
+ once, but heres the reality of how its doing. And the best way to 
+explain it is through my temporary documentation.<br><br>Take a look, and feel free to ask questions...<br><br><pre class="code">STATISTICS:
+===========
+Average execution: 100 lines of code in 2.721088ms OR 36770 lines of code in 1 seconds
+
+KEYWORDS:
+=========
+var if elseif else endif
+while endwhile repeat until forever
+for next function endfunction
+select case default endselect
+method endmethod
+
+COMPILER DIRECTIVES:
+====================
+Compiler directive commands start with # followed by the command/function. Refer to this list
+of available compiler commands...
+	#include "[source file]"
+		include another source of the same type, ie: *.ps
+	#library [lib name]
+		selectivly include internal library, or extension if added. Requires only name
+		not extension. ex: #library 3DMath
+	#define [var name][&lt;data type&gt;] = [value]
+		defines compiler variable. Pre-compiler will replace all instances of var with value.
+	#declare scope [name] [hex value]
+		defines custom scope level for hierachial execution on variables or functions.
+
+COMMENTS:
+=========
+Line comments start with //
+Block comments start with "comment" and end with "endcomment"
+
+DATA TYPES:
+===========
+int%, float#, string$, long~, double!, hex&amp;,
+(pointer@)
+
+Any data type can be passed as an array using [] or [size]
+
+OPERATORS:
+==========
+Equal		==
+Not-Equal	!=
+More-Then/Equal	&gt; &gt;=
+Less-Then/Equal	&lt; &lt;=
+
+BUILT-IN FUNCTIONS:
+===================
+print(text$)
+	note: Functions can be called with () or just spaces.
+		ex. print(text$) [or] print text$
+notify(text$,priority%)
+	test$	  -	Text to be displayed
+	priority% -	0=Regular 1=Serious 2=Crash
+
+REFERANCE:
+==========
+Variables:
+	var name[data type] = value
+	ex: var age% = 18
+	note: Data type can be set with either symbol or scope (ex. &lt;string&gt;)
+
+If/ElseIf/Else Statements:
+	if [variable][operator][variable/constant]
+		...
+	else
+		...
+	endif
+	ex: if age &gt;= 18
+
+While Loop:
+	while ([variable][operator][variable/constant])=TRUE
+		...
+	endwhile
+
+Repeat/Until/Forever:
+	Repeat
+		...
+	Until/Forever ([variable][operator][variable/constant])=TRUE
+
+For/Next:
+	for [variable] = [min] to [max] (step [value])
+		...
+	next
+
+Select/Case/Default
+	select [variable]
+		case [value]
+			...
+		default
+			...
+	endselect
+
+Functions:
+	function [name][&lt;return type&gt;]([parameters]) [scope]
+		...
+	endfunction
+	note: return type is the type of data returned. The scope effects the
+	hierarchy of execution (Private,Public,Universal,Global,Local)
+
+Classes:
+	class [name] [scope]
+		...
+	endclass
+
+Objects:
+	obj [name][&lt;class name&gt;] [= [class name].[class constructor]([parameters])]
+	[obj name].[obj field/function/method]
+	notes:	for default constructors the optional equal field is usable.
+		examples:
+		   -Creation of object with default constructor
+			obj billy&lt;user&gt; = user.Create("Billy")
+		   -Calling object function to replace name
+			billy.Rename(@...")
+			   (note the @ sign is a pointer!)
+
+Type-def:
+	typedef [name]
+		var byteSize = [value]
+		var charType = [bool]
+		var includeEOL = [bool]
+		method Declare(value&lt;byte[]&gt;)
+			..handle your value array..
+		endmethod
+	endtypedef
+	notes: all fields and functions are required to prevent MAV.
+	This specifically defines variable and return types for bypassing object
+	usage.
+
+</pre><br><br>The only things to look out for is that typedef isn't working yet. Because I want to polish the classes up.<br><br>But
+ thats pretty much it for now. And that execution statistic is just a 
+basic while loop running with variable assignment in each loop as to 
+test the memory access to. Btw, my system is only P4 2.8gHz so anybody 
+wanting to use this with say a DX10 system should be satisfied.<br><br>I'll
+ be including an Event System and Condition/Trigger system to be 
+included as library's. As well as inventory. So RPG games here I come.<br><br>Oh
+ and btw on execution, functions and classes are extracted from the main
+ execution source and saved in memory so that simple while loop is 
+considered 3 even if you made a whole library of classes. They are on 
+need to know basis :)<br><br>And the current line count of the whole PS3 code is:<br><pre class="code">Total Lines: 1681
+Code Lines:  1623
+Empty Lines: 58
+
+Total Characters: 38845
+Letters (a-z,A-Z,0-9,Symbols): 36523
+White Space: 2322
+</pre><br><br>Note: There may be a C port later on, as PSP Development can be used as well, one of my other hobbies. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Redesign</td><td align="right"><font class="tiny">(Posted 2008-09-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> PsychoScript Version 3 is in Production.<br><br>It's
+ a BMX Module now! And has some cool new features comming along, 
+including a interpreter, compiler, and compiled interpreter along with 
+debugging engine! WOOT!<br><br>Also now includes class, object, extend 
+class, and overwriting for other classes/variables/functions. Going with
+ the OOP approach here this will make this language 2x more useful than 
+LUA in my book. <br><br>For example. And item system could have a base 
+class built in to the engine and the custom items could just call 
+something like....<br><pre class="code">Class ItemClassName Copy ItemDefaultClass
+   //ONLY NEED TO OVERWRITE CERTAIN PARTS! WOOT!
+   //EVERYTHING NOT OVERWRITEN PERFORMS DEFAULT ACTIONS
+   var name:String = "Item Name"
+   var itemAmmount% = 25
+   var usesLeft% = 3
+   Method _onPickup()
+      RunSparkleEffect(this)
+   EndMethod
+   Method _onUse()
+      RunSparkleEffect(this)
+      If UseMe() Then DeleteFromInventory(this)
+   EndMethod
+   Method UseMe()
+      Parent.healthPoints% += itemAmmount%
+      this.usesLeft -= 1
+      If usesLeft&lt;=0 Then Return True //EMPTY SO DELETE
+   EndMethod
+EndClass
+</pre><br><br>The engine automaticly takes events and searches for the 
+most recent object by heirarchy (overwrites, callbacks, engine add-ons, 
+engine defaults). Then calls the appropriate function using a 
+"link-list" that parses and directs event calls appropriatly and 
+efficiantly. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New Update</td><td align="right"><font class="tiny">(Posted 2008-05-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ So I recently added the feature of being able to call functions in 
+VARIABLE assignment. And also meaning getting RETURN values from 
+FUNCTIONS. I will later add the ability to get RETURN types from CUSTOM 
+FUNCTIONS in-script.<br><br>Unfortunatly IF/ELSE STATEMENTS do not 
+accept FUNCTION returns. And neither do FUNCTION parameters. So if you 
+want to use a FUNCTION to get a value or return something somehow, 
+VARIABLES are the only way right now.<br><br>My next objective (and why I haven't done it yet IDK) is While, For, Repeat loops. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Late Intro</td><td align="right"><font class="tiny">(Posted 2008-05-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It's been a long long time since I started this project. But I'm just 
+now starting a worklog cause its starting to look pretty nifty!<br><br>To
+ give you a bit of an explanation. PsychoScript is a scripting language 
+and engine/library for Blitz3D. It's an interpreted language and NOT 
+compiled. I may develop a compiler later. But for now, purely 
+interpreted.<br><br>Its features as of now are...<br>-Custom Functions in script.<br>-Call's back functions to your game.<br>-Enables game to supply Class/Object structures (useful for TYPEs like characters, items, etc.)<br>-Can create Global and Local variables with Integer, Float, String, and soon Pointer types.<br>-Use of If/Else statements.<br>-Custom Functions can over-ride built in ones.<br>-Can
+ use math in variables like +,-,*,/ along with binary like &amp;(and), 
+|(or), %(mod), @(xor), and even use Functions whether custom, or 
+built-in in variable assignment.<br>-Includes basic build in functions like Print, and Input, plus many others.<br>-Also includes math functions like Pi, Square, Square Root, Cos, Tan, Sin, etc. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

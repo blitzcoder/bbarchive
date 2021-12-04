@@ -1,0 +1,2000 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Plash</h1><h1>BCS Archive</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>maxgui.maxgui, maxgui.win32maxgui, fltkmaxgui and maxgui.proxygadgets</td><td align="right"><font class="tiny">(Posted 2008-05-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> For maxgui owners!<br><br><b>maxgui.maxgui</b><br>maxgui.mod\maxgui.mod\maxgui.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "maxgui"
+
+Include "iconstrip.bcs"
+Include "guifont.bcs"
+Include "gadgetitem.bcs"
+Include "gadget.bcs"
+Include "event.bcs"
+
+Global RequestedColor
+Type THotKey Extends THostObject
+	Field succ:THotKey
+	Field key,mods
+	Field event:TEvent
+	Field owner
+End Type
+
+SetHotKeyEvent:THotKey( key,mods,event:TEvent=Null,owner=0 )
+RemoveHotKey(hotkey:THotKey)
+HotKeyEvent:TEvent( key,mods,owner )
+RequestColor(r,g,b)
+RequestedRed:Int()
+RequestedGreen:Int()
+RequestedBlue:Int()
+RequestFont:TGuiFont(font:TGuiFont=Null)
+LoadGuiFont:TGuiFont( name:String,height,bold=False,italic=False,underline=False)
+FontName:String(font:TGuiFont)
+FontSize:Int(font:TGuiFont)
+FontStyle:Int(font:TGuiFont)
+Const POINTER_DEFAULT=0
+Const POINTER_ARROW=1
+Const POINTER_IBEAM=2
+Const POINTER_WAIT=3
+Const POINTER_CROSS=4
+Const POINTER_UPARROW=5
+Const POINTER_SIZENWSE=6
+Const POINTER_SIZENESW=7
+Const POINTER_SIZEWE=8
+Const POINTER_SIZENS=9
+Const POINTER_SIZEALL=10
+Const POINTER_NO=11
+Const POINTER_HAND=12
+Const POINTER_APPSTARTING=13
+Const POINTER_HELP=14
+SetPointer(shape)
+FreeGadget( gadget:TGadget )
+ClientWidth:Int( gadget:TGadget )
+ClientHeight:Int( gadget:TGadget )
+GadgetX:Int( gadget:TGadget )
+GadgetY:Int( gadget:TGadget )
+GadgetWidth:Int( gadget:TGadget )
+GadgetHeight:Int( gadget:TGadget )
+ShowGadget( gadget:TGadget )
+HideGadget( gadget:TGadget )
+EnableGadget( gadget:TGadget )
+DisableGadget( gadget:TGadget )
+GadgetHidden:Int( gadget:TGadget )
+GadgetDisabled:Int( gadget:TGadget )
+SetGadgetShape( gadget:TGadget,x,y,w,h )
+SetGadgetLayout( gadget:TGadget,Left,Right,Top,Bottom )
+SetGadgetSensitivity( gadget:TGadget, flags )
+GadgetSensitivity:Int( gadget:TGadget )
+ActivateGadget( gadget:TGadget )
+GadgetCut( gadget:TGadget )
+GadgetCopy( gadget:TGadget )
+GadgetPaste( gadget:TGadget )
+GadgetPrint( gadget:TGadget )
+RedrawGadget( gadget:TGadget )
+ActiveGadget:TGadget()
+GadgetGroup:TGadget( gadget:TGadget )
+SetGadgetColor( gadget:TGadget,r,g,b,bg=True )
+SetGadgetPixmap( gadget:TGadget, pixmap:TPixmap, flags:Int = 8 )
+SetGadgetAlpha( gadget:TGadget,alpha:Float )
+SetGadgetText( gadget:TGadget,text:String )
+GadgetText:String( gadget:TGadget )
+SetGadgetToolTip( gadget:TGadget, tip:String )
+GadgetTooltip:String( gadget:TGadget )
+SetGadgetFont( gadget:TGadget,font:TGuiFont )
+SetGadgetTextColor( gadget:TGadget,r,g,b )
+SetGadgetHotKey( gadget:TGadget,hotkey,modifier )
+'SetGadgetFilter( gadget:TGadget,callback(event:TEvent,context:THostObject),context:THostObject=Null )
+CreateMenu:TGadget( text:String,tag,parent:TGadget,hotKey=0,modifier=0 )
+FreeMenu( menu:TGadget )
+SetMenuText( menu:TGadget,text:String )
+CheckMenu( menu:TGadget )
+UncheckMenu( menu:TGadget )
+EnableMenu( menu:TGadget )
+DisableMenu( menu:TGadget )
+MenuText:String( menu:TGadget )
+MenuChecked:Int( menu:TGadget )
+MenuEnabled:Int( menu:TGadget )
+Desktop:TGadget()
+CreateWindow:TGadget( name:String,x,y,w,h,group:TGadget=Null,style=15 )
+WindowMenu:TGadget( window:TGadget )
+UpdateWindowMenu( window:TGadget )
+PopupWindowMenu( window:TGadget,menu:TGadget,extra:THostObject=Null )
+ActivateWindow( window:TGadget )
+SetStatusText( window:TGadget,text:String )
+SetMinWindowSize( window:TGadget,w,h )
+SetMaxWindowSize( window:TGadget,w,h )
+MinimizeWindow( window:TGadget )
+MaximizeWindow( window:TGadget )
+RestoreWindow( window:TGadget )
+WindowMinimized:Int( window:TGadget )
+WindowMaximized:Int( window:TGadget )
+CreateButton:TGadget(label:String,x,y,w,h,group:TGadget,style=1)
+SetButtonState( button:TGadget,checked )
+ButtonState:Int( button:TGadget )
+CreatePanel:TGadget(x,y,w,h,group:TGadget,style=0,title:String="")
+SetPanelColor( panel:TGadget,r,g,b )
+SetPanelPixmap( panel:TGadget,pixmap:TPixmap,flags=0)
+CreateTextField:TGadget(x,y,w,h,group:TGadget,style=0)
+TextFieldText:String( textfield:TGadget )
+CreateTextArea:TGadget(x,y,w,h,group:TGadget,style=0)
+SetTextAreaText( textarea:TGadget,text:String,pos=0,length=1,units=1 )
+AddTextAreaText( textarea:TGadget,text:String )
+TextAreaText:String( textarea:TGadget,pos=0,length=1,units=1 )
+TextAreaLen:Int( textarea:TGadget,units=1 )
+LockTextArea( textarea:TGadget )
+UnlockTextArea( textarea:TGadget )
+SetTextAreaTabs( textarea:TGadget,tabs )
+SetTextAreaFont( textarea:TGadget,font:TGuiFont )
+SetTextAreaColor( textarea:TGadget,r,g,b,bg=False )
+TextAreaCursor:Int( textarea:TGadget,units=1 )
+TextAreaSelLen:Int( textarea:TGadget,units=1 )
+FormatTextAreaText( textarea:TGadget,r,g,b,flags,pos=0,length=1,units=1 )
+SelectTextAreaText( textarea:TGadget,pos=0,length=1,units=1 )
+TextAreaChar:Int( textarea:TGadget,line )
+TextAreaLine:Int( textarea:TGadget,index )
+CreateComboBox:TGadget(x,y,w,h,group:TGadget,style=0)
+CreateListBox:TGadget(x,y,w,h,group:TGadget,style=0)
+CreateTabber:TGadget(x,y,w,h,group:TGadget,style=0)
+ClearGadgetItems(gadget:TGadget)
+AddGadgetItem(gadget:TGadget,text:String,flags=0,icon=-1,tip:String="",extra:THostObject=Null)
+InsertGadgetItem(gadget:TGadget,index,text:String,flags=0,icon=-1,tip:String="",extra:THostObject=Null)
+ModifyGadgetItem( gadget:TGadget,index,text:String,flags=0,icon=-1,tip:String="",extra:THostObject=Null )
+RemoveGadgetItem( gadget:TGadget,index )
+EnableGadgetItem( gadget:TGadget,index )
+DisableGadgetItem( gadget:TGadget,index )
+SelectGadgetItem(gadget:TGadget,index)
+DeselectGadgetItem(gadget:TGadget,index)
+ToggleGadgetItem(gadget:TGadget,index)
+SelectedGadgetItem:Int(gadget:TGadget)
+'SelectedGadgetItems[](gadget:TGadget)
+CountGadgetItems( gadget:TGadget )
+GadgetItemText:String( gadget:TGadget,index )
+GadgetItemIcon:Int( gadget:TGadget,index )
+GadgetItemExtra:THostObject( gadget:TGadget,index )
+GadgetItemFlags:Int( gadget:TGadget,index )
+CreateToolBar:TGadget(source:THostObject,x,y,w,h,group:TGadget,style=0)
+CreateTreeView:TGadget(x,y,w,h,group:TGadget,style=0)
+AddTreeViewNode:TGadget( text:String,node:TGadget,icon=-1 )
+InsertTreeViewNode:TGadget( index,text:String,node:TGadget,icon=-1 )
+ModifyTreeViewNode( node:TGadget,text:String,icon=-1 )
+ClearTreeView( treeview:TGadget )
+TreeViewRoot:TGadget( treeview:TGadget )
+SelectedTreeViewNode:TGadget( treeview:TGadget )
+CountTreeViewNodes:Int( node:TGadget )
+SelectTreeViewNode( node:TGadget )
+ExpandTreeViewNode( node:TGadget )
+CollapseTreeViewNode( node:TGadget )
+FreeTreeViewNode( node:TGadget )
+CreateHTMLView:TGadget(x,y,w,h,group:TGadget,style=0)
+HtmlViewGo( view:TGadget,url:String )
+HtmlViewBack( view:TGadget )
+HtmlViewForward( view:TGadget )
+HtmlViewStatus( view:TGadget )
+HtmlViewCurrentURL:String( view:TGadget )
+HtmlViewRun:String( view:TGadget,script:String )
+CreateLabel:TGadget(name:String,x,y,w,h,group:TGadget,style=0)
+CreateSlider:TGadget(x,y,w,h,group:TGadget,style=0)
+SetSliderRange(slider:TGadget,range0,range1)
+SetSliderValue(slider:TGadget,value)
+SliderValue(slider:TGadget)
+CreateProgBar:TGadget(x,y,w,h,group:TGadget,style=0)
+UpdateProgBar(progbar:TGadget,value:Float)
+LoadIconStrip:TIconStrip(source:THostObject)
+SetGadgetIconStrip(gadget:TGadget,iconstrip:TIconStrip)
+ExtractIconPixmapFromStrip:TPixmap(iconstrip:TIconStrip, index)
+CreateCanvas:TGadget(x,y,w,h,group:TGadget,style=0)
+CanvasGraphics:TGraphics(gadget:TGadget)
+QueryGadget:Int(gadget:TGadget,queryid)</textarea><br><br>maxgui.mod\maxgui.mod\gadget.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "gadget"
+
+Const GADGET_DESKTOP=0
+Const GADGET_WINDOW=1
+Const GADGET_BUTTON=2
+Const GADGET_PANEL=3
+Const GADGET_TEXTFIELD=4
+Const GADGET_TEXTAREA=5
+Const GADGET_COMBOBOX=6
+Const GADGET_LISTBOX=7
+Const GADGET_TOOLBAR=8
+Const GADGET_TABBER=9
+Const GADGET_TREEVIEW=10
+Const GADGET_HTMLVIEW=11
+Const GADGET_LABEL=12
+Const GADGET_SLIDER=13
+Const GADGET_PROGBAR=14
+Const GADGET_MENUITEM=15
+Const GADGET_NODE=16
+Const GADGET_CANVAS=17
+Const GADGET_TIMER=18
+Const ACTIVATE_FOCUS=0
+Const ACTIVATE_CUT=1
+Const ACTIVATE_COPY=2
+Const ACTIVATE_PASTE=3
+Const ACTIVATE_MINIMIZE=4
+Const ACTIVATE_MAXIMIZE=5
+Const ACTIVATE_RESTORE=6
+Const ACTIVATE_SELECT=7
+Const ACTIVATE_EXPAND=8
+Const ACTIVATE_COLLAPSE=9
+Const ACTIVATE_BACK=10
+Const ACTIVATE_FORWARD=11
+Const ACTIVATE_PRINT=12
+Const ACTIVATE_REDRAW=13
+Const LAYOUT_NONE=0
+Const LAYOUT_ABSOLUTE=1
+Const LAYOUT_PROPORTIONAL=2
+Const WINDOW_TITLEBAR=1
+Const WINDOW_RESIZABLE=2
+Const WINDOW_MENU=4
+Const WINDOW_STATUS=8
+Const WINDOW_TOOL=16
+Const WINDOW_CLIENTCOORDS=32
+Const WINDOW_HIDDEN=64
+Const WINDOW_ACCEPTFILES=128
+Const WINDOW_CHILD=256
+Const WINDOW_CENTER=512
+Const LABEL_LEFT=0
+Const LABEL_FRAME=1
+Const LABEL_SUNKENFRAME=2
+Const LABEL_SEPARATOR=3
+Const LABEL_RIGHT=8
+Const LABEL_CENTER=16
+Const BUTTON_PUSH=1
+Const BUTTON_CHECKBOX=2
+Const BUTTON_RADIO=3
+Const BUTTON_OK=4
+Const BUTTON_CANCEL=5
+Const CHECK_CLEARED = 0
+Const CHECK_SELECTED = 1
+Const CHECK_INDETERMINATE = -1
+Const PANEL_BORDER=1
+Const PANEL_ACTIVE=2
+Const PANEL_CANVAS=4
+Const PANEL_GROUP=8
+Const PANELPIXMAP_TILE=0
+Const PANELPIXMAP_CENTER=1
+Const PANELPIXMAP_FIT=2
+Const PANELPIXMAP_STRETCH=3
+Const PANELPIXMAP_FIT2=4
+Const GADGETPIXMAP_BACKGROUND = 0
+Const GADGETPIXMAP_ICON = 8
+Const GADGETPIXMAP_NOTEXT = 16
+Const TEXTAREA_ALL=-1
+Const TEXTAREA_CHARS=1
+Const TEXTAREA_LINES=2
+Const TEXTAREA_WORDWRAP=1
+Const TEXTAREA_READONLY=2
+Const TEXTFIELD_PASSWORD=1
+Const TEXTFORMAT_BOLD=1
+Const TEXTFORMAT_ITALIC=2
+Const TEXTFORMAT_UNDERLINE=4
+Const TEXTFORMAT_STRIKETHROUGH=8
+Const COMBOBOX_EDITABLE=1
+Const SLIDER_HORIZONTAL=1
+Const SLIDER_VERTICAL=2
+Const SLIDER_SCROLLBAR=0
+Const SLIDER_TRACKBAR=4
+Const SLIDER_STEPPER=8
+Const SLIDER_DIAL=12
+Const HTMLVIEW_NOCONTEXTMENU=1
+Const HTMLVIEW_NONAVIGATE=2
+Const STATE_MINIMIZED=1
+Const STATE_MAXIMIZED=2
+Const STATE_DISABLED=4
+Const STATE_HIDDEN=8
+Const STATE_SELECTED=16
+Const STATE_ACTIVE=32
+Const SENSITIZE_MOUSE=1
+Const SENSITIZE_KEYS=2
+Const EDGE_CENTERED=0
+Const EDGE_ALIGNED=1
+Const EDGE_RELATIVE=2
+Const QUERY_HWND=1
+Const QUERY_HWND_CLIENT=2
+Const QUERY_NSVIEW=3
+Const QUERY_NSVIEW_CLIENT=4
+Const QUERY_FLWIDGET=5
+Const QUERY_FLWIDGET_CLIENT=6
+Type TGadget Extends THostObject
+	Field	source:TGadget
+	Field	parent:TGadget
+	Field	kids:THostList'=New TList
+	Field	xpos
+	Field ypos
+	Field width
+	Field height
+	Field	name:String
+	Field	style
+	Field sensitivity
+	Field visible
+	Field total'=1
+	Field lockl
+	Field lockr
+	Field lockt
+	Field lockb
+	Field	lockx
+	Field locky
+	Field lockw
+	Field lockh
+	Field lockcw
+	Field lockch
+	Field	context:THostObject
+End Type</textarea><br><br>maxgui.mod\maxgui.mod\event.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "event"
+
+PostGuiEvent( id,source:TGadget=Null,data=0,mods=0,x=0,y=0,extra:THostObject=Null )</textarea><br><br>maxgui.mod\maxgui.mod\gadgetitem.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "gadgetitem"
+
+Type TGadgetItem Extends THostObject
+	Field text:String,tip:String,icon,flags
+	Field extra:THostObject
+	Method Set(_text:String,_tip:String,_icon,_extra:THostObject,_flags)
+End Type</textarea><br><br>maxgui.mod\maxgui.mod\guifont.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "guifont"
+
+Const FONT_NORMAL=0
+Const FONT_BOLD=1
+Const FONT_ITALIC=2
+Const FONT_UNDERLINE=4
+Const FONT_STRIKETHROUGH=8
+Type TGuiFont Extends THostObject
+	Field	name:String
+	Field	path:String
+	Field	style
+	Field	size
+	Field	handle
+End Type</textarea><br><br>maxgui.mod\maxgui.mod\iconstrip.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "iconstrip"
+
+Type TIconStrip Extends THostObject
+	Field	pixmap:TPixmap
+	Field	count
+	Method ExtractIconPixmap:TPixmap(index:Int)
+End Type</textarea><br><br><b>maxgui.win32maxgui</b><br>maxgui.mod\win32maxgui.mod\win32gui.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "win32gui"
+
+Const QUERY_WIN32HWND=1
+Const QUERY_WIN32CLIENTHWND=2
+Const QUERY_WIN32HFONT=3
+Const QUERY_WIN32HBITMAP=4
+Const QUERY_WIN32HIMAGELIST=5</textarea><br><br><b>maxgui.fltkmaxgui</b><br>maxgui.mod\fltkmaxgui.mod\fltkgui.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "fltkgui"
+
+Include "fltkimports.bcs"
+
+Global FLDriver:TFLTKGUIDriver
+Global FLPainting</textarea><br><br>maxgui.mod\fltkmaxgui.mod\fltkimports.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "fltkimports"
+
+Const FL_WINDOW=0
+Const FL_MENUBAR=1
+Const FL_BUTTON=2
+Const FL_CHECKBUTTON=3
+Const FL_ROUNDBUTTON=4
+Const FL_PANEL=5
+Const FL_INPUT=6
+Const FL_PASSWORD=7
+Const FL_TABS=8
+Const FL_GROUP=9
+Const FL_PACK=10
+Const FL_BROWSER=11
+Const FL_CHOICE=12
+Const FL_TEXTEDITOR=13
+Const FL_TEXTDISPLAY=14
+Const FL_HELPVIEW=15
+Const FL_BOX=16
+Const FL_TOOLBAR=17
+Const FL_PROGBAR=18
+Const FL_SLIDER=19
+Const FL_SCROLLBAR=20
+Const FL_CANVAS=21
+Const FL_MENUITEM=50
+Const FL_DESKTOP=51
+Const FL_TIMER=52
+
+Const FL_HELVETICA=0
+Const FL_COURIER=4
+Const FL_TIMES=8
+Const FL_SYMBOL=12
+Const FL_SCREEN=13
+Const FL_SCREEN_BOLD=14
+Const FL_ZAPF_DINGBATS=15
+
+Const FL_BOLD=1
+Const FL_ITALIC=2
+
+Const FL_MENU_INACTIVE=$1
+Const FL_MENU_TOGGLE= $2
+Const FL_MENU_VALUE=$4
+Const FL_MENU_RADIO=$8
+Const FL_MENU_INVISIBLE=$10
+Const FL_SUBMENU_POINTER=$20
+Const FL_SUBMENU=$40
+Const FL_MENU_DIVIDER=$80
+Const FL_MENU_HORIZONTAL=$100
+  
+Const FL_NO_EVENT=0
+Const FL_PUSH=1
+Const FL_RELEASE=2
+Const FL_ENTER=3
+Const FL_LEAVE=4
+Const FL_DRAG=5
+Const FL_FOCUS=6
+Const FL_UNFOCUS=7
+Const FL_KEYDOWN=8
+Const FL_KEYUP=9
+Const FL_CLOSE=10
+Const FL_MOVE=11
+Const FL_SHORTCUT=12
+Const FL_DEACTIVATE=13
+Const FL_ACTIVATE=14
+Const FL_HIDE=15
+Const FL_SHOW=16
+Const FL_PASTE=17
+Const FL_SELECTIONCLEAR=18
+Const FL_MOUSEWHEEL=19
+Const FL_DND_ENTER=20
+Const FL_DND_DRAG=21
+Const FL_DND_LEAVE=22
+Const FL_DND_RELEASE=23
+
+Const FL_WHEN_NEVER=0
+Const FL_WHEN_CHANGED=1
+Const FL_WHEN_RELEASE=4
+Const FL_WHEN_RELEASE_ALWAYS=6
+Const FL_WHEN_ENTER_KEY=8
+Const FL_WHEN_ENTER_KEY_ALWAYS=10
+Const FL_WHEN_ENTER_KEY_CHANGED=11
+Const FL_WHEN_NOT_CHANGED=2
+
+' box types
+
+Const FL_NO_BOX=0
+Const FL_FLAT_BOX=1
+Const FL_UP_BOX=2
+Const FL_DOWN_BOX=3
+Const FL_UP_FRAME=4
+Const FL_DOWN_FRAME=5
+Const FL_THIN_UP_BOX=6
+Const FL_THIN_DOWN_BOX=7
+Const FL_THIN_UP_FRAME=8
+Const FL_THIN_DOWN_FRAME=9
+Const FL_ENGRAVED_BOX=10
+Const FL_EMBOSSED_BOX=11
+Const FL_ENGRAVED_FRAME=12
+Const FL_EMBOSSED_FRAME=13
+Const FL_BORDER_BOX=14
+Const FL_SHADOW_BOX=15
+Const FL_BORDER_FRAME=16
+Const FL_SHADOW_FRAME=17
+Const FL_ROUNDED_BOX=18
+Const FL_RSHADOW_BOX=19
+Const FL_ROUNDED_FRAME=20
+Const FL_RFLAT_BOX=21
+Const FL_ROUND_UP_BOX=22
+Const FL_ROUND_DOWN_BOX=23
+Const FL_DIAMOND_UP_BOX=24
+Const FL_DIAMOND_DOWN_BOX=25
+Const FL_OVAL_BOX=26
+Const FL_OSHADOW_BOX=27
+Const FL_OVAL_FRAME=28
+Const FL_OFLAT_BOX=29
+Const FL_PLASTIC_UP_BOX=30
+Const FL_PLASTIC_DOWN_BOX=31
+Const FL_PLASTIC_UP_FRAME=32
+Const FL_PLASTIC_DOWN_FRAME=33
+Const FL_PLASTIC_THIN_UP_BOX=34
+Const FL_PLASTIC_THIN_DOWN_BOX=35
+Const FL_FREE_BOXTYPE=36
+
+' alignment flags
+
+Const FL_ALIGN_CENTER=0
+Const FL_ALIGN_TOP=1
+Const FL_ALIGN_BOTTOM=2
+Const FL_ALIGN_LEFT=4
+Const FL_ALIGN_RIGHT=8
+Const FL_ALIGN_INSIDE=16
+Const FL_ALIGN_TEXT_OVER_IMAGE=32
+Const FL_ALIGN_IMAGE_OVER_TEXT=0
+Const FL_ALIGN_CLIP=64
+Const FL_ALIGN_WRAP=128
+'Const FL_ALIGN_TOP_LEFT		= FL_ALIGN_TOP | FL_ALIGN_LEFT
+'Const FL_ALIGN_TOP_RIGHT	= FL_ALIGN_TOP | FL_ALIGN_RIGHT
+'Const FL_ALIGN_BOTTOM_LEFT	= FL_ALIGN_BOTTOM | FL_ALIGN_LEFT
+'Const FL_ALIGN_BOTTOM_RIGHT	= FL_ALIGN_BOTTOM | FL_ALIGN_RIGHT
+'Const FL_ALIGN_LEFT_TOP		= FL_ALIGN_TOP_LEFT
+'Const FL_ALIGN_RIGHT_TOP	= FL_ALIGN_TOP_RIGHT
+'Const FL_ALIGN_LEFT_BOTTOM	= FL_ALIGN_BOTTOM_LEFT
+'Const FL_ALIGN_RIGHT_BOTTOM	= FL_ALIGN_BOTTOM_RIGHT
+Const FL_ALIGN_NOWRAP		= 0
+
+' mouse event buttons
+
+Const FL_LEFT_MOUSE=1
+Const FL_MIDDLE_MOUSE=2
+Const FL_RIGHT_MOUSE=4
+
+' event states
+
+Const FL_SHIFT=$00010000
+Const FL_CAPS_LOCK=$00020000
+Const FL_CTRL=$00040000
+Const FL_ALT=$00080000
+Const FL_NUM_LOCK=$00100000
+Const FL_META=$00400000
+Const FL_SCROLL_LOCK=$00800000
+Const FL_BUTTON1=$01000000
+Const FL_BUTTON2=$02000000
+Const FL_BUTTON3=$04000000
+Const FL_BUTTONS=$7f000000
+
+' extended keys
+
+Const FL_KEY_Button=$fee8
+Const FL_KEY_BackSpace=$ff08
+Const FL_KEY_Tab=$ff09
+Const FL_KEY_Enter=$ff0d
+Const FL_KEY_Pause=$ff13
+Const FL_KEY_Scroll_Lock=$ff14
+Const FL_KEY_Escape=$ff1b
+Const FL_KEY_Home=$ff50
+Const FL_KEY_Left=$ff51
+Const FL_KEY_Up=$ff52
+Const FL_KEY_Right=$ff53
+Const FL_KEY_Down=$ff54
+Const FL_KEY_Page_Up=$ff55
+Const FL_KEY_Page_Down=$ff56
+Const FL_KEY_End=$ff57
+Const FL_KEY_Print=$ff61
+Const FL_KEY_Insert=$ff63
+Const FL_KEY_Menu=$ff67
+Const FL_KEY_Help=$ff68
+Const FL_KEY_Num_Lock=$ff7f
+Const FL_KEY_KP=$ff80
+Const FL_KEY_KP_Enter=$ff8d
+Const FL_KEY_KP_Last=$ffbd
+Const FL_KEY_F=$ffbd
+Const FL_KEY_F_Last=$ffe0
+Const FL_KEY_Shift_L=$ffe1
+Const FL_KEY_Shift_R=$ffe2
+Const FL_KEY_Control_L=$ffe3
+Const FL_KEY_Control_R=$ffe4
+Const FL_KEY_Caps_Lock=$ffe5
+Const FL_KEY_Meta_L=$ffe7
+Const FL_KEY_Meta_R=$ffe8
+Const FL_KEY_Alt_L=$ffe9
+Const FL_KEY_Alt_R=$ffea
+Const FL_KEY_Delete=$ffff
+
+' slider types
+
+Const FL_VERT_SLIDER=0
+Const FL_HOR_SLIDER=1
+Const FL_VERT_FILL_SLIDER=2
+Const FL_HOR_FILL_SLIDER=3
+Const FL_VERT_NICE_SLIDER=4
+Const FL_HOR_NICE_SLIDER=5</textarea><br><br><b>maxgui.proxygadgets</b><br>maxgui.mod\proxygadgets.mod\proxygadgets.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set
+ "proxygadgets"
+
+CreateHyperlink:TGadget( 
+url:String,x,y,w,h,group:TGadget,style=0,customtext:String = "" )
+Type THyperlinkGadget Extends TProxyGadget
+	Field hyperlinkstyle:Int, url:String
+	Method 
+Create:THyperlinkGadget(pUrl:String,x,y,w,h,group:TGadget,style,customtext:String)
+
+	Method EventHook:TEvent( pEvent:TEvent )
+	Method SetColor(r,g,b)
+	Method SetTextColor(r,g,b)
+	Method Free()
+End Type
+
+THyperlinkGadget_Initialize&lt;THyperlinkGadget.Initialize&gt;()
+THyperlinkGadget_EventHandler&lt;THyperlinkGadget.EventHandler&gt;:THostObject(
+ pID:Int, pData:THostObject, pContext:THostObject )</textarea> <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brl.event &amp; brl.eventqueue</td><td align="right"><font class="tiny">(Posted 2008-04-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> brl.mod\event.mod\event.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "event"
+
+
+Const EVENT_APPMASK=$100
+Const EVENT_APPSUSPEND=$101
+Const EVENT_APPRESUME=$102
+Const EVENT_APPTERMINATE=$103
+Const EVENT_APPOPENFILE=$104
+Const EVENT_APPIDLE=$105
+
+Const EVENT_KEYMASK=$200
+Const EVENT_KEYDOWN=$201
+Const EVENT_KEYUP=$202
+Const EVENT_KEYCHAR=$203
+Const EVENT_KEYREPEAT=$204
+
+Const EVENT_MOUSEMASK=$400
+Const EVENT_MOUSEDOWN=$401
+Const EVENT_MOUSEUP=$402
+Const EVENT_MOUSEMOVE=$403
+Const EVENT_MOUSEWHEEL=$404
+Const EVENT_MOUSEENTER=$405
+Const EVENT_MOUSELEAVE=$406
+
+Const EVENT_TIMERMASK=$800
+Const EVENT_TIMERTICK=$801
+
+Const EVENT_HOTKEYMASK=$1000
+Const EVENT_HOTKEYHIT=$1001
+
+Const EVENT_GADGETMASK=$2000
+Const EVENT_GADGETACTION=$2001
+Const EVENT_GADGETPAINT=$2002
+Const EVENT_GADGETSELECT=$2003
+Const EVENT_GADGETMENU=$2004
+Const EVENT_GADGETOPEN=$2005
+Const EVENT_GADGETCLOSE=$2006
+Const EVENT_GADGETDONE=$2007
+Const EVENT_GADGETLOSTFOCUS=$2008
+Const EVENT_GADGETSHAPE=$2009
+
+Const EVENT_WINDOWMASK=$4000
+Const EVENT_WINDOWMOVE=$4001
+Const EVENT_WINDOWSIZE=$4002
+Const EVENT_WINDOWCLOSE=$4003
+Const EVENT_WINDOWACTIVATE=$4004
+Const EVENT_WINDOWACCEPT=$4005
+
+Const EVENT_MENUMASK=$8000
+Const EVENT_MENUACTION=$8001
+
+Const EVENT_STREAMMASK=$10000
+Const EVENT_STREAMEOF=$10001
+Const EVENT_STREAMAVAIL=$10002
+
+Const EVENT_PROCESSMASK=$20000
+Const EVENT_PROCESSEXIT=$20001
+
+Const EVENT_USEREVENTMASK=$80000000
+
+Global EmitEventHook
+Type TEvent Extends THostObject
+	Field id
+	Field source:THostObject
+	Field data
+	Field mods
+	Field x
+	Field y
+	Field extra:THostObject
+	Method Emit()
+	Method ToString:String()
+End Type
+
+TEvent_Create&lt;TEvent.Create&gt;:TEvent( id,source:THostObject=Null,data=0,mods=0,x=0,y=0,extra:THostObject=Null )
+TEvent_AllocUserId&lt;TEvent.AllocUserId&gt;()
+EmitEvent( event:TEvent )
+CreateEvent:TEvent( id,source:THostObject=Null,data=0,mods=0,x=0,y=0,extra:THostObject=Null )
+AllocUserEventId()
+
+</textarea><br><br>brl.mod\eventqueue.mod\eventqueue.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "eventqueue"
+
+Global CurrentEvent:TEvent
+PeekEvent:TEvent()
+PollEvent()
+WaitEvent:Int()
+PostEvent( event:TEvent,update=False )
+EventID:Int()
+EventData:Int()
+EventMods:Int()
+EventX:Int()
+EventY:Int()
+EventExtra:THostObject()
+EventText:String()
+EventSource:THostObject()
+EventSourceHandle()
+</textarea> <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Typical module folder hierarchy</td><td align="right"><font class="tiny">(Posted 2008-03-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> All of the command sets are built on this folder hierarchy:<br>...\modules\brl.mod\retro.mod\retro.bcs<br>...\modules\brl.mod\data.mod\data.bcs<br>etc... <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ebcsgen</td><td align="right"><font class="tiny">(Posted 2008-03-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Modified version of fredborgs code, built for converting lots of code.<br><br>Requires
+ bvmtools.dll and briskvm.dll to be in the same directory, you still 
+have to add "'expose" to whatever it is you want to export, but it's 
+fast.<br><br>ebcsgen.bmx<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'
+' Simple BriskVM Command Set Assistant for BlitzMax
+'
+' created by Mikkel Fredborg
+' use as you please!
+'
+' Modified for converting loads of code (by Plash 3/26/08)
+'
+
+SuperStrict
+
+Import koriolis.briskvm
+
+'
+' Start of Demo
+'
+
+Init()
+
+'
+' Replace with your own files etc.
+
+Local source:String = AppArgs[1]'AppArgs[0].Replace(".debug","").Replace(".exe",".bmx") ' find the source file :)
+ScanSource(source)
+
+Local srcDir:String = ExtractDir(source) + "/"
+Local srcName:String = StripAll(source)
+'
+' You can add as many source files as you need. Imports and Includes are automatically checked as well.
+'
+
+' Write all the output
+WriteCommandSet(srcDir + srcName + ".bcs")
+'WriteCSS(srcDir + srcName + ".css")
+'WriteDocs(srcDir + srcName + "_doc.htm", srcDir + srcName + ".css")
+'GenerateBMXInvoker(srcDir + srcName + ".bcs", srcDir + srcName + "_invoker.bmx")
+
+'Print "DONE"
+'Input()
+End
+
+'
+' End of demo
+'
+
+
+Type TType 'expose
+	Global _list:TList = New TList
+
+	Field name:String
+	Field fields:TList = New TList
+	Field methods:TList = New TList
+	
+	Method New()
+		_list.AddLast Self
+	EndMethod
+	
+	Method AddField(s:String) 'expose
+		fields.AddLast s
+	EndMethod
+	
+	Method AddMethod(s:String) 'expose
+		methods.AddLast s
+	EndMethod
+EndType
+
+Type TFunc 'expose
+	Global _list:TList = New TList
+	
+	Field name:String 'expose
+	
+	Method New() 
+		_list.AddLast Self
+	EndMethod
+EndType
+
+Global fun_count:Int
+Global met_count:Int
+Global typ_count:Int
+
+Global files:TList
+
+Function Init() 'expose
+	files = New TList
+	fun_count = 0
+	met_count = 0
+	typ_count = 0
+EndFunction
+
+'
+' Just for convenience...
+Function WriteCSS(output:String) 'expose
+
+	Local out:TStream = WriteStream(output)
+	If out = Null Then Throw "Error!"
+	
+	WriteLine(out,"body {")
+	WriteLine(out,"	margin: 0px 0px 0px 0px;")
+	WriteLine(out,"	padding: 0px 0px 0px 0px;")
+	WriteLine(out,"	background-color: #FFFFFF;")
+	WriteLine(out,"	color: #000000;")
+	WriteLine(out,"	font-family: verdana, arial, sans-serif;")
+	WriteLine(out,"	font-size: 10px;")
+	WriteLine(out,"}")
+
+	WriteLine(out,".header {")
+	WriteLine(out,"	padding-Left: 10px;")
+	WriteLine(out,"	margin-top: 10px;")
+	WriteLine(out,"	margin-bottom: 10px;")
+	WriteLine(out,"	font-size: 20px;")
+	WriteLine(out,"}")
+
+	WriteLine(out,".Type, .Function, .Const, .stat {")
+	WriteLine(out,"	padding-Left: 20px;")
+	WriteLine(out,"	font-weight: bold;")
+	WriteLine(out,"}")
+
+	WriteLine(out,".End {")
+	WriteLine(out,"	padding-bottom: 20px;")
+	WriteLine(out,"}")
+
+	WriteLine(out,".Method, .Field {")
+	WriteLine(out,"	padding-Left: 40px;")
+	WriteLine(out,"}")
+	
+	CloseFile out
+	
+EndFunction
+
+Function WriteDocs(output:String,style:String) 'expose
+	
+	Print "Generating Documentation!"
+		
+	Local out:TStream = WriteStream(output)
+	If out = Null Then Throw "Error!"
+	
+	WriteLine(out,"&lt;html&gt;&lt;head&gt;")
+	WriteLine(out,"&lt;title&gt;Script Reference&lt;/title&gt;")
+	WriteLine(out,"&lt;link href='"+style+"' rel='stylesheet' Type='text/css' /&gt;")
+	WriteLine(out,"&lt;/head&gt;&lt;body&gt;")
+	WriteLine(out,"&lt;div class='header'&gt;Functions&lt;/div&gt;")
+	For Local f:TFunc = EachIn TFunc._list
+		WriteLine(out,"&lt;div class='function'&gt;Function "+f.name.Replace(" Final","")+"&lt;/div&gt;")
+	Next
+
+	Local met:Int = 0
+
+	WriteLine(out,"&lt;div class='header'&gt;Types&lt;/div&gt;")
+	For Local t:TType = EachIn TType._list
+	
+		If t.fields.IsEmpty() And t.methods.IsEmpty() Then Continue
+		
+		WriteLine(out,"&lt;div class='type'&gt;Type "+t.name+"&lt;/div&gt;")
+		For Local f:String = EachIn t.fields
+			WriteLine(out,"&lt;div class='field'&gt;"+f+"&lt;/div&gt;")
+		Next
+		WriteLine(out,"")
+		For Local m:String = EachIn t.methods
+			WriteLine(out,"&lt;div class='method'&gt;"+m.Replace(" Final","")+"&lt;/div&gt;")
+			met:+1
+		Next
+		WriteLine(out,"&lt;div class='end type'&gt;EndType&lt;/div&gt;")
+		WriteLine(out,"")
+	Next
+
+	WriteLine(out,"&lt;div class='header'&gt;Constants&lt;/div&gt;")
+	For Local f:TConstant = EachIn TConstant._list
+		WriteLine(out,"&lt;div class='const'&gt;Const "+f.name+":Int = "+f.value+"&lt;/div&gt;")
+	Next
+	
+	WriteLine(out,"&lt;div class='header'&gt;Stats&lt;/div&gt;")
+	WriteLine(out,"&lt;div class='stat'&gt;"+TFunc._list.Count()+" Functions&lt;/div&gt;")
+	WriteLine(out,"&lt;div class='stat'&gt;"+TType._list.Count()+" Types&lt;/div&gt;")
+	WriteLine(out,"&lt;div class='stat'&gt;"+met+" Methods&lt;/div&gt;")
+	WriteLine(out,"&lt;div class='stat'&gt;"+TConstant._list.Count()+" Constants&lt;/div&gt;")
+	WriteLine(out,"&lt;div class='end'&gt;&lt;/div&gt;")
+	WriteLine(out,"&lt;/body&gt;&lt;/html&gt;")
+	CloseFile out
+	
+EndFunction
+
+Function WriteCommandSet(output:String) 'expose
+
+	Print "Writing Command Set!"
+	
+	Local out:TStream = WriteStream(output)
+	
+	If out = Null Then Throw "Error!"
+	
+	WriteLine(out,"'.set ~q"+StripAll(output)+"~q")
+	WriteLine(out,"")
+			
+	For Local f:String = EachIn files
+		Local t:String = ExposeSource( f )
+		If t
+			Local ts:String[] = t.split("~n")
+			For Local s:String = EachIn ts
+				WriteLine(out,s)
+			Next
+		EndIf
+	Next
+	
+	CloseStream(out)
+EndFunction
+
+Type TConstant 'expose
+	Global _list:TList = New TList
+	
+	Field name:String 'expose
+	Field value:String 'expose
+	
+	Method New()
+		_list.AddLast Self
+	EndMethod
+	
+EndType
+
+Function ExposeSource:String(f:String) 'expose
+
+	Global const_list:TList = New TList
+
+	Local out:String
+	
+	Local tab:Int = 0
+	
+	Local expose:Int = 0
+	
+	Local func_list:TList = New TList
+	Local intype:String
+	
+	Local ty:TType
+	
+	Local s:TStream = ReadStream(f)
+	If s
+		While Not Eof(s)
+			Local t:String = (ReadLine(s)).Trim()
+			t = t.Replace(":Object",":THostObject")
+			t = t.Replace(":TList",":THostList")
+			
+			If t.Contains("'expose")
+			If t.Contains("script_")
+				Local a:Int = t.find(":")
+				Local b:Int = t.find("(")
+				Local c:String = ":"
+				If b&lt;a And b&gt;-1 Then c = "("
+			
+				Local bob:String
+				bob = (t[..t.find(c)]).Replace("Function","").Trim()
+				
+				bob =  "&lt;"+bob+"&gt;"
+				t = t.Replace("script_","")
+				Local i:Int = t.find(c)
+				t = t[..i]+bob+t[i..]
+'					Print t
+				EndIf
+			EndIf
+			
+			Local l:String = t.tolower().Replace("end ","end")
+	
+			If l.Find("endtype") = 0
+				tab:-1
+				
+				ty = Null
+				
+				If expose
+					expose = False
+					out :+ (RSet("",tab).Replace(" ","~t"))+"End Type"+"~n"
+					out :+ "~n"
+				EndIf
+	
+				For Local f:String = EachIn func_list
+					out :+ (RSet("",tab).Replace(" ","~t"))+f+"~n"
+				Next
+				
+				intype = ""
+				func_list.Clear()
+			EndIf
+						
+			If t.Contains("'expose")
+				t = t.Replace("#",":Float")
+				t = t.Replace("%",":Int")
+				t = t.Replace("$",":String")
+				Local pos:Int = t.find("'expose")
+				Local opt:String = (t[pos+7..]).Trim()
+									
+				t = (t[..pos]).Trim()
+				
+				If opt
+					If opt.contains("params=")
+						Local p2:Int = opt.find("params=")
+						Local v:Int = Int(opt[p2+7..])
+						
+						Local a:Int = t.find("(")+1
+						While v&gt;0
+							a = t.find(",",a+1)
+							v:-1
+						Wend
+						t = t[..a]+")"
+'						Print "Modified: "+t
+'						Print "Options: Parameters = "+v
+					EndIf
+				EndIf
+				
+				If l.Find("type") = 0
+					expose = True
+			
+					If l.contains("extends") = False
+						t :+ " Extends THostObject"
+					EndIf
+					Local a:Int = l.find("'")
+					Local b:Int = l.find("extends")
+					If b&lt;a And b&gt;-1 Then a = b
+					intype = (t[t.find("Type")+4..a]).Trim()
+					
+					ty = New TType
+					ty.name = intype.Replace("Abstract","")
+					
+					typ_count:+1
+				EndIf
+				
+				If l.Find("const") = 0
+					Local c:TConstant = New TConstant
+					c.name = t.Replace("Const","")
+					c.name = c.name[..c.name.find("=")]
+					c.name = c.name.Replace(":Int","")
+					c.name = c.name.Replace(":Float","")
+					c.name = c.name.Replace(":Byte","")
+					c.name = c.name.Replace(":Long","")
+					c.name = c.name.Replace(":String","")
+
+					c.name = c.name.Replace("%","")
+					c.name = c.name.Replace("#","")
+					c.name = c.name.Replace("$","")
+					c.name = c.name.Replace("!","")
+					c.name = c.name.Replace("&amp;","")
+					
+					c.name = c.name.Trim()
+					c.value = (t[ t.find("=")+1 .. ]).Trim()
+					t = t.Replace(c.value,Int(c.value))
+					c.value = Int(c.value)
+					const_list.AddLast c
+				Else
+					For Local c:TConstant = EachIn const_list
+						t = t.Replace(c.name,c.value)
+					Next
+					
+					'
+					' Replace | variable stuff
+					While t.contains("|")
+						Local a:Int = t.find("=")
+						Local b:Int = t.find("|",a)
+						Local c:Int = t.find("|",b+1)
+						Local d:Int = t.find(",",b+1)
+						Local e:Int = t.find(")",b+1)
+						If c&lt;0 Then c = d
+						If d&lt;0 Then d = e
+						If d&lt;0 Then d = c
+						If e&lt;0 Then d = c
+						c = Min(c,Min(d,e))
+						Local vala:Int = Int(t[a+1..b])
+						Local valb:Int = Int(t[b+1..c])
+						t = t.Replace( t[a+1..c], (vala|valb))
+						
+						't = ""
+					Wend
+				EndIf
+				
+				If l.find("function") = 0
+					t = t.Replace("#",":Float")
+					t = t.Replace("%",":Int")
+					
+					t = t.Replace("Function","").Trim()
+					t = t[..1].toupper()+t[1..]
+					If intype
+						Local s:String = t
+						Local a:Int = t.Find(":")
+						Local b:Int = t.Find("(")
+						Local c:Int = a
+						If b&lt;a And b&gt;-1 Then c = b
+						Local funcname:String = t[..c]
+						' Print intype+","+funcname
+						
+						Local fu:TFunc = New TFunc
+						fu.name = intype[1..]+t
+						
+						s = intype[0..] + "_"+t[..c]+"&lt;"+intype+"."+funcname+"&gt;"+t[c..]
+						func_list.AddLast s
+					Else
+					
+						Local fu:TFunc = New TFunc
+						fu.name = t
+						
+						out :+ (RSet("",tab).Replace(" ","~t"))+t+"~n"
+					EndIf
+					
+					fun_count :+ 1
+				EndIf
+				
+				If l.find("method") = 0
+					met_count :+ 1
+					ty.AddMethod(t)
+				EndIf
+				
+				If l.find("field") = 0
+					ty.AddField(t)
+				EndIf
+				
+				'
+									
+				If l.Find("type") = 0 ..
+					Or l.find("global") = 0 .. 
+					Or l.find("const") = 0 ..
+					Or l.find("method") = 0 ..
+					Or l.find("field") = 0
+					
+					If t.Find("Abstract")&gt;-1
+						t = t.Replace("Abstract","")
+						If t.Find("Type")&gt;-1
+							t = "Abstract "+t
+						EndIf
+					EndIf
+					
+					t = t.Trim()
+					
+					out :+ (RSet("",tab).Replace(" ","~t"))+t+"~n"
+				EndIf
+			EndIf
+
+			If l.Find("type") = 0
+				tab:+1
+			EndIf
+		Wend
+		CloseStream s
+	EndIf
+	
+	Return out
+
+EndFunction
+	
+Function ScanSource(m:String,trace:Int=True) 'expose
+
+	For Local f:String = EachIn files
+		If StripAll(f).ToLower() = StripAll(m).ToLower() 
+		'	Print "File: "+m+" ALREADY PROCESSED!"
+			Return
+		EndIf
+	Next
+
+	files.AddLast m
+
+	Local comment:Int = 0
+
+	Local s:TStream = ReadStream(m)
+	If s
+		Print "Scanning: "+m
+		While Not Eof(s)
+			Local t:String = (ReadLine(s)).ToLower().Trim().Replace("end ","end")
+			
+			If t.Find("'") = 0 Then comment = 1
+			If t.find("rem") = 0 Then comment = 2
+			If t.find("endrem") = 0 Then comment = 0
+			
+			If comment = False
+				If trace 
+					If t.Find("import") = 0 Or t.Find("include") = 0
+								
+						Local a:Int = t.find("~q")
+						Local b:Int = t.find("~q",a+1)
+
+						If b&gt;a 
+							ScanSource(ExtractDir(m)+"/"+t[a+1..b])
+						EndIf
+					EndIf
+				EndIf
+			EndIf
+			
+			If comment = 1 Then comment = 0
+		Wend
+		CloseStream s
+	Else
+		Print "Couldn't open: "+m
+	EndIf
+
+EndFunction
+
+
+
+Function GenerateBMXInvoker(bcsPath_$, invokerPath_$) 
+	
+	Print "Generating invoker!"
+	Local invCount% = BVM_CountInvokerGenerators()	
+	For Local i:Int = 0 Until invCount
+		Local extCount% = BVM_GetInvokerGeneratorFileExtCount(i)
+		For Local j:Int = 0 Until extCount
+			If BVM_GetInvokerGeneratorFileExt(i, j).ToLower() = "bmx" Then
+				Local hCmdSet% = BVM_LoadCommandSet(bcsPath_)
+				If hCmdSet = BVM_INVALID_CMD_SET Then
+					RuntimeError(BVM_GetLastErrorMsg())
+				EndIf
+				If Not BVM_GenerateInvoker(hCmdSet, invokerPath_, i) Then
+					RuntimeError(BVM_GetLastErrorMsg())
+				EndIf
+				Return
+			EndIf
+		Next		
+	Next
+	RuntimeError("Invoker Generator not found")
+End Function
+</textarea> <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>frygui</td><td align="right"><font class="tiny">(Posted 2008-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> http://files.filefront.com/frymodzip/;9897478;/fileinfo.html <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BaH.libxml</td><td align="right"><font class="tiny">(Posted 2008-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Huge file, zipped here: http://files.filefront.com/libxmlmodzip/;9897459;/fileinfo.html <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>max2d and pixmap brl modules</td><td align="right"><font class="tiny">(Posted 2008-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> brl.mod\max2d.mod\max2d.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set
+ "max2d"
+
+Include "driver.bcs"
+Include "image.bcs"
+Include "imagefont.bcs"
+
+Cls()
+SetClsColor( red,green,blue )
+'GetClsColor( red Var,green Var,blue Var )
+Plot( x:Float,y:Float )
+DrawRect( x:Float,y:Float,width:Float,height:Float )
+DrawLine( x:Float,y:Float,x2:Float,y2:Float,draw_last_pixel=True )
+DrawOval( x:Float,y:Float,width:Float,height:Float )
+'DrawPoly( xy:Float[] )
+DrawText( t:String,x:Float,y:Float )
+DrawImage( image:TImage,x:Float,y:Float,frame=0 )
+DrawImageRect( image:TImage,x:Float,y:Float,w:Float,h:Float,frame=0 )
+TileImage( image:TImage,x:Float=0:Float,y:Float=0:Float,frame=0 )
+SetColor( red,green,blue )
+'GetColor( red Var,green Var,blue Var )
+SetBlend( blend )
+GetBlend()
+SetAlpha( alpha:Float )
+GetAlpha:Float()
+SetLineWidth( width:Float )
+GetLineWidth:Float()
+SetMaskColor( red,green,blue )
+'GetMaskColor( red Var,green Var,blue Var )
+SetViewport( x,y,width,height )
+'GetViewport( x Var,y Var,width Var,height Var )
+SetOrigin( x:Float,y:Float )
+'GetOrigin( x:Float Var,y:Float Var )
+SetHandle( x:Float,y:Float )
+'GetHandle( x:Float Var,y:Float Var )
+SetRotation( rotation:Float )
+GetRotation:Float()
+SetScale( scale_x:Float,scale_y:Float )
+'GetScale( scale_x:Float Var,scale_y:Float Var )
+SetTransform( rotation:Float=0,scale_x:Float=1,scale_y:Float=1 )
+
+ShowMouse()
+HideMouse()
+
+LoadImageFont:TImageFont(url:THostObject, size, style = 4)
+SetImageFont(font:TImageFont)
+GetImageFont:TImageFont()
+
+TextWidth( text:String )
+TextHeight( text:String )
+
+LoadImage:TImage( url:THostObject,flags=-1 )
+LoadAnimImage:TImage( 
+url:THostObject,cell_width,cell_height,first_cell,cell_count,flags=-1 )
+
+SetImageHandle( image:TImage,x:Float,y:Float )
+AutoMidHandle( enable )
+AutoImageFlags( flags )
+MidHandleImage( image:TImage )
+
+ImageWidth( image:TImage )
+ImageHeight( image:TImage )
+
+CreateImage:TImage( width,height,frames=1,flags=-1 )
+LockImage:TPixmap( image:TImage,frame=0,read_lock=True,write_lock=True )
+UnlockImage( image:TImage,frame=0 )
+GrabImage( image:TImage,x,y,frame=0 )
+DrawPixmap( pixmap:TPixmap,x,y )
+GrabPixmap:TPixmap( x,y,width,height )
+
+Const COLLISION_LAYER_ALL=0
+Const COLLISION_LAYER_1=$0001
+Const COLLISION_LAYER_2=$0002
+Const COLLISION_LAYER_3=$0004
+Const COLLISION_LAYER_4=$0008
+Const COLLISION_LAYER_5=$0010
+Const COLLISION_LAYER_6=$0020
+Const COLLISION_LAYER_7=$0040
+Const COLLISION_LAYER_8=$0080
+Const COLLISION_LAYER_9=$0100
+Const COLLISION_LAYER_10=$0200
+Const COLLISION_LAYER_11=$0400
+Const COLLISION_LAYER_12=$0800
+Const COLLISION_LAYER_13=$1000
+Const COLLISION_LAYER_14=$2000
+Const COLLISION_LAYER_15=$4000
+Const COLLISION_LAYER_16=$8000
+Const COLLISION_LAYER_17=$00010000
+Const COLLISION_LAYER_18=$00020000
+Const COLLISION_LAYER_19=$00040000
+Const COLLISION_LAYER_20=$00080000
+Const COLLISION_LAYER_21=$00100000
+Const COLLISION_LAYER_22=$00200000
+Const COLLISION_LAYER_23=$00400000
+Const COLLISION_LAYER_24=$00800000
+Const COLLISION_LAYER_25=$01000000
+Const COLLISION_LAYER_26=$02000000
+Const COLLISION_LAYER_27=$04000000
+Const COLLISION_LAYER_28=$08000000
+Const COLLISION_LAYER_29=$10000000
+Const COLLISION_LAYER_30=$20000000
+Const COLLISION_LAYER_31=$40000000
+Const COLLISION_LAYER_32=$80000000
+
+ImagesCollide(image1:TImage,x1,y1,frame1,image2:TImage,x2,y2,frame2)
+ImagesCollide2(image1:TImage,x1,y1,frame1,rot1:Float,scalex1:Float,scaley1:Float,image2:TImage,x2,y2,frame2,rot2:Float,scalex2:Float,scaley2:Float)
+ResetCollisions(mask:Int=0)
+'CollideImage:THostObject[](image:TImage,x,y,frame,collidemask:Int,writemask:Int,id:THostObject=Null)
+'CollideRect:THostObject[](x,y,w,h,collidemask:Int,writemask:Int,id:THostObject=Null)</textarea><br>brl.mod\max2d.mod\driver.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "driver"
+
+Const MASKBLEND=1
+Const SOLIDBLEND=2
+Const ALPHABLEND=3
+Const LIGHTBLEND=4
+Const SHADEBLEND=5
+
+Const MASKEDIMAGE=$1
+Const FILTEREDIMAGE=$2
+Const MIPMAPPEDIMAGE=$4
+Const DYNAMICIMAGE=$8 
+
+Global _max2dDriver:TMax2DDriver
+Abstract Type TImageFrame
+
+	Method Draw( x0#,y0#,x1#,y1#,tx#,ty# ) Abstract
+
+End Type
+
+Abstract Type TMax2DDriver Extends TGraphicsDriver
+
+	Method CreateFrameFromPixmap:TImageFrame( pixmap:TPixmap,flags ) Abstract
+	
+	Method SetBlend( blend ) Abstract
+	Method SetAlpha( alpha# ) Abstract
+	Method SetColor( red,green,blue ) Abstract
+	Method SetClsColor( red,green,blue ) Abstract
+	Method SetViewport( x,y,width,height ) Abstract
+	Method SetTransform( xx#,xy#,yx#,yy# ) Abstract
+	Method SetLineWidth( width# ) Abstract
+	
+	Method Cls() Abstract
+	Method Plot( x#,y# ) Abstract
+	Method DrawLine( x0#,y0#,x1#,y1#,tx#,ty# ) Abstract
+	Method DrawRect( x0#,y0#,x1#,y1#,tx#,ty# ) Abstract
+	Method DrawOval( x0#,y0#,x1#,y1#,tx#,ty# ) Abstract
+	'Method DrawPoly( xy#[],handlex#,handley#,originx#,originy# ) Abstract
+		
+	Method DrawPixmap( pixmap:TPixmap,x,y ) Abstract
+	Method GrabPixmap:TPixmap( x,y,width,height ) Abstract
+
+End Type
+</textarea><br>brl.mod\max2d.mod\image.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "image"
+
+Type TImage Extends TData
+	Method DataType:TImageDataType()
+	Method Frame:TImageFrame( index )
+	Method Lock:TPixmap( index,read,write )
+	Method SetPixmap( index,pixmap:TPixmap )
+End Type
+
+TImage_Create&lt;TImage.Create&gt;:TImage( width,height,frames,flags,mr,mg,mb )
+TImage_Load&lt;TImage.Load&gt;:TImage( url:THostObject,flags,mr,mg,mb )
+TImage_LoadAnim&lt;TImage.LoadAnim&gt;:TImage( url:THostObject,cell_width,cell_height,first,count,flags,mr,mg,mb )
+Type TImageDataType Extends TDataType
+	Method Tag:String()
+	Method ReadObject:THostObject( stream:TStream )
+	Method WriteObject( o:THostObject,stream:TStream )
+End Type
+
+Global ImageDataType:TImageDataType</textarea><br>brl.mod\max2d.mod\imagefont.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "imagefont"
+
+Type TImageGlyph Extends THostObject
+	Method Pixels:TImage()
+	Method Advance:Float()
+	'Method GetRect(x Var,y Var,w Var,h Var)
+End Type
+
+Type TImageFont Extends THostObject
+	Method Style()
+	Method Height()
+	Method CountGlyphs()
+	Method CharToGlyph(char)
+	Method LoadGlyph:TImageGlyph(index)
+	Method Draw(text:String,x:Float,y:Float,ix:Float,iy:Float,jx:Float,jy:Float)
+End Type
+
+TImageFont_Load&lt;TImageFont.Load&gt;:TImageFont(url:THostObject,size,style)
+TImageFont_CreateDefault&lt;TImageFont.CreateDefault&gt;:TImageFont()
+
+</textarea><br>brl.mod\pixmap.mod\pixel.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "pixel"
+
+Const PF_I8=		1
+Const PF_A8=		2
+Const PF_BGR888=	3
+Const PF_RGB888=	4
+Const PF_BGRA8888= 	5
+Const PF_RGBA8888=	6
+
+Const PF_STDFORMAT=	6
+
+Const PF_RED=		7
+Const PF_GREEN=		8
+Const PF_BLUE=		9 
+Const PF_ALPHA=		10
+Const PF_INTENSITY=	11
+Const PF_LUMINANCE=	12
+Const PF_RGB=		4
+Const PF_BGR=		3
+Const PF_RGBA=		6
+Const PF_BGRA=		5 
+</textarea><br>brl.mod\pixmap.mod\pixmap.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "pixmap"
+
+Include "pixel.bcs"
+
+Type TPixmap Extends TData
+	Field width
+	Field height
+	Field pitch
+	Field format
+	Field capacity
+	
+	Method DataType:TDataType()
+	Method Window:TPixmap( x,y,width,height )
+	Method Copy:TPixmap()
+	Method Paste( source:TPixmap,x,y )
+	Method Convert:TPixmap( format )
+	Method ReadPixel( x,y )
+	Method WritePixel( x,y,argb )
+	Method ClearPixels( argb )
+End Type
+
+TPixmap_Create&lt;TPixmap.Create&gt;:TPixmap( width,height,format,align = 4 )
+'TPixmap_CreateStatic&lt;TPixmap.CreateStatic&gt;:TPixmap( pixels:Byte Ptr,width,height,pitch,format )
+Type TPixmapDataType Extends TDataType
+	Method Tag:String()
+	Method ReadObject:THostObject( stream:TStream )
+	Method WriteObject( o:THostObject,stream:TStream )
+End Type
+
+Abstract Type TPixmapLoader Extends THostObject
+	Method LoadPixmap:TPixmap( stream:TStream ) Abstract
+End Type
+
+CreatePixmap:TPixmap( width,height,format,align_bytes=4 )
+'CreateStaticPixmap:TPixmap( pixels:Byte Ptr,width,height,pitch,format )
+CopyPixmap:TPixmap( pixmap:TPixmap )
+ConvertPixmap:TPixmap( pixmap:TPixmap,format )
+PixmapWidth( pixmap:TPixmap )
+PixmapHeight( pixmap:TPixmap )
+PixmapPitch( pixmap:TPixmap )
+PixmapFormat( pixmap:TPixmap )
+PixmapWindow:TPixmap( pixmap:TPixmap,x,y,width,height )
+MaskPixmap:TPixmap( pixmap:TPixmap,mask_red,mask_green,mask_blue )
+XFlipPixmap:TPixmap( pixmap:TPixmap )
+YFlipPixmap:TPixmap( pixmap:TPixmap )
+ResizePixmap:TPixmap( pixmap:TPixmap,width,height )
+LoadPixmap:TPixmap( url:THostObject )
+ReadPixel( pixmap:TPixmap,x,y )
+WritePixel( pixmap:TPixmap,x,y,argb )
+ClearPixels( pixmap:TPixmap,argb=0 )
+</textarea> <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brl extra modules</td><td align="right"><font class="tiny">(Posted 2008-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> all files are brl.&lt;setname&gt;<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "font"
+
+Type TGlyph Extends THostObject
+End Type
+
+Type TFont Extends THostObject
+End Type
+
+Type TFontLoader Extends THostObject
+End Type
+
+AddFontLoader( loader:TFontLoader )
+LoadFont:TFont( url:THostObject,size,style=SMOOTHFONT )
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "data"
+
+Abstract Type TData Extends THostObject
+	'Method DataType:TDataType() Abstract
+End Type
+
+Abstract Type TDataType Extends THostObject
+	Method Tag:String() Abstract
+	Method ReadObject:THostObject( stream:TStream ) Abstract
+	Method WriteObject( obj:THostObject,stream:TStream ) Abstract
+End Type
+
+Type TDataStream Extends TStreamWrapper
+	Method ReadObject:THostObject()
+	Method WriteObject( obj:THostObject )
+End Type
+
+TDataStream_WithStream&lt;TDataStream.WithStream&gt;:TDataStream( stream:TStream )
+
+</textarea> <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>main brl modules</td><td align="right"><font class="tiny">(Posted 2008-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> all files are brl.&lt;setname&gt;<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "polledinput"
+
+EnablePolledInput( source:THostObject=Null )
+DisablePolledInput()
+AppSuspended:Int()
+AppTerminate:Int()
+KeyHit:Int( key )
+KeyDown:Int( key )
+GetChar:Int()
+FlushKeys()
+MouseX:Int()
+MouseY:Int()
+MouseZ:Int()
+FlushMouse()
+MouseHit:Int( button )
+MouseDown:Int( button )
+WaitKey:Int()
+WaitChar:Int()
+WaitMouse:Int()
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "system"
+
+PollSystem()
+WaitSystem()
+CurrentDate:String()
+CurrentTime:String()
+MoveMouse( x,y )
+'HideMouse()
+'Showmouse()
+Notify( text:String,serious=False )
+Confirm( text:String,serious=False )
+Proceed( text:String,serious=False )
+RequestFile:String( text:String,extensions:String="",save_flag=False,initial_path:String="" )
+RequestDir:String( text:String,initial_path:String="" )
+OpenURL( url:String )
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "filesystem"
+
+Const FILETYPE_NONE=0
+Const FILETYPE_FILE=1
+Const FILETYPE_DIR=2
+
+uRootPath&lt;_RootPath&gt;:String( path:String )
+uIsRootPath&lt;_IsRootPath&gt;( path:String )
+uIsRealPath&lt;_IsRealPath&gt;( path:String )
+uCurrentDrive&lt;_CurrentDrive&gt;:String()
+
+FixPath( path:String Var,dirPath=False )
+StripDir:String( path:String )
+StripExt:String( path:String )
+StripAll:String( path:String )
+StripSlash:String( path:String )
+ExtractDir:String( path:String )
+ExtractExt:String( path:String )
+CurrentDir:String()
+RealPath:String( path:String )
+FileType( path:String )
+FileTime( path:String )
+FileSize( path:String )
+FileMode( path:String )
+SetFileMode( path:String,mode )
+CreateFile( path:String )
+CreateDir( path:String,recurse=False )
+DeleteFile( path:String )
+RenameFile( oldpath:String,newpath:String )
+CopyFile( src:String,dst:String )
+CopyDir( src:String,dst:String )
+DeleteDir( path:String,recurse=False )
+ChangeDir( path:String )
+ReadDir( path:String )
+NextFile:String( dir )
+CloseDir( dir )
+LoadDir:String[]( dir:String,skip_dots=True )
+OpenFile:TStream( url:THostObject,readable=True,writeable=True )
+ReadFile:TStream( url:THostObject )
+WriteFile:TStream( url:THostObject )
+CloseFile( stream:TStream )
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "brl.keycodes"
+
+Const MOUSE_LEFT=1
+Const MOUSE_RIGHT=2
+Const MOUSE_MIDDLE=3
+
+Const MODIFIER_NONE=0
+Const MODIFIER_SHIFT=1			'shift key
+Const MODIFIER_CONTROL=2		'ctrl key
+Const MODIFIER_OPTION=4			'alt or menu key
+Const MODIFIER_SYSTEM=8			'windows or apple key
+
+Const MODIFIER_LMOUSE=16		'reserved by Mark!
+Const MODIFIER_RMOUSE=32		'reserved by Mark!
+Const MODIFIER_MMOUSE=64		'reserved by Mark!
+
+Const MODIFIER_ALT=MODIFIER_OPTION
+Const MODIFIER_MENU=MODIFIER_OPTION
+Const MODIFIER_APPLE=MODIFIER_SYSTEM
+Const MODIFIER_WINDOWS=MODIFIER_SYSTEM
+
+Const MODIFIER_COMMAND=MODIFIER_CONTROL
+
+Const KEY_BACKSPACE=8
+Const KEY_TAB=9
+Const KEY_CLEAR=12
+Const KEY_RETURN=13
+Const KEY_ENTER=13
+Const KEY_ESCAPE=27
+Const KEY_SPACE=32
+Const KEY_PAGEUP=33
+Const KEY_PAGEDOWN=34
+Const KEY_END=35
+Const KEY_HOME=36
+
+Const KEY_LEFT=37,KEY_UP=38,KEY_RIGHT=39,KEY_DOWN=40
+
+Const KEY_SELECT=41
+Const KEY_PRINT=42
+Const KEY_EXECUTE=43
+Const KEY_SCREEN=44
+Const KEY_INSERT=45
+Const KEY_DELETE=46
+
+Const KEY_0=48,KEY_1=49,KEY_2=50,KEY_3=51,KEY_4=52
+Const KEY_5=53,KEY_6=54,KEY_7=55,KEY_8=56,KEY_9=57
+Const KEY_A=65,KEY_B=66,KEY_C=67,KEY_D=68,KEY_E=69
+Const KEY_F=70,KEY_G=71,KEY_H=72,KEY_I=73,KEY_J=74
+Const KEY_K=75,KEY_L=76,KEY_M=77,KEY_N=78,KEY_O=79
+Const KEY_P=80,KEY_Q=81,KEY_R=82,KEY_S=83,KEY_T=84
+Const KEY_U=85,KEY_V=86,KEY_W=87,KEY_X=88,KEY_Y=89
+Const KEY_Z=90
+
+Const KEY_NUM0=96
+Const KEY_NUM1=97
+Const KEY_NUM2=98
+Const KEY_NUM3=99
+Const KEY_NUM4=100
+Const KEY_NUM5=101
+Const KEY_NUM6=102
+Const KEY_NUM7=103
+Const KEY_NUM8=104
+Const KEY_NUM9=105
+
+Const KEY_NUMMULTIPLY=106
+Const KEY_NUMADD=107
+Const KEY_NUMSUBTRACT=109
+Const KEY_NUMDECIMAL=110
+Const KEY_NUMDIVIDE=111
+
+Const KEY_F1=112
+Const KEY_F2=113
+Const KEY_F3=114
+Const KEY_F4=115
+Const KEY_F5=116
+Const KEY_F6=117
+Const KEY_F7=118
+Const KEY_F8=119
+Const KEY_F9=120
+Const KEY_F10=121
+Const KEY_F11=122
+Const KEY_F12=123
+
+Const KEY_TILDE=192
+Const KEY_MINUS=189
+Const KEY_EQUALS=187
+
+Const KEY_OPENBRACKET=219
+Const KEY_CLOSEBRACKET=221
+Const KEY_BACKSLASH=226
+
+Const KEY_SEMICOLON=186
+Const KEY_QUOTES=222
+
+Const KEY_COMMA=188
+Const KEY_PERIOD=190
+Const KEY_SLASH=191
+
+Const KEY_LSHIFT=160
+Const KEY_RSHIFT=161
+Const KEY_LCONTROL=162
+Const KEY_RCONTROL=163
+Const KEY_LALT=164
+Const KEY_RALT=165
+Const KEY_LSYS=91
+Const KEY_RSYS=92
+
+'
+'Const KEY_PAUSE=19
+'Const KEY_CAPSLOCK=20
+'Const KEY_HELP=47
+'Const KEY_NUMSLASH=108
+'Const KEY_START=93
+'Const KEY_NUMLOCK=144
+'Const KEY_SCROLL=145
+'Const KEY_BROWSER_BACK=166
+'Const KEY_BROWSER_FORWARD=167
+'Const KEY_BROWSER_REFRESH=168
+'Const KEY_BROWSER_STOP=169
+'Const KEY_BROWSER_SEARCH=170
+'Const KEY_BROWSER_FAVORITES=171
+'Const KEY_BROWSER_HOME=172
+'Const KEY_VOLUME_MUTE=173
+'Const KEY_VOLUME_DOWN=174
+'Const KEY_VOLUME_UP=175
+'Const KEY_MEDIA_NEXT_TRACK=176
+'Const KEY_MEDIA_PREV_TRACK=177
+'Const KEY_MEDIA_STOP=178
+'Const KEY_MEDIA_PLAY_PAUSE=179
+'Const KEY_LAUNCH_MAIL=180
+'Const KEY_LAUNCH_MEDIA_SELECT=181
+'Const KEY_LAUNCH_APP1=182
+'Const KEY_LAUNCH_APP2=183
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "graphics"
+
+Const GRAPHICS_BACKBUFFER=	$2
+Const GRAPHICS_ALPHABUFFER=	$4
+Const GRAPHICS_DEPTHBUFFER=	$8
+Const GRAPHICS_STENCILBUFFER=	$10
+Const GRAPHICS_ACCUMBUFFER=	$20
+
+Global FlipHook
+Abstract Type TGraphics Extends TData
+	Method DataType:TGraphicsDriver()
+	Method Driver:TGraphicsDriver() Abstract
+	Method Close() Abstract
+End Type
+
+Type TGraphicsMode Extends THostObject
+	Field width,height,depth,hertz
+	Method ToString:String()
+End Type
+
+Abstract Type TGraphicsDriver Extends TDataType
+	Method Tag:String()
+	Method ReadObject:THostObject( stream:TStream )
+	Method WriteObject( obj:THostObject,stream:TStream )
+	Method AttachGraphics:TGraphics( widget,flags ) Abstract
+	Method CreateGraphics:TGraphics( width,height,depth,hertz,flags ) Abstract
+	Method SetGraphics( g:TGraphics ) Abstract
+	Method Flip( sync ) Abstract
+End Type
+
+Global GraphicsSeq=1
+SetGraphicsDriver( driver:TGraphicsDriver,defaultFlags=$2 )
+DefaultGraphicsFlags()
+'GraphicsModes:TGraphicsMode[]()
+CountGraphicsModes()
+'GetGraphicsMode( index,width Var,height Var,depth Var,hertz Var )
+GraphicsModeExists( width,height,depth=0,hertz=0 )
+CreateGraphics:TGraphics( width,height,depth,hertz,flags )
+AttachGraphics:TGraphics( widget,flags )
+CloseGraphics( g:TGraphics )
+SetGraphics( g:TGraphics )
+GraphicsWidth()
+GraphicsHeight()
+GraphicsDepth()
+GraphicsHertz()
+GraphicsFlags()
+Flip( sync=-1 )
+Graphics:TGraphics( width,height,depth=0,hertz=60,flags=0 )
+EndGraphics()
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "brl.random"
+
+RndFloat:Float()
+Rand( min_value,max_value=1 )
+SeedRnd( seed )
+RndSeed()</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "retro"
+
+Mid:String( str:String,pos,size=-1 )
+Instr:Int( str:String,sub:String,start=1 )
+Left:String( str:String,n )
+Right:String( str:String,n )
+LSet:String( str:String,n )
+RSet:String( str:String,n )
+Replace:String( str:String,sub:String,replaceWith:String )
+Trim:String( str:String )
+Lower:String( str:String )
+Upper:String( str:String )
+Hex:String( val )
+Bin:String( val )
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "brl.blitz"
+
+RuntimeError( message:String )
+Global AppDir:String
+Global AppFile:String
+Global LaunchDir:String
+ReadStdin:String()
+WriteStdout( str:String )
+WriteStderr( str:String )
+MilliSecs:Int()</textarea> <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brl stream modules</td><td align="right"><font class="tiny">(Posted 2008-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> all files are brl.mod\&lt;setname&gt;.mod\&lt;setname&gt;.bcs<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "textstream"
+
+Type TTextStream Extends TStreamWrapper
+	Method ReadInt:Int()
+	Method WriteInt( n )
+	Method ReadFloat:Float()
+	Method WriteFloat( n:Float )
+	Method ReadLine:String()
+	Method ReadFile:String()
+	Method WriteLine( str:String )
+	Method ReadString:String( length )
+	Method WriteString( str:String )
+	Method ReadChar()
+	Method WriteChar( char )
+End Type
+
+LoadText:String( url:String )
+SaveText( str:String,url:String )
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "socketstream"
+
+Type TSocketStream Extends TStream
+	Method Eof:Int()
+	Method Close()
+	Method Socket:TSocket()
+End Type
+
+SocketStream_Create&lt;TSocketStream.Create&gt;:TSocketStream( socket:TSocket,autoClose=True )
+SocketStream_CreateClient&lt;TSocketStream.CreateClient&gt;:TSocketStream( remoteHost:String,remotePort )
+'Type TSocketStreamFactory Extends TStreamFactory
+'	Method CreateStream:TSocketStream( url:THostObject,proto:String,path:String,readable,writeable )
+'End Type
+
+CreateSocketStream:TSocketStream( socket:TSocket,autoClose=True )
+SocketStreamSocket:TSocket( stream:TSocketStream )
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "socket"
+
+Type TSocketException Extends THostObject
+	Method ToString:String()
+End Type
+
+Type TSocket Extends THostObject
+	Method Close()
+	Method Connected()
+	Method Bind( localPort )
+	Method Connect( remoteIp,remotePort )
+	Method Listen( backlog )
+	Method Accept:TSocket( timeout )
+	Method ReadAvail()
+	Method SetTCPNoDelay( enable )
+	Method Socket()
+	Method LocalIp()
+	Method LocalPort()
+	Method RemoteIp()
+	Method RemotePort()
+	Method UpdateLocalName()
+	Method UpdateRemoteName()
+End Type
+
+Socket_Create&lt;TSocket.Create&gt;:TSocket( socket,autoClose=True )
+Socket_CreateUDP&lt;TSocket.CreateUDP&gt;:TSocket()
+Socket_CreateTCP&lt;TSocket.CreateTCP&gt;:TSocket()
+CreateUDPSocket:TSocket()
+CreateTCPSocket:TSocket()
+CloseSocket( socket:TSocket )
+BindSocket( socket:TSocket,localPort )
+ConnectSocket:Int( socket:TSocket,remoteIp,remotePort )
+SocketListen( socket:TSocket,backlog=0 )
+SocketAccept:TSocket( socket:TSocket,timeout=0 )
+SocketConnected( socket:TSocket )
+SocketReadAvail( socket:TSocket )
+SocketLocalIP( socket:TSocket )
+SocketLocalPort( socket:TSocket )
+SocketRemoteIP( socket:TSocket )
+SocketRemotePort( socket:TSocket )
+DottedIP:String( ip )
+HostIp:Int( HostName:String,index=0 )
+HostName:String( HostIp )
+
+</textarea><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'.set "stream"
+
+Type TStreamException Extends THostObject
+End Type
+
+Type TStreamReadException Extends TStreamException
+	Method ToString:String()
+End Type
+
+Type TStreamWriteException Extends TStreamException
+	Method ToString:String()
+End Type
+
+Type TIO Extends THostObject
+	Method Eof:Int()
+	Method Pos:Int()
+ 	Method Size:Int()
+	Method Seek(pos:Int)
+	Method Close()
+	'Method Read(buf:Byte Ptr, count:Int)
+	'Method Write(buf:Byte Ptr, count:Int)
+	'Method Delete()
+End Type
+
+Type TStream Extends TIO
+	'Method ReadBytes(buf:Byte Ptr, count:Int)
+	'Method WriteBytes(buf:Byte Ptr, count:Int)
+	Method SkipBytes(count:Int)
+	'Method ReadByte()
+	'Method WriteByte(n:Int)
+	
+	'Method ReadShort()
+	'Method WriteShort(n:Int)
+	
+	Method ReadInt:Int()
+	Method WriteInt(n:Int)
+	
+	'Method ReadLong:Long()
+	'Method WriteLong(n:Long)
+	
+	Method ReadFloat:Float()
+	Method WriteFloat(n:Float)
+	
+	'Method ReadDouble:Double()
+	'Method WriteDouble(n:Double)
+	
+	Method ReadLine:String()
+	Method WriteLine(str:String)
+	
+	Method ReadString:String(length:Int)
+	Method WriteString(str:String)
+	
+	Method ReadObject:THostObject()
+	Method WriteObject(obj:THostObject)
+End Type
+
+Type TStreamWrapper Extends TStream
+	Method SetStream(stream:TStream)
+	
+	Method Eof:Int()
+	Method Pos:Int()
+	Method Size:Int()
+	Method Seek(pos:Int)
+	
+	Method Flush()
+	Method Close()
+
+	'Method Read(buf:Byte Ptr, count)
+	'Method Write(buf:Byte Ptr, count)
+	
+	'Method ReadByte()
+	'Method WriteByte(n)
+	
+	'Method ReadShort()
+	'Method WriteShort(n)
+	
+	Method ReadInt:Int()
+	Method WriteInt(n)
+	
+	Method ReadFloat:Float()
+	Method WriteFloat(n:Float)
+	
+	'Method ReadDouble:Double()
+	'Method WriteDouble(n:Double)
+	
+	Method ReadLine:String()
+	Method WriteLine(t:String)
+	
+	Method ReadString:String(n)
+	Method WriteString(t:String)
+	
+	Method ReadObject:THostObject()
+	Method WriteObject(obj:THostObject)
+End Type
+
+'Type TStreamFactory Extends THostObject
+'	Method New()
+'	Method CreateStream:TStream(url:THostObject, proto:String, path:String, readable:Int, writeable:Int) Abstract
+'End Type
+
+OpenStream:TStream(url:THostObject, readable = True, writeable = True)
+ReadStream:TStream(url:THostObject)
+WriteStream:TStream(url:THostObject)
+
+Eof:Int(stream:TStream)
+StreamPos:Int(stream:TStream)
+StreamSize:Int(stream:TStream)
+SeekStream(stream:TStream, pos:Int)
+
+FlushStream(stream:TStream)
+CloseStream(stream:TStream)
+
+'ReadByte:Byte(stream:TStream)
+'ReadShort:Short(stream:TStream)
+ReadInt:Int(stream:TStream)
+'ReadLong:Long(stream:TStream)
+ReadFloat:Float(stream:TStream)
+'ReadDouble:Double(stream:TStream)
+
+'WriteByte(stream:TStream, n:Byte)   '??
+'WriteShort(stream:TStream, n:Short) '??
+WriteInt(stream:TStream, n:Int)
+'WriteLong(stream:TStream, n:Long)
+WriteFloat(stream:TStream, n:Float)
+'WriteDouble(stream:TStream, n:Double)
+
+ReadString:String(stream:TStream, length:Int)
+WriteString(stream:TStream, str:String)
+
+ReadLine:String(stream:TStream)
+WriteLine(stream:TStream, str:String)
+
+LoadString:String(url:THostObject)
+SaveString(str:String, url:THostObject)
+
+LoadObject:THostObject(url:THostObject)
+SaveObject(obj:THostObject, url:THostObject)
+
+'LoadByteArray:Byte[](url:THostObject)
+'SaveByteArray(byteArray:Byte[], url:THostObject)
+
+CopyStream(fromStream:TStream, toStream:TStream, bufSize:Int = 4096)
+CopyBytes(fromStream:TStream, toStream:TStream, count:Int, bufSize:Int = 4096)
+
+CasedFileName:String(path:String)
+</textarea> <br><br> <b><a href="http://www.komiga.com/" target="_blank">Home</a> � <a href="http://twitter.com/komiga" target="_blank">Twitter</a> � <a href="http://github.com/komiga" target="_blank">GitHub</a></b> � <a href="http://github.com/komiga/duct-max" target="_blank">duct</a> � <a href="http://github.com/maximos/maximus" target="_blank">Maximus</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

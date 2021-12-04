@@ -1,0 +1,34 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for teamonkey</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Low-level stuff</td><td align="right"><font class="tiny">(Posted 2005-02-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, I got back to where I was. Took the opportunity to rewrite some 
+of the core code while I was about it and it's now a lot cleaner.<br><br>I
+ spent the last couple of weeks brushing up on my Lua and getting Lua 
+scripts into a simple shooty game, which I had some success with.  I 
+learned a lot about what to do and what not to do and I think I'll add 
+it to the game in the future.<br><br>Now I'm working on a couple of 
+low-level things like a resource manager. I began to write my own map 
+class, but then I found the undocumented brl.map module and decided to 
+investigate that instead.<br><br>Next up, and I can't really put this off any longer, is a tilemap class with collision detection. Big job, might take a while.<br> <br><br> [teamonkey] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Disaster!</td><td align="right"><font class="tiny">(Posted 2005-02-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hard drive failure. No recent backup. Many hours of work lost etc.  :(<br><br>More
+ specifically, something has managed to wipe the first bit of the drive,
+ starting with the bootsector and then going on to the first few 
+directories in C:, C:\BlitzMax\ being one of them to be wiped. Sounds a 
+lot like a virus, so I'm doing a full system scan, disc check and 
+everything else I can.<br><br>On another note, just before the terrible thing happened, I wrote a little inline profiler for Max. Details here: <a href="http://blitzbasic.com/Community/posts.php?topic=43396" target="_blank">http://blitzbasic.com/Community/posts.php?topic=43396</a><br><br>----<br><br>Edit:
+ thanks to the magic of modern technology (i.e. hard disc recovery 
+software) I've now managed to recover just over half of the missing 
+files stored as plain text - including the latest version of the physics
+ code and one of the two main source files for my Thrust-a-like thing. 
+Now burning to CD...<br> <br><br> [teamonkey] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>How did that happen?</td><td align="right"><font class="tiny">(Posted 2005-01-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="8095&amp;log=1240_files/threewaythrust.html"><br><br>Wow. That was easy. Far too easy. This is going to be fun :)<br> <br><br> [teamonkey] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A beginning</td><td align="right"><font class="tiny">(Posted 2005-01-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've got an idea for a game that will require some decent but fast 2D 
+physics. No further details yet, but the first thing I've been trying to
+ do is to get a simple physics particle system working.<br><br>And it does. It's based on the one found at <a href="http://www.gamasutra.com/resource_guide/20030121/jacobson_01.shtml" target="_blank">http://www.gamasutra.com/resource_guide/20030121/jacobson_01.shtml</a>
+ (you'll need to register for free to read that - but it's well worth it
+ if you're a game developer). It's extremely fast and stable, if not 
+particularly accurate.<br><br>While playing about with it, I wondered 
+what would happen if I strung all the particles along in one chain and 
+dragged it about a bit. It turns out the effect is quite fun, so here it
+ is. Please bear in mind that it's nowhere near finished yet. I think it
+ looks a bit like a tapeworm, which is why it's called...<br><br><a href="http://www.tinyminions.co.uk/teamonkey/files/tapeworm.zip" target="_blank">http://www.tinyminions.co.uk/teamonkey/files/tapeworm.zip</a><br><br>That's the source, no binaries. Wiggle the mouse to move, ESC to exit. Enjoy.<br> <br><br> [teamonkey] </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

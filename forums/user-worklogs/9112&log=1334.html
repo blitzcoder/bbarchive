@@ -1,0 +1,141 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for H&amp;K</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Its Not better, just cos you die quicker</td><td align="right"><font class="tiny">(Posted 2006-05-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I hate lots of screen size. In the good old days, you would know how 
+big the graphics view was going to be, cos it was hard wired in, 
+nowadays however you have to cater to every man and his wide screen 256 
+colour dog. <br>I thought Id start the Most fantastic and brilliantly 
+implemented LOMPC editor by creating a map type. Simple. But thinks I, 
+the map type needs at this stage a 2d view. (Ok so the final game 
+doesn’t need a 2d view, but the mission editor does), so off I trot and 
+knock one together. Works brilliantly (as is to be expected), well ok 
+when I say brilliantly, I mean that it works in 800 by 600 with no 
+problems. When I moved over to the laptop to continue…. Yes well ok so 
+maybe I forgot to allow for mode changes properly. Oh Um.<br><br>On this point, why do I always have a global screenwidth, and a global screenHeight ?<br>I’m
+ not even considering using widescreen so surly ScreenHeight = 
+ScreenWidth * 0.75. It would make changing the screen dimensions whilst 
+in development loads easier, (well ok so I would only have to change one
+ value rather than two). Never do it though, always without fail, just 
+after the strict and framework, Global screenwidth,screenHeight. <br><br>Development
+ of  LOMPC Brill edition, was halted on Sunday, due to my nephew turning
+ up, wanting yet another tutorial on FPS Creator, ( I bought it him for 
+his 11th birthday). I say tutorial, but mostly in consists of me asking 
+what fun the game is if the first room you go into has twenty Uber 
+baddies in it, and you die straightaway. He thinks its fun anyway.<br><br>For
+ everyone who hasn’t heard of FPS Creator, it’s from the dark basic 
+people, it’s written in dark ( I think), and its crap. Oh I don’t mean 
+that it doesn’t do what it says it does on the box, cos it does. Andy 
+(My nephew), is not the brightest smarty in the box, but at 11 he can 
+knock together a passable looking level of a game. What’s rubbish about 
+it is its implementation, (or rather marketing). It’s basically an 
+editor for a game they didn’t produce. Honestly, it looks like someone 
+wrote an fps in dark, realised how crap it was, so just released the MOD
+ creator. AND do they use standard md2 or 3ds models, (let me give you a
+ clue, if they did you wouldn’t need to BUY extra models from them…..).<br><br>So
+ all of Sunday spent waiting for FPS to display the minute change we 
+made in the level. I would recommend that you get a demo of it to see, 
+it might give you some ideas, and it is a good way to introduce kids to 
+programming, it is a bit drop and go, but you do need to improve the 
+scripts for everything.<br><br>PS Obviously If Blitz have a comparable piece of software, get that instead. <br><br> H&amp;K </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Statement of Intent</td><td align="right"><font class="tiny">(Posted 2006-05-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The Only One He Ever Finished.<br><br>I
+ have been “messing” with computer programming since before I was bought
+ a ZX Spectrum for Christmas (16K no less). When I would sit at the back
+ of boring (i.e. Most) classes reading Listings in magazines. I would 
+read the listing, and try to imagine what the finished program looked 
+like. (I didn’t actually have a computer remember).<br>I would scribble 
+down useful looking subroutines (I still think Go sub is a good idea), 
+and change them to do other things. I would go to the shops and get 
+their computers to do “pretty” things. I had been expecting a ZX81, so 
+when for my birthday, (Well I say my Birthday, but it was a joint 
+present for both my sister and I, and we didn’t get a Christmas present 
+that year), I got a lovely new Spectrum I was overjoyed.<br>For those 
+that remember the first spectrums didn’t come with any software, just a 
+manual with some listings in it. One at least that I remember was a 
+smash through the wall with a ball game, which was fun, but nearly as 
+much fun was trying to figure out why it didn’t work properly, nearly 
+always it was because of typing errors, which is hard to do (type wrong)
+ when all the keywords are written on the keyboard and accessed by 
+single Key presses. It was nearly always because of a variable mistyped,
+ but it was fun to see what your program did, and try to get it to do 
+what the listing said it would do.<br>My Imagination knew no bounds, 
+space battle games, D&amp;D remakes, Lego simulators etc. Then games 
+started to appear in the shops, and well, you know, a real finished game
+ or one that would take ages and ages (I was only twelve) to finish. So 
+programming went out the window. Oh Um.<br><br>Then I bought Lords of 
+Midnight, which was a fantastic game. People talk about wolfenstien as 
+the first “first person” game, (which I could never understand, as surly
+ 3D monster maze was sooner), but LOM was in 3D. Ok admittedly it wasn’t
+ really. For those who cannot remember it, (its one of the fake loading 
+screens in dawinia), a brief description. <br><br>LOM<br><br>The screen 
+is split into three distinct parts, ( This was quite normal in spectrum 
+games because each screen buffer (haha) was split into three, so that 
+increasing the pointer to the screen by 256 (screenptr +256) would move 
+you down on row of pixels, and by 32 (Screenptr +32) by a whole Char 
+square, Then by 2048 (screenptr +2048) would move down a screen third. 
+(This with the 768 Bytes needed for the colours) was the Spectrum 
+screen. (Remember the spectrum only had 16K, so a 6912Byte screen was 
+quite big). That’s why for anyone who was interested the spectrum 
+loading screens loaded so strangely.<br>The Top of LOM was (If I can 
+remember correctly) a shield of your current character and his name, and
+ I think the time of day. The Middle Third was a 3d representation of 
+the world in front of you, (you could see about eight map square to the 
+front), with a sprite of the characters in the square to the front. And 
+the bottom was of the people and or monsters who where in the square 
+with you.<br>The games came with a nice Spectrum overlay that had all 
+the commands in the game. You could look round (North, northwest etc), 
+explore the square you were in, move forward Try to recruit the 
+characters in that square, recruit more men (when in keeps or citadels) 
+etc. Then when night fell, the baddies moved (Cos they are evil and only
+ move at night), and battles happened. You would get rumours of fights 
+in far-flung nations, dawn would break and you would have the chance to 
+move again.<br>There were two ways to win, get Morkin, (Err Frodo) to 
+get the ice crown to some pool or other thus destroying DoomDarks power.
+ (Tip to all evil supermen DON’T put the main part of  your power into a
+ piece of jewellery, no matter how cool it looks). Or take DoomDarks 
+main citadel by force of arms. You could loose by Morkin dieing, and 
+either Luxor (Arigorn) dieing or loosing your main city<br><br>Oh the 
+heroics of the game, rushing the wizard, (whose real name I cannot 
+remember so we will call Gandalf), north in the hope of recruiting the 
+northern nations. Lord Blood holding the plains of blood for as long as 
+he could just to buy time, finding the dragon (Farflax I think) with 
+Morkin so that he had help. Oh what memories.<br><br>Well anyway after 
+playing the game a million times, (yes I said a Million), I was at a 
+friends house, when I casually commented that if we could load in the 
+save game position, we could give ourselves more troops. Well that was 
+it. The save game position was simply a normal spectrum save without the
+ header file. (i.e. If you had a header of a file the same size, you 
+could play it just before the save game, and the spectrum would load in 
+the save position.<br>Now For some reason LOM saved the whole map????, 
+not just the position of the armies etc. And the AI instructions for the
+ armies. (Well OK a linked list of where to attack next). What it didn’t
+ do, (which annoys me to this day), is save all the name data for the 
+map, just the name data for the top quarter or so. But It was enough.<br>An editor was born.<br>You
+ could change the strength of all 32 of your allies, you could change 
+who could recruit who, change the graphic of the characters (ok only to a
+ pre defined graphic), change where swords, water of dawn, wolfs, 
+dragons, mountains, plains etc where. You could choose how many armies 
+chased the secondary character (Frodo ,err sorry Morkin), What route the
+ baddie armies took, the whole shooting match. Ok so you couldn’t name 
+places, the plains of Blood stayed the plains of Blood, (Or the 
+maintains of Blood, or the Keep of Blood, but always … of Blood), accept
+ for the Northern third.<br><br>The game was reborn. Then Doomdarks 
+revenge came out. And it wasn’t as good a game, as the ones being 
+produced by my friends on my editor, so we kept plying them.<br><br>Finally
+ at last the editor was finished, (It was written in basic, but compiled
+ with HiSoft Spectrum Compiler). And It was sent off for publication and
+ riches. BUT Mike Singleton had gone and sold ALL the rights to 
+TelecomSoft. (I think he went bankrupt, but not sure). And I don’t think
+ the men at telecom soft even looked at it. I just got a nice letter 
+saying they didn’t sell this sort of thing, but thanking me for 
+bothering them.<br><br>And that was it. Never finished a another single 
+thing, (cept A stupid Four player tron game in AMOS, which I had bet my 
+mate could be programmed in less than an hour). I Half wrote an 
+underwater “Elite” style game, a PBM fantasy game, a star craft type 
+thing an absolutely brilliant sequel to rebel star raiders, (Well Before
+ Enemy Unknown, and just as good), Etc. All, in my opinion well 
+presented, and adequately written, and more importantly very playable. 
+Yet none of them finished L<br>SO, I am going to write LOM in BlitzMaz. 
+It wont be better than LOM, it wont be quicker than LOM, (Its turn based
+ doh). What it will be is a reason for people to use my bloody scenario 
+editor.<br><br>Now I don’t want any rubbish about how badly this remake of LOM is, cos the editor is brilliant. <br><br> H&amp;K </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,391 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>
+        <!-- Google Analytics -->
+        <script async="" src="1872&amp;user=15985_files/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-34362789-1', 'auto');  // Replace with your property ID.
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+</head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Omnicode</h1><h1>Current Project</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update!!</td><td align="right"><font class="tiny">(Posted 2015-05-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Its good to be back.<br>I've
+ recently been working on several other projects in development of this 
+core game. These projects consisted of several different inventory 
+systems - in order to see what direction I can do with Vonherin's 
+current inventory system. I don't like the way armor is handled all too 
+well. Because armor slots are treated as flagged bag type slots. It 
+creates a lot of conditionals for absolutely no reason when the armor 
+slots could be an entirely different type. Making some updates imposed 
+on the armor slots take more time, having to cycle through all the 
+invent slots to then find the armor slot.<br><br><img src="1872&amp;user=15985_files/fye8pd.jpg"><br><img src="1872&amp;user=15985_files/286sk2.jpg"><br><br>New Inventory Features:<br>&gt;&gt;Functionality<br>Primary and Secondary Mouse Click Function Utilization.<br>-&gt; Left Click on a usable Item will result in EQUIP, DRINK etc.<br>-&gt; Right Click produces a small drop down window to select a few options.<br>-&gt; Equipment Slots and Bag Slots are Different Arrays altogether.<br>-&gt; Main bag is easily accessible with HOT_KEY of "E"<br>-&gt; Equipment is easily accessible with HOT_KEY of "Q"<br>-&gt; Recipes have been converted into a USE_ITEM -&gt; ON -&gt; OTHER_ITEM = RESULTANT ITEM ~.<br><br>&gt;&gt;Display<br>-&gt; Less Media Dependent<br>-&gt;
+ Hovering over an item will display its given bonuses - if the item is 
+considered equipment it will try to compare it to any applicable worn 
+equipment.<br>-&gt; An item is capable of having both a prefix and suffix, from which the item's attributes are enhanced.<br>-&gt; Items come with a weight attribute to determine carry weight, attack speed, dodge rating. Etc.<br>-&gt; Items with prefixes/suffixes are noticeable with applicable item-skins.<br>-&gt;
+ Now new weapon variants, dagger, mace, axe, essence, wand, knives, 
+darts, crossbows. -Designed to the 3 applicable combat styles.<br>-&gt; Now displays PlayerName$ / Username$ in Equipment Window.<br>-&gt;
+ Item attributes are not determined by the type of item, left like this 
+on purpose. Adds true grinding for the "PERFECT" item in some 
+situations.<br>-&gt; Items have a item level that determines all the points put towards an item's attribute list.<br><br>&gt;&gt;Note:<br>Key aspects of foliage have been disabled to test Client -&gt; Server Speed <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Sites</td><td align="right"><font class="tiny">(Posted 2014-10-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="1872&amp;user=15985_files/2rfbsw6.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Vonherin</td><td align="right"><font class="tiny">(Posted 2014-09-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ~Massive Update~<br><br>1. Storage of Items be means other than the player inventory, such as chests or player unique bank.<br>2. Terrain generation has been limited to 1 core map.<br>3.
+ 2 Different foliage variants have been added, 'Large Tree' - which is 
+draped with vines and may have mushrooms placed at its roots.<br>4. Magical Attacks have added sprite effects that enhance their visibility and kind've explode on impact.<br>5.
+ Combat Triangle: Melee Armor blocks arrows much better than Archer 
+Armor or Mage Armor but weak to magical attacks, Archer Armor doesnt 
+take melee blows too well but does well against Magical Attacks.<br>6. 
+Associated items have been created: Fish, Cooked Fish, Wooden Storage, 
+Stone Storage, Iron Storage, Fishing Pole, Furnace, Crafting Table.<br>7. New Recipes: Wooden Storage (6x Wooden Planks), Stone Storage (6x Polished Stone), Iron Storage (6x Iron Ingot)<br>8. Increased Targetting for ranged attacks.<br>9. Death now results in a burst of all your items into the world.<br>10. Armor sets: Plate (Warrior), Leather (Archer), Cloth (Mage) - each with their associated bonuses.<br>11. Camps: includes a fire pit and sitting stump. Speeds up the passage of time at night by sitting on the stump.<br>12. Sitting animation added, X key triggers this animation. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Introducing Alpha Version Test: 9.7</td><td align="right"><font class="tiny">(Posted 2014-08-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I took a break to brainstorm where I wanted to go with my project. 
+Seeing as how its simply a hobby of mine I don't dedicate 100% of my 
+time to it and so updates do indeed suffer. After these couple of weeks 
+i've created a few more updates to shovel out.<br><br><img src="1872&amp;user=15985_files/2dgsz90.jpg"><br><br>&gt;Combat<br>-fixed
+ a display issue with slashing with swords in general: sometimes when 
+taking damage it would offset the slash sprite, this has been fixed.<br>-added
+ a 'Running/Jumping Combo Attack' - user must be running and mid jump 
+while holding left click to perform spinning forward slash. (Swords only
+ at the moment) Mages will have barrier generated for the duration 
+(shield small amounts of damage), Archers will passively be granted a 
+small movement speed buff. (Class depiction can vary in a fight: class 
+is merely designed to indicate what type of weapon class the player is 
+using. Staff:Mage, Wand:Mage, Dagger:Warrior, Sword:Warrior, 
+Bow:Archer... etc.)<br>-Shielding no longer blocks 40% of incoming 
+damage, this has been reduced to 15%, 40% was far too great and 
+basically made you something similar to Armor Lock from Halo 4.<br>-Enemies
+ now fall backwards instead of forwards upon death. Felt it fitting to 
+"blow away your enemies" rather than have them come falling onto you. :)<br>-There's now a damage indicator of its origin. A small sprite that points in the direction of sought after damage.<br>-Enemies
+ will now attempt to use a generic ability called 'Kick' if they see 
+your charging up to deal more DPS. 'Kick' knocks the player back for a 
+small amount but disables any charging of attacks.<br>-Playing 
+"peek-a-boo" with casters as enemies is a little harder to do but still 
+possible. It was possible to gauge the time between casts as to simply 
+jump over them and mid-air cast at them, avoiding possible damage. This 
+applied to Archers as well.<br>-All weapons have been slightly edited 
+for stacking the following items onto the player's back: 
+Quiver/Shield/Weapon. They now correctly displace each other rather than
+ merge and intersect becoming quite an eye sore.<br><br>&gt;Environment<br>-Grass
+ has been updated to be a little less dense. A little more responsive to
+ wind with regards to YAW#. The variant of herb is now a fern-like plant
+ in the ground rather than a red flowering plant.<br>-Trees have 
+increased definition, I attempted to add individualized 'wind effect' to
+ their leaves but my efforts only reduced FPS but it did look good :d<br>-Clouds,
+ my cloud system is still going strong it helps blend the water and sky,
+ as well as to the rest of the world against the background of CLSCOLOR.<br>-Sky_Tex:
+ Altered to a greater contrast to increase bloom effect; it was so bad 
+that the sky appeared a grey-ish distorted color... After I got a nice 
+deep blue that is just beautiful.<br><br>&gt;Inventory<br>-Upon opening disables the ability to run.<br><br>&gt;Controls<br>-Now have the ability to run with shift. Increases movement speed by 20% -no cost (yet)<br><br>-While running you may now use the mouse as a mouse_look to turn the player much faster than that of key_downs.<br><br>&gt;Mini-map<br>-I
+ have removed the minimap because I would like the player to openly 
+discover what the rest of the world looks like; however, I would like to
+ still show the areas the player has been as these old places would not 
+fall into that category.<br><br>&gt;Armor/Weapons<br>-Armor has been 
+recolored to reflect the different tiers. These are subject to change 
+because some of the colors are borderline neon.  (Only Tier 2, Like neon
+ green -&gt; Becoming a Dark Green soon.)<br><br><img src="1872&amp;user=15985_files/6p9v6h.jpg"><br><br>&gt;Thoughts/Notes&lt;<br>-Thinking
+ of converting from generic b3d terrains to Mesh ones. I experimented 
+around with mesh terrains and the power behind the ability to edit them 
+is immense for some of the effects id like to achieve and re-create 
+within my game. Not to mention better handling of no-clip and clipping. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Slight Revisions</td><td align="right"><font class="tiny">(Posted 2014-07-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> &gt;Changes to Combat<br>-Charged attack's particle effects have been revised to fly away from and orbit the player mesh.<br>-Charged
+ attacks no longer use up all the energy charged on the initial engage, 
+each attack subtracts up to a total of 60%-40% of the player's charged 
+energy on a successful attack. This has been put like this for increased
+ combat efficiency with rangers and mages as they are (mainly magers) 
+heavily dependent on Stamina/Mana values that are subtracted from to 
+create charged energy.<br>-Added a few new animations and features.<br>-Theres now an animation for crafting an item.<br>-Theres
+ now a shielding animation for shielding. (Activated on Right Click) - 
+Shields 40% of incoming damage when in this position.<br><br>&gt;Changes to player (General Features)<br>-Texture slightly modified in certain areas.<br>-All Tier 1 Models have been updated to fit the new player mesh.<br>-Can
+ have sheathing toggled, to either have the item in hand at all times or
+ keep it sheathed like normal after you're done with an attack.<br>-Running has been implemented, the player now has this ability and it requires no stamina/mana to do at the moment.<br><br>&gt;Changes to World<br>-Water/Trees/Grass/Sky
+ all revised, there were still some shading issues with the water and 
+sky added together. Sky have been updated to compensate for excessive 
+bloom in certain light levels. Transparency was a big issue, I didn't 
+want the player to be able to really see everything from far away (the 
+stuff under the water) so I had to play around with the alpha values of 
+some of the layers I used to construct the water as a whole. Trees have 
+had a slight adjustment to compensate for better looking shadow 
+definition, though the world doesn't involve any sort of occlusion 
+effects it can still 'mimic' the effect.<br>-Terrain has a greater increase in detail. O(5000&lt;9000)N<br><br><img src="1872&amp;user=15985_files/30c0oqa.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Nother Graphical Update</td><td align="right"><font class="tiny">(Posted 2014-07-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="1872&amp;user=15985_files/28btcsi.jpg"><br><br>-Boulders Added.<br>-Shadows Slightly revised.<br>-Textures revamped.<br>-Water revamped.<br>-Some camera functionality has changed.<br>-Compass is a dev.<br>-Less small foliage.<br>-Sky revised for more bloom effect during day and a subtract-ive glossy effect for night. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Graphical Update</td><td align="right"><font class="tiny">(Posted 2014-06-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ -I was really unhappy with the current level of image-texture quality 
+and so, I updated most of the textured land and completely re-made the 
+player mesh.<br><br>-Successfully created a new player mesh.<br>-Successfully animated the new player mesh.<br>-Successfully aligned new animation cycles with game's current event triggering system (for combat etc)<br>-All animations are improved for visual detail.<br><br>-Improved
+ Sky. Features not only my volumetric cloud system but a spherical 
+skymesh that mimics the qualities of a skybox and a skysphere mixed 
+(depending on angle it is viewed)<br><br>-Current Visual Updates-<br><img src="1872&amp;user=15985_files/25q8z5y.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Multiplayer</td><td align="right"><font class="tiny">(Posted 2014-06-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I spent a lot of time networking and modding around the code to allow for such things.<br><br>-Client Created<br>-Server Created<br><br>Client features all single player features.<br>Server provides Map seed and entity data for loot, enemies, combat, etc.<br><br>-Fourth tier of sword has been updated to reflect it's potential damage output.<br><br>-Server has full networking ability and can handle about 10-15 people without serious lagtime.<br><br>-Inventory, Recipes Known are saved within the Server config files along with the player's coords and personal data.<br><br>-There's no console commands, just a strong foundation for everything has been setup.<br><br>-Getting
+ the inventory/armor setup to properly load in real time without 
+generating excessive bitrate took a few same as Enemies.<br><br>-May release an Alpha in the upcoming month.<br>-May put up on kickstarter to try and get some funds for good servers and media assistance.<br>-May then put up on steam as well. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changelist</td><td align="right"><font class="tiny">(Posted 2014-06-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> -&gt; World<br>- Shadows added to player, enemies, and projectiles.<br>- There are now 2 variants of grasses that spawn throughout the world, making the ground coverage much greater.<br><br>-&gt; Gameplay<br>- Particle effects added to charging up attacks, a sort of "aura" is generated.<br>- Charge attacks now use stamina as a source of amplified damage.<br>- Item drops now resemble a crate with the item displayed on the sides.<br>- Item drops now have increased fluidity with it's applied physics.<br>- Utility Tab has an updated image.<br>- all abilities are finally independent of each other.<br>- ability cooldown indication has been updated to a swirling circle animation. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Game Improvements</td><td align="right"><font class="tiny">(Posted 2014-06-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> &lt;- GUI Changes &amp; Fixes<br>-&gt; Ability tab revised, sections up abilities based on classification (Melee, Ranged, Magic, Utility)<br>-&gt; Inventory Slide now fully retracts into the side of screen (besides that of selected tab)<br>-&gt; Mini-map may be changed into a 2D overview and the M key will trigger a 3D view of the world instead.<br>-&gt; Direction indicator has been added to the mini-map; a white arrow pointing in the direction of player movement.<br>-&gt;
+ Recipe Tab now fills itself out when completing a new recipe 
+("Discovering a new one"), storing it for later reference if the user 
+forgets how to craft a certain item.<br>-&gt; Respective mouse-tooltips have been added to all new features, displaying proper name and description.<br>-&gt; Action Bar has been revised to reflect an actual "bar" rather than a collection of images at the bottom of the screen.<br>-&gt; Abilities now have a respective classification based on current weapon type be it melee, ranged, or magic related.<br>-&gt; Aiming will probably be revised soon (ONCE AGAIN)... however it will probably only involve making a aiming cursor.<br>-&gt; Terrain generation has been slightly altered to be smoother and less 'step-like'.<br>-&gt; Planning on making the world indefinite based off the world's seed.<br>-&gt;
+ Planning on all sectioning off recipes in their TABs. My be classified 
+on what they result in.. be it Food/Potions, Armor/Weapons, 
+Smelting/Jewelry, Magic Items/Teleport Items. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Armor</td><td align="right"><font class="tiny">(Posted 2014-05-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> -Upcoming Changes to armors.<br>1) Legs, will no longer be a mesh, they will be a secondary applied texture.<br>2) All other armor will be provided a unique mesh for its respective tier.<br>3) Fix a bug with amulet/necklace displaying improperly on the player.<br>4) Player texture updated to reflect that of an aggressive less demonically stoic character.<br>5) Shields have been fully implemented.<br><br>-General Combat.<br>1)
+ New AI, is in full effect and the changes are fantastic. No movement 
+bugs and currently working on the STATUS$ of Sleep. Sleep is for an 
+enemy that has been IDLE$ for far too long and can randomly occur, heals
+ hitpoints BUT reduces the distance of detection by 10. (To make way for
+ assassinations  with the upcoming rogue classification of armor and 
+weapons.<br>2) Enemies now accurately attack the player but will 
+incorporate CC'n effects coupled with time till next ability potential 
+damage output, making the enemies gauge if they will survive long enough
+ to kill the player based on its current hp, the amount of damage its 
+taken (overall percent of its hp) and the player's/target's hp. Making 
+them more witty when it comes to "clutch" their way out of a fight. I've
+ made Mages extremely cheap with stuns. WHY NOT?? <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress ||</td><td align="right"><font class="tiny">(Posted 2014-05-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> -World-<br>1) Revitalized Water to a degree. (Tweaked blend modes again)<br>2) Boundary added from Water Level down to seabeds to 'box' in the player.<br>3)
+ Aiming has been greatly improved, Camera now responds to Player angle 
+to target. I hope this is the last time i fool around with this! :D<br>4) Collisions with trees are possible.<br>5) Shadow system now using a multitude of different source images upon creation and is in realtime (basic effect of shadows)<br>6)
+ Mouse-Tooltips are still a bit buggy but overall looking good. Colors 
+with Damage and Armor items (in conjunction) Will only attribute the 
+color of Damage as it's counted first rather than the color attributed 
+to Armor.<br>7) Combat is more fluid and less buggy in mass-attacks.<br>8) Shielding is currently being re-vamped. Percent of Defense is far too high. (Basically negates all damage in higher tiers)<br>9)
+ Foliage Maps have been removed, as they didn't really serve any point 
+than to direct what was were, this can be handled without the extra 
+computing usage.<br><br>-Bugs-<br>1) See Above for Inventory (Mouse-Tooltips)<br>2) Its possible to spawn (on a new world) deep underwater, and this can sometimes be hazardous to beginning the game.<br>3)
+ Drops still sometimes contain "NULL" items. They aren't obtainable 
+within the inventory but they do become a nuisance in abundance.<br><br><img src="1872&amp;user=15985_files/bbkon.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress</td><td align="right"><font class="tiny">(Posted 2014-05-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> -World-<br>- Terrain now displays shadows from larger foliage such as trees.<br>- Mini-Map now perfected to be smooth regardless of FPS and delta yaw parameters.<br>-
+ Camera changes fog ranges and display ranges when submerged in water. 
+Effect includes a feature that emulates the tides moving in and out 
+underwater. -texture updated on water, reflects waves in the animation.<br>- 5 Different Types of ground coverage now populate the world, Palm Trees, Lych Trees, Flowers, Herbs, and Mushrooms exist now.<br>- Added an additional blend layer to the water, keeps it crisp.<br>- Average Water Height has been reduced by 10% to make more land mass avail to walk on.<br><br>-Gameplay-<br>-
+ Aiming has been tweaked yet again, melee does not need a change in 
+Pitch of attacks and so, this feature has been isolated to ranged-type 
+attacks.<br>- All projectile speeds have been reduced (so u can see them actually fire)<br>- Swords have had a general visual update<br>-
+ Two whole new sects of items are now avail. (Shielding, Offhand). These
+ items offer additional damage or armor. Does not affect animations 
+however (will change later on)<br>- Ability Features Implemented, 
+"Engage" - Does launch the player forwards to gain some ground on an 
+enemy or close the gap when attacking a fleeing opp.<br>- Amulets now offer additional bonuses; Increased STAMINA, HITPOINTS, DAMAGE, or ARMOR.<br>-
+ Shields can be 'engaged' to block incoming attacks with Right Click. 
+-&gt; Feature is still buggy however (Increases Defence by 25% when 
+blocking with a shield)<br>- Now easier to dodge projectiles (due to their speed decrease) &gt; Dodging can be perfected to a degree <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Recent Changes</td><td align="right"><font class="tiny">(Posted 2014-05-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> -Colors That Have Been of Recent Issue-<br>1) All GUI items are now matching in border color.<br>-solves some of the images from appearing to be out of place compared to the rest of GUI.<br>This pertains to the inventory, abilities, health/stamina/charge bar pop-ups.<br>2)
+ Colors that affect the way to the world is shaded or lit have been 
+altered to reflect more realism within the cartoon-"y" world.<br><br>-World Itself-<br>1)
+ The map has double the max height now, Variations in terrain are more 
+noticeable and provide more land surface area on average.<br><br>-NPCS-<br>1) Enemy Ai will be getting re-worked to incorporate newer routines and functions within the game. As well as to speed them up.<br>2) Will be incorporating Talkative NPCS for shop or trade usages. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Update That Changed The World.</td><td align="right"><font class="tiny">(Posted 2014-05-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ~~~Updates as of 05/04/2014~~~<br><br>-Character<br>&gt;Some items that were to be equipped during complex movements appeared distorted. - This has been fixed.<br>&gt;Aiming is now smoother and no longer has a "jumpy" feel to it when switching between potential targets.<br>&gt;Now jump 5% higher than before.<br>&gt;Stepping sounds have been added to movements.<br>&gt;All damage-movement has been reduced; excessive enemy damage makes it impossible to be effective in combat.<br><br>-Creatures<br>&gt;Some items that were to be equipped during complex movements appeared distorted. - This has been fixed.<br>&gt;Warrior
+ Class enemies now follow slower, before they could essentially hunt you
+ down to death. All combat escape spells were rendered useless because 
+of their excessive movement speed.<br>&gt;Archer Class enemies now have 
+the ability to spot enemies at a further distance than Warrior or Mage 
+classes. They'll also alert others of the enemies presence.<br>&gt;Mage 
+Class will always prioritize its HP when in a fight. Keeping it's 
+distance as much as possible and excelling in casting Snares/Stuns as 
+often as possible.<br>&gt;Waypoint-ing has been improved with added Swimming AI.<br>&gt;Sounds for all combat has been revised. (Sword Clang, Magic Burst, Arrow Shot etc)<br>&gt;Their creation (generation routine) has been simplified, making load times less as well as overall gameplay.<br>&gt;Adding a 4th Class potentially. (Assassin/Rogue most likely)<br>[Will specialize in doing high DPS and only appearing during the Night]<br><br>-Foliage<br>&gt;See Weather Effects<br>&gt;New Type of Tree added besides that of Palm trees. Inner Land now consists of birch/fur/pine trees.<br><br>-Water Effects<br>&gt;See Weather Effects<br>&gt;Shifting
+ tides, (not water height, misleading I know). The Water appears to 
+cycle in and out. Illusion created from masked textures.<br><br>-Weather Effects<br>&gt;Dynamic
+ Fog - Fog created by reusing the cloud system. Takes clouds and lowers 
+them to the ground. Creates a misty graveyard feel.<br>&gt;Rain is now present within the game. Rain will refill any empty vessel that can hold water in the inventory.<br>&gt;Rain drops will make ripples on the water's surface<br>&gt;Lightning is now present within the game. Sound added for this as well.<br>&gt;Snow is present in the game, for snow to fall you must be within that height range for snow to be viewed.<br><br>-Abilities<br>&gt;Global
+ cooldown addition. When using an ability it will set every ability to a
+ 1 second cooldown to prevent spamming of multiple abilities.<br>&gt;Radiant Light's cooldown has been increased to 2 mins.<br><br>-Color Schemes<br>&gt;Ability tool tips have been adjusted to be darker.<br><br>-Loading/Start Screen<br>&gt;Proper Loading is now accurate in all instances.<br>&gt;Ques all information for all profiles on game start up. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Ability Book</td><td align="right"><font class="tiny">(Posted 2014-04-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Updates:<br>1) Loads of new abilities added: No Animations for them thou~<br>2) Abilities are now separated into 3 tiers of power.<br>-Basic<br>-Threshold<br>-Ultimate<br>Basic abilities provide nominal amounts of damage and vary from simple snares, stuns, or bleeds.<br><br>Threshold
+ abilities are more powerful than basic abilities, they provide enhanced
+ features of basic abilities, extending their duration quite a lot as 
+well as their damage.<br><br>Ultimate abilities are vastly superior to 
+basic abilities, they provide the most damage output. Specializing in 
+eliminating one target at a time however.<br><br>-Basic<br>-Melee: Engage, Double Cleave, Overpower, Blade Hurricane, Iron Skin, Revenge<br><br>-Archery: Double Shot, Rooting Shot, Tri-Shot, Arrow Volley, Rapid Fire, Explosive Shot.<br><br>-Mage: Aura, Muran, Curak, Zenek, and Faroc Bolts. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Recent Updates ||</td><td align="right"><font class="tiny">(Posted 2014-04-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Updated Topics:<br>1. Added ground coverage that's dynamic and fast-prop.<br>2. Aiming has been tweaked to reflect a greater accuracy at closer ranges.<br>3.
+ Any items with Armor, Damage, Heal, or Restore tool-tips now state the 
+amount and are color-coded. Armor:Teal, Damage:Orange, Heal:Dark Cherry,
+ Restore:Green.<br>4. Player texture has been completely re-done, no longer fully naked as base texture.<br>5. Item drops now include some items that were on the object killed.<br>6. Items are now picked up by the MOUSEDOWN(2) instead of (1).<br>7. Slight tweak to clouds, water ripples.<br>8.
+ 3D mini-map has been tweaked to reduce lagtime with render. (5 
+millisecs delay) &gt; Added to delta the map camera. Creates a much more
+ fluid transition without effecting map lagtime.<br><br><img src="1872&amp;user=15985_files/k20aw5.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Recent Updates</td><td align="right"><font class="tiny">(Posted 2014-04-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Items Updates:<br>&gt;Items (if weapons or armor) now display their armor or damage potential.<br>&gt;Items can now be used objects within the 3D environment. One example of this would be filling up vials at a water source.<br>&gt;Mouse
+ Description values now fully compensate for any sized description. 
+(adapted to allow for a multitude of different lengths *effectively*)<br>&gt;Dropped items now can be selectively picked up rather than panned over.<br>&gt;Fixed a bug that allowed "Arrow tips" to be used as arrows/ammo.<br>&gt;Max tier level is still at 60 though scaling has been slightly altered.<br>&gt;Stamina Potions have been added. -restores 1/6th the players total stamina with each use.<br><br>General Updates:<br>&gt;Sword attack style has been modified to be more fluent.<br>&gt;All Aiming has become more accurate and compensates to a degree if the enemy is point-blank -Camera Rotation keys in<br>&gt;Entities now create an effect when parsing through waterways, they create ripples.<br>&gt;Refined recipe system (to allow for 2D - 3D cross over)<br>&gt;Bug removed that caused the game to crash occasionally when dealing with lost enemies and magic spells/arrows.<br>&gt;New "Explosion" type spells are being created.<br>\Featured: New spell "Sonic Boom" - test spell.<br>\Releases 10x the spell damage to the surrounding area.<br>\in a full 360 degree coverage.<br>&gt;Newer
+ Spell "Blizzard" refined to have barrier fit within height of enemies. 
+(they gravitate towards a very close enemy as well)<br>&gt;All base 
+ability cooldowns have been reduced as all cooldowns actually use 'true'
+ seconds/minutes/hours creating more of a balance on abilities.<br>&gt;Fast-Prop foliage is being implemented for land coverage having only trees makes things dull.<br>&gt;Using
+ an item on another item in the main inventory and its a proper recipe 
+will prompt you with the yielded item and amount if you were to complete
+ the recipe (aka by clicking with the 'R' - Recipe Key pressed)<br>&gt;Aiming ridicule updated to "&gt;-+-&lt;" for Bow and "O" for a Staff.<br><br>Progress Bars:<br>&gt;Redone
+ to reflect a way smoother feel to their rather clunky past (even more 
+fluid from last update) Doesnt update at a fixed rate, rate is now the 
+(Difference/100).<br><br>Images:<br>&gt;Health Potion: Revised to look 
+more like a vial though distinguishing between doses (3) and (4) is 
+difficult so they might be subject to change.<br>&gt;Stamina Potion: as is above.<br>&gt;Sonic Boom image created.<br><br>Bugs:<br>&gt;Occasionally you can find yourself travelling faster in water than on land. Most likely due to a missing conditional.<br>&gt;Not much else to report. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Screenshots of Latest Content</td><td align="right"><font class="tiny">(Posted 2014-04-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Charge Bar and Aiming with staff (WIP) ~ same for Bows<br>Cursor now appears as a "(  )" symbol rather than "+"<br>Camera
+ adjusts actively and tries to keep up with player movement in extreme 
+situations. May add a whole another Camera for this.. but I like it so 
+far. "White/Pink Cubes" are for debug purposes to show empty equipped 
+slots on the player.<br><img src="1872&amp;user=15985_files/30ixu10.jpg"><br>Visuals During day, a few enemies, inventory and more.<br><img src="1872&amp;user=15985_files/b7gi6g.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Additions To Additions</td><td align="right"><font class="tiny">(Posted 2014-04-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ A new more profound magic damaging system that employs "barrier" - type
+ styles. New Spell Chain added: "Ice Ascent"; New Spells added: Icy 
+Bind, Ice Spike, Blizzard, Frigid Grave<br><br>"Blizzard" involves the 
+new "barrier" type of spell. It encompasses the player in icy magic orbs
+ that proceed to orbit about the player; smacking whatever enemy they 
+collide with. The Duration is determined by Magic Lvl.<br><br>You're now able to aim with staffs and bows.<br>You're
+ now able to hold and store energy for a more powerful attack. Notable 
+with a "Charge Bar" that appears when trying to attempt this.<br><br>Armor
+ is a little quirky at the moment.. I seem to altered a bone or too and 
+made the models come out of order. Still works properly.<br><br>Mini Map optimized to reduce any rendering problems (added delay between sampling)<br><br>Main Map now displays nearby objects to the player (such as foliage and other Npcs)<br><br>Ability Cool downs now all update AT THE SAME TIME.<br>Jumping and General physics within the game have been re-worked.<br><br>Inventory:
+ Previously Item Information was displayed in kind've a chopped mix and 
+match way. Where i didn't really care "if to fit in box ill just break 
+words if past certain character limit for the line". Info boxes are now 
+dynamic in the sense that they Fit complete phrases without chopping up 
+words, and can have more than 4 additional lines of description.<br><br>Re-color to Inventory Info boxes, greater contrast between border and give a more refined look to the GUI.<br><br>Each
+ Health Potion dose (up to 4) will always heal the player for 1/6th of 
+total health. No food items or additional stat changing potions exist 
+yet.<br><br>To Create a Health Potion<br>1. Acquire a Vial (from drop)<br>2. Go for a swim and Use Vial (fills with water)<br>3. Acquire some Red berries<br>4. Use Red Berries with Vial of Water<br>5. Acquire either Crushed Stone, or crush a Polished Stone with a hammer.<br>6. Use Crushed Stone with Red Berry Mixture.<br><br>Some Damaging Movements have been added when taking an excessive amount of damage in one sitting.<br><br>Fall Damage now Exists.<br><br>When
+ charging up for a more powerful attack with a bow, the player keeps the
+ bow drawn and will release at the same instant an arrow is shot. 
+Additional Damage is calc'd in by (Archery Level/99)*Charge<br>99 is Skill Mastery --- Makes your damage progress with leveling.<br><br>An Archery Level of 50 and a Charge of 100%<br>Will promote an increased damage potential of about 50 pts.<br>While an Archery Level of 99 and a Charge of 100%<br>Will promote an increased damage potential of about 100 pts.<br><br>Base Damage for archer = (BowDmg+ArrowDmg+Any Armor Archery Bonuses)<br><br>Damage=rand(0,Base_Damage+((Archery_Level/99)*Charge)))<br><br>Note:<br>None of my demonstrated formulas are AS SHOWN, but its just proof of concept or path.<br><br>Progress
+ Bars are updated to reflect more of a fluid "realtime" feel. They 
+seemed clunky and only updated in intervals where-as they smoothly 
+update to the new value commanded to them. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Additions</td><td align="right"><font class="tiny">(Posted 2014-04-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Some movements were tricky with the terrain. Fluidity has been preserved with a newer method.<br><br>Old
+ method seemed to toggle or "stick" things to the terrain when within 
+collision range (to speed things up), this has been eliminated because a
+ simpler method is now used; with a greater appeal.<br><br>New Items and their applications.<br>1. Armor set: Glintclad<br>\Derived from Glintstone products.<br>2. Health Potion Implementation.<br>\Used to heal a 6th of the player's health upon use.<br>\Can have up to 4 doses in one slot of the inventory.<br><br>Bugs:<br>1. Arrows still have a apparent damage addition when not using them with a bow.<br>2. Occasionally the item "Empty" appears in invent but its deleted instantly (just a flaw with the way items get added)<br><br>BugFixes:<br>1.
+ Clouds now scale smaller when closer and scale larger the further away 
+they are from the player. Creating a nicer feel of depth.<br>2. Overall terrain generation has been re-written to add more flat areas for combat and training.<br>3. Now possible to train a variety of skills from the inventory, many required item spawning.<br><br>Current plans:<br>1. Add Shops/Towns for actually making use of gold or items.<br>2. Add more items, add more abilities, add more things to do in general.<br>3. Add more secondary camera controls. (Free-roam "Area")<br>4. Terrain may be recolored to reflect sea to forest transition. (Outer Map to Inner Map)<br><br>Minor Changes and Additions:<br>1. There are now a total of 31 recipes for the previous (20)<br>2. New Images for Health and Stamina. <br>3. Altered cloud effect creates a sorta "bloom" to the sky.<br>4. New Armor, Glintclad<br>\Tier
+ 5 of 5, Armor values are vastly high. Having this on negates a lot of 
+any damage that you'd acquire with a given level of Defence. Damage calc
+ is done by ResultantDamage=Rand(0,(Damage-(Rand(0,Armor 
+Value)+(Rand(1,Defence)/2))))<br><br>-Example-<br>Damage=500<br>ArmorValue=250<br>Defence=70<br>ResultantDamage=Rand(0,(Damage-(Rand(0,Armor Value)+(Rand(1,Defence)/2))))<br>Step 1:(500-(125+(64/2)))<br>Step 2:(500-(125+32))<br>Step 3:(500-157)<br>Step 5: Rand(0,343)<br>ResultantDamage=213.0<br><br>Player Takes 213.0 points of Damage <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Item / Formula Editor</td><td align="right"><font class="tiny">(Posted 2014-03-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've been having some issues implementing new items and creating more formulas to incorporate the new items into the game.<br><br>However, it dawned on me that i should just make a program to handle all those needs on the fly and so.. this is what resulted.<br><br><img src="1872&amp;user=15985_files/259h5aa.jpg"><br><br>(As to the game, a lot has been added; will show screenshots shortly)<br>Features of Editor:<br>Description
+ of function: to ease the burden of editing large array trees and 
+excessive typing. Controls and protects 3 different arrays involved in 
+item description, worth, and name as well as item image. All of which 
+can be edited (besides the actual image) easily and then saved 
+correctly. Formulas can be created on the fly, items (names, desc's) can
+ as well or edited. Displayed previous list, new list, and formula. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Finally Back.</td><td align="right"><font class="tiny">(Posted 2014-01-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Recently I joined the Military and am now in Technical school. This 
+being said i had to be gone for practically 2 months while in Basic 
+Training. Well, now i'm back with my ability to continue development and
+ I couldn't be happier.<br><br>1. Redo Melee Style combat system. To add
+ more of a *combo-like system* Involving durated mouse clicks and 
+indicated direction of motion. <br><br>2. Heavily improve Character detail and allow for personalization of the character besides that of the armor they wear.<br><br>3. Implement Volumetric 'fake' clouds so there's a greater effect of depth within the game.<br><br>4. Animations tweaked.<br><br>5. Camera needs work.<br><br>6. Have fun. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Environment Update</td><td align="right"><font class="tiny">(Posted 2013-10-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Changelist:<br>1. Armor Making is limited to the usage of the item named 'Hammer'<br>2. Quivers and Sheathing of items was corrected: occasionally showing the previous item in hand before sheathing.<br>3. Water/Trees/Terrain update.<br>-Water, vastly improved performance and overall quality.<br>-Trees, improved to be palm trees rather than evergreens, alpha'd leaves and HD textures.<br>-Terrain, Recolored; to resemble a tropical paradise, detail improved (more unique features) -inlets, bays, etc.<br>4. FPS cap dropped to 30 from 40.<br>5. Minimap now optimized and will maintain a great FPS even on slow systems.<br>6. Combat still needs to be improved; may introduce completely new AI ;D<br>7. Base Heal Cooldown is now 2.5 mins.<br>8. Armor Values now scale off a base factor associated with it's type: Helm, Neck, Chest, Belt, Legs, Feet.<br>Chest&gt;Legs&gt;Helm&gt;Feet&gt;Belt&gt;Neck.<br>9. Huge FPS increase. Excessive blend modes patched. :D<br>10. Expect new Player Texture and Model soon.<br><br><img src="1872&amp;user=15985_files/168tq4p.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update v2</td><td align="right"><font class="tiny">(Posted 2013-10-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Changelist:<br>1. Added a Sound Library that plays ambient sounds as well as combat music.<br>2. Added Sheathing of weapons : they go on your back.<br>3. Redid base player texture to reflect having nothing on.<br>4. Adding more armor and items into the game, as well as recipes.<br>5.
+ Armor Making will be implemented into the next update, currently you 
+can only make up to stone weapons and even that process is cheap. Making
+ forging require a heat source and an anvil to shape/craft the items 
+(possibly)<br>6. Ability cooldowns greatly increased. Base Heal ability capped to only heal a maximum of 12% of your base health.<br>7. Aiming system for arrows and mage bolts needs to be slightly reworked to compensate for differences in terrain height.<br>8. Bug fixed in drop system where it would cause a stack overflow. Delay added, endless loop patched.<br>9. Added jump animation.<br>10. Fixed a few buggy vertexes within the player model that seemed out of place or just not needed.<br>11. Armor Values tweaked slightly, negated tons of damage.<br>12. Defense xp is now only awarded in 1/10 the damage given rather 1/2<br>13. Shift-targeting now accurately targets the closest and lowest amount of hp-monster around the player (if used).<br>14.
+ Will introduce the old system of dropping what the monster is wearing. 
+Makes farming for a certain item or item tier much easier.<br>15. May release a small demo to let people play around with the inventory and combat system. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2013-10-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ChangeList:<br>1. Partial recoloring of Item Prefix colors.<br>2. Each tier now contains an additional 5 Prefixes. Now a total of 50 rather than 25 different Prefixes.<br>3. Armor Value and Weapon Damage now scale off their Prefix value, rather than their actual image id.<br>4. Swords Primed to do the most damage to compensate for their lack of range over Mages and Rangers.<br>5. Implemented a system for LOD'ing trees. There's still some "pop-in", but it's slight.<br>6. Ability System refined to match the rest of the GUI layout, meaning movement of windows.<br>7. Character Statistics are now Displayed above the game info, Character Statistics show current Armor Bonus and Damage Bonuses.<br>8.
+ The probability of monsters/creatures dropping more items has 
+increased, however the chance of scaling to a different tier has been 
+reduced to compensate.<br>9. Tweaked a targeting flaw in the AI of 
+monsters/creatures that would make allegiances of factions attack each 
+other resulting in friendly fire, this has now been prevented.<br>10. Ability Cooldowns have been fully implemented however, they are too short and will be tweaked to suffice.<br>-Heal
+ is a little overpowered, it basically prevents death in 3v1's it should
+ hardly prevent death in situations of 1v1 but entitle the possibility 
+of survival nevertheless.<br>11. Bows still do not require arrows. I may
+ simply make it so whatever type of arrow tier that happens to be in the
+ Ammo Slot simply adds bonus damage to the bow, and lower the overall 
+damage of bows. Not concrete however.<br>12. Total Inventory Space increased to allow for more items.<br>13.Newly spawned monsters will be geared towards dealing with the player efficiently and will put up an adequate fight.<br>14. Monsters currently gain nothing from what they have equipped. AKA Bonuses from armor or weapons are negligible.<br>-Will implement a system to do so.<br>15.
+ Some camera following procedures changed, slight delay to yaw 
+adjustment adds for a more combat-like stance of movement, may make it 
+change in/out of combat.<br>16. Health does not regen passively. -This 
+was intentional, forces the use of potions/food/abilities. However foods
+ wouldn't have a cooldown and require you not be in combat while potions
+ can be used in combat and have a debuff. Compensation!<br>17. Item Value will be implemented soon, it'll mainly reflect off the Item's Tier and Prefix values.<br><br>Goals as of 10/2/2013:<br>1. Greatly increase model detail and texture qualities.<br>2. Greatly improve images and item details.<br>3. Make animations more complex and fluid, doing bare minimum atm.<br>4. Add more recipes.<br>5. Add Potions. -coded needs implementation.<br>6. Add Food. -coded needs implementation.<br>7. Add Pets, and work in the rest of the skills into the game.<br><br>Currently the only skills that are able to be leveled are: Swimming, Health, Defence, Strength, Archery, and Magic.<br><br>ScreenShots Shortly... been working. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ScreenShots</td><td align="right"><font class="tiny">(Posted 2013-09-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Goals:<br>1. Implement prop system for plants and foliage.<br>2. Increase overall level of detail with player and terrain features.<br>3. Add more abilities.<br>4. Add vehicles for faster land and water travel. Such as, pets and boats.<br>5.
+ Fully implement equipping a full armor set. (Limited to weapon, helm, 
+and necklace atm) Items don't exist and need to account for duping 1 
+leg's armor to the other.<br>6. Tweak animations to be more fluid.<br>7. Tweak textures overall.<br>8.
+ Increase overall content and "Things to do" - Provide an alternate path
+ to playing the game. Instead of killing everything to gain progress, 
+one may just skill and level up their non-combat stats to gain xp and 
+wealth.<br>9. Redo-Images, and make more images. Temporary ones have been put in place for many action-slot related functions.<br><br>Here is an example of the different colored tiered items. 1-5.<br><br><img src="1872&amp;user=15985_files/2ezp8wm.jpg"><br><br>Swimming and Leveling up a skill.<br><br><img src="1872&amp;user=15985_files/34sfehd.jpg"><br><br>Using an ability: "Arrow Volley"<br><br><img src="1872&amp;user=15985_files/2dkjz37.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New Update</td><td align="right"><font class="tiny">(Posted 2013-09-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ChangeList:<br>1. Added coloring of different Tier items. Tier 1:White, Tier 2:Green, Tier 3:Blue, Tier 4:Purple, Tier 5:Orange.<br><br>2. Multiple Saves are able to be created now rather than just one.<br><br>3.
+ Water and Sky recolored and rebuilt to bring contrast to the player and
+ more cohesion between the sky, land, and water colors.<br><br>4. MiniMap Update: Now Shows your current position and objective (If you have one)<br><br>5. Loot is now completely random with the exception of Bones and Currency drops.<br><br>6. Skill Tab added, makes looking at your stats convenient and efficient while accessing your inventory.<br><br>7. Level Up indicators now pop-up in top/middle of the screen.<br><br>8. Health, Damage now scale according to corresponding attack type, and "Health" Skill value.<br><br>9.
+ Gameplay is quite fun, I find myself increasingly being sucked in by my
+ own game, something i've always dreamed of, something I create sparking
+ my attention.<br><br>10. Two new Abilities added, Battle Cry, and Camouflage.<br>-Battle Cry increases Total Stamina for a duration and Camouflage allows the user to temporary avoid detection by enemies.<br><br>11.
+ Night and Day will present different enemy spawn patterns to the 
+player. Aka, more enemies at night to discourage travel and to 
+compensate i've added torches into the game, a hold-able light source 
+for the player that illuminates a radius based on the torch's tier * 
+100.<br><br>-Foot Notes-<br>I'm quite happy on how the game has 
+progressed over the last week or so, i love having all this time to 
+myself, and it's apparently great for the game. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>3rd Person.</td><td align="right"><font class="tiny">(Posted 2013-09-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ChangeList:<br>1.
+ Re-hauled my prior inventory system: now supports item description, 
+item durability, item value, item crafting, recipe discovery, tools, 
+weapons, and armor all on the fly.<br><br>2. The game currently supports 15 different skills.<br>Include but not limited to: Archery, Magic, Swimming, and Cooking.<br><br>3.
+ New Camera System that can support dynamic cinematic views of new 
+areas. (Much like The Legend of Zelda can, aka new room or area) &lt;- 
+Made this smoother... <br><br>4. The Player has the option to 
+individually train each skill to make them a better archer or melee 
+specialization. Or Cook, etc. Free choice.<br><br>5. Ability book, 
+abilities become unlocked as your skills go up, if you train your 
+archery you gain more archery derived abilities; so on and so forth.<br><br>6. Complex day and night cycle based on actual 24-hour clock that's in-game.<br><br>7. Able to view all Skill-Related attributes (Haven't added the ability list) - such as xp till next level, and current xp.<br><br>8. Implemented saving once again, tracking of player, mobs, items, drops, and effects on everything.<br><br>9. Abilities include but aren't limited to:<br>Abilities that freeze, snare, burn, heal, slow, silence, lifesteal, cone, and aoe.<br><br>10.
+ Player movement across the terrain is flawless now, makes combat way 
+smoother but there is a limit to the angle that can be traversed.<br><br>11.
+ Tiering system is implemented, boost gear that is exponentially 
+affected. Power level 1 item that is tier 1 has base stats that are 1^1 =
+ 1 while Power level 2 item that is tier 2 has base stats that are 2^2 =
+ 4 and Power level 2 item that has a tier of 3 is 2^3 = 8 so on and so 
+forth.<br><br>12. Equipment affects overall stats, boosts any skill bonus it may have or would seem to provide.<br><br>13. New Splash screen, and profile selection screen.<br><br>14. Three-dimensional mini-map and full map for viewing of the local area (rest is hidden in fog if you haven't been there)<br><br>-I'm continuing to work as hard as i can to pump this game out with my free time. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Turning To 3rd Person.</td><td align="right"><font class="tiny">(Posted 2013-07-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Sorry, I've been working non-stop and it hasn't yielded enough time to get on the forums to post something new.<br><br>Created
+ an "Item List Editor" to handle the creation of recipes and new 
+items/vs their image on the fly so that process has been greatly 
+increased.<br><br>I was happy with the last setup for the character that
+ I had created for the game. However, I've always liked the 3rd person 
+games over 1st person games. So, I've changed the camera into a very 
+dynamic and accurate system. Capable of creating situations (such as cut
+ scenes). I completely rewrote the inventory system from the ground-up. 
+Completely reworked the AI system behind every creature within the game,
+ featuring smoother movement and Non-Collision-Based entity placement 
+(FPS Increase)/All Math.<br><br>I'll release a screenshot soon and 
+perhaps a video. Attack-Systems have been fully implemented with dynamic
+ leveling of combat-based skills, combat effects (Bleed, Heal, Slow, 
+Stun).<br><br>Ability to drop items from the inventory into the world 
+freely, and Creatures/Monsters have unofficial drop lists. (Drops 
+certain items, vary between each set but "Bones" and Other generic 
+things stay the same.<br><br>Armor and Weapons affect the efficiency of Blocking, Dealing Damage to/from Creatures or other damage factors (Besides Effects)<br><br>Implementing dynamic character editing (Hair,Body,Etc etc).<br><br>-Redoing the save-world function. Saving is currently disabled. :C <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A few screenshots.</td><td align="right"><font class="tiny">(Posted 2013-05-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Im not really happy with the rather generic trees i have, ill soon make
+ completely random tree meshes on the fly. i.e base template parts to 
+create a tree and simply shuffle them around deviating slightly from a 
+certain type of tree (oak etc..)<br><br>-Screenshots show, watermap,colormap,basic lightmap,terrain, basic trees and environment.<br><br><img src="1872&amp;user=15985_files/2lzuw4.jpg"><br><img src="1872&amp;user=15985_files/2e4gtad.jpg"><br><br>Here's an older one but, it should suffice.<br>it just demonstrates some of the odd configurations I get within my generated terrain.<br><br><img src="1872&amp;user=15985_files/w1z76.jpg"> <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Bug Fixes</td><td align="right"><font class="tiny">(Posted 2013-05-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I took a few days off and went back to work. Targeting main display 
+bugs within every feature of the game. Retexturing and  creating newer 
+content that reflects my current skill in graphics, modelling, and 
+coding.<br><br>-Bug Fixes.<br>1. Global light_level# variable not 
+recording correctly (days became slightly offset upon each save roughly 
+2.5% degree of error; fixed its precision.<br>2. Slight display issue between entities z-buffer essentially overlapping.<br>3. Increased player's ability to get over general terrain features (reduced workload of getting around)<br>4.
+ Cleaning of unessential calculations or moving them to a queue of 
+events to be handled when needed rather than always running. <br>5. 
+Fixed the occasional "Flip back to start menu" - was caused by a corrupt
+ world save i.e if the world failed to create; result of closing early 
+or some other issue involving inappropriate shutdown of the program.<br>6. Reduced run speed.<br>7. More commands added.. really just for me. ;D<br>8. New recipes added to obtain all items.<br>9. Spawning with wood.<br>10. Dieing on spawn (very RARE)<br>11. Corrupted terrain, aka.. its rather very flat.. or sketchy (looks like spiky hair)<br>12. General lagg from the terrain and other things.<br>13. Sky box has been removed, not a real feature really. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Taking a Break, Reporting Progress</td><td align="right"><font class="tiny">(Posted 2013-04-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Im taking a break for a bit, im immensely tired of day after day of coding.<br>1. I successfully reworked the entire layout and appearance of my login routines and speed.<br>2. Updated Lightmapping to be more dynamic and more realistic to sun-positioning.<br>3. Mesh Terrain implementation is still WIP.<br>4. Need a .lib for checking if the player were to exit the program without hitting escape (wont save otherwise)<br><br>-Many more Features added. <br>1.
+ When attacking a creature the player gains "Instinct" might change the 
+variable to "Rage" or some other form of energy that the player may then
+ use to cast spells or do special attacks on creatures.<br>2. Currently 
+there only exists 20 different generic spells (blasts of magical energy 
+pretty much) which tier according to level. (1-70) -might add Cooldown 
+periods for spells.<br>3. Quest System is in slight dev. NPCS spawn with a quest variable.<br>4.
+ Reworked how World Selection appears, might add a preview to the world.
+ :D -Rotating MiniWorld for the player to browse slightly.<br>5. 
+Advanced Item Info added: When hovering over an item, displays 
+Name/Rarity/Price: Doesn't allow the string of information to be written
+ off-screen. Allows on top as well.<br>6. Added several different recipes, longest recipe currently requires 5 different layouts to create 1 of the said items.<br>7. Need to add more items in general only 67 different items exist in the game.<br>8. Ai, cancelled atm for debug.<br>9. Increased Terrain Interaction: No more getting stuck on high-ratio climbs.<br>10. Optimized many text-based drawings to images.<br>11. Combat system is being re-worked from its basis. Weapons will keep proper tier of damage.<br>12.
+ My River Function (The Function that Creates a River in the map) - Only
+ works Along the Y Axis (with reference to an image rather than a 3D 
+space).. which bothers me i wish to have a rather windy path for a 
+river... WIP<br>13. Speed in water dramatically reduced, ratio LAND/WATER (3:2 to 3:1)<br>14.
+ Increased administrative control, Average FPS control, Lag-resistance 
+commands: Affecting environment updates. Might add a global "Que" for 
+events based on priority and distance from the actual view area.<br>15. Finally, Smooth Jumping, well.. smoother, previous jumping would sometimes be rather difficult to control. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Delayed Post</td><td align="right"><font class="tiny">(Posted 2013-04-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Sorry, we recently had a power outage in my area and have been up able to post for a bit.<br><br>-Current Progress-<br>1. Implementation of mesh terrain is quite difficult... (WIP)<br>2. Finally made a good mesh for a willow tree.<br>3.
+ Creatures are assigned random ai based on intelligence values, 
+attributes can include utility towards attacking player or getting away 
+as well as personal utility to re-heal.<br>4. Weather system tweaked, 
+transitional periods now set to 4000 from 1000, I don't want it to rain 
+back to back. 4000 being the minimum period in which to start the 
+probability of it becoming a certain weather (light,medium,heavy rain, 
+or snow)<br>5. Sun cycle also tweaked occasionally after setting a 
+certain TOD(time of day): the sun isn't in the right corresponding spot.
+ 5 to 15 degrees off that's now fixed.<br>6. Inventory System optimized to have multiple bags and storage devices rather than just the player's inventory.<br>7. Increased General particle usage.<br>8. Increased Foliage effects. Previous:Wind, Current:Wind,Player,Other Foliage.<br>9. Only render whats in view- FPS increase by +5.<br>10. Average FPS, 25-30. 30 being maximum.<br>11. Added the ability to customize layouts.<br>12. Might add personal recipes.<br>13. Might add the ability to 'unlock' certain recipes (efficiency etc)<br>14. Have a list of all recipes ever crafted and can be accessed for reference.<br>15. Considering adding full-integration of dungeons and exploration aspects. Cross-Dimensional Travel. 1D,2D,3D,4D<br>etc<br><br>Note:
+ Most are ideas that i simply propose here to write down my thoughts and
+ possible actions. Often enough about 80% of my goals that don't 
+directly say (Added,Or state an absolute) are usually a victim of this 
+proposal. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>AI Progress and Additional Inventory Tweaks</td><td align="right"><font class="tiny">(Posted 2013-04-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I Finally finished the new ai systems and im quite happy with them, 
+(will release a video of them soon). Recently i wanted to make the 
+inventory optimized as possible and promote an active use of it. I 
+completely re-wrote the code that generated or placed items into the 
+inventory. The previous one was horrible to understand, i optimized it 
+with 40 less lines of code which, in my opinion is quite impressive. Idk
+ what i was thinking during its creation but, it certainly wasn't what i
+ am now. <br><br>Suggest to Create item &gt; Check for Bag &gt; Check 
+for bag Space &gt; Check for empty slot/Check for stack &gt; If stack 
+add to stack &gt; if empty add to empty slot &gt; if stack is full &gt; 
+move to next stack in "Que" S\id=S\Id+1 &gt; Repeat.<br><br><br>Bug Fixes by doing this.<br><br>-Possibility to create "Ghost" items. Basically null-data values.<br>-Sometimes items just wouldnt stack or had odd-behavior.<br>-Spawn outside of inventory and create an error (RARE)<br>-Occasional loss of item if bag or bank became to full upon loading. Spawn on items etc...<br>-Overall speed<br>-Fit for the new mouse-system. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>AI Progress.</td><td align="right"><font class="tiny">(Posted 2013-04-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Creatures Now have a priority task system assigned to certain Ai Layouts.<br><br>Such as obvious things like:<br>- going up for air when swimming to avoid drowning.<br>-
+ how they interact according to the players health or its health such as
+ going in for the kill or suggesting a flee which is based on 
+Threat(Health/Max_Health) for each creature.<br>-Smart Movement, 
+Wander,Hops,Take Shelter from rain (Certain creatures), go to water, 
+Strafe, Follow and avoid obstacles and many more. <br><br> ~~Vonherin Developer~~ </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

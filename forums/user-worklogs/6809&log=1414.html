@@ -1,0 +1,266 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=Big5"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for ziggy</h1><h1>BLide PlugIn SDK</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Brisk Virtual Machine and BLIde</td><td align="right"><font class="tiny">(Posted 2008-09-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've released a new public free plugin for BLIde. This plugin generates
+ the BCS files for the great script engine Brisk Virtual Machine. You 
+can get it here: <br><br><a href="http://www.blide.org/plugins/downloads/Generate_bcs.zip" target="_blank">http://www.blide.org/plugins/downloads/Generate_bcs.zip</a><br><br>This plugin includes source code, so it can be easy for anybody to see a little bit more about the Blide SDK API.<br>This module requieres BLIde 0.9.58-C or greater to run.<br><br>I'm also writting a 'LUA intelliprompt generator' for BLIde, wich will be ready to be released soon. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>It is available</td><td align="right"><font class="tiny">(Posted 2008-05-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yes, it is available included in the regular BLIde update. The SDK is out!!!!<br>Current
+ SDK version has a very small API available, and this will be expanded A
+ LOT in future versions. meanhile, I'm starting to write some 
+documentation about the SDK. you can get the currently available docs 
+here:  <a href="http://www.blide.org/sdk/BLIde_SDK_Manual_and_tutorials.htm" target="_blank">http://www.blide.org/sdk/BLIde_SDK_Manual_and_tutorials.htm</a><br><br>More info to come soon! <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First 100% working BLIde plugin</td><td align="right"><font class="tiny">(Posted 2008-05-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yes! I've got the first full functional compiled plugin for the new 
+BLIde SDK. The base language is vb.net, with some api additions. The 
+plugin is compiled by BLIde, and adds some items to the Edit menu of 
+BLIde with some additional options.<br>It is just a sample plug in, 
+posted here just to show how easy to write will be BLIde Plug ins! 
+(Specially given the fact that BLIde provides full intellisense for the 
+BLIde SDK language :D)<br>Example:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Imports blide.SDK,blide,microsoft,microsoft.VisualBasic,microsoft.VisualBasic.VBMath,system,system.Drawing,system.Windows.forms
+
+'All plugins have a Module called PlugIn, where the starting point of the plugin is set.
+Module PlugIn
+	
+	'This is the starting point of the plugin. 
+	'Here all the initializations are done.
+	Sub Main()
+		Dim UCM As New UpperCaseMachine
+	
+		UCM.Start()
+	End Sub
+End Module
+
+'''
+''' summary: This class has all the plug-in functionality
+'''
+Class UpperCaseMachine
+	
+	'This class has a menu item called MnuPlugin. All other plugin menus will be nested on that one.
+	WithEvents MnuPlugin As blide.SDK.MenuItem
+	
+	'This class has a menu item called MnuConvertUpper
+	WithEvents MnuConvertUpper As blide.SDK.MenuItem
+
+	'This class has a menu item called MnuConvertLower
+	WithEvents MnuConvertLower As blide.SDK.MenuItem
+	
+	'This class has a menu item called MnuConvertLower
+	WithEvents MnuNewLineAbove As blide.SDK.MenuItem
+	
+	'This class has a menu item called MnuConvertLower
+	WithEvents MnuNewLineBelow As blide.SDK.MenuItem
+	
+	'This class has a menu item called MnuOpenAll
+	WithEvents MnuOpenAll As blide.SDK.menuitem
+	
+	'This class has a menu item called MnuCloseAll
+	WithEvents MnuCloseAll As blide.SDK.menuitem
+
+	
+	
+	'That's the function called by the PlugIn module to start the plugin execution:
+	Sub Start()
+		
+		'We inform the user that the PlugIn is being initialized, in the BLIde console:
+		api.write("Starting Upper case machine plug in")
+		
+		'We create the MnuPlugin object inside the Edit menu of BLIde. This menu has the text
+		'More edit options.
+		MnuPlugin = New blide.SDK.MenuItem(api.EditBarItem,"More edit options")
+		
+		'We want to place this menu item bellow the advenced menu item,so
+		'we get the advanced menu item position:
+		Dim position As Integer = api.EditBarItem.ItemIndexByText("advanced")
+		
+		'Then  we put the newly created menu item after the advanced menu item:
+		mnuplugin.InsertAfter(position)
+		
+		'After moving a menu item, it is needed to refresh the menu bar item index:
+		api.EditBarItem.RefreshIndex
+		'From now on, all the menus will be nested on this one.
+		
+		
+		'We create the MnuConvertUpper menu, with the text, converto to uppercase
+		MnuConvertUpper = New blide.SDK.MenuItem(MnuPlugin,"Convert to uppercase")
+		MnuConvertUpper.BeginGroup = True	'This will show a separator below this menu item.
+
+		'We create the MnuConvertLower menu, with the text 'converto to lowercase'
+		MnuConvertLower = New blide.SDK.MenuItem(MnuPlugin,"Convert to lowercase")
+		
+		'We create the MnuNewLineAbove menu, with the text 'Insert new line above', and assign a shortcut to it.
+		MnuNewLineAbove = New blide.SDK.MenuItem(MnuPlugin,"Insert new line above")
+		mnunewlineabove.Shortcut =System.Windows.Forms.Shortcut.AltUpArrow
+		MnuNewLineAbove.BeginGroup = True
+		
+		'We create the MnuNewLineBelow menu, with the text 'Insert new line below', and assign a shortcut to it.
+		MnuNewLineBelow = New blide.SDK.MenuItem(MnuPlugin,"Insert new line below")
+		mnunewlinebelow.Shortcut =System.Windows.Forms.Shortcut.AltDownArrow
+		
+		'We create the MnuOpenAll menu, with the text 'Open all documents'
+		Me.MnuOpenAll = New blide.SDK.MenuItem(mnuplugin,"Open all documents")
+		MnuOpenAll.BeginGroup = True
+		
+		'We create the mnucloseall menu, with the text 'Close all documents'
+		Me.MnuCloseAll = New blide.sdk.MenuItem(mnuplugin,"Close all documents")
+		
+	End Sub
+	
+	
+	'This function is automatically called when the MnuConvertUpper menu item is clicked.
+	Sub MnuConvertUpper_Click(sender As Object, e As system.eventargs) Handles MnuConvertUpper.Activate
+		api.Write("Loaded documents:" &amp; ubound(api.GetDocumentsList()) )
+
+		'We get the current Editor control to perform the conversion operation:
+		Dim Ed As editor = api.GetCurrentEditor()
+		If Ed Is Nothing Then	'There's no file selected.
+			api.Msg("There's no file selected.")
+			Exit Sub
+		ElseIf Ed.SelectedText = "" Then	'There's no text selected.
+			api.Msg("There's no text selected.")
+		Else	'Perform conversion:
+			Ed.selectedtext = Ed.SelectedText.ToUpper()
+		End If
+	End Sub
+	
+	
+	'This function is automatically called when the MnuConvertLower menu item is clicked.
+	Sub MnuConvertLower_Click(sender As Object, e As system.eventargs) Handles MnuConvertLower.Activate
+		Dim Ed As editor = api.GetCurrentEditor()
+		If Ed Is Nothing Then
+			api.Msg("There's no file selected.")
+			Exit Sub
+		ElseIf Ed.SelectedText = "" Then
+			api.Msg("There's no text selected.")
+		Else
+			Ed.selectedtext = Ed.SelectedText.ToLower()
+		End If	
+	End Sub
+	
+	'This function is automatically called when the NewLineAbove menu item is clicked.
+	Sub NewLineAbove_Click(sender As Object, e As system.eventargs) Handles Mnunewlineabove.Activate
+		Dim Ed As editor = api.GetCurrentEditor()
+		If Ed Is Nothing Then
+			api.Msg("There's no file selected.")
+			Exit Sub
+		Else
+			ed.NewLineAbove()
+		End If	
+	End Sub
+	
+	'This function is automatically called when the NewLineBelow menu item is clicked.
+	Sub NewLineBelow_Click(sender As Object, e As system.eventargs) Handles Mnunewlinebelow.Activate
+		Dim Ed As editor = api.GetCurrentEditor()
+		If Ed Is Nothing Then
+			api.Msg("There's no file selected.")
+			Exit Sub
+		Else
+			Ed.NewLineBelow()
+		End If	
+	End Sub
+	
+	
+	'This function is automatically called when the MnuOpenAll menu item is clicked.
+	Sub MnuOpenAll_clicked(sender As Object, e As system.EventArgs) Handles mnuopenall.Activate
+		'first of all, we create an array or editors (called ed) and store there all the available
+		'documents of the currently being coded project:
+		Dim ed As Editor() = api.GetDocumentsList()
+		
+		'then we iterate throug the array opening all the documents. 
+		'If a document is already opened, the show command will bring it to focus.
+		For i As Integer = 1 To ubound(ed)
+			ed(i).Show()
+		Next
+	End Sub
+	
+	'This function is automatically called when the MnuCloseAll menu item is clicked.
+	Sub MnuCloseAll_clicked(sender As Object, e As system.EventArgs) Handles mnucloseall.Activate
+		
+		'first of all, we create an array or editors (called ed) and store there all the available
+		'documents of the currently being coded project:
+		Dim ed As Editor() = api.GetDocumentsList()
+
+		'then we iterate throug the array closing all the document tabs.
+		'If a document is not part of a project, and has been modified, 
+		'BLIde will prompt to save it before closing it. You don't have to worry about this.
+		For i As Integer = 1 To ubound(ed)
+			ed(i).CloseTab()
+		Next
+	End Sub
+	
+	Private Function Federico() As String
+		Dim I As String = ""
+		Return ("This is federico!" &amp; i)
+	End Function
+End Class</textarea> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First plugin engine tests</td><td align="right"><font class="tiny">(Posted 2008-05-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is the first plugin source code test. This plugin does nothing 
+special, it just creates a window, uses part of the BLIde api, and the 
+like. Nothing spetial, and subject to change as the BLIde API is still 
+being defined<br><br><pre class="code">imports codedomTest1, microsoft.visualbasic, system, system.windows, system.windows.forms
+module Plugin
+	Dim F as MyForm
+	sub Main()
+		if F is nothing then
+			F = new MyForm	
+		end if
+		if f.isdisposed = false then
+			f.show
+			f.Activate
+		else
+			f = new MyForm
+			f.show
+		End if
+	end sub
+end module
+
+Class MyForm 
+	inherits Form
+	Dim withevents But1 as Button
+	public sub New()
+		InitializeComponents()
+	end sub
+	
+	Sub InitializeComponents()
+		me.FormBorderStyle = Windows.Forms.FormBorderStyle.FixedToolWindow 
+		me.maximizebox = false
+		me.text = "This window is created by the compiled plugin!"
+		But1 = new Button
+		But1.Left = 10
+		But1.top = 20
+		but1.Text = "Hello World!"
+		But1.Visible = true
+		But1.Parent = Me
+	end Sub
+	
+	Sub ButClick(Sender as object, E as system.EventArgs) handles But1.Click
+		Msg("Clicked!")
+	End Sub
+	Sub Form_disposed(sender as object, E as system.EventArgs) handles me.disposed
+		WriteInConsole("The form has been disposed")
+	end sub
+end class</pre><br><br>Just to mention that the Plugin system will 
+support overloading, inheritance, and everything you would spect on a 
+complete OO language. Everything based on vb.net. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Completely re-writing SDK</td><td align="right"><font class="tiny">(Posted 2008-05-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yes, that's all. The original idea for the BLIde SDK was good but... it
+ was not as flexible as I wanted, so I've decided to completely change 
+the internal desingn for the SDK engine. <br>It will be based on a 
+self-made compiler based on the codeDom technology, so users will be 
+able to create their own plugins with the flexibility of a Script 
+language BUT the scripts will be really compiled (native machinne code, 
+so fast!!!). The plugins will be writeable using visual basic or C# 
+source code, covering all the features of the .net 2.0 framework. 
+Obviously, as BLIde will natively generate intermediate assembler source
+ code, the plug-in users will not need any sdk version of the .net 
+framework. It'll just work. I'm currently writing the exposed BLIde API 
+to the SDK engine. More info to come soon! <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Everything is ready</td><td align="right"><font class="tiny">(Posted 2007-01-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After a lot of work sorting some compatibility issues with 
+international chars, and BLIde automation, the BLIde PlugIn SDK is ready
+ for the first beta testing. So... we're looking for testers. But, first
+ of all, what is a BLIde PlugIn?<br><br>A BLIde PlugIn is an application
+ that gets text from the BLIde editor window, then analize it, modify 
+it, or whatever, and then the processed text back to BLIde.<br><br>As instance, a simple code analizer can be a BLIde plug in, but also a GUI editor can be a BLIde PlugIn.<br><br>The structure of a BLIde PlugIn program is:<br><br>1.- Create the PlugIn handler (It is an instance of a BlitzMax Type)<br><br>2.- Start the PlugIn Protocol (A simple method call)<br><br>3.- Select all text, or select full row if necesary <br><br>4- Get Selected Text (gets the selected text from BLIde)<br><br>5.- Process everything<br><br>6.- End<br><br>that's very symple, and easy to use.<br>The
+ BLIde PlugIn Protocol, aso implements some addtional features, such as 
+the BLIde Message box to display text, trace actions to the BLIde 
+console, Cut / Copy / Paste / Delete / Undo ? Redo, etc.<br><br>The 
+official release date of the beta version will be 08/01/2007 
+(dd/mm/yyyy) So any interested coder, please, send me an email to get 
+the module. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Rob Farley</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Rescue!</td><td align="right"><font class="tiny">(Posted 2006-03-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> OK Guys... I'm on my way...<br><br><img src="547&amp;log=1319_files/4496399.jpg"><br><br>Get in... No pushing...<br><br><img src="547&amp;log=1319_files/4530581.jpg"><br><br>Stop fighting in the back!<br><br><img src="547&amp;log=1319_files/2965204.jpg"><br><br>You'll all just going to have to get along... it's a tight squeeze!<br><br><img src="547&amp;log=1319_files/2854457.jpg"><br><br>The
+ only reason I'm showing this is because it was actually a very complex 
+bit of code to get the guys to run to pick a side of the helicopter, get
+ to the bases of the ramp, run up them, get inside, and then stand in a 
+specifc place based on how many people are already in the helicopter... 
+Oh and not to try to get in if there are already 6 people in there. And 
+once they're in they parent themselves to the helicopter too...<br><br>Yes I know they don't have faces yet... and I know they don't have shadows yet!<br><br>Anyway...
+ In the game you won't actually be getting anything like this close to 
+them, but I thought I'd show that they all get into the helicopter 
+properly as opposed to just going inside and disappearing! You can 
+physically fit 6 people inside... 7 if you count the pilot... even if it
+ is a bit of a squeeze!<br><br>Oh... and at the bottom of the last pic 
+you can see my single surface text thing... all the weird characters you
+ see there are all part of the cool drawing / undrawing of the text, it 
+sort of decodes itself onto the screen which looks funky. And it's all a
+ neat self contained bit of code so I just write:<pre class="code">NewText("PRISONER "+onboardcount+" ON BOARD",3000)</pre>And
+ this will display the message "PRISONER 5 ON BOARD" for 3 seconds, 
+scroll up any existing messages out of the way and do all the funky 
+decoding onto the screen, all I need to do is call<pre class="code">UpdateText()</pre> in the main loop. <br><br> <a href="http://www.mentalillusion.co.uk/" target="_blank">Cheers Rob</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>And so it begins</td><td align="right"><font class="tiny">(Posted 2006-02-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, I've have a few requests asking me to do a worklog for this so here's my first attempt at it...<br><br>The
+ Helicopter game started off life as a vertical scrolling shoot'em up 
+however, things quick progress into a full 3D world. The idea was to 
+make a game that plays like a 2D game but still has the 3D element to 
+make it feel fairly realistic...<br><br>Having played with blitz 
+terrains I quickly realised I would have to write my own terrain 
+system... The problem with creating your own terrain system means you 
+have to write a lot more code, however, you get additional flexibility 
+and functionality, obviously an editor had to be written too.<br><br>After a few attempts I came up with this as a final result...<br><br>The
+ terrain is 2km². It is made up of 256 meshes (16x16), each mesh is 
+32x32 quads, each quad 4units². 1 unit = 1 metre, therefore 4 * 32 * 16 =
+ 2048 metres. Or around 2km. Not huge, but big enough. Each 4unit quad 
+has a 256x256 texture on it which effectivly gives you a detail level of
+ 131072 x 131072 pixels.<br>Then on top of that it's all vertex lit.<br><br>It
+ starts with a 513x513 grey scale height map (0-255), the editor then 
+smooths this into a 16bit heightmap (0-65535) then it's flattened, 
+coloured or adjusted based on the tile that is placed between the 
+points.<br><br>There's 3 smoothing passes and 3 flattening passes to 
+make the roads flat, as well as a beach pass to make a severe drop when 
+it hits water level so you don't get Z buffer fighting at the waters 
+edge.<br><br>The editor then exports the new 16bit heightmap information as well as the tile information (including rotation of the tile).<br><br>The
+ game then loads this data and creates multiple meshes based on this 
+data. Creates brushes as it finds new textures and creates new surfaces 
+per mesh as<br>it needs them. This works out pretty effeciant on the 
+surface count per mesh as you rarely have more than 3 surfaces per mesh.
+ This allows you to have a varied<br>tile set but still keep the surface count down if you keep the meshes far enough apart so they can't 'see' each other.<br><br>Got all that?<br><br>The first hit looked like this:<br><img src="547&amp;log=1319_files/4543337.jpg"><br><br>This
+ then progress to using grey scale textures (or very diluted colour) and
+ colouring the terrain using vertex colours, this meant that you could 
+add variation to the terrain without added textures.<br><br><img src="547&amp;log=1319_files/4842078.jpg"><br><br>At this point all object placement was just random as the editor didn't have any kind of placement stuff in it yet...<br><br>Bad
+ guys were added... Helicopters, Jeeps, and Tanks. This also meant an 
+auto aim system had to be written so they could actually hit you, 
+likewise as the game is 3rd person your gun auto aims too. This makes 
+life much easier from the player point of view and I think more fun.<br><br>I
+ used Noel Cowers Lotus Particle system too as my particle system was 
+crap. This gave the game some of the necessary fx to make it look 
+pretty.<br><br><img src="547&amp;log=1319_files/1671253.jpg"><br><br>3 
+types of weapons are currently in, Cannon, Shell and Missile. This will 
+probably increase as time goes on however, this does for the time being.<br><br>Next
+ to come in the game was some kind of story... OK... I didn't come up 
+with one, however, the idea of having to rescue people was a pretty good
+ one so I added POWs who you would spring from prisions.<br><br><img src="547&amp;log=1319_files/4625348.jpg"><br><br>The sky was looking poor... This needed a face lift...<br>The water was looking poor... This needed a face lift...<br><br>So I gave them a face lift!<br><br><img src="547&amp;log=1319_files/sky%2520and%2520water.jpg"><br><br>It
+ was time to add object placement into the editor... Needed to organise 
+where things were and see how much it could take without getting severe 
+FPS drops...<br><br>So each object has a definition file, looks something like this:<pre class="code">&lt;mesh&gt;Tree.b3d&lt;/mesh&gt;
+&lt;type&gt;static&lt;/type&gt;
+&lt;xsize&gt;8&lt;/xsize&gt;
+&lt;ysize&gt;10&lt;/ysize&gt;
+&lt;zsize&gt;8&lt;/zsize&gt;
+&lt;health&gt;10&lt;/health&gt;
+&lt;death&gt;fall&lt;/death&gt;
+&lt;sway&gt;1&lt;/sway&gt;
+&lt;randomise&gt;1&lt;/randomise&gt;</pre>The editor and game use this 
+file, the editor uses it to make the boxes on the screen the right size 
+for level creation. The game uses it to do pretty much everything else!<br><br>The actual level object file looks something like this:<pre class="code">&lt;OBJECT&gt;&lt;ID&gt;1&lt;/ID&gt;&lt;TYPE&gt;static&lt;/TYPE&gt;&lt;NAME&gt;radio&lt;/NAME&gt;&lt;X&gt;453&lt;/X&gt;&lt;Z&gt;229&lt;/Z&gt;&lt;ROT&gt;45&lt;/ROT&gt;&lt;/OBJECT&gt;
+&lt;OBJECT&gt;&lt;ID&gt;2&lt;/ID&gt;&lt;TYPE&gt;static&lt;/TYPE&gt;&lt;NAME&gt;radio&lt;/NAME&gt;&lt;X&gt;431&lt;/X&gt;&lt;Z&gt;236&lt;/Z&gt;&lt;ROT&gt;90&lt;/ROT&gt;&lt;/OBJECT&gt;
+&lt;OBJECT&gt;&lt;ID&gt;3&lt;/ID&gt;&lt;TYPE&gt;vehicle&lt;/TYPE&gt;&lt;NAME&gt;tank&lt;/NAME&gt;&lt;X&gt;482&lt;/X&gt;&lt;Z&gt;169&lt;/Z&gt;&lt;ROT&gt;90&lt;/ROT&gt;&lt;PARENT&gt;51&lt;/PARENT&gt;&lt;/OBJECT&gt;
+etc
+etc</pre>So when an object is loaded it checks out the definition file for that object and loads the right mesh etc etc.<br><br>The
+ object definition file can be extended as much as necessary, it already
+ accounts for special types of death (for example trees fall over rather
+ than blow up!).<br><br>Likewise the level objects file will include 
+scripting for what to do when they die... or maybe this will be in the 
+object definition... not sure yet... and example would be when a prision
+ is destoryed it will spawn a damaged prison and a bunch of 
+prisioners... or maybe a prisioner spawner... or something... <br><br>As
+ you may have noticed the type is denormalised into the level object 
+file, this is because static objects are delt with in a single function 
+and vehicles and other things that I've not though of yet are delt with 
+in other functions. If I read the object defintion file every time to 
+get the type I'd have to open and close files loads, this just makes 
+life a little simpler. Obviously once the respective function is called 
+with the object name it will go off and read the definition file within 
+the correct function.<br><br>The update of the sky gave me an idea of a 
+sort of global illumination thing going on, so on the load of the skybox
+ the general hue of the sky is calculated... This then affects the 
+colour of the terrain and objects on it. This means you can get some 
+cool fx going on...<br><br><img src="547&amp;log=1319_files/181307.jpg"><br><img src="547&amp;log=1319_files/310131.jpg"><br><br>I
+ also adjusted the shadows so as things get higher the shadow gets 
+bigger and moves away in the opposite direction of the light source, 
+this is a complete cheat, but looks quite nice!<br><br>The helicopter 
+now has gained doors on the sides, this is mainly a cheat for getting 
+the prisioners on board, the doors fold down and create ramps either 
+side of the helicopter. This means that the prisoner in theory can just 
+run up the ramp and not have to do any complex climbing into the 
+helicopter.<br><br><img src="547&amp;log=1319_files/Landed.jpg"><br><br>So that brings you up to date! Phew!<br><br>Here's some pictures of explosions!<br><br><img src="547&amp;log=1319_files/7176443.jpg"><br><br><img src="547&amp;log=1319_files/6966044.jpg"><br><br><img src="547&amp;log=1319_files/7709310.jpg"> <br><br> <a href="http://www.mentalillusion.co.uk/" target="_blank">Cheers Rob</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

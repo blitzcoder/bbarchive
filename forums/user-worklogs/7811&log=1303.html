@@ -1,0 +1,159 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Braincell</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Released 0.89 alpha</td><td align="right"><font class="tiny">(Posted 2006-04-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> More info in this thread:<br><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=58882" target="_blank">http://www.blitzbasic.com/Community/posts.php?topic=58882</a><br><br><a href="http://johnmanyverse.net/blitz/BSSS_alpha_0.89.zip" target="_blank">DOWNLOAD 660kb</a><br>(Includes source, exe, media, userlibs) <br><br> _____________________________________________<br>Peace off </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress report</td><td align="right"><font class="tiny">(Posted 2006-03-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This will be a worklog entry i will edit over time that will report how much work <b>approximately</b> remains to be done. (Read progress history below for updates)<br><br>-----------------<br><br>Current remaining progress to beta: 88%<br><br><b>To do</b> (<i>very approximate %</i>):<br>10%-Extra work not anticipated (5%)<br>7%-Complete edge indexing basics(7%)<br>7%-Add a system of checking edge outward facing(7%)<br>3%-Test cavity edge exclusion(3%)<br>7%-Test TFP of vertex index(7%)<br>7%-Test triangle facing code(7%)<br>21%-Test current edge index creation and TFP(21%)<br>10%-Test POC edge extrusion(10%)<br>11%-Test shadow volume quad updating(11%)<br>10%-Optimise volume updating to not move stationary quads(10%)<br>7%-Test volume clipping and capping<br><br><u>Progress history:</u><br>-7th: (+5%) +5% on indexing basics. Having math trouble with cavity check (taking ages, here we go...)<br>-10th: (+4%) +3% on test cavity edge exclusion (very hard), +1% indexing basics.<br>-11th:
+ (+6%) +5% on edge facing check. Its done but i wont say its complete 
+until i can test it with updatable shadow volumes. +1% on indexing 
+basics, indexing is complete (yay!)<br>-12th: (+19%) +7% on TFP vert 
+index, +7% triangle facing code, +5% on current edge index. It's all 
+designed fully, so i should make good progress tomorrow.<br>-13th: (+26%) +16% on current edge index, +10% on POC<br>-14th: (+5%) +2% On extra work. I just realised i forgout about a <i>fairly small</i>
+ thing. All my data formats are now obsolete so i have to rewrite all 
+the functions controlling casters, receivers, shadow planes, etc. Oops. 
+I've been using separate tests for so long i didnt pay attention to the 
+formats in the library itself. This includes some more redesign about 
+how all the commands are used so i need to be creative and make it easy 
+to use and also customisible for those who need customising. +3% on 
+testing quad updating.<br>-16th: (+5%) +2% on quad updating, +3 on extra
+ work (rewriting functions). I might skip the quad updating 
+optimisation, im not sure it will work so well in practice.<br>-19th: 
+(+18%) +6% volume quad updating, +10% optimise updating, +2% check edge 
+outward facing. Now all that is left is to see if my trick for capping 
+volumes will work or if i will have to do a much more time consuming 
+entity copying to cap the volumes, or even make up a new solution. And 
+then there is "reassembling" a few other basic functions to conform with
+ the data format (thats the extra work) and you will have a beta.<br>-(a few days break because of university)<br>********April***********<br>-(work will resume on 8th April)<br>-12th:
+ I've made testing to find best methods for going between ZFail and 
+ZPass methods. However, i've grown tired of it. So i'll be sorting out 
+the system in its current state and releasing the source code with 
+explanations on what does what. It doesnt make shadows propperly so its 
+going to be called Alpha.<br>-15th: Must...Not...Give...Upppp.... argh***<br>-----------------<br><br>Hopefully
+ this will give everyone an idea of what is happening without me 
+creating an entry every day. I'm guessing it shouldnt take longer than 
+(yet another) week. Animated b3ds and soft shadows will be added later. 
+Also this is verrrrrrry approximate. Some things may take much more time
+ while others might take far less. You never know, and hence, no dates 
+are given. You know how it is ;) <br><br> _____________________________________________<br>Peace off </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Oh, worklogs</td><td align="right"><font class="tiny">(Posted 2006-02-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I havent worked on the system last few weeks but this week i spent a 
+LOT of time on it. I have made myself work on some features which i 
+planned to release later after some updates, instead of releasing a 
+crude beta at first. There are numerous optimisations in there now such 
+as: <br>-Finding verts in loaded 3d models which are unwelded but have 
+same XYZ. Some formats (ie 3ds) export the same verts many times for 
+each triangle. It would be stupid to go thru them all and update TFormed
+ positions many times for the same vert so i made the code to ignore 
+duplicates.<br>-Cavity exclusion. This is an optimisation which ignores 
+all edges which are formed by two triangles that have angle between them
+ &lt;= 180. This is because any valley or cavity in a model never casts 
+shadows and would waste shadow volume update time if it was detected as 
+an edge. I beleive this will speed up the system 130% - 150% depending 
+on how many cavities your 3d model has.<br><br>I need to work on this 
+now because knowing myself if i released an unoptimised system i would 
+be less likely to continue work on it after release (i have intrest in 
+other things). So its better for everyone to skip beta and go straight 
+into version 1.0 which i still hope to release in the next 7 days. I was
+ going to do it by the end of February but that nasty month has only 28 
+days so it really isnt my fault... er... So by today the indexing of 3d 
+models will be done and tested fully (my test apps have more code than 
+the system itself), and i will move into the update loop. The update 
+loop is also 70% done but several components of it are spread out thru 
+my test code and the remaining 30% can be done within a few hours (plus 
+tidying up). <br><br>Let's hope nothing goes terribly wrong, but expect it will. <br><br> _____________________________________________<br>Peace off </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>We have boned B3Ds</td><td align="right"><font class="tiny">(Posted 2006-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This news really shouldn't be here, they should be on the front page of
+ the website but... Spacemonkey managed to get vertice positions of 
+animated b3d files! Dont look at me like that, im NOT JOKING! THE GUY 
+REALLY DID IT! Looks like his TFP dll really helped him a lot because of
+ the way boned b3ds work. I've seen a demo and it really works ladies 
+and gents. What that means for the shadow system is simple, now animated
+ characters will be able to cast shadows as long as they are in b3d 
+format. He tried .x but they export differently every time and are 
+apparently not easy to parse. What more do you need anyway?!?!<br><br>In
+ other news, i have managed to redesign the code and speed it up. Altho 
+it is still untested i have far less overhead now than i ever did but i 
+cannot put a number yet to how fast the system will be. I am extremely 
+busy but now that we have what we have i'm certainly putting in extra 
+hours to finish this as soon as i can, and i hope to have a demo in 1 or
+ 2 days (for real this time) but no promises (hahaha).<br><br>edit: well maybe not 1 or 2 days, theres yet more things to sort out<br><br>Thanks for your attention. :)<br> <br><br> _____________________________________________<br>Peace off </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>It's coming... soon..ish...</td><td align="right"><font class="tiny">(Posted 2005-12-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ TFP (TFormPoint) DLL has been completed. Perhaps spacemonkey could 
+release that on its own but i beleive we'll wait to release it all in a 
+package. Now the lad continued looking into improving the system and 
+beleive it or not he found that we can get vert positions from .x 
+meshes. He knows his suff, so he already showed me a way to parse 
+through the meshes but because i'm not quite sure how he's working out 
+the animations i wont make any concrete statements. He, on the other 
+hand, says that animated .x meshes casting shadows are only a matter of 
+time. Perhaps b3d would have been possible if there was any kind of real
+ documentation for it, but maybe even then the format isn't that 
+suitable. Who knows.<br><br>Yes yes I know, we should just release a 
+beta and scrap the fancy stuff for later improvements. Well the thing is
+ no matter how much coffee i drink there's only so many hours in a day 
+my brain will function and so far i didnt manage to get 2 whole hours 
+straight. It's moving at a snails pace and a day doesnt go by that i 
+dont feel crap about being unable to hurry up.<br> <br><br> _____________________________________________<br>Peace off </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I am a nice guy.</td><td align="right"><font class="tiny">(Posted 2005-12-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well spacemonkey is reporting huge progress, maybe it's time i change 
+the name of this to "Blitz stencil shadow system" or something. I think 
+he just told me, if i understood correctly, that he pushed through 100 
+000 verts, and all TFormPoints are being done using a matrix system in a
+ c++ dll, which totally costs 7ms. "IF" i understood him correctly. That
+ means, nearly no overhead for the maths now, only for creating volumes.
+ Good news in any case.<br><br>I'll be continuing my part of the work (volume building) in the next few days.<br><br>Edit:
+ what that means for users is they can have objects with 100k verts 
+casting shadows without major CPU slowdown, but we'll see about volume 
+building.<br> <br><br> _____________________________________________<br>Peace off </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I'm not a nice guy</td><td align="right"><font class="tiny">(Posted 2005-11-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After looking into working with someone else on the shadow system it 
+turned out i'm not such a nice guy and have little understanding for 
+others. Although it would be good to use a DLL, i will first try the 
+pure blitz method with edge detection. It seems i have a very very big 
+problem understanding what other people's undocumented (DLL and blitz) 
+functions do, for which i am sorry... So basically the last few days 
+were spent looking at the mentioned DLL and trying to figure out what it
+ does by poking stuff into it, to no avail.<br><br>And so the work continues. Slower than so far because of exam, but it continues.<br> <br><br> _____________________________________________<br>Peace off </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Old posts:</td><td align="right"><font class="tiny">(Posted 2005-11-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here are the old posts from the previous worklog (which stopped being useful because idiots only want to use MSIE):<br><br>Friday, November 04, 2005<br>Converting to edge detection <br><br>The
+ volume update function has been finalised but the results were bad. On 
+my p4 2.9 ghz machine i could get up to 800 triangles to cast shadows 
+without a slowdown. Very little depends on the graphics card (about 5%).
+ 800 is too little in my opinion. For this reason i will improve it by 
+adding edge detection. I have done tests and i am sure it will be twice 
+as fast, on my machine it can make shadows from 1800 triangles without 
+slowdown.<br><br>I didn't go into making an edge-detection system 
+because i believed i could make a smaller one first. Now that i have 
+gone so deep into making this system, making an edge detection system 
+will be easy.<br><br>This probably means Beta is less likely to be released by Nov 10. but i will see what i can do.<br><br>posted by John_m @ 3:50 AM<br>  1 comments <br>Wednesday, November 02, 2005<br>Movement <br><br>The
+ volumes can finally move in relation to the light and make nice 
+shadows. A few refinements and i hope it will be ready in a few days. 
+I'm not spending so much time coding lately, so this is pretty fast.<br><br>Whats left: implementing the check if triangle is facing the light, updating vert<br><br>posted by John_m @ 3:26 PM<br>  0 comments <br>Sunday, October 30, 2005<br>Work continues <br><br>The
+ first volumes have been sighted in action. Static action nevertheless. 
+Soon they will become dynamic and follow the light! Apart from that only
+ documentation remains. I paid a lot of attention to the ease of use of 
+code, so i had to rewrite many things (and in the docs). Oh and the docs
+ should really be good. <br><br>However, making the volume update 
+function may take more time because i want to make it slightly better. 
+So i'll have to do many more tests to see what is fastest. I believe 
+people will appreciate the speed once it is finished (unless i do 
+something totally stupid and it all ends up being very slow, you never 
+know).<br><br>It will be using a check to see which triangles are facing
+ the light and extruding them all. Those which are not extruded will be 
+hidden and not updated (the way to hide them is what needs speed 
+testing). I cant figure out a fast way to check edges and create a 
+volume each loop. Besides im not sure how much faster it would be 
+because creation of triangles in real time is slow. I think andrey has 
+done it with a DLL (for his commercial system) but i dont really know. 
+If anyone has better ideas/advice on updating volumes (fredborg, come 
+on!), or good articles, send them to me.<br><br>posted by John_m @ 6:27 AM<br>  0 comments <br>Saturday, October 08, 2005<br>LSSS development log started <br><br>I'm
+ starting this instead of a regular worklog, in case anyone is wondering
+ where i am with developing the stencil shadows system, or even worse, 
+counting on me finishing this soon.<br><br>So far i've had very little 
+time but i managed to get most of the functions and data structures laid
+ out (types, banks in types, etc). This proved to be more of a challenge
+ because i've never made a library before that needs to be 
+understandable and easy to use by OTHERS as well as have extensive 
+options on what can be done. It took me a few hours... Also sorted all 
+the functions and constants into includes.<br><br>I have also created an even better pseudo code for updating volumes eliminating one TFormPoint command altogether. <br><br>What
+ i will do next is make the code which creates a volume, and after that 
+code for updating it. But before that i think i will have to solve the 
+problem of finding the fastest method of determining if a triangle is 
+facing a certain point (light source). That will basically be it, and in
+ theory i could finish it in a few days but i'm going on vacation from 
+13 to 24th and i have little time now as i need to plan it and prepare. 
+All that will remain is the code for stationary (non-updatable) volumes 
+for scenery which i think will be one of the most useful features of the
+ system.<br><br>I still have no real workable ideas for boned meshes, although a huge number of solutions have been considered.<br><br>Finally i'll be making documentation along the way.<br><br>Planned release date of beta: between 30th October and 10th November...<br> <br><br> _____________________________________________<br>Peace off </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

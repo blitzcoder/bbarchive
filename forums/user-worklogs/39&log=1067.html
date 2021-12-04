@@ -1,0 +1,84 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Warpy</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Twoot</td><td align="right"><font class="tiny">(Posted 2009-01-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've had an idea!<br><br><a href="http://somethingorotherwhatever.com/boids.exe" target="_blank"><br><img src="39&amp;log=1067_files/boids.html"><br>Twoot</a><br><br>It began with a simple set of boids, with the rules changed so they're not completely stupid.<br>Then each boid has a job, which it follows while manoeuvring round the traffic.<br>At
+ the moment the only thing they can do is build "forts", which they do 
+by going to a quarry, picking up resources, and taking them back to a 
+construction site.<br>A construction site advertises its need for boids by emitting a radio signal, represented by a growing circle.<br><br>It's pretty clever!<br><br>I'm
+ going to change the quarries into asteroids-style things and add 
+another class of boids who shoot them up, and then add teams so you can 
+send your boids off to fight each other. <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Amsterdamnit</td><td align="right"><font class="tiny">(Posted 2008-09-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://www.somethingorotherwhatever.com/trader.exe" target="_blank">trader.exe</a> or <a href="http://www.somethingorotherwhatever.com/trader.bmx" target="_blank">trader.bmx</a><br><br>For
+ ages I've wanted to make an empire-building game where you don't 
+directly control any part of your empire, but instead your throne room 
+or office or banca and issue orders and write letters to get things 
+done. <br><br>I imagined playing the role of a merchant in the 1600s - 
+you remain in your warehouse, controlling the flow of goods in and out 
+of your control, and sending underlings out into the markets or in ships
+ to foreign ports to buy and sell goods, and bring back information 
+about the state of the world.<br><br>This is a very hard thing to make 
+for two main reasons - first, simulating a bustling world that would act
+ realistically without the player taking part, and second, providing an 
+intuitive yet appropriate interface between the player and the world. <br><br>I've
+ had a strike of inspiration on the second problem. I wanted the player 
+to control the world by writing letters to his underlings or other 
+agents in the world, giving instructions to buy or sell goods, or 
+requesting information. To just let the player write any old letters 
+would require a vastly complicated natural language parser and would in 
+fact be quite tedious for the player, writing out salutations and 
+verbage when all they're really saying is "buy coffee now!". <br><br>So 
+I've written a 'predictive text' system , which not only guesses what 
+word you're typing, but operates on top of a well-defined grammar 
+(almost in Greibach Normal Form, but I break the rules now and then) 
+which ensures the commands issued are in the correct form, for easy 
+parsing. It also has a real-time validator and 'guesser' which check 
+you've provided the right types of parameters and offers hints on what 
+you might want to type next.<br><br><br>Here's my grammar definition so far:<br><pre class="code">$ -&gt; sell ?myquantity ?product for ?amount ?per 
+$ -&gt; buy ?quantity ?product for ?amount ?per 
+$ -&gt; start trading in ?newname 
+$ -&gt; how ?muchmany ?stock do I have? 
+$ -&gt; what is the price of ?product 
+muchmany -&gt; much 
+muchmany -&gt; many 
+stock -&gt; ??product 
+stock -&gt; money 
+quantity -&gt; ??number 
+myquantity -&gt; ??number 
+myquantity -&gt; ??percentage of my 
+myquantity -&gt; all of my 
+product -&gt; ??product 
+amount -&gt; ??number 
+amount -&gt; ??money 
+newname -&gt; ??name 
+per -&gt; each 
+per -&gt; &lt;nothing&gt;
+</pre><br><br>Each line defines a rule of derivation, with the first 
+word representing a symbol, and everything afterwards representing the 
+string that symbol can be replaced by. ?&lt;name&gt; represents a symbol
+ called &lt;name&gt;, and ??&lt;name&gt; means take input of the type 
+&lt;name&gt;. <br><br>Oh, and you can press tab or enter to autocomplete words or lines, respectively. <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I've got a TIP for you. Get the POINT?</td><td align="right"><font class="tiny">(Posted 2008-01-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here's what I've been working on lately:<br><img src="39&amp;log=1067_files/fencing1.html"><br><br><a href="http://www.somethingorotherwhatever.com/fencing.zip" target="_blank">Toledo steel .bmx and .exe</a> <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>bah.. no more compiler generator :P</td><td align="right"><font class="tiny">(Posted 2002-03-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> well, the compiler generator lasted until I got to strings :P<br>I'll write a proper ocmpiler in plain blitz ,then carry on :)<br> <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>mm.. vm bitz</td><td align="right"><font class="tiny">(Posted 2002-03-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ While helping zenith with blitgba (or whatever it turns out to be) I 
+rewrote eval(), the maths expression evaluation function from my 
+scriptign stuff. It's now stupidly fast :)<br>Then, as he was having 
+trouble getting it to work, I made it output pseudo-asm, to show how 
+it'd be done (I don't know real asm :P )<br>But, would the asm work? Only one way to find out - code a VM that runs it!<br>Now to test other bits, and create a compiler for a BASIC-type language, so I can see if there'd be any problems with my method.<br>Cue Compiler Generator(tm), Version the Second, New and Improved!<br><br>So, I've got the following process:<br>Put grammar.txt into compiler generator - this makes a compiler that converts an input pattern into one or more lines of output.<br>Feed input.bas into the compiler, this produces output.asm<br>Run output.asm in virtual machine. This works.<br><br>I am happy :)<br><br>If anyone's interested, I'll post the source for all this on my site..<br> <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Starting again on a script language</td><td align="right"><font class="tiny">(Posted 2002-03-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've taken a look at Mark's blitz compiler code, and I *think* I understand the usefulness of tokenizers now :)<br>Anyway,
+ I've got a cleverish script interpreter running, doing very basic 
+stuff, and no expression evaluation, so you can do stoof like this:<br>let a.name="Bob"<br>print a.name<br>let poop=1<br>if poop then print "ak!" else print a.name<br><br>etc..<br>I'm going to stick this in the MUD when it's ready...<br> <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Making a MUD again...</td><td align="right"><font class="tiny">(Posted 2002-03-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ ..and this time it works! My FTP's down at the moment, so it's not 
+available for useage (as if anyone would ever want it anyway..) but I'll
+ get it up there as soon as I can.<br>The MUD's very basic, with no 
+scripting stoof at the moment, with just object creation, container 
+objects, openable objects, movement from one room to another, etc.<br>The good thing about this MUD is that all the commands are more or less plain English, so a typical action might look likt this:<br>create object #54 poo<br>set description for poo to A steaming pile of rotten manure.<br>drop poo<br>look around<br><br>etc...<br>Once I've got all the basic movement/interaction stoof sorted out, I'll get started on scripting.<br>Hmm...<br> <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>HTTP serverage</td><td align="right"><font class="tiny">(Posted 2001-12-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://www.stormgames.co.uk/blitzserver.zip" target="_blank">a simple http server</a>, it even does images (grudgingly.. might work, might not :P )<br><br>Gave
+ up on the SVG parser, beziers work weirdly when several points are 
+joined together... nothing to do with my algo, I checked :D<br><a href="http://www.stormgames.co.uk/bbsvg.zip" target="_blank">bbsvg.zip</a><br> <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>In the Land of the Specs..</td><td align="right"><font class="tiny">(Posted 2001-11-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Some of you might know I'm working on an SVG parser/viewer, others don't. If you don't know what SVG is, check out <a href="http://www.w3.org/Graphics/SVG/Overview.htm8" target="_blank">the offficial page</a>.
+ Basically, SVG is the new open standard for vector graphics, from the 
+W3C. It's XML-based, which makes parsing it exceptionally easy :)<br>Currently
+ I've got all my XML parsing tools done, so at the moment I'm looking 
+through the specs to see what I need to implement.<br>And what a lot of 
+specs there are. 617 pages! If anyone knows of any shorter summaries of 
+what you need to know, please [a mailto:webmaster@... me[/a], it'd help a
+ lot :)<br>Anyway, I've got most of the rendering code done (apart from 
+all those nasty splines and curves) and I've just got to write a CSS 
+parser (which shouldn't be too hard) before this begins to look like an 
+SVG viewer. I'm not exactly sure what I'll use this for yet, but it 
+sounds like a useful thing to have.<br> <br><br> yes, it's <a href="http://www.somethingorotherwhatever.com/" target="_blank">warpy</a>! | <a href="http://github.com/christianp/warpycode" target="_blank">code</a> | <a href="http://warpycode.wordpress.com/" target="_blank">maths</a>. </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

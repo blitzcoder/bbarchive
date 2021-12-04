@@ -1,0 +1,103 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Uber Lieutenant</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BrodyGUI 2D</td><td align="right"><font class="tiny">(Posted 2005-05-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Sadly, I lost all of the work I was doing on BrodyGUI in an unexpected 
+hard drive wipe and I'm not focusing on doing a 2D GUI library using all
+ 2D commands, with a focus toward using it in a hacking game (a la 
+Uplink). As for the 3D (sprite-based) GUI lib, I'll figure out how to do
+ that without using nSprite later.<br><br>PersistentWorld3D is still in 
+need of a sprite-based GUI and this doesn't help it any, I know. I hope 
+PW3D isn't totally dead, because it's seemed quite still lately.<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Current Commands</td><td align="right"><font class="tiny">(Posted 2005-04-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ These are the commands I've done so far. What these commands do isn't 
+specified for those who can't guess what they do because I'm lazy. This 
+will be updated as more commands are added.<br><br><b>BASE COMMANDS</b><br>Brody_Init<br>Brody_Kill<br>Brody_UpdateGUI<br><br><b>WINDOW COMMANDS</b><br>Brody_CreateWindow<br>Brody_UpdateWindows<br>Brody_SetWindowMinimized<br>Brody_SetWindowIcon<br><br><b>TASKBAR COMMANDS</b><br>Brody_SetTaskbar<br>Brody_CreateTask<br>Brody_SetSelectedTask<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Handling massive bitmap levels...</td><td align="right"><font class="tiny">(Posted 2005-04-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I finally found out the best way to render levels made of huge bitmaps.
+ As John Carmack did on the first generation IBM, he got smooth speeds 
+by copying portions of the level in for rendering. In this case, I'm 
+loading in the huge bitmaps BUT instead of rendering them with 
+DrawImage, I render them by copying what portion of the level needs to 
+be rendered using the CopyRect command. BlitzMax doesn't have this (why 
+is beyond me) so I'm prototyping in Blitz3D with nSprite. Once I have it
+ figured out in Blitz3D, I'll find out how to get it working in 
+BlitzMax.<br><br>Other than that, no progress has been made since last update.<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>About BrodyGUI</td><td align="right"><font class="tiny">(Posted 2005-04-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ BrodyGUI is a small project I'm working on to create a free 
+sprite-based GUI library using nSprite Pro. The problem right now is how
+ I'm going to make it free when it uses a commercial library. Anyways, 
+I'm building it to be capable of being more like a windows shell for 
+Blitz applications than just a library that lets you create windows and 
+gadgets. Already I have a taskbar and support for a desktop wallpaper of
+ choice drawn for a background (which is totally optional of course). 
+I'm planning on putting in an optional start menu and right-click menus.<br><br>I'm
+ partly making this for the sake of PersistentWorld3D, which is in need 
+of a GUI interface. If anyone can contribute a bitmap font library with a
+ Blitz-like commandset that I can use for this, that would be super.<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress Overview</td><td align="right"><font class="tiny">(Posted 2005-04-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <b>PARENT GADGETS</b><br><img src="7622&amp;log=1253_files/wip.jpg"> Windows<br><img src="7622&amp;log=1253_files/wip.jpg"> Taskbar<br><img src="7622&amp;log=1253_files/tbd.jpg"> Start Menu<br><img src="7622&amp;log=1253_files/tbd.jpg"> Right-Click Menu<br><br><b>CHILD GADGETS</b><br><img src="7622&amp;log=1253_files/tbd.jpg"> Labels<br><img src="7622&amp;log=1253_files/tbd.jpg"> Buttons<br><img src="7622&amp;log=1253_files/tbd.jpg"> Textbox<br><img src="7622&amp;log=1253_files/tbd.jpg"> Menus<br><img src="7622&amp;log=1253_files/tbd.jpg"> Sub-Menus<br><img src="7622&amp;log=1253_files/tbd.jpg"> Listboxes<br><img src="7622&amp;log=1253_files/tbd.jpg"> Comboboxes<br><img src="7622&amp;log=1253_files/tbd.jpg"> Tabs<br><img src="7622&amp;log=1253_files/tbd.jpg"> Tab Pages<br><img src="7622&amp;log=1253_files/tbd.jpg"> Radio Buttons<br><img src="7622&amp;log=1253_files/tbd.jpg"> Checkboxes<br><br><b>OTHER FEATURES</b><br><img src="7622&amp;log=1253_files/stop.jpg"> Skin Support<br><img src="7622&amp;log=1253_files/done.jpg"> "Desktop" Wallpaper<br><img src="7622&amp;log=1253_files/tbd.jpg"> GUI Editor<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Then the concept is shown!</td><td align="right"><font class="tiny">(Posted 2005-03-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'll shed more light on the gist of Battle Forces. The theme is taking 
+stereotypes and cutting them down to the lowest common demoninators. 
+What most movies and games typically choose to imply are simply made 
+completely blatent. To be a bit clearer, I just dumb down everything so 
+they're as dumb as they can possibly be made dumb. The good guys are 
+good because they're supposed to save the day, the bad guys are bad 
+because they're supposed to give the good guys something to be good 
+about. If you want an intelligent story and theme, this is the exact 
+opposite of what you're looking for.<br><br>It's the <b><a href="http://www.nferno.net/upload/userfiles/UberLieutenant/battleforces/goodguy-body.png" target="_blank">Good Guys</a></b> against the <b><a href="http://www.nferno.net/upload/userfiles/UberLieutenant/battleforces/badguy-pistol.png" target="_blank">Bad Guys</a></b>
+ and they have guns because they want to be badass without any real 
+combat skills. Whether this will end up being a single-player adventure 
+or a multiplayer deathmatch game, I don't know. But either way, I'm 
+going to cut down on the use of language as much as I can so translating
+ the game into French, Japanese, or whatever is a 10 minute job. The 
+Blitz community is mostly European so I'm going to make sure this is at 
+least in English, French, and German on release so everybody can judge 
+how much this game sucks (I'm an ultra newb programmer with not much 
+under his belt except game design concepts and practices down pat). If I
+ get requests for other supported languages after release, I'll get my 
+girlfriend on it - she knows just about any language I can think of, 
+including French, German, Austrian, Polish, Russian, Japanese, and 
+written Chinese. Don't worry, I'm covered :)<br><br>That's a further 
+taste of what Battle Forces is...well, is NOT considering I only have 
+level collisions implemented, and nothing else. Hell, I don't even have 
+the player walking or running when on the ground. Those sprites I showed
+ above are the Good Guy and Bad Guy sprites as I have them right now. 
+I'm going to have bodies and legs as seperate sprites later on and have 
+animations for both. I'll reiterate that all these sprites and such are 
+being made from scratch with Photoshop CS (8.0). Until now I haven't 
+done a heck of a lot of original work, as I usually found myself doing 
+vector traces like these:<br><br>1. <a href="http://www.nferno.net/upload/userfiles/UberLieutenant/traces/monster-tenma.png" target="_blank"> Kenzou Tenma</a> from <a href="http://www.animesuki.com/series.php/378.html" target="_blank">the anime Monster</a> (WATCH IT - Best detective-style show ever)<br>2. <a href="http://www.nferno.net/upload/userfiles/UberLieutenant/traces/naru-goku.png" target="_blank">Narusegawa</a> from <a href="http://www.animenfo.com/animetitle,242,jqhwyg,love_hina.html" target="_blank">Love Hina</a><br>3. <a href="http://www.nferno.net/upload/userfiles/UberLieutenant/traces/edwardelric.png" target="_blank">Edward Elric</a> from <a href="http://www.fullmetalalchemist.com/flash_index.html" target="_blank">Fullmetal Alchemist</a><br><br>Hopefully I'll get more work done on the BF source code soon.<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>...and then barely anything.</td><td align="right"><font class="tiny">(Posted 2005-03-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My work in BF has been at snail speed the past couple weeks because 
+I've been keeping myself on the PersistantWorld3D interface with still 
+nothing working. Additionally, I've been toying around in Blitz3D trying
+ to make a camera system that works much like Splinter Cell, and after 
+three sleepless nights, no progress has been made whatsoever. It's cool 
+to be lazy!<br><br>What I have managed to do in Battle Forces since the 
+last log entry was improving the level collisions so that now the player
+ falls onto the floor rather than through it. As far as walking through 
+walls and "jump-climbing" ledges goes, no progress has been made. But I 
+did manage to get on my ass and upload a screenshot so you have a clue 
+as to what I'm doing. A clue is better than nothing.<br><br><img src="7622&amp;log=1253_files/bf-ss01.png"><br><br>If your browser can't view PNG files, then let me quote Mr. T: "I pitty the fool who doesn't use <a href="http://www.mozilla.org/products/firefox/" target="_blank">Firefox</a>." That is all for now.<br><br>Some notes I want to make:<br>1. This is simple test stuff, so it's not going to always have a tiny player sprite and a one-screen-fits-all level size.<br>2. The player sprite will be bigger and less decorated.<br>3. The levels are will a lot larger and there will be a lot of scrolling involved (yes, BlitzMax can do scrolling, jackasses).<br>4. Mr. T also pitties the fools who think BlitzMax can't do scrolling.<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>...and then there was nothing...</td><td align="right"><font class="tiny">(Posted 2005-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I haven't actually done anything with Battle Forces for a few days now,
+ as I've been actively working on PersistantWorld3D with Frank Tayler. 
+It's a community project, but there's 2 people actually doing anything 
+with it, and I'm included.<br><br>Will get back to Battle Forces once I feel I can move off of PW3D for a little bit.<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>In the beginning, there was nothing...</td><td align="right"><font class="tiny">(Posted 2005-03-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been working on a 2D platformer for a while now in Blitz3D relying
+ almost entirely on nSprite library commands. That has changed and I'm 
+now starting to build a simple prototype so I can get the basics rights 
+before I write it in an organized and efficiant manner. One step at a 
+time here.<br><br>The idea is a 2D game (ref:Soldat) with single-player 
+levels comprised of 3 image layers. Each layer is a part of the map; 
+there's the background, the player's collision area, and the foreground.
+ And yes, this means I'm making levels with 3 large bitmaps acting as 
+the environment. How I'm going to make that solid and fast is beyond me 
+for the time being.<br><br>What's motivating me with this project is how
+ I've always wanted to play this game (well, about 2 years now) and no 
+matter what other ideas I contemplate, this is the one I want to play 
+the most. Game developers anywhere will tell you they do their best work
+ on games they want to play like an over-hyped game with an unannounced 
+release date. This will be under development for a long time (I really 
+don't know if it's months or years). But this is a game that will 
+represent the most committed work I've done, and hopefully it will show 
+through in the final product.<br><br>I will post a screenshot once I can
+ get the player/level collisions working properly. Having nothing 
+special to present wouldn't do much justice to my reputation. Oh, and 
+FYI I've been using Photoshop for 3+ years and Blitz for about 2+, so 
+I'm doing all the sprites and code myself.<br> <br><br> -----------------------------<br><a href="http://www.blitzbasic.com/logs/userlog.php?user=7622&amp;log=441" target="_blank">Battle Forces Worklog</a> | <a href="http://www.blitzbasic.com/logs/userlog.php?log=459&amp;user=7622" target="_blank">BrodyGUI Worklog</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

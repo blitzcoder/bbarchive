@@ -1,0 +1,2796 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for MusicianKool</h1><h1>oops(Object Orianted Programming Syntax) for blitz3d and other languages.</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>OOPS to C++</td><td align="right"><font class="tiny">(Posted 2010-07-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here is a close to final of oops to c++.  Just need to figure out how 
+to do dynamic array's and the rest will be up to the programmer.<br><br>Basic commands covered in methods and functions<br>if / elseif / else / endif<br>for / next<br>and / or / xor<br>while / wend<br>dim myarray[n] / dim myarray#[n] / dim myarray$[n] / dim myarray.foo[n]<br>class / field / method/ end method/end class<br>class foo:bar  ;class foo inherits bar<br><br>Inline c++ code in methods and functions<br>[cpp] or [c++]<br>add c++ code here<br>[c++] or [cpp]<br><br>some limitations:<br>no multiple lines of code on a single line unless in an inline c++ code block. so:<br>if a &lt; 10 then a = a + 1:x = x + 1: endif ; will not work!<br>it must be written:<br>if a &lt; 10 then <br>     a = a + 1<br>     x = x + 1<br>endif<br>This applies to all basic code that will be converted.<br><br>the local scope of variables in c++ are very different then that of basic. ie:<br>local I,J<br>for I = 1 to 100<br>      for J = 1 to 100<br>      next<br>next<br>produces 200 loops<br>its very different from:<br>local I<br>for I = 1 to 100<br>     local J<br>     for J = 1 to 100<br>     next<br>next<br>produces 1000 loops<br><br>Do not apply values in the local statement ie(dont do this)<br>local I = 1, J = 100, K$ = "errrm"<br>do this instead:<br>local I,J%,K$,g#<br>I = 1<br>J = 100<br>K = "errm"<br>g = 12.123<br><br><br>an example oops file:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">; Comment test for cpp
+#include &lt;iostream&gt; 		;Must use this include for using print and other commands
+#include &lt;string&gt;			;Must be used to do strings
+#include &lt;new&gt;				;Must be used for dynamic arrays
+using namespace std
+#define true = 1
+#define false = 0
+
+
+Class foo 					;Test Comment on Class
+	field a% 				;Test Comment on Field
+	field b$
+	Method addhundo() 	;Test Comment on Method
+		a += 100			;Test Comment on Method code
+	end method				;Test Comment on Method Exit
+	Method addsome(amount%)
+		local i%,j
+		for i = 1 to amount
+			while j &lt; 10
+				if a = 1000 then
+					return
+				endif
+				a += i
+				j++
+				print j
+				if j &gt; 5 then
+					exit
+				endif
+			wend
+		next
+	end method
+End Class 					;Test Comment on Class exit
+
+function dosomething(f.foo)
+	f.a = 0
+	f.b = "xxxx"
+end function
+
+Function make_an_instance.foo()
+	foo g
+	return g
+end function
+
+Function Main() 			;Test Comment on function
+	foo f					;This creates a new class foo where f is the handle trying to make f.foo = new foo mean the same thing.
+	print f.a
+	f.addhundo()
+	print f.a
+	f.b = "Hello"
+	print f.b+"  World!"
+	f.addsome(100)
+	print f.a
+	dim myarray.foo[100]
+	for i = 0 to 99
+		myarray[i].a = i
+	next
+	for i = 0 to 99
+		print myarray[i].a
+	next
+	dosomething(f)
+	print f.a + f.b
+	foo m = make_an_instance.foo()
+	print m.a + m.b
+	Delete myarray
+	Waitkey
+end function				;Test Comment on function exit
+</textarea><br><br><br>will be converted to this:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">// Comment test for cpp
+#include &lt;iostream&gt; 		  // Must use this include for using print and other commands;
+#include &lt;string&gt;			  // Must be used to do strings;
+#include &lt;new&gt;				  // Must be used for dynamic arrays;
+using namespace std;
+#define true = 1;
+#define false = 0;
+
+class foo { //Test Comment on Class
+public:
+	int a;	//Test Comment on Field
+	string b;	
+	foo ();
+	void addhundo ();
+	void addsome (int amount);
+};//Test Comment on Class exit
+foo::foo() { 
+	a = 0;
+	b = "";
+} 
+void foo::addhundo() { //Test Comment on Method
+	a += 100			;//Test Comment on Method code
+} //Test Comment on Method Exit
+void foo::addsome(int amount) { 
+	int i = 0;int j = 0;
+	for ( i = 1 ; i &lt;= amount ; i++ ){
+		while (j &lt; 10){
+			if (a == 1000 ){
+				return;
+			}
+			a += i;
+			j++;
+			cout &lt;&lt; j &lt;&lt; endl;
+			if (j &gt; 5 ){
+				break;
+			}
+		}
+	}
+} 
+void dosomething(foo &amp;f){
+	f.a = 0;
+	f.b = "xxxx";
+}
+foo make_an_instance_foo(){
+	foo g;
+	return g;
+}
+int main(){//Test Comment on function
+	foo f;//This creates a new class foo where f is the handle trying to make f.foo = new foo mean the same thing.
+	cout &lt;&lt; f.a &lt;&lt; endl;
+	f.addhundo();
+	cout &lt;&lt; f.a &lt;&lt; endl;
+	f.b = "Hello";
+	cout &lt;&lt; f.b &lt;&lt; "  World!" &lt;&lt; endl;
+	f.addsome(100);
+	cout &lt;&lt; f.a &lt;&lt; endl;
+	foo * myarray = new (nothrow) foo[100];if (myarray == 0){cout &lt;&lt; "Error: memory could Not be allocated";return 0;};
+	for ( int i = 0 ; i &lt;= 99 ; i++ ){
+		myarray[i].a = i;
+	}
+	for ( int i = 0 ; i &lt;= 99 ; i++ ){
+		cout &lt;&lt; myarray[i].a &lt;&lt; endl;
+	}
+	dosomething(f);
+	cout &lt;&lt; f.a  &lt;&lt;  f.b &lt;&lt; endl;
+	foo m = make_an_instance_foo();
+	cout &lt;&lt; m.a  &lt;&lt;  m.b &lt;&lt; endl;
+	delete[] myarray;
+	system("PAUSE");
+}//Test Comment on function exit
+
+</textarea><br><br><br>The blitz3d source for converting:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">FileName$
+ = "Test2"
+Global file = ReadFile(filename+".OB")
+Global file2= WriteFile(filename+".cpp")
+Global LineIn$,InClass,InMethod,LineCount
+Global ObservedKeySymbol$,ObservedKeyWord$,ObservedNumber$
+Global cpp
+
+Convert_OOPS_cpp()
+Write_cpp_Code()
+
+CloseFile(file2)	;close the output file so that it can be debuged 
+through blitz
+CloseFile(file)		;close the Objective Blitz3D file
+
+End
+
+Type Class
+	Field Name$
+	Field Name_Lower$
+	Field ClassTabs
+	Field TypesPointer$
+	Field LastPointer$
+	Field ParentClass.Class
+	Field ContainMethods
+	Field Private
+	Field Comment$
+	Field ExitClassComment$
+	Field iterator$
+End Type
+
+Type Fields
+	Field Name$
+	Field Name_Lower$
+	Field VariableType
+	Field Tabs
+	Field ParentClass.Class
+	Field ParentClassName$
+	Field Private
+	Field Comment$
+End Type
+
+Type Method
+	Field parentPTR.Class
+	Field Name$
+	Field Name_Lower$
+	Field ReturnType%
+	Field Parameters$
+	Field Tabs
+	Field Private
+	Field Comment$
+	Field ExitComment$
+	Field Constructor
+End Type
+Type MethodCode
+	Field Parent.Method
+	Field Code$
+	Field Tabs
+	Field Comment$
+	Field Term
+End Type
+Type MethodVariable
+	Field Name$
+	Field VariableType
+	Field Parent.Method
+	Field Declared
+	Field ClassName$
+	Field IsArray
+End Type
+
+Type Functions
+	Field Name$
+	Field Name_Lower$
+	Field ReturnType%
+	Field Parameters$
+	Field Comment$
+	Field ExitComment$
+	Field ClassName$
+End Type
+Type FunctionCode
+	Field Parent.Functions
+	Field Code$
+	Field Tabs
+	Field Comment$
+	Field Term
+End Type
+Type FunctionVariable
+	Field Name$
+	Field VariableType
+	Field Parent.Functions
+	Field Declared
+	Field ClassName$
+	Field IsArray
+End Type
+
+Function Convert_OOPS_cpp()
+	
+Local 
+LineCount,TabCount,T.Class,Name$,OldBS,M.Method,LineRead,C.Class,ParentName$,MC.MethodCode
+Local
+ InFunctionFlag,F.Functions
+
+	While Not Eof(file)
+		
+		LineIn$ = ReadLine(file):LineCount = LineCount + 1
+		TabCount = RemoveTabs()
+		ti = 0
+		Select True
+			Case Lower(Left$(LineIn$,5)) = "class"
+				T.Class = ProcessClass.Class(LineIn$,TabCount)
+				M.method = New Method
+				M\Name = T\Name
+				M\Constructor = True
+				M\parentPTR = T
+				M\Tabs = T\ClassTabs + 1
+				InClass = True
+	
+			Case Lower(Left$(LineIn$,9)) = "end class"
+				InClass = False
+				For i = 9 To Len(LineIn)
+					If Mid$(LineIn,i,1) = ";" Then T\ExitClassComment = 
+"//"+Right$(LineIn,Len(LineIn)-i)
+				Next
+			
+			Case Lower(Left$(LineIn$,5)) = "field"
+				ProcessField(LineIn$, T , TabCount)
+	
+			Case InClass = True And LineRead = False And 
+Lower(Left$(LineIn,6))&lt;&gt; "method" And InMethod = False
+				ProcessField(LineIn$, T , TabCount)
+			
+			Case Lower(Left$(LineIn$,8)) = "private:" : T\Private = True
+			
+			Case Lower(Left$(LineIn$,7)) = "public:" : T\Private = False
+		
+			Case Lower(Left$(LineIn$,10)) = "end method" 
+				MethodFlag = False:InMethod = False
+				For i = 10 To Len(LineIn)
+					If Mid$(LineIn,i,1) = ";" Then M\ExitComment = 
+"//"+Right$(LineIn,Len(LineIn)-i)
+				Next
+			
+			Case MethodFlag
+				LineIn = RemoveRightSideTabs_Spaces$(LineIn)
+				If Lower(LineIn) = "return" Then M\ReturnType = 0
+				MC.MethodCode = New MethodCode
+				MC\Parent = M
+				MC\Tabs = TabCount
+				MC\Code = LineIn
+	
+			Case Lower(Left$(LineIn$,6)) = "method"
+				T\ContainMethods = True
+				M.Method = New Method
+				tm$ =  Right$(LineIn$,Len(LineIn$)-7)
+				startx = 0: endx = 0:TypeHandle = 0:Coms = 0
+				For j = 1 To Len( tm )
+					If Mid$(tm,j,1) = "." Then TypeHandle = j
+					If Mid$(tm,j,1) = "(" Then StartX = j
+					If Mid$(tm,j,1) = ")" Then EndX = j
+					If Mid$(tm,j,1) = ";" Then ComS = j
+				Next
+				Select True
+					Case Mid$(tm,startx-1,1) = "%"
+						M\ReturnType = 1
+					Case Mid$(tm,startx-1,1) = "#"
+						M\ReturnType = 2
+					Case Mid$(tm,startx-1,1) = "$"
+						M\ReturnType = 3
+					Case TypeHandle &lt;&gt; 0 And typehandle &lt; startx
+						M\ReturnType = 4
+				End Select
+				If coms &lt;&gt; 0 Then M\Comment = "//"+Right$(tm,Len(tm)-coms)
+				If M\ReturnType&lt;&gt;0 Then 
+					M\Name$ = Left$(tm,startx-2)
+				Else
+					M\Name$ = Left$(tm,startx-1)
+				EndIf
+				M\Name_Lower = Lower(M\Name)
+				If endx - startx &gt; 1 Then M\Parameters$ = 
+Mid$(tm,startx+1,(endx-2)-startx+1)
+				M\Parameters = ProcessMethodParameters$(M)
+				M\Tabs = TabCount
+				M\parentPTR = T
+				If T\Private = True Then M\Private = True
+				MethodFlag = True
+				InMethod = True
+			
+			Case Lower(Left$(LineIn$,12)) = "end function"
+				InFunctionFlag = False
+				For i = 10 To Len(LineIn)
+					If Mid$(LineIn,i,1) = ";" Then F\ExitComment = 
+"//"+Right$(LineIn,Len(LineIn)-i)
+				Next
+	
+			Case InFunctionFlag ;Then
+				LineIn = RemoveRightSideTabs_Spaces$(LineIn)
+				If Lower(LineIn) = "waitkey" Then LineIn = 
+"system("+Chr(34)+"PAUSE"+Chr(34)+")"
+				FC.FunctionCode = New FunctionCode
+				fC\Parent = F
+				fC\Tabs = TabCount
+				For i = 1 To Len(LineIn)
+					If Mid$(LineIn,i,1) =";" Then fC\Comment = 
+"//"+Right$(LineIn,Len(LineIn)-i):ti =i
+				Next
+				If ti &lt;&gt; 0 Then 
+					fC\Code = Left$(LineIn,ti-1)
+				Else
+					fC\Code = LineIn
+				EndIf
+	
+			Case Lower(Left$(LineIn,9)) = "function "
+				F.Functions = New Functions
+				tm$ = Right$(LineIn,Len(LineIn)-9)
+				startx = 0: endx = 0:TypeHandle = 0:Coms = 0
+				For j = 1 To Len( tm )
+					If Mid$(tm,j,1) = "." Then TypeHandle = j
+					If Mid$(tm,j,1) = "(" Then StartX = j
+					If Mid$(tm,j,1) = ")" Then EndX = j
+					If Mid$(tm,j,1) = ";" Then ComS = j
+				Next
+				Select True
+					Case Mid$(tm,startx-1,1) = "%"
+						F\ReturnType = 1
+					Case Mid$(tm,startx-1,1) = "#"
+						F\ReturnType = 2
+					Case Mid$(tm,startx-1,1) = "$"
+						F\ReturnType = 3
+					Case typehandle &lt;&gt; 0 And typehandle &lt; startx
+						F\ReturnType = 4
+						F\classname = Mid$(tm,typehandle+1,(startx-typehandle)-1)
+				End Select
+				If coms &lt;&gt; 0 Then F\Comment = "//"+Right$(tm,Len(tm)-coms)
+				Select True
+					Case F\ReturnType &gt; 0 And F\ReturnType&lt;4
+						F\Name = Left$(tm,startx-2)
+					Case F\ReturnType = 4
+						F\Name = Left$(tm,typehandle-1)
+					Default
+						F\Name = Left$(tm,startx-1)
+				End Select
+				F\Name_Lower = Lower(F\Name)
+				If Lower(F\Name) = "main" Then F\Name = F\Name_Lower:F\ReturnType = 1
+				If endx - startx &gt; 1 Then F\Parameters = 
+Mid$(tm,startx+1,(endx-2)-startx+1):ProcessFunctionParameters$(F)
+				InFunctionFlag = True
+			Default
+				If Left$(LineIn$,1) &lt;&gt; ";" Then
+					If LineIn$ &lt;&gt; "" Then tol$ = 
+Objective_Line$(LineIn$)+";":WriteLine(file2,ReplaceTabs$(tol$,TabCount));:WriteLine(file2,"")
+
+				Else
+					
+WriteLine(file2,ReplaceTabs$("//"+Right$(LineIn,Len(LineIn)-1),TabCount))
+
+				EndIf
+		End Select
+	Wend
+End Function
+
+Function Write_cpp_Code()
+
+	Local T.Class,TT.Class
+
+	For T.Class = Each Class
+		
+		WriteLine(file2,"")
+		
+		TT = T\ParentClass
+		If TT &lt;&gt; Null Then	
+			WriteLine(file2,ReplaceTabs$("class" + " " + T\Name +":public "+ 
+T\ParentClass\Name+" { " + T\Comment,T\ClassTabs))
+			WriteLine(file2,"public:")
+		Else
+			WriteLine(file2,ReplaceTabs$("class" + " " + T\Name+ " { " + 
+T\Comment,T\ClassTabs))
+			WriteLine(file2,"public:")
+		EndIf
+		ProcessTypes(T)	
+		PredeclareMethods(T)
+		
+		WriteLine(file2,ReplaceTabs$("};"+T\ExitClassComment,T\ClassTabs))
+		If T\ContainMethods = True Then WriteMethods(T)
+	Next
+	WriteFunctions()
+End Function
+
+Function WriteMethods(T.Class)
+
+	Local M.Method,Method,BS,Code$,mct,LIN$,Name$,MC.MethodCode,F.Fields
+	If Not T\ContainMethods Then Return
+	For M.Method = Each Method
+		If M\parentPTR = T Then
+			
+			Select True
+				Case M\ReturnType = 0
+					Name = "void"
+				Case M\ReturnType = 1
+					Name = "int"
+				Case M\ReturnType = 2
+					Name = "float"
+				Case M\ReturnType = 3
+					Name = "string"
+				Case M\ReturnType = 4
+					Name = T\Name
+			End Select
+			
+			If Not M\Constructor Then
+				LIN$ = Name+" "+T\Name$+"::"+ M\Name$+"("+M\Parameters+")" + " { " +
+ M\Comment
+				WriteLine(file2,ReplaceTabs$(LIN$,M\Tabs-1))
+				For MC.MethodCode = Each MethodCode
+					If MC\Parent = M Then
+						MC\Code = RemoveRightSideTabs_Spaces$(MC\Code)
+						ProcessMethodCode(MC)
+						Code= MC\Code
+						If MC\Term = True Then
+							WriteLine(file2,ReplaceTabs$(Code+MC\Comment,MC\Tabs-1))
+						Else
+							WriteLine(file2,ReplaceTabs$(Code+";"+MC\Comment,MC\Tabs-1))
+						EndIf
+					EndIf
+				Next
+			Else
+				LIN$ = T\Name$+"::"+ M\Name$+"("+M\Parameters+")" + " { " + 
+M\Comment
+				WriteLine(file2,ReplaceTabs$(LIN$,M\Tabs-1))
+				For F.Fields = Each Fields
+					If F\ParentClass = M\parentPTR Then
+						Select True
+							Case F\VariableType = 0
+								WriteLine(file2,ReplaceTabs(F\Name + " = 0;",M\Tabs))
+							Case F\VariableType = 1
+								WriteLine(file2,ReplaceTabs(F\Name + " = 
+"+Chr(34)+Chr(34)+";",M\Tabs))
+							Case F\VariableType = 2
+								WriteLine(file2,ReplaceTabs(F\Name + " = 0.0;",M\Tabs))
+						End Select
+					EndIf
+				Next
+			EndIf
+			WriteLine(file2,ReplaceTabs$("}"+" "+M\ExitComment,M\Tabs-1))
+		EndIf
+	Next
+End Function
+
+Function WriteFunctions()
+	
+	Local F.Functions,Name$,FC.FunctionCode
+	For F.Functions = Each Functions
+		Select True
+			Case F\ReturnType = 0
+				Name = "void"
+			Case F\ReturnType = 1
+				Name = "int"
+			Case F\ReturnType = 2
+				Name = "string"
+			Case F\ReturnType = 3
+				Name = "float"
+			Case F\ReturnType = 4
+				Name = F\ClassName
+		End Select
+		If F\ClassName &lt;&gt; "" Then
+			WriteLine(file2,Name+" " + F\Name+"_"+Name + "(" 
++F\Parameters+"){"+F\Comment)
+		Else
+			WriteLine(file2,Name+" " + F\Name + "(" +F\Parameters+"){"+F\Comment)
+		EndIf
+		For FC.functioncode = Each functioncode
+			If FC\Parent = F Then
+				FC\Code = RemoveRightSideTabs_Spaces$(FC\Code)
+				ProcessFunctionCode(FC)
+				If FC\Term = True Then
+					WriteLine(file2,ReplaceTabs(FC\Code+FC\Comment,FC\Tabs))
+				Else
+					WriteLine(file2,ReplaceTabs(FC\Code+";"+FC\Comment,FC\Tabs))
+				EndIf
+			EndIf
+		Next
+		WriteLine(file2,"}"+F\ExitComment)
+	Next
+End Function
+
+Function ProcessClass.Class(LineIn$,TabCount)
+
+	Local T.Class,C.Class,TLIN,ParentName$,TI,SI,I
+	
+	ParentName$ = ""
+	
+	For I = 1 To Len(LineIn$)
+		If Mid$(LineIn$,I,1) = ";" Then SI = I
+		If Mid$(LineIn$,I,1) = ":" Then 
+			TI = I
+		EndIf
+	Next
+
+	T.Class = New Class
+	
+	If SI &lt;&gt; 0 Then T\Comment = "//"+Right$(LineIn$,Len(LineIn$) - 
+(SI)):LineIn$ = Left$(LineIn$,SI-1)
+	
+	LineIn$ = RemoveRightSideTabs_Spaces$(LineIn$)
+	
+	TLIN = Len(LineIn$)-Len("Class")
+	If TLIN &lt;= 0 Then RuntimeError "Error @ Line: "+ LineCount+" Class 
+has no name!"
+
+	If TI &lt;&gt; 0 Then ParentName$ = 
+RemoveSpaces$(Mid$(LineIn$,(TI+1),(SI - TI)-2))
+	
+	If ParentName$ &lt;&gt; "" Then
+		For C.Class = Each Class
+			If C\Name$=ParentName$ Or C\Name_Lower$=ParentName$ Then 
+				T\ParentClass = C:T\Name = Mid$(LineIn$,7,TI - 7)
+			EndIf
+		Next
+	Else
+		T\Name = Right$(LineIn$, TLIN - 1)
+	EndIf
+	
+	T\Name_Lower = Lower(T\name)
+	T\ClassTabs = TabCount
+	T\ContainMethods = False
+	
+	Return T
+	
+End Function
+
+Function ProcessField(LineIn$,T.Class,TabCount)
+	
+	Local FieldName$,F.Fields,I,SI,TI,TP
+	
+	For I = 1 To Len(LineIn$)
+		If Mid$(LineIn$,I,1) = ";" Then SI = I
+		If Mid$(LineIn$,I,1) = ":" Then TI = I
+		If Mid$(LineIn$,I,1) = "." Then TP = I
+	Next
+	
+	F.Fields = New Fields
+	If Lower(LineIn) = "public:" Then F\Name = "public:":F\VariableType = 
+999:F\ParentClass = T:F\Tabs=TabCount:Return
+	If Lower(LineIn) = "private:" Then F\Name = "private:":F\VariableType =
+ 999:F\ParentClass = T:F\Tabs=TabCount:Return
+	If Lower(LineIn) = "protected:" Then F\Name = 
+"protected:":F\VariableType = 999:F\ParentClass = 
+T:F\Tabs=TabCount:Return
+	If Lower(Left$(LineIn$,5))= "list&lt;" Or Lower(Left$(LineIn$,5))= 
+"list " Then F\Name = LineIn+";":F\VariableType = 
+999:F\ParentClass=T:F\Tabs=TabCount:Return
+	If SI &lt;&gt; 0 Then F\Comment = 
+"//"+Right$(LineIn$,Len(LineIn$)-(SI)):LineIn$ = Left$(LineIn$,SI-1)
+	
+	LineIn$ = RemoveRightSideTabs_Spaces$(LineIn$)
+	
+	Select True
+		Case Right$(LineIn$,1)="%"
+			F\VariableType=0
+			LineIn$ = Left$(LineIn$,Len(LineIn$)-1)
+		Case Right$(LineIn$,1)="$"
+			F\VariableType=1
+			LineIn$ = Left$(LineIn$,Len(LineIn$)-1)
+		Case Right$(LineIn$,1)="#"
+			F\VariableType=2
+			LineIn$ = Left$(LineIn$,Len(LineIn$)-1)
+		Case TP &lt;&gt; 0
+			F\VariableType=3
+			F\ParentClassName = Right$(LineIn,Len(LineIn)-tp)
+			LineIn = Left$(LineIn,tp-1)
+		Default
+			F\VariableType=0
+	End Select
+	
+	FieldName$ = Right$(LineIn$,Len(LineIn$)-6)
+	F\Name = FieldName
+	F\Name_Lower = Lower(FieldName)
+	F\ParentClass = T
+	F\Tabs = TabCount
+	F\Private = T\Private
+	If Lower(Left$(LineIn$,5))= "list&lt;" Or Lower(Left$(LineIn$,5))= 
+"list " Then F\VariableType = 999
+End Function
+
+Function Objective_Line$(code$,term = True)
+	Local F.Functions
+	If Left$(Code$,7) = "Global " And InClass = False And InMethod = False 
+And InFunction = False Then 
+		Code = Right$(Code,Len(Code)-7)
+	ElseIf Left$(Code$,7) = "Global " And InClass = True Or InMethod = True
+ Or InFunction = True
+		RuntimeError "Global in Class or Method not allowed @ "+ LineCount
+	EndIf
+	For i = 1 To Len(Code)
+		If  Mid$(Code,i,1) = " " Or  Mid$(Code,i,1) = "=" Then LSP = i
+		If Mid$(Code,i,1) = ";" Then 
+			tCode$ = " // " +Right$(Code,Len(Code)-i)
+			Code = Left$(Code,i-1)
+		EndIf
+		If Mid$(Code,i,1) = "." Then
+			If lsp &lt;&gt; 0 Then
+				fcode$=Mid$(Code,LSP+1,(i-lsp)-1)
+			Else
+				fCode$ = Left$(Code,i-1)
+			EndIf
+			For f.functions = Each functions
+				If Lower(fCode) = F\Name_Lower Then Code = Left$(Code,i-1) + "_" + 
+Right$(Code,Len(Code)-i)
+			Next
+		EndIf
+	Next
+	If Lower(Left$(Code,6)) = "print " Or Lower(Left$(Code,6)) = "print(" 
+Then 
+		Code = "cout &lt;&lt; " + Right$(Code,Len(Code)-6)
+		For i = 1 To Len(Code)-1
+			If Mid$(Code,i,1) = "+" Then Code = Left$(Code,i-1)+" &lt;&lt; "+ 
+Right$(Code,Len(Code)-i):i = i+3
+		Next
+		Code = Code + " &lt;&lt; endl"
+	EndIf
+	If Lower(Left$(Code,9)) = "#include " Or Lower(Left$(Code,9)) = 
+"#include&lt;" Then
+		Return Code + " " + tcode
+	EndIf
+	If Lower(Left$(code,4)) = "dim " Then
+		dx = 0:de = 0:dt = 0:di = False:ds = False:df = False
+		For I = 5 To Len(Code)
+			If Mid$(code,i,1) = "[" Then DX = i
+			If Mid$(code,i,1) = "]" Then DE = i
+			If Mid$(Code,i,1) = "%" Then DI = True
+			If Mid$(Code,i,1) = "$" Then DS = True
+			If Mid$(code,i,1) = "#" Then DF = True
+			If Mid$(code,i,1) = "." Then DT = i
+		Next
+		If di = True Or ds = True Or df = True Or DT &lt;&gt; 0 Then
+			Select True
+				Case di
+					Dtype$ = "int"
+					name$ =  Mid$(code,5,(DX-1)-5)
+				Case ds
+					Dtype$ = "string"
+					name$ =  Mid$(code,5,(DX-1)-5)
+				Case df
+					Dtype$ = "float"
+					name$ =  Mid$(code,5,(DX-1)-5)
+				Case dt &gt; 0
+					Dtype$ = Mid$(code,dt+1,dx-dt-1)
+					name$ = Mid$(code,5,dt-5)
+			End Select
+		Else
+			Dtype$ = "int"
+			name$ = Mid$(code,5,(DX)-5)
+		EndIf
+		Amount$ = Mid$(Code,dx+1,(de-dx)-1)
+		code$ = Dtype$+" * "+name$ + " = new (nothrow) 
+"+dtype$+"["+amount+"];"+"if ("+name+" == 0){cout &lt;&lt; 
+"+Chr(34)+"Error: memory could Not be allocated"+Chr(34)+";return 
+0;}":Return code+tcode
+	EndIf
+	If Lower(Left$(Code,7)) =  "delete " Then
+		name$ = Mid$(Code,8,(Len(Code)-7))
+		Code = "delete[] "+name$
+	EndIf
+	Return Code + tcode
+End Function
+
+Function ProcessTypes(T.Class)
+	
+	Local F.Fields,FT$,Name$
+	
+	For F.Fields = Each Fields
+		FT = ""
+		If F\ParentClass = T Then
+			Select True
+				Case F\VariableType = 0
+					Name = "int"
+					WriteLine (file2,ReplaceTabs$(Name + " " + 
+F\Name+";"+Chr(9)+F\Comment,F\Tabs))
+				Case F\VariableType = 1
+					Name = "string"
+					WriteLine (file2,ReplaceTabs$(Name + " " + 
+F\Name+";"+Chr(9)+F\Comment,F\Tabs))
+				Case F\VariableType = 2
+					Name = "float"
+					WriteLine (file2,ReplaceTabs$(Name + " " + 
+F\Name+";"+Chr(9)+F\Comment,F\Tabs))
+				Default
+					WriteLine(file2,ReplaceTabs$(F\Name+Chr(9)+F\Comment,F\Tabs))
+			End Select
+		EndIf
+	Next
+	
+End Function
+
+Function ProcessTypesParent(T.Class)
+	
+	Local F.Fields,FT$
+	
+	For F.Fields = Each Fields
+		FT = ""
+		
+		If F\ParentClass = T And F\Private = False Then
+		Select True
+				Case F\VariableType = 0
+					FT = "%":Name = "int"
+				Case F\VariableType = 1
+					FT = "$":Name = "string"
+				Case F\VariableType = 2
+					FT = "#":Name = "float"
+			End Select
+			WriteLine (file2,ReplaceTabs$(Name + " " + 
+F\Name+";"+Chr(9)+F\Comment,F\Tabs))
+		EndIf
+	Next
+	
+End Function
+
+Function PredeclareMethods(T.Class)
+	
+	Local M.Method,Name$
+	For M.Method = Each Method
+		If M\parentPTR = T Then 
+			Select True
+				Case M\ReturnType = 0
+					Name = "void"
+				Case M\ReturnType = 1
+					Name = "int"
+				Case M\ReturnType = 2
+					Name = "float"
+				Case M\ReturnType = 3
+					Name = "string"
+				Case M\ReturnType = 4
+					Name = T\Name
+			End Select
+			If M\Constructor Then
+				WriteLine(file2,ReplaceTabs$(M\Name + " (" 
++M\Parameters+");",M\Tabs))
+			Else
+				WriteLine(file2,ReplaceTabs$(Name + " " + M\Name + " (" 
++M\Parameters+")"+";",M\Tabs))
+			EndIf
+		EndIf
+	Next
+End Function
+
+Function ProcessFunctionParameters$(M.Functions)
+	If M\Parameters = "" Then Return
+	Local I, 
+StartX=1,MV.FunctionVariable,In$,VN$,CN,TN$,CNSX,T.Class,TI,MVN$
+	In = M\Parameters
+	For I = 1 To Len(In$)
+		If TestKeySymbol(Mid$(In,I,1)) Or (I = Len(in)) Then
+			If I = Len(In) Then
+				VN = Mid$(M\Parameters,StartX,(I+1) - StartX)
+			Else
+				VN = Mid$(M\Parameters,StartX,I - StartX)
+			EndIf
+			If (ObservedKeySymbol &lt;&gt; "." Or CN = True) And 
+TestKeySymbol(vn) = False And vn &lt;&gt; "" Then 
+				MV.FunctionVariable = New FunctionVariable
+				MV\Parent = M
+				Select True
+					Case ObservedKeySymbol = "%"
+						MV\VariableType = 1
+						MV\Name = Mid$(VN,StartX,(I)-startx)
+					Case ObservedKeySymbol = "#"
+						MV\VariableType = 2
+						MV\Name = Mid$(VN,StartX,(I)-startx)
+					Case ObservedKeySymbol = "$"
+						MV\VariableType = 3
+						MV\Name = Mid$(VN,StartX,(I)-startx)
+					Case CN = True
+						TN$ = Mid$(In,CNSX,(i+1)- CNSX):CN = False
+						For t.class = Each class
+							If TN = T\Name Then MV\VariableType = 4:MV\ClassName = 
+T\Name:MV\Name = MVN
+						Next
+					Default
+						MV\VariableType = 1	
+						MV\Name = VN
+				End Select
+				MV\Declared = True
+			Else If ObservedKeySymbol = "." And TestKeySymbol(vn) = False And vn 
+&lt;&gt; "" Then
+				CN = True:CNSX = I+1:MVN = Mid$(In,StartX,I - StartX)
+			EndIf
+			TI = I:StartX = I+1
+		EndIf
+	Next
+	m\parameters = ReWriteFunctionParameters$(M)
+End Function
+
+Function ReWriteFunctionParameters$(M.Functions)
+	Local MV.FunctionVariable,tParameters$,Name$
+	For MV.FunctionVariable = Each functionVariable
+		If MV\Parent = M Then
+			Select True
+				Case MV\VariableType = 1
+					Name = "int "
+				Case MV\VariableType = 2
+					Name = "float "
+				Case MV\VariableType = 3
+					Name = "string&amp; "
+				Case MV\VariableType = 4
+					Name = MV\ClassName + " &amp;"
+			End Select
+			tParameters = tParameters + Name + MV\Name + ","
+		EndIf
+	Next
+	Return Left$(tParameters,Len(tParameters)-1)
+End Function
+
+Function ProcessFunctionCode(MC.FunctionCode)
+
+	Local F.Fields,VariableName$,StartX,MV.FunctionVariable,Name$
+	StartX = 1
+	If MC\Code = "[cpp]" Or MC\Code = "[c++]" And incpp = False Then incpp =
+ True:MC\Code = "":MC\Term = True:Return
+	If MC\Code = "[cpp]" Or MC\Code = "[c++]" And incpp = True Then incpp =
+ False:MC\Code = "":MC\Term = True:Return
+	If incpp = True Then Return
+	For i = 1 To Len(MC\Code)
+		If Mid$(MC\Code,i,1) =";" Then 
+			MC\Comment = "//"+Right$(MC\Code,Len(MC\Code)-i)
+			MC\Code = Left$(MC\code,i-1):Exit
+		EndIf
+	Next
+	
+	If Lower(Left$(MC\Code,6)) = "local " Then
+		MC\Code = Right$(MC\Code,Len(MC\Code)-6):LC = 1
+		For i = 1 To Len(MC\code)
+			If Mid$(MC\Code ,i,1) = "," Or i = Len(MC\code) And  Mid$(MC\Code 
+,i,1)&lt;&gt;";" Then
+				Select True
+					Case Mid$(MC\Code ,i-1,1) = "%" Or (i = Len(MC\Code) And 
+Right$(MC\Code,1) = "%")
+						If lc = 1 Then
+							Name = Mid$(MC\Code ,lc,(i-lc)-1)
+							MC\Code = "int "+Left$(MC\Code,lc)+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 7
+						ElseIf i = Len(MC\Code) Then
+							Name = Mid$(MC\Code,lc+1,Len(MC\Code)-lc-1)
+							MC\Code = Left$(MC\code,lc)+"int " + Name +" = 0;"
+						Else
+							Name = Mid$(MC\Code ,lc+1,(i-lc)-2)
+							MC\Code = Left$(MC\Code,lc)+"int "+Name+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 7
+						EndIf
+						CreateFunctionVariable(Name,1,MC\Parent)
+					Case Mid$(MC\Code ,i-1,1) = "#" Or (i = Len(MC\Code) And 
+Right$(MC\Code,1) = "#")
+						If lc = 1 Then
+							Name = Mid$(MC\Code ,lc,(i-lc)-1)
+							MC\Code = "float "+Left$(MC\Code,lc)+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 9
+						ElseIf i = Len(MC\Code) Then
+							Name = Mid$(MC\Code,lc+1,Len(MC\Code)-lc-1)
+							MC\Code = Left$(MC\code,lc)+"float " + Name +" = 0;"
+						Else
+							Name = Mid$(MC\Code ,lc+1,(i-lc)-2)
+							MC\Code = Left$(MC\Code,lc)+"float "+Name+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 9
+						EndIf
+						CreateFunctionVariable(Name,2,MC\Parent)
+					Case Mid$(MC\Code ,i-1,1) = "$" Or (i = Len(MC\Code) And 
+Right$(MC\Code,1) = "$")
+						If lc = 1 Then
+							Name = Mid$(MC\Code ,lc,(i-lc)-1)
+							MC\Code = "string "+Left$(MC\Code,lc)+" = 
+"+Chr(34)+Chr(34)+";"+Right$(MC\Code,Len(MC\Code)-i):i = i + 11
+						ElseIf i = Len(MC\Code) Then
+							Name = Mid$(MC\Code,lc+1,Len(MC\Code)-lc-1)
+							MC\Code = Left$(MC\code,lc)+"string " + Name +" = 
+"+Chr(34)+Chr(34)+";"
+						Else
+							Name = Mid$(MC\Code ,lc+1,(i-lc)-2)
+							MC\Code = Left$(MC\Code,lc)+"string "+Name+" = 
+"+Chr(34)+Chr(34)+";"+Right$(MC\Code,Len(MC\Code)-i):i = i + 11
+						EndIf
+						CreateFunctionVariable(Name,3,MC\Parent)
+					Default
+						If lc = 1 Then
+							Name = Mid$(MC\Code ,lc,(i-lc))
+							MC\Code = "int "+Left$(MC\Code,lc)+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 6
+						ElseIf i = Len(MC\Code) Then
+							Name = Mid$(MC\Code,lc+1,Len(MC\Code)-lc)
+							MC\Code = Left$(MC\code,lc)+"int " + Name +" = 0;"
+						Else
+							Name = Mid$(MC\Code ,lc+1,(i-lc)-1)
+							MC\Code = Left$(MC\Code,lc)+"int "+Name+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 8
+						EndIf
+						CreateFunctionVariable(Name,1,MC\Parent)
+				End Select
+				lc = i
+			EndIf
+		Next
+		MC\Term = True
+	EndIf
+	If Lower(Left$(MC\Code,4)) = "for " Then
+
+		For i = 5 To Len(MC\Code)
+			If Lower(Mid$(MC\Code,i,4)) = "and " Then MC\Code = 
+Left$(MC\Code,(i-1))+"&amp;&amp; "+Right$(MC\code,Len(MC\Code)-i-3):i = i
+ + 3
+			If Lower(Mid$(MC\code,i,3)) = "or " Then MC\Code = 
+Left$(MC\Code,(i-1))+"|| "+Right$(MC\code,Len(MC\Code)-i-2):i = i + 2
+			If Lower(Mid$(MC\Code,i,4)) = "xor " Then MC\Code = 
+Left$(MC\Code,(i-1))+"^ "+Right$(MC\code,Len(MC\Code)-i-3):i = i + 3
+		Next
+		For I = 5 To Len(MC\Code)
+			lmc$ = Mid$(MC\Code,i,1)
+			If Mid$(MC\Code,i,1) = " "Or  Mid$(MC\Code,i,1) = "="Then 
+VariableName = Mid$(MC\Code,5,i-5):StartX = I:Exit
+		Next
+		viu = False
+		For MV.Functionvariable = Each Functionvariable
+			If MV\Parent = MC\Parent And MV\Name = VariableName Or MV\Name = 
+Left$(VariableName,Len(VariableName)-1) Then
+				If MV\Declared = True Then
+					ExitTrue = False
+					For I = StartX+1 To Len(MC\Code)
+						LMC$ = Mid$(MC\Code,i,1)
+						If TestKeySymbol( Mid$(MC\Code,i,1)) = True And 
+TestNumber(Mid$(MC\Code,i,1))= False Then
+							Tcode$ = "for ( "+MV\Name+Mid$(MC\Code,StartX+1,i-(StartX+1))+" =
+ "
+							ExitTrue = True:TI = i
+						EndIf
+						If ExitTrue Then Exit
+					Next
+					ExitTrue = False
+					For i = ti To Len(MC\code)
+						If TestNumber(Mid$(MC\Code,i,1)) = True And n1 = 0 Then n1 = i
+						If TestNumber(Mid$(MC\Code,i,1)) &lt;&gt; True And n1 &lt;&gt; 0 
+Then n2 = i:Exit
+					Next
+					
+					Tcode$ = TCode$ + Mid$(MC\code,n1,n2-n1) + " ; " + MV\Name + " 
+&lt;= "
+					For i = n2 To Len(MC\Code)
+						If Lower(Mid$(MC\Code,i,3)) = "to " Then I = i + 3:Exit
+					Next
+					MC\code = Tcode$+ Mid$(MC\Code,i,Len(MC\Code)-(i-1)) + " ; 
+"+MV\Name+"++ ){" 
+					MV\Declared = True
+					viu = True
+				EndIf
+			EndIf
+		Next
+		If viu = False Then
+			MV.FunctionVariable = New FunctionVariable
+			MV\Parent = MC\Parent
+			Select True
+				Case Right$(VariableName,1) = "%"
+					MV\VariableType = 1:MV\Name = 
+Left$(VariableName,Len(VariableName)-1)
+				Case Right$(VariableName,1) = "#"
+					MV\VariableType = 2:MV\Name = 
+Left$(VariableName,Len(VariableName)-1)
+				Default
+					MV\VariableType = 1:MV\Name = VariableName 
+			End Select
+			If MV\Declared &lt;&gt; True Then
+				Select True
+					Case MV\VariableType = 1
+						Name = "int "
+					Case MV\VariableType = 2
+						Name = "float "
+				End Select
+				ExitTrue = False
+				For I = StartX+1 To Len(MC\Code)
+					LMC$ = Mid$(MC\Code,i,1)
+					If TestKeySymbol( Mid$(MC\Code,i,1)) = True And 
+TestNumber(Mid$(MC\Code,i,1))= False Then
+						Tcode$ = "for ( 
+"+Name+MV\Name+Mid$(MC\Code,StartX+1,i-(StartX+1))+" = "
+						ExitTrue = True:TI = i
+					EndIf
+					If ExitTrue Then Exit
+				Next
+				ExitTrue = False
+				For i = ti To Len(MC\code)
+					If TestNumber(Mid$(MC\Code,i,1)) = True And n1 = 0 Then n1 = i
+					If TestNumber(Mid$(MC\Code,i,1)) &lt;&gt; True And n1 &lt;&gt; 0 
+Then n2 = i:Exit
+				Next
+				
+				Tcode$ = TCode$ + Mid$(MC\code,n1,n2-n1) + " ; " + MV\Name + " &lt;=
+ "
+				For i = n2 To Len(MC\Code)
+					If Lower(Mid$(MC\Code,i,3)) = "to " Then I = i + 3:Exit
+				Next
+				MC\code = Tcode$+ Mid$(MC\Code,i,Len(MC\Code)-(i-1)) + " ; 
+"+MV\Name+"++ ){" 
+			EndIf
+		EndIf
+		MC\Term = True
+	EndIf
+	If Lower(MC\Code) = "next" Then MC\Code = "}":MC\Term = True
+	If Lower(Left$(MC\Code,3)) = "if " Or Lower(Left$(MC\Code,3)) = "if(" 
+Then
+		
+		For i = 5 To Len(MC\Code)
+			If Lower(Mid$(MC\Code,i,4)) = "and " Then MC\Code = 
+Left$(MC\Code,(i-1))+"&amp;&amp; "+Right$(MC\code,Len(MC\Code)-i-3):i = i
+ + 3
+			If Lower(Mid$(MC\code,i,3)) = "or " Then MC\Code = 
+Left$(MC\Code,(i-1))+"|| "+Right$(MC\code,Len(MC\Code)-i-2):i = i + 2
+			If Lower(Mid$(MC\Code,i,4)) = "xor " Then MC\Code = 
+Left$(MC\Code,(i-1))+"^ "+Right$(MC\code,Len(MC\Code)-i-3):i = i + 3
+		Next
+		MC\Code = Left$(MC\Code,3) + "(" + Right$(MC\Code,Len(MC\Code)-3)
+		For i = 3 To Len(MC\Code)
+			If Mid$(MC\Code,i,1) = "=" And (Mid$(MC\Code,i-1,2) &lt;&gt; "&lt;=" 
+Or Mid$(MC\Code,i-1,2) &lt;&gt; "&gt;="Or Mid$(MC\Code,i-1,2) &lt;&gt; 
+"!=" )Then 
+				MC\Code = Left$(MC\Code,i)+"="+Right$(MC\Code,Len(MC\Code)-i):i = i +
+ 1
+			Else If Mid$(MC\Code,i,2) = "&lt;&gt;" Then
+				MC\Code = Left$(MC\code,i-1)+"!="+Right$(MC\Code,Len(MC\code)-(i+1))
+			EndIf
+			If i = Len(MC\Code) Then
+				If Mid$(MC\Code,i-3,4) = "then" Then MC\Code = 
+Left$(MC\Code,i-4)+"){":MC\Term = True
+			EndIf
+		Next
+	EndIf
+	If Lower(MC\Code) = "else" Then MC\Code = "} else {":MC\Term = True
+	If Lower(Left$(MC\Code,8)) = "else if " Then MC\Code = "} else if (" + 
+Right$(MC\Code,Len(MC\code)-8)+"){":MC\Term = True
+	If Lower(MC\Code) = "endif" Or Lower(MC\Code) = "end if" Then MC\Code =
+ "}":MC\Term = True
+	If Lower(MC\Code) = "wend" Then MC\Code = "}":MC\Term = True
+	If Lower(Left$(MC\Code,6)) = "while " Then MC\Code = "while (" + 
+Right$(MC\code,Len(MC\Code)-6) +"){":MC\Term=True
+	If Lower(MC\code) = "exit" Then MC\Code = "break"
+	If Lower(Left$(MC\Code,6)) = "print " Or Lower(Left$(MC\Code,6)) = 
+"print(" Then 
+		MC\Code = "cout &lt;&lt; " + Right$(MC\Code,Len(MC\Code)-6)
+		For i = 1 To Len(MC\Code)-1
+			If Mid$(MC\Code,i,1) = "+" Then MC\Code = Left$(MC\Code,i-1)+" 
+&lt;&lt; "+ Right$(MC\Code,Len(MC\Code)-i):i = i+3
+		Next
+		MC\Code = MC\Code + " &lt;&lt; endl"
+	EndIf
+	If MC\Term = False Then MC\Code = Objective_Line$(MC\Code)
+End Function
+
+Function ProcessMethodParameters$(M.Method)
+	If M\Parameters = "" Then Return
+	Local I, StartX=1,MV.MethodVariable,In$,VN$,CN,TN$,CNSX,T.Class,TI,MVN$
+	In = M\Parameters
+	For I = 1 To Len(In$)
+
+		If TestKeySymbol(Mid$(In,I,1)) Or (I = Len(in)) Then
+			If I = Len(In) Then
+				VN = Mid$(M\Parameters,StartX,(I) - StartX)
+			Else
+				VN = Mid$(M\Parameters,StartX,I - StartX)
+			EndIf
+			If (ObservedKeySymbol &lt;&gt; "." Or CN = True) And 
+TestKeySymbol(vn) = False And vn &lt;&gt; "" Then 
+				MV.MethodVariable = New MethodVariable
+				MV\Parent = M
+				Select True
+					Case ObservedKeySymbol = "%"
+						MV\VariableType = 1
+						MV\Name = VN
+					Case ObservedKeySymbol = "#"
+						MV\VariableType = 2
+						MV\Name =VN
+					Case ObservedKeySymbol = "$"
+						MV\VariableType = 3
+						MV\Name =VN
+					Case CN = True
+						TN$ = Mid$(In,CNSX,(i+1)- CNSX):CN = False
+						For t.class = Each class
+							If TN = T\Name Then MV\VariableType = 4:MV\ClassName = 
+T\Name:MV\Name = MVN
+						Next
+					Default
+						MV\VariableType = 1	
+						MV\Name = VN
+				End Select
+				MV\Declared = True
+			Else If ObservedKeySymbol = "." And TestKeySymbol(vn) = False And vn 
+&lt;&gt; "" Then
+				CN = True:CNSX = I+1:MVN = Mid$(In,StartX,I - StartX)
+			EndIf
+			TI = I:StartX = I+1
+		EndIf
+	Next
+	Return ReWriteMethodParameters$(M)
+End Function
+
+Function ReWriteMethodParameters$(M.Method)
+	Local MV.MethodVariable,tParameters$,Name$
+	For MV.MethodVariable = Each MethodVariable
+		If MV\Parent = M Then
+			Select True
+				Case MV\VariableType = 1
+					Name = "int "
+				Case MV\VariableType = 2
+					Name = "float "
+				Case MV\VariableType = 3
+					Name = "string&amp; "
+				Case MV\VariableType = 4
+					Name = MV\ClassName + " &amp;"
+			End Select
+			tParameters = tParameters + Name + MV\Name + ","
+		EndIf
+	Next
+	Return Left$(tParameters,Len(tParameters)-1)
+End Function
+
+Function ProcessMethodVariables(M.Method)
+	Local MC.MethodCode,StartX = 1,MV.MethodVariable,MVUsed,VN$,F.Fields
+	For MC.MethodCode = Each MethodCode
+		If MC\Parent = M Then
+			For i = 1 To Len(MC\Code)
+				If TestKeySymbol(Mid$(MC\Code,i,1)) Then
+					VN = Mid$(MC\Code,StartX,i - StartX)
+					If TestKeyword(VN)= False And VN &lt;&gt; "" Then
+						MVUsed = False
+						For F.Fields = Each Fields
+							If F\ParentClass = M\parentPTR Then
+								If VN = F\Name Then MVUsed = True
+							EndIf
+						Next
+						For MV.MethodVariable = Each MethodVariable
+							If MV\Name =VN And MV\Parent = M Then MVUsed = True
+						Next
+						If MVUsed = False Then
+							MV.MethodVariable = New MethodVariable
+							MV\Parent = M
+							Select True
+								Case Right$(VN,1) = "%"
+									MV\VariableType = 1
+									MV\Name = Left$(VN,Len(VN)-1)
+								Case Right$(VN,1) = "#"
+									MV\VariableType = 2
+									MV\Name = Left$(VN,Len(VN)-1)
+								Case Right$(VN,1) = "$"
+									MV\VariableType = 3
+									MV\Name = Left$(VN,Len(VN)-1)
+								Default
+									MV\VariableType = 1	
+									MV\Name = VN
+							End Select
+						EndIf
+					EndIf
+					StartX = i + 1
+				EndIf
+			Next
+		EndIf
+	Next
+End Function
+
+Function ProcessMethodCode(MC.MethodCode)
+	Local F.Fields,VariableName$,StartX,MV.MethodVariable,Name$
+	StartX = 1
+	If MC\Code = "[cpp]" Or MC\Code = "[c++]" And incpp = False Then incpp =
+ True:MC\Code = "":Return
+	If MC\Code = "[cpp]" Or MC\Code = "[c++]" And incpp = True Then incpp =
+ False:MC\Code = "":Return
+	If incpp = True Then Return
+	For i = 1 To Len(MC\code)
+		If Mid$(MC\Code,i,1) =";" Then 
+			MC\Comment = "//"+Right$(MC\Code,Len(MC\Code)-i)
+			MC\Code = Left$(MC\code,i-1):Exit
+		EndIf
+	Next
+	
+	If Lower(Left$(MC\Code,6)) = "local " Then
+		MC\Code = Right$(MC\Code,Len(MC\Code)-6):LC = 1
+		For i = 1 To Len(MC\code)
+			If Mid$(MC\Code ,i,1) = "," Or i = Len(MC\code) And  Mid$(MC\Code 
+,i,1)&lt;&gt;";" Then
+				Select True
+					Case Mid$(MC\Code ,i-1,1) = "%" Or (i = Len(MC\Code) And 
+Right$(MC\Code,1) = "%")
+						If lc = 1 Then
+							Name = Mid$(MC\Code ,lc,(i-lc)-1)
+							MC\Code = "int "+Left$(MC\Code,lc)+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 7
+						ElseIf i = Len(MC\Code) Then
+							Name = Mid$(MC\Code,lc+1,Len(MC\Code)-lc-1)
+							MC\Code = Left$(MC\code,lc)+"int " + Name +" = 0;"
+						Else
+							Name = Mid$(MC\Code ,lc+1,(i-lc)-2)
+							MC\Code = Left$(MC\Code,lc)+"int "+Name+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 7
+						EndIf
+						CreateMethodVariable(Name,1,MC\Parent)
+					Case Mid$(MC\Code ,i-1,1) = "#" Or (i = Len(MC\Code) And 
+Right$(MC\Code,1) = "#")
+						If lc = 1 Then
+							Name = Mid$(MC\Code ,lc,(i-lc)-1)
+							MC\Code = "float "+Name+" = 
+0.0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 11
+						ElseIf i = Len(MC\Code) Then
+							Name = Mid$(MC\Code,lc+1,Len(MC\Code)-lc-1)
+							MC\Code = Left$(MC\code,lc)+"float " + Name +" = 0.0;"
+						Else
+							Name = Mid$(MC\Code ,lc+1,(i-lc)-2)
+							MC\Code = Left$(MC\Code,lc)+"float "+Name+" = 
+0.0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 11
+						EndIf
+						CreateMethodVariable(Name,2,MC\Parent)
+					Case Mid$(MC\Code ,i-1,1) = "$" Or (i = Len(MC\Code) And 
+Right$(MC\Code,1) = "$")
+						If lc = 1 Then
+							Name = Mid$(MC\Code ,lc,(i-lc)-1)
+							MC\Code = "string "+Left$(MC\Code,lc)+" = 
+"+Chr(34)+Chr(34)+";"+Right$(MC\Code,Len(MC\Code)-i):i = i + 11
+						ElseIf i = Len(MC\Code) Then
+							Name = Mid$(MC\Code,lc+1,Len(MC\Code)-lc-1)
+							MC\Code = Left$(MC\code,lc)+"string " + Name +" = 
+"+Chr(34)+Chr(34)+";"
+						Else
+							Name = Mid$(MC\Code ,lc+1,(i-lc)-2)
+							MC\Code = Left$(MC\Code,lc)+"string "+Name+" = 
+"+Chr(34)+Chr(34)+";"+Right$(MC\Code,Len(MC\Code)-i):i = i + 11
+						EndIf
+						CreateMethodVariable(Name,3,MC\Parent)
+					Default
+						If lc = 1 Then
+							Name = Mid$(MC\Code ,lc,(i-lc))
+							MC\Code = "int "+Left$(MC\Code,lc)+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 6
+						ElseIf i = Len(MC\Code) Then
+							Name = Mid$(MC\Code,lc+1,Len(MC\Code)-lc)
+							MC\Code = Left$(MC\code,lc)+"int " + Name +" = 0;"
+						Else
+							Name = Mid$(MC\Code ,lc+1,(i-lc)-1)
+							MC\Code = Left$(MC\Code,lc)+"int "+Name+" = 
+0;"+Right$(MC\Code,Len(MC\Code)-i):i = i + 8
+						EndIf
+						CreateMethodVariable(Name,1,MC\Parent)
+				End Select
+				lc = i
+			EndIf
+		Next
+		MC\Term = True
+	EndIf
+	If Lower(Left$(MC\Code,4)) = "for " Then
+		
+		For i = 5 To Len(MC\Code)
+			If Lower(Mid$(MC\Code,i,4)) = "and " Then MC\Code = 
+Left$(MC\Code,(i-1))+"&amp;&amp; "+Right$(MC\code,Len(MC\Code)-i-3):i = i
+ + 3
+			If Lower(Mid$(MC\code,i,3)) = "or " Then MC\Code = 
+Left$(MC\Code,(i-1))+"|| "+Right$(MC\code,Len(MC\Code)-i-2):i = i + 2
+			If Lower(Mid$(MC\Code,i,4)) = "xor " Then MC\Code = 
+Left$(MC\Code,(i-1))+"^ "+Right$(MC\code,Len(MC\Code)-i-3):i = i + 3
+		Next
+		For I = 5 To Len(MC\Code)
+			lmc$ = Mid$(MC\Code,i,1)
+			If Mid$(MC\Code,i,1) = " "Or  Mid$(MC\Code,i,1) = "="Then 
+VariableName = Mid$(MC\Code,5,i-5):StartX = I:Exit
+		Next
+		viu = False
+		For MV.methodvariable = Each methodvariable
+			If MV\Parent = MC\Parent And MV\Name = VariableName Or MV\Name = 
+Left$(VariableName,Len(VariableName)-1) Then
+				If MV\Declared = True Then
+					ExitTrue = False
+					For I = StartX+1 To Len(MC\Code)
+						LMC$ = Mid$(MC\Code,i,1)
+						If TestKeySymbol( Mid$(MC\Code,i,1)) = True And 
+TestNumber(Mid$(MC\Code,i,1))= False Then
+							Tcode$ = "for ( "+MV\Name+Mid$(MC\Code,StartX+1,i-(StartX+1))+" =
+ "
+							ExitTrue = True:TI = i
+						EndIf
+						If ExitTrue Then Exit
+					Next
+					ExitTrue = False
+					For i = ti To Len(MC\code)
+						If TestNumber(Mid$(MC\Code,i,1)) = True And n1 = 0 Then n1 = i
+						If TestNumber(Mid$(MC\Code,i,1)) &lt;&gt; True And n1 &lt;&gt; 0 
+Then n2 = i:Exit
+					Next
+					
+					Tcode$ = TCode$ + Mid$(MC\code,n1,n2-n1) + " ; " + MV\Name + " 
+&lt;= "
+					For i = n2 To Len(MC\Code)
+						If Lower(Mid$(MC\Code,i,3)) = "to " Then I = i + 3:Exit
+					Next
+					MC\code = Tcode$+ Mid$(MC\Code,i,Len(MC\Code)-(i-1)) + " ; 
+"+MV\Name+"++ ){" 
+					MV\Declared = True
+					viu = True
+				EndIf
+			EndIf
+		Next
+		If viu = False Then
+			MV.methodVariable = New MethodVariable
+			MV\Parent = MC\Parent
+			Select True
+				Case Right$(VariableName,1) = "%"
+					MV\VariableType = 1:MV\Name = 
+Left$(VariableName,Len(VariableName)-1)
+				Case Right$(VariableName,1) = "#"
+					MV\VariableType = 2:MV\Name = 
+Left$(VariableName,Len(VariableName)-1)
+				Default
+					MV\VariableType = 1:MV\Name = VariableName 
+			End Select
+			If MV\Declared &lt;&gt; True Then
+				Select True
+					Case MV\VariableType = 1
+						Name = "int "
+					Case MV\VariableType = 2
+						Name = "float "
+				End Select
+				ExitTrue = False
+				For I = StartX+1 To Len(MC\Code)
+					LMC$ = Mid$(MC\Code,i,1)
+					If TestKeySymbol( Mid$(MC\Code,i,1)) = True And 
+TestNumber(Mid$(MC\Code,i,1))= False Then
+						Tcode$ = "for ( 
+"+Name+MV\Name+Mid$(MC\Code,StartX+1,i-(StartX+1))+" = "
+						ExitTrue = True:TI = i
+					EndIf
+					If ExitTrue Then Exit
+				Next
+				ExitTrue = False
+				For i = ti To Len(MC\code)
+					If TestNumber(Mid$(MC\Code,i,1)) = True And n1 = 0 Then n1 = i
+					If TestNumber(Mid$(MC\Code,i,1)) &lt;&gt; True And n1 &lt;&gt; 0 
+Then n2 = i:Exit
+				Next
+				
+				Tcode$ = TCode$ + Mid$(MC\code,n1,n2-n1) + " ; " + MV\Name + " &lt;=
+ "
+				For i = n2 To Len(MC\Code)
+					If Lower(Mid$(MC\Code,i,3)) = "to " Then I = i + 3:Exit
+				Next
+				MC\code = Tcode$+ Mid$(MC\Code,i,Len(MC\Code)-(i-1)) + " ; 
+"+MV\Name+"++ ){" 
+			EndIf
+		EndIf
+		MC\Term = True
+	EndIf
+	If Lower(MC\Code) = "next" Then MC\Code = "}":MC\Term = True
+	If Lower(Left$(MC\Code,3)) = "if " Or Lower(Left$(MC\Code,3)) = "if(" 
+Then
+		
+		For i = 5 To Len(MC\Code)
+			If Lower(Mid$(MC\Code,i,4)) = "and " Then MC\Code = 
+Left$(MC\Code,(i-1))+"&amp;&amp; "+Right$(MC\code,Len(MC\Code)-i-3):i = i
+ + 3
+			If Lower(Mid$(MC\code,i,3)) = "or " Then MC\Code = 
+Left$(MC\Code,(i-1))+"|| "+Right$(MC\code,Len(MC\Code)-i-2):i = i + 2
+			If Lower(Mid$(MC\Code,i,4)) = "xor " Then MC\Code = 
+Left$(MC\Code,(i-1))+"^ "+Right$(MC\code,Len(MC\Code)-i-3):i = i + 3
+		Next
+		MC\Code = Left$(MC\Code,3) + "(" + Right$(MC\Code,Len(MC\Code)-3)
+		For i = 3 To Len(MC\Code)
+			If Mid$(MC\Code,i,1) = "=" And (Mid$(MC\Code,i-1,2) &lt;&gt; "&lt;=" 
+Or Mid$(MC\Code,i-1,2) &lt;&gt; "&gt;="Or Mid$(MC\Code,i-1,2) &lt;&gt; 
+"!=" )Then 
+				MC\Code = Left$(MC\Code,i)+"="+Right$(MC\Code,Len(MC\Code)-i):i = i +
+ 1
+			Else If Mid$(MC\Code,i,2) = "&lt;&gt;" Then
+				MC\Code = Left$(MC\code,i-1)+"!="+Right$(MC\Code,Len(MC\code)-(i+1))
+			EndIf
+			If i = Len(MC\Code) Then
+				If Mid$(MC\Code,i-3,4) = "then" Then MC\Code = 
+Left$(MC\Code,i-4)+"){":MC\Term = True
+			EndIf
+		Next
+	EndIf
+	If Lower(MC\Code) = "else" Then MC\Code = "} else {":MC\Term = True
+	If Lower(Left$(MC\Code,8)) = "else if " Then MC\Code = "} else if (" + 
+Right$(MC\Code,Len(MC\code)-8)+"){":MC\Term = True
+	If Lower(MC\Code) = "endif" Or Lower(MC\Code) = "end if" Then MC\Code =
+ "}":MC\Term = True
+	If Lower(MC\Code) = "wend" Then MC\Code = "}":MC\Term = True
+	If Lower(Left$(MC\Code,6)) = "while " Then MC\Code = "while (" + 
+Right$(MC\code,Len(MC\Code)-6) +"){":MC\Term=True
+	If Lower(MC\code) = "exit" Then MC\Code = "break"
+	If Lower(Left$(MC\Code,6)) = "print " Or Lower(Left$(MC\Code,6)) = 
+"print(" Then 
+		MC\Code = "cout &lt;&lt; " + Right$(MC\Code,Len(MC\Code)-6)
+		For i = 1 To Len(MC\Code)-1
+			If Mid$(MC\Code,i,1) = "+" Then MC\Code = Left$(MC\Code,i-1)+" 
+&lt;&lt; "+ Right$(MC\Code,Len(MC\Code)-i):i = i+3
+		Next
+		MC\Code = MC\Code + " &lt;&lt; endl"
+	EndIf
+End Function
+
+Function CreateMethodVariable(Name$,vt%,Parent.method)
+	Local MV.MethodVariable
+	MV.MethodVariable = New MethodVariable
+	MV\Name = Name
+	MV\VariableType = vt
+	MV\Parent = Parent
+	MV\Declared = True
+End Function
+
+Function CreateFunctionVariable(Name$,vt%,Parent.Functions)
+	Local MV.FunctionVariable
+	MV.FunctionVariable = New FunctionVariable
+	MV\Name = Name
+	MV\VariableType = vt
+	MV\Parent = Parent
+	MV\Declared = True
+End Function
+
+; Remove Tabs from the OO code if any, keep track of how many there are
+Function RemoveTabs()
+
+	Local tc = 0
+	
+	While Left$(LineIn$,1) = Chr(9)
+		tc = tc + 1
+		LineIn$ = Right$(LineIn$,Len(LineIn$)-1)
+	Wend
+	
+	Return tc
+	
+End Function
+
+; Replace Tabs from the OO code so that the readablity is still present.
+Function ReplaceTabs$(In$,Tabs)
+	
+	Local i
+	
+	For i = 1 To Tabs
+		In$ = Chr(9) + In$
+	Next
+	
+	Return In$
+	
+End Function
+
+; Remove Spaces from the left side of a sting.
+Function RemoveSpaces$(in$)
+	
+	While Left$(in$,1) = " "
+		in$ = Right$(in$,Len(in$)-1)
+	Wend
+	
+	Return in$
+	
+End Function
+
+; Remove Spaces and tabs on the right side(does not keep track of them)
+Function RemoveRightSideTabs_Spaces$(In$)
+	
+	While Right$(In$,1) = " " Or Right$(In$,1) = Chr(9)
+		In$ = Left$(In$,Len(In$)-1)
+	Wend
+	
+	Return In$
+	
+End Function
+
+.KeyWords ;
+Data 12	;amount
+Data "for","next"
+Data "if","end if","endif","else","elseif","else if"
+Data "while","wend" ;13
+Data "to","then"
+
+Function TestKeyword(code$)
+	Restore KeyWords
+	Read amt
+	For i = 1 To amt
+		Read KW$
+		kw = Lower(kw)
+		If kw = Lower(code) Or kw+" " = Lower(Left$(code,Len(kw)+1)) Or kw+"("
+ = Lower(Left$(code,Len(kw)+1))Then ObservedKeyWord = kw :Return True
+	Next
+	Return False
+End Function
+
+.KeySymbols
+Data 25;amount
+Data ";",":","(",")","&lt;"
+Data "&gt;","!","~","`","."
+Data ",","{","}","[","]"
+Data "=","+","-","*","/"
+Data "^"," ","#","$","%"
+
+Function TestKeySymbol(in$)
+	Restore keysymbols
+	Read amt
+	If in = Chr(34) Then Return True
+	For i = 1 To amt
+		Read kw$
+		If kw = in Then ObservedKeySymbol = kw:Return True
+	Next
+	Return False
+End Function
+
+.Numbers
+Data 10;amount
+Data "0","1","2","3","4","5","6","7","8","9"
+Function TestNumber(in$)
+	Restore numbers
+	Read amt
+	For i = 1 To amt
+		Read kw$
+		If Asc(kw) = Asc(in) Then ObservedNumber = kw:Return True
+	Next
+	Return False
+End Function
+</textarea> <br><br> <a href="http://www.stereofame.com/#/mysecondwish" target="_blank">My Music</a> <br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2712" target="_blank">Mouse XY to 3D XY</a> / <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2706" target="_blank">Improved Perlin Noise 2D and 3D</a><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2695" target="_blank">HeightMapped GeoSphere</a>/<a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2715#comments" target="_blank"> Dynamic LOD(Level Of Detail)</a><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2740" target="_blank">Blitz3D Keyword Data List</a>  / <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2741" target="_blank"> Blitz3D like syntax to C++</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>OOPS to Blitz3D</td><td align="right"><font class="tiny">(Posted 2010-07-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here is step one of a thousand with this idea.<br><br>Bugs: Not all comments are transported to b3d, not really a bug as it is I'm to lazy to put it in.<br><br>Limitations:
+ Dose not support multiple lines of code on a single line.  Can not do 
+class within class. Fields can be privatized (all fields that are 
+privatized are not inherited) .<br><br>Features: += -= *= /= ++ -- all work<br>Classes
+ can contain methods and can inherit other classes of infinite scope.  
+Methods can return the type they are working with by "Return This".  
+Methods are called by the same means of other popular oop languages by 
+"ThisClassHandle.ThisMethod()".<br>Methods can be privatized (excluded from inheritance)<br><br>Example of OOPS:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">; Space Invader Clone Writen in OOPS
+; A test of OB capabilities
+
+Class Position
+	field X#
+	Field Y#
+	Method MoveX(Amount#)
+		X += Amount
+	end Method
+	Method MoveY(Amount#)
+		Y += Amount
+	end Method
+	Method SetX(Pos#)
+		x = Pos
+	end Method
+	Method SetY(Pos#)
+		y = Pos
+	end method
+end Class
+
+Class Player : Position
+	Field Image
+
+	Private
+	
+	Field Health
+	field Shot_Timer
+	Field Killed
+	Field Number_Lives
+	Field Player_Shots
+	Field Mega_Bombs
+	Field Level
+	
+	Method LossLife()
+		Number_Lives--
+	end Method
+	Method GainLife()
+		Number_Lives++
+	End Method
+	Method UseMegaBomb()
+		Mega_Bombs--
+	end Method
+	Method GainMegaBomb()
+		Mega_Bombs++
+	End Method
+	Method LevelUp()
+		Level++
+	end Method
+	Method CreatePlayerImage()
+		Image = CreateImage(32,32)
+		SetBuffer ImageBuffer(Image)
+		Color 0,0,255
+		Line 0,32-1,15-1,0
+		line 15-1,0,32-1,32-1
+		line 32-1,32-1,0,32-1
+		SetBuffer BackBuffer()
+		Color 255,255,255
+	End Method
+	Method Controls()
+		if keydown(203) then
+			x -= 4
+		endif
+		if keydown(205) then
+			x += 4
+		endif
+		if x &lt; 0 then x = 0
+		if x &gt; graphicswidth() then x = Graphicswidth()
+		if keydown(200) and player_shots &lt; Max_Player_Shots and Shot_Timer &lt;= 0 then 
+			S.PlayerShot = New playershot
+			s.Setx(X)
+			s.Sety(y)
+			s.SetSpeed(5)
+			player_shots++
+			Shot_Timer = (1)
+		endif
+		shot_Timer = shot_Timer - 1
+	end method
+	Method Draw()
+		DrawImage Image,x,y
+	end Method
+	Method TestShots()
+		for s.enemyshot = each enemyshot
+			deltaX = s.x - x
+			deltaX = deltax * deltaX
+			deltaY = s.y - y
+			deltaY = deltaY * deltaY
+			dist = deltax + deltaY
+			if dist &lt; 15*15 then 
+				health--
+				delete s
+			endif
+		next
+	end method
+end class
+
+Class PlayerShot : Position
+	Field Velocity#
+
+	Method Destructor()
+		Delete
+	end Method
+	Method SetSpeed(Speed#)
+		Velocity = speed
+	end Method
+	Method Update()
+		MoveY(-velocity)
+		If y &lt; 0 then 
+			Destructor()
+			play.Player_shots--
+		endif
+	end method
+	Method Draw()
+		color 255,255,255
+		line x,y,x,y+velocity
+	end method
+end Class
+
+Class EnemyShot : Position
+	Field Velocity#
+	
+	Method Destructor()
+		Delete
+	end Method
+	Method SetSpeed(Speed#)
+		Velocity = speed
+	end Method
+	Method Update()
+		movey( velocity)
+		If y &gt; Graphicsheight() then 
+			Destructor()
+		endif
+	end method
+	Method Draw()
+		color 255 , 255 , 255
+		line x,y,x,y-velocity
+	end method
+end class
+
+Class Enemy : Player
+	field Life
+	Field Mover
+	Field MoveTimer
+	Field ShotTimer
+	Method CreateImage()
+		Image = CreateImage( 32 , 32 )
+		SetBuffer Imagebuffer( Image )
+		Color 255,0,0
+		Line 0,0,32-1,0
+		line 32-1,0,15-1,32-1
+		line 15-1,32-1,0,0
+		setbuffer Backbuffer()
+		color 255,255,255
+	end method
+	Method Draw()
+		DrawImage Image,x,y
+	end method
+	Method Update()
+		if moveTimer &lt;= 0 then 
+			moveTimer = rand(300)
+			Mover = Rand(0,1)
+		endif
+		if mover = 1 then
+			movex(1)
+		else
+			movex(-1)
+		endif
+		if x &lt; 0 or x &gt; graphicswidth() then mover = 1 - mover
+		if ShotTimer &lt;= 0 then 
+			es.enemyshot = new enemyshot
+			es.setx(x)
+			es.sety(y)
+			es.setspeed(2)
+			Shottimer = rand(200)
+		endif
+		movetimer--
+		shottimer--
+	end Method
+	Method TestShots()
+		for s.Playershot = each playershot
+			deltaX = s.x - x
+			deltaX = deltax * deltaX
+			deltaY = s.y - y
+			deltaY = deltaY * deltaY
+			dist = deltax + deltaY
+			if dist &lt; 15*15 then 
+				life--
+				play.Player_shots--
+				delete s
+			endif
+			if life &lt;= 0 then
+				play.killed += 1
+				delete
+				return
+			endif
+		next
+	end method
+end class
+
+Graphics3D 800,600,32,2
+SetBuffer BackBuffer()
+seedrnd millisecs()
+AutoMidHandle true
+
+Global Play.Player = new Player
+Play.Number_Lives = 3
+Global Max_Player_Shots = 400
+Play.Player_shots = 0
+Play.Mega_Bombs = 4
+Play.CreatePlayerImage()
+Play.Level = 5
+play.setx(Graphicswidth()/2)
+Play.sety(Graphicsheight()-20)
+
+CreateLevel( Play.Level )
+
+While not keyhit(1)
+	cls
+	UpdateControls()
+	DrawEverything()
+	play.Testshots()
+	if play.killed = play.level then 
+		play.level *= 2
+		createlevel( play.level)
+	endif
+	if play.health &lt;= 0 and play.number_lives &lt;= 0 then 
+		print "Game Over"
+		waitkey()
+		end
+	endif
+	if play.health &lt;= 0 then 
+		play.health = 5
+		play.Number_lives--
+	endif
+	locate 0,0
+	print "Health: " + play.health
+	print "Lives: " + play.Number_lives
+	flip
+wend
+
+Function DrawEverything()
+	Play.Draw()
+	for e.enemy = each enemy
+		e.draw()
+	next
+	for s.PlayerShot = each playershot
+		s.draw()
+	next
+	for es.enemyshot = each enemyshot
+		es.draw()
+	next
+end Function
+
+Function CreateLevel(Level)
+	play.killed = 0
+	play.Health = 5
+	for I = 1 to Level
+		E.Enemy = new Enemy
+		e.CreateImage()
+		e.life = rand(1,10)
+		e.SetX(Rand(GraphicsWidth()))
+		e.Sety(Rand(GraphicsHeight()/2-16)+16)
+	next
+End Function
+
+function UpdateControls()
+	Play.Controls()
+	for E.enemy = each enemy
+		e.Update()
+		e.TestShotS()
+	next
+	for S.Playershot = each playershot
+		S.Update()
+	next
+	for es.enemyshot = each enemyshot
+		es.update()
+	next
+end function
+
+</textarea><br><br>OOPS is converted to:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">; Space Invader Clone Writen in OB
+; A test of OB capabilities
+Graphics3D 800,600,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+AutoMidHandle True
+Global Play.Player = New Player
+Play\Number_Lives = 3
+Global Max_Player_Shots = 400
+Play\Player_shots = 0
+Play\Mega_Bombs = 4
+CreatePlayerImage_Player( Play )
+Play\Level = 5
+SetX_Player( Play , GraphicsWidth()/2)
+SetY_Player( Play , GraphicsHeight()-20)
+CreateLevel( Play\Level )
+While Not KeyHit(1)
+	Cls
+	UpdateControls()
+	DrawEverything()
+	TestShots_Player( Play )
+	If play\killed = play\level Then 
+		play\level = play\level * 2
+		createlevel( play\level)
+	EndIf
+	If play\health &lt;= 0 And play\number_lives &lt;= 0 Then 
+		Print "Game Over"
+		WaitKey()
+		End
+	EndIf
+	If play\health &lt;= 0 Then 
+		play\health = 5
+		play\Number_lives=play\Number_lives - 1
+	EndIf
+	Locate 0,0
+	Print "Health: " + play\health
+	Print "Lives: " + play\Number_lives
+	Flip
+Wend
+Function DrawEverything()
+	Draw_Player( Play )
+	For e.enemy = Each enemy
+		Draw_Enemy( e )
+	Next
+	For s.PlayerShot = Each playershot
+		Draw_PlayerShot( s )
+	Next
+	For es.enemyshot = Each enemyshot
+		Draw_EnemyShot( es )
+	Next
+End Function
+Function CreateLevel(Level)
+	play\killed = 0
+	play\Health = 5
+	For I = 1 To Level
+		E.Enemy = New Enemy
+		CreateImage_Enemy( E )
+		e\life = Rand(1,10)
+		SetX_Enemy( E , Rand(GraphicsWidth()))
+		SetY_Enemy( E , Rand(GraphicsHeight()/2-16)+16)
+	Next
+End Function
+Function UpdateControls()
+	Controls_Player( Play )
+	For E.enemy = Each enemy
+		Update_Enemy( E )
+		TestShots_Enemy( E )
+	Next
+	For S.Playershot = Each playershot
+		Update_PlayerShot( S )
+	Next
+	For es.enemyshot = Each enemyshot
+		Update_EnemyShot( es )
+	Next
+End Function
+
+Type Position
+	Field X#	
+	Field Y#	
+End Type
+Function MoveX_Position(This.Position,Amount#)
+	This\X = This\X + Amount
+End Function
+Function MoveY_Position(This.Position,Amount#)
+	This\Y = This\Y + Amount
+End Function
+Function SetX_Position(This.Position,Pos#)
+	This\X = Pos
+End Function
+Function SetY_Position(This.Position,Pos#)
+	This\Y = Pos
+End Function
+
+Type Player
+	Field X#	
+	Field Y#	
+	Field Image%	
+	Field Health%	
+	Field Shot_Timer%	
+	Field Killed%	
+	Field Number_Lives%	
+	Field Player_Shots%	
+	Field Mega_Bombs%	
+	Field Level%	
+End Type
+Function MoveX_Player(This.Player,Amount#)
+	This\X = This\X + Amount
+End Function
+Function MoveY_Player(This.Player,Amount#)
+	This\Y = This\Y + Amount
+End Function
+Function SetX_Player(This.Player,Pos#)
+	This\X = Pos
+End Function
+Function SetY_Player(This.Player,Pos#)
+	This\Y = Pos
+End Function
+Function LossLife_Player(This.Player)
+	This\Number_Lives=This\Number_Lives - 1
+End Function
+Function GainLife_Player(This.Player)
+	This\Number_Lives=This\Number_Lives + 1
+End Function
+Function UseMegaBomb_Player(This.Player)
+	This\Mega_Bombs=This\Mega_Bombs - 1
+End Function
+Function GainMegaBomb_Player(This.Player)
+	This\Mega_Bombs=This\Mega_Bombs + 1
+End Function
+Function LevelUp_Player(This.Player)
+	This\Level=This\Level + 1
+End Function
+Function CreatePlayerImage_Player(This.Player)
+	This\Image = CreateImage(32,32)
+	SetBuffer ImageBuffer(This\Image)
+	Color 0,0,255
+	Line 0,32-1,15-1,0
+	Line 15-1,0,32-1,32-1
+	Line 32-1,32-1,0,32-1
+	SetBuffer BackBuffer()
+	Color 255,255,255
+End Function
+Function Controls_Player(This.Player)
+	If KeyDown(203) Then
+		This\X = This\X - 4
+	EndIf
+	If KeyDown(205) Then
+		This\X = This\X + 4
+	EndIf
+	If This\X &lt; 0 Then This\X = 0
+	If This\X &gt; GraphicsWidth() Then This\X = GraphicsWidth()
+	If KeyDown(200) And This\Player_Shots &lt; Max_Player_Shots And This\Shot_Timer &lt;= 0 Then 
+		S.PlayerShot = New playershot
+		SetX_PlayerShot( S , This\X)
+		SetY_PlayerShot( S , This\Y)
+		SetSpeed_PlayerShot( S , 5)
+		This\Player_Shots=This\Player_Shots + 1
+		This\Shot_Timer = (1)
+	EndIf
+	This\Shot_Timer = This\Shot_Timer - 1
+End Function
+Function Draw_Player(This.Player)
+	DrawImage This\Image,This\X,This\Y
+End Function
+Function TestShots_Player(This.Player)
+	For s.enemyshot = Each enemyshot
+		deltaX = s\x - This\X
+		deltaX = deltax * deltaX
+		deltaY = s\y - This\Y
+		deltaY = deltaY * deltaY
+		dist = deltax + deltaY
+		If dist &lt; 15*15 Then 
+			This\Health=This\Health - 1
+			Delete s
+		EndIf
+	Next
+End Function
+
+Type PlayerShot
+	Field X#	
+	Field Y#	
+	Field Velocity#	
+End Type
+Function MoveX_PlayerShot(This.PlayerShot,Amount#)
+	This\X = This\X + Amount
+End Function
+Function MoveY_PlayerShot(This.PlayerShot,Amount#)
+	This\Y = This\Y + Amount
+End Function
+Function SetX_PlayerShot(This.PlayerShot,Pos#)
+	This\X = Pos
+End Function
+Function SetY_PlayerShot(This.PlayerShot,Pos#)
+	This\Y = Pos
+End Function
+Function Destructor_PlayerShot(This.PlayerShot)
+	Delete This
+End Function
+Function SetSpeed_PlayerShot(This.PlayerShot,Speed#)
+	This\Velocity = speed
+End Function
+Function Update_PlayerShot(This.PlayerShot)
+	MoveY_PlayerShot( This , -This\Velocity)
+	If This\Y &lt; 0 Then 
+		Destructor_PlayerShot( This )
+		play\Player_shots=play\Player_shots - 1
+	EndIf
+End Function
+Function Draw_PlayerShot(This.PlayerShot)
+	Color 255,255,255
+	Line This\X,This\Y,This\X,This\Y+This\Velocity
+End Function
+
+Type EnemyShot
+	Field X#	
+	Field Y#	
+	Field Velocity#	
+End Type
+Function MoveX_EnemyShot(This.EnemyShot,Amount#)
+	This\X = This\X + Amount
+End Function
+Function MoveY_EnemyShot(This.EnemyShot,Amount#)
+	This\Y = This\Y + Amount
+End Function
+Function SetX_EnemyShot(This.EnemyShot,Pos#)
+	This\X = Pos
+End Function
+Function SetY_EnemyShot(This.EnemyShot,Pos#)
+	This\Y = Pos
+End Function
+Function Destructor_EnemyShot(This.EnemyShot)
+	Delete This
+End Function
+Function SetSpeed_EnemyShot(This.EnemyShot,Speed#)
+	This\Velocity = speed
+End Function
+Function Update_EnemyShot(This.EnemyShot)
+	MoveY_EnemyShot( This ,  This\Velocity)
+	If This\Y &gt; GraphicsHeight() Then 
+		Destructor_EnemyShot( This )
+	EndIf
+End Function
+Function Draw_EnemyShot(This.EnemyShot)
+	Color 255 , 255 , 255
+	Line This\X,This\Y,This\X,This\Y-This\Velocity
+End Function
+
+Type Enemy
+	Field Image%	
+	Field X#	
+	Field Y#	
+	Field Life%	
+	Field Mover%	
+	Field MoveTimer%	
+	Field ShotTimer%	
+End Type
+Function MoveX_Enemy(This.Enemy,Amount#)
+	This\X = This\X + Amount
+End Function
+Function MoveY_Enemy(This.Enemy,Amount#)
+	This\Y = This\Y + Amount
+End Function
+Function SetX_Enemy(This.Enemy,Pos#)
+	This\X = Pos
+End Function
+Function SetY_Enemy(This.Enemy,Pos#)
+	This\Y = Pos
+End Function
+Function CreateImage_Enemy(This.Enemy)
+	This\Image = CreateImage( 32 , 32 )
+	SetBuffer ImageBuffer( This\Image )
+	Color 255,0,0
+	Line 0,0,32-1,0
+	Line 32-1,0,15-1,32-1
+	Line 15-1,32-1,0,0
+	SetBuffer BackBuffer()
+	Color 255,255,255
+End Function
+Function Draw_Enemy(This.Enemy)
+	DrawImage This\Image,This\X,This\Y
+End Function
+Function Update_Enemy(This.Enemy)
+	If This\MoveTimer &lt;= 0 Then 
+		This\MoveTimer = Rand(300)
+		This\Mover = Rand(0,1)
+	EndIf
+	If This\Mover = 1 Then
+		MoveX_Enemy( This , 1)
+	Else
+		MoveX_Enemy( This , -1)
+	EndIf
+	If This\X &lt; 0 Or This\X &gt; GraphicsWidth() Then This\Mover = 1 - This\Mover
+	If This\ShotTimer &lt;= 0 Then 
+		es.enemyshot = New enemyshot
+		SetX_EnemyShot( es , This\X)
+		SetY_EnemyShot( es , This\Y)
+		SetSpeed_EnemyShot( es , 2)
+		This\ShotTimer = Rand(200)
+	EndIf
+	This\MoveTimer=This\MoveTimer - 1
+	This\ShotTimer=This\ShotTimer - 1
+End Function
+Function TestShots_Enemy(This.Enemy)
+	For s.Playershot = Each playershot
+		deltaX = s\x - This\X
+		deltaX = deltax * deltaX
+		deltaY = s\y - This\Y
+		deltaY = deltaY * deltaY
+		dist = deltax + deltaY
+		If dist &lt; 15*15 Then 
+			This\Life=This\Life - 1
+			play\Player_shots=play\Player_shots - 1
+			Delete s
+		EndIf
+		If This\Life &lt;= 0 Then
+			play\killed = play\killed + 1
+			Delete This
+			Return
+		EndIf
+	Next
+End Function
+
+</textarea><br><br>Source for converting OOPS to B3D:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">
+FileName$ = "Worlds";"InVaders";CommandLine$()
+Global file = ReadFile(FileName+".OB") ;The Objective Blitz3D file can 
+be changed to whatever.
+
+Global file2 = WriteFile(FileName+".bb");The name of the converted 
+output file to Objective Blitz3D.
+
+Global LineIn$
+
+ConvertOOPScode()	;run through the code to find classes and methods
+WriteBlitzCode()	;Convert to Blitz3d code
+
+CloseFile(file2)	;close the output file so that it can be debuged 
+through blitz
+CloseFile(file)		;close the Objective Blitz3D file
+
+;Open FileName+".bb" and run in any blitz3d ide, it will work unless 
+there are errors!
+;There are probably loads of bugs in this.
+
+End ;end the program
+
+;Define Key words, not really used, but know that they are used in 
+Objective Blitz3D
+Const Class$ = "Class"
+Const EndClass$ = "End Class"
+Const Method$ = "Method"
+Const EndMethod$ = "End Method"
+Const Public$ = "Public"	;to be added - no I dont think its necessary..
+Const Private$ = "Private"	
+Const Destructor$ = "Destructor"
+;Define all Class, Class within Class not supported yet.
+;But inharitence is.
+Type Class
+	Field Name$
+	Field Name_Lower$
+	Field ClassTabs
+	Field TypesPointer$
+	Field LastPointer$
+	Field ParentClass.Class
+	Field ContainMethods
+	Field ContainPrivates
+	Field ContainPublics
+	Field Comment$
+End Type
+
+Type Fields
+	Field Name$
+	Field Name_Lower$
+	Field VariableType
+	Field Tabs
+	Field ParentClass.Class
+	Field Private
+	Field Comment$
+End Type
+
+Type Method
+	Field parentPTR.Class
+	Field Name$
+	Field Name_Lower$
+	Field MethodReturnType%
+	Field MethodParameters$
+	Field MethodTab
+	Field MethodCodeBank
+	Field MethodCodeTabs
+	Field Private
+	Field Comment$
+End Type
+
+Function ConvertOOPScode()
+	
+	Local 
+LineCount,TabCount,T.Class,Name$,OldBS,M.Method,LineRead,C.Class,ParentName$
+
+	
+	While Not Eof(file)
+		
+		LineRead = False
+		LineIn$ = ReadLine(file):LineCount = LineCount + 1
+		TabCount = RemoveTabs()
+		ti = 0 : si = 0
+
+		If Lower(Left$(LineIn$,5)) = "class" Then
+			T.Class = ProcessClass.Class(LineIn$,TabCount)
+			cf = 0:cm = 0
+			LineRead = True
+		EndIf
+		If Lower(Left$(LineIn$,9)) = "end class" Then LineRead = True
+		
+		If Lower(Left$(LineIn$,5)) = "field" Then
+			ProcessField(LineIn$, T , TabCount)
+			LineRead = True
+		EndIf
+		If Lower(Left$(LineIn$,7)) = "private" Then T\ContainPrivates = 
+True:LineRead = True
+		If Lower(Left$(LineIn$,6)) = "public" Then T\ContainPrivates = 
+False:LineRead = True
+	
+		If Lower(LineIn$) = "end method" Then MethodFlag = False:LineRead = 
+True
+
+		If MethodFlag Then
+		
+			OldBS = BankSize(M\MethodCodeBank)
+			ResizeBank (M\MethodCodeBank,OldBS+Len(LineIn$)+1)
+			ResizeBank(M\MethodCodeTabs,BankSize(M\MethodCodeTabs)+1)
+			
+			PokeByte(M\MethodCodeTabs,cmc,TabCount)
+			cmc = cmc + 1
+			
+			For i = 1 To Len(LineIn$)
+				what = Asc(Mid$(LineIn$,i,1))
+				PokeByte(M\MethodCodeBank,(OldBS -1) + i,what)
+			Next
+			 
+			PokeByte(M\MethodCodeBank,(OldBS -1) + i,0)
+			LineRead = True
+		EndIf
+
+		If Lower(Left$(LineIn$,6)) = "method" Then
+			cmc = 0
+			T\ContainMethods = True
+			
+			M.Method = New Method
+			tm$ =  Right$(LineIn$,Len(LineIn$)-7)
+			startx = 0: endx = 0
+			For j = 1 To Len( tm )
+				If Mid$(tm,j,1) = "(" Then StartX = j
+				If Mid$(tm,j,1) = ")" Then EndX = j
+			Next
+			M\Name$ = Left$(tm,startx-1)
+			M\Name_Lower = Lower(M\Name)
+			If endx - startx &gt; 1 Then M\MethodParameters$ = 
+Mid$(tm,startx+1,(endx-2)-startx+1)
+			M\MethodTab = TabCount
+			M\parentPTR = T
+			M\MethodCodeBank = CreateBank()
+			M\MethodCodeTabs = CreateBank()
+			If T\ContainPrivates = True Then M\Private = True
+			MethodFlag = True
+			LineRead = True
+		EndIf
+		If LineRead = False Then 
+			If Left$(LineIn$,1) &lt;&gt; ";" Then
+				If LineIn$ &lt;&gt; "" Then tol$ = 
+Objective_Line$(LineIn$):WriteLine(file2,ReplaceTabs$(tol$,TabCount));:WriteLine(file2,"")
+
+			Else
+				WriteLine(file2,ReplaceTabs$(LineIn$,TabCount))
+			EndIf
+		EndIf
+	Wend
+End Function
+
+Function WriteBlitzCode()
+
+	Local T.Class,TT.Class
+
+	For T.Class = Each Class
+		
+		WriteLine(file2,"")
+		
+		TT = T\ParentClass
+		If TT &lt;&gt; Null Then	
+			WriteLine(file2,ReplaceTabs$("Type" + " " + T\Name,T\ClassTabs))
+			While TT &lt;&gt; Null 
+				ProcessTypesParent(TT)
+				TT = TT\ParentClass
+			Wend
+		Else
+			WriteLine(file2,ReplaceTabs$("Type" + " " + T\Name,T\ClassTabs))
+		EndIf
+		ProcessTypes(T)
+		
+		WriteLine(file2,ReplaceTabs$("End Type",T\ClassTabs))
+		If T\ContainMethods = True And T\ParentClass = Null Then 
+			WriteMethods(T)
+		Else
+			TT = T\ParentClass
+			While TT &lt;&gt; Null
+				WriteParentMethods(TT,T\Name)
+				TT = TT\ParentClass
+			Wend
+			WriteMethods(T)
+		EndIf
+	Next
+End Function
+
+Function WriteMethods(T.Class)
+
+	Local M.Method,Method,BS,Code$,mct,LIN$
+	If Not T\ContainMethods Then Return
+	For M.Method = Each Method
+		If M\parentPTR = T Then
+			
+			tBS = 0:mct = 0
+			If M\MethodParameters&lt;&gt;"" Then
+				LIN$ = "Function "+ 
+M\Name$+"_"+T\Name$+"(This."+T\Name+","+M\MethodParameters+")"
+			Else
+				LIN$ = "Function "+M\Name$+"_"+T\Name$+"(This."+T\Name$+")"
+			EndIf
+			WriteLine(file2,ReplaceTabs$(LIN$,M\MethodTab-1))
+			BS = BankSize(M\MethodCodeBank)-1
+			.NextLineOfCode
+			For i = tBS To BS
+				If PeekByte(M\MethodCodeBank,i) = 0 Then
+					Code$=RewriteCodeForType(T,Code$)
+					
+WriteLine(file2,ReplaceTabs$(Code$,PeekByte(M\MethodCodeTabs,mct)-1))
+					Code$ = "":mct = mct + 1
+					tbs = i + 1: Goto NextLineOfCode
+				Else
+					Code$ = Code$ + Chr(PeekByte(M\MethodCodeBank,i))
+				EndIf
+			Next
+			WriteLine(file2,ReplaceTabs$("End Function",M\MethodTab-1))
+		EndIf
+	Next
+End Function
+
+Function WriteParentMethods(T.Class,Name$)
+
+	Local M.Method,Method,BS,Code$,mct,LIN$
+	If Not T\ContainMethods Then Return
+	For M.Method = Each Method
+		If M\parentPTR = T And M\Private = False Then
+			
+			tBS = 0:mct = 0
+			If M\MethodParameters&lt;&gt;"" Then
+				LIN$ = "Function "+ 
+M\Name$+"_"+Name$+"(This."+Name+","+M\MethodParameters+")"
+			Else
+				LIN$ = "Function "+M\Name$+"_"+Name$+"(This."+Name$+")"
+			EndIf
+			WriteLine(file2,ReplaceTabs$(LIN$,M\MethodTab-1))
+			BS = BankSize(M\MethodCodeBank)-1
+			.NextLineOfCode
+			For i = tBS To BS
+				If PeekByte(M\MethodCodeBank,i) = 0 Then
+					Code$=RewriteCodeForType(T,Code$)
+					
+WriteLine(file2,ReplaceTabs$(Code$,PeekByte(M\MethodCodeTabs,mct)-1))
+					Code$ = "":mct = mct + 1
+					tbs = i + 1: Goto NextLineOfCode
+				Else
+					Code$ = Code$ + Chr(PeekByte(M\MethodCodeBank,i))
+				EndIf
+			Next
+			WriteLine(file2,ReplaceTabs$("End Function",M\MethodTab-1))
+		EndIf
+	Next
+End Function
+
+Function RewriteCodeForType$(T.Class,Code$)
+	
+	Local StartX,EndX,I,Trig,J.Fields,TB=0,Out$,Fv$,Final$,Tex$,K.Method
+	
+	For K.Method = Each Method
+		If Lower(Left$(Code$,Len(K\Name)+1)) = K\Name_Lower+" " Or 
+Lower(Left$(Code$,Len(K\Name)+1)) = K\Name_Lower+"("Then
+			For I = 1 To Len(Code$)
+				If Mid$(Code,I,1) = "(" And krig = False Then StartX = I:ktrig = 
+True
+			Next
+			If Right$(Code,2) = "()" Then 
+				Code$ = K\Name+"_"+T\Name+"( This )"
+			Else
+				Code$ = K\Name+"_"+T\Name+"( This , 
+"+Right$(Code,Len(Code)-(StartX))
+			EndIf
+		EndIf
+	Next
+		
+		Code$ = Objective_Line$(Code$)
+
+	If Lower(Code$) = "delete" Then 
+		Code$ = "Delete This"
+	Else If Lower(Code$) = "new" Then 
+		Code$ = "This."+T\Name+" = New "+T\Name
+	Else If Lower(Code$) = "each" Then
+		Code$ = "For This."+T\Name+" = Each "+T\Name
+	Else
+		For I = 1 To Len(Code$)
+			
+			;If Code$ = "if x &lt; 0 or x &gt; graphicswidth() then mover = 1 - 
+mover" Then Stop
+			Tex = Mid$(Code$,I,1)
+			If (Tex &lt;&gt; " " Or Tex = "(" Or Tex = "," Or Tex = "+" Or Tex = 
+"-" Or Tex = "=" Or Tex = "/" Or Tex = "*" Or Tex = "&lt;" Or Tex = 
+"&gt;" Or Tex = ":") And Trig = 0 Then StartX = I: Trig = 1
+			If Tex = " " Or Tex = "(" Or Tex = ")" Or Tex = "," Or Tex = "+" Or 
+Tex = "-" Or Tex = "=" Or Tex = "/" Or Tex = "*" Or Tex = "&lt;" Or Tex =
+ "&gt;" Or Tex = ":" Or I = Len(Code$) Then 
+				Trig = 0
+				For J.Fields = Each Fields 
+					texm$ = Lower(Mid$(Code$,StartX,(I)-(startx-1)))
+					texm = RemoveRightSideTabs_Spaces$(texm$)
+					If texm = "" Then Goto skipp
+					If I = Len(Code$) Then
+						texn$ = Lower(Mid$(Code$,StartX,i-(StartX-1)))
+						If Right$(Texn,1) = ")" Then texn = Left$(texn,Len(texn)-1)
+						If J\Name_Lower = texn And Tex = ")" Then
+							Code$=Left$(Code$,StartX-1)+"This\"+J\Name+")"
+							I = I + 5
+							Goto Skipp
+						Else If J\Name_Lower = Lower(Right$(Code,I-StartX+1)) Then
+							Code$=Left$(Code$,StartX-1)+"This\"+J\Name
+							I = I + 5
+							Goto skipp
+						EndIf
+					Else
+						If J\Name_Lower = Lower(Mid$(Code$,StartX,(I)-startx)) Then 
+							
+Code$=Left$(Code$,StartX-1)+"This\"+J\Name+Mid$(Code$,I,(Len(Code$) - 
+I)+1)
+							I = I + 5
+							Goto skipp
+						EndIf
+					EndIf
+				Next
+				.skipp
+			EndIf
+			;If Tex = "." Then Code$ = Left$(Code$,i-1) + "\"+ 
+Right$(Code$,Len(Code$)-i)
+		Next
+	EndIf
+	
+	Return Code$
+	
+End Function
+
+Function Objective_Line$(Code$)
+
+	Local 
+I,J.Fields,Fv$,TrigPLUS1,TrigMINUS1,TrigIsField,M.Method,TypesPointer$,StartX,K,Perenth,T.Class,Tex$
+
+	Local 
+TT.Class,TrigPluseEqual,TrigMinusEqual,TrigTimesEquals,TrigDivideEquals
+	If Left$(Code$,7) = "Global " Then GlobalFlag = True:Code$ = 
+Right$(Code$,Len(Code$)-7)
+	
+	For T.Class = Each Class
+		;If Code$ = "E.Planet= new Planet" Then Stop
+		;If Code$ = "e.GravityUpdate(f\entity)" Then Stop
+		I = 0 :tn$ = "":StartX = 0:Point = 0:ThisPointer$=""
+		
+		For I = 1 To Len(Code$)
+			Tex = Mid$(Code$,I,1)
+			If Tex = " " Then StartX = I
+			
+			If Tex = "." And Lower(Mid$(Code$,I+1,Len(T\Name$)+1)) = 
+T\Name_lower$+" " Or Lower(Mid$(Code$,I+1,Len(T\Name$)+1)) = 
+T\Name_lower$+"=" Then
+				If StartX = 0 Then
+					T\LastPointer = T\TypesPointer:T\TypesPointer$ = Mid$(Code$,1,(I) -
+ 1)
+				Else
+					T\LastPointer = T\TypesPointer:T\TypesPointer$ = 
+Mid$(Code$,StartX+1,(I - 1) - StartX)
+				EndIf
+			Else If Tex = "." Then
+				If StartX = 0 Then
+					ThisPointer$ = Mid$(Code$,1,(I) - 1)
+				Else
+					ThisPointer$ = Mid$(Code$,StartX+1,I  - (StartX + 1))
+				EndIf
+			EndIf
+			
+			If Tex = "." And Lower(Mid$(Code$,I+1,Len(T\Name$)+1))&lt;&gt; 
+T\Name_Lower$+" " Then
+				
+				For J.Fields = Each Fields
+					If J\ParentClass = T Then
+						If Lower(Mid$(Code$,I+1,Len(T\Name$))) = J\Name_Lower Then
+							Code$ = Mid$(Code$,1,I-1)+"\"+ Mid$(Code$,I+1,Len(Code$)-I+1)
+							TrigIsField = True
+						EndIf
+					EndIf
+				Next
+				
+				If Right$(Code$,2) = "++" Then TrigPLUS1 = True
+				If Right$(Code$,2) = "--" Then TrigMINUS1 = True
+				
+				If TrigPLUS1 = True Or TrigMINUS1 = True Then Code$ = 
+Left$(Code$,Len(Code$)-2)
+				
+				For J.Fields = Each Fields
+					If J\ParentClass = T Then
+						whatTh$ = Lower(Mid$(Code$,I+1,Len(J\Name$)))
+						If WhatTh$ = J\Name_Lower Then 
+							Code$ = Mid$(Code$,1,I-1)+"\"+ Mid$(Code$,I+1,Len(Code$)-I+1)
+						EndIf
+					EndIf
+				Next
+				
+				If TrigPLUS1 = True Then Code$ = Code$+ " = " +Code$+" + 1"
+				If TrigMINUS1 = True Then Code$ = Code$+ " = " +Code$+" - 1"
+				
+				If TrigIsField = False And Lower(T\TypesPointer) = 
+Lower(ThisPointer)Or Lower(T\LastPointer) = Lower(ThisPointer) Then
+
+					For M.Method = Each Method
+						tkp =0 
+						tn$ = Lower( Mid$(Code$,I+1,Len(M\Name$)))
+						If tn$ = M\Name_Lower$ Then 
+							
+							ParentTrigger = False
+							TT = M\parentPTR
+							While TT&lt;&gt;Null
+								If (TT = M\parentPTR) Then
+									ParentTrigger = True
+								EndIf
+								TT=TT\ParentClass
+							Wend
+							If ParentTrigger = True Then
+								For K = 1 To Len(Code$)
+									If Mid$(Code$,K,1) = "(" And tkp = 0 Then Perenth = K+1 :tkp = 1
+								Next
+								If Right$(Code$,2)="()" Then
+									Code$ = M\Name$+"_"+T\Name$+"( "+ThisPointer+" 
+"+Mid$(Code$,Perenth,Len(Code$) - Perenth+1)
+								Else
+									Code$ = M\Name$+"_"+T\Name$+"( "+ThisPointer+" , 
+"+Mid$(Code$,Perenth,Len(Code$) - Perenth+1)
+								EndIf
+							EndIf
+						EndIf
+					Next
+				EndIf
+				
+			EndIf
+			TCS$ = Mid$(Code$,I,2)
+			If tcs = "+=" Or tcs = "-=" Or tcs = "*=" Or tcs = "/=" Then
+				Code$ = Left$(Code$,i-1)+"= 
+"+Left$(Code$,I)+Right$(Code$,Len(Code$)-(I+1))
+			EndIf
+			If Right$(Code,2) = "++" Then Code$ = Left$(Code,Len(Code)-2) + 
+"="+Left$(Code,Len(Code)-2)+" + 1"
+			If Right$(Code,2) = "--" Then Code$ = Left$(Code,Len(Code)-2) + 
+"="+Left$(Code,Len(Code)-2)+" - 1"
+		Next
+	Next
+	If GlobalFlag Then
+		Return "Global "+Code$
+	Else
+		Return Code$
+	EndIf
+End Function
+
+Function ProcessClass.Class(LineIn$,TabCount)
+	
+	Local T.Class,C.Class,TLIN,ParentName$,TI,SI,I
+	
+	ParentName$ = ""
+	
+	For I = 1 To Len(LineIn$)
+		If Mid$(LineIn$,I,1) = ";" Then SI = I
+		If Mid$(LineIn$,I,1) = ":" Then 
+			TI = I
+		EndIf
+	Next
+	
+	T.Class = New Class
+	
+	If SI &lt;&gt; 0 Then T\Comment = Right$(LineIn$,Len(LineIn$) - 
+(SI-1)):LineIn$ = Left$(LineIn$,SI-1)
+	
+	LineIn$ = RemoveRightSideTabs_Spaces$(LineIn$)
+	
+	TLIN = Len(LineIn$)-Len("Class")
+	If TLIN &lt;= 0 Then RuntimeError "Error @ Line: "+ LineCount+" Class 
+has no name!"
+	
+	If TI &lt;&gt; 0 Then ParentName$ = 
+RemoveSpaces$(Mid$(LineIn$,(TI+1),(SI - TI)-2))
+	
+	If ParentName$ &lt;&gt; "" Then
+		For C.Class = Each Class
+			If C\Name$=ParentName$ Or C\Name_Lower$=ParentName$ Then 
+				T\ParentClass = C:T\Name = Mid$(LineIn$,7,TI - 8)
+			EndIf
+		Next
+	Else
+		T\Name = Right$(LineIn$, TLIN - 1)
+	EndIf
+	
+	T\Name_Lower = Lower(T\name)
+	T\ClassTabs = TabCount
+	T\ContainMethods = False
+	
+	Return T
+	
+End Function
+
+Function ProcessField(LineIn$,T.Class,TabCount)
+	
+	Local FieldName$,F.Fields,I,SI,TI
+	
+	For I = 1 To Len(LineIn$)
+		If Mid$(LineIn$,I,1) = ";" Then SI = I
+		If Mid$(LineIn$,I,1) = ":" Then TI = I		;Might use this for 
+Privatization
+	Next
+	
+	F.Fields = New Fields
+	
+	If SI &lt;&gt; 0 Then F\Comment = 
+Right$(LineIn$,Len(LineIn$)-(SI-1)):LineIn$ = Left$(LineIn$,SI-1)
+	
+	LineIn$ = RemoveRightSideTabs_Spaces$(LineIn$)
+	
+	Select True
+		Case Right$(LineIn$,1)="%"
+			F\VariableType=0
+			LineIn$ = Left$(LineIn$,Len(LineIn$)-1)
+		Case Right$(LineIn$,1)="$"
+			F\VariableType=1
+			LineIn$ = Left$(LineIn$,Len(LineIn$)-1)
+		Case Right$(LineIn$,1)="#"
+			F\VariableType=2
+			LineIn$ = Left$(LineIn$,Len(LineIn$)-1)
+		Default
+			F\VariableType=0
+	End Select
+	
+	FieldName$ = Right$(LineIn$,Len(LineIn$)-6)
+	F\Name = FieldName
+	F\Name_Lower = Lower(FieldName)
+	F\ParentClass = T
+	F\Tabs = TabCount
+	F\Private = T\ContainPrivates
+	
+End Function
+
+Function ProcessTypes(T.Class)
+	
+	Local F.Fields,FT$
+	
+	For F.Fields = Each Fields
+		FT = ""
+		If F\ParentClass = T Then
+			Select True
+				Case F\VariableType = 0
+					FT = "%"
+				Case F\VariableType = 1
+					FT = "$"
+				Case F\VariableType = 2
+					FT = "#"
+			End Select
+			WriteLine (file2,ReplaceTabs$("Field" + " " + 
+F\Name+FT+Chr(9)+F\Comment,F\Tabs))
+		EndIf
+	Next
+	
+End Function
+
+Function ProcessTypesParent(T.Class)
+	
+	Local F.Fields,FT$
+	
+	For F.Fields = Each Fields
+		FT = ""
+		
+		If F\ParentClass = T And F\Private = False Then
+			Select True
+				Case F\VariableType = 0
+					FT = "%"
+				Case F\VariableType = 1
+					FT = "$"
+				Case F\VariableType = 2
+					FT = "#"
+			End Select
+			WriteLine (file2,ReplaceTabs$("Field" + " " + 
+F\Name+FT+Chr(9)+F\Comment,F\Tabs))
+		EndIf
+	Next
+	
+End Function
+
+; Remove Tabs from the OO code if any, keep track of how many there are
+Function RemoveTabs()
+
+	Local tc = 0
+	
+	While Left$(LineIn$,1) = Chr(9)
+		tc = tc + 1
+		LineIn$ = Right$(LineIn$,Len(LineIn$)-1)
+	Wend
+	
+	Return tc
+	
+End Function
+
+; Replace Tabs from the OO code so that the readablity is still present.
+Function ReplaceTabs$(In$,Tabs)
+	
+	Local i
+	
+	For i = 1 To Tabs
+		In$ = Chr(9) + In$
+	Next
+	
+	Return In$
+	
+End Function
+
+; Remove Spaces does exactly that from a string.
+Function RemoveSpaces$(in$)
+	
+	While Left$(in$,1) = " "
+		in$ = Right$(in$,Len(in$)-1)
+	Wend
+	
+	Return in$
+	
+End Function
+
+; Remove Spaces and tabs on the right side(does not keep track of them)
+Function RemoveRightSideTabs_Spaces$(In$)
+	
+	While Right$(In$,1) = " " Or Right$(In$,1) = Chr(9)
+		In$ = Left$(In$,Len(In$)-1)
+	Wend
+	
+	Return In$
+	
+End Function
+</textarea><br><br>Working on a OOPS to C++ converter.  It's taking some time as I don't really know C++ that well. <br><br> <a href="http://www.stereofame.com/#/mysecondwish" target="_blank">My Music</a> <br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2712" target="_blank">Mouse XY to 3D XY</a> / <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2706" target="_blank">Improved Perlin Noise 2D and 3D</a><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2695" target="_blank">HeightMapped GeoSphere</a>/<a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2715#comments" target="_blank"> Dynamic LOD(Level Of Detail)</a><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2740" target="_blank">Blitz3D Keyword Data List</a>  / <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2741" target="_blank"> Blitz3D like syntax to C++</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>June 30,2010</td><td align="right"><font class="tiny">(Posted 2010-06-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have had an Idea, not sure if it has been done before, to create a 
+language that will convert to any other language.  Like oops to C++ or 
+Java but only in general syntax, you will still need to know the 
+libraries and extensions for individual languages and you will also need
+ to know how to compile them. <br><br>I'm sure the logistics of this idea would be immense but the final product would be sweet.<br><br>And damn it, Mark took my idea with monkey!  well whatever not like i was going to get as far along as he did. <br><br> <a href="http://www.stereofame.com/#/mysecondwish" target="_blank">My Music</a> <br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2712" target="_blank">Mouse XY to 3D XY</a> / <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2706" target="_blank">Improved Perlin Noise 2D and 3D</a><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2695" target="_blank">HeightMapped GeoSphere</a>/<a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2715#comments" target="_blank"> Dynamic LOD(Level Of Detail)</a><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2740" target="_blank">Blitz3D Keyword Data List</a>  / <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=2741" target="_blank"> Blitz3D like syntax to C++</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

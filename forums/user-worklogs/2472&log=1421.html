@@ -1,0 +1,145 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Angus</h1><h1>Tower Platform Game</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Long time no work</td><td align="right"><font class="tiny">(Posted 2010-11-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> After updating the worklog for KeePeeUp, I looked back at this and realised how far out of date it was!  God.<br><br>Though it's on hold for now, this system has come on a long way since the last entry.<br><br>Gone is my own collision system.  Much though I enjoyed working on it, Box2D just seemed much nicer.<br><br>And
+ in has come the full scripting I was planning on.  Complete with 
+editor-defined custom classes with their own code and everything.<br><br>It's still miles from being a game, but I couldn't let this worklog stand as it was.  Things are very different now. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A little demonstration</td><td align="right"><font class="tiny">(Posted 2007-10-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here is a little demo of the collisions working, to demonstrate that 
+they really are just about right.  A few more adjustments and they 
+should be perfect.<br><br>If you run it, sometimes you will see a circle
+ pop outside of the area.  The main reason for this is when a circle 
+gets "crushed" between multiple lines.  In a real game situation, this 
+would result in a character getting killed or whatever.<br><br>I just used, for the first time, the first free file hosting service I could find.  I hope it works OK.  Here's the link:<br><br><a href="http://www.filefactory.com/file/8926ac/" target="_blank">Collision tester</a><br><br>Edit:  The right mouse button quits the demo, by the way.<br><br>Most
+ of the balls bounce.  One follows the mouse pointer and slides.  
+Holding down the left mouse button will stop it from following the 
+mouse.  This allows you to spring it towards the pointer quickly, to 
+test lots of situations. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Yet More Collisions</td><td align="right"><font class="tiny">(Posted 2007-10-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yes, a big change in timescale indeed.<br><br>After
+ a break of about six months, I finally built up the courage to come 
+back to this sticky problem.  I was close to giving up and reverting to 
+my old system, but a few hours spent diligently head scratching has 
+bourne results.<br><br>The system now nearly works.  It finds very fast 
+moving collisions without trouble.  It uses a non-iterative process for 
+correcting the position of "pinched" circles.  It seems to be pretty 
+fast, and it's still in it's un-optimised state.<br><br>The process of 
+building the whole thing was a bit of a fumble in the dark.  As such, 
+things got added in a very bitty manner.  The code as it stands just now
+ is not pretty, but with a couple more tweaks and a lot of 
+re-organising, I think I may just have cracked it!<br><br>This is pretty good news for me, as it means I haven't been wasting my time.<br><br>Even
+ if I find that the one or two remaining glitches are impossible to 
+remove; I won't have been wasting my time, really.  The thing about 
+pinched circles could be adapted to fit my older, simpler system.  It 
+would mean that the old system wouldn't hit "crisis points", where the 
+machine suddenly has to do lots of work to free a couple of circles from
+ tricky potisions.<br><br>So anyway, I'm pleased.  I've made a note of 
+the changes that are required to the collision system, and am moving on 
+for a short time.  It's started to grate somewhat, and at any rate is 
+working well enough for me to develop and test other areas.<br><br>My 
+plan now is to try to get the appearance system working.  That is, the 
+part of the system that actually displays all of my moving, stretching, 
+rotating scenery and characters.  I forsee fewer problems with this 
+system than I did for the collisions.  I KNEW that was going to be 
+difficult; the appearance system I simply SUSPECT of being difficult.<br><br>As
+ always all predictions are subject to change, but I'll give my self a 
+month or so to get most of the appearance system done.  It's a very fun 
+thing to build, in theory.  It marks the point at which my game actually
+ starts to look like a game, and also means that I get to draw pretty 
+pictures as a distraction, then see them moving sweetly around my screen
+ immediately.(sp?)<br><br>Assuming I get that done OK, I'll return to clean up some of the collision gripes.<br><br>I'm
+ very pleased with the way things have gone over the last couple of 
+weeks!  Hopefully things will be more productive now that hillock is 
+nearly negotiated. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Further Collisions</td><td align="right"><font class="tiny">(Posted 2007-02-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> OK, so I said it was subject to change.  I see now that the deadline has passed, and my collisions are not yet complete.<br><br>I am making good progress, though.  It's just a matter of time before I've got the first runnable version of the code.  <br><br>The
+ problem with my old circle to line collision code was that it missed 
+collisions between objects that moved too fast.  I built workarounds for
+ small objects, which were particularly vulnerable to the effect, by 
+giving them "tails" which were lines, stretching along the length of 
+their movement vector.  If these lines crossed a scenery line, then a 
+collision was detected.  Hardly elegant, and it still didn't work in 
+every eventuality.<br><br>Moving lines, as all my lines are, complicate the problem.<br><br>For
+ my new version, after occluding impossible collisions; I'm left with a 
+list of circles and a list of lines to compare with each.  For each 
+collision, I build a model that implies the movement of the line in the 
+movement of the circle.  The line is orientated on the x-axis of this 
+model, and the circle takes a (simplified) path through the model.  The 
+path being the one travelled by the circle, through the frame, relative 
+to the current line.<br><br>I've written quite a lot of this system, but hit some snags.<br><br>My
+ coding style is such that I want to have a complete chunk of code 
+written before I try and run it.  Particularly when I've programmed 
+similar chunks in the past, and so know the general structure, but want 
+to change a lot of the details.<br><br>So although I've written quite a lot, I don't know if any of it works.<br><br>It
+ was easy in my old version.  It effectively looked at the level at the 
+end of the frame and said:  Any circle that is overlapping any line, 
+move it to the closest point at which it no longer overlaps.  Then 
+repeat until nothing overlaps with anything.  In amongst that there were
+ some hacks for stuff like the tail mentioned above, and to avoid 
+infinite loops when parallel lines squash a circle.<br><br>The upshot of
+ the system was that the lines were two-sided as well.  More often than 
+completely missing a collision, the circle would end up colliding with 
+the wrong side of the line.<br><br>I suppose that the problems with the 
+old system could be worked around.  This is a comforting thought, as the
+ new system is still something of an unknown.  I'm making a few 
+assumptions, primarily about the "simplification" of the path of the 
+circle that I make relative to the line.  It's a pretty major 
+simplification.  I don't think it'll be a problem, but I wont know until
+ the code is finished.  It seems easier to code the entire solution than
+ to test one full frame with a pencil and paper.<br><br>The new system 
+should be much more solid.  In fact circles should be able to move at 
+any speed and all collisions be caught.  Also scenery should be able to 
+be flung around without skipping any collisions.  The problems will 
+occur when lines rotate at very large values each frame.  Individual 
+frames in which a line rotates by more than about 45* Degrees will miss 
+some collisions at the tips of the line.<br><br>I'm willing to live with this.  It should be pretty rare.<br><br>An upside of the system is that I can make lines one-sided.  Which is very useful, of course, for a platform game.<br><br>The
+ real thing that's been holding me up has been how to treat the ends of 
+the lines in straightforward circumstances.  Anyway, I've decided what 
+to do and coded a lot of it.<br><br>So I'll give myself another couple 
+of weeks for the collision detection.  If it doesn't work out, and I 
+have to revert to a modified version of the old system, I'll add another
+ month.<br><br>I've just got to keep looking forward to the good stuff 
+that's coming.  If I get to see the collisions working using my outline 
+rendering, it'll be pretty cool.  Once I've done that, though, I can get
+ onto the graphics system, and that means I can start drawing pictures. 
+ Which is always a nice diversion.<br><br><br>*Edit:  This number is a 
+bit of a guess.  It's really the value at which I believe the effect may
+ become noticable.  In fact, the effect is always present.  I'm banking 
+on the belief (pretty firm belief, mind you) that it's insignificant at 
+smaller angle changes.  Only some testing will prove it for me.  I can't
+ be bothered doing a thousand sums by hand just to see if one 
+hypothetical frame turns out ok. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>What's happened so far</td><td align="right"><font class="tiny">(Posted 2007-02-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This is the latest "version" of my platform engine.  Perhaps this time I'll have made it good enough to get the game added to.<br><br><br>-Created my "number" object.<br>Used
+ to represent any value that can be accessed through the script system. 
+ Numbers can be set off on pre-defined paths, complete with smooth 
+acceleration/deceleration options.  A characters position, for example, 
+would be represented by a "number", as will most values in the game.<br><br><br>-Created my "script" system.<br>Not
+ really a true script system.  Was planning to make the engine 
+completely scripted, but it's too hard for me! This system allows the 
+level designer to carry out commands conditionally.  An individual 
+script object contains a variable number of conditions (or none), an 
+operator (and,or), a list of commands to be carried out if the 
+conditions meet the operators criteria, and a list of commands to carry 
+out if they don't.  A bit like a big if/then/else structure.<br><br>An example of a script command is:  Start Number (n) on Path (p)<br><br>Where
+ the level designer specifies the number and the path.  The script 
+system will need to be populated with command functions as I complete 
+further objects.<br><br><br>-Created my "node" object.<br>   A series of
+ objects arranged in a tree fashion.  Each node contains information 
+about it's own position, scale, angle and skew transformation.  Each 
+node also contains a flag to determine if it inherits transformations 
+from it's parent, and a flag for each transformation to determine if it 
+is included in the "family transformation".  Using these parts, I can 
+get loads of things happening to my scenery and objects.  Am very 
+pleased with it:)<br><br><br>Am currently working on:  The collision detection system.<br><br>Have
+ coded my "shape" object, which is basically a list of lines.  Shapes 
+are connected to nodes.  A shape takes on the transformation ultimately 
+applied to it's node.  Shapes will generally be used to define scenery.<br><br>Have
+ coded my "circle" object, which is just a radius connected to a node.  
+Circles are tested for collisions with Shapes, and other circles.  They 
+will generally be used to define characters, pickups, bullets and other 
+things.  Individual Circles inhabit collision lists for the purpose of 
+identifying which other circles are to be considered for collision.<br><br>My
+ circle-line collision is to be an upgrade of the one I coded for 
+Newplat (was on BC, now sadly gone)*.  I've got a pretty good idea where
+ I'm going with it, but it's hard thinking.<br><br>After collision 
+detection comes my "appearance" object.  Like Newplat, this'll consist 
+of a list of maps, and like a Shape, it'll be connected to a node.  
+Unlike Newplat, each map within an Appearance will be able to be scaled 
+and skewed, not just rotated.<br><br>Estimated time to complete collision detection system:<br>   Another 3 Weeks (DEFINATELY subject to change)<br><br><br>*Anyone
+ have an old copy of the demo?  I've completely lost it.  It was coded 
+in BPlus and I'm in BMax now, but I'd still like to see it again. <br><br> ANGUS </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

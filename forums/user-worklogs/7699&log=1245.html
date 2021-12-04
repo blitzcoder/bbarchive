@@ -1,0 +1,52 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Sacha</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>R&amp;D ... or somewhat.</td><td align="right"><font class="tiny">(Posted 2005-05-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Not dead, not dead ...<br>Im currently doing some research on the most efficient way to make maps.<br>Im
+ not sure If I should use a terrain model modeled and textured in maya, 
+totally free, or a terrain model in maya, with a tiled textures added 
+afterwards. At least I know im definetely not using a heightmap/terrain.<br><br>My main issue with doing a terrain with maya, is that I found no direct way to export my work to a file format B3D can use.<br>Using
+ wings to convert the .OBJ file to a .3DS file is okay, but I didnt find
+ a way to have my materials/UVs work done in maya shown in Wings. That 
+means I have to do all the material work in Wings, and that take ages.<br><br>Anyways ... If anyone has a good solution, please tell me.<br> <br><br> ---------------------------------------<br>Lets sing the Doom Song ! -<br>Doom dee-doom doom dee-doom doom ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Working working ...</td><td align="right"><font class="tiny">(Posted 2005-04-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ So the terrain stuff is ok, the scenery objects are ok and stuff ... 
+But to be able to make nice maps, I think I need to do a map editor now :<br>theres
+ terrain model to do, tiles painting / UVs, flagmap (bmp image that 
+determines terrain attributes), and scenery objects placing (wich so far
+ is done by boring commands like /dec+ # to add one, /decr # X Y Z to 
+rotate &amp; stuff like that), so without a good tool, it takes ages.<br><br>Since
+ Ive got my new computer, I started 'multiplayer' (2 pcs &lt;_&lt; ...) 
+tests (I couldnt made any for months) and actually it went than I 
+tought, altough there was lot of code modification since last tests.<br><br>Thats it for this entry. I wonder If anyone reads this anyways o_o.<br> <br><br> ---------------------------------------<br>Lets sing the Doom Song ! -<br>Doom dee-doom doom dee-doom doom ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Modifications ...</td><td align="right"><font class="tiny">(Posted 2005-03-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Im currently working on my new terain system wich will allow me to do 
+more decent landscapes. Im only on the early tests so fat, but it looks 
+like it will fit very nicely. :)<br> <br><br> ---------------------------------------<br>Lets sing the Doom Song ! -<br>Doom dee-doom doom dee-doom doom ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Working ...</td><td align="right"><font class="tiny">(Posted 2005-02-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yup yup, altough I dont tell much about it im still working on it.<br>Tonight
+ I managed to finish the portal systems (to go to a map to another) wich
+ isnt as simple as it sounds since it requires player disconnection from
+ mapserver of origin, redirection to the mapserver managing the map he 
+is going to, and player information transfert ...<br>Ok actually it is 
+supposed to be simple, as it should be just like a reconnection, but 
+somehow I managed to make it harder to do. &lt;__&lt;;<br><br>I also 
+finished a first version of something 'quite' important wich is the 
+player infos recording system ... you know, the thing that makes the 
+server remember that you wandered arround and gained xp &amp; items. Not
+ the kind of thing I could delay much longer in the schedule (what 
+schedule ?!).<br><br>So to recap, so far theres :<br>- Players movement &amp; chat (public, private),<br>- Basic player-monster fighting managment,<br>- Gates allowing to go to other maps,<br>- Basic game interface (text input &amp; function, message log, windows system, almost minimap ...)<br>-
+ Mapserver begining of graphical interface &amp; tools for gamemastering
+ (so far monster adding / removing at points or in mouse-drawn zones)<br>- Main server basic fonctions (whois, kick, global notices &amp; stuff ...)<br><br>Wich
+ means it approching the point ill do some private beta test sessions. 
+But before that, I need to find myself a second PC to do my own basic 
+multi-clients tests, since theres a while I couldnt do any real tests 
+(for now I can only run the client multiples time on my own computer. 
+Needless to say having the main server, mapservers &amp; 2 clients 
+runing on the same computer isnt the best testing condition I can hope 
+for).<br><br>Thats all for now =)<br> <br><br> ---------------------------------------<br>Lets sing the Doom Song ! -<br>Doom dee-doom doom dee-doom doom ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Starting the graphics part</td><td align="right"><font class="tiny">(Posted 2005-01-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I finally started to code a bit for the graphics part of the game. Im 
+working on the terrain texture system for now. It looks better already, 
+but its still empty of any objects, Ill need to model trees &amp; stuff 
+like that asap.<br>New screenshots soon.<br> <br><br> ---------------------------------------<br>Lets sing the Doom Song ! -<br>Doom dee-doom doom dee-doom doom ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>About ...</td><td align="right"><font class="tiny">(Posted 2005-01-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here the project I was working on some time ago, and decided to continue.<br>Its
+ somewhat of an Ragnarok Online clone, with the 2D/3D graphics mix ... 
+dont laugh about the graphics, its all just quick made fakes sprites 
+&amp; stuff, just for tests. Btw if any cute-mangaish style spriter with
+ lots of free time and willing to work for free on a mmorpg reads that, 
+contact me =)<br>Its the first worklog I enter here ! I have some other projects im working on, not much to show so far tough.<br> <br><br> ---------------------------------------<br>Lets sing the Doom Song ! -<br>Doom dee-doom doom dee-doom doom ! </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

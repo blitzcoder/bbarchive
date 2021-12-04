@@ -1,0 +1,167 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Helios</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Im back.</td><td align="right"><font class="tiny">(Posted 2006-03-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Sorry for the few updates, I've been rather busy with other sutff. Ill update this more often :). <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Nuts</td><td align="right"><font class="tiny">(Posted 2006-03-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well i've hit a stump, as object pointers are no longer allowed in 
+version 1.18 my config and console system have completly broke, if any 
+one can help please read the topic in made in Blitz Max Programming with
+ the name String Pointers. Thanks :)<br><br>Im also releasing the 
+scripting language im using in this look in the programming board for a 
+topic names "BP Scripting Language" <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Scripting language probs.</td><td align="right"><font class="tiny">(Posted 2006-03-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well ive been fixing up certains scripting langauge problems which were
+ causing odd problems if you invoked a functions while the script was 
+already in an invoked functions, pretty odd yeh &lt;_&lt;, but was 
+causing so major bugs for the OnCollision events within the scripts. <br><br>Ive
+ also started implementing simple mutex system as i was having quite a 
+few problems croping up when script functions were invoked when the 
+script was already in a latency functions (WaitMs, WaitForAnimEnd, 
+...etc), the syntax ive decided on is exceptionally simple to use, heres
+ an example that causes errors without mutexs (because the 
+MoveLeft/MoveRight..etc use latency functions so the player attemps to 
+move every frame which causes the stack to overflow as its meant to be 
+wating for 500ms in the move* function).<br><br><pre class="code">
+	// Move in directions specified
+        Mutex {
+		If (KeyDown("ARROW_LEFT")  == True) MoveLeft();
+		If (KeyDown("ARROW_RIGHT") == True) MoveRight();
+		If (KeyDown("ARROW_UP")    == True) MoveUp();	
+		If (KeyDown("ARROW_DOWN")  == True) MoveDown();	
+        }
+</pre><br><br>Im also toying with the idea of making all but speed 
+dependent stuff scripted, this has the con of making things like players
+ hard to code because of the threading, persistant and battle engine 
+stuff. But it also has the pros of being completly independent of the 
+engine meaning you can modify the game as much as you want while never 
+recompling the engine. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Yet more stuff done</td><td align="right"><font class="tiny">(Posted 2006-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Fixed up the collision system (pretty fast to :P), unfortunatly it also
+ cropped up a problem in the scripting language where the stacks getting
+ corrupted so thats probably goner take a while to fix. Also addded a 
+ton more commands to the scripting language ranging from 
+animation(similar to b3d's system) to trigonometry stuff. The object 
+inspector in the editor has also been completed, its ugly but it does 
+the job. Heres a nice picture (yes i am aware that non of the graphics 
+are original, ive ripped or nicked them from various sources while i 
+work on it. Also sorry about the tileing errors in the map i didnt spend
+ long creating the map.)<br><br><img src="7531&amp;log=1322_files/bpenginess25nc.html"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fixed a few more things</td><td align="right"><font class="tiny">(Posted 2006-03-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well i fixed a ton of bugs in the editor today, I also sorted out the 
+loading and saving of scripted entitys through the tilemap class which 
+is now finished, and pretty much allows full maps to be loaded into the 
+engine. All i really need to do now is allow people to modify properties
+ of entitys in the editor, which im now working on :).<br><br>Also just 
+fixed up the log file (pretty much linked directly to the console) so it
+ now outputs a much nicer html log file rather than a simple text file. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Details</td><td align="right"><font class="tiny">(Posted 2006-03-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well i've been working on this for a week or so now, its in pretty good
+ shape to, the editor is more or less done(with a horendous amount of 
+bugs O_O), the base of the engine is also complete, the resource system 
+is quite nice to as it packs everything up into pack files of my own 
+format which can be loaded incredably quickly (only takes 1 ms to load a
+ pack file with 1000 odd files in it, when loaded a file all you need to
+ do is incase the url in a Res() call(im thinking of implementing a 
+res:: protocal sort of like the incbin:: protocal for ease of use), when
+ it grabs the data of the file it only has a very small overhead. Ive 
+also done a few other functions like ResImage(), ResAudio() and such to 
+cast the data into the right type for use). The audio system is also 
+done, at the moment it only has drivers for FreeAudio and Fmod to be 
+used but im thinking of expanding it into a few others, and graphics 
+driver is only avalible at the moment for OpenGL as i have no idea how 
+to do some of the things ive been doing in DirectX(such as dynamic 
+Z-Ordering))<br><br>The engine is similar in implementation to the 
+Unreal engine, being that it revolves around a OOP scripting language, 
+in fact the Unreal engine is where i got my idea from. The other nice 
+thing about the engine/editor/compiler/..etc is its all incased in the 
+same exe; you start up different tools by using the command line, this 
+not only cuts down size of any downloads but it means changes in the 
+source of one will effect the others (great or things like the 
+audio/graphics drivers).<br><br>The scripting language that it runs on 
+is now finished (few things to touch up though) and runs as a full 
+precompiled stack based language, with support for threading, full 
+selection of operaters, and a very nice(if i do say so my self :P) 
+save/restore system which allows you to save scripts and restore them to
+ the exact state they were saved at (It also does thins such as reloaded
+ resources that are stored in variables...etc). The only thing i 
+currently dont like about it is there no dynamic memory allocation so it
+ all pretty static but non the less it does the job in hand, heres an 
+example script i was using to test it.....<br><br><pre class="code">//=============================================================================
+// Compiler test
+// Copyright (C) 2005 Binary phoenix
+//=============================================================================
+Class NPC extends NPCBase;
+
+//-----------------------------------------------------------------------------
+// Global variables
+
+// Path to the image used by this entity, editable by the editor.
+Var ImagePath Editable;
+
+//-----------------------------------------------------------------------------
+// Functions
+
+Event OnCreate() {
+
+	// Setup image
+	SetEntityImage(Self,LoadAnimImage(ImagePath,32,48));
+	
+	// Movement test 
+	// ~~~ BAD PRACTICE, dont add code like this in the create event
+	//	 do it in the map start event.
+	While(True) {
+		MoveInBox(Rand(-100,100),Rand(-100,100));
+		Wander(Rand(1,2));
+	}
+
+}
+
+// Special version of OnCreate called by the editor when an entity is created
+// this is best used to load the image to draw in the editor.
+Event OnEditorCreate() {
+
+	// Setup image
+	SetEntityImage(Self,LoadAnimImage(ImagePath,32,48));	
+
+}
+
+// Used by the editor when it resets the editable properties of this object
+Event OnEditorValueReset() {
+
+	ImagePath = "EngineDemo\\Images\\Entitys\\NPC.png";
+
+}
+</pre><br><br>And heres the base object that i extended the above object from to test inheretence.<br><br><pre class="code">//=============================================================================
+// NPC Base, the npcs in this demo inheret from this.
+// Copyright (C) 2005 Binary phoenix
+//=============================================================================
+Class NPCBase;
+
+Function MoveInBox(Width,Height) {
+	If (Width == 0 || Height == 0) Return;
+	MoveEntity(Self,  Width,  0,      1); SetEntityFrame(Self,1); WaitEntityMove(Self);
+	MoveEntity(Self,  0,     -Height, 1); SetEntityFrame(Self,0); WaitEntityMove(Self);
+	MoveEntity(Self, -Width,  0,      1); SetEntityFrame(Self,2); WaitEntityMove(Self);
+	MoveEntity(Self,  0,      Height, 1); SetEntityFrame(Self,3); WaitEntityMove(Self);
+}
+
+Function Wander(Speed) {
+
+	// Create a random direction to move in
+	Var X, Y;
+	While (X == 0 &amp;&amp; Y == 0) {
+		X = Rand(-100,100); 
+		Y = Rand(-100,100);
+	}
+
+	// Set the entitys frame depdning on direction
+	If (X &lt; 0 &amp;&amp; Abs(Y) &lt; Abs(X)) SetEntityFrame(Self,1);
+	If (X &gt; 0 &amp;&amp; Abs(Y) &lt; Abs(X)) SetEntityFrame(Self,2);
+	If (Y &lt; 0 &amp;&amp; Abs(Y) &gt; Abs(X)) SetEntityFrame(Self,3);
+	If (Y &gt; 0 &amp;&amp; Abs(Y) &gt; Abs(X)) SetEntityFrame(Self,0);
+
+	// Move the entity :P
+	MoveEntity(Self, X, Y, Speed); 
+	WaitEntityMove(Self);
+
+}
+</pre> <br><br>And heres a nice pic of the editor in case your intrested, ive tryed to fit the sub-editors into it aswell.<br><br><img src="7531&amp;log=1322_files/bpeditorss13dz.html"><br><br>Anyway
+ i could go on for a long time about the nice features i've implemented 
+but I only have so long, ill update this worklog soon, I hope you 
+enjoyed reading it as its my first one :). <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

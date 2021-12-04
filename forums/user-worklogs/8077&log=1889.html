@@ -1,0 +1,302 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>
+        <!-- Google Analytics -->
+        <script async="" src="8077&amp;log=1889_files/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-34362789-1', 'auto');  // Replace with your property ID.
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+</head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Brucey</h1><h1>Hwyl gyda crynoadyddion</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BlitzMax grows up...</td><td align="right"><font class="tiny">(Posted 2015-06-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">SuperStrict
+
+Framework brl.standardio
+
+Local t:TMyType = New TMyType
+t.test()
+t.DoIt()
+
+Local i:ISomething = New TMyType
+i.DoIt()
+
+Type TMyType Implements ISomething
+
+	Method test()
+		Print "test"
+	End Method
+	
+	Method DoIt()
+		Print "DoIt"
+	End Method
+	
+End Type
+
+Interface ISomething
+	Method DoIt()
+End Interface
+</pre><br><br>output :<br><pre class="code">Executing:mytype
+test
+DoIt
+DoIt
+
+Process complete
+</pre><br><br>:o) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Oh my !</td><td align="right"><font class="tiny">(Posted 2015-01-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://brucey.net/programming/blitz/bmx_ng/demos/hello_blitzmax.html" target="_blank">http://brucey.net/programming/blitz/bmx_ng/demos/hello_blitzmax.html</a> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>And so work on a new target begins...</td><td align="right"><font class="tiny">(Posted 2014-11-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">$ ./bmk makemods -l android -g arm -a brl.blitz
+Compiling:blitz_app.c
+...
+
+...
+Compiling:blitz.bmx
+Archiving:blitz.release.android.arm.a
+</pre><br><br>;-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>NTS - Not Too Shabby</td><td align="right"><font class="tiny">(Posted 2014-11-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Been benchmarking some new Map types - TIntMap and TPtrMap for now.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">SuperStrict
+
+Framework brl.map
+Import brl.standardio
+Import brl.random
+
+doMap
+doPtrMap
+
+Function doMap()
+	Print "Map"
+	
+	Local time:Int = MilliSecs()
+	
+	Local map:TMap = New TMap
+	
+	For Local n:Int = 0 Until 500
+	
+		For Local i:Int = 0 Until 50000
+			map.insert(String(Rand(0, 100000)), "abc")
+		Next
+	
+		map.clear()
+	
+		If n Mod 100 = 0 Then
+			time = MilliSecs() - time
+			
+			Print time + " : " + n
+			
+			time = MilliSecs()
+		End If
+	
+	Next
+End Function
+
+Function doPtrMap()
+	Print "PtrMap"
+
+	Local time:Int = MilliSecs()
+	
+	Local map:TPtrMap = New TPtrMap
+	
+	For Local n:Int = 0 Until 500
+	
+		For Local i:Int = 0 Until 50000
+			map.insert(Rand(0, 100000), "abc")
+		Next
+	
+		map.clear()
+	
+		If n Mod 100 = 0 Then
+			time = MilliSecs() - time
+			
+			Print time + " : " + n
+			
+			time = MilliSecs()
+		End If
+	
+	Next
+End Function
+</textarea><br>Some stats, showing improved performance of using the primitive value as the key for the map :<br><pre class="code">Map
+2567 : 100
+2485 : 200
+2431 : 300
+2430 : 400
+
+PtrMap
+1554 : 100
+1758 : 200
+1460 : 300
+1443 : 400
+</pre><br><br>Interestingly, I ran the TMap code on the original bcc, and it comes up with this :<br><pre class="code">Map
+2837 : 100
+2953 : 200
+2995 : 300
+3139 : 400
+</pre><br><br>I was expecting the generated asm to be much faster than 
+my generated C, but was rather surprised to find the code running almost
+ at the same speed, if not a wee bit faster!<br><br>(tested on OS X Mavericks i7, 32-bit binaries, Release mode)<br><br>Cool :-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Finally !</td><td align="right"><font class="tiny">(Posted 2014-07-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Things are finally coming together...<br><pre class="code">pi@raspberrypi ~/BlitzMax/bin $ ./bmk makemods -a brl.blitz
+Compiling:blitz_app.c
+Compiling:blitz_types.c
+Compiling:blitz_cclib.c
+Compiling:blitz_memory.c
+Compiling:blitz_module.c
+Compiling:blitz_object.c
+Compiling:blitz_string.c
+Compiling:blitz_array.c
+Compiling:blitz_handle.c
+Compiling:blitz_debug.c
+Compiling:blitz_incbin.c
+Compiling:blitz_ex.c
+Compiling:blitz_gc.c
+Compiling:reclaim.c
+Compiling:allchblk.c
+Compiling:misc.c
+Compiling:alloc.c
+Compiling:mach_dep.c
+Compiling:os_dep.c
+Compiling:mark_rts.c
+Compiling:headers.c
+Compiling:mark.c
+Compiling:obj_map.c
+Compiling:pcr_interface.c
+Compiling:blacklst.c
+Compiling:finalize.c
+Compiling:new_hblk.c
+Compiling:real_malloc.c
+Compiling:dyn_load.c
+Compiling:dbg_mlc.c
+Compiling:malloc.c
+Compiling:stubborn.c
+Compiling:checksums.c
+Compiling:pthread_start.c
+Compiling:pthread_support.c
+Compiling:pthread_stop_world.c
+Compiling:darwin_stop_world.c
+Compiling:typd_mlc.c
+Compiling:ptr_chck.c
+Compiling:mallocx.c
+Compiling:gcj_mlc.c
+Compiling:specific.c
+Compiling:gc_dlopen.c
+Compiling:backgraph.c
+Compiling:win32_threads.c
+Compiling:thread_local_alloc.c
+Compiling:blitz.bmx
+Archiving:blitz.debug.linux.arm.a
+ar: creating /home/pi/BlitzMax/mod/brl.mod/blitz.mod/blitz.debug.linux.arm.a
+</pre><br><br>Here we can see BlitzMax compiling the BRL.Blitz module to
+ Linux ARM. The interesting thing to note here is that the whole process
+ is running natively on the Raspberry Pi.<br>It's not fast, but it works ;-)<br><br>Interestingly, I had all kinds of problems cross-compiling on Linux (x86) to Linux (ARM). Issues with libraries and so on.<br>However,
+ I discovered someone had built such a thing for OS X, which *just 
+worked*, allowing me to firstly cross-compile BlitzMax on OS X to Linux 
+ARM, and then ftp the bcc and bmk binaries to the raspberry pi, and 
+start compiling natively there.<br>Cool beans!<br><br>:o) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Throw "Up"</td><td align="right"><font class="tiny">(Posted 2014-05-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">Building exceptions
+Compiling:exceptions.bmx
+Linking:exceptions
+Executing:exceptions
+Up
+Process complete
+</pre><br><br>:o) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>McVitie's!</td><td align="right"><font class="tiny">(Posted 2014-04-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Digesteroids sample running on OS X, 64-bit, NG... with working sound :o)<br><br><img src="8077&amp;log=1889_files/digesteroids_ng_osx64.png"> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>64 Tiles</td><td align="right"><font class="tiny">(Posted 2014-04-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Tiledrop sample running on OS X, 64-bit, NG...<br><br><img src="8077&amp;log=1889_files/tiledrop_ng_osx64.png"><br><br>mmmmm... tiley... <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BIG spinny text</td><td align="right"><font class="tiny">(Posted 2014-03-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The spinny text sample running on OS X, 64-bit, NG :o)<br><br><img src="8077&amp;log=1889_files/spintext_ng_osx64.png"><br><br><pre class="code">$ file /somepath/spintext_64.app/Contents/MacOS/spintext_64 
+/somepath/spintext_64.app/Contents/MacOS/spintext_64: Mach-O 64-bit executable x86_64
+</pre><br><br>Mmmm, sixty four... <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Circlemania</td><td align="right"><font class="tiny">(Posted 2014-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The circlemania sample running on OS X, 32-bit, NG ;-)<br><br><img src="8077&amp;log=1889_files/circlemania_ng.png"><br><br>mmmm... circly! <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Well ARMed</td><td align="right"><font class="tiny">(Posted 2014-03-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hello world!<br><br><pre class="code">$ ./bmk makeapp -r -g arm -t console -o /somepath/helloworld /somepath/helloworld.bmx
+
+$ file /somepath/helloworld
+/somepath/helloworld: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.26
+</pre><br><br>Sometime later on the "other" box...<br><pre class="code">$ uname -a
+Linux raspberrypi 3.6.11+ #474 PREEMPT Thu Jun 13 17:14:42 BST 2013 armv6l GNU/Linux
+
+$ ./helloworld
+Hello World !
+</pre><br><br>Anyone for Pi ? ;-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Test</td><td align="right"><font class="tiny">(Posted 2014-03-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Automated regression testing...<br><pre class="code">$ ./sct ../src/bcc/tests
+=== STARTING TESTS ===
+* AMOUNT OF TESTS: 2
+* RUNNING TEST: ../src/bcc/tests/framework/numerics/num_01.bmx
+  COMMAND: bmk makeapp -a -t console -r -g x86 -o ../src/bcc/tests/framework/numerics/num_01 ../src/bcc/tests/framework/numerics/num_01.bmx
+  VALIDATION SUCCESSFUL
+  -&gt; OK
+* RUNNING TEST: ../src/bcc/tests/framework/numerics/num_02.bmx
+  COMMAND: bmk makeapp -a -t console -r -g x86 -o ../src/bcc/tests/framework/numerics/num_02 ../src/bcc/tests/framework/numerics/num_02.bmx
+  VALIDATION SUCCESSFUL
+  -&gt; OK
+=== FINISHED TESTS ===
+* FAILED: 0
+* ERROR: 0
+* OK: 2
+</pre><br>mmmmmmm... <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Type</td><td align="right"><font class="tiny">(Posted 2014-03-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A basic Type test :<br><pre class="code">SuperStrict
+
+Framework BRL.StandardIO
+
+Local t:TType = New TType
+t.SetA(150)
+
+Print "a = " + t.GetA()
+
+Type TType
+
+	Field a:Int
+	
+	
+	Method GetA:Int()
+		Return a
+	End Method
+	
+	Method SetA(value:Int)
+		a = value
+	End Method
+	
+End Type
+</pre><br><br>Output :<br><pre class="code">Building test_02
+Executing:test_02
+a = 150
+
+Process complete
+</pre> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Compare</td><td align="right"><font class="tiny">(Posted 2014-03-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A basic test :<br><pre class="code">SuperStrict
+
+Framework BRL.StandardIO
+
+Local i:Int = 11
+Local n:Double = 3.3
+
+For Local count:Int = 0 Until 30
+	n :* i
+	Print "n = " + n
+Next
+</pre><br><br>Orig left, NG right :<br><img src="8077&amp;log=1889_files/bmxng_test_01_diff.png"> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Twice 32 :-)</td><td align="right"><font class="tiny">(Posted 2014-03-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ho hum...<br><br><pre class="code">$ cat helloworld.bmx
+SuperStrict
+
+Framework BRL.StandardIO
+
+Print "Hello World!"
+
+
+$ ./bmk makeapp -a -g x64 -t console -r -o /somepath/helloworld /somepath/helloworld.bmx
+Compiling:helloworld.bmx
+Linking:helloworld
+
+
+$ ./helloworld
+Hello World!
+
+
+$ file ./helloworld
+./helloworld: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24
+</pre><br><br>:o) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>32</td><td align="right"><font class="tiny">(Posted 2014-03-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> dum de dum...<br><br><pre class="code">$ cat helloworld.bmx
+SuperStrict
+
+Framework BRL.StandardIO
+
+Print "Hello World!"
+
+
+$ ./bmk makeapp -a -t console -r -o /somepath/helloworld /somepath/helloworld.bmx
+Compiling:helloworld.bmx
+Linking:helloworld
+
+
+$ ./helloworld
+Hello World!
+
+
+$ file helloworld
+helloworld: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24
+
+</pre> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1889_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

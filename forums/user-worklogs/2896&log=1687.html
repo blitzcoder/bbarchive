@@ -1,0 +1,96 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for _Skully</h1><h1>TileMap Engine</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Updated my Blog</td><td align="right"><font class="tiny">(Posted 2009-12-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've updated my Blog linked off my signature.<br><br>Cheers. <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Log to Blog...</td><td align="right"><font class="tiny">(Posted 2009-10-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Blogging <a href="http://skullyman.blogspot.com/" target="_blank">here </a> now... <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Putt putt</td><td align="right"><font class="tiny">(Posted 2009-07-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, my time to work on this has been seriously reduced lately as I go
+ through buying a house but that doesn't mean its been sitting still.<br><br>Everything
+ is working quite well so far... my next task is to do something that I 
+realize now I should have done from the start and thats to 
+compartmentalize the actual tile engine into its own include file.  I 
+managed to mix some code together so that will be my next task.. the 
+good thing is that I noticed that the bulk of the code is the editor and
+ not in fact the engine.  So thats good news.   The reason it has come 
+to this is that I am just now adding actors (read player first) and in 
+order to test the player movement / collision code I need to have the 
+engine running in game mode! yay... the fun finally begins on this 
+project <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Moving along</td><td align="right"><font class="tiny">(Posted 2009-07-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ TileMax is really coming together.  Its supporting 4 layers, tile-based
+ multiple parallax, scrollers, and animated tiles on any layer.  <br><br>The save/load is finally working as well... I'm so close to working with actors Yay!  <br><br>But
+ first I have to add tileSet to anim strip and tileset to mini-set's to 
+support animated tiles, scrollers, and paralax effects better.  After 
+that the fun begins! <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Keep on truckin</td><td align="right"><font class="tiny">(Posted 2009-07-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ There was a short term scare where I was faced with some seriously 
+boring chunks of coding.. when you do this for a hobby those serious 
+boring chunks of code run the risk of project abandonment and swerving 
+off on to some eye-candy rich playtime coding.  But, I managed to stave 
+off the temptation and keep on truck'in with the tile mapper. <br><br>Happily,
+ I have gotten through it and now have a working tile map engine that 
+contains up to 4 layers per tile (parallax / scroller), 
+background/collision (hidden or visible), background, &amp; foreground<br><br>Coding
+ the map expansion was probably the hardest part since there is no grid 
+to refer to and each tile references the next relatively.  it was an 
+interesting game of logic but I managed to get it working.  Of course, 
+in the end, a hundred lines of code ended up turning into about 20 after
+ I went off on a strange logo-like attempt which was awful until i came 
+to my senses and finally "saw the light"<br><br>Does anyone read these things? lol <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Going well</td><td align="right"><font class="tiny">(Posted 2009-06-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The new tilemap engine is coming along great.  I now have a much more 
+interesting TileMap engine working.  Its array-less and uses a recursive
+ drawing technique.  Its got 3 layers, the collision layer that can be 
+visible or invisible, a background layer and then a foreground layer 
+that will be drawn overtop the player.  Its running at a good speed 
+according to several testers.  I've just finished getting the TileSet 
+brush editor working which works much better than the last go... this 
+method will enable brushes to be made from TileSets and Swatches made 
+from the map.  Map building should be a lot of fun when its all said and
+ done.   Next, I have to work on the brush pasting and merging and then 
+its the save/load system.  Then I'll add a simple character to move 
+around the map with just to see how it performs <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Transfer to BlitzMax</td><td align="right"><font class="tiny">(Posted 2009-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well I finally got my copy of BlitzMax and have been diligently 
+learning the new language structure.  Very different but as I learn more
+ and more I am liking what I see... MUCH more versatility and power 
+under the hood but with that comes a little more complexity.  However, 
+that being said I have finally gotten over the initial shock and am 
+starting to work on the meat of the new version.  I hope to have 
+something to show in the relatively short term but for now.. its onward 
+and upward! <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Development Continues</td><td align="right"><font class="tiny">(Posted 2009-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ So far so good.. the Tile Map engine itself is working, it displays the
+ tile map at any given coordinates and is constrained to those 
+coordinates... I have a routine to display the tile map using 3D sprites
+ but it doesn't appear to be any faster...I retained the code but am not
+ using it anymore.<br><br>The Brush system is greatly improved... now 
+you can build Brushes of varying shapes.. I noticed this was necessary 
+after looking at a few tile sets out there that jam the tiles together 
+so you cannot pull the pieces as a square. Next I'll add a brush sorter 
+for moving the tiles around in the brush to allow for tile sets that are
+ not organized correctly and also mirror operations for tile sets that 
+don't supply already mirrored version of tiles.<br><br>after that I'll 
+be adding a character editor that will allow character sheets to be 
+loaded, and the various animation sequences applied to Right move, left 
+move, climb, crouch, jump etc.. as well as special moves<br><br>Onward and upward... cheers <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>It all Begins...</td><td align="right"><font class="tiny">(Posted 2009-06-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Since returning to the Blitz Community, I was not sure what I wanted to
+ do.. but with 3 kids in my house now I notice a lot of issues with 
+games and small children.  So, I've decided to create a game for kids...<br><br>I
+ decided on a TileMap 2D game, since my kids seem to be drawn to 2D 
+style games more than 3D, but I wanted a platform that I can build other
+ games relatively quickly after... my previous game writing experiences 
+told me to create a versatile engine rather than focusing on a game 
+right away per-say.<br><br>What do I have right now?<br><br>So Far I 
+have a TileMap system that allows me to use multiple Tile Maps 
+(divisible into 32x32 tiles).  I can create brushes from those tile maps
+ and then paste them onto the game map.  There are two brush pasting 
+modes, Merge and Replace.  Merge creates a new custom image based on the
+ original tile with the new brush... only tiles with Alpha are merged.. 
+the remaining just get replaced.  I have saving/loading working as 
+well... it creates a tile map out of the custom images produced by the 
+merging actions.  I also wrote a simple GUI (just the basics) that is 
+nice and fast.  I also was reminded of the huge performance hit that 
+using the Text command causes so I created a simple system that just 
+converts the currently loaded font into an image font... I called it 
+gText. I also have a poly line system for drawing barriers... those 
+barriers can block the player from both sides or a single side.  Since 
+no player is implemented yet... its really a mute point.. but the 
+functionality is prepared...<br><br>Well, that about wraps it up for now... <br><br>Check it out on <a href="http://sites.google.com/site/skullyproductions/" target="_blank">http://sites.google.com/site/skullyproductions/</a><br><br>Next
+ post I will likely have a better brush build system (right now it has 
+to be square) and address the collision layer and how I want that to 
+work...<br><br>Cheers. <br><br> <a href="http://tilemax.webs.com/apps/blog/" target="_blank">Blog</a> | <a href="http://tilemax.webs.com/" target="_blank">TileMax<br><img src="2896&amp;log=1687_files/TileMaxSplash.jpg"><br>-- Game Creation Framework --</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

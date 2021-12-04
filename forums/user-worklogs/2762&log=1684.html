@@ -1,0 +1,47 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Pete Rigz</h1><h1>TimelineFX</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TimelineFX - Everythings coming together</td><td align="right"><font class="tiny">(Posted 2009-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ So what is TimelineFX? Basically it's a particle engine for Blitzmax 
+that lets you throw particle effects about complete with editor to 
+design them all. I've set up a website which you can find here: <a href="http://www.rigzsoft.co.uk/" target="_blank">http://www.rigzsoft.co.uk</a>
+ and hopefully they'll be a demo to download soon. There's plenty more 
+info, screenshots and a few videos there too so take a look if you're 
+interested. I've been busy writing a few tutorials and all the help 
+files etc., so I hope it'll be easy to use!<br><br>Big thanks to Brucey and his wxWidget wrapper, also to Gman for the zip engine mod!<br><br><b>Module features:</b><br><br>+ Fully object orientated<br><br>+
+ Use the particle manager object to update and render all your effects, 
+and create as many particle managers as you need. This can be useful if 
+you need some effects to spawn in front or behind of your other game 
+objects or scenery.<br><br>+ Fast! All the effects can be compiled into 
+lookup tables so despite the use of bezier curves to "draw" your 
+particles' behaviour, no heavy calculations need to be done for each 
+frame - you get fine control over your effects at no expense of the cpu!
+ On top of that, attribute graphs not used are bypassed alltogether for 
+extra speed.<br><br>+ All effects are part of an entity parent/child 
+hierarchy allowing for as many sub-effects as you need. Emitters can 
+spawn particles, that themselves can spawn more particles and so on, is 
+also possible. You can also have particles that remain relative to their
+ parents so that they move and rotate as the parent does.<br><br>+ 
+Control the global attributes of your effects in code so that you can 
+easily fit those effects into your game. For example, a call to 
+SetAreaWidth and SetAreaHeight will allow you to fit your area effects 
+into the space you designate.<br><br>+ Well documented - all the code is documented using docmods plus a mini game to show you the system in practice.<br><br>+
+ Also comes with a fixed rate timing module called mod.tweener so you 
+can easily set up timing in our game/application for smooth movement.<br><br>+ Utilises Gmans ZipEngine module to store your effects files using as little room as possible.<br><br>+ Also uses Bruceys LibXML module so that saved files are stored in the flexible XML format<br><br><b>Editor features:</b><br><br>+ Create a full diverse range of effects using static or animated particles.<br><br>+ Easy to use - all the properties of the emitters and effects are just a click away with the straight forward interface.<br><br>+
+ Experience total control over your effects using the attributes graph. 
+Control many aspects such as particle size, weight, visibility and 
+velocity over the lifetime of the particle and the effect.<br><br>+ The graphs can also use curved lines for even greater control.<br><br>+
+ All effects libraries you save can be loaded straight into the 
+TimelineFX module for instant inclusion into your game/application.<br><br>+
+ Export your effects as animation strips using the animation properties 
+dialogue. Control the size, number of frames, zoom and even make your 
+effects seamlessly loop! Export as full colour, greyscale or 1 colour 
+png animation strips and if you want, load them straight into the editor
+ and use them as animated particles in your effects!<br><br>+ Use static
+ or animated particles - or use animation strips to select a specific 
+frame to use as a particle - you can also make it randomly select a 
+frame for even greater diversity in your effects.<br><br>+ Use the 
+preview window to view all your changes in real-time as you edit 
+effects, change the background colour, zoom in and out and have fun with
+ the paint mode!<br><br>+ Use the Create Icon feature to create an icon in the effects library list to more easily identify your effects.<br><br>+ Easily import effects from other libraries.<br><br>+ Create effects that contain effects within effects - have that explosion debris leave is own smoke trail!<br><br>+ Use the colour bar to change the particle colour over its lifetime or have it randomly select a colour from the colour bar. <br><br> --------------------------------------<br><a href="http://www.rigzsoft.co.uk/" target="_blank">TimelineFX - Particle Effects for Blitzmax</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

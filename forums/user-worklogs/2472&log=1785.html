@@ -1,0 +1,140 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Angus</h1><h1>KeePeeUp</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>And yet more splines...</td><td align="right"><font class="tiny">(Posted 2011-02-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It's just carrying on.  The editor is coming along fine.  Splines and 
+Msplines functioning correctly, now the gl canvas and the visible item 
+control.<br><br>Is a long slog.  More to follow. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>After Extended Xmas...</td><td align="right"><font class="tiny">(Posted 2011-02-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ ...Spline define continues.  Made nice scrolling, scaling spline 
+displays and have a clear plan for how each part will work.  Next comes 
+control point adjustment gadgets.  In my mind I'd like to have a 
+screenshot of most of it by the end of the week.  Har-de-har. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Spline Define</td><td align="right"><font class="tiny">(Posted 2010-12-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Is the stupid name for my Spline Editor, which is underway.  It'll also
+ become my font editor as the two programs share most aspects.<br><br>In
+ fact I'll just make my spline editor allow you to do all of the things 
+required to make the font textures that my text system requires.<br><br>It's
+ pretty slow going, but I've decided the general layout.  I need to edit
+ basic splines, transformed splines, multi-splines and visible slpines. 
+ The visible splines are defined by multi-splines, which are comprised 
+of transformed splines which expand on simple splines.  What a palaver.<br><br>Or
+ so it seemed when I started thinking about it, but now I'm much more 
+comfortable.  Doing it this way allows me to base lots of things on a 
+handful of pre-defined splines without having to re-calculate the 
+coefficients.<br><br>For example a single smooth spline running from 
+zero to one can be transformed to fit any transition between two 
+numbers.  And it can be added or multiplied into a multi-spline to alter
+ that splines ultimate output.<br><br>It all may sound daft.  It sounds a
+ bit daft as I type it, but I'm pretty confident it'll be fine.  And 
+easily fast enough to have splines all over the damn place.  The more I 
+play with them the more I see ways of using them to make my game look 
+and feel "modern", if you get my meaning.<br><br>Anyway, still no shots.  Onward again... <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Menus and Splines</td><td align="right"><font class="tiny">(Posted 2010-12-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The reason I started on all the spline stuff was the fact that I wanted
+ to perk up the menu screens.  Which, incidentally I did finish up to 
+the point proposed in the "Ploughing through menus" post.<br><br>And the
+ buttons do fly around nicely, but I wanted them to arrange themselves 
+in pleasant curves.  Hence all the spline rendering stuff.<br><br>Which 
+has been nice to do.  Though it's not quite finished yet.  Sometimes the
+ outcome of a piece of code is astonishingly close to the initial 
+concept.  Is so sweet when everything works pretty much as intended.<br><br>So now I have lovely flexible Splines, which I've been playing with wondering why I've never done this before.<br><br>One day I will post some examples of all this stuff.  Soon. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More Splines</td><td align="right"><font class="tiny">(Posted 2010-12-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ And are looking lovely now.  Got quite a few optimizations to make, but
+ are even now looking more than quick enough.  A few more days of making
+ them just right, then applying a few to the menu screens, then I'll 
+post a screenshot. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Splines</td><td align="right"><font class="tiny">(Posted 2010-12-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Again, as the title suggests.  Put together a spline type, partly from 
+code archive code (by xMicky).  Now spline rendering which should look 
+lovely if I do it right.  Am hoping to be able to have scrolling text 
+stretched between two spline rails.  If all goes according to plan...<br><br>At
+ very least have nice spline drawing options.  Lots of uses in special 
+effects, but also for use in font rendering program.  Which will 
+probably be started once spline rendering is done.<br><br>Apart from rendering, I forsee lots of uses for splines in creating natural movements and scaling for my non-Box2D objects.<br><br>Mainly I just want to see if I'll be able to render realistic looking sparks with my splines.  Which means back to work. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Ploughing through menus</td><td align="right"><font class="tiny">(Posted 2010-11-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ As the title suggests.  This bit doesn't require learning more about 
+BMax, OpenGL or Box2D.  It's just going through the logic.  What needs 
+to happen, when and how.  The code hasn't been runnable for a couple of 
+days.<br><br>I'm just going to go through most of the whole menu system:
+  The opening screen, the player creation screen, the player selection 
+screen and the game selection and score screen.  I'll do all of this 
+before I try to run it.  Is this wierd?<br><br>So lots of code, then 
+about 30 or 40 runs as the compiler informs me of my spelling and syntax
+ errors, then another few days spent arranging buttons and everything 
+just right.  I find doing it this way fun.<br><br>Also, a comment about a
+ shot in the Gallery: AR Art by jhocking.  I'm a bit unsure, but does 
+iminib3d mean I'll be able to use openGL or something simmilar with 
+bmax2?<br><br>Would be nice.  But I'm preparing myself for the possibility that I won't.<br><br>Onwards! <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Nice and clean now. Touch wood.</td><td align="right"><font class="tiny">(Posted 2010-11-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Using my own vector class now and everything seems neat again.  No 
+leaks for now, but I suspect it was the process of going through the 
+code to convert that solved the problem rather than my vector.  I prefer
+ my class though, so it feels it was worth the change.<br><br>Suspect that looking for leaks will require ceaseless vigilance.  Not my idea of fun, but I'm happy for now.<br><br>Relaxed enough about it to finally get onto menu screen arrangements.<br><br>Edit - RE Delete()<br><br>It
+ amazes me how little I know about some aspects of BlitzMax, even after 
+using it since it's release.  Makes me realise how much of my time spent
+ coding over the last three years has been for the scripting system for a
+ game that I was far from writing the front-end of.<br><br>I knew the 
+outline of how OpenGL and Box2D worked and knew how I wanted to use 
+them, but was slogging away on code that wouldn't run for weeks.  In 
+fact it doesn't run now.  Anyway, it has stunted me in terms of the 
+other things BMax does.  Been pretty naive about OpenGL I now realise, 
+but it's fun.<br><br>Will be able to return to the Platform project far more confident than I was. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Ok, I see about Delete()</td><td align="right"><font class="tiny">(Posted 2010-11-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> lol<br><br>Right.
+  So I'm a bit more confident that the garbage collection is fine 
+concerning Box2d.  Is a leak somewhere in my own code.  One day this 
+will fail to suprise me.  Will pursue over the weekend. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Menus and Memory Leaks</td><td align="right"><font class="tiny">(Posted 2010-11-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> So I've defined my buttons and pointers and they all are working nicely, taking me to and from games just as planned.<br><br>But
+ something's leaking somewhere.  Flicking from menu to game to menu to 
+game seems to be eating the occasional Ks.  It's not completely 
+predictable.<br><br>Nulling fields of items that refer to Box2D objects 
+seems to have minimised the problem, bafflingly.  I know I have to make 
+the b2world destroy bodies but should I really then have to nullify 
+fields that I hold pointing to their shapes?  Even when the instance 
+that holds that field is about to be nullified itself?<br><br>I also 
+wonder if I should be destroying Box2d vectors... there's a delete 
+method there, though I can't call it from Blitz.  If I re-name the 
+method, re-build the module, then be sure to call it for all my b2vecs, 
+will that work?<br><br>Come to think of it, those vectors could be 
+stacking up behind the scenes and the garbage collection wouldn't show 
+it anyway... would it?<br><br>Above all, should I plunge into trying to 
+find the answers to my numerous questions, or should I just start 
+posting them to the forums?<br><br>Anyway, I have some avenues to 
+explore and it's only a tiny leak.  I can work on some other things 
+while I ponder it.  I'm going to think about getting most of the title 
+screen menus laid out.  Then define a few game styles.  Also... sound!  
+My least-thought-about thing. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Overall Structure</td><td align="right"><font class="tiny">(Posted 2010-11-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Overall structure happily in place, which is always fun.  No actual 
+title screens yet but once I've told it what a button is they'll be 
+there.<br><br>Means that all currently defined item classes and 
+resources behave in a pleasant fashion, clearing up after themselves 
+when no longer required.<br><br>Feel pleased with my resource and item 
+handling.  Every time I write one I feel pleased with it, which makes me
+ uncomfortable: I know the next one will be better.  This time around 
+I've the feeling that my overall item class should be shouldering some 
+specific duties that I'm presently distributing to sub-classes.  This 
+niggle will wait.<br><br>But it should run in an adequately lean fashion just now.<br><br>And
+ am using more of BMax than will be available to me in bmx2.  Function 
+pointers are just too handy sometimes.  And OpenGL will be hard to lose,
+ if I have to.  But never mind!  It's all fun. <br><br> ANGUS </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A break from Platforms</td><td align="right"><font class="tiny">(Posted 2010-11-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My larger project ground to a halt for a while.  It's still there in 
+the back of my mind but loading sets of editor-defined custom types was 
+doing my head in.  The news about bmx2 made me decide to dust off an 
+old, much simpler, game idea which might be suitable for all sorts of 
+devices.<br><br>Making this game also forces me to  come to terms with 
+OpenGL and Box2d much more quickly, both of which are an inevitability 
+for my larger project.  This has been a great learning experience with 
+which to return to my platform game shortly.<br><br>For the time being progress on this game has been relatively quick and easy.<br><br>The
+ game involves controlling a spinning bat near the bottom of a tall 
+"court" which contains a few balls.  Other items may be in the court as 
+well depending on the game type.<br><br>The vanilla game simply requires
+ you to stop the balls touching the bottom of the court.  Each time you 
+strike a ball, your score multiplier increases and you get a score based
+ on that multiplier.  Sounds wierd, but with the onscreen display I 
+think it becomes quite natural quickly.<br><br>I made version of the 
+game before which though I loved it, I admit that the control system was
+ pretty unnatural to say the least.  I have amended this and think it's 
+much better now.  We'll see :)<br><br>So far I've written the underlying
+ item control stuff for bats, balls, the court and backdrops, sprites 
+and text in openGL and my collision listeners are there making sensible 
+lists of what's hitting what.  I'll post a screenshot when I find some 
+webspace to put it in.<br><br>The text display was the last thing I 
+made, and the last required before I build the overall structure:  
+title, option, player creation and level selection screens.  Once this 
+bit (which is a bit I enjoy) is done, I'll make a few game styles to try
+ it out.<br><br>Playing with the bat and balls in the court seems pretty
+ good to me.  Keeping them off the ground is fun, but making them crack 
+against eachother in mid-air feels very satisfying.  As I say, we'll 
+see.<br><br>Am loving OpenGL despite some initial head-aches.  And am ADORING box2D.  My objects just look so sweet.<br><br>Anyway... next up: Titles and game-modes. <br><br> ANGUS </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

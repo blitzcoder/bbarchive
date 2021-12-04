@@ -1,0 +1,85 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for AlternativeRealities</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Asylum - Base level complete</td><td align="right"><font class="tiny">(Posted 2002-09-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The first level (Cell block A) is now complete, except for furniture. 
+Although I'm still trying to find a solution to the lightmapping.<br> <br><br> Paul Huckstepp - AlternativeRealities<br><a href="http://www.alternativerealities.co.uk/" target="_blank">http://www.alternativerealities.co.uk</a><br><a href="http://www.argames.co.uk/" target="_blank">http://www.argames.co.uk</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Asylum - Bring in the Builders</td><td align="right"><font class="tiny">(Posted 2002-08-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After a short break from coding my attention has turned towards 
+building the rest of Cell Block A. I've released a couple of new 
+screenshots that show the more complete corridor outside the first cell.
+ Weapon yielding is working well and I've textured the basic broom stick
+ handle, still trying to get the player model look better and I hope to 
+scan some fabrics in for the texturing soon<br><br><img src="1721&amp;log=1129_files/asylum04.html"><br> <br><br> Paul Huckstepp - AlternativeRealities<br><a href="http://www.alternativerealities.co.uk/" target="_blank">http://www.alternativerealities.co.uk</a><br><a href="http://www.argames.co.uk/" target="_blank">http://www.argames.co.uk</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Asylum - Weapon Yielding Part2</td><td align="right"><font class="tiny">(Posted 2002-08-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Hurray, Weapon yielding is in, following some queries on the forums I 
+sorted out the parenting issues with the weapon. I didnt realise that 
+when an object is parented to a child object in a 3ds mesh it inherits a
+ 0,0,0 coordinate from the object, i.e. not a world coordinate. Once I 
+realised that I could finally snap the object to the right hand. Next 
+step is the animations for the attacks (melee and ranged) as well as the
+ construction of the first floor.<br> <br><br> Paul Huckstepp - AlternativeRealities<br><a href="http://www.alternativerealities.co.uk/" target="_blank">http://www.alternativerealities.co.uk</a><br><a href="http://www.argames.co.uk/" target="_blank">http://www.argames.co.uk</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Asylum - Weapon yeilding</td><td align="right"><font class="tiny">(Posted 2002-07-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ For the last few weekends I've been attempting to yield weapons (in the
+ game that is) unfortunately I'm having a few difficulties with 
+parenting the weapon to the right hand, for some unknown reason it 
+doesnt want to know. I've coded a temporary work around but its not 100%
+ perfect.<br><br>In the meantime, heres a screenshot showing the Anxiety Engine with an paranoia rating of about 40%<br><br><img src="1721&amp;log=1129_files/asylum02.html"><br> <br><br> Paul Huckstepp - AlternativeRealities<br><a href="http://www.alternativerealities.co.uk/" target="_blank">http://www.alternativerealities.co.uk</a><br><a href="http://www.argames.co.uk/" target="_blank">http://www.argames.co.uk</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Asylum</td><td align="right"><font class="tiny">(Posted 2002-07-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ For the last few weeks I have been concentrating on furthering the 
+research into texture mapping and lightmapping for the game environment 
+and was as putting together the functionality for the inventory panel.<br><br>As
+ it stands at the moment the game engine now allows usable objects to be
+ picked up and dropped. When an object in the inventory is clicked a 
+brief description of the object now appears in the bottom section of the
+ display. I have also added visual cues on screen for objects that are 
+in range and can be picked up. Objects outside of this range will 
+display there tags in red, objects within range that can be picked up 
+appear in white.<br><br>I am very pleased with the way the inventory is 
+working at the moment and hope to add the use and journal functionality 
+soon, however the journal isn't a vital component of the game just yet.<br><br>The
+ anxiety engine is now complete. There was a small bug that was fixed 
+this week; if the anxiety level was at 80% and the player then moved 
+immediately in to a safe zone the fogging effects would get stuck 
+leaving the player in darkness.<br><br>So whats next, the next stages 
+for me is to try my hand at the lightmapping, I hope to be able to use 
+lightmapping to improve the appearance of the asylum, and add depth by 
+casting shadows, also, I'm about to try to implement the yielding of 
+weapons.<br> <br><br> Paul Huckstepp - AlternativeRealities<br><a href="http://www.alternativerealities.co.uk/" target="_blank">http://www.alternativerealities.co.uk</a><br><a href="http://www.argames.co.uk/" target="_blank">http://www.argames.co.uk</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Asylum</td><td align="right"><font class="tiny">(Posted 2002-07-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Seeing as Asylum is my second Blitz3d game I thought I'd add a worklog to the Blitz website.<br><br>Screenshots available : www.argames.co.uk<br><br>ASYLUM DEVELOPMENT UPDATE - 19/05/2002<br>Asylum is still going strong, after another successfully few weeks I have completed some of the troubling collision code. <br><br>I
+ have now worked out a system to transfer elements from the main level 
+scene and export those out seperately, this is for doors, lights and any
+ object that can be moved or pickedup. <br><br>Although it doesn't sound
+ very exciting, I have managed to get my first door working, doors have 
+always been a bit fiddly and my first attempt left the door constantly 
+swinging round and round, however I have now finished the animations 
+engine and I now have a door that opens correctly and then closes when 
+the player is far enough away from it. I'm extremely pleased with the 
+final result. <br><br>Ok, so whats next; My next task is to create an 
+exporter for the level area and the elements so that its more automatic.
+ Also, I'm about to start working on the cut-scene engine, this will 
+allow me to get the openning sequence started and will help move the 
+story along during the game. <br><br>Thats all for now, I was hoping to 
+get a screenshot together for this issue but sadly the game hasn't 
+progressed visually enough for that.<br><br>Main coding complete on FPS - 04/06/2002<br>Over
+ the last few weeks I have been concentrating on a number of aspects 
+regarding the development of Asylum, these have been: Texturing 
+solution: to make life easier when it comes to texturing the many 
+objects in the game, I'm currently investigating texturetools.com Tru-V 
+r2 3D Exporter: I have successfully created an export system to allow me
+ to create level structures directly within the 3d modeller, this will 
+allow all the data require for Blitz to be stored within the 3d model 
+itself and then split into the various data files when needed. FPS Code:
+ The FPS is now practically complete, I will add new features when they 
+are needed, the major change in this version is the inertia, it has now 
+been brought down to a much more playable speed. And I can also say that
+ looking down in Asylum does reveal your feet!<br><br>First major coding session - 06/05/2002<br>Asylum
+ development is back. This last week has been very productive, I've 
+penned some new ideas for atmospherics and I have also begun to code the
+ FPS engine for Asylum.<br><br>The FPS side currently has a fully 
+working mouselook, character animation, collision detection, up-and-down
+ slopes and stairs, and Jumping. The jump sequence was particularly 
+complex because of the multiple heights that the player can assume, ie 
+jumping from a flight of stairs means that you have further to fall. In 
+the end I calculated the Y Axis Normal of the scenery collision 
+detection, this can only every be pointing at an angle of more than 0 
+and so must be the floor, it worked fantastically.<br><br>The next step 
+is to get crouch working and then the Right-Click inventory. I am also 
+actively working on the texture maps for the characters, if any one 
+knows of a good texture mapping web site please let me know.<br><br>ASYLUM Main Site : www.argames.co.uk<br> <br><br> Paul Huckstepp - AlternativeRealities<br><a href="http://www.alternativerealities.co.uk/" target="_blank">http://www.alternativerealities.co.uk</a><br><a href="http://www.argames.co.uk/" target="_blank">http://www.argames.co.uk</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

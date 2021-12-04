@@ -1,0 +1,2001 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Zakk</h1><h1>Imp Game</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>0.5</td><td align="right"><font class="tiny">(Posted 2011-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> -Added a TLevel type and starting incorporating a Camera system from a previous project.<br>-Added a Delta type to implement delta timings, but right now it just limits the framerate in a crude way.<br>-Finally made myself figure out the Framework/Import bit.<br><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Imp Game Remake 0.5.bmx
+Framework BRL.GLMax2D
+Import BRL.LinkedList
+Import BRL.Map
+Import BRL.Random
+Import BRL.PngLoader
+?Debug
+Import BRL.StandardIO
+?
+'=============================
+SuperStrict
+Graphics 800, 600
+SeedRnd MilliSecs()
+'==========CONSTANTS==========
+Const GROUND_HEIGHT:Int = 500
+Const HEIGHT_ABOVE_GROUND:Int = 15
+'=============================
+Const TEAM_NEUTRAL:Byte = 0 
+Const TEAM_FRIENDLY:Byte = 1
+Const TEAM_HOSTILE:Byte = 2
+'=============================
+
+'===========GLOBALS===========
+Global Neutral_Faction:TFaction = TFaction.Create(TEAM_NEUTRAL)
+Global Friendly_Faction:TFaction = TFaction.Create(TEAM_FRIENDLY)
+Global Hostile_Faction:TFaction = TFaction.Create(TEAM_HOSTILE)
+'=============================
+Global Level:TLevel = TLevel.Initialize(3200, 600)
+'=============================
+
+'============TYPES============
+Include "TLevel Type 0.5.bmx"
+'=============================
+Include "TFaction Type.bmx"
+'=============================
+Include "TPlayer Type 0.5.bmx"
+'=============================
+Include "TBullet Type 0.4.bmx"
+Include "TSkull Type 0.4.bmx"
+Include "TBoom Type 0.4.bmx"
+'=============================
+Include "HUD Type 0.5.bmx"
+'=============================
+Include "Delta Type 0.5.bmx"
+'=============================
+Include "Camera Type 0.5.bmx"
+Include "TQuad &amp; TFocus Types 0.5.bmx"
+'=============================
+
+
+
+
+
+'=======INITIALIZATION========
+SeedRnd MilliSecs()
+Global Player:TPlayer = TPlayer.Create(400, 200, 1000, TEAM_FRIENDLY)
+Player.Initialize()
+HUD.Initialize(10, 10, Level.w/10, Level.h/10)
+'==========MAIN LOOP==========
+While Not KeyHit(KEY_ESCAPE)
+	Camera.Track( Player )
+	Delta.Update()
+	'============================= 
+	TPlayer.Update_All()
+	'=============================
+	If KeyHit(KEY_1)
+		TPlayer.Create( 0, GROUND_HEIGHT-HEIGHT_ABOVE_GROUND, 200, TEAM_FRIENDLY )
+	EndIf
+	'=============================
+	If KeyHit(KEY_2)
+		TPlayer.Create( Level.w, GROUND_HEIGHT-HEIGHT_ABOVE_GROUND, 200, TEAM_HOSTILE )
+	EndIf
+	'=============================
+	If KeyHit(KEY_4)
+		Local p:TPlayer
+		For p = EachIn TPlayer.list
+			If p.controller &lt;&gt; TPlayer.CONTROL_PLAYER
+				p.Destroy()
+			EndIf
+		Next
+	EndIf
+	'=============================
+	TSkull.Update_All()
+	TBoom.Update_All()
+	'TCorpse.Update_All()
+	'=============================
+	Draw()
+	'=============================
+	Flip
+	Cls
+Wend
+'=============================
+
+
+
+
+
+'==========FUNCTIONS==========
+Function Draw()
+	Camera.Set()
+	'=============================
+	Level.Draw()
+	'=============================
+	TSkull.Draw_All()
+	TPlayer.Draw_All()
+	TBoom.Draw_All()
+	'TCorpse.Draw_All()
+	'Player.Draw()
+	HUD.Draw()
+End Function
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TLevel Type 0.5.bmx
+'=============================
+Type TLevel Extends TFocus		'has to be a T'' Type in order to extend TFocus correctly
+	'===========FIELDS============
+	Field w:Int, h:Int
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Function Initialize:TLevel(w:Int, h:Int)
+		Local L:TLevel = New TLevel
+		L.w = w; L.h = h
+		Return L
+	End Function
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Method Draw()
+		SetColor 120, 120, 120
+		SetTransform 0, 1, 1
+		DrawLine 0, GROUND_HEIGHT, w, GROUND_HEIGHT
+		SetColor 255, 255, 255
+		DrawLine 0, 0, w, 0
+		DrawLine 0, 0, 0, h
+		DrawLine 0, h, w, h
+		DrawLine w, 0, w, h
+	End Method
+	'=============================
+	Method AsQuad:TQuad()
+		Local q:TQuad = New TQuad
+		q.cx = w/2; q.cy = h/2
+		'=============================
+		q.w = w; q.h = h
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TFaction Type.bmx
+'=============================
+Type TFaction Extends TList
+	'===========GLOBALS===========
+	Global list:TList = New TList
+	'=============================
+	
+	'===========FIELDS============
+	Field id:Int, score:Int
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Function Create:TFaction(id:Int)
+		Local f:TFaction = New TFaction
+		f.id = id
+		list.AddLast(f)
+		Return f
+	End Function
+	'=============================
+	Method Destroy()
+	
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TPlayer Type 0.5.bmx
+'=============================
+MidHandleImage(TPlayer.image)
+'=============================
+Type TPlayer Extends TFocus
+	 '==========CONSTANTS==========
+	Const FACE_LEFT:Int = 0
+	Const FACE_RIGHT:Int = 1
+	'=============================
+	Const CONTROL_AI:Int = 0
+	Const CONTROL_PLAYER:Int = 1
+	'=============================
+	
+	'===========GLOBALS===========
+	Global list:TList = New TList
+	'=============================
+	Global image:TImage = LoadImage("impgrey.png")
+	'=============================
+	
+	'===========FIELDS============
+	Field x:Float, y:Float
+	Field w:Int, h:Int
+	Field face:Int
+	Field xv:Int, yv:Float
+	Field health:Int
+	Field jumping:Int 
+	'=============================
+	'AI stuff
+	Field i:Int
+	Field interval:Int
+	Field timer:Int
+	'=============================
+	Field team:Int, controller:Int
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Method Initialize()		'user only
+		jumping = True
+		controller = CONTROL_PLAYER
+	End Method
+	'=============================
+	Function Create:TPlayer(x:Int, y:Int, health:Int = 1, team:Int = TEAM_HOSTILE)
+		Local p:TPlayer = New TPlayer
+		p.x = x
+		p.y = y
+		'=============================
+		p.w = image.width
+		p.h = image.height
+		'=============================
+		p.health = health
+		p.i = 50
+		p.interval = Rand(100,350)
+		p.team = team
+		list.AddLast(p)
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(p)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(p)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(p)
+			Default
+		End Select
+		Return p
+	End Function
+	'=============================
+	Method Destroy()
+		list.Remove(Self)
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.Remove(Self)
+			Case TEAM_HOSTILE
+				Hostile_Faction.Remove(Self)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.Remove(Self)
+			Default
+		End Select
+	End Method
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update_All()
+		Local p:TPlayer
+		For p = EachIn(list)
+			p.Update()
+		Next
+	End Function
+	'=============================
+	Function Draw_All()
+		Local p:TPlayer
+		For p = EachIn(list)
+			p.Draw()
+		Next
+	End Function
+	'=============================
+	
+	'===========METHODS===========
+	Method Update()
+		If jumping = True
+			y :+ yv
+			yv :+ 0.1
+			If y &gt; GROUND_HEIGHT-HEIGHT_ABOVE_GROUND
+				y = GROUND_HEIGHT-HEIGHT_ABOVE_GROUND
+				jumping = False
+			EndIf
+		EndIf
+		'=============================
+		Select controller
+			Case CONTROL_AI
+				AI()
+			Case CONTROL_PLAYER
+				Control()
+			Default
+		End Select
+		'=============================
+		If x &lt; 0 Then x = 0
+		If x &gt; Level.w Then x = Level.w
+		'=============================
+		Local p:TPlayer
+		For p = EachIn(list)
+			If Not (p = Self)
+				If (jumping = False) And (p.jumping = False)
+					If (x &gt; p.x-30) And (x &lt; p.x)
+						x :- 3
+						p.x :+ 3
+					EndIf
+					If (x &lt; p.x+30) And (x &gt; p.x)
+						x :+ 3
+						p.x :- 3
+					EndIf
+				EndIf
+			EndIf
+		Next
+	End Method
+	'=============================
+	Method Control()
+		If KeyDown(KEY_LEFT)
+			x :- 5
+			face = FACE_LEFT
+		EndIf
+		'=============================
+		If KeyDown(KEY_RIGHT)
+			x :+ 5
+			face = FACE_RIGHT
+		EndIf
+		'=============================
+		If KeyHit(KEY_UP)
+			jumping = True
+			yv = -7
+		EndIf
+		'=============================
+		If KeyHit(KEY_SPACE)
+			Local temp_xv:Float, temp_yv:Float
+			If KeyDown(KEY_DOWN)
+				temp_yv = -5
+			Else
+				If face = FACE_RIGHT
+					temp_xv = 10
+				Else
+					temp_xv = -10
+				EndIf
+				temp_yv = -8
+			EndIf
+			TSkull.Create(x, y-HEIGHT_ABOVE_GROUND/2, temp_xv, temp_yv, TEAM_FRIENDLY)
+		EndIf
+	End Method
+	'=============================
+	Method AI()
+		i :+ 1
+		If i = interval
+			interval = Rand(100, 350)
+			i = 0
+			yv = -8
+			If x &lt; Player.x
+				xv = 5
+			Else
+				xv = -5
+			EndIf
+			jumping = True
+		EndIf
+		'=============================
+		If jumping = False
+			If x &gt; Player.x+100
+				x :- 3
+				face = FACE_LEFT
+			ElseIf x &lt; Player.x-100
+				x :+ 3
+				face = FACE_RIGHT
+			EndIf
+		Else
+			x :+ xv
+		EndIf
+		'=============================
+		timer :+ 1
+		If timer = 100
+			TSkull.Create(x, y-HEIGHT_ABOVE_GROUND/2, face*20-10, -8, team)
+			timer = Rand(-100, 0)
+		EndIf
+	End Method
+	'=============================
+	Method Draw()
+		Select team
+			Case TEAM_FRIENDLY
+				SetColor 200, 50, 50
+			Case TEAM_HOSTILE
+				SetColor 50, 50, 200
+			Case TEAM_NEUTRAL
+				SetColor 255, 255, 255
+			Default
+		End Select
+		'=============================
+		SetTransform 0, face*2-1, 1
+		DrawImage image, x, y
+		SetTransform 0, 1, 1
+		'=============================
+		If controller = CONTROL_PLAYER
+			SetColor 255, 255, 255
+			Local arrow_position:Int = 40
+			DrawLine x-5, y-arrow_position, x+5, y-arrow_position
+			DrawLine x-5, y-arrow_position, x, y-arrow_position+5
+			DrawLine x+5, y-arrow_position, x, y-arrow_position+5
+		EndIf
+	End Method
+	'=============================
+	Method AsQuad:TQuad()
+		Local q:TQuad = New TQuad
+		q.x = x; q.y = y
+		'=============================
+		q.cx = x-image.width/2
+		q.cy = y-image.height/2
+		q.w = image.width
+		q.h = image.height
+		Return q
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TBullet Type 0.4.bmx
+'=============================
+Type TBullet
+	'===========GLOBALS===========
+	Global list:TList = New TList
+	'=============================
+	
+	'===========FIELDS============
+	Field x:Float, y:Float
+	Field xv:Float, yv:Float
+	Field r:Float, rv:Float
+	Field team:Int
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	'Function Create() Abstract
+	'=============================
+	Method Destroy()
+		list.Remove(Self)
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.Remove(Self)
+			Case TEAM_HOSTILE
+				Hostile_Faction.Remove(Self)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.Remove(Self)
+			Default
+		End Select
+	End Method
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update_All() Abstract
+	Function Draw_All() Abstract
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TSkull Type 0.5.bmx
+'=============================
+MidHandleImage(TSkull.image)
+'=============================
+Type TSkull Extends TBullet
+	'==========CONSTANTS==========
+	Const MAX_SPIN:Float = 10
+	'=============================
+	
+	'===========GLOBALS===========
+	Global image:TImage = LoadImage("skull.png")
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Function Create:TSkull(x:Float, y:Float, xv:Float, yv:Float, team:Int)
+		Local b:TSkull = New TSkull
+		b.x = x; b.y = y
+		b.xv = xv; b.yv = yv
+		b.r = Rand(1, 360)
+		b.rv = Rnd(-MAX_SPIN, MAX_SPIN)
+		'=============================
+		list.AddLast(b)
+		b.team = team
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(b)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(b)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(b)
+			Default
+		End Select
+	End Function
+	'=============================
+	'Method Destroy() is handled in TBullet
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update_All()
+		Local s:TSkull
+		For s = EachIn(list)
+			s.Update()
+		Next
+		'=============================
+		Local s1:TSkull, s2:TSkull
+		For s1 = EachIn(Friendly_Faction)
+		For s2 = EachIn(Hostile_Faction)
+			If ImagesCollide(image, s1.x, s1.y, 0, image, s2.x, s2.y, 0)
+				Local temp_x:Int = (s1.x + s2.x)/2
+				Local temp_y:Int = (s1.y + s2.y)/2
+				TBoom.Create(temp_x, temp_y, 0, 0, TEAM_NEUTRAL)
+				s1.Destroy()
+				s2.Destroy()
+			EndIf
+		Next
+		Next
+		'=============================
+	End Function
+	'=============================
+	Function Draw_All()
+		SetColor 255, 255, 255
+		Local s:TSkull
+		For s = EachIn(list)
+			s.Draw()
+		Next
+	End Function
+	'=============================
+	
+	'===========METHODS===========
+	Method Update()
+		x:+ xv
+		y:+ yv
+		yv :+ 0.5
+		xv :* 0.99
+		r :+ rv
+		'=============================
+		If (x &gt; Level.w) Or (x &lt; 0)		'destroy if it goes offscreen
+			Destroy()
+			Return
+		EndIf
+		'=============================
+		If y &gt; GROUND_HEIGHT		'detonate upon impacting ground
+			TBoom.Create(x, GROUND_HEIGHT, 0, 0, team)
+			Destroy()
+			Return
+		EndIf
+		'=============================
+		Local p:TPlayer
+		For p = EachIn TPlayer.list
+			If p.team &lt;&gt; team
+				If  ImagesCollide2(image, x, y, 0, 0, 1, 1, p.image, p.x, p.y, 0, 0, p.face*2-1, 1)
+					TBoom.Create(x, y, 0, 0, team)
+					Destroy()
+					Return
+				EndIf	
+			EndIf
+		Next
+	End Method
+	'=============================
+	Method Draw()
+		SetTransform r, 1, 1
+		DrawImage image, x, y
+		SetTransform 0, 1, 1
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TBoom Type 0.4.bmx
+'=============================
+Type TBoom Extends TBullet
+	'===========FIELDS============
+	Field size:Int, color:Int		'size and color
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Function Create:TBoom(x:Int, y:Int, xv:Float, yv:Float, team:Int)
+		Local b:TBoom = New TBoom
+		b.x = x; b.y = y
+		b.xv = xv; b.yv = yv
+		'=============================
+		list.AddLast(b)
+		b.team = team
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(b)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(b)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(b)
+			Default
+		End Select
+		'=============================
+		b.color = 255
+		Return b
+	End Function
+	'=============================
+	'Method Destroy() is handled in TBullet
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update_All()
+		Local b:TBoom
+		For b = EachIn(list)
+			b.Update()
+		Next
+	End Function
+	'=============================
+	Function Draw_All()
+		Local b:TBoom
+		'=============================
+		For b = EachIn(Friendly_Faction)
+			SetColor b.color, 0, 0
+			b.Draw()
+		Next
+		'=============================
+		For b = EachIn(Hostile_Faction)
+			SetColor 0, 0, b.color
+			b.Draw()
+		Next
+		'=============================
+		For b = EachIn(Neutral_Faction)
+			SetColor b.color, 0, b.color
+			b.Draw()
+		Next
+	End Function
+	'=============================
+	
+	'===========METHODS===========
+	Method Update()
+		x :+ xv
+		y :+ yv
+		size :+ 10
+		color :- 10
+		If size &gt; 200
+			Destroy()
+		EndIf
+	End Method
+	'=============================
+	Method Draw()
+		DrawOval x-size/2, y-size/2, size, size
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Hud Type 0.5.bmx
+'=============================
+Type HUD
+	'===========GLOBALS===========
+	Global x:Int, y:Int, w:Float, h:Float
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Initialize(x_pos:Int, y_pos:Int, width:Float, height:Float)
+		x = x_pos
+		y = y_pos
+		w = width
+		h = height
+	End Function
+	'=============================
+	Function Draw()
+		Draw_Minimap()
+		'=============================
+		Local text_y:Int = GROUND_HEIGHT+12, text_row:Int = 12
+		DrawText "1-2 to spawn bots", 12, text_y+text_row*0
+		DrawText "4 to kill all bots", 12, text_y+text_row*1
+		DrawText "4 to kill all bots", 12, text_y+text_row*1
+		'=============================
+	End Function
+	'=============================
+	Function Draw_Minimap()
+		SetTransform 0, 1, 1
+		'=============================
+		SetOrigin 0, 0
+		SetColor 255, 255, 255
+		DrawRect x-1, y-1, w+2, h+2
+		SetColor 0, 0, 0
+		DrawRect x, y, w, h
+		'=============================
+		SetOrigin x, y
+		Local p:TPlayer
+		Local x_scale:Float = w/Level.w
+		Local y_scale:Float = h/Level.h
+		'=============================
+		SetColor 200, 50, 50
+		For p = EachIn(Friendly_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 50, 50, 200
+		For p = EachIn(Hostile_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 255, 255, 255
+		For p = EachIn(Neutral_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 128, 128, 128
+		DrawLine 0, GROUND_HEIGHT*y_scale, w-1, GROUND_HEIGHT*y_scale
+		'=============================
+		SetOrigin 0, 0
+		'=============================
+	End Function
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Delta Type 0.5.bmx
+'=============================
+Type Delta
+	'==========CONSTANTS==========
+	Const FORCE_FPS:Int = True
+	Const MSPF:Int = 20  
+	'=============================
+	
+	'===========GLOBALS===========
+	Global _previous_time:Int
+	Global current_time:Int
+	Global time:Int
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update()
+		current_time = MilliSecs()
+		time = current_time - _previous_time
+		_previous_time = current_time
+		'=============================
+		If FORCE_FPS = True
+			If time &lt; MSPF
+				Delay MSPF - time
+				time = MSPF
+			EndIf
+		EndIf
+	End Function
+	'=============================
+End Type
+'=============================
+Function &amp;#916;t:Int()
+	Return Delta.time
+End Function
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Camera Type 0.5.bmx
+'=============================
+Type Camera
+	'==========CONSTANTS==========
+	Const TRAVEL_TIME:Int = 100
+	'Const ZOOM_TIME:Int = 500
+	'=============================
+	
+	'===========GLOBALS===========
+	Global MARGIN:Int = 100
+	'=============================
+	Global x:Float, y:Float		'has to be floats to be compatible with Variable Controllers
+	Global zoom:Float = 1
+	Global target:TFocus
+	'Global targets:TQuad[]
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Set()
+		If target &lt;&gt; Null
+			'RampXY(x, y, target.x, target.y, TRAVEL_TIME)
+			
+			'=============================
+			x = target.AsQuad().x
+			y = target.AsQuad().y
+		Rem
+		ElseIf targets &lt;&gt; Null
+			Local n:Int, xys:Int[]
+			Local min_x:Int, max_x:Int, min_y:Int, max_y:Int
+			Local MARGIN2:Int = MARGIN*zoom
+			For n = 0 To targets.Dimensions()[0]-1
+				Local this_xy:Int[] = targets[n].GetXY()
+				Local this_wh:Int[] = targets[n].GetWH()
+				min_x = Min(min_x, this_xy[0]-this_wh[0]/2-MARGIN2)
+				max_x = Max(max_x, this_xy[0]+this_wh[0]/2+MARGIN2)
+				min_y = Min(min_y, this_xy[1]-this_wh[1]/2-MARGIN2)
+				max_y = Max(max_y, this_xy[1]+this_wh[1]/2+MARGIN2)
+				'xys = xys + this_xy
+			Next
+			Local wh:Int[] = [max_x-min_x, max_y-min_y]
+			Fit(wh, 0)
+			xy = [ min_x+wh[0]/2, min_Y+wh[1]/2 ]
+			'xy = PolyCenter(xys)
+			RampXY(x, y, xy[0], xy[1], 0)
+		End Rem
+		EndIf
+		
+		Local view_w:Int = 800/zoom, view_h:Int = 600/zoom
+		'SetScale 1, 1g
+		x = Map(-x+view_w/2)
+		y = Map(-y+view_h/2)
+		SetOrigin x, y
+		'SetScale zoom, zoom
+		?Debug
+		SetColor 255, 0, 0
+		x = Map(x-2)
+		y = Map(y-2)
+		DrawRect x-2, y-2, 5, 5
+		SetColor 255, 255, 255
+		?
+	End Function
+	'=============================
+	Function Track(new_target:TFocus, fit_onscreen:Int = False, multi:Int = False)
+		target = new_target
+		'targets = Null
+		If fit_onscreen = True
+			Fit(target.AsQuad().w, target.AsQuad().h)
+		EndIf
+	End Function
+	'=============================
+	Function Fit(w:Float, h:Float, time:Int = -1)		
+		Local zoom1:Float = 800.0/Float(w)
+		Local zoom2:Float = 600.0/Float(h)
+		'Set_Zoom( Min(zoom1, zoom2), time)
+	End Function
+	'=============================
+	Rem
+	Function MultiTrack(new_targets:Base[])
+		target = Null
+		'targets = new_targets
+	End Function
+	End Rem
+	'=============================
+	Function Map:Float(unmapped:Float)
+		Return unmapped*zoom
+	End Function
+	'=============================
+	'Function Set_Zoom(new_zoom:Float, time:Int = -1)
+	'	If time = -1
+	'		Ramp(zoom, new_zoom, ZOOM_TIME)
+	'	Else
+	'		Ramp(zoom, new_zoom, time)
+	'	EndIf
+	'End Function
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TQuad &amp; TFocus Types 0.5.bmx
+'=============================
+Type TQuad
+	'===========FIELDS============
+	Field x:Float, y:Float
+	Field cx:Float, cy:Float
+	Field w:Float, h:Float
+	'=============================
+End Type
+'=============================
+Type TFocus
+	Method AsQuad:TQuad() Abstract
+End Type
+'=============================
+</textarea> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>0.4</td><td align="right"><font class="tiny">(Posted 2011-03-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Fixed skull glitch, reorganized code and started adding explanatory comments.<br>Also added a  TFaction type that doesn't do anything yet, and made it so that the skulls spin.<br><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Imp Game Remake 0.4.bmx
+SuperStrict
+Graphics 800, 600
+SeedRnd MilliSecs()
+'==========CONSTANTS==========
+Const GROUND_HEIGHT:Int = 500
+Const HEIGHT_ABOVE_GROUND:Int = 15
+'=============================
+Const TEAM_NEUTRAL:Byte = 0 
+Const TEAM_FRIENDLY:Byte = 1
+Const TEAM_HOSTILE:Byte = 2
+'=============================
+
+'===========GLOBALS===========
+Global Neutral_Faction:TFaction = TFaction.Create(TEAM_NEUTRAL)
+Global Friendly_Faction:TFaction = TFaction.Create(TEAM_FRIENDLY)
+Global Hostile_Faction:TFaction = TFaction.Create(TEAM_HOSTILE)
+'=============================
+
+'============TYPES============
+Include "TFaction Type.bmx"
+'=============================
+Include "TPlayer Type 0.4.bmx"
+'=============================
+Include "TBullet Type 0.4.bmx"
+Include "TSkull Type 0.4.bmx"
+Include "TBoom Type 0.4.bmx"
+'=============================
+Include "HUD Type 0.4.bmx"
+'=============================
+
+
+
+
+'=======INITIALIZATION========
+SeedRnd MilliSecs()
+Global Player:TPlayer = TPlayer.Create(400, 200, 1000, TEAM_FRIENDLY)
+Player.Initialize()
+HUD.Initialize(710, 10, 80, 60)
+'==========MAIN LOOP==========
+While Not KeyHit(KEY_ESCAPE)
+	TPlayer.Update_All()
+	'=============================
+	If KeyHit(KEY_1)
+		TPlayer.Create( Rand(0, 1)*800, GROUND_HEIGHT-HEIGHT_ABOVE_GROUND, 200, TEAM_HOSTILE )
+	EndIf
+	'=============================
+	If KeyHit(KEY_2)
+		TPlayer.Create( Rand(0, 1)*800, GROUND_HEIGHT-HEIGHT_ABOVE_GROUND, 200, TEAM_FRIENDLY )
+	EndIf
+	'=============================
+	If KeyHit(KEY_4)
+		Local p:TPlayer
+		For p = EachIn TPlayer.list
+			If p.controller &lt;&gt; TPlayer.CONTROL_PLAYER
+				p.Destroy()
+			EndIf
+		Next
+	EndIf
+	'=============================
+	'If MouseHit(1)
+	'	HUD.Initialize(MouseX(), MouseY(), 80, 60)
+	'	Print MouseX()+", "+MouseY()
+	'EndIf
+	'=============================
+	TSkull.Update_All()
+	TBoom.Update_All()
+	'TCorpse.Update_All()
+	Draw()
+	Flip
+	Cls
+Wend
+'=============================
+
+
+
+
+
+'==========FUNCTIONS==========
+Function Draw()
+	SetColor 120, 120, 120
+	SetTransform 0, 1, 1
+	DrawLine 0, GROUND_HEIGHT, 800, GROUND_HEIGHT
+	'=============================
+	TSkull.Draw_All()
+	TPlayer.Draw_All()
+	TBoom.Draw_All()
+	'TCorpse.Draw_All()
+	'Player.Draw()
+	HUD.Draw()
+End Function
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TFaction Type.bmx
+'=============================
+Type TFaction Extends TList
+	'===========GLOBALS===========
+	Global list:TList = New TList
+	'=============================
+	
+	'===========FIELDS============
+	Field id:Int, score:Int
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Function Create:TFaction(id:Int)
+		Local f:TFaction = New TFaction
+		f.id = id
+		list.AddLast(f)
+		Return f
+	End Function
+	'=============================
+	Method Destroy()
+	
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TPlayer Type 0.4.bmx
+'=============================
+MidHandleImage(TPlayer.image)
+'=============================
+Type TPlayer
+	 '==========CONSTANTS==========
+	Const FACE_LEFT:Int = 0
+	Const FACE_RIGHT:Int = 1
+	'=============================
+	Const CONTROL_AI:Int = 0
+	Const CONTROL_PLAYER:Int = 1
+	'=============================
+	
+	'===========GLOBALS===========
+	Global list:TList = New TList
+	'=============================
+	Global image:TImage = LoadImage("impgrey.png")
+	'=============================
+	
+	'===========FIELDS============
+	Field x:Int, y:Int, face:Int
+	Field health:Int
+	Field xv:Int, yv:Float
+	Field jumping:Int 
+	'=============================
+	'AI stuff
+	Field i:Int
+	Field interval:Int
+	Field timer:Int
+	'=============================
+	Field team:Int, controller:Int
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Method Initialize()		'user only
+		jumping = True
+		controller = CONTROL_PLAYER
+	End Method
+	'=============================
+	Function Create:TPlayer(x:Int, y:Int, health:Int = 1, team:Int = TEAM_HOSTILE)
+		Local p:TPlayer = New TPlayer
+		p.x = x
+		p.y = y
+		p.health = health
+		p.interval = Rand(100,350)
+		p.team = team
+		list.AddLast(p)
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(p)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(p)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(p)
+			Default
+		End Select
+		Return p
+	End Function
+	'=============================
+	Method Destroy()
+		list.Remove(Self)
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.Remove(Self)
+			Case TEAM_HOSTILE
+				Hostile_Faction.Remove(Self)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.Remove(Self)
+			Default
+		End Select
+	End Method
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update_All()
+		Local p:TPlayer
+		For p = EachIn(list)
+			p.Update()
+		Next
+	End Function
+	'=============================
+	Function Draw_All()
+		Local p:TPlayer
+		For p = EachIn(list)
+			p.Draw()
+		Next
+	End Function
+	'=============================
+	
+	'===========METHODS===========
+	Method Update()
+		If jumping = True
+			y :+ yv
+			yv :+ 0.1
+			If y &gt; GROUND_HEIGHT-HEIGHT_ABOVE_GROUND
+				y = GROUND_HEIGHT-HEIGHT_ABOVE_GROUND
+				jumping = False
+			EndIf
+		EndIf
+		'=============================
+		Select controller
+			Case CONTROL_AI
+				AI()
+			Case CONTROL_PLAYER
+				Control()
+			Default
+		End Select
+		'=============================
+		Local p:TPlayer
+		For p = EachIn(list)
+			If Not (p = Self)
+				If (jumping = False) And (p.jumping = False)
+					If (x &gt; p.x-30) And (x &lt; p.x)
+						x :- 3
+						p.x :+ 3
+					EndIf
+					If (x &lt; p.x+30) And (x &gt; p.x)
+						x :+ 3
+						p.x :- 3
+					EndIf
+				EndIf
+			EndIf
+		Next
+	End Method
+	'=============================
+	Method Control()
+		If KeyDown(KEY_LEFT)
+			x :- 5
+			face = FACE_LEFT
+		EndIf
+		'=============================
+		If KeyDown(KEY_RIGHT)
+			x :+ 5
+			face = FACE_RIGHT
+		EndIf
+		'=============================
+		If KeyHit(KEY_UP)
+			jumping = True
+			yv = -7
+		EndIf
+		'=============================
+		If KeyHit(KEY_SPACE)
+			Local temp_xv:Float, temp_yv:Float
+			If KeyDown(KEY_DOWN)
+				temp_yv = -5
+			Else
+				If face = FACE_RIGHT
+					temp_xv = 10
+				Else
+					temp_xv = -10
+				EndIf
+				temp_yv = -8
+			EndIf
+			TSkull.Create(x, y-HEIGHT_ABOVE_GROUND/2, temp_xv, temp_yv, TEAM_FRIENDLY)
+		EndIf
+	End Method
+	'=============================
+	Method AI()
+		i :+ 1
+		If i = interval
+			interval = Rand(100, 350)
+			i = 0
+			yv = -8
+			If x &lt; Player.x
+				xv = 5
+			Else
+				xv = -5
+			EndIf
+			jumping = True
+		EndIf
+		'=============================
+		If jumping = False
+			If x &gt; Player.x+100
+				x :- 3
+				face = FACE_LEFT
+			ElseIf x &lt; Player.x-100
+				x :+ 3
+				face = FACE_RIGHT
+			EndIf
+		Else
+			x :+ xv
+		EndIf
+		'=============================
+		timer :+ 1
+		If timer = 100
+			TSkull.Create(x, y-HEIGHT_ABOVE_GROUND/2, face*20-10, -8, team)
+			timer = Rand(-100, 0)
+		EndIf
+	End Method
+	'=============================
+	Method Draw()
+		Select team
+			Case TEAM_FRIENDLY
+				SetColor 200, 50, 50
+			Case TEAM_HOSTILE
+				SetColor 50, 50, 200
+			Case TEAM_NEUTRAL
+				SetColor 255, 255, 255
+			Default
+		End Select
+		'=============================
+		SetTransform 0, face*2-1, 1
+		DrawImage image, x, y
+		SetTransform 0, 1, 1
+		'=============================
+		If controller = CONTROL_PLAYER
+			SetColor 255, 255, 255
+			Local arrow_position:Int = 40
+			DrawLine x-5, y-arrow_position, x+5, y-arrow_position
+			DrawLine x-5, y-arrow_position, x, y-arrow_position+5
+			DrawLine x+5, y-arrow_position, x, y-arrow_position+5
+		EndIf
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TBullet Type 0.4.bmx
+'=============================
+Type TBullet
+	'===========GLOBALS===========
+	Global list:TList = New TList
+	'=============================
+	
+	'===========FIELDS============
+	Field x:Float, y:Float
+	Field xv:Float, yv:Float
+	Field r:Float, rv:Float
+	Field team:Int
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	'Function Create() Abstract
+	'=============================
+	Method Destroy()
+		list.Remove(Self)
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.Remove(Self)
+			Case TEAM_HOSTILE
+				Hostile_Faction.Remove(Self)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.Remove(Self)
+			Default
+		End Select
+	End Method
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update_All() Abstract
+	Function Draw_All() Abstract
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TSkull Type 0.4.bmx
+'=============================
+MidHandleImage(TSkull.image)
+'=============================
+Type TSkull Extends TBullet
+	'==========CONSTANTS==========
+	Const MAX_SPIN:Float = 10
+	'=============================
+	
+	'===========GLOBALS===========
+	Global image:TImage = LoadImage("skull.png")
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Function Create:TSkull(x:Float, y:Float, xv:Float, yv:Float, team:Int)
+		Local b:TSkull = New TSkull
+		b.x = x; b.y = y
+		b.xv = xv; b.yv = yv
+		b.r = Rand(1, 360)
+		b.rv = Rnd(-MAX_SPIN, MAX_SPIN)
+		'=============================
+		list.AddLast(b)
+		b.team = team
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(b)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(b)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(b)
+			Default
+		End Select
+	End Function
+	'=============================
+	'Method Destroy() is handled in TBullet
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update_All()
+		Local s:TSkull
+		For s = EachIn(list)
+			s.Update()
+		Next
+		'=============================
+		Local s1:TSkull, s2:TSkull
+		For s1 = EachIn(Friendly_Faction)
+		For s2 = EachIn(Hostile_Faction)
+			If ImagesCollide(image, s1.x, s1.y, 0, image, s2.x, s2.y, 0)
+				Local temp_x:Int = (s1.x + s2.x)/2
+				Local temp_y:Int = (s1.y + s2.y)/2
+				TBoom.Create(temp_x, temp_y, 0, 0, TEAM_NEUTRAL)
+				s1.Destroy()
+				s2.Destroy()
+			EndIf
+		Next
+		Next
+		'=============================
+	End Function
+	'=============================
+	Function Draw_All()
+		SetColor 255, 255, 255
+		Local s:TSkull
+		For s = EachIn(list)
+			s.Draw()
+		Next
+	End Function
+	'=============================
+	
+	'===========METHODS===========
+	Method Update()
+		x:+ xv
+		y:+ yv
+		yv :+ 0.5
+		xv :* 0.99
+		r :+ rv
+		'=============================
+		If (x &gt; 800) Or (x&lt;0)		'destroy if it goes offscreen
+			Destroy()
+			Return
+		EndIf
+		'=============================
+		If y &gt; GROUND_HEIGHT		'detonate upon impacting ground
+			TBoom.Create(x, GROUND_HEIGHT, 0, 0, team)
+			Destroy()
+			Return
+		EndIf
+		'=============================
+		Local p:TPlayer
+		For p = EachIn TPlayer.list
+			If p.team &lt;&gt; team
+				If  ImagesCollide2(image, x, y, 0, 0, 1, 1, p.image, p.x, p.y, 0, 0, p.face*2-1, 1)
+					TBoom.Create(x, y, 0, 0, team)
+					Destroy()
+					Return
+				EndIf	
+			EndIf
+		Next
+	End Method
+	'=============================
+	Method Draw()
+		SetTransform r, 1, 1
+		DrawImage image, x, y
+		SetTransform 0, 1, 1
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TBoom Type 0.4.bmx
+'=============================
+Type TBoom Extends TBullet
+	'===========FIELDS============
+	Field size:Int, color:Int		'size and color
+	'=============================
+	
+	'========LIFE &amp; DEATH=========
+	Function Create:TBoom(x:Int, y:Int, xv:Float, yv:Float, team:Int)
+		Local b:TBoom = New TBoom
+		b.x = x; b.y = y
+		b.xv = xv; b.yv = yv
+		'=============================
+		list.AddLast(b)
+		b.team = team
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(b)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(b)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(b)
+			Default
+		End Select
+		'=============================
+		b.color = 255
+		Return b
+	End Function
+	'=============================
+	'Method Destroy() is handled in TBullet
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Update_All()
+		Local b:TBoom
+		For b = EachIn(list)
+			b.Update()
+		Next
+	End Function
+	'=============================
+	Function Draw_All()
+		Local b:TBoom
+		'=============================
+		For b = EachIn(Friendly_Faction)
+			SetColor b.color, 0, 0
+			b.Draw()
+		Next
+		'=============================
+		For b = EachIn(Hostile_Faction)
+			SetColor 0, 0, b.color
+			b.Draw()
+		Next
+		'=============================
+		For b = EachIn(Neutral_Faction)
+			SetColor b.color, 0, b.color
+			b.Draw()
+		Next
+	End Function
+	'=============================
+	
+	'===========METHODS===========
+	Method Update()
+		x :+ xv
+		y :+ yv
+		size :+ 10
+		color :- 10
+		If size &gt; 200
+			Destroy()
+		EndIf
+	End Method
+	'=============================
+	Method Draw()
+		DrawOval x-size/2, y-size/2, size, size
+	End Method
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Hud Type 0.4.bmx
+'=============================
+Type HUD
+	'===========GLOBALS===========
+	Global x:Int, y:Int, w:Float, h:Float
+	'=============================
+	
+	'==========FUNCTIONS==========
+	Function Initialize(x_pos:Int, y_pos:Int, width:Float, height:Float)
+		x = x_pos
+		y = y_pos
+		w = width
+		h = height
+	End Function
+	'=============================
+	Function Draw()
+		Draw_Minimap()
+		'=============================
+		DrawText "1-2 to spawn bots", 12, 12
+		DrawText "4 to kill all bots", 12, 24
+		'=============================
+	End Function
+	'=============================
+	Function Draw_Minimap()
+		SetTransform 0, 1, 1
+		'=============================
+		SetColor 255, 255, 255
+		DrawRect x-1, y-1, w+2, h+2
+		SetColor 0, 0, 0
+		DrawRect x, y, w, h
+		'=============================
+		SetOrigin x, y
+		Local p:TPlayer
+		Local x_scale:Float = w/800
+		Local y_scale:Float = h/600
+		'=============================
+		SetColor 200, 50, 50
+		For p = EachIn(Friendly_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 50, 50, 200
+		For p = EachIn(Hostile_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 255, 255, 255
+		For p = EachIn(Neutral_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 128, 128, 128
+		DrawLine 0, GROUND_HEIGHT*y_scale, w-1, GROUND_HEIGHT*y_scale
+		'=============================
+		SetOrigin 0, 0
+		'=============================
+	End Function
+	'=============================
+End Type
+'=============================
+</textarea> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>0.3</td><td align="right"><font class="tiny">(Posted 2011-03-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A rewrite of an old game I made in BlitzPlus.<br>Clip of old version:<br><pre class="code"> <a href="http://www.youtube.com/watch?v=U0hYbg0mkSA" target="_blank">http://www.youtube.com/watch?v=U0hYbg0mkSA</a> </pre><br>Images for new version found here:<br><a href="http://i829.photobucket.com/albums/zz219/Belimoth/skull.png" target="_blank">skull.png</a><br><a href="http://i829.photobucket.com/albums/zz219/Belimoth/impgrey.png" target="_blank">impgrey.png</a><br><br>Bugs:<br>-sometimes if two bombs are thrown at the same time by different characters they will cancel each other out.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Imp Game Remake 0.3.bmx
+SuperStrict
+Graphics 800, 600
+SeedRnd MilliSecs()
+'=============================
+Const TEAM_NEUTRAL:Byte = 0 
+Const TEAM_FRIENDLY:Byte = 1
+Const TEAM_HOSTILE:Byte = 2
+'=============================
+Global Friendly_Faction:TList = New TList
+Global Hostile_Faction:TList = New TList
+Global Neutral_Faction:TList = New TList
+'=============================
+Const GROUND_HEIGHT:Int = 500
+Const HEIGHT_ABOVE_GROUND:Int = 15
+'=============================
+Global done:Byte
+'=============================
+Include "TPlayer Type 0.3.bmx"
+'=============================
+Include "TBullet Type 0.3.bmx"
+'=============================
+Include "TSkull Type 0.3.bmx"
+'=============================
+Include "TBoom Type 0.3.bmx"
+'=============================
+Include "HUD Type 0.3.bmx"
+'=============================
+
+
+
+
+'=============================
+SeedRnd MilliSecs()
+Global Player:TPlayer = TPlayer.Create(400, 200, 1000, TEAM_FRIENDLY)
+Player.Initialize()
+HUD.Initialize(710, 10, 80, 60)
+'=============================
+While Not done
+	TPlayer.Update_All()
+	'=============================
+	If KeyHit(KEY_1)
+		TPlayer.Create( Rand(0, 1)*800, GROUND_HEIGHT-HEIGHT_ABOVE_GROUND, 200, TEAM_HOSTILE )
+	EndIf
+	'=============================
+	If KeyHit(KEY_2)
+		TPlayer.Create( Rand(0, 1)*800, GROUND_HEIGHT-HEIGHT_ABOVE_GROUND, 200, TEAM_FRIENDLY )
+	EndIf
+	'=============================
+	'If MouseHit(1)
+	'	HUD.Initialize(MouseX(), MouseY(), 80, 60)
+	'	Print MouseX()+", "+MouseY()
+	'EndIf
+	'=============================
+	TSkull.Update_All()
+	TBoom.Update_All()
+	'TCorpse.Update_All()
+	Draw()
+	Flip
+	Cls
+Wend
+'=============================
+
+
+
+
+
+'=============================
+Function Draw()
+	SetColor 120, 120, 120
+	SetTransform 0, 1, 1
+	DrawLine 0, GROUND_HEIGHT, 800, GROUND_HEIGHT
+	'=============================
+	TSkull.Draw_All()
+	TPlayer.Draw_All()
+	TBoom.Draw_All()
+	'TCorpse.Draw_All()
+	'Player.Draw()
+	HUD.Draw()
+End Function
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TPlayer Type 0.3.bmx
+'=============================
+MidHandleImage(TPlayer.image)
+MidHandleImage(TPlayer.cutout)
+'=============================
+Type TPlayer
+	Const FACE_LEFT:Int = 0
+	Const FACE_RIGHT:Int = 1
+	'=============================
+	Const CONTROL_AI:Int = 0
+	Const CONTROL_PLAYER:Int = 1
+	'=============================
+	Global list:TList = New TList
+	'=============================
+	Global image:TImage = LoadImage("impgrey.png")
+	Global cutout:TImage = LoadImage("cutout.png")
+	'=============================
+	Field x:Int, y:Int, face:Int
+	Field health:Int
+	Field xv:Int, yv:Float
+	Field jumping:Int 
+	'=============================
+	'AI stuff
+	Field i:Int
+	Field interval:Int
+	Field timer:Int
+	'=============================
+	Field team:Int, controller:Int
+	'=============================
+	Method Initialize()		'user only
+		jumping = True
+		controller = CONTROL_PLAYER
+	End Method
+	'=============================
+	Function Create:TPlayer(x:Int, y:Int, health:Int = 1, team:Int = TEAM_HOSTILE)
+		Local p:TPlayer = New TPlayer
+		p.x = x
+		p.y = y
+		p.health = health
+		p.interval = Rand(100,350)
+		p.team = team
+		list.AddLast(p)
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(p)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(p)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(p)
+			Default
+		End Select
+		Return p
+	End Function
+	'=============================
+	Method Destroy()
+		
+	End Method
+	'=============================
+	Function Update_All()
+		Local p:TPlayer
+		For p = EachIn(list)
+			p.Update()
+		Next
+	End Function
+	'=============================
+	Function Draw_All()
+		Local p:TPlayer
+		For p = EachIn(list)
+			p.Draw()
+		Next
+	End Function
+	'=============================
+	Method Update()
+		If jumping = True
+			y :+ yv
+			yv :+ 0.1
+			If y &gt; GROUND_HEIGHT-HEIGHT_ABOVE_GROUND
+				y = GROUND_HEIGHT-HEIGHT_ABOVE_GROUND
+				jumping = False
+			EndIf
+		EndIf
+		'=============================
+		Select controller
+			Case CONTROL_AI
+				AI()
+			Case CONTROL_PLAYER
+				Control()
+			Default
+		End Select
+		'=============================
+		Local p:TPlayer
+		For p = EachIn(list)
+			If Not (p = Self)
+				If (jumping = False) And (p.jumping = False)
+					If (x &gt; p.x-30) And (x &lt; p.x)
+						x :- 3
+						p.x :+ 3
+					EndIf
+					If (x &lt; p.x+30) And (x &gt; p.x)
+						x :+ 3
+						p.x :- 3
+					EndIf
+				EndIf
+			EndIf
+		Next
+	End Method
+	'=============================
+	Method Control()
+		If KeyHit(KEY_ESCAPE) Then done = True
+		'=============================
+		If KeyDown(KEY_LEFT)
+			x :- 5
+			face = FACE_LEFT
+		EndIf
+		'=============================
+		If KeyDown(KEY_RIGHT)
+			x :+ 5
+			face = FACE_RIGHT
+		EndIf
+		'=============================
+		If KeyHit(KEY_UP)
+			jumping = True
+			yv = -7
+		EndIf
+		'=============================
+		If KeyHit(KEY_SPACE)
+			Local temp_xv:Float, temp_yv:Float
+			If KeyDown(KEY_DOWN)
+				temp_yv = -5
+			Else
+				If face = FACE_RIGHT
+					temp_xv = 10
+				Else
+					temp_xv = -10
+				EndIf
+				temp_yv = -8
+			EndIf
+			TSkull.Create(x, y-HEIGHT_ABOVE_GROUND/2, temp_xv, temp_yv, TEAM_FRIENDLY)
+		EndIf
+	End Method
+	'=============================
+	Method AI()
+		i :+ 1
+		If i = interval
+			interval = Rand(100, 350)
+			i = 0
+			yv = -8
+			If x &lt; Player.x
+				xv = 5
+			Else
+				xv = -5
+			EndIf
+			jumping = True
+		EndIf
+		'=============================
+		If jumping = False
+			If x &gt; Player.x+100
+				x :- 3
+				face = FACE_LEFT
+			ElseIf x &lt; Player.x-100
+				x :+ 3
+				face = FACE_RIGHT
+			EndIf
+		Else
+			x :+ xv
+		EndIf
+		'=============================
+		timer :+ 1
+		If timer = 100
+			TSkull.Create(x, y-HEIGHT_ABOVE_GROUND/2, face*20-10, -8, team)
+			timer = Rand(-100, 0)
+		EndIf
+	End Method
+	'=============================
+	Method Draw()
+		Select team
+			Case TEAM_FRIENDLY
+				SetColor 200, 50, 50
+			Case TEAM_HOSTILE
+				SetColor 50, 50, 200
+			Case TEAM_NEUTRAL
+				SetColor 255, 255, 255
+			Default
+		End Select
+		'=============================
+		SetTransform 0, face*2-1, 1
+		DrawImage image, x, y
+		SetTransform 0, 1, 1
+	End Method
+End Type
+'=============================
+</textarea><br><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TBullet Type 0.3.bmx
+'=============================
+Type TBullet
+	Global list:TList = New TList
+	'=============================
+	Field x:Float, y:Float
+	Field xv:Float, yv:Float
+	Field r:Float, rv:Float
+	Field team:Int
+	'=============================
+	'Function Create() Abstract
+	'=============================
+	Method Destroy()
+		list.Remove(Self)
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.Remove(Self)
+			Case TEAM_HOSTILE
+				Hostile_Faction.Remove(Self)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.Remove(Self)
+			Default
+		End Select
+	End Method
+	'=============================
+	Function Update_All() Abstract
+	Function Draw_All() Abstract
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TSkull Type 0.3.bmx
+'=============================
+MidHandleImage(TSkull.image)
+'=============================
+Type TSkull Extends TBullet
+	'=============================
+	Global image:TImage = LoadImage("skull.png")
+	'=============================
+	Function Create:TSkull(x:Float, y:Float, xv:Float, yv:Float, team:Int)
+		Local b:TSkull = New TSkull
+		b.x = x; b.y = y
+		b.xv = xv; b.yv = yv
+		'=============================
+		list.AddLast(b)
+		b.team = team
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(b)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(b)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(b)
+			Default
+		End Select
+	
+	End Function
+	'=============================
+	Function Update_All()
+		Local s:TSkull
+		For s = EachIn(list)
+			s.Update()
+		Next
+		'=============================
+		Local s1:TSkull, s2:TSkull
+		For s1 = EachIn(Friendly_Faction)
+		For s2 = EachIn(Hostile_Faction)
+			If ImagesCollide(image, s1.x, s1.y, 0, image, s2.x, s2.y, 0)
+				Local temp_x:Int = (s1.x + s2.x)/2
+				Local temp_y:Int = (s1.y + s2.y)/2
+				TBoom.Create(temp_x, temp_y, 0, 0, TEAM_NEUTRAL)
+			EndIf
+			s1.Destroy()
+			s2.Destroy()
+		Next
+		Next
+	End Function
+	'=============================
+	Function Draw_All()
+		SetColor 255, 255, 255
+		Local s:TSkull
+		For s = EachIn(list)
+			s.Draw()
+		Next
+	End Function
+	'=============================
+	Method Update()
+		x:+ xv
+		y:+ yv
+		yv :+ 0.5
+		xv :* 0.99
+		r :+ rv
+		'=============================
+		If (x &gt; 800) Or (x&lt;0)
+			Destroy()
+			Return
+		EndIf
+		'=============================
+		If y &gt; GROUND_HEIGHT
+			TBoom.Create(x, GROUND_HEIGHT, 0, 0, team)
+			Destroy()
+			Return
+		EndIf
+		'=============================
+		Local p:TPlayer
+		For p = EachIn TPlayer.list
+			If p.team &lt;&gt; team
+				If  ImagesCollide2(image, x, y, 0, 0, 1, 1, p.image, p.x, p.y, 0, 0, p.face*2-1, 1)
+					TBoom.Create(x, y, 0, 0, team)
+					Destroy()
+					Return
+				EndIf	
+			EndIf
+		Next
+		'=============================
+	End Method
+	'=============================
+	Method Draw()
+		DrawImage image, x, y
+		'DrawOval x-image.width/2, y-image.height/2, image.width, image.height
+	End Method
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TBoom Type 0.3.bmx
+'=============================
+Type TBoom Extends TBullet
+	'=============================
+	Field size:Int, color:Int		'size and color
+	Field d:Int			'whether it is the player's death animation or not
+	'=============================
+	Function Create:TBoom(x:Int, y:Int, xv:Float, yv:Float, team:Int)
+		Local b:TBoom = New TBoom
+		b.x = x; b.y = y
+		b.xv = xv; b.yv = yv
+		'=============================
+		list.AddLast(b)
+		b.team = team
+		Select team
+			Case TEAM_FRIENDLY
+				Friendly_Faction.AddLast(b)
+			Case TEAM_HOSTILE
+				Hostile_Faction.AddLast(b)
+			Case TEAM_NEUTRAL
+				Neutral_Faction.AddLast(b)
+			Default
+		End Select
+		'=============================
+		b.color = 255
+		Return b
+	End Function
+	'=============================
+	Function Update_All()
+		Local b:TBoom
+		For b = EachIn(list)
+			b.Update()
+		Next
+	End Function
+	'=============================
+	Function Draw_All()
+		Local b:TBoom
+		'=============================
+		For b = EachIn(Friendly_Faction)
+			SetColor b.color, 0, 0
+			b.Draw()
+		Next
+		'=============================
+		For b = EachIn(Hostile_Faction)
+			SetColor 0, 0, b.color
+			b.Draw()
+		Next
+		'=============================
+		For b = EachIn(Neutral_Faction)
+			SetColor b.color, 0, b.color
+			b.Draw()
+		Next
+	End Function
+	'=============================
+	Method Update()
+		x :+ xv
+		y :+ yv
+		size :+ 10
+		color :- 10
+		If size &gt; 200
+			If d = True
+				done = True
+			EndIf
+			Destroy()
+		EndIf
+	End Method
+	'=============================
+	Method Draw()
+		DrawOval x-size/2, y-size/2, size, size
+	End Method
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Hud Type 0.3.bmx
+'=============================
+Type HUD
+	'=============================
+	Global x:Int, y:Int, w:Float, h:Float
+	'=============================
+	Function Initialize(x_pos:Int, y_pos:Int, width:Float, height:Float)
+		x = x_pos
+		y = y_pos
+		w = width
+		h = height
+	End Function
+	'=============================
+	Function Draw()
+		SetTransform 0, 1, 1
+		'=============================
+		SetColor 255, 255, 255
+		DrawRect x-1, y-1, w+2, h+2
+		SetColor 0, 0, 0
+		DrawRect x, y, w, h
+		'=============================
+		Local p:TPlayer
+		SetOrigin x, y
+		Local x_scale:Float = w/800
+		Local y_scale:Float = h/600
+		'=============================
+		SetColor 200, 50, 50
+		For p = EachIn(Friendly_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 50, 50, 200
+		For p = EachIn(Hostile_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 255, 255, 255
+		For p = EachIn(Neutral_Faction)
+			Plot(p.x*x_scale, p.y*y_scale)
+		Next
+		'=============================
+		SetColor 128, 128, 128
+		DrawLine 0, GROUND_HEIGHT*y_scale, w-1, GROUND_HEIGHT*y_scale
+		'=============================
+		SetOrigin 0, 0
+		'=============================
+		
+		
+		
+		'=============================
+		DrawText "1-2 to spawn bots", 12, 12
+		'=============================
+	End Function
+End Type
+'=============================
+</textarea> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

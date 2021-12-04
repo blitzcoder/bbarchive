@@ -1,0 +1,549 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>        <script type="text/javascript" async="" src="2370&amp;log=1855_files/ga.js"></script><script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34362789-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        </script></head><body>
+			
+			<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for _PJ_</h1><h1>E-Packer</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Issues with Filetypes</td><td align="right"><font class="tiny">(Posted 2012-09-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Certainly .ogg formats and most likely other compressed media will not 
+work due to the reading of file data ignoring critical header 
+information.<br><br>There may be a workaround involving analysing the 
+actual data as Loaded as the correct media type, however this will then 
+involve a lot more complexity especially in terms of identifying the 
+header details and somehow ensuring this can be re-written which will 
+also require some means of pointer referencing the actual resource 
+memory space. This is probably not worth it in the immediate future, but
+ something to possibly bear in mind for the future.<br><br>So, as it stands, the E-Packer will need to be restricted to certain filetypes. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Next Step</td><td align="right"><font class="tiny">(Posted 2012-07-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The proposals for now are to identify more information regarding the bugs that occur with file retrieval.<br><br>It
+ seems that there is a small offset meaning the original files have more
+ at the start of their content, this is lost in the retrieved version.<br><br>I'm
+ fairly confident that this is simply a result of some mismatch in 
+identifying the Start position of where the files' code structures are 
+located within the package. At least, the SIZE for each file seems 
+accurately represented.<br><br>Once those issues have been addressed 
+adequately, I intend to add more functionality to make the process a 
+little more user-friendly. <br><br>From this moment, when all is working
+ to a satisfactory standard, I would like to investigate the 
+possibilities of incorporating the "Blitz Zip" libraries, which allow 
+for ZIP compresson, and, if necessary, some form of encryption on the 
+data itself. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Preliminary</td><td align="right"><font class="tiny">(Posted 2012-07-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The "E-Packer.Class" code is congruent with the EKD Engine, and utilises a few simple File manipulation functions.<br><br>So
+ far, the Packaging and Retrieval is functional, although there are some
+ issues perhaps with regards to the header data of resources. It may be 
+that some resource MIME types are simply not suitable for this method.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Const
+ csfe_EPK_EXT_PACKAGE$="epk"
+
+Const cs_DEF_EPK_PACK_NAME$="Package"
+;Const cnb_DEF_EPK_ZIPPED_FLAG=False ;	In cases of conflict or flag is 
+not set. This default overrides whether packaged files/directories are 
+zipped (True/1) or not (False/0)
+
+
+Const cs_DEF_EPK_EXTENSION_FILTER$=cs_STRING_WILDCARD	;	The default 
+extension filter - see "ProcessFilePacking" for more details. 
+cs_STRING_WILDCARD$ ("*") alone signifies ALL filetypes will be packed.
+
+Dim ahto_Files%(0)
+
+; SIMPLE WRAPPER FOR END USAGE
+Function v_EPK_PackDirectoryToFile(sdd_DirToPack$, 
+sdd_Destination$=cs_STRING_NULL_STRING,nb_Recursive=True,s_ExtensionFilter$=cs_DEF_EPK_EXTENSION_FILTER)
+
+	Local 
+o_Pack.T_EPK_Package=o_EPK_CreatePackage.T_EPK_Package(sdd_Destination)
+	
+v_EPK_AddDirectoryContent(o_Pack,sdd_DirToPack,nb_Recursive,s_ExtensionFilter)
+
+	v_EPK_WritePackages(o_Pack.T_EPK_Package)
+End Function
+
+;WILL WRITE GENERATE ALL PACKAGE FILES UNLESS A SPECIFIC EXISTING OBJECT
+ IS SPECIFIED
+Function v_EPK_WritePackages(o_Pack.T_EPK_Package)
+	Local nb_Result=False
+	If (o_Pack.T_EPK_Package=Null)
+		o_Pack.T_EPK_Package=First T_EPK_Package
+		If (o_Pack.T_EPK_Package=Null)
+			DebugLog("Write Package: No packages created")
+		End If
+		
+		For o_Pack.T_EPK_Package = Each T_EPK_Package	
+			If (o_Pack.T_EPK_Package&lt;&gt;Null)
+				nb_Result=nb_EPK_WritePackageContents(o_Pack.T_EPK_Package)
+				If (Not(nb_Result))
+					DebugLog("Write Package: Error detected in writing package 
+content")
+					DeleteFile o_Pack.T_EPK_Package\sfp_EPK_PACK_FilePath
+				Else
+					DebugLog("Write Package: Successfully created Package")
+				End If
+			Else
+				DebugLog("Write Package: Package object does not exist")
+			End If
+			
+		Next
+	Else
+		If (o_Pack.T_EPK_Package&lt;&gt;Null)
+			nb_Result=nb_EPK_WritePackageContents(o_Pack.T_EPK_Package)
+			If (Not(nb_Result))
+				DebugLog("Write Package: Error detected in writing package content")
+				DeleteFile o_Pack.T_EPK_Package\sfp_EPK_PACK_FilePath
+			Else
+				DebugLog("Write Package: Successfully created Package")
+			End If
+			
+			Delete o_Pack.T_EPK_Package
+			
+		Else
+			DebugLog("Write Package: Package object does not exist")
+		End If
+	End If	
+End Function
+
+; WRITES THE CONTENTS TO PACKAGE FILES
+Function nb_EPK_WritePackageContents(o_Pack.T_EPK_Package)
+	Local 
+hst_PackFile=WriteFile(o_Pack.T_EPK_Package\sfp_EPK_PACK_FilePath)
+	If (Not(hst_PackFile))
+		DebugLog("Write Package: Could not write to destination")
+		Return False
+	End If
+	
+	Local o_Dir.T_EPK_Directory
+	Local o_File.T_EPK_File
+	
+	Local n4_Start=4
+	Local n4_Count=0
+	
+	;First Pass - Identify Header Length
+	For o_File.T_EPK_File=Each T_EPK_File
+		If (o_File.T_EPK_File&lt;&gt;Null)
+			If 
+(o_File.T_EPK_File\io_EPK_FILE_ParentPack.T_EPK_Package=o_Pack.T_EPK_Package)
+
+				n4_Start=n4_Start+Len(o_File.T_EPK_File\sfi_EPK_FILE_FileName)+2	;	
+Filename string + length (short)
+				n4_Start=n4_Start+4	;	Size integer
+				n4_Start=n4_Start+4	;	Start integer
+				n4_Count=n4_Count+1
+			End If
+		End If
+	Next	
+	
+	;Store Valid Files in an array this next pass
+	
+	If (Not(n4_Count))
+		;No valid files in this package
+		DebugLog("Write Package: Package Empty")
+		CloseFile hst_PackFile
+		Return False
+	End If
+	
+	Dim ahto_Files%(n4_Count)
+	n4_Count=0
+	
+	WriteInt hst_PackFile,n4_Start-1	;	Header Length
+	
+	;Second Pass - Write Header
+	For o_File.T_EPK_File=Each T_EPK_File
+		If (o_File.T_EPK_File&lt;&gt;Null)
+			If 
+(o_File.T_EPK_File\io_EPK_FILE_ParentPack.T_EPK_Package=o_Pack.T_EPK_Package)
+
+				
+o_Dir.T_EPK_Directory=o_File.T_EPK_File\io_EPK_FILE_ParentDir.T_EPK_Directory
+
+				ahto_Files(n4_Count)=Handle(o_File.T_EPK_File)
+				WriteString hst_PackFile,o_File.T_EPK_File\sfi_EPK_FILE_FileName$
+				WriteInt hst_PackFile,o_File.T_EPK_File\n4_EPK_FILE_Size
+				WriteInt hst_PackFile,n4_Start
+				n4_Start=n4_Start+o_File.T_EPK_File\n4_EPK_FILE_Size
+				n4_Count=n4_Count+1
+			End If
+		End If
+	Next
+	
+	Local hst_ReadFile%=0
+	Local n4_CountFile%
+	
+	Local n4_Byte=0
+	Local n4_Iter=0
+	Local sfp_FullPath$
+	Local hmb_Bank%=0
+	
+	;Third Pass - Write Files
+	For n4_CountFile=0 To n4_Count%-1
+		o_File.T_EPK_File=Object.T_EPK_File(ahto_Files(n4_CountFile))
+		
+sfp_FullPath$=o_File.T_EPK_File\io_EPK_FILE_ParentDir.T_EPK_Directory\sdd_EKP_Path+o_File.T_EPK_File\sfi_EPK_FILE_FileName$
+
+		hst_ReadFile=ReadFile(sfp_FullPath$)
+		hmb_Bank=hmb_MEM_CreateBank(o_File.T_EPK_File\n4_EPK_FILE_Size)
+		ReadBytes(hmb_Bank, hst_ReadFile,0,o_File.T_EPK_File\n4_EPK_FILE_Size)
+		WriteBytes(hmb_Bank, 
+hst_PackFile,0,o_File.T_EPK_File\n4_EPK_FILE_Size)
+		v_MEM_FreeBank(hmb_Bank)
+	Next
+	
+	Dim ahto_Files(0)
+	CloseFile hst_PackFile
+	CloseFile hst_ReadFile
+	
+	Return True
+End Function	
+							
+;ADDS BATCH CONTENTS OF A DIRECTORY To AN EXISTING PACKAGE
+Function v_EPK_AddDirectoryContent(o_Pack.T_EPK_Package, 
+sdd_DirectoryPath$, 
+nb_Recursive=True,s_ExtensionFilter$=cs_DEF_EPK_EXTENSION_FILTER)
+	If (nb_EXP_CheckPath(sdd_DirectoryPath,cnbf_EXP_FILETYPE_DIRECTORY))
+		sdd_DirectoryPath=sfp_EXP_FixPath(sdd_DirectoryPath,True)
+		Local hdr_Directory=ReadDir(sdd_DirectoryPath)
+		If (hdr_Directory)
+			Local slx_Content$=NextFile(hdr_Directory)
+			Local sfp_ContentPath$=sdd_DirectoryPath+slx_Content
+			Local nbf_FileType=FileType(sfp_ContentPath)
+			While (slx_Content&lt;&gt;cs_STRING_NULL_STRING)
+				If (nbf_FileType=cnbf_EXP_FILETYPE_DIRECTORY)
+					;DIRECTORY BRANCH
+					If (nb_Recursive)
+						If (Right(slx_Content,1)&lt;&gt;cs_STRING_EXT_SEPARATOR)
+							;Recursively Add Sub-Directory Content
+							
+v_EPK_AddDirectoryContent(o_Pack.T_EPK_Package,sfp_ContentPath,nb_Recursive,s_ExtensionFilter)
+
+						End If
+					End If
+				Else
+					;FILE
+					If (nbf_FileType=cnbf_EXP_FILETYPE_FILE)
+						
+v_EPK_ProcessFilePacking(o_Pack.T_EPK_Package,sfp_ContentPath,s_ExtensionFilter)
+
+					End If
+				End If
+				
+				;Repeat iteration
+				slx_Content$=NextFile(hdr_Directory)
+				sfp_ContentPath$=sdd_DirectoryPath+slx_Content
+				nbf_FileType=FileType(sfp_ContentPath)	
+			Wend
+		Else
+			DebugLog("Add Directory Content: Could not read from Directory 
+"+sdd_DirectoryPath)
+			DebugLog("Check Attributes &amp; Permissions")
+		End If
+	Else
+		DebugLog("Add Directory Content: Invalid Directory 
+Path"+sdd_DirectoryPath)
+	End If
+End Function
+
+;CREATES A NEW PACKAGE OBJECT READY FOR ADDING CONTENT &amp; WRITING
+Function o_EPK_CreatePackage.T_EPK_Package(sdd_PackageDirectory$, 
+sfi_PackageName$=cs_DEF_EPK_PACK_NAME$)
+	If (sdd_PackageDirectory&lt;&gt;cs_STRING_NULL_STRING)
+		
+		If 
+((nb_EXP_CheckPath(sdd_PackageDirectory,cnbf_EXP_FILETYPE_DIRECTORY)))
+			;Directory Path valid
+			Local o_Pack.T_EPK_Package=New T_EPK_Package
+			;Ensure Unique Package Name
+			sdd_PackageDirectory=sfp_EXP_FixPath(sdd_PackageDirectory,True)
+			Local 
+sfp_FilePath$=sdd_PackageDirectory$+sfi_PackageName$+cs_STRING_EXT_SEPARATOR$+csfe_EPK_EXT_PACKAGE$
+
+			Local ns_Suffix=1
+			If (nb_EXP_CheckPath(sfp_FilePath$,cnbf_EXP_FILETYPE_FILE))
+				While(nb_EXP_CheckPath(sfp_FilePath$,cnbf_EXP_FILETYPE_FILE))
+					;Package name exists, increment suffix until suitable
+					
+sfp_FilePath$=sdd_PackageDirectory$+sfi_PackageName+Str(ns_Suffix)+cs_STRING_EXT_SEPARATOR$+csfe_EPK_EXT_PACKAGE$
+
+					ns_Suffix=ns_Suffix+1
+				Wend
+			End If
+			o_Pack.T_EPK_Package\sfp_EPK_PACK_FilePath$=sfp_FilePath
+			
+			DebugLog("Create Package: "+sfi_PackageName+" succeeded")
+			
+			Return o_Pack.T_EPK_Package
+		End If
+	End If
+	
+	DebugLog("Create Package: Invalid Destination "+sdd_PackageDirectory)
+	DebugLog("Creation Failed")
+		
+	Return Null
+End Function
+
+;ADDS FILE TO PACKAGE OBJECT READY FOR WRITING. EXTENSION FILTER MUST 
+FOLLOW THE FORM "*.bmp*.jpeg*.dat" etc. 
+Function v_EPK_ProcessFilePacking(o_Pack.T_EPK_Package, sfp_FilePath$, 
+s_ExtensionFilter$=cs_DEF_EPK_EXTENSION_FILTER);, 
+nb_Zipped=cnb_DEF_EPK_ZIPPED_FLAG)
+	If (nb_EXP_CheckPath(sfp_FilePath,cnbf_EXP_FILETYPE_FILE))
+		; File exists, check against Extension Filters
+		Local sfe_Extension$=sfe_EXP_GetFileExtension(sfp_FilePath)
+		If (Not(nb_EPK_CheckExtension(sfe_Extension,s_ExtensionFilter)))
+			DebugLog("Pack: Filetype "+sfe_Extension+" filtered")
+			DebugLog("Could not pack file "+sfp_FilePath)
+			Return
+		End If
+		
+		;File Extension is valid for Packing
+		If (o_Pack.T_EPK_Package&lt;&gt;Null)
+			;Package is valid for packing
+			
+			Local sfi_FileName$=sfi_EXP_GetFileName$(sfp_FilePath)
+			
+			; Now ensure file has a home container for unpacking later
+			Local sdd_ContainerPath$=sdd_EXP_GetContainerPath$(sfp_FilePath)
+			Local o_Dir.T_EPK_Directory
+			
+			; Check to see if this Dir previously packaged
+			For o_Dir.T_EPK_Directory=Each T_EPK_Directory
+				If (o_Dir.T_EPK_Directory\sdd_EKP_Path=sdd_ContainerPath)
+					DebugLog("Pack: Directory root established "+sdd_ContainerPath)
+					Exit
+				End If
+			Next
+			
+			If (o_Dir=Null)
+				;Dir has not been added to this package, so create a new entry
+				DebugLog("Pack: Processing new directory root "+sdd_ContainerPath)
+				o_Dir.T_EPK_Directory=New T_EPK_Directory
+				o_Dir.T_EPK_Directory\sdd_EKP_Path=sdd_ContainerPath
+;				o_Dir.T_EPK_Directory\nb_EKP_Zipped=nb_Zipped
+			Else
+				
+				; Just in case, Check if File has already been Packaged	
+				Local o_File.T_EPK_File
+				For o_File.T_EPK_File=Each T_EPK_File
+					If 
+((o_File.T_EPK_File\io_EPK_FILE_ParentDir.T_EPK_Directory=o_Dir.T_EPK_Directory)
+ And  (o_File\sfi_EPK_FILE_FileName=sfi_FileName))
+							;File has already been packaged...
+						DebugLog("Pack: File has already been packaged : 
+"+o_File.T_EPK_File\sfi_EPK_FILE_FileName)
+						;No problem, though we can just quit here
+						Return
+						Exit
+					End If
+				Next
+			End If	
+			
+			; If we've reached this point, File is all ready to be packaged
+			o_File.T_EPK_File=New T_EPK_File
+			
+o_File.T_EPK_File\io_EPK_FILE_ParentDir.T_EPK_Directory=o_Dir.T_EPK_Directory
+
+			
+o_File.T_EPK_File\io_EPK_FILE_ParentPack.T_EPK_Package=o_Pack.T_EPK_Package
+
+			o_File.T_EPK_File\sfi_EPK_FILE_FileName=sfi_FileName
+			o_File.T_EPK_File\n4_EPK_FILE_Size=FileSize(sfp_FilePath)
+			
+		Else
+			
+			DebugLog("Package is Null")
+			DebugLog("Could not pack file "+sfp_FilePath)
+			Return
+		End If
+		
+	Else
+		
+		DebugLog("Pack: File not found")
+		DebugLog("Could not pack file "+sfp_FilePath)	
+		Return
+	End If
+	
+	DebugLog("Pack : "+sfi_FileName+" completed successfully")
+End Function	
+
+;UNPACKS A SINGLE FILE
+Function 
+v_EPK_UnPackFile(sfp_PackageFilePath$,sfn_OriginalFileName$,sfp_DestinationFilePath$=cs_STRING_NULL_STRING)
+
+	If (sfn_OriginalFileName=cs_STRING_NULL_STRING)
+		Return
+	End If	
+	
+	If (nb_EXP_CheckPath(sfp_PackageFilePath,cnbf_EXP_FILETYPE_FILE))
+		
+		If(nb_EXP_CheckPath(sfp_DestinationFilePath,cnbf_EXP_FILETYPE_FILE))
+			DebugLog("Unpack: Destination File already exists")
+			Return
+		Else
+			Local 
+sdd_Destination$=sdd_EXP_GetContainerPath(sfp_DestinationFilePath)
+			
+If(Not(nb_EXP_CheckPath(sdd_Destination,cnbf_EXP_FILETYPE_DIRECTORY)))
+				sdd_Destination=CurrentDir()
+				
+sfp_DestinationFilePath=sdd_Destination+sfi_EXP_GetFileName(sfp_DestinationFilePath);
+ Full filename with extension
+			End If
+		End If
+		
+		If(nb_EXP_CheckPath(sfp_DestinationFilePath,cnbf_EXP_FILETYPE_FILE))
+			DebugLog("Unpack: Destination File already exists")
+			Return
+		End If	
+		
+		Local hst_PackFile=ReadFile(sfp_PackageFilePath)
+		
+		If (hst_PackFile)
+			Local sfn_FileName$
+			Local n4_Size
+			Local n4_Start
+			Local n4_Header=ReadInt(hst_PackFile)
+			
+			While (FilePos(hst_PackFile)&lt;n4_Header)
+				sfn_FileName$=ReadString(hst_PackFile)
+				n4_Size=ReadInt(hst_PackFile)
+				n4_Start=ReadInt(hst_PackFile)
+				
+				If (sfn_FileName=sfn_OriginalFileName)
+					Exit
+				End If
+			Wend
+			
+			If ((FilePos(hst_PackFile)&gt;=n4_Header))
+				CloseFile hst_PackFile
+				Return False
+			End If
+			
+			SeekFile(hst_PackFile,n4_Start)
+			Local hmb_Bank=hmb_MEM_CreateBank(n4_Size)
+			ReadBytes(hmb_Bank,hst_PackFile,0,n4_Size)
+			
+			Local hst_ResourceFile=WriteFile(sfp_DestinationFilePath)
+			
+			WriteBytes(hmb_Bank,hst_ResourceFile,0,n4_Size)
+			CloseFile hst_ResourceFile
+			CloseFile hst_PackFile
+			v_MEM_FreeBank(hmb_Bank)
+		End If
+	End If	
+End Function
+
+;DUPLICATE FILENAMES WILL RESULT IN ONLY ONE RESULT.
+Function 
+v_EPK_UnPackAll(sfp_PackageFilePath$,sdd_Destination$=cs_STRING_NULL_STRING,s_ExtensionFilter$=cs_DEF_EPK_EXTENSION_FILTER)
+
+	If (nb_EXP_CheckPath(sfp_PackageFilePath,cnbf_EXP_FILETYPE_FILE))
+		If(Not(nb_EXP_CheckPath(sdd_Destination,cnbf_EXP_FILETYPE_DIRECTORY)))
+			DebugLog("Unpack: Destination Directory does not exist")
+			sdd_Destination=CurrentDir()
+		End If
+			
+		Local hst_PackFile=ReadFile(sfp_PackageFilePath)
+		
+		If (hst_PackFile)
+			Local sfn_FileName$
+			Local n4_Size
+			Local n4_Start
+			Local n4_Header=ReadInt(hst_PackFile)
+			Local n4_HeaderPos
+			
+			Local sfe_Extension$
+			Local sfp_DestinationFilePath$
+			
+			Local hmb_Bank
+			Local hst_ResourceFile
+			
+			While (FilePos(hst_PackFile)&lt;n4_Header)
+				sfn_FileName$=ReadString(hst_PackFile)
+				n4_Size=ReadInt(hst_PackFile)
+				n4_Start=ReadInt(hst_PackFile)
+				n4_HeaderPos=FilePos(hst_PackFile)
+				
+				sfp_DestinationFilePath$=sdd_Destination+sfn_FileName
+				
+				If 
+(Not(nb_EXP_CheckPath(sfp_DestinationFilePath$=sdd_Destination+sfn_FileName)))
+
+					
+					SeekFile(hst_PackFile,n4_Start)
+					sfe_Extension$=sfe_EXP_GetFileExtension(sfn_FileName)
+				
+					If (nb_EPK_CheckExtension(sfe_Extension, s_ExtensionFilter))
+					
+						hmb_Bank=hmb_MEM_CreateBank(n4_Size)
+						ReadBytes(hmb_Bank,hst_PackFile,0,n4_Size)
+						
+						hst_ResourceFile=WriteFile(sfp_DestinationFilePath)
+				
+						WriteBytes(hmb_Bank,hst_ResourceFile,0,n4_Size)
+						CloseFile hst_ResourceFile
+					
+					Else
+						DebugLog("Unpack: Filetype "+sfe_Extension+" filtered")
+						DebugLog("Could not unpack file "+sfp_DestinationFilePath)
+					End If	
+				
+					v_MEM_FreeBank(hmb_Bank)
+					SeekFile(hst_PackFile,n4_HeaderPos)
+					
+				Else
+					DebugLog("Unpack: "+sfp_DestinationFilePath+" File already exists")
+				End If
+				
+			Wend
+			
+			CloseFile hst_PackFile
+			
+		End If
+	End If
+End Function	
+
+;QUICK SUB TO CHECK EXTENSION AGAINST FILTER
+Function nb_EPK_CheckExtension(sfe_Extension$,s_ExtensionFilter$)
+	;Make check case insensitive
+	s_ExtensionFilter=Lower(s_ExtensionFilter)
+	sfe_Extension=Lower(sfe_Extension)
+	
+	;Check if filter active
+	If 
+((s_ExtensionFilter=cs_STRING_WILDCARD)Or(s_ExtensionFilter=cs_STRING_NULL_STRING)
+ Or 
+(s_ExtensionFilter=cs_STRING_WILDCARD+cs_STRING_EXT_SEPARATOR+cs_STRING_WILDCARD))
+
+		;Filter inactive - return True
+		Return True
+	End If
+	
+	;Filter Active, check if extension is valid
+	If 
+(Instr(s_ExtensionFilter,cs_STRING_WILDCARD+cs_STRING_EXT_SEPARATOR+sfe_Extension))
+
+		Return True
+	End If
+	Return False
+End Function	</textarea><br><br><br>The following dependancy is required "EPack_inc_t.bb" which defines Type Objects<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Type T_EPK_Package
+	Field sfp_EPK_PACK_FilePath$
+;	Field nb_Zipped
+End Type
+
+Type T_EPK_Directory
+	Field io_EPK_DIR_ParentPack.T_EPK_Package
+	Field sdd_EKP_Path$
+;	Field nb_EKP_Zipped
+End Type
+
+Type T_EPK_File
+	Field io_EPK_FILE_ParentPack.T_EPK_Package
+	Field io_EPK_FILE_ParentDir.T_EPK_Directory
+	Field sfi_EPK_FILE_FileName$
+	Field n4_EPK_FILE_Size%
+End Type
+</textarea> <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Initial</td><td align="right"><font class="tiny">(Posted 2012-07-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The premise:<br>Provide a simple means to bulk-package resource files into a single file for later retreival<br><br>The Pros:<br>Only a single file needs to be portable for relocation/iunstallation and integrity checking<br><br>The Cons:<br>Individual Resources lack metadata and integrity check values<br>Time delay in extracting &amp; reading files<br>Add/Remove resources requireds re-packaging <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

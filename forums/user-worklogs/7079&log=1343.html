@@ -1,0 +1,164 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for MattVonFat</h1><h1>MattVonFat IDE</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Moving Vertically</td><td align="right"><font class="tiny">(Posted 2006-09-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well moving vertically is now possible.<br><br>I
+ though tit would be simple to begin with but I sonn realised the number
+ of possibilities that I hadn't accounted for and had to start part of 
+it fresh. It wasn't too bad though as it was broken down quite well. 
+This also allowed the MoveUp and MoveDown methods to differ in only two 
+words! (First/Last and Prev/Next I think)<br><br>I had worried about 
+this as my new way of storing the data is alot more complicated when 
+performing these sort of functions. I ended up with a method to get the 
+position of the cursor in actual characters. Then I had another to 
+convert that number into the datablocks.<br><br>It probably doesn't make
+ much sense even if you've followed the worklog from the beginning! I 
+will get round to drawing a diagram of the structure just in case anyone
+ is interested or wants to understand what I'm going on about.<br><br>I can now get on to the scrollbars as all the input stuff is pretty much done! <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Delete</td><td align="right"><font class="tiny">(Posted 2006-09-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I managed to get delete working. This was quite simple due to the 
+similarity to backspace. Testing it was difficult, there are so many 
+senarios that I loose track. I did the important tests, or atleast 
+important to me, which are basically checking that the whole 
+word/character system doesn't get ruined by it, seeing as how this is 
+the basis of the textarea I've wrote.<br><br>I also have to work out a 
+way to simulate a character being held down for non ascii keys, such as 
+delete and the arrow keys as they don't work with with EVENT_KEYCHAR 
+which handles all the horrible stuff with ascii keys. It's getting 
+annoying when a test requires quite a few lines and I have to tap my way
+ backwards through what I've written.<br><br>I now want to finish off 
+the non ascii keys which include, up, down, home and end. Once these are
+ done I can move on to the textarea GUI and the scroll bars. They 
+shouldn't be difficult as I was smart enough to realise I didn't want to
+ go through all the maths of getting them working!!<br><br>After that I 
+will upgrade the drawing routines for the various textarea parts so that
+ it runs more efficiantly and I can start work on the rest of the IDE. <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Surprised It Works</td><td align="right"><font class="tiny">(Posted 2006-09-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I now have backspaces working perfectly! The best part is that it 
+requires a method to join two words together in order to work well. This
+ is the reverse of being able to write characters and start spaces in 
+the middle of a word of line so this is will help later on!<br><br>I'm 
+actually surprised this works so well. Only a few minutes ago I was 
+writing a method which, like alot of the methods, has a similar 
+structure with the only differences being in what it does at certain 
+places. I thought to myself "Oh I need to remember to add *somefunction*
+ for it to work right"<br><br>I then wondered whether I had put this 
+check in else where. It turned out I had but I have to admit with my 
+forgetfulness when it comes to programming I'm surprised anything works.
+ <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Alot Done</td><td align="right"><font class="tiny">(Posted 2006-09-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A little update on the stuff I managed to get done.<br><br>First
+ I got new lines added, but in a certain way. I haven't yet got it so 
+you can start a new line in the middle of a line. Only at the end and 
+beggining. I will probably put off doing the middle of lines until near 
+the end. I also have to impliment inserting a character (not a letter, 
+things like symbols and numbers) in the middle of a line. This is 
+dificult as I have to spilt lists up and do a whole load of swapping 
+about.<br><br>With the addition of adding lines, I now have finished off
+ my MoveBack method to account for lines and I have also completed the 
+move forward method!<br><br>My final addition is red boxes around words 
+and green boxes around characters. I decided to add this so I could make
+ sure, when testing, that everything was in the right place. I might 
+explain this a bit more in the next post. Basically two words can't be 
+next to each other, if you write stuff to an existing word it should be 
+attached to the existing word. And this, so far, seems to be the case! <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Psychic Coding</td><td align="right"><font class="tiny">(Posted 2006-09-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I was estatic today when I finished off the basic character input for 
+the new IDE build. Yeah, I have a new one. This must be IDE #5 I think 
+but I'm determined for it to be my last restart. It uses the same 
+functions as the old IDEs but rewritten. I want to get the code as 
+streamline as possible because as the textarea is written from scratch I
+ want to make sure it's not slow by the end.<br><br>Anyway, my reason 
+for being so happy was that I wrote the MoveBack method, which moves the
+ cursor back, without being able to test it as I hadn't even written the
+ methods that allow you to type! All I knew was that the code didn't 
+throw any errors. I also wrote the typing methods which allowed 
+characters to be entered in words before I could test. But when I ran it
+ it worked perfectly.<br><br>Maybe I've just gotten so good with BlitzMax and coding in general to write flawless code! But I doubt it. <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Always a Better Way</td><td align="right"><font class="tiny">(Posted 2006-09-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> There is always a better way to do something.<br><br>Everytime
+ I just sit down and think about this I think of a way to optimise some 
+method and make it better. That's causing a bit of a delay.<br><br>Another
+ delay is that I've never worked on something so complicated. There's so
+ much code doing so much that even with comments and the documentation 
+that I write for the Types and Methods/Functions it's hard to keep track
+ of exactly what is doing what! <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Almost a month</td><td align="right"><font class="tiny">(Posted 2006-07-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been trying to get work so this hasn't been in full view. I am now
+ getting back to it though. I want to now get the cursor moving 
+properly. I had got it resonably ok but I've realised that its the most 
+important bit if I want to see how everything fits together. <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Keeping The Old</td><td align="right"><font class="tiny">(Posted 2006-06-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I got up to the stage of creating the main program type. This would 
+create the GUI and hold the main loop. I gave it a bit of though and, 
+while I am currently using a text program type, I will try and convert 
+my old one to be used with the new one...that is one of the benifits of 
+OOP right? It already contains a whole load of code for handling the 
+scroll bars and other stuff that I really don't want to have to rewrite 
+as it was hard enough the first time!<br><br>I also gave a bit of 
+thought to function folding. I think I've settled on having a stack (or 
+heap - I get them muddled up) type thing, which has a first one last off
+ style. I will also have a simple type, possibly:<br><br><pre class="code">Type FoldEnding
+    Field ID:Int       'Some form of auto number
+    Field FoldType:?   'Possibly a string or ID for the thing i'm folding
+End Type
+</pre><br><br>which will be added, and each time an 'End Function' or 
+'End Type' thing comes up it will check the stack and take the next item
+ if it's the right type. It should only really have errors if the users 
+code has errors. This could easilly be added to my syntax highlighter 
+and if done right not add any noticeable slowdown. <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wonders of OOP</td><td align="right"><font class="tiny">(Posted 2006-06-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well I finally have a CursorBack function which moves the psoition of the cursor back (surprise).<br><br>Its
+ works quite well and I also got it to do some other stuff which is 
+impressive but would take an hour to explain so I wont bother.<br><br>OOP helps alot for it...and i don't think i'm even doing it correctly yet :P <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Whey!</td><td align="right"><font class="tiny">(Posted 2006-06-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I tested what I had so far. The simple test, which worked with a single
+ line, added the text "he-lo" to the line. What should have happend, and
+ did happen (after I worked out a few OOP bugs I had), was it created a 
+word which held "he", created a character which held "-" and then 
+created a word which held "lo".<br><br>No wthat I have this simple code 
+working all the other features should be easy to work out as I have a 
+ground work of how the stuff is stored.<br><br>The most imortant part 
+for me to get implemented now is to be able to move the cursor position 
+with the arrow keys. Apart from moving the cursor position by clicking 
+with the mouse this is the hardest part of the new system. It will also 
+let me see how my code will work when it comes to enetering text in the 
+middle and at the beginning of words. <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Best of Both Worlds?</td><td align="right"><font class="tiny">(Posted 2006-05-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> If only!<br><br>I haven't focused 100% on this recently (partly because I need a job!) but I have realised that this will be difficult.<br><br>It
+ will work great with the Syntax Highlighter, which will speed up 
+greatly, and it will probably stay just as fast as the original method. 
+BUT! Its damn hard! When dealing with where the cursor goes, or where 
+text is added I have to know which word I am in and which Char it is on.
+ Sounds simple until I realise I have to be able to keep track of it and
+ change it easilly. I know there is a really easy way. And I pretty much
+ know what it is but I just have to spend some time thinking. <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Theories</td><td align="right"><font class="tiny">(Posted 2006-05-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well I managed to get a basic text-editor with syntax highlighting 
+working. It's still quite messy though so I thought that rather than 
+going through and cleaning it up now I'd try a few different things out.<br><br>I
+ don't think that I have the best data storage for what I'm doing. I had
+ TDocument types which stored TLine types. And the TLine types stored 
+characters.<br><br>This would be good for a word processor as it means 
+each character could have different formatting. But as all I want is 
+words to have formatting I am going to substitute TWord for TLine. So 
+now each line will contain words. This should also help with syntax as I
+ no longer have to find the words as the syntaxer runs...the words are 
+already stored and ready for checking.<br><br>I was going to try another
+ method with TParagraph instead of TLine. But as programming is quite 
+line focused as opposed to writing which is more paragraph focused I 
+decided that I won't bother with this trial. But if I ever decide to 
+modify my IDE to a word processor I will have a few ideas on which to do
+ it. <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Syntaxing</td><td align="right"><font class="tiny">(Posted 2006-05-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well I added syntax highligting and found that my original version 
+didn't work very well. It checked everything viewable on screen when a 
+new char is typed. It was the laggiest thing ever. So I created a single
+ line checker which makes it work a whole lot better.<br><br>The screen checker has been kept for when it first loads but thats all it's used for.<br><br>What
+ happens when you open a doc in it is it loads it completely then does 
+syntax highlighting on what you can see on screen. Then as you get to 
+work it goes through every line off screen and highlights it. This works
+ ok but the start could be a little less laggy. <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-05-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> As I wont be doing this for a few days I'm going to update a bit.<br><br>Syntax
+ highlighting is in. It currently only does red on keywords. It also 
+doesn't capitalize he word as the BlitzIDE does and that may take half a
+ day to do as it's complicated to fit in with the way the data is 
+stored.<br><br>Highlighting stuff by clicking and dragging works 
+forwards and doing it backwards may take longer than the syntax 
+capitalization! <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Starting</td><td align="right"><font class="tiny">(Posted 2006-05-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, this is the latest addition to my on going projects. I think this is the 5th (and thats just counting worklogs).<br><br>I
+ wanted some syntax highlighting for my HTML/php programming and decided
+ I might aswell try making my own IDE for it. Well I started writing it 
+and it was going well until I reached syntax highlighting. I discovered 
+that with all the fiddly bits in HTML that I might not be able to get 
+get it working properly. BUT I did find that for a langauge like Blitz 
+it would work a treat.<br><br>I started a second version, this time 
+planning ahead and testing different methods of doing things. Finally I 
+started number 3 and that is going VERY well.<br><br>To get my syntax 
+highlighting to work the way I want I decided to write a custom TextArea
+ using a canvas. So far it works really well and there are only a few 
+things needed to have it working properly.<br><br>I have a syntax 
+highlighting method from IDE1 which isn't added yet (save it for later) 
+which I will use (and know works) so that shouldn't be a problem.<br><br>Planned features:<br>     - Syntax Highlighting<br>     - Function Folding<br>     - Form Designer<br>     - Use for many languages (BlitzMAX/+/3D,HTML,C++,C#,C (The C's will be added much later as they seem daunting))<br>     - Project management features<br><br>And thats just the stuff I can think of right now.<br><br>I have good feelings about this (as its already working well)! <br><br> ----------<br>"There is nothing like a dream to create the future"<br><a href="http://www.mattvonfat.com/" target="_blank">MattVonFat.com</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

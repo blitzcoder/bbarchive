@@ -1,0 +1,141 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Foppy</h1><h1>Mano Trooper</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Finished</td><td align="right"><font class="tiny">(Posted 2010-09-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have just uploaded the finished game to my <a href="http://www.foppygames.nl/" target="_blank">website</a>.<br><br>These are the latest additions:<br><br>- two pieces of music by coda (<a href="http://coda.s3m.us/" target="_blank">coda.s3m.us</a>)<br>- scrolling credits on title screen<br>- scoring (each shot costs a point) <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>German Keyboards</td><td align="right"><font class="tiny">(Posted 2010-07-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ In the original Paratrooper, firing is done using the UP arrow key. In 
+my version I had reserved the space bar as well as the Z key for firing.
+ I prefer Z myself, pressing the space bar repeatedly can become a bit 
+noisy and less responsive.<br><br>However, what about our German friends
+ who have the Z somewhere in the upper regions of their keyboard? (As 
+well as many other countries where such a layout is used.) In that case 
+the Y key would be better, so that has now also been added! :D<br><br><pre class="code">If (KeyDown(KEY_SPACE) Or KeyDown(KEY_Z) Or KeyDown(KEY_Y) Or KeyDown(KEY_UP)) Then
+   ' ...fire!!
+End If
+</pre><br><br>Other things that have been added since yesterday:<br><br>- The TSoundPlayer now also plays music<br>- M key can be used to toggle music on/off<br>- Switch between full screen / windowed mode on title screen<br><br>I
+ thought adding the full screen/windowed mode option would be quite some
+ work but it turns out you can simply call Graphics() again to switch to
+ another color depth (for instance, 32 for full screen and 0 for 
+windowed), no need to reload graphics.<br><br>(Searching on the forums I found this thread about the same topic: <a href="http://www.blitzbasic.com/Community/posts.php?topic=81821" target="_blank">http://www.blitzbasic.com/Community/posts.php?topic=81821</a> ) <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Sound Player</td><td align="right"><font class="tiny">(Posted 2010-07-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I ran into a problem playing a "shriek" sound when a soldier is 
+attacked by a dog. At that same moment, the soldier is also deleted from
+ memory. I realized after a while that I wasn't hearing the sound, and 
+concluded that this was because the TChannel object was a field of the 
+soldier object. When the soldier is deleted, the channel also disappears
+ and the sound stops! (You could say this is realistic, but, anyway...)<br><br>At
+ first I cheated a bit and solved this by having the dog produce the 
+shriek sound for the soldier, since the dog never goes out of memory. Of
+ course it worked but it's a bit of a funny hack.<br><br>Now I have 
+added a separate sound player object, so that all sounds are playing 
+from this central location, independent of the game objects that trigger
+ them. This also means all sounds are loaded from the same function, 
+giving me a nice overview of all sounds being used in the game.<br><br>The
+ sound player type allocates a number of channels that can be used, in a
+ TList. It keeps track of a TLink pointing at the channel to be used for
+ the next sound. When it receives the command for playing a sound it 
+will play that sound on the selected channel and move the link to the 
+next channel (and to the first when the end of the list has been 
+reached). I could also make it so that it selects a channel that is not 
+already playing a sound but in practice the simpler approach works fine.<br><br>The TSoundPlayer type looks like this:<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Type TSoundPlayer
+	'===================================================================================================
+	' NOTE: this type is to be used as a static type; it contains no fields or methods
+	'===================================================================================================
+
+	'===================================================================================================
+	' constants
+	'===================================================================================================
+	Const CHANNEL_COUNT:Int       = 20
+	Const SOUND_COUNT:Int         = 7
+	Const SOUND_VOLUME:Float      = 0.4
+
+	Const SOUND_GUN:Int           = 0
+	Const SOUND_EXPLOSION_1:Int   = 1
+	Const SOUND_EXPLOSION_2:Int   = 2
+	Const SOUND_EXPLOSION_3:Int   = 3
+	Const SOUND_EXPLOSION_4:Int   = 4
+	Const SOUND_JUMPER_FALL:Int   = 5
+	Const SOUND_JUMPER_SCARED:Int = 6
+	
+	'===================================================================================================
+	' globals
+	'===================================================================================================	
+	Global gChannels:TList
+	Global gSounds:TSound[]
+	Global gNextChannel:TLink
+
+	'===================================================================================================
+	' functions
+	'===================================================================================================
+	Function init()
+		gChannels = New TList
+		
+		For Local i:Int = 0 To CHANNEL_COUNT-1
+			Local channel:TChannel = AllocChannel()
+			gChannels.addLast(channel)
+		Next
+		
+		gNextChannel = gChannels.firstLink()
+		
+		gSounds = New TSound[SOUND_COUNT]
+		
+		gSounds[SOUND_GUN]           = LoadSound("sound/mt_gun_44100_16.wav")
+		gSounds[SOUND_EXPLOSION_1]   = LoadSound("sound/mt_explosion_1_44100_16.wav")
+		gSounds[SOUND_EXPLOSION_2]   = LoadSound("sound/mt_explosion_2_44100_16.wav")
+		gSounds[SOUND_EXPLOSION_3]   = LoadSound("sound/mt_explosion_3_44100_16.wav")
+		gSounds[SOUND_EXPLOSION_4]   = LoadSound("sound/mt_explosion_4_44100_16.wav")
+		gSounds[SOUND_JUMPER_FALL]   = LoadSound("sound/mt_fall_44100_16.wav")
+		gSounds[SOUND_JUMPER_SCARED] = LoadSound("sound/mt_jumper_scared_44100_16.wav")
+	End Function
+	
+	Function play(pSoundID:Int)
+		' get channel
+		Local channel:TChannel = TChannel(gNextChannel.value())
+		
+		' play selected sound on channel
+		gSounds[pSoundID].Cue(channel)
+		channel.SetVolume(SOUND_VOLUME)
+		channel.SetPaused(False)
+		
+		' select next channel
+		If (gNextChannel = gChannels.lastLink()) Then
+			gNextChannel = gChannels.firstLink()
+		Else
+			gNextChannel = gNextChannel.nextLink()
+		End If
+	End Function	
+End Type
+</textarea><br><br>At the start of my game I have this initialization code:<br><br><pre class="code">Import "TSoundPlayer.bmx"
+
+TSoundPlayer.init()
+</pre><br><br>In the init() function the sound player creates the list of channels as well as an array of sounds.<br><br>Now from within a game object  I can play a sound like this:<br><br><pre class="code">Import "TSoundPlayer.bmx"
+
+TSoundPlayer.play(TSoundPlayer.SOUND_JUMPER_SCARED)
+</pre> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Running Dogs</td><td align="right"><font class="tiny">(Posted 2010-07-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I created running animations for the two dogs.<br><br>Then I created an animated gif (using the free program Unfreez from <a href="http://www.whitsoftdev.com/unfreez/" target="_blank">http://www.whitsoftdev.com/unfreez/</a> ) just for fun:<br><br><img src="334&amp;log=1759_files/noah.html"><br><br>Other additions:<br><br>- jetplanes throw bombs at the player<br>- the player can shoot the bombs as well as the jetplanes<br>- jetplanes can crash to earth when shot, possibly killing landed soldiers<br>- paratroopers whose parachutes are destroyed will fall down, possibly killing landed soldiers<br>- dogs attack landed soldiers<br>- lots of sound effects were created using SFXR ( <a href="http://www.drpetter.se/project_sfxr.html" target="_blank">http://www.drpetter.se/project_sfxr.html</a> )<br>- new colors<br><br><img src="334&amp;log=1759_files/manotrooper20100712.jpg"> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Pyramids</td><td align="right"><font class="tiny">(Posted 2010-06-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The enemy soldiers now create human pyramids next to your base (once 
+more than 3 have landed on either side) in order to destroy your gun, as
+ in the original game. This is achieved by keeping track of the number 
+of landed soldiers and the sizes of the two pyramids. Each landed 
+soldier will check those values and decide whether to move in and become
+ part of the pyramid.<br><br>In the meantime parachutes have been added,
+ colors of helicopters and soldiers have been changed, and helicopters 
+move up and down a bit while flying. I also added a title screen and a 
+game over screen and the necessary program structure to switch from one 
+game state to another.<br><br>It's game over when a soldier lands 
+directly on the base, or when a complete pyramid is constructed 
+(consisting of four soldiers) although a check for that last condition 
+still has to be added. In the original, once a pyramid is under 
+construction, the game is almost certainly going to end soon (although I
+ understand you could still kill the soldiers by having pieces of 
+helicopter wrecks fall on them). In my version I will add two dogs that 
+will try their best to scare the soldiers away, and perhaps other ways 
+of defeating landed soldiers. The availability of such backup plans 
+would allow for more frantic attack waves, since all is not lost 
+immediately when a few enemies reach the ground.<br><br><img src="334&amp;log=1759_files/manotrooper2.html"> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Mano Trooper</td><td align="right"><font class="tiny">(Posted 2010-06-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Mano Trooper will be a remake of  <a href="http://members.chello.at/theodor.lauppert/games/ptrooper.htm" target="_blank">Paratrooper</a> (1982, <a href="http://en.wikipedia.org/wiki/Greg_Kuperberg" target="_blank">Greg Kuperberg</a>),
+ programmed in Blitz Max. In addition to the guns and helicopters from 
+the original it will feature a heroic girl and her two brave dogs trying
+ to stop a paratrooper invasion. The game already contains the rotating 
+gun and bullets, as well as the helicopters and paratroopers. I am 
+currently adding parachutes and tweaking the speed and timing of various
+ objects. The game will run at a resolution of 800*600 and offer a 
+choice between full screen and windowed mode (if only through a text 
+file). Controls will be left + right and a fire button.<br><br><a href="http://www.foppygames.nl/screens/manotrooper1.png" target="_blank"><img src="334&amp;log=1759_files/manotrooper1s.html"></a> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

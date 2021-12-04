@@ -1,0 +1,435 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style></head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for _PJ_</h1><h1>Browser Search</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Result</td><td align="right"><font class="tiny">(Posted 2012-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The project reached a resounding success with the ability to extract a 
+DVD-Cover-Image and plot-synopsis-text from either IMDB or LoveFilm's 
+websites. The vast majority of searches found information from either 
+"Exact Matches" or, as an added check, utilising the "Popular Matches" 
+from IMDB and "Trailer" links on LoveFilm<br><br>What's remarkable is 
+that some searches (particularly 'Magnolia' and '2001') fail on IMDB, 
+whilst return correct data from LoveFilm. This highlights the 
+importancve of being able to utilise information from more than one 
+Provider.<br><br>The simple testing Runtime example:<br><pre class="code">;RUNTIME EXAMPLE:
+; Set initial vars
+Graphics 800,600,32,2
+SetBuffer BackBuffer()
+
+MY_TITLE$=s_WEB_FixForWeb(Input("Enter a Title to test: "))
+MY_PROVIDER=Int(Input("Choose a Provider: "))
+
+Flip
+
+MY_DOWNLOAD_DIR$=sfp_EXP_FixPath( CurrentDir(),True)
+
+MY_DOWNLOAD_FILENAME$=Lower(s_WEB_FixForSavePath(MY_TITLE))
+
+v_WEB_DownloadData()
+
+While Not (KeyDown(1))
+	Cls
+	Text 0,0,WEB_RETURN_TEXTDATA$
+	If (WEB_RETURN_IMAGE%)
+		DrawImage WEB_RETURN_IMAGE%,200,200
+	End If	
+	Flip
+Wend
+End</pre> <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Processing Extracted Data</td><td align="right"><font class="tiny">(Posted 2012-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Assuming the varuious combinations of the codebases for Downloading and
+ Extracting have been used to obtain the URL to a downloadable resource 
+(such as an image or sound etc.) or the raw text string itself, there 
+were still a few more steps to complete.<br><br>With raw text, it was 
+necessary in some instances to format the text for use. Maybe there were
+ HTML codes within it, or perhaps there were other, invalid characters.<br><br>Either
+ way, there needed to be a cleanup of the text itself. The precise 
+nature and intensity of this cleanup depends mostly on the actual Search
+ Provider or at least, the source host of the data.<br><br>Generally, 
+such Cleanup invoolves the keyword Trim$() and/or Replace$() with 
+specifics detailed accordingly. Not difficult, but an important point to
+ note is that this cleanup is left to the end, since if it is performed 
+earlier on extracted data, it may affect the ability to Search within 
+HTML confidently, or corrupt URL links.<br><br>In the case of Images and
+ other Resource files, after the URL has been identified, there is of 
+course, the final download of the resource.<br><br>Partiucularly with 
+Image formats, there is a danger here, that whilst sometimes (most 
+usually, in fact) the image may be a JPG or PNG file, occasionally, you 
+might encounter a GIF or even, an ActiveX control which encapsulates the
+ image.<br><br>Although there are solutions to GIF import with B3D to be
+ found the Code Archives, it wasn't considered a priority for this 
+project. As for ActiveX (i.e. FLASH) content, there's no real means to 
+utilise it within Blitz. <br>Therefore, it was imperative to check the 
+file type of the content. In order to resolve Loading of the valid 
+filetypes correctly too, it was helpful (and 'proper') to download the 
+resource with the correct extension anyway, so facilitating a checking 
+of the File extension was not an unnecesary overhead.<br><br>Finally, a 
+check to ensure loading of the reasource executed successfully helped to
+ prevent against the possibilities of sneaky mis-named files and 
+corruption.<br><br><pre class="code">	If (Summary$&lt;&gt;cs_STRING_NULL_STRING)
+		WEB_RETURN_TEXTDATA=Trim(s_WEB_FixSymbolText(Summary))
+	Else
+		DebugLog("SECONDARY TEXT NULL")
+	End If
+	
+	Local ImageExt$=sfe_WEB_ServerFileExtension(WEB_CURRENT_IMAGE_URL)
+	If (ImageExt=cs_STRING_NULL_STRING)
+		DebugLog("IMAGE URL "+WEB_CURRENT_IMAGE_URL+" BAD FILETYPE")
+		v_WEB_DeleteDownloadedContent(sfp_EXP_FixPath(sfp_EXP_FixPath(MY_DOWNLOAD_DIR,True)+MY_DOWNLOAD_FILENAME))
+		Return
+	End If
+	
+	ImageExt=cs_STRING_EXT_SEPARATOR+ImageExt
+	
+	Local ImageDL=nb_WEB_DownloadImage()
+	If (Not(ImageDL))
+		DebugLog("IMAGE URL "+WEB_CURRENT_IMAGE_URL+" BAD")
+		v_WEB_DeleteDownloadedContent(sfp_EXP_FixPath(sfp_EXP_FixPath(MY_DOWNLOAD_DIR,True)+MY_DOWNLOAD_FILENAME+ImageExt))
+		Return
+	End If
+	
+	v_WEB_LoadDownloadedImage()</pre> <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Extracting Data</td><td align="right"><font class="tiny">(Posted 2012-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Perhaps the biggest challenge in the project, was addressing the 
+problem of being able to extract specific data from the downloaded HTML 
+bulk with confidence.<br><br>There was no way to predict the actual content required, if that were possible, there'd be no need to search for it!<br>Instead, there needed to be a routine to seek out an identifiable prefix to the relevant data. <br>However,
+ although common sense may dictate that "&lt;a href=" might be a viable 
+prefix for a URL string, there's no guarantee that such a prefix is 
+before the specific string we need. Indeed, such a common control code 
+for HTML is unlikely to be unique and, more often than not (especially 
+with corporate web pages),  likely to refer to an adverrtiser's homepage
+ or company logo etc.<br><br>It is also highly inefficient to consider a
+ prefixz that is too long, containing too many characters. Not only 
+would searches take considerably longer, but there is an increased 
+opportunity for differences which could result in non-detection.<br><br>So
+ in order to ensure we could specify exactly the code we wanted 
+confidently, we would need some form of uniqueness - the best way to 
+ascertain this, is to specify both a Prefix AND a suffix, with knowledge
+ that there will only be one place in which these fields would appear in
+ succession - enclosing the specific string we wish to extract.<br><br>The
+ routine for this might have been much easier if it were dealing with a 
+large string, however, it was necessary to work with just the file, so 
+searching through the HTML had to be processed byte-per-byte:<br><br><pre class="code">Function s_WEB_FindMidStringInFile$(FilePath$,Prefix$,Suffix$)
+	Local PosStart
+	Local PosEnd
+	Local Seek$=cs_STRING_NULL_STRING
+	Local Byte
+	
+	If (Not(FileType(FilePath)))
+		Return cs_STRING_NULL_STRING
+	End If
+	
+	Local File=OpenFile(FilePath)
+	If (Not(File))
+		Return cs_STRING_NULL_STRING
+	End If	
+	SeekFile File,0
+	
+	While (Not(Eof(File)))
+		Byte=ReadByte(File)
+		If (Byte)
+			Seek=Seek+Chr(Byte)
+		End If	
+		PosStart=Instr(Seek,Prefix)
+		If (PosStart)
+			
+			PosStart=PosStart+Len(Prefix)-1
+			Seek=cs_STRING_NULL_STRING
+			SeekFile(File,PosStart)
+			While (Not(Eof(File)))
+				Byte=ReadByte(File)
+				If (Byte)
+					Seek=Seek+Chr(Byte)
+				End If
+				PosEnd=Instr(Seek,Suffix)
+				If (PosEnd)
+					
+					Exit
+				End If	
+			Wend
+			
+			Exit
+		End If	
+	Wend	
+	
+	CloseFile File
+	
+	If (Not(PosStart*PosEnd))
+		Return cs_STRING_NULL_STRING
+	End If	
+	
+	Seek=Trim(Left(Seek,PosEnd-1))
+	Return Seek
+End Function</pre> <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Downloading</td><td align="right"><font class="tiny">(Posted 2012-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Downloading was essentially a matter of importing the "BlitzGet" 
+(BlitzGet Deluxe") routines from the Code Archives, although a number of
+ significant alterations were required.<br><br>Most of the Web Search 
+Providers maintain their links via redirection flags, so it was 
+important to ensure that the replies from the Server were properly 
+interpreted and the correct action taken.<br>Tis had to be efficient, since timeouts could also be a problem with large numbers of results.<br><br>Also,
+ there was a consideration of some Web hosts protecting themselves from 
+the likelihood of DoS attacks and port-spamming, so a standard 
+User-Agent might often be refused if it made too many or too frequent 
+attempts. It was therefore a necessity to provide a mutable Useer-Agent,
+ though still one that could be validated, in order to 'Handshake' with 
+the server before download on Port 80 would be authorised.<br><br><pre class="code">; THIS IS THE MAIN DOWNLOAD FUNCTION TO CALL
+Function nb_NET_DownloadFile(snt_FullServerPath$,sdr_DownloadPath$=cs_STRING_NULL_STRING,sfi_FileName$=csfn_ENV_DEF_FILENAME+cs_STRING_EXT_SEPARATOR+csfe_EXP_FILEEXT_TMP,nbf_Flags=False)
+	;NOTE: nbf_Flags	1=Randomise UserAgent 
+	;					2=Ignore Null Filenames	(for chunked PHP result pages)
+	;					4=Use Protocol HTTP/1.1 (Else use 1.0) 
+	
+	
+	sdr_DownloadPath=sfp_EXP_FixPath(sdr_DownloadPath,False,True)
+	
+	Local nb_IgnoreNullFilename=(nbf_Flags% And 1)&lt;&gt;0	
+	Local nb_RandomUserAgent=(nbf_Flags% And 2)&lt;&gt;0
+	Local nb_ProtocolFlag=(nbf_Flags And 4)&lt;&gt;0
+	
+	Local s_Protocol$=cs_NET_PROTOCOL_HANDLE_BASE+cs_STRING_EXT_SEPARATOR+Str(nb_ProtocolFlag)
+	
+	Local hst_TCPStream=hst_NET_CreateDownloadTCPConnection(snt_FullServerPath)
+	If (Not(hst_TCPStream))
+		; NO TCP CONECTION
+		Return False
+	End If
+	
+	Local snt_Domain$=snt_NET_RetrieveDomain(snt_FullServerPath)
+	
+	;Seperate Sector Path and FileName from original Server Path
+	
+	
+	;Seperate path and file from the link
+	Local nIterBytes
+	Local snt_ServerSector$=cs_STRING_NULL_STRING
+	Local snt_ServerFile$=cs_STRING_NULL_STRING
+	
+	For nIterBytes = Len(snt_FullServerPath) To 1 Step -1
+		If (Mid(snt_FullServerPath,nIterBytes, 1) = cs_STRING_WEB_SEPARATOR)
+			snt_ServerSector$ = Trim(Left(snt_FullServerPath,nIterBytes))
+			snt_ServerFile$ = Right(snt_FullServerPath$, Len(snt_FullServerPath) - nIterBytes)
+			Exit
+		EndIf
+	Next
+	If ((snt_ServerFile = cs_STRING_NULL_STRING)And (nb_IgnoreNullFilename=False))
+		;NULL FILENAME
+		DebugLog("NULL SERVER FILENAME!")
+		
+		CloseTCPStream(hst_TCPStream)
+		Return False
+	End If
+	
+	Local s_UserAgent$=ts_NET_USER_AGENT
+	If(nb_RandomUserAgent)
+		s_UserAgent=s_NET_GetRandomisedUserAgent$()
+	End If	
+	
+	Local s_Send$=s_NET_BuildHandshakeString$(snt_ServerSector,snt_ServerFile,snt_Domain$,s_UserAgent$,s_Protocol$)
+	
+	WriteLine hst_TCPStream,s_Send
+	
+	Local ns_Reply=ns_NET_ResolveTCPStreamServerResponse(hst_TCPStream)	
+	Local nb_Action=nb_NET_GetActionByServerResponse(ns_Reply)
+	Local nb_Success
+	
+	Select (nb_Action)
+		Case cm_NET_RESPONSE_ACTION_DOWNLOAD:
+			nb_Success=nb_NET_DownloadFromStream(hst_TCPStream)
+		Case cm_NET_RESPONSE_ACTION_REDIRECT:
+			
+			v_NET_CloseTCPConnection(hst_TCPStream)
+			sfp_EXP_FixPath(snt_FullServerPath=snt_NET_LocateRedirectionPathFromStream(hst_TCPStream),False,True)
+			Return nb_NET_DownloadFile(snt_FullServerPath,sdr_DownloadPath,sfi_FileName,nbf_Flags)
+		Default:
+			
+			v_NET_CloseTCPConnection(hst_TCPStream)
+			nb_Success=False
+	End Select		
+	
+	If (nb_Success)
+		If (nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+			sdr_DownloadPath=sfp_EXP_FixPath(sdr_DownloadPath,True,False)
+			If (nb_EXP_CheckPath(sdr_DownloadPath))
+				Local sfp_Filepath$=sfp_EXP_FixPath(sdr_DownloadPath+sfi_FileName,False,False)
+				If (nb_EXP_CheckPath(sfp_Filepath,cm_EXP_FILETYPE_FILE))
+					DeleteFile sfp_Filepath
+				End If
+				CopyFile tsfp_ENV_TEMPORARYFULLFILEPATH,sfp_Filepath
+				DeleteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+			Else
+				;BAD PATH TO DOWNLOAD LOCATION
+				DeleteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+				Return False
+			End If
+		Else
+			;DOWNLOAD HAD FAILED
+			DeleteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+			nb_Success=False
+		End If
+	Else
+		; DOWNLOAD HAD FAILED
+		DeleteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+		nb_Success=False
+	End If	
+	
+	
+	Return nb_Success
+End Function </pre><br><br><pre class="code">Function nb_NET_DownloadFromStream(hst_Stream)
+	Local n4_ContentLength=-1
+	Local nb_Chunked = False
+	
+	Local n4_Sanity=0
+	Local s_Line$
+	
+	Local ns_Pos
+	Local s_Part1$
+	Local s_Part2$
+	
+	;Recurse Bytes from stream...
+	Repeat
+		
+		n4_Sanity=n4_Sanity+1
+		s_Line$ = Trim(ReadLine(hst_Stream))
+		
+		If (s_Line$ = cs_STRING_NULL_STRING)
+			;END OF STREAM!
+			Exit
+		End If
+		
+		ns_Pos = Instr(s_Line, cs_STRING_COLON)
+		s_Part1 = Trim(Left(s_Line, ns_Pos - 1))
+		s_Part2 = Trim(Right(s_Line, Len(s_Line) - ns_Pos))
+		
+		Select (Lower(s_Part1$))
+			Case cs_NET_SERVER_MESSAGE_LENGTH:
+				n4_ContentLength = Int(s_Part2)
+			Case cs_NET_SERVER_MESSAGE_ENCODING:
+				If (Lower(s_Part2$) = Lower(cs_NET_SERVER_MESSAGE_CHUNKED))
+					nb_Chunked = True
+				End If	
+		End Select
+		
+	Until (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+	
+	If (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+		;Debug("Way too many bytes - something's wrong here...")
+		CloseTCPStream(hst_Stream)
+		Return False
+	End If	
+	
+	If (Eof(hst_Stream)&lt;0)
+	;Debug("Download Failed. Connection dropped")
+		
+		CloseTCPStream(hst_Stream)
+		Return False
+	End If
+	
+	Local hst_File = WriteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+	Local mb_Bank
+	Local n4_Available
+	
+	If (Not(n4_ContentLength))
+		
+		CloseFile hst_File
+		CloseTCPStream hst_Stream
+		;Debug("Download completed successfully")
+		
+		Return (nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+		
+	Else 
+		
+		If (Not(nb_Chunked))
+			
+			mb_Bank = CreateBank(cns_NET_CHUNKSIZE)
+			ns_Pos = 0
+			n4_Sanity=0
+			Repeat
+				n4_Sanity=n4_Sanity+1
+				
+				n4_Available = (n4_ContentLength - ns_Pos)
+				
+			;	Debug("Download Percentage: "+f_MATH_Percent(ns_pos,n4_available))
+				
+				If (n4_Available &gt; cns_NET_CHUNKSIZE)
+					ReadBytes mb_Bank, hst_Stream, 0, cns_NET_CHUNKSIZE
+					WriteBytes mb_Bank, hst_File, 0, cns_NET_CHUNKSIZE
+					ns_Pos = ns_Pos + cns_NET_CHUNKSIZE
+					
+				;	Debug("Download Percentage: "+f_MATH_Percent(ns_pos,n4_available))
+					
+				Else
+					
+					ReadBytes mb_Bank, hst_Stream, 0, n4_Available
+					WriteBytes mb_Bank, hst_File, 0, n4_Available
+					
+					ns_Pos=n4_Available
+					Exit
+				EndIf
+				
+			Until (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+			
+			FreeBank mb_Bank
+			
+			CloseFile hst_File
+			CloseTCPStream hst_Stream
+			
+		;Debug("Download Percentage: "+f_MATH_Percent(ns_pos,n4_available))
+			
+		;Debug("Download completed successfully")
+			
+			Return (nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+		End If
+		
+		If (nb_Chunked)
+			hst_File =WriteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+			mb_Bank = CreateBank(cns_NET_CHUNKSIZE)
+			n4_Sanity=0
+			Local ns_IterBits
+			Repeat
+				
+				n4_Sanity=n4_Sanity+1
+				s_Line$ = Trim(Upper(ReadLine(hst_Stream)))
+				
+				ns_Pos = 0
+				
+				For ns_IterBits = 1 To Len(s_Line$)
+					ns_Pos = 16 * ns_Pos + Instr("123456789ABCDEF",Mid$(s_Line, ns_IterBits, 1))
+				Next
+				
+				If (Not(ns_Pos))
+					;Debug("End Of File)
+					n4_Sanity=cns_NET_SANITY_CLAUSE_ITERATION_MAX=1
+					Exit
+				End If
+				
+				If (BankSize(mb_Bank) &lt; ns_Pos)
+					ResizeBank mb_Bank, ns_Pos
+				End If	
+				;Debug("Download Percentage: "+f_MATH_Percent(ns_pos,BankSize(mb_bank)))
+				
+				ReadBytes mb_Bank, hst_Stream, 0, ns_Pos
+				WriteBytes mb_Bank, hst_File, 0, ns_Pos
+				
+				ReadShort(hst_Stream)
+				
+			Until (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+			
+			FreeBank mb_Bank
+			
+			CloseFile hst_File
+			CloseTCPStream hst_Stream
+		;Debug("Download completed successfully")
+			
+			Return (nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+		Else
+			
+			CloseTCPStream hst_Stream
+			CloseFile hst_File
+				;Debug("Download failed chunk dropped")
+			Return False
+		EndIf
+	End If
+End Function</pre> <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Web Search URL</td><td align="right"><font class="tiny">(Posted 2012-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Firstly, in forming the URL for the Web Provider's search required four important pieces of information:<br><br>1) The Web Search Provider's domain<br>2) The ASPx or PHP instructions identifying the search<br>3) The Search Terms themselves<br>4) A Suffix sometimes required to specify the categories to be searched, or language / top-level-domain etc. to search within<br><br>For example, Google typically has the following parameters for its most basic Searches:<br><br>DOMAIN= "http://www.google.com/"<br>ASPXCONTROL="search?q="<br>SEARCHTERMS="my+text+here"<br>SUFFIX="&amp;hl=en"<br><br>Note the use of "+" between words in the SEARCHTERMS<br><br>It
+ was important to ensure accuracy here, since if this initial search 
+failed, the remainder of the steps could be either wholly inaccurate or 
+uttrerly wasted.<br><br>So to build the Search URL, we didn't simply add
+ the Search terms to the basic DOMAIN, but needed to ensure the terms 
+were in a suitablky encoded format for the web and per Providers' 
+requirements, and then suffix them with the necessary specifier. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Introduciton</td><td align="right"><font class="tiny">(Posted 2012-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The idea was to locate text and images from the Web.<br><br>In order to do this, there were a few necessary steps:<br><br>1) Build a URL link string containing the Search Provider Search URL, and the relevant search terms<br>2) Download a copy of the page html returned by the URL<br>3) Identify the correct/best URL from the Search providers' results<br>4) Download a copy of the page that this new URL points to<br>5) Identify the references to the required content<br>6) Extract the data if it's text or a URL<br>7) If a URL, download the content which it points to.<br><br>These steps may appear simple enough, but difficuklties presented themselves in the practicality of each one. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

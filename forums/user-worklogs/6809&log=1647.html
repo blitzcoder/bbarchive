@@ -1,0 +1,93 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=Big5"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for ziggy</h1><h1>Script Language</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First API in progress</td><td align="right"><font class="tiny">(Posted 2008-12-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been working on the script language API, it can compile scripts 
+and generate byte-code assemblies, load and save byte code assemblies, 
+even incbin them, and execute programs in a very easy way.<br><br>this is a source code of a program using the script system to load, compile, save etc. a script: (this is a console app)<br><pre class="code">'We need to create a compiler to create the byte code:
+Local MyCompiler:TCompiler = New TCompiler
+
+'then we compile the script to Byte code:
+Print "Generating assembly on memory"
+Local CR:TCompilerResults = MyCompiler.Compile("program1.pol")
+
+'We check the compilation results, and inform on any possible error:
+If CR.Compiled = False Then
+	Print "program was not compiled."
+	Print "Error = " + cr.ErrDescription
+	Print "on line = " + cr.ErrLine
+	Print "of file = " + cr.errfile
+	Input "Press enter to quit&gt;"
+	End
+End If
+
+'In case there were not error, we save the compiled assembly on disk:
+Print "saving assembly to disk for later use."
+'We're going to save the compile assembly to disk:
+cr.Assembly.SaveAssembly("Program1.pexe")
+
+
+'Now we have the program compiled, it's time to run it on a Virtual Machine:
+Local VM:TVirtualMachine = New TVirtualMachine
+Print "Loading assembly to virtual machine"
+vm.LoadProgram(CR.Assembly)	'You can only load one program per virtual machine
+Input "Program is about to be executed. Press enter&gt;"
+vm.RunProgram()
+Input "Program executed. Press enter&gt;"
+
+'Now we're going to run a program pre-compiled on disk:
+vm = New TVirtualMachine
+'first of all, we load the assembly from disk:
+Print "Loading assembly from disk"
+Local Assembly:TAssembly = TAssembly.Load("Program1.pexe")
+'then we load set the assembly to the running virtual machine:
+vm.LoadProgram(Assembly)
+Print "Assembly loaded and set to the VM."
+
+Input "Program is about to be executed again, press Enter&gt;"
+vm.RunProgram()
+Print "After execution:"
+Print "Contens of global byte variable number 5: " + vm.Scopes.scopes[0].bytes[5]
+Input "Press enter to perform a speed test&gt;"
+Const iterations:Int = 1000000
+Local t:Int = MilliSecs()
+For Local i:Int = 1 To iterations
+	vm.RunProgram()
+Next
+Local time2:Int = MilliSecs() - t
+Print "It took " + time2 + " to perform " + iterations + " iterations."
+Print "each iteration took " + (Double(time2) / Double(iterations)) + " milliseconds."
+Input "Press Enter to exit&gt;"
+End</pre><br><br>For a very simple program I'm getting a 0.002 millisecs
+ for iteration, wich is a good start for an un-optimized script system 
+like that, running on a Pentium IV computer :D <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First design</td><td align="right"><font class="tiny">(Posted 2008-11-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been designing a small script language based on a virtual machine 
+that produces intermediate and fast byte-code that can be stored in a 
+compiled way for faster load and performance later. The idea is to 
+create a very simple language that can deal with any host BlitzMax 
+application. (like LUA, but done in BlitzMax)<br><br>This project will 
+be completelly open source, once I get a more decent source code. It is 
+being done on BLIde as IDE, and using only BlitzMax code. As BlitzMax 
+does not provide a decent real jump table, I've based all the virtual 
+engine on a big array of functions pointers and that has introduced a 
+very good performance of the virtual machine.<br><br>This script is meant to be a small and easy to use script system with the following features:<br><br>At first release it will contain this data types:<br>Byte, Int, long, Float, double and String<br>It will be a procedural language where user will be able to create functions with parameters returning values (or not).<br>Also,
+ the host BlitzMax application will be able to register functions that 
+will then be directly available to the script system. Also, the script 
+system will be able to register some vars and functions in order for 
+them to be available to the BlitzMax host application.<br><br>there are 
+no plans to include some very essential things like arrays or classes on
+ the first release. It is a small WIP done in my sparse time so I'm not 
+trying to compete with the very good available comercial alternatives.<br><br>This is the source code a first already running program:<br><pre class="code">Byte MyVar = 0
+While MyVar&lt;255
+MyVar = MyVar + 1
+print "The value of MyVar now is: " + MyVar
+Wend</pre><br>I'm finishing the complex expression compiler, to allow the usage of complex operations with optimizations.<br>The current unstable version is revealing a very good performance (best that I expected it to have).<br><br>Obviously
+ I'm not trying to reinvent the wheel. I know there are lots of viable 
+alternatives. This is being done with the purpose of learning and 
+improving some coding techniques. I hope the results will be good 
+enought to be usable on comercial projects.<br><br>More info to come as soon as possible!<br><br>If
+ anyone is interested on getting this WIP source-code, just email me. 
+This project source code will be Open Source, I'm not opening it yet 
+becouse it is still on a very early desing status, but if some one 
+'experienced' wants to help from now, see email on profile. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

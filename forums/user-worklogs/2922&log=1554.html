@@ -1,0 +1,45 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Gabriel</h1><h1>3D Sound Library</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Success</td><td align="right"><font class="tiny">(Posted 2008-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Ok, well one day in and I have completed the basic library wrap. I 
+might have to fiddle a bit with the callbacks because those are a little
+ bit odd and I may have to wrap them with internal fixed callbacks which
+ call the user callbacks. I'm hoping to avoid that but it's only for 
+errors, so it's not something which is speed critical anyway.<br><br>I've
+ converted a simple C++ code sample to BlitzMax and it plays just fine, 
+so that's a good start. I have another few samples to convert later, and
+ then once that's done I'll see about releasing a few samples and 
+getting some feedback on compatibility, etc. Assuming we actually have a
+ forum by then. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Genesis</td><td align="right"><font class="tiny">(Posted 2008-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been putting off making a decision on an audio library for a long 
+time now, and the situation hasn't really improved. IrrKlang came along 
+and briefly looked like a strong contender, but then when it went 
+commercial, the pricing was not particularly good value. Sorry, but when
+ I can buy probably a dozen different commercial grade 3D engines for 
+under $500 each, and some of them under $200, I just don't see the value
+ in paying over $500 for a simple audio library. Now granted that FMod, 
+Miles and Bass are all much more expensive still, so IrrKlang is cheap 
+by comparison, but I just have this fundamental personality fault which 
+is that I refuse to bend over when I'm told to.<br><br>So I decided that
+ I'd have a go at wrapping OpenAL and making a little library of my own.
+ It's about the only API left for 3D sound now, so it's the logical 
+option. Anyway, I found someone else had already done the hard work for 
+me, so all I had to do was write some BlitzMax bindings ( and possibly 
+some Objects as it's a fundamentally procedural API ) and that should be
+ that.<br><br>It'll support Ogg and Wav, and it will not under any 
+circumstances play MP3. So there's no danger of having Thompson beating 
+on your door for a few grand for an MP3 license. It'll support 3D 
+positional audio, EAX, all those presets, doppler, velocities, all that 
+gubbins. It will support streaming audio, of course, a major failing of 
+BMax's inbuilt audio which desperately needs solving. It will certainly 
+be Windows only, although I guess with all the source code, Mac and 
+Linux wouldn't be too difficult if anyone cared to.<br><br>Haven't 
+really decided what I'm going to do with it yet. I'll probably either 
+keep it to myself or release it under some kind of obscure license I 
+write myself which means you get it for free, but you're obliged to test
+ with it and report back on any bugs, notes, improvements etc in return 
+for it. Because if I'm going to release it, I don't want money, but I do
+ want to know how well it's going to work in my game. So yeah, one of 
+the two. <br><br>And I definitely won't be documenting it or supporting it, even if I do release it, because I just don't have time for that. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

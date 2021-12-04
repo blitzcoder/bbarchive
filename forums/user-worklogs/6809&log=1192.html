@@ -1,0 +1,248 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=Big5"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for ziggy</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Alpha version of the PlugIn engine available</td><td align="right"><font class="tiny">(Posted 2006-08-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ There's a first Alpha version of the PlugIn engine for BLIde. This 
+alpha version is the BlitzMax version (there will also be a .net version
+ as soon as I get time to finish it).<br>This version has 100% of all 
+the functionalilty that will be available in the BETA version, but 
+unicode suport is not yet finished. (this particular feature will 
+require a BLIde major update, that will be done soon).<br><br>One of the
+ first PlugIns we will begin to work in, will be a GUI designer for 
+BlitzMax + GUI. It will require an additional module called ExtendedGui,
+ taht will encapsulate all event-control in a secondary layer, making 
+the creation of forms much more colser to Visual Studio .net (all forms 
+will be classes derived from a GuiWindow class, each button in a form, 
+will be a field in the class of type Guibutton, with its own events, 
+etc.) <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First plug in ended</td><td align="right"><font class="tiny">(Posted 2006-07-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A first Plug-In has been ended 100% with BlitzMax, here's the source code:<br><br><pre class="code">'
+' This program was written with BLIde
+' Application: Auto Tidy PlugIn for BLIde
+' Author: Manel Ib摙ez	
+' License: GPL
+'
+
+SuperStrict
+Import blide.plugins
+Global PlugInEngine:BPPMainEngine = New BPPMainEngine
+PlugInEngine.StartEngine("Auto Tidy",0,1,"Manel Ibanez")
+PlugInEngine.SelectionActions.SelectAllText()
+PlugInEngine.InOutActions.Trace("Getting code...")
+PlugInEngine.GetSelectedText()
+PlugInEngine.InOutActions.MsgBox("This PlugIn will arrange the TABs in your source code")
+PlugInEngine.InOutActions.Trace("Calculating identation")
+
+Local TabCounter:Int = 0
+For Local i:blide.plugins.TCodeLine  = EachIn PlugInEngine.Code
+	
+	i.Contens = Trim(i.Contens)
+	While Left(i.Contens,1) = Chr(9)
+		i.Contens = Mid(i.Contens,2)
+		i.Contens = Trim(i.Contens)
+	Wend
+	Local strip:String = i.Contens
+	If begins(strip,"next ") = True or i.Contens.ToLower() = "next" Then tabcounter:-1
+	If begins(strip,"wend ") = True or i.Contens.ToLower() = "wend" Then tabcounter:-1
+	If begins(strip,"EndType ") = True or strip.ToLower() = "endtype" Then 	tabcounter:-1
+	If begins(strip,"End Type ") = True or strip.ToLower() = "end type" Then tabcounter:-1
+	If begins(strip,"EndSelect ") = True or strip.ToLower() = "endselect" Then 	tabcounter:-1
+	If begins(strip,"End Select ") = True or strip.ToLower() = "end select" Then tabcounter:-1
+	If begins(strip,"EndMethod ") = True or strip.ToLower() = "endmethod" Then 	tabcounter:-1
+	If begins(strip,"End Method ") = True or strip.ToLower() = "end method" Then tabcounter:-1
+	If begins(strip,"EndFunction ") = True or strip.ToLower() = "endfunction" Then 	tabcounter:-1
+	If begins(strip,"End Function ") = True or strip.ToLower() = "end function" Then tabcounter:-1
+	If tabcounter&gt;0 Then
+	For Local c:Int = 1 To tabcounter
+		i.Contens = Chr(9) + i.Contens
+	Next
+	End If
+	
+	If begins(strip,"for ") = True or begins(strip,"Type ")Then	tabcounter:+1
+	If begins(strip,"while ") = True or begins(strip,"Select ")Then	tabcounter:+1
+	If begins(strip,"method ") = True or begins(strip,"function ")Then	tabcounter:+1
+Next
+
+PlugInEngine.SetSelectedText
+PlugInEngine.InOutActions.MsgBox("Done!")
+
+Function begins:Int(text:String, Begining:String)
+	If Left(text.ToLower(),Len(begining.ToLower())) = begining.ToLower() Then
+		Return True
+	Else
+		Return False
+	End If
+End Function
+</pre> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fixing international support</td><td align="right"><font class="tiny">(Posted 2006-06-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, the beta testing of the SDK has revealed some or its powernes. 
+There are just a couple of thinngs to solve, the multilanguage unicode 
+support, and the send/receive data optimization.<br><br>I hope we will have a very usable SDK for the release of BLIde 0.8.0 <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New SDK primitives</td><td align="right"><font class="tiny">(Posted 2006-04-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The new PlugIn Engine, is working (until today 100% bug free) :D<br>So we're adding some additional primitives to de BPP Main engine:<br><br>BPPMainEngine.SelectAllText --&gt; This forces the selection of the whole bmx fike<br><br>BPPMainEngine.SelectFullRow --&gt; This forces the selection to have complete lines of code.<br><br>BPPMainEngine.Undo --&gt; this forces editor to go back one step in its undo history<br><br>BPPMainEngine.ReDo --&gt; This forces editor to go forward one step in its undo history<br><br>BPPMainEngine.Cut --&gt; This cut's the selected text to clipboard<br><br>BPPMainEngine.Copy --&gt; This copy the selected text to the clipboard<br><br>BPPMainEngine.Paste --&gt; This paste the clipboard contens to the text selection<br><br>BPPMainEngine.RegisterShortcut(ShortcutID,
+ ActionID, Description) --&gt; This can let the PlugIn register one 
+shortcut in BLIde, When that shortcut is pressed from within BLIde, 
+BLIde will cal the PlugIn, sending to it the ActionID. (For example, a 
+template creator, can register a shortCut, for every Template it has).<br><br>I'll keep on informing of any further change...<br>the release of the SDK is very very near... <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Again working in the SDK</td><td align="right"><font class="tiny">(Posted 2006-03-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, after a lot of changes in the BLIde main engine, everything seems
+ more much stable now. the compona syntax box control is revealing a 
+very hig performance.<br>After a lot of testings, the first alpha 
+release of the BLIde SDK was too slow for procesing very large files. 
+that's the main reason that has forced us to start again from scratch 
+the plug-in engine.<br>Now it's in a very advanced stage.<br><br>As you will see, it's even easier to make plug-ins with this new engine.<br><br>here you have a plug-in source code sample:<br><br><pre class="code">'First of all, we create and start the PlugIn engine:
+Global PlugInEngine:BPPMainEngine = New BPPMainEngine 
+PlugInEngine.StartEngine
+
+'Now we inform in the BLIde console that the PlugIn has been initialized:
+PlugInEngine.Trace("Plug In started") 
+
+'Now we force the PlugIn engine to retrieve all currently selected text in the BLIde editor.
+PlugInEngine.GetSelectedText()
+
+For Local L:TCodeLine = EachIn PlugInEngine.Code  
+	'We write the code line in the BLIde console
+	PlugInEngine.Trace( l.Contens ) 
+Next             
+
+'We inform with the BLIde message box that the PlugIn has ended
+PlugInEngine.MsgBox("Done!")
+
+end
+
+</pre><br><br>this Plug in just outputs in the console all the selected text in BLIde. not much useful, but it's the ABC of the PlugIn engine.<br><br>I'll post any progress here. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Just another delay</td><td align="right"><font class="tiny">(Posted 2005-08-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ BLIde will change it's main engine to the Quantum Whale Editor control 
+1.2, wich is much more stable than the current one. This will take a 
+long time, so the SDK won't be released until september<br> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Plug-In engine (alpha) released</td><td align="right"><font class="tiny">(Posted 2005-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ New version of BLIde (0.2.6) comes with the first release of the 
+Plug-in engine, and a 'builded' sample Plug-in, wich is working 100%<br> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BLIde Plus!</td><td align="right"><font class="tiny">(Posted 2005-06-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The Plug-in SDK is in a deeper development status. the BlitzMax SDK is 
+working very stable and fully integrated with BLIde. The .NET version of
+ the SDK will be finished soon and will be 100% compatible with the 
+BlitzMax version.<br><br>All the SDK will be available in a add-on 
+package for BLIde called BLIde Plus!, it will have also an application 
+to add your own icons to the EXEs you create with BLIde, and a framework
+ analizer, to help you creating your framework and module imports for 
+your BLIde applications.<br> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New changes to the Plug-in engine</td><td align="right"><font class="tiny">(Posted 2005-04-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The Plug In Engine SDK for BLIde, has been changed a lot.<br>there are two new TYPEs:<br><br>CodeManipulator<br>this
+ type retrieves automaticaly all the source code that has to be 
+pluginized, and sotores it. the source code is stored in a 'collection' 
+of SourceLines<br><br>SourceLine<br>This is a type that contains a 
+single source line of the code passed from BLIde to the PlugIn. This 
+TYPE has very interesting methods, such as InCode (wich finds any string
+ in the current SourceLine, but ignoring comments and literals enclosed 
+in " ")...<br><br><br>This is a samle Plug-In source code, that works well.<br>This Plug-in changes all ++ and -- to :+1 and :-1<br> <br>This is the source code:<br><br><pre class="code">'------------------------------------------------------------------------------------------------------------------
+'Application: ++ and -- processor
+'Author: Manel Ib摙ez
+'------------------------------------------------------------------------------------------------------------------
+
+Strict
+
+'-------------------------------------------------------------------------------------
+'This is the framework declaration needed by this Plug-In
+Framework brl.basic
+'-------------------------------------------------------------------------------------
+'Needed to use the BPP protocol from BlitzMax:
+Import "BLIdeBPP.bmx"
+
+'Well, we begin the process. All the Plug-In have to start the BPP engine.
+'We start the BPP engine this way:
+BPP.initialize()
+BPP.Trace "Initializing Plug-in"  'We inform in the BLIde console that we're initializing the Plug-In.
+
+'We create a CodeManipulator object. This object retrieves all the source code to pluinize when it's created.
+local Code:CodeManipulator = new CodeManipulator
+flushmem	'when getting all the source, some elements are stored in the garbage collector.
+
+'PROCESS THE SOURCE
+'Now we have all the source code to pluginize.
+BPP.trace "Processing data..." 'We inform, in the BLIde console, we're processing the text.
+
+'First of all, we go to the first line of code:
+Code.MoveFirst()
+'And after that, we check alllines:
+While code.CurrentLine() &lt;&gt; Null	'CurrentLine gets NULL when it raises the end of the code.
+	code.CurrentLine().ReplaceInCode("++",":+1")
+	code.CurrentLine().ReplaceInCode("--",":-1")
+	code.nextline 'We move to next line of code.
+	flushmem
+wend
+bpp.trace "Returning processed data to BLIde"
+
+code.ReturnText
+flushmem
+	
+
+'We inform the user that the Plug-in has ended:
+Bpp.Trace "Plug-in applied. All ++ and -- have been changed to :+1 and :-1"
+'The program ENDs. There's no need to tell BLIde the plug-in has ended, BLIde will detect it automaticaly.
+End
+
+</pre><br> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First Plug-in</td><td align="right"><font class="tiny">(Posted 2005-04-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've developed the first Plug-in for BLIde 100% written in BlitzMax (No c or C++ code).<br>this
+ plug-in just gets all the source code currently being edited in BLIde, 
+and returns the same source to BLIde, so, in fact, this Plug-in does 
+'nothing' but it's working, integrated in BLIde, in a reasonable speed, 
+ans throws some warnings using BLIde dialogs.<br><br>Finaly, the 
+protocol will be called BPP (BLIde Plug-In Protocol). To use this 
+protocol, you have to inport a file called BLIdeBPP.bmx in your main BMX
+ file.<br><br>Sample code of the first Plug-in:<br><br><pre class="code">Strict
+
+'-------------------------------------------------------------------------------------------------------------
+'This is the framework declaration needed by the BPP (BLIde Plug-In protocol), and this Plug-In:
+Framework brl.basic
+Import brl.system
+'-------------------------------------------------------------------------------------------------------------
+
+'Needed to use the BPP protocol from BlitzMax:
+Import "BLIdeBPP.bmx"
+
+'Well, we begin the process. All the Plug-In have to start the BPP engine.
+'We start the BPP engine this way:
+BPP.initialize()
+
+'first of all, we display a message informing
+'that this is the first Plug-In developed with the BPP engine:
+BPP.DisplayMessage("This is the First Plug-in developed in BlitzMax for BLIde")
+
+'Now we ask the BLIde user, if he/she wants to apply the plug-in or not.
+Local ProcessPlugIn:Int 
+ProcessPlugIn = BPP.YesOrNot("Do you want to apply the Plugin?")
+
+
+if ProcessPlugIn = true then
+	'We read all the text that has to be "pluginized", and store it in a String Array.
+	local GetArray:String[] = BPP.GetText()
+	flushmem	'when getting all the source, some elements are stored in the garbage collector.
+
+
+	'We have all the text stored in the array GetArray.
+	'We inform the user of the number of lines to process:
+	bpp.displaymessage("The number of lines to process is: " + len(getarray))
+
+	'PROCESS THE SOURCE
+	'PUT YOUR PROCESS CODE HERE
+
+
+	'After processing the code, we return the result to BLIde:
+	bpp.ReturnText(getarray)
+	flushmem
+	
+	'We inform the user that the Plug-in has ended:
+	BPP.DisplayMessage("Plugin applied")
+
+
+
+else
+	'If the user has selected NOT to process the Plug-in, 
+	'we inform that the plug-in won't be appied:
+	BPP.DisplayMessage("Plugin not applied")
+endif
+
+'The program ENDs. There's no need to tell BLIde the plug-in has ended, BLIde will detect it automaticaly.
+End
+
+</pre><br> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Create Plug-Ins in BlitzMax</td><td align="right"><font class="tiny">(Posted 2005-04-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ BLIde is a free IDE for BlitzMax I'm making. I've started a new thread 
+in the worklog because now I'm also developing a Plug-in system that 
+will allow users of BLIde create their own plug-ins with Blitz Max. The 
+Plug-ins system is a simple communications protocol from a BlitzMax 
+application to BLIde.<br><br>It will be very easy to create a BLIde 
+plug-in using BlitzMax. you will have just yo import a file called 
+BLIde-SDK1.bmx wich includes all functionality to comunicate with BLIde 
+and manipulate source code.<br><br>The protocol let the plug-in 
+programer use the same GUI objects used by BLIde. (any plug-in can have 
+it's own GUI, or use the standar dialogs available in the SDK).<br><br>I think this can make BLIde grow a lot, allowing users create their own functionality for the editor.<br> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BLIde</td><td align="right"><font class="tiny">(Posted 2004-02-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I'm developing a free IDE for BlitzMAX. for more information you can go here: <a href="http://www.onlinebubbles.com/blide" target="_blank">http://www.onlinebubbles.com/blide</a><br>:D<br> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

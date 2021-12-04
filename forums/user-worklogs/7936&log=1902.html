@@ -1,0 +1,56 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>
+        <!-- Google Analytics -->
+        <script async="" src="7936&amp;log=1902_files/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-34362789-1', 'auto');  // Replace with your property ID.
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+</head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for grindalf</h1><h1>Grimoire of Worlds</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Enemies and bug fixes</td><td align="right"><font class="tiny">(Posted 2014-11-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well I've fixed a few bugs in the terrain generation and also sped up 
+the colormap painting as that was slowing the game down a little. I 
+still get a few jerks when a new map is created/loaded but its no where 
+near as bad now(runs smoother than minecraft on the vita :P )<br>Just 
+added enemies to the game. they are just cubes at the moment and they 
+don't really do a whole lot yet. Just a simple walk up to the player 
+when you are in range but I have most of the day off tomorrow so I'm 
+hoping to get some basic combat finished.<br>Also added in a particle 
+system. At the moment I'm only using it for leaves falling from the 
+trees but it should work for all my magic and special attack needs when 
+the time comes :) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Distractions...</td><td align="right"><font class="tiny">(Posted 2014-11-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ two days ago I received my copy of minecraft for the PS Vita so work 
+has been going slow. but I have managed to make a little progress<br><br>I can now fully make animations for my simple characters and export it to Blitz3D code.<br>I
+ still haven't made the load function yet though and I want to add a 
+feature where I can change the face texture during the animation.<br> <img src="7936&amp;log=1902_files/Animator_step2_zpsc31c9606.webp"><br><br><br><br><a href="https://www.facebook.com/grimoireofworlds" target="_blank">https://www.facebook.com/grimoireofworlds</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Making Tools</td><td align="right"><font class="tiny">(Posted 2014-11-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have my own character format in the grimoire. It consists of 
+interchangeable body parts in .x format(probably change them to .B3D 
+later) so I can create randomly different characters all using the same 
+animation code. As a result no 3D animation program exports to my 
+format......so I made my own Animation program :D <br>It still a work in
+ progress and lacks some functionality and I also have to finish the 
+save/load functions But Im quite happy with it so far<br><img src="7936&amp;log=1902_files/Animator_zps21dea4e0.webp"><br><br><a href="https://www.facebook.com/grimoireofworlds" target="_blank">https://www.facebook.com/grimoireofworlds</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First Worklog</td><td align="right"><font class="tiny">(Posted 2014-11-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> So I've been working on and off of this game for quite some time now and this is my first worklog.<br><br>So I suppose I should post where Im up to with this game.<br><br>Im
+ generating the world maps as a simple layering of biomes I might do 
+some more work on this at a later point but for now Im quite happy with 
+the result.<br><img src="7936&amp;log=1902_files/8-11-map_zpse97e9296.webp"><br>The total world size is just over 6700 square kilometers :)<br><br>In this map program Im generating certain map details(Height, terrain type, city positions, road positions, forests, ect)<br><br>Im using a perlin example from the code archives to generate the terrains(Author sswift)<br>with
+ a little bit of code I wrote to blend the terrains together(There is 
+currently a bug in one of the blends that creates a hole and I haven't 
+been able to find it yet)<br><br>Most of my trees are made from the models from that old tree magic program(I loaded them into deled though and made them better)<br><img src="7936&amp;log=1902_files/New_engine_zpsd4c9bb42.webp"><br><br>Cities
+ are also randomly generated and most interesting of all I used a random
+ maze code from the code archives(author CloseToPerfect) for that. here 
+is an aerial screenshot showing the maze.<br><img src="7936&amp;log=1902_files/showmaze_zps7c3301a9.webp"><br><br>I
+ tried a lot of different ways to create a random town and this was the 
+method that worked the best. It doesnt feel like a maze because you can 
+cut between the buildings but it does feel like a proper little city and
+ thats the plan so YAY<br><br>I currently have a slight jerk when a 
+terrain is created and loaded but Im hoping to reduce that considerably 
+over the next couple of days.<br><br>Anyway thats where the project is up to <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

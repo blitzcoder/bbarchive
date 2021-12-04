@@ -1,0 +1,418 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for errno!</h1><h1>WildVideo</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wild Boys</td><td align="right"><font class="tiny">(Posted 2007-08-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The blitz max interface is shaping up nicely.<br><br>Below is an example program, that can play almost any type of media(Incl 1080p hi def material at real time speeds)<br><br>The
+ library takes care of all the tricky stuff, It outputs the audio, 
+updates the timing. All you have to do is to tell it where to draw the 
+output image. currently it supports gl, but future versions will add dx 
+renderers for non gl users(Only on the windows version obviously)<br><br>We may also add renderers for other popular apis, like sdl, allegro, hge etc.  it's just a case of demand.<br><br><pre class="code">superstrict
+SetGraphicsDriver GLMax2DDriver()
+Graphics 640,480,0
+
+Local MediaMan:MediaManager = MediaManager.Create()
+
+Local DecodeMan:DecoderManager = MediaMan.GetDecoderManager()
+
+Local TestCallback:MediaCallback = MediaCallback.create()
+
+Local TestMedia:Media = MediaMan.OpenMedia("test..avi",TestCallback)
+
+Local TestDecoder:Decoder = TestMedia.GetDecoder()
+
+TestDecoder.Play()
+
+Local TestInfo:MediaInfo = TestMedia.GetInfo()
+
+glColor3f(1,1,1)
+glDisable(GL_SCISSOR_TEST)
+glDisable(GL_ALPHA_TEST)
+
+While True
+	
+		
+	PollEvent()
+	
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
+	TestMedia.RenderGL(0,0,640,480)
+	
+	TestInfo.Sync()
+	Print "Current-&gt;"+testinfo.actualtime.hours+":"+testinfo.actualtime.minutes+":"+testinfo.actualtime.seconds+" Total-&gt;"+testinfo.totaltime.hours+":"+testinfo.totaltime.minutes+":"+testinfo.totaltime.seconds
+		
+		
+	StandardIOStream.flush()
+
+	Flip
+
+Wend
+
+
+
+
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz3D SDK was a pioneer</td><td align="right"><font class="tiny">(Posted 2007-07-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The library is not wrote in blitz, but it is for blitz as well.<br><br>It
+ utilizes a vast array of libraries(over 20) to achieve perfect 
+playback(Both visuals and audio) with full player 
+controls(Pause/play/seek etc) <br>formats include 
+"Avi/Divx/WMV/WMA/MP3/OGG/Flv/Flac/Wav/mp4/3gp/rm/mov" and many more 
+including common image formats like tiff/jpg/gif etc<br><br>What is 
+more, the library is plugin based. so if you devise your own movie codec
+ format/lib, you can very easily create a plugin decoder class in C++ to
+ enable playback of it natively without changing your code.<br><br>The system has a complex yet easy to use Rules based system, that determine what format uses what plugin.<br><br>Every format supported is done via a plugin. of coure that means we supply plenty(To play all the above and more) as standard.<br><br>Here are two simple demos apps that do the same thing, playback a movie.<br><br>First in C++<br><br><pre class="code">#include &lt;windows.h&gt;
+#include &lt;gl/gl.h&gt;
+#include &lt;gl/glu.h&gt;
+#include "WildVideo.h"
+#include "FFMPEG_Decoder.h"
+#include "decoder.h"
+#include "wildthread.h"
+#include &lt;stdio.h&gt;
+
+#include "SDL.h"
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+        case WM_CLOSE:
+            PostQuitMessage(0);
+        break;
+
+        case WM_DESTROY:
+            return 0;
+
+        case WM_KEYDOWN:
+        {
+            switch (wParam)
+            {
+                case VK_ESCAPE:
+                    PostQuitMessage(0);
+                break;
+            }
+        }
+        break;
+
+        default:
+            return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }
+
+    return 0;
+}
+
+void EnableOpenGL(HWND hwnd, HDC* hDC, HGLRC* hRC)
+{
+    PIXELFORMATDESCRIPTOR pfd;
+
+    int iFormat;
+
+    /* get the device context (DC) */
+    *hDC = GetDC(hwnd);
+
+    /* set the pixel format for the DC */
+    ZeroMemory(&amp;pfd, sizeof(pfd));
+
+    pfd.nSize = sizeof(pfd);
+    pfd.nVersion = 1;
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW |
+                  PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pfd.iPixelType = PFD_TYPE_RGBA;
+    pfd.cColorBits = 24;
+    pfd.cDepthBits = 16;
+    pfd.iLayerType = PFD_MAIN_PLANE;
+
+    iFormat = ChoosePixelFormat(*hDC, &amp;pfd);
+
+    SetPixelFormat(*hDC, iFormat, &amp;pfd);
+
+    /* create and enable the render context (RC) */
+    *hRC = wglCreateContext(*hDC);
+
+    wglMakeCurrent(*hDC, *hRC);
+}
+
+void DisableOpenGL (HWND hwnd, HDC hDC, HGLRC hRC)
+{
+    wglMakeCurrent(NULL, NULL);
+    wglDeleteContext(hRC);
+    ReleaseDC(hwnd, hDC);
+}
+
+
+class TestCallback : public DecoderCallback
+{
+    bool PresentMediaInfo(MediaInfo *info)
+    {
+        printf("Recieved Media Info.\n");
+        if(info-&gt;HasVideo)
+        {
+            printf("Media contains video.\n");
+        }
+        if(info-&gt;HasAudio)
+        {
+            printf("Media contains audio.\n");
+        }
+    }
+    bool OnPlay(Decoder *owner)
+    {
+        printf("Video begun playback.\n");
+    }
+    bool PresentAudioParameters(int channels,int hertz)
+    {
+        printf("Audio Parameters presented. Channels:%d Hertz:%d \n",channels,hertz);
+    }
+};
+
+int WINAPI WinMain(HINSTANCE hInstance,
+                   HINSTANCE hPrevInstance,
+                   LPSTR lpCmdLine,
+                   int nCmdShow)
+{
+    WNDCLASSEX wcex;
+    HWND hwnd;
+    HDC hDC;
+    HGLRC hRC;
+    MSG msg;
+    BOOL bQuit = FALSE;
+    float theta = 0.0f;
+
+    /* register window class */
+    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex.style = CS_OWNDC;
+    wcex.lpfnWndProc = WindowProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = hInstance;
+    wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    wcex.lpszMenuName = NULL;
+    wcex.lpszClassName = "GLSample";
+    wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);;
+
+
+    if (!RegisterClassEx(&amp;wcex))
+        return 0;
+
+    /* create main window */
+    hwnd = CreateWindowEx(0,
+                          "GLSample",
+                          "OpenGL Sample",
+                          WS_OVERLAPPEDWINDOW,
+                          CW_USEDEFAULT,
+                          CW_USEDEFAULT,
+                          640,
+                          480,
+                          NULL,
+                          NULL,
+                          hInstance,
+                          NULL);
+
+    ShowWindow(hwnd, nCmdShow);
+
+    /* enable OpenGL for the window */
+    EnableOpenGL(hwnd, &amp;hDC, &amp;hRC);
+    printf("TESTING!.\n");
+    SDL_Init(SDL_INIT_TIMER);
+
+    // Initialize media subsystems.
+    MediaManager * vman = new MediaManager;
+    DecoderManager * dman = vman-&gt;GetDecoderManager();
+
+
+    // Set up decoders - And lastresort decoder. last resort decoder is the decoder used if
+    // all rules fail to establish a decoder.
+    FFMPEG_Decoder *fdec = new FFMPEG_Decoder;
+    dman-&gt;AddDecoder(fdec);
+    dman-&gt;SetLastResortDecoder(fdec);
+
+    //Open the media
+    Media * test = vman-&gt;OpenMedia("test.avi",new TestCallback);
+    if(test-&gt;State != MEDIA_IDLE)
+    {
+        //Media failed to open, time to throw an error.
+        printf("Failed to open media. State:%d",(int)test-&gt;State);
+        exit(-1);
+    }
+
+
+    // just to be sure.
+    if(test-&gt;_Decoder == NULL)
+    {
+        printf("No decoder present!.\n");
+        exit(-1);
+    }
+    test-&gt;_Decoder-&gt;Play();
+
+
+    /* program main loop */
+    while (!bQuit)
+    {
+        /* check for messages */
+        if (PeekMessage(&amp;msg, NULL, 0, 0, PM_REMOVE))
+        {
+            /* handle or dispatch messages */
+            if (msg.message == WM_QUIT)
+            {
+                bQuit = TRUE;
+            }
+            else
+            {
+                TranslateMessage(&amp;msg);
+                DispatchMessage(&amp;msg);
+            }
+        }
+        else
+        {
+            /* OpenGL animation code goes here */
+
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+  	    	gluOrtho2D(0,640,480,0);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+
+
+            test-&gt;RenderGL(0,0,640,480);
+
+
+            SwapBuffers(hDC);
+
+            theta += 1.0f;
+            Sleep (1);
+        }
+    }
+
+    /* shutdown OpenGL */
+    DisableOpenGL(hwnd, hDC, hRC);
+
+    /* destroy the window explicitly */
+    DestroyWindow(hwnd);
+
+    return msg.wParam;
+}
+
+
+</pre><br><br>then effectively the same demo in BlitzMax<br><br>NOTE, 
+that the blitz demo is just a mini wrapper at this point. a full blown 
+OOP(I.e type based) interface will coded around it eventually.<br><br><pre class="code">
+SuperStrict
+Import  "SDL_GLUE.c"
+Import "libmingw32.a"
+Import "libWildVideo.a"
+Import "libstdc++.a"
+Import "libgcc.a"
+Import "libvfw32.a"
+Import "libavformat.a"
+Import "libavutil.a"
+Import "libavcodec.a"
+Import "libavutil.a"
+Import "libavformat.a"
+Import "libavcodec.a"
+Import "libavutil.a"
+Import "libswscale.a"
+Import "libSDL.dll.a"
+Import "libSDLmain.a"
+Import "libxvidcore.a"
+Import "libvfw32.a"
+Import "libnut.a"
+Import "libfaac.a"
+Import "libfaad.a"
+Import "libgsm.a"
+Import "libmp3lame.a"
+Import "libogg.a"
+Import "libdts.a"
+Import "libdts_pic.a"
+Import "libz.a"
+Import "libamrwb.a"
+Import "libamrnb.a"
+Import "liba52.a"
+Import "libmingw32.a"
+Import "libmingwex.a"
+
+
+Extern "C"
+
+	Function WildVideo_Init()
+	'Callback prototypes
+	Function Callback_Create:Byte Ptr()
+	Function Callback_SetPresentMedia(cb:Byte Ptr,func:Byte Ptr)
+	Function Callback_SetPlay(cb:Byte Ptr,func:Byte Ptr)
+	Function Callback_SetAudioParameters(cb:Byte Ptr,func:Byte Ptr)
+	Function Callback_SetNextVideoFrame(cb:Byte Ptr,func:Byte Ptr)
+	'Media Info prototypes
+	Function MediaInfo_HasAudio:Int(mi:Byte Ptr)
+	Function MediaInfo_HasVideo:Int(mi:Byte Ptr)
+	'Media Manager prototypes
+	Function MM_Create:Byte Ptr()
+	Function MM_GetDecoderManager:Byte Ptr(MM:Byte Ptr)
+	Function MM_OpenMedia:Byte Ptr(MM:Byte Ptr,path:Byte Ptr,callback:Byte Ptr)
+	'Media class prototypes
+	Function Media_GetDecoder:Byte Ptr(Media:Byte Ptr)
+	Function Media_RenderGL:Byte Ptr(Media:Byte Ptr,x:Int,y:Int,w:Int,h:Int)
+	'Decoder class prototypes
+	Function Decoder_Play(Decoder:Byte Ptr)
+	Function Mutex_Create:Int()
+	Function Mutex_Lock(mutex:Int)
+	Function Mutex_Unlock(mutex:Int)
+End Extern 
+
+Function PresentMedia:Int(info:Byte Ptr)
+	Print "Recieved Media Info."
+	Print "HasAudio:"+MediaInfo_HasAudio(info)
+	Print "HasVideo:"+MediaInfo_HasVideo(info)
+End Function
+
+Function PresentAudio:Int(channels:Int,hertz:Int)
+	Print "Audio Channels:"+channels
+	Print "Hertz:"+hertz	
+End Function
+
+WildVideo_Init()
+
+Local mm:Byte Ptr = MM_Create()
+Local dm:Byte Ptr = MM_GEtDecoderManager(mm)
+
+Local cb:Byte Ptr = callback_Create()
+
+callback_setPresentMedia(cb,PresentMedia)
+callback_setAudioParameters(cb,presentaudio)
+
+Local media:Byte Ptr = mm_openMedia(mm,"test..avi".tocstring(),cb)
+
+
+Local Dec:Byte Ptr = Media_GetDecoder(media)
+
+
+SetGraphicsDriver GLMax2DDriver()
+Graphics 640,480,0
+
+glEnable(GL_TEXTURE_2D)
+glGenTextures(1,Varptr( texid ) )
+Print "Texture ID:"+texId
+
+
+decoder_play(dec)
+
+glColor3f(1,1,1)
+glDisable(GL_SCISSOR_TEST)
+glDisable(GL_ALPHA_TEST)
+
+While True
+	
+		
+	
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+		
+	Media_RenderGL(media,0,0,640,480)
+		
+	StandardIOStream.flush()
+
+	Flip
+
+Wend
+
+</pre><br><br>as you can see it draws the video for you via opengl, 
+meaning you can draw it at any sie and as many times as you want. you 
+could even use the video as a texture map on your 3d tv in your ground 
+breaking fps :)<br><br>It is not yet certain if wildvideo will be a 
+commercial product. We are using it in a range of other commercial 
+products and we may not want to dilute our strongest products. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

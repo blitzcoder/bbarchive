@@ -1,0 +1,49 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Sanctus</h1><h1>Casual Game Framework</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Account Management</td><td align="right"><font class="tiny">(Posted 2011-03-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After asking on the forum if anyone would buy some of my modules I 
+decided to start working on some more professional ones. the main reason
+ for development is that they will help me and then that I might sell 
+them as a pack.<br><br>As a first entry I bring you the Account Manager.<br>Most casual games support a feature where multiple accounts can be used in a game with different saves.<br>Last night I've implemented this in a way that it's easy to use and yet flexible.<br>Here is an example of it:<br><pre class="code">Type TMyAccount extends TAccount
+  Field highScore:int
+  Method Save(stream:TStream)
+    WriteInt(stream,len(name))
+    WriteString(stream,name)
+    WriteInt(stream,highscore)
+  End Method
+
+  Method Load(stream:TStream)
+    name = ReadString(stream,ReadInt(stream))
+    highscore = ReadInt(stream)
+  End Method
+End Type
+
+Function CreateAccount:TAccount()
+  Return New MyAccount
+End Function
+
+Global accountManager:TAccountManager = CreateAccountManager("MyGame")
+accountManager.Load()
+accountManager.AddAccount("Player1")
+accountManager.AddAccount("Player2")
+
+Global currentAccount:TMyAccount = accountManager.GetCurrentAccount()
+currentAccount.highScore = 1000
+
+accountManager.Save()
+</pre><br><br>After any alteration directly on the accountManager like 
+adding accounts,removing them, setting the current one everything is 
+saved so you don't have to.<br>If however you modify something in the account then you have to call accountManager.Save() or accountManager.SaveAccount(name)<br><br>At first glance it may look like a lot of code but that's just so you can customize the account data.<br>Another
+ ideea would be to use metadata and reflection so that save and load 
+methods don't have to be written but right now I feel like this provides
+ more flexibility.<br><br>What it does?<br>First of all this depends on 
+the operating system. On windows(the only platform I have right now) 
+depending on the version it will save on the application data path \ 
+gamename \<br>First it creates a file named accounts.acc with data about
+ all the accounts. Next it creates folders for each account there. When 
+writing the save/load methods on the account derivative you may use 
+accountDir and accountFilePath for some more data like save game files.<br><br>Tonight
+ I'll try to some more tests to see that everything works as intended 
+and start work on the next module (to be announced) <br><br> May the sky never fall on your head </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

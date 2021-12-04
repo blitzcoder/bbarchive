@@ -1,0 +1,79 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-2"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Bobysait</h1><h1>FastGui</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First log...</td><td align="right"><font class="tiny">(Posted 2009-07-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> * Here I come !<br><br>This entry is THE entry :)<br>FastGui is expected to be a very fast Gui using FastImage library ( cf : MikhailV's dll @ FastLibs.com )<br><br>It is Fully skinnable, and supports many gadget .<br>Currently, here is the list of the supported gadgets:<br>- Window<br>- Label<br>- Panel<br>- ComboBox<br>- TextField (InputBox)<br>- GroupBox<br>- Button ^^<br>- RadioButton<br>- CheckBox<br>- Tabber<br>- Slider (spinner)<br>- TrackBar<br><br>Still missing gadgets ( I really missed those gadgets... ) are :<br>- Menus<br>- ListBox<br>- TreeView<br><br>It comes with MaxGui-like commands and a library for Event handler <br>Also provided with FastGui :<br>* TList ( for blitz3d ) <br>* TMap ( for blitz3d )<br>* Ini File Library ( for blitz3d )<br>* Registry Library<br><br>Except for the Registry library, every lines are copyrighted ŠBobysait.<br><br>The
+ library will be released as shareware when I'll come up with a stable 
+version wich supports Menus and ListBox ( plus, a template for 
+FileRequester and ColorPicker ).<br><br>/!\ FastGui can't work without Fast-Image<br>WhatEver, it works with the demo version of Fast-Image. So You'll be able to test it before getting a full copy.<br><br>A sample that shows a minimal stuff<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">	; - Plugins UI/Events -
+		Include ".\INC\CLASS_TEvent.bb"  ; standalone Event manager
+		Include ".\INC\CLASS_TIni.bb"  ; Ini-File manager
+		Include ".\INC\CLASS_TList.bb"  ; support for Linked-List
+		Include ".\INC\FastGui\UI_SKIN.bb"  ; Skin support for FastGui
+		Include ".\INC\FastGui\UI_KERNEL.bb"  ; FastGui Core
+		Include ".\INC\FastGui\UI_SDK.bb"  ; the Commands
+		Include ".\INC\FastGui\Ui_REG.bb"  ; support for regystry access
+
+
+
+graphics3d 800,600,0,2
+
+InitDraw()
+
+SetBuffer BackBuffer()
+; Specify the location of the Gui.
+SetGuiDirectory	(".\FastGui\Gui")
+
+; window name
+Local WindowName$ = "Name of the window"
+; window position
+Local WindowX% = 0
+Local WindowY% = 0
+; window size
+Local WindowWidth% = 0
+Local WindowHeight% = 0
+; handle of the parent window ( gadget owner )
+Local WindowParent% = 0
+Local WindowStyle% = WINDOW_TITLEBAR + WINDOW_CLIENTCOORDS + WINDOW_CENTER
+
+Local WIN = CreateWindow(WindowName , WindowX,WindowY,WindowWidth,WindowHeight , WindowParent , WindowStyle)
+
+Local wBody = CreatePanel(1,1,ClientWidth(WIN)-2,ClientHeight(WIN)-2,WIN ,  PANEL_BORDER )
+
+Local Combo = CreateComboBox(10,10,ClientWidth(wBody)-20,20,wBody)
+
+AddgadgetItem(Combo,"Item 1")
+AddgadgetItem(Combo,"Item 2")
+AddgadgetItem(Combo,"Item 3")
+
+Local Quit% = False
+
+Repeat
+	Cls()
+
+	UpdateUi()
+
+	While PollEvent()&lt;&gt;null
+		Select EventId()
+			Case EVENT_WINDOWCLOSE
+				Quit=true
+			Case EVENT_GADGETACTION
+				Select EventSource()
+					case Combo
+						Debuglog "Selected Item :"+GadgetItemName(Combo,SelectedGadgetItem(Combo))
+
+				End Select
+		End Select
+	Wend
+
+	Flip
+
+Until Quit=True
+
+KillUi()
+DeinitDraw()
+End
+</textarea><br><br>And first sreenshots of an early version for a viewer.<br><br><a href="http://www.blitzbasic.com/gallery/view_pic.php?id=2028&amp;gallery=&amp;page=1" target="_blank"><img src="9571&amp;log=1696_files/FastGui_Screen_04.jpg"></a><br><br><br><a href="http://www.blitzbasic.com/gallery/view_pic.php?id=2028&amp;gallery=&amp;page=1" target="_blank"><img src="9571&amp;log=1696_files/FastGui_Screen_06.png"></a> <br><br> ;*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*<br><pre class="code">Admin On 
+Blitz3DFr =&gt; <a href="http://www.blitz3dfr.com/" target="_blank">http://www.Blitz3DFr.com</a>
+BlitzFr   =&gt; <a href="http://www.blitzfr.com/" target="_blank">http://www.BlitzFr.com</a>
+</pre><br>---- Config 1 ----<br>Dual Boot Xp Pro SP2/Ubuntu 7.04<br>Athlon 64 X2 4800+ [Rev G2]msi K9AG Neo2 Digital / 2*1Go Ddr2 800MHz [Corsair dual channel] ATI Radeon HD 4850<br>HannSpree 28' + Dual Scren Iiyama 22' + 15' Wacom Cintiq 15UX ( Video/Tablet )<br>---- Config 2 ----<br>Xp Pro Sp2<br>Athlon 64 X2 4200+ Asus M2n-Mx Se / 1 Go DDr2 533 MHz (Noname) NVidia GF 8400 GS 384 Mo (OC) 530MHz (OC) </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

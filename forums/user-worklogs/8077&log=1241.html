@@ -1,0 +1,596 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Brucey</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-05-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> No, I haven't forgotten about it.<br>I was kind of put off when lots of Mac-GUI things broke on 1.18...  so...<br><br>I got into a wee phase of Module building (libxml, cairo) for a while, which was highly rewarding.<br><br>Am
+ currently in the process of writing a Charting (pie, lines, bars etc, 
+with keys, labels etc,) module that will plug into Cairo and allow for 
+the creation of charts on all the output devices supported by Cairo 
+(image, PDF and postscript). As of this post, Pie and line charts are 
+working very well :-D<br><br>Once That's done, I'm going to return to this little baby :-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Generation X</td><td align="right"><font class="tiny">(Posted 2006-01-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Consider this a 0.00001 alpha version of the code generation.<br><pre class="code">' Default Code Generator output
+SuperStrict
+
+' window gadgets
+Global window1:TGadget
+' textfield gadgets
+Global textfield1:TGadget
+' panel gadgets
+Global panel1:TGadget
+' label gadgets
+Global label1:TGadget
+' checkboxbutton gadgets
+Global checkboxbutton1:TGadget
+Global checkboxbutton2:TGadget
+' button gadgets
+Global button1:TGadget
+
+window1 = CreateWindow("window", 50, 50, 400, 300, Null, WINDOW_TITLEBAR | WINDOW_RESIZABLE | WINDOW_MENU | WINDOW_STATUS)
+button1 = CreateButton("OK", 287, 260, 100, 24, window1, BUTTON_PUSH)
+label1 = CreateLabel("Type Text", 22, 141, 100, 18, window1, 0)
+checkboxbutton1 = CreateButton("First", 27, 174, 100, 18, window1, BUTTON_CHECKBOX)
+checkboxbutton2 = CreateButton("Second", 28, 198, 100, 18, window1, BUTTON_CHECKBOX)
+textfield1 = CreateTextField(135, 140, 200, 22, window1, 0)
+panel1 = CreatePanel(20, 20, 365, 104, window1, PANEL_GROUP, "My Group")
+
+While True
+	WaitEvent
+	Select EventID()
+		Case EVENT_WINDOWCLOSE
+			End
+	End Select
+Wend
+</pre><br>Considering it's a first attempt, and the editor itself is far
+ from finished, it's not a bad start really. Stuff is where it's been 
+laid out on the form. And it saved it okay (since this was loaded).<br>The
+ button is a tad too low, but that's the form display missing the fact 
+that there are statusbars and suchlike to be displayed rather than a 
+completely empty window...<br><br>Onwards and upwards !<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Happy Birthday!</td><td align="right"><font class="tiny">(Posted 2006-01-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yes. The project is one month old today!<br>Saving
+ and Loading is almost fully working now. Child controls (those that 
+belong inside panels etc) load back into the correct places. This means 
+that we have "persistence"... Wooooo...<br><br>All in all, for a month's
+ work, it's not bad going really. Yes, there's still a ways to go before
+ we'll have something useable (well, the way I want it), but it looks 
+more and more like a GUI Editor every day.<br>Oh yeah, and as long as 
+all the MaxGUI bugs that I've been raising along the way (you've lost 
+count too??) are fixed, it might even *work*!!<br><br>Perhaps now will be a good time to start working on some simple code generation...<br><br>Ooooerrr...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Loads of trouble!</td><td align="right"><font class="tiny">(Posted 2006-01-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Preliminary loading of a saved form appears to be working :-)<br><br>For
+ a basic form with no containers holding controls, everything appears to
+ load okay... even all the items in a Treeview populated properly...<br>I know.. wonders will never cease!!<br><br>Need
+ to have a look at getting child controls to be associated to their 
+parents, and appearing in the right places. Shouldn't be too much work -
+ hopefully.<br>Also had to work on getting controls to delete from the 
+model and form. I think it'll be okay now, but more testing will be 
+required there as there may be leaks about... (Plumber!!!!!)<br><br>It's still going well. The <i>Things to think about</i> list of the 17th still needs to be thought about, but the rest is moving along nicely...<br><br>Yay!<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>What's in a Sequence?</td><td align="right"><font class="tiny">(Posted 2006-01-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ In a (possibly) vain effort to make understanding the internal workings
+ of GED a bit more graspable, I've thrown together a quick &gt;<a href="http://brucey2.net/blitz/ged/button_create_sequence.png" target="_blank">Sequence Diagram</a>&lt; which shows an example of a Push Button being added to a form.<br><br><b>How to read the diagram</b><br>Along the top are the Types used.<br>You read the diagram from left-to-right, top-to-bottom. This particular one starts with an onEvent() call.<br>Each solid-line arrow represents a method/function call in the Type it points to.<br>Each dotted-line arrow is a variable being returned.<br>A looping arrow pointing to an inset box, is a method call to a local method in the Type.<br><br><br>Isn't
+ it funny when you've got some code that you know well, and then try to 
+map it out diagrammatically, and you come to realise that it is indeed 
+quite a complicated beast...<br><br>btw, this is my first Sequence Diagram, so if there are mistakes in form, please let me know... :-p<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Losing Focus</td><td align="right"><font class="tiny">(Posted 2006-01-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> After getting textfield focus out events working, I've now added support for that to all the textfield properties.<br>Now,
+ when you change the text of a button or the y value of a gadget, as 
+soon as focus leaves that particular textfield, the model and visual 
+components are updated accordingly.<br><br>Currently no validation is in
+ place, but what is there works rather nicely. Obviously, this chunk of 
+featureness will be dependent on BRL getting their act together and 
+adding focus change events to Max. (I can't imagine why this would not 
+be the case as it is such an important feature)<br><br>It also seems that GED is a bit too "<i>comprehensive</i>" :-p<br>In
+ that there is so much going on under the hood that without a major 
+amount of time documenting and drawing some handy diagrams, it looks 
+like it is going to be hard to get much help from outside to continue 
+this... (steepish learning curves and all that)<br>It is very OO shaped,
+ which may be part of the problem. I shall need to work on documenting 
+some of the more abstract stuff, I suppose. (heh.. while I can still 
+remember what it all does...)<br><br>hey man...  I'm trying !<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Out of Control</td><td align="right"><font class="tiny">(Posted 2006-01-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Been sorting out the last of the controls, which now appear work properly on the form (sliders, progress bars etc).<br><br>That leaves the Tabber, which, as another container is going to be a tad fiddly... and the Toolbar.<br>(and probably any others I've overlooked)<br><br>The
+ "window" part of the form also needs lots of work now, as its been 
+rather neglected. It wants to show the titlebar part, the statusbar, 
+menu bar (on the appropriate platforms), and handle niceties such as 
+whether the dimensions apply to the whole window or just the client 
+area.<br>Also resizing of this will require tying all the controls to 
+have their dimensions updated accordingly if they happen to be set to 
+change in relation. (yucky job but someone has to do it!)<br><br>Done some more on the saving of the form data. It now handles all the finished controls, including lists (tree, menu, listbox).<br>Loading that back into the model is a different matter altogether... :-p<br><br>...not quite out of control yet...<br><br><br>...oh, and yes, the icon graphics are crap :-)<br>(but I pinched them from elsewhere just to fill in the gaps)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A step in the right direction</td><td align="right"><font class="tiny">(Posted 2006-01-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The win32 panel issues appear to have now been solved, thanks to some nice work by Chris Camacho. Thanks Chris :-)<br>This
+ means that instead of my crappy control-snapshot-as-panel-pixmap hack, 
+you now see a live version of the control in question underneath the 
+invisible panel, and when you click on the panel, the underlying control
+ doesn't receive the event. Yay!<br><br>It makes development that little bit easier when things work similarly on the different platforms.<br><br>Still
+ so much to work on, and lots up in the air. It will be nice to get the 
+focus events stuff into Max at some point cuz without that, the 
+properties panel isn't really going to work very well. But I'm sure the 
+BRL guys are going to give that a reasonable priority... hey guys? ;-)<br><br>The
+ dragging and dropping is working very nicely now. As you drag a control
+ around the form, the "current parent" of that control is highlighted by
+ a green box around its perimeter. So, if you drag from the window into a
+ panel, the green box then appears around the panel. Once you release 
+the mouse button, the panel becomes the new parent, and the control is 
+removed from the old parent.<br>One wee problem with that which I have 
+an issue on both Mac and Win32, is that the banding box of a child 
+inside a panel won't accept mouse events. I'm thinking that it must be 
+appearing underneath the parent container's invisible panel, which is a 
+tad annoying. But it must be a Brucey bug as it is consistent on both 
+platforms...<br>Still, it's looking quite good for now.<br><br>Things to finish :<br>* get all the controls added. (some sliders and such aren't available yet)<br>* get the xml format finished. It's half-done at the moment. Controls are storing their information appropriately.<br><br>Things to think about :<br>*
+ The code generation I've still not gone near yet. As it doesn't need to
+ be done til the editor is working, it'll probably end up last on the 
+list.<br>* multi-selection of controls would be nice, for things like alignment, moving in groups, etc...<br>*
+ alignment helper would be useful. You move a button and a line appears 
+on the form to show you that your button is lined up with another 
+control. Perhaps for that and control spacing.<br>* control layout in 
+relation to their parent needs worked on. So when you resize a parent, 
+the child will need to act accordingly. This will need to be done via 
+code so that the size/position of the child is modified if required. In 
+which case the child will have to physically be restrained to its actual
+ position. :-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>What a drag...</td><td align="right"><font class="tiny">(Posted 2006-01-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Got some basic drag and drop running now...  You can click and drag a 
+control and drop it inside a panel, the panel then becomes mommy panel, 
+and the window control forgets about it.<br><br>If only it worked...<br><br>When
+ you are dragging the control around, it knows which "container" it is 
+currently over, so when you drop it, it is removed from the old parent 
+and added to the new.<br>Unfortunately, I've made a bollox of the win32 
+stuff, where I snapshot a control to allow me to drag it : once the 
+control (for example a button) is added to the panel, you can see it 
+okay, but you can't click on it - since all you see is an image of the 
+panel, not the control and its children.<br>So I dunno really. Haven't tried it on Mac yet - will do when I get home later - but hopefully that will work fine.<br>No idea what I can do with the win32 stuff now. just seems to me to be such a hack to get it to work.<br><br>The
+ only thing I can think of at all, is to remove the real gadgets from 
+win32 and work instead with images of stuff, and fake the whole thing...<br><br>:-(<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Saving etc...</td><td align="right"><font class="tiny">(Posted 2006-01-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Started working on saving the form stuff out to file.<br>Gone with XML as the format of choice, as it's nice and tidy, and doesn't require me to do much in the way of thinking :-)<br><br>And some basic loading has been implemented too.<br><br>Need
+ to also sort out the container-type gadgets - those which can have 
+gadgets attached to them (like window, tabber and panel), and see about a
+ way to move controls on the form from one parent to another... (which 
+should be interesting)<br><br>The Tabber itself is going to be "fun", 
+considering everything has to be done by hand where switching tabs is 
+concerned...  no-one said it was going to be easy :-p<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>testing testing 1,2,3</td><td align="right"><font class="tiny">(Posted 2006-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Just out of curiosity, here's a little in-progress snippet of my editor wrapper test proggy...<br><br>It's obviously not finished, but it kind of gives an idea of the things it'll be doing once it is...<br><a href="http://brucey2.net/blitz/tests/ged_test.zip" target="_blank">ged_test.zip</a> (250k win32 zip)<br><br>Things that kind of work:<br>The menu editor<br>The lists editors<br>about half of the controls<br>Note that none of the text fields update automatically - waiting for focus change events in MaxGUI for that :-p<br><br>anyhoo... it's just for fun :-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>You have to laugh</td><td align="right"><font class="tiny">(Posted 2006-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Isn't it funny, when you implement something on one system, get it 
+running just the way you want it to, then load it up on another and find
+ out half of it doesn't work? :-p<br>That seems to be the story so far, 
+as I work sometimes on Mac and sometimes on Win32 (as you can probably 
+tell from the screengrabs as I go).<br>This time it was the Mac-side of 
+the GUI that let me down...  Oh well...  on the Mac, if in doubt, don't 
+try to disable any of the gadgets..  ;-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changing Properties</td><td align="right"><font class="tiny">(Posted 2006-01-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I decided it was time to tie the properties into the controls on the 
+forms (so changing something like the enabled flag would show up 
+visually).<br>Of course, then I realized that I was missing a whole layer of architecture for doing just that :-p<br><br>I have a TGEDxxxxx layer for the actual model part, storing all the attributes for each kind of gadget.<br>There is a TPropxxxxx layer which looks after the gadget properties in the properties panel<br>Now there is a TViewxxxxx layer which knows about taking the gadget attributes and creating *real* gadgets from them.<br><br>So
+ when you uncheck an Enabled flag, the properties updates the model, and
+ informs the control-handler that the view may want to be updated. The 
+TViewxxxx decides, based on flag settings and such like how much to do 
+(whether only a simple update of the gadget is required, or is a gadget 
+needs freed and recreated to show the new settings).<br><br>Keeping everything apart like this makes it exceedingly easy to work on, and add new controls as I get to them.<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Taking shape</td><td align="right"><font class="tiny">(Posted 2006-01-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> It's getting a bit easier now to see how everything is coming together...<br><b>UPDATE</b>: <i>With things working much better in win32 as well now...</i><br><img src="8077&amp;log=1241_files/formed_03.png"><br><img src="8077&amp;log=1241_files/formed_02.png"><br><br>Still haven't even begun to work out how I might store all this information, or what code will be generated...<br><br>Maybe I should think about opening this up sooner rather than later and see if anyone would like to lend a hand...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Linux tweaks</td><td align="right"><font class="tiny">(Posted 2006-01-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I think I found a hack for Linux to fix the mouse click problem (but 
+can't test it yet due to the panel events bug thingy which is 
+outstanding).<br>After having a rummage through the FLTK sourcecode 
+(kindly included with MaxGUI :-)  I found a bit that seemed to give the 
+impression that the gadget with current focus would be event-tested <b>first</b>. That's cool, thought I, because then all I have to do is make my invisible panel get focus.<br>And
+ so, with all good things, I added a check for an EVENT_MOUSEENTER, and 
+used ActivateGadget() on my panel. And a small test seems to confirm 
+that this should work.<br><br>It does still leave me with the rather 
+trying problem of win32. I tried the same trick with that, but the 
+button still picks up the mouse event before the panel...  *sigh*...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Ho hum...</td><td align="right"><font class="tiny">(Posted 2006-01-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> So much for good ideas...<br><br>The
+ plan was to place an invisible panel over the control, which would 
+allow the control to be visible, but being in front would accept mouse 
+events in priority of the control behind.<br>This works brilliantly in 
+MacOS, and just the way I thought it should do. You click on the 
+"control", but in actual fact you are clicking on the panel, with which 
+you can do click and drag stuff with ease...<br>However, on Win32, if 
+you cover a button with a panel (regardless of the panels' alpha 
+settings) and then click on the panel, you actually click on the button,
+ which comes to the front and depresses. Which kind of sucks really.<br>So
+ either Windows works in a strange way, or MaxGUI isn't working 
+properly. Personally, I would think that whatever gadget is on top 
+should be the one accepting mouse events...<br>And then we move onto 
+Linux. The issue I'm stumped with currently here is that if you have a 
+panel on another panel, the embedded panel doesn't pick up any mouse 
+events at all... which kind of defeats any usefulness.<br><br>Unless 
+anyone knows a tidy way in win32 to be able to click on a control but 
+not actually click on it (somehow hide the control from the event and 
+catch it elsewhere) it looks like GED ain't gonna work very well on 
+anything other than Mac...  ho hum.<br>(one other possibility would be 
+to sense the mouse-enter onto the control, quickly grab an image of the 
+current control, remove the control, place the image into the panel, and
+ use that to move it around. Then when you mouse-leave, you reload the 
+control and do away with the panel image....)<br>Anyone know how to capture window section images in win32 / linux?<br>...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Putting it together</td><td align="right"><font class="tiny">(Posted 2006-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Things are slowly starting to take shape now...<br>I've
+ pulled all the bits together, and started working on the form-editor 
+section. In my little test app, you can click on a pushbutton icon, and a
+ button magically appears on the form...<br><img src="8077&amp;log=1241_files/formed_01.png"><br>The control can also be dragged around the form.<br>Need to now tie the control into the prefs, and get the resizer plugged in also...<br><br>Also would like some kind of drag-and-drop from the toolbar.. but I won't hold my breath for that one...<br><br>:-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>btw...</td><td align="right"><font class="tiny">(Posted 2006-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ ... I won't be expecting anyone to be thanking me for anything if it 
+ever gets finished (and thus I wouldn't be pulling any downloads if they
+ didn't) because :<br>1) it's really not that important in the big scheme of things<br>2) childishness is boring<br>3) some of us should do some growing up...<br><br>;-)<br><br><br>Anyhoo... talking of worklogs, I've come up with a rather groovy way of getting the form-editor to work.<br>My
+ biggy problem was going to be that if I plonked a gadget of somekind 
+down on the editor, it would sadly be picking up events if I tried to 
+click on it etc.. Thus making it hard to click and drag it around the 
+form.<br>Hah haaa... but I stumbled across a way around that... so...<br><br>On with the show :-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The end of the editors</td><td align="right"><font class="tiny">(Posted 2006-01-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It took less than ten minutes to throw the TreeView editor together. It
+ uses the the Node stuff from the Menu Editor, and some of the controls 
+from the List editor, and appears to work fine (at least, as well as the
+ menu editor does)<br><br>Unless I can come up with any others, that's the three big editors up and running with little in the way of issues left.<br>I also gave the menu editor a run in Linux and it's going well. One small tweak for some button sizes and that was it.<br>It's nice when you can simply load the source on another platform, compile, and run it, and it all "just works" :-)<br>BRL have done a superb job, overall (ignoring the minor buggies here and there).<br><br>Talking of bugs, there are some <b>huge</b>
+ issues with panels and pixmaps on the Mac that I've yet to report. I 
+suppose I should make a list, and a suite of example code for them...  
+ho hum...<br><br>Building GUIs without a form editor is such a lot of 
+work. (Or maybe I've been spoiled with REALbasic and VS). And it's 
+harder when controls come out different sizes on different platforms 
+(the big example being buttons which appear smaller on Mac but fine on 
+win32/linux).<br><br>The hard work is about to begin now though... the 
+form-editor itself. Given that I've never actually written one of these 
+before, it should be... interesting... to say the least.<br><br>:-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Yay....</td><td align="right"><font class="tiny">(Posted 2006-01-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Almost finished with the menu editor now...<br><img src="8077&amp;log=1241_files/menued_mac.png"><br>The
+ last piece of the puzzle is to generate the tags, which shouldn't be 
+too hard... probably based on the text of menu item. (at the moment the 
+field default is empty)<br><br>Haven't tested it on win32 or linux yet, 
+but I don't think they have the same bug that Mac treeviews have - the 
+one where InsertTreeViewNode doesn't insert into the desired index 
+position. (which is the only thing that isn't working (ie. is broken) in
+ the menu editor - but it's coded to assume that this bug will be fixed 
+at some point and once it is, it will just work)<br><br>so...  Yay...  :-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Menus</td><td align="right"><font class="tiny">(Posted 2005-12-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, it's slowly starting to take shape - the treeview handling stuff.<br><br>Still
+ not really happy with the way I'm handling all these separate trees at 
+the moment. But at least things are kind of working.<br><br>Once the 
+menu editor is working, it shouldn't be too hard to take the bits from 
+that and the bits I need from the list editor, to combine them into the 
+treeview editor...<br>Which will be the tough parts of the properties out of the way....<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TreeView Troubles</td><td align="right"><font class="tiny">(Posted 2005-12-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The TreeView gadget is turning out to be a bit of a pain. Unlike with 
+the "List" controls (combobox, listbox etc), the TreeView doesn't have  
+an "extra" field, which is a right handy place for putting a related 
+object (like your own internal node thingy wotsit).<br><br>So, what's the workaround?<br><br>Well, I *could* put a reference to the node in my TGEDNode type, but that's a stricty <b>model</b> only type, so no GUI in there.<br>This
+ means I think I'll have to make a new GUI-side node object which will 
+store my TGEDNode and the node TGadget object, and use that to track 
+them both.<br>So, when I select a node in the treeview, I'll have to 
+find it in my gui-nodes tree, and use the cross-referenced TGEDNode to 
+work from.<br><br>Or something like that...<br><br>Isn't OO fun? :-p<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Design??</td><td align="right"><font class="tiny">(Posted 2005-12-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ In the name of good design (not!), I realized that I could probably use
+ the Item List Editor framework to create editors for the TreeView (with
+ nodes and Items) and Menus (with nodes and menus).<br>So, I created a super type called <i>TListEditor</i> from which my <i>TItemListEditor</i> now extends, in the process moving generic code from the subtype to the super.<br>The TreeView and Menu editors will use a TreeView list for construction.<br>This
+ brings up an interesting quandry in that the TreeView editor would also
+ like to use all Item controls that the Item List does, but the 
+list-handling code (the node stuff) of that the Menu editor will.<br>(Ideally, I duplicate as little code as possible, to make maintenance and bugs minimal)<br><br>Ho hum...<br><br><br>Anyways,
+ I had this other idea for the code-generation. Instead of saying, 
+*this* is the format for the generated code you must use, I thought 
+instead that we could define different generator classes (subtyped from a
+ super type) and you could choose your preferred option.<br>I hate to 
+made to use something that I would personally like to have done slightly
+ differently. This way, the nice folks in the community could provide 
+their favourite frameworks, for integration... (heh... well, we'll see 
+how that goes)<br>So all we'd need would be a nice super type that you 
+would extend to which you could write your own formatting.... 
+(internally the preferred generator would be passed to the generation 
+routine, and use that to create the code)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Integration</td><td align="right"><font class="tiny">(Posted 2005-12-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Was having a browse throught the Max IDE source earlier, and noticed 
+that things extend TEventHandler, which internally passes down events 
+into the various panels.<br>So, in an effort to make my life easier 
+*now*, rather than working out how I might back-fit things in later, my 
+properties are now extending TToolPanel (whether or not this is a good 
+idea, time will tell :-p )<br><br>While on this integration drive, I 
+decided to integrate yesterdays Item List Editor into the properties. 
+(which turned out to be as easy as adding about 4 lines of code :-D )<br>I also got some colour property working (click the coloured panel, and up pops the color requester thingy).<br><br>My little standalone test app can be tried "<a href="http://brucey2.net/blitz/tests/test_properties.zip" target="_blank">here</a>" (167k win32 zip).<br>The label has a color selector, and the combobox uses the list editor (see "modify").<br><br>Linux update:<br>Mr
+ A. ;-) has already found a solution for one of the issues I was having 
+with the ListBox in linux. Tho he should probably lock his PC away while
+ he's on holiday!<br>Hopefully, with the next lot of syncmods some of the problems I'm finding now will go away...  maybe...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Linux</td><td align="right"><font class="tiny">(Posted 2005-12-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I tried the Item editor on Linux (FC4), and the window looks great! (no, really, it looks very nice indeed :-)<br>Everything is placed nice, so I won't have to make any more adjustments.<br><br>Unfortunately, the ListBox functionality is pretty much less than barely useful. (see bugs section)<br>And
+ I don't really want to be having to code around functionality that one 
+would hope would be the same on *all three* platforms. (since the usages
+ matches on win32 and Mac, I can only assume that the linux GUI stuff 
+hasn't been used / tested that much)<br><br>And boy... what a hell of a lot of events you get in Linux!<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More Items</td><td align="right"><font class="tiny">(Posted 2005-12-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The item editor is almost done now. Only thing left is the Iconstrip 
+handling stuff, which can be added later (as it is only a "nice to have"
+ feature).<br><br>The conversion to Mac wasn't too bad :<br><img src="8077&amp;log=1241_files/itemed_mac.png"><br>Things to note about some differences between Mac and Win32 GUI.<br>* Buttons on Mac appear much smaller (width-wise) than they do on win32. So I've had to add some adjustments :<br><pre class="code">	?win32
+	Const buttonWidth:Int = 80
+	Const buttonXOffset:Int = 0
+	?
+	?macos
+	Const buttonWidth:Int = 95
+	Const buttonXOffset:Int = -10
+	?
+</pre><br>and is used for example, like this<br><pre class="code">CreateButton("New Item", 10 + buttonXOffset, ClientHeight(window) - 63, buttonWidth, 25, window, BUTTON_PUSH)
+</pre><br>The offset moves the visible portion of the button to the left
+ on the Mac, and we need to make the buttons longer, since the button 
+part of the gadget is smaller than the "real" width of the control...<br><br>Starting to get the hang of it... ;-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Items</td><td align="right"><font class="tiny">(Posted 2005-12-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> There are a few gadgets that hold lists of items. So, I suppose we should have a little Item list editor dialog to help.<br>Here is a mockup (<b>UPDATE</b> : <i>With actual BlitzMax window on the right</i>)<br><img src="8077&amp;log=1241_files/itemed_mockup.png">    <img src="8077&amp;log=1241_files/itemed_actual.png"><br>I know... ack... it's been mocked up in VB6...  but hey, GED ain't finished yet, so what did you expect?<br>And laying out a GUI, as you know, without seeing it before you code it is a right royal... well.. ;-)<br><br>The idea behind the <b>icon</b>
+ bit is that you can pass a pixmap (or whatever) to the editor, and it 
+will show the strip of icons scaled to fit. Hitting the "Choose" button 
+would then let you select the image from the strip, rather than typing 
+in the number - which you could still do.<br>The iconstrip would only be available here, if you'd already chosen on for the parent "list" gadget.<br><br>I don't think, at the moment, the preview list would also show the relevent icon, but that could always be changed later...<br><br>and so it goes on...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Control Hierarchy</td><td align="right"><font class="tiny">(Posted 2005-12-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Have been piecing together a control hierarchy for the editor which can be seen in this <a href="http://brucey2.net/blitz/ged/hierarchy.png" target="_blank">Hierarchy Diagram</a>.<br>Notice
+ that the gadgets such as the different types of button-styles are 
+listed as separate controls, for reasons no more obvious than stopping 
+the user from having to fiddle with those flags.<br><br>The TreeView 
+might well appear in the "list controls" at some point, although it 
+would probably use a different dialog to edit its content. (what with 
+all those nodes in nodes possibilities)<br><br>More things to add to the todo list...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Platform differences</td><td align="right"><font class="tiny">(Posted 2005-12-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Apart from the <b>very</b>
+ obvious issues that are apparent at this time, I think things will have
+ to be tweaked slightly for each platform so that they at least appear 
+more like one another.<br><br>For example, the labels on Win32 are very much closer to the left than the same labels on Mac.<br>But
+ on Win32 the combobox is a bit nicer, in that if you populate it with 3
+ items, it only shows 3 items. On Mac, you get your 3 items plus an 
+extra couple of blank entries. Not that they are selectable, but it 
+looks a bit strange having all that white-space. (This is probably a bug
+ rather than a UI quirk)<br><br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Oh dear....</td><td align="right"><font class="tiny">(Posted 2005-12-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Thought I would try out the current test stuff on Windows, just to see how it's going...<br><img src="8077&amp;log=1241_files/prop_04.png"><br>Don't
+ you just love the way labels aren't transparent, but instead take on 
+the background color of the parent window (well, I'm assuming that's 
+what they are doing).<br><br>and of course, setGadgetColor( myLabel, 255, 255, 255)  ain't working ;-)<br>I'm setting it anyway, on the off-chance that one day it might.<br><br>Since
+ MaxGUI is still only a baby, it's not really surprising that not 
+everything is working properly yet, so I can live with it.<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Menus!</td><td align="right"><font class="tiny">(Posted 2005-12-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been a bit distracted today throwing together setGadgetFont stuff 
+for some of the Mac gadgets that don't support it. (sadly, I also appear
+ to be getting a basic understanding of Objective-C at the same time... 
+argh!)<br><br>Anyhoo, it seems I forgot about Menus. These are a bit 
+trickier in that they aren't really gadgets as such (since they have no 
+visual presence inside a window - I know what I mean by that :-p )<br><br>I
+ think for Menus, other than not having them drag-and-droppable, they 
+will need their own specialized edit window or something, to allow you 
+to customise it in some way.<br><br>Requires more thought at some point in the future.<br><br>Of course, if anyone has any ideas.. ;-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Properties</td><td align="right"><font class="tiny">(Posted 2005-12-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Dynamically creating properties :<br><img src="8077&amp;log=1241_files/prop_02.png"><br>...for a Window.<br><img src="8077&amp;log=1241_files/prop_03.png"><br>...and a Push Button.<br><br>Looking quite nice so far.<br><br>Next stop... have to go through each and every gadget and see what properties they can have....  joys...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Initial trials</td><td align="right"><font class="tiny">(Posted 2005-12-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I thought it might be fun, seeing as the code for the IDE is available,
+ to design and build a Gui EDitor for it... that is, have it built-in to
+ the IDE rather than as a standalone application.<br><br>I would see it split into two parts, visually...<br><br>In
+ the main editing area we would have a tab per "form", just like we do 
+for a .bmx file. This itself would be split in two, containing a toolbar
+ and the main form-building section.<br><img src="8077&amp;log=1241_files/tool_01.png"><br>with of course the proper draggy, resizable thingies,<br><img src="8077&amp;log=1241_files/band_01.png"><br><br>The
+ second part would be a Properties page, which would change dynamically 
+depending on the currently selected control (gadget). This could be 
+placed into the right-hand tabbed area.<br><img src="8077&amp;log=1241_files/prop_01.png"><br><br>Currently,
+ everything is standalone, and in very early development, but has 
+designed so that, in theory, once all the pieces are working, it should 
+be a fairly easy job of dropping it all into the IDE. (tweak here, tweak
+ there, etc).<br><br><br>Stuff that hasn't been looked at yet :<br><br>Form file format.<br>Forms
+ (that is, a window definition and its controls etc) should probably be 
+stored in their own file format, being a self-contained entity that can 
+be used to extract everything required to generate code from.<br><br>Code generation.<br>Haven't
+ decided on the best way to create the code for handling all the gadget 
+events and such like. There are two obvious systems available, 1) using 
+the standard while-loop, and 2) using that event hook stuff as seen in 
+that Applet example.<br><br><br>Of course, the easiest option is to get 
+to a point where most of the editing works, and then offer it up for the
+ community ide project ;-)<br>haw...<br><br>If anyone has any ideas.... :o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Too new</td><td align="right"><font class="tiny">(Posted 2005-02-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It appears that developing with the newest version of eclipse (3.1) can
+ lead to all kinds of problems when you find yourself using 3.1 specific
+ functionality, and then attempt to use the plugin on something not so 
+new - it breaks.<br>Anyways, after undoing some things, and a little re-wiring in places, hopefully it'll work on 3.0x still...<br><br>Finally managed to get the three - Compiling / Debugging / Running (release build) - options working.<br>Ouput
+ appears in the console view. No console input though, so if it's 
+required, the exe would need to be run from a command-line. (not a major
+ priority though, but hope that I can solve the problem at some point)<br><br>Really
+ want to add the "default file" option for a project, next(ish). That 
+way,  when you build or run, you won't need to have the main .bmx file 
+selected in the editor.<br><br>I'm considering re-writing the bmx 
+parser. It's not very strong at the moment. I can see how I could 
+improve it alot, but it will require starting over on it. However, as it
+ is mostly separate from the rest of the code, it's only the parser that
+ I will need to work on - everything else should work as before.<br>I'll need to sit down and plan it out first, to make sure - this time - that it's the best way to go forward. It should be :-)<br><br>I
+ believe I can integrate a "browser" view for the plugin. This would be 
+good for showing the documentation. Even better if it's 
+context-sensitive.<br>Hover-over tooltip style documentation would also be good - perhaps using the bbdoc rem blocks as a source.<br><br>Lots to do...<br><br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Nowhere to run</td><td align="right"><font class="tiny">(Posted 2005-02-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Woops.<br>I
+ realised that I had inadvertantly lost the Blitz Max folder preference 
+setting. So, did a wee bit of house-keeping, rearranging the prefs a 
+bit, and getting the most important preference back in there.<br><br>Yay!<br>I
+ managed to "debug" an app from eclipse. Click on the "debug" toolbar 
+icon, and it went off, built what it had to, and finally ran the 
+generated executable.<br>Still lots of work to do there, but we are going forward - for a change.<br>Need
+ to look into tying the Process back into eclipse so that if you need 
+to, you can kill the application from there. (for instance, clicking on 
+the "stop" button in the processes view). Given that a Process is 
+available when the app is run, it should simply be a case of using that 
+reference and calling terminate or whatever on it, when we require it to
+ end. (so the theory goes)<br><br>OS X packaging would be nice at some 
+point - simply, a couple of nested folders with the binary stored deep 
+inside, and the option of either running it from within, or calling 
+"open xxx.app" from the command-line.<br><br>Need to check if windows builds have .exe on the end by default.<br><br>Need
+ to sort out the Console view. Clear doesn't work, and I can't seem to 
+delete them either, once they are there. A dig around the docs should 
+sort those out, eventually.<br><br>I should finish getting the basic run/debug/compile working first though...<br><br>:-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Narrowing</td><td align="right"><font class="tiny">(Posted 2005-02-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Wouldn't it be nice if you could "narrow" the current view down to an "element" of the file you are editing?<br>Perhaps
+ you want to focus on a specific method or type, and could do without 
+the issues of this element being a tiny part of a larger document...<br><br>One way, could work like this :<br><img src="8077&amp;log=1241_files/eclipse_example_18.png"><br>...where
+ you select the element from the outline view, and the editor panel 
+narrows itself to show only that element of the file.<br><br>As a concept, it is working well. Just need to work on the "toolbar" icon handling for it. (toggle on/off)<br><br>Compiling and Running is making progress. Can currently build from the toolbar, but only against the current active editor view.<br>Probably
+ want to add the facility whereby a "project" has a particular .bmx file
+ designated as the main / default file to build against.<br>A Project without this default file would assume to not have any, and compiling would work on the current file.<br><br>I
+ think Module development will need to work differently. Perhaps a 
+"Module Project", which will cause the plugin to call different compile 
+options.<br><br>At least creating a new project finishes properly now... :-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes</td><td align="right"><font class="tiny">(Posted 2005-01-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> There comes a time in every plugins' life when you realise that perhaps some things just weren't meant to be...<br>After
+ reading the Eclipse 3.1 release notes, I decided to do away with half 
+of the Preferences, since it appears that these particular prefs (Text 
+Editor settings for tab size, line numbering etc) were being merged into
+ a single set, rather than duplicating the same ones in different 
+plugins (eg. the same Java editor settings are going to be using the 
+standard "text editor" ones too).<br>So, for pre-3.1M4, to set whether 
+or not line-numbering is enabled, etc, it's done through the Workbench 
+-&gt; Editors -&gt; Text Editor  preference pages. Otherwise, there's a 
+more global page for those.<br><br>While I was there, I added 
+preferences for Folding, and also the ability to fold Rem blocks (as 
+requested).  The preferences allow one to determine which blocks are 
+folded when a file is opened - if any.<br><br>Other work continues... more tightening of the document model, and other tweaks for now.<br><br>Hopefully I'll get compiling working again shortly...<br><br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blocks</td><td align="right"><font class="tiny">(Posted 2005-01-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Just when you thought it was safe to click on a "node" in the outline 
+view and see the block highlighted in the editor, it also now works for 
+cursor movement in the document :<br><img src="8077&amp;log=1241_files/eclipse_example_17.png"><br>As
+ you move the cursor around, the editor tracks the location and updates 
+both the current block (in the left ruler) and the current node in the 
+outline view.<br>Hopefully this will make blocks stand out a little better...<br>As
+ yet, only normal blocks are handled (types, methods, etc), but perhaps 
+in the future, iteration blocks and "if" blocks could be applied too.<br><br>Progress continues...<br><br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 15 - Ack!</td><td align="right"><font class="tiny">(Posted 2005-01-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Update....<br><br>Here's an example of the content assist in action :<br><img src="8077&amp;log=1241_files/eclipse_example_16.png"><br>Not
+ entirely sure if *everything* should be sorted - that is, mixing 
+functions and keywords together, or to keep things in groups?<br><br>If you enter enough for a "perfect match" (1 word), instead of the popup it completes the word for you.<br><br>I like Eclipse ;-)<br><br><br>-------------------------------------------------------------<br>So much to do, so much time to do it in....<br>(unless
+ of course you find yourself falling into the deep, dark, 
+spikey-bottomed trap of releasing a very early version of your code to 
+ppl)<br><br>But still, user-feedback is part of the fun, and it can help to open one's eyes to some things you hadn't thought about.<br><br>Anyhoo...
+ I've been working hard on getting the Preferences sorted out. As of 
+now, you can change colours and styles, and they are updated 
+immediately. Almost. The viewable-area doesn't always "update" itself, 
+but if you scroll, the new stuff that appears shows the changes you 
+saved. Certainly an improvement on having to close and reopen the 
+editor.<br><br>As has been pointed out, content assist isn't working 
+very well. Indeed, there is a lot still to do. It's kind of almost 
+half-way there at the moment.<br>When the blitz max path is set up in 
+prefs, a restart of eclipse (perhaps in time, a restart won't be 
+required and it will know) will trigger the caching of all the mods - 
+types, functions etc.<br>These are then added to the content assist engine to appear where appropriate.<br>The caching is working, the "appropriate" is heading off in generally the right direction.<br><br>Back to work...<br><br>:-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 14 - Bugs, bugs, bugs</td><td align="right"><font class="tiny">(Posted 2005-01-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Most of my time I seem to be spending working out why something or other doesn't do what I expect of it.<br>The
+ last one was - why won't it save my preferences? (or rather, I don't 
+know if it is saving them even, cuz I can't find the file!). Anyhoo, all
+ is well again it seems, and at least a deployed plugin seems to 
+remember (most) settings now.<br>Running things in debug and running as a
+ normal plugin throws up different issues. I had to write an ant build 
+script in the end, cuz using eclipse to compile the plugin wouldn't 
+allow it to load in another eclipse. Dunno what all that was about - 
+perhaps the compiler settings were bad. *sigh*<br><br>However, despite 
+all the little bitty problems, progress is heading in the right 
+direction. Tonight I concentrated on trying different .bmx files to see 
+what worked and what didn't. Mostly everything looks fine. The outline 
+view shows some "fields" that aren't, and misses some out altogether (my
+ parsing needs tightening up in places). Folding works great, after some
+ more tweaks. I also re-did the default colouring, so it looks a little 
+less freaky.<br>The Prefs kind of work... but it's hit and miss at the moment as far as changing colours is concerned.<br><br>I thought I'd try a deploy on my linux boxy...<br>This is what it looks like running in Eclipse 3.1 on Fedora Core 2...<br><img src="8077&amp;log=1241_files/eclipse_example_15.png"><br>It looks the same... *shock*!<br>(btw,
+ screen-grabbing on Linux.. couldn't be any easier.. "import 
+&lt;filename&gt;"... then choose the section of screen to grab. Learn 
+something new everyday!)<br><br>Looks not bad on there at all really.. 
+and starts up a fair bit faster than the PB (given there's a helluva lot
+ more grunt in the PC, it's not surprising)<br><br>So, as an editor, it's almost bearable at the moment.<br><br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 12 - Going to the library</td><td align="right"><font class="tiny">(Posted 2005-01-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ As usual, I threw away my plan, and instead decided to see about 
+getting the content assist stuff working (at least up to a point).<br><br>When
+ the plugin is first loaded (eclipse uses lazy-loading, so if you don't 
+open a .bmx file, the plugin won't be taking up resources), it goes off 
+and caches all the mods (in the background).<br><br>Once they are in memory, this is the kind of thing that you'll see when you are giving your variable a type :<br><img src="8077&amp;log=1241_files/eclipse_example_14.png"><br>As you type, the context is narrowed, and the list decreases in size...<br><br>Early days yet, but I'm happy with it so far...<br><br>It
+ will have to take "Framework" options into account at some point - that
+ being, if you use Framework, the list it provides should be based on 
+available imports, rather than the library as a whole.<br><br>;-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 11 - Tweaking</td><td align="right"><font class="tiny">(Posted 2005-01-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm now happy with the code-folding... It updates when the outline view
+ does, using the outline view document model (which saves on a whole 
+parse).<br>I tracked the "change" problem down to the fact that even 
+though I was passing in the updated model, I wasn't using it... 
+*doh!*... funny how the obvious is sometimes the least obvious. Anyways,
+ the hours that I've spent debugging the folding stuff means at least 
+it's all very clear now.<br>The "type at the end of the document" 
+problem was easy to find once the folding was working. Seems I was 
+adding 1 onto the size of the "type" region, which meant that it ended 
+on the next line (which, if the document ended by then meant that 
+folding mechanism would try and fold off the bottom, caught itself, and 
+decided not to try).<br>Yay for exception handling :-)<br><br>I've done a
+ wee bit more on the building, but I think I'm getting myself kind of 
+lost... I'm not entirely sure what I want to be able to do here - which 
+options should be readily available, which should be something you get 
+from a menu instead?<br>Maybe someone has some ideas of their own...<br><br>Also,
+ Modules will have to work differently from a standard build. The IDE 
+will need to know the difference between the two kinds, I think.<br>Perhaps some Module / ModuleInfo handling too.<br><br>Integrated Help will be nice to have. Mouse-over annotations perhaps?<br>I think fredborg's help stuff looks pretty awesome... perhaps that in a context-sensitive way?<br><br><pre class="code">Stuff working :
+  *  Content Outline (types, functions, methods, variables)
+  *  Code folding
+  *  The document model is reasonably accurate.
+  *  Pref colouring options available - but haven't worked out how to update an open editor.
+
+The current TODO-ish list :
+  *  Create a nice list of build actions - compile / clean / run / etc.
+  *  get import loading/parsing working
+  *  Add a "default" .bmx file for building in the project (optional). Calling Build would compile this one, regardless
+      of the current selection.
+</pre><br><br>Back to the building I suppose...<br><br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 9 - Nothing to see here...</td><td align="right"><font class="tiny">(Posted 2005-01-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Updates :<br><br>The folding mechanism revealed some issues with my document model - which has tightened some stuff up in that respect.<br>I
+ need to enable a listener for the 'folder' to pick up document changes -
+ kind of pointless otherwise. I think the best place will be to tie it 
+into the outline view update (which acts after a short delay in typing).<br>There's
+ a problem with the Type that ends the document. For some reason the 
+'folder' isn't picking this up as a foldable region, and so the last 
+Type is always open (with no little arrow)<br>Problem markers - When to 
+clear them? On save, probably..  when you start editing even? They 
+aren't dynamic, so if you add code, I doubt they'll move with the line 
+they refer to. And you will only have one - given that BMX only reports 
+one error per compile...<br><br>I really need to sort out the building stuff next... then we might have something vaguely useable... <br>Oh.. and having BlitzMax files and CVS integrating seemlessly in one environment is rather cool.... ;-)<br><br>-------------------------------------------------------------------------------------<br><br>.. move along, move along... nothing to see here....<br><br>...BEFORE...<br><img src="8077&amp;log=1241_files/eclipse_example_13a.png"><br>...AFTER...<br><img src="8077&amp;log=1241_files/eclipse_example_13b.png"><br>(that's right, there *isn't* anything to see ;-)<br><br>...and there was me thinking that sitting here for the last 8 hours was wasting my Sunday...<br>I am actually *very* impressed with this feature - well, more surprised at the moment in that it works at all :-D<br><br>Issues :<br> * All folds are closed when the document opens. Kinda backwards ? Or should this be optional?<br><br>anyways... I really need to not get myself distracted any more and get the build/run stuff working....<br><br>:o)<br><br>(
+ btw, I don't recommend sitting in front of your computer for most of 
+the weekend - especially if the decision to get some sleep comes a 
+distant 2nd)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Ideas</td><td align="right"><font class="tiny">(Posted 2005-01-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Just some ideas for things that might be nice to have in the editor :<br><br>&gt;&gt; Folding &lt;&lt;<br>(type and function folding - I think folding loops and other blocks is pointless?)<br>&gt;&gt; Tag Handling &lt;&lt;<br>( like TODO tags - perhaps implementing the Java Tag list stuff where you can define your *own* )<br><br>...more...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Yay !!</td><td align="right"><font class="tiny">(Posted 2005-01-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> About bloody time too....<br><br><img src="8077&amp;log=1241_files/eclipse_example_12.png"><br><br>Rem / End Rem  blocks work....<br><br>:-)<br><br>(what's for tea, monkey?)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 8 - Preferential Treatment</td><td align="right"><font class="tiny">(Posted 2005-01-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yes... here we are... 8 whole days into the project...<br><br>At least it doesn't crash now, every 5 minutes (which, in anyones' book must be some kind of progress!).<br>The
+ whole crashing issue was a lack of trapping for empty things, which the
+ outlineview appears to puke at, given every opportunity.<br><br>The 
+latest work has been re-writing the Preferences stuff, moving default 
+colour settings to a file, and adding a proper Preference page...<br><img src="8077&amp;log=1241_files/eclipse_example_11.png"><br>It's
+ by no means finished. I haven't yet got the editor to update to reflect
+ pref changes (to see them, you've to close and re-open the file) - this
+ is likely only a single function-call away from working... and even 
+with all my books, I've not found it yet...<br>The example piccy shows the preference page over pixmap mod. (All .bmx's I've tried, now seem to load okay :-)<br>As for the colouring... well... I dunno... maybe someone will come up with a nice default... ;-)<br><br>The Rem/EndRem issue is still HALF an issue....  :-(<br>The half that works - the "document" knows that stuff inside the Rem block is not for parsing.<br>The
+ half that doesn't - the syntax highlighter, I cannot for the life of me
+ get it to work, so for now, that part is disabled. (I've tried a couple
+ of different ways, the second of which fixed the dom recognition of 
+it...)<br><br>I "borrowed" the preference page styling from the Java 
+editor prefs, which is why it looks familiar ( I liked the list editing 
+of colours, which isn't a standard control - so, monkey see, monkey do 
+;-)<br><br>I'm happy enough to leave the format / syntax stuff for now, as it's mostly working.<br><br>Onto the bigger beefy stuff now : Compiling and Running :-)<br>I'm
+ going to add (or borrow) the standard toolbar buttons that eclipse uses
+ for Run and Debug - click on it, it runs your current .bmx (possibly 
+using quick-compile first?).  You hit run, and it runs (and compiles) a 
+release version.<br>I think to start with, that would be enough to have a useable system.<br>(Although
+ the idea of a "default" .bmx is rather important, and perhaps I need to
+ add that too, before anyone else gets their paws on it - no point 
+trying something out that doesn't do anything else that allow you to 
+edit the files..?)<br><br>I've been wrong before tho...<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>To build or not to build...</td><td align="right"><font class="tiny">(Posted 2005-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Update :<br><br>We now have "problem markers"...<br><img src="8077&amp;log=1241_files/eclipse_example_10.png"><br>Just
+ need to add a "hover" feature to that now, so that the error message 
+appears when you mouse-over the red cross in the editor.<br><br>Okay, 
+now time to solve this rem/endrem problem... : The issue itself has been
+ that the default multiline rule in eclipse is not "word" savvy, and 
+will see the word "rem" in the midst of the text of another word... and 
+then things go rather pear-shaped. Me thinketh a 
+word-based-multiline-rule is the order of the day...<br><pre class="code">The current TODO-ish list :
+  *  Fix the Rem/EndRem issue
+  *  Create a nice list of build actions - compile / clean / run / etc.
+  *  Add a "default" .bmx file for building in the project (optional). Calling Build would compile this one, regardless
+      of the current selection.
+  *  Make prefs nice - colouring options.
+  *  Packaging facilities for OSX builds - (ack - write my own? :-( )
+---
+  *  get import loading/parsing working
+  *  mods loading will work once imports work.
+  *  Content Assist - works basically for now. needs import stuff working to be useful.
+</pre><br>I can't really think of anything else for now... ideas??<br><br><br>------------------------------------------------------------<br><br>Finally implemented the first-stage of compiling a .bmx file....<br><br><img src="8077&amp;log=1241_files/eclipse_example_09.png"><br><br>Output appears in the console. Errors highlight in red (for now).<br>Haven't
+ yet tied the error message to the code - which I would like to use the 
+built-in error-marking / annotation (eg. a little cross on the line with
+ the error).<br><br>The piccy above also shows that the syntax colouring
+ is off at present - I'm rewriting it to run off the preferences screen 
+instead of a file.<br><br>One big issue is that Rem/EndRem is not 
+currently working at all. I've disabled it altogether for the moment, as
+ it broke on most BRL mods. Therefore, it sees all text inside the block
+ as "live"...<br>I have a plan for a fix...<br><br>I've decided not to 
+use Eclipse's Auto-building functionality. I don't think it's feasible 
+as it stands, since there would have to be some way for it to know which
+ file should be the one to build first (rather than the file you may 
+just have edited). Perhaps it needs to be clever enough to recognise the
+ dependency tree?<br>I could change my mind later... we shall see.<br><br>One
+ thing of interest.. if I do  bmk -d file.bmx ,  it doesn't create a 
+proper OS X .app package... I wonder if there's anything else that the 
+IDE does on top of the straight compile?<br><br>:-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>When things go wrong...</td><td align="right"><font class="tiny">(Posted 2005-01-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Not that anyone would notice, but forward progress was indeed made today...<br>Apart
+ from spending several hours trying to track down first, some 
+documentation on a specific functionality (which turned out to be 
+staring me in the face all the time!?!?!), and secondly a bug which 
+broke the outline view. But both are sorted now.<br><br>Word recognition :<br><img src="8077&amp;log=1241_files/eclipse_example_08.png"><br>Or, as we see here - a distinct lack of it. (or should that be, too much recognition?)<br>Whichever,
+ I appears to have a small issue. That and numbers in a variable name 
+appear coloured too. haw haw... I'll look into this tomorrow.<br><br>On 
+the plus side, once you've configured the location of bmx, it sets up a 
+linked folder to the mods for you. Useful because you can quickly access
+ them from inside the IDE, and it gives the plugin access to them as if 
+they were part of the project.<br><br>Current TODO list in order of priority(ish) :<br>* Fix word-detection issues<br>* Get imports working<br>*
+ Building - initially, basic bmx compiling - option for quick / full 
+(perhaps how java works using the idea of a "clean build" or "rebuild")<br><br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>An education</td><td align="right"><font class="tiny">(Posted 2005-01-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Today I learned about Actions and Preferences...<br><br>I've
+ added a basic Action to Hide Imports on the outlineview. Kind of a 
+proof-of-concept thing, and it works well. (ie. it does what it says on 
+the tin). However, it closes all the treeview branches when it 
+refreshes, which ain't so good. I hope I don't have to remember the 
+status of every branch (open or closed)...<br><br>We now have a 
+Preference page with a single entry currently - the Blitz Max path. From
+ here we've got docs, compiler and mods. Yay.<br>I suppose one should be
+ able to change syntax colouring, and perhaps the font too. Can't think 
+of much else for now with regards the prefs...<br><br>Building is going 
+to be an important issue. However, having toyed in BMX for a while, I've
+ often found myself modifying a .bmx and automatically hitting the 
+"rebuild" keys, and unfortunately breaking the compile as the .bmx in 
+question isn't the "main" one, but a sub...<br>Why is that an issue? - 
+Mainly because it creates debug binaries, and when it comes to building 
+the main .bmx, there's an error of duplicate symbols and such.<br>Should
+ there be somewhere that specifies a particular .bmx as the primary, or 
+do we assume the user knows what they are doing, and let them build 
+whichever they wish?<br>Or make available a slew of build options, and let them have fun...<br><br>Choices, choices...<br><br>:-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First time for everything</td><td align="right"><font class="tiny">(Posted 2005-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> It's not often, but sometimes things just work first time...<br><br>Basic support added for simple fields :<br><br><img src="8077&amp;log=1241_files/eclipse_example_06.png"><br><br>Need to think about how to parse variables for commas and the magic ".."<br>Fortunately,
+ fields and variables (const, global and local) are essentially of the 
+same essence, so once one works, the rest will (hopefully) fall into 
+place too.<br>&lt;new&gt;<br>This looks promising :-)  ...<br><img src="8077&amp;log=1241_files/eclipse_example_07.png"><br>&lt;/new&gt;<br>EDIT
+ - I think that the outlineview may require options to show/hide things 
+at some point, given that it's starting to get quite busy in there...<br><br>The
+ next step, I think, once variables are working, will be to invest some 
+time into setting up some preferences - most usefully, directions to the
+ default BlitxMax installation folder. From there we'll have access to 
+bmk and all the mods.<br><br>And then... it's time to have a look at importing things...<br>I
+ was thinking that perhaps the best thing is for the plugin to 
+automagically load all the mods into memory at startup time. Kind of 
+like an online mod-library. This should save mucho time when it comes to
+ determining types and content assist - since only a quick-lookup will 
+be required, rather than a load-and-search.<br><br>Also, I think folding
+ is a possibilty, although it could turn out to be a big job - 
+documentation seems a wee bit thin on the ground.<br><br>We shall see.<br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Decorating</td><td align="right"><font class="tiny">(Posted 2005-01-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> After much humming and hawing, the outlineview is now able to show function / method detail :<br><br><img src="8077&amp;log=1241_files/eclipse_example_05.png"><br><br>A is for Abstract<br>F is for Final<br>S is for Static (ie. a Function - which you can call without first instantiating the type)<br><br>Variables are next :-)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Functions in Types</td><td align="right"><font class="tiny">(Posted 2004-12-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Progress is going forward, for a pleasant change...<br><br>Types now recognize they have functions :<br><br><img src="8077&amp;log=1241_files/eclipse_example_03.png"><br><br>...
+ still not entirely sure how to go about the variables, given that they 
+can be declared in a multitude of ways. (where there's a will?)<br>Given that Type-functions are essentially "static", I suppose they'll want their own icon too (geepers.. icons too...)<br><br>:o)<br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>In the beginning...</td><td align="right"><font class="tiny">(Posted 2004-12-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ...there wasn't much there...<br><br><img src="8077&amp;log=1241_files/eclipse_example_01.png"><br><br>Work is coming on well, for the first days' efforts.<br>Keyword
+ syntax-highlighting is kind of working. There are issues with keywords 
+being picked up within texts, but I imagine that should be easy enough 
+to track down.<br>Can detect multiple Types in a .bmx file. Seems to 
+work properly too, getting the region correctly, and appearing in the 
+outlineview. Clicking on the outlineview highlights the code-section.<br><br>Basic content-assist is working :<br><br><img src="8077&amp;log=1241_files/eclipse_example_02.png"><br><br><pre class="code">Things to do (not in any specific order):
+  * Modules / Imports - tied together as getting one working, should make the other work too.
+    Parsing of imported files to pick up Type definitions and their fields etc.
+  * Variable recognition (Const, Global, Local, Field)
+  * Ability to build from eclipse - kinda very important, otherwise, what's the point?
+  * Debugging? Assuming that you just run bmk in debug mode?
+  * ... loads more ...
+</pre><br> <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1241_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Trixx</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Complex Particle System ( CPS )</td><td align="right"><font class="tiny">(Posted 2004-04-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This is 3 months old project and almost finished, but anyway, I will start worklog for it...<br><br>I
+ decided to start this project so I can easily add any particle effect 
+to any game I create in the future. Although many features<br>are not 
+needed for my current game project, I decided to add every possible 
+feature I can think off, so I'd not need to dig into the old<br>code later just to add something that some new project may need. <br><br>Anyway,
+ I'm sure that Blitz community needs this kind of project too ! There 
+are lot of particle libraries for Blitz, but this one<br>will be something special... I hope :)<br><br>Current functional features ( v 0.98b )<br><br>1.-
+ Very fast.. I don't think it can be any faster than this. Why ? First 
+of all, it's single surface. Second, it uses best combination of 
+ClearSurface/AddVertex and Vertexcoords methods ( they both have their 
+strengths and weak points ). Third - it's UpdateParticles function<br>is
+ optimized to maximum, and most important, it uses several powerful 
+methods of "particle culling" - i.e. particles that are part of the 
+surface but not visible will not be rendered. There are several other 
+reasons why I say "Very,very fast", but you should wait for the first 
+demo effects so you can see it in action :)<br><br>2. Objects as emitters - In many particle systems only points can act as emitters. In CPS emitters can be :<br> - point, line, box, area, ellipse, sphere, cone, cylinder... and they can be rotated along any axis !<br> - You can also define one part of these objects ! Let's say half sphere, quarter of ellipse and so on...<br> Particles paths can be defined in standard custom way or IN or OUT from these virtual object emitters<br> This was one of the main features that I wanted from some good particle system.<br><br>3.
+  Additionally to objects as source for particles, you can define exact 
+number of points on objects that will act as "emit points".<br>By 
+default, particles are created randomly on the surface of the object, 
+but for example , if you choose line as emitter object, you can set 
+Points on 5 and particles will be created only from those 5 points 
+evenly positioned across the line.<br><br><br>4. 2D and 3D viewports - one more very important feature<br>
+ You can define rectangle, ellipse or any convex or concave polygon on 
+screen that will act as area where particles will only be visible ( or 
+not visible )<br> You can define any number of these viewports and they can act only on specific emitters.<br>
+ 3D viewports can be box and sphere and will act separately or in 
+combination from 2D ones. They are defined in "real world" coordinates, 
+unlike 2D ones which are defined with screen coordinates<br><br>5. 
+Particle "culling" - although emitters are single surface, particles 
+that are out of screen or out of defined viewports will not be rendered 
+next frame...<br>Let's say you have 1000 particles currently active, but
+ only 600 of them are currently visible - including this option your FPS
+ rate will increase significantly !<br>CPS can achieve this through 
+various methods - CameraProject , Custom Camera Project ( much faster 
+then built-in blitz CameraProject ), using LinePick when particles are 
+behind some object in the world, and trough 2D or 3D viewports <br>And 
+particles that are not visible will still be "alive", they will just be 
+removed from the surface until they became visible again.<br><br>6. Forces - without forces, particle system is very limited in it's real game usage, so I added them too:<br> - Simple forces - they act simply with adding specific number to velocity every frame<br>
+ - Global Forces - they are defined globally ( like wind, gravity ) and 
+they take into account acceleration and mass of particles<br> - Other 
+Forces - they are defined as cones with Min/Max force, Min/Max range, 
+direction and position. They also take into account mass and 
+acceleration of particles.<br> Like viewports, forces can act also on specific emitters, they can be changed over time etc..<br><br>7.
+ Collisions - I'm working on this right now - currently you can define 
+collision objects as triangle, ellipse, rectangle and sphere but I'll 
+add more of them, I think :)<br> Particles can bounce, stop, slide or die when collide with collision objects<br> more on collisions when it's finished :)<br><br>8.
+ "OverLife" parameters for all particles properties ! It means that you 
+can define up to 10 points in particle's life so particles will reach 
+given value at that point and will go toward next value in next defined 
+point in life. For example, you can define that particles start with red
+ color, then on 10% of life they became green, on 35% they became 
+purple, on 50% they became yellow, on 60% they became red again and so 
+on.<br> Another example - you can set particle's alphaoverlife property,
+ so particle starts visible/ then on 30% of life became nonvisible/ on 
+50% 1/4 visible etc...<br> You can set overlife values for color, transparency, velocity, spin, rotation, size etc...<br> You can additionally set "repeater" value - so you can repeat defined cycle n times over particles life !<br><br>9.
+ OverLife values can be set for emitters too. For example - new 
+particles that are created will start red, then when emitter reach 10% 
+of it's lifetime, new particles will start green and so on... this may 
+be little confusing as you read, but once you see it in action, 
+everything will be easy :)<br><br>10. You can start emitting particles 
+all at once, at specific rate or you can let particle system to choose 
+best rate to achieve lastemitted/firstdied state !<br><br>11. It's dead 
+easy to use - simple emitters can be start only with 3-4 commands, and 
+very complex particle systems can be achieved with 8-10 commands. The 
+only command in your main loop will be UpdateAllParticles(). Or if you 
+want to update only specific emitter - UpdateParticles(EmitterID). This 
+way "non-important" emitters ( or emitters that are far from camera ) 
+can be updated every n-th frame.<br><br>12. You can Freeze and Unfreeze 
+specific emitters - Example: let's say you defined a fountain. But 
+fountain needs 2 seconds to "build itself". Now, when it's not visible, 
+you can freeze the fountain ( and save all FPS that it gets ) and 
+unfreeze it when it becomes visible again. Unlike FreezeEmitter, 
+StopEmitter will stop emitting new particles for fountain ( or 
+optionally kill all of it's live particles )<br><br>Other features are more "standard" ones :<br>- particles can face camera ( you can have different camera for different emitter )<br>- circular movement for particles<br>- particles can use specific frame of texture ( using texture U/V coordinates ) <br>- particles can emit particles from other emitters during their life, or start specific emitters when they die...<br>- Particles can be rendered FirstFirst or LastFirst<br>- Particles can be "aligned to motion "<br>- Set blend mode, alpha mode, Fulbright mode<br>- Start, stop, position, rotate emitters<br>- Copy defined emitters into new ones<br>- Parameters for particles : RGB ( color ), alpha, velocity, gravity, spin, rotation, number... and their variation values<br><br>To do:<br> - little more optimizing<br> - more collision options<br> - more 3D viewport objects<br> - more demo effects<br> - manual<br>...<br><br>Today, CPS library is 104kb in size and over 3300 lines of code... <br>Planned release date - end of April 2004<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

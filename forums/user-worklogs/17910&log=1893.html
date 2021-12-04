@@ -1,0 +1,3719 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>
+        <!-- Google Analytics -->
+        <script async="" src="17910&amp;log=1893_files/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-34362789-1', 'auto');  // Replace with your property ID.
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+</head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Pakz</h1><h1>Civ Clone</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Updated the worklog with some screenshots.</td><td align="right"><font class="tiny">(Posted 2014-10-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I added a couple of screenshots to the worklog in older posts. I did 
+not know of tinypic then so there where only video's. I still do not 
+know how to show the video's directly in the posts.<br><br>I am currently taking a break from skyrim and want to spend the coming time doing some programming. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Thinking</td><td align="right"><font class="tiny">(Posted 2014-08-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have not done a lot of work on the civ clone the last month. I started playing Skyrim and Aoe2. <br>Yesterday
+ I almost started retyping part of the last work but I then saw that 
+Sonar and Music creator 6 and the synths were on sale with steam. I have
+ then started making music.<br>I have no idea when I will continue on this project. I need to get motivated :) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Practising some more.</td><td align="right"><font class="tiny">(Posted 2014-07-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have been typing in parts of the civ clone again. I improved on a 
+couple of things. This time I made a map with cities where around the 
+cities the fog of war has been lifted. <br><br><img src="17910&amp;log=1893_files/kajz2u.jpeg"><br><br>Here the youtube video:<br><a href="http://youtu.be/msbmcQO8lS8" target="_blank">http://youtu.be/msbmcQO8lS8</a><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Const sealevel = 5
+Type city
+	Field id,x,y,size
+End Type
+Dim fow(mapwidth,mapheight)
+
+Repeat
+	Cls
+	makemap()
+	makecities()
+	updatefow() ; update fog of war array
+	drawmap()
+	drawcities()
+	Flip
+	For i=0 To 500
+		If KeyDown(1) = True Then End
+		Delay 1
+	Next
+Forever
+End
+
+Function updatefow()
+	Local radius = 3
+	Dim fow(mapwidth,mapheight)
+	For this.city = Each city
+		x1 = this\x
+		y1 = this\y		
+		For y2=-radius To radius
+		For x2=-radius To radius
+			If ((y2*y2)+(x2*x2)) &lt;= radius*radius+radius*0.8
+				x3 = x1+x2
+				y3 = y1+y2
+				If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+					fow(x3,y3) = True
+				End If
+			End If
+		Next
+		Next
+	Next
+End Function
+
+Function makecities()
+	Delete Each city
+	Repeat
+		cont = True
+		cnt = 0
+		While cont = True
+			cont = False
+			onland = False
+			While onland = False
+				x = Rand(mapwidth)
+				y = Rand(mapheight)
+				If map(x,y) &gt;= sealevel Then onland = True
+			Wend
+			For this.city = Each city
+				d = distance(this\x,this\y,x,y)
+				If d &lt; 4 Then cont = True
+			Next
+			If cont = True Then cnt = cnt + 1
+			If cnt &gt; 50 Then Return
+		Wend
+		this.city = New city
+		this\id = newcityid()
+		this\x = x
+		this\y = y
+	Forever
+End Function
+
+Function newcityid()
+	Local cnt = 0
+	Local taken = False
+	Repeat
+		taken = False
+		For this.city = Each city
+			If this\id = cnt Then taken = True
+		Next
+		If taken = False
+			Return cnt
+		End If
+		cnt = cnt + 1
+	Forever
+End Function
+
+Function drawcities()
+	For this.city = Each city
+		If fow(this\x,this\y) = True 
+			x = this\x*tilewidth
+			y = this\y*tileheight
+			Color 0,0,0
+			Rect x,y,tilewidth,tileheight,True
+			Color 255,255,255
+			Rect x+1,y+1,tilewidth-2,tileheight-2,True
+		End If
+	Next
+End Function
+
+Function findpath()
+	If sx = ex And sy = ey Then Return False
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Delete Each ol
+	Delete Each cl
+	Delete Each path
+	this.ol = New ol
+	this\x = sx
+	this\y = sy
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 1000000
+		For this.ol = Each ol
+			If this\f &lt; lowestf
+				lowestf = this\f
+				tx = this\x
+				ty = this\y
+				tf = this\f
+				tg = this\g
+				th = this\h
+				tpx = this\px
+				tpy = this\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\px = tpx
+			that\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			olmap(tx,ty) = False
+			clmap(tx,ty) = True
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\px = tpx
+			that\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+				If olmap(newx,newy) = False
+				If clmap(newx,newy) = False
+				If map(newx,newy) =&gt; sealevel
+					olmap(newx,newy) = True
+					this.ol = New ol
+					this\x = newx
+					this\y = newy
+					this\g = map(newx,newy) + 1
+					this\h = distance(newx,newy,ex,ey)
+					this\f = this\g+this\h
+					this\px = tx
+					this\py = ty
+				End If
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+Function drawpath()	
+	Color 255,255,0
+	For this.path = Each path
+		Oval this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,False
+	Next
+End Function
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	Repeat
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then Return
+	Forever
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If fow(x,y) = True
+			If map(x,y) &lt; sealevel
+				Color 0,0,100+map(x,y)*20
+			Else
+				Color 0,map(x,y)*8,0
+			End If
+			Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+		End If
+	Next
+	Next
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	While lowest &lt; 13
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		radius = Rand(3,6)
+		For y2=-radius To radius
+		For x2=-radius To radius
+			If ((x2*x2)+(y2*y2)) &lt;= radius*radius+radius*0.8
+				x3 = x1+x2
+				y3 = y1+y2
+				If x3=&gt;0 And y3&gt;=0 And x3=&lt;mapwidth And y3=&lt;mapheight
+					map(x3,y3)=map(x3,y3)+1
+					If map(x3,y3) &gt; lowest Then lowest = map(x3,y3)
+				End If
+			End If
+		Next
+		Next
+	Wend
+End Function
+
+
+
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Screen shot page using tinypic</td><td align="right"><font class="tiny">(Posted 2014-07-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I am using tinypic now for images in this worklog.<br><br>Here a image of a huge world I created using the code on this log.<br><img src="17910&amp;log=1893_files/2966bn.jpg"><br><br>Here a image of a medium world.<br><img src="17910&amp;log=1893_files/2e3vb42.jpg"><br><br>Here a older Image from when I was tinkering with the a* and movement variables.<br><img src="17910&amp;log=1893_files/wsr9rs.jpg"><br><br>Here a image of when I started programming with the civ clone. Here some roads and cities. Automated settlers.<br><img src="17910&amp;log=1893_files/166hydi.jpg"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I made a new Map Generator</td><td align="right"><font class="tiny">(Posted 2014-07-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I made a new map generator. This time I fil the map with randomly sized
+ ovals and increase the map value by 1 if they are in the circle. I end 
+up with levels like you can see in the video.<br><br><br><img src="17910&amp;log=1893_files/25jlbms.jpg"><br><br>Here a video of the output of the code below. : <a href="http://youtu.be/ZZFMujopJ-0" target="_blank">http://youtu.be/ZZFMujopJ-0</a><br>Here a video with big worlds :  <a href="http://youtu.be/8QAGr50oBNg" target="_blank">http://youtu.be/8QAGr50oBNg</a><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">; Another map generator
+;
+;
+
+Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Global myfont = LoadFont("verdana.ttf",35)
+SetFont myfont
+
+Repeat
+	Cls
+	makemap
+	drawmap
+	Color 255,255,255
+	Text GraphicsWidth()/2,GraphicsHeight()/2,"Another Civ Clone Map Generator",1,1
+	Flip
+	For i=0 To 400
+		If KeyDown(1) = True Then End
+		Delay 1
+	Next
+Forever
+End
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 55
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		radius = Rand(1,10)
+		For y2=-radius To radius
+		For x2=-radius To radius
+			If (x2*x2 + y2*y2) &lt;= radius*radius+radius*0.8
+				x3 = x1+x2
+				y3 = y1+y2
+				If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+					map(x3,y3)=map(x3,y3) + 1
+				End If
+			End If
+		Next
+		Next
+	Next
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) &lt; 5
+			Color 0,0,200
+		Else
+			Color 0,map(x,y)*8,0
+		End If
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+End Function
+</textarea><br><br>I will use this map generator code for the next 
+experiments. I recently also improved upon the a* code to. I was able to
+ remove a couple of things that were not needed.<br><br>If I stay up 
+late tonight I might make a experiment where I have a map that has two 
+ai players that attack each other. It wil be simple. Build unit and send
+ to nearest enemy city. If next to enemy object and have moves left then
+ attack. This wil get me some insight in what else can be done to make 
+more complex ai. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Another learning experience</td><td align="right"><font class="tiny">(Posted 2014-06-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I decided to see if I could program the units scrolling movement. It 
+went pretty good without many errors to get the end result.<br>The units
+ move one after another and slowly move from tile to tile. Roads cost 
+0.3 points and other map tiles cost 1 movement cost per tile.<br>I am 
+sure I will program a lot more small programs to learn the ins and outs 
+of civilization 1 2 and. Below is the video of the last thing and the 
+code to (&lt;500 lines)<br><br><img src="17910&amp;log=1893_files/2rzunes.jpg"><br><br>Here the video : <a href="http://youtu.be/C8s3g6F6BIA" target="_blank">http://youtu.be/C8s3g6F6BIA</a><br><br>Here the code : (b3d b+)<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics
+ 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Type unit
+	Field x,y,sx,sy,ex,ey,id,ploc
+	Field px[1024]
+	Field py[1024]
+	Field state$,moves#,visible
+End Type
+Type city
+	Field id,x,y,size
+End Type
+Dim roadmap(mapwidth,mapheight)
+Dim citybrush(4,4)
+Global turn
+
+makemap()
+makecities()
+makecitybrush()
+makeroadmap()
+makeunits()
+;setcoordinates()
+;findpath()
+;drawmap()
+;drawpath()
+While KeyDown(1) = False
+	Cls
+	dounits()
+	gameloop()
+	For this.unit = Each unit
+		this\moves = 1
+	Next
+	turn = turn + 1
+	Flip
+Wend
+End
+
+Function gameloop()	
+	drawmap()
+	drawroads()
+	drawcities()
+	drawunits()
+	Color 255,255,255
+	Text 0,0,"Turn :"+turn
+End Function
+
+Function dounits()
+	For this.unit = Each unit
+		While this\moves &gt; 0
+			Select this\state$
+				Case "findnewpos"
+					Repeat
+						x = Rand(mapwidth)
+						y = Rand(mapheight)
+						If map(x,y) &gt; 0 Then Exit
+					Forever
+					this\sx = this\x
+					this\sy = this\y
+					this\ex = x
+					this\ey = y
+					sx = this\sx
+					sy = this\sy
+					ex = this\ex
+					ey = this\ey
+					If findpath() = True
+						cnt = 0
+						For that.path = Each path
+							this\px[cnt] = that\x
+							this\py[cnt] = that\y
+							cnt=cnt + 1
+						Next
+						this\ploc = 0
+						this\state$ = "move"
+					End If
+				Case "move"
+					this\ploc = this\ploc + 1
+					ox = this\x
+					oy = this\y
+					this\x = this\px[this\ploc]
+					this\y = this\py[this\ploc]
+					x1 = ox*tilewidth
+					y1 = oy*tileheight
+					x2 = this\x*tilewidth
+					y2 = this\y*tileheight
+					exitloop = False
+					this\visible = False
+					While exitloop = False
+						Cls
+						gameloop()
+						For i=0 To 1
+						If x1 &gt; x2 Then x1 = x1 - 1
+						If x1 &lt; x2 Then x1 = x1 + 1
+						If y1 &gt; y2 Then y1 = y1 - 1
+						If y1 &lt; y2 Then y1 = y1 + 1
+						If x1 = x2 And y1 = y2 Then exitloop = True
+						Next
+						Color 255,0,0
+						drawunit(x1,y1)
+						Flip
+						If KeyDown(1) = True Then End
+						Delay 1
+					Wend				
+					this\visible = True	
+					If roadmap(this\x,this\y) = True
+						this\moves = this\moves	 - .3
+						Else
+						this\moves = this\moves - 1
+					End If
+					If this\x = this\ex And this\y = this\ey
+						this\state$ = "findnewpos"
+					End If
+			End Select
+		Wend
+	Next
+End Function
+
+Function makeunits()
+	For i=0 To 15
+		Repeat
+			x = Rand(mapwidth)
+			y = Rand(mapheight)
+			If map(x,y) &gt; 0
+				Exit
+			End If
+		Forever	
+		this.unit = New unit
+		this\x = x
+		this\y = y
+		this\id = i
+		this\moves = 2
+		this\state$ = "findnewpos"
+		this\visible = True
+	Next
+End Function
+
+Function drawunit(x,y)
+	Color 0,0,0
+	Rect x,y,tilewidth,tileheight,True
+	Color 255,0,0
+	Rect x+1,y+1,tilewidth-2,tileheight-2,True
+	Color 255,255,255
+	Text x+tilewidth/2,y+tileheight/2,"U",True,True
+End Function
+
+Function drawunits()
+	For this.unit = Each unit
+		If this\visible = True 
+			x = this\x * tilewidth
+			y = this\y * tileheight
+			drawunit(x,y)
+		End If
+	Next
+End Function
+
+Function makeroadmap()
+	For this.city = Each city
+	For that.city = Each city
+		sx = this\x
+		sy = this\y
+		ex = that\x
+		ey = that\y
+		If findpath() = True
+			For thus.path = Each path
+				roadmap(thus\x,thus\y) = True
+			Next
+		End If
+		For y=0 To 4
+		For x=0 To 4
+			If this\x - 2 + x =&gt;0 And this\y-2+y=&gt;0 And 
+this\x-2+x&lt;=mapwidth And this\y-2+y&lt;=mapheight
+			If citybrush(x,y) = 1
+			If map(this\x-2+x,this\y-2+y) &gt; 0
+				roadmap(this\x-2+x,this\y-2+y) = True
+			End If
+			End If
+			End If
+		Next
+		Next
+		
+	Next
+	Next
+End Function
+
+Function drawroads()
+	Color 100,50,0
+	For y1=0 To mapheight
+	For x1=0 To mapwidth
+	For y2=-1 To 1
+	For x2=-1 To 1
+		x3 = x1+x2
+		y3 = y1+y2
+		If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+			If roadmap(x1,y1) = True
+			If roadmap(x3,y3) = True 
+				Line 
+((x3*tilewidth)+tilewidth/2),((y3*tileheight)+tileheight/2),((x1*tilewidth)+tilewidth/2),((y1*tileheight)+tileheight/2)
+
+				Line 
+((x3*tilewidth)+tilewidth/2)+1,((y3*tileheight)+tileheight/2),((x1*tilewidth)+tilewidth/2)+1,((y1*tileheight)+tileheight/2)
+				
+			End If
+			End If
+		End If
+	Next
+	Next
+	Next
+	Next
+End Function
+
+Function drawcities()
+	For this.city = Each city
+		x = this\x*tilewidth
+		y = this\y*tileheight
+		Color 0,0,0
+		Rect x,y,tilewidth,tileheight,True
+		Color 255,255,255
+		Rect x+1,y+1,tilewidth-2,tileheight-2,True
+		Color 0,0,0
+		Text x+tilewidth/2,y+tileheight/2,"C",True,True
+	Next
+End Function
+
+
+Function makecities()
+	For i = 0 To 4
+		exitloop = False
+		While exitloop = False
+		x = Rand(mapwidth)
+		y = Rand(mapheight)
+		dist = 1000
+		For this.city = Each city
+			d = distance(this\x,this\y,x,y)
+			If d&lt;dist
+				dist = d
+			End If
+		Next
+		If dist &gt; 5 
+		If map(x,y) &gt; 0
+			exitloop = True
+		End If
+		End If
+		Wend
+		this.city = New city
+		this\id = i
+		this\x = x
+		this\y = y
+		this\size = Rand(4,9)
+	Next
+End Function
+
+
+Function findpath()
+	If sx = ex And sy = ey Then Return False
+	Delete Each ol
+	Delete Each cl
+	Delete Each path
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		olmap(x,y) = False
+		clmap(x,y) = False
+	Next
+	Next
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	a.ol = New ol
+	a\x = sx
+	a\y = sy
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For b.ol = Each ol
+			If b\f &lt; lowestf
+				lowestf = b\f
+				tx = b\x
+				ty = b\y
+				tf = b\f
+				tg = b\g
+				th = b\h
+				tpx = b\px
+				tpy = b\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			c.cl = New cl
+			c\x = tx
+			c\y = ty
+			c\px = tpx
+			c\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			olmap(tx,ty) = False
+			d.cl = New cl
+			d\x = tx
+			d\y = ty
+			d\px = tpx
+			d\py = tpy
+			clmap(tx,ty) = True
+			
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And 
+newy&lt;=mapheight
+				If clmap(newx,newy) = False
+				If olmap(newx,newy) = False
+				If map(newx,newy)&gt;0
+					clmap(newx,newy) = True
+					e.ol = New ol
+					e\x = newx
+					e\y = newy
+					If roadmap(newx,newy) = True 
+						e\g = 1
+					Else
+						e\g = map(newx,newy) + 1
+					End If
+					e\h = distance(newx,newy,ex,ey)
+					e\f = e\g+e\h
+					e\px = tx
+					e\py = ty
+				End If
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function drawpath()
+	For this.path = Each path
+		Color 155,155,155
+		Oval this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+		Color 255,255,255
+		Text this\x*tilewidth,this\y*tileheight,cnt
+		cnt=cnt+1
+	Next
+End Function
+
+Function setcoordinates()
+	While exitloop = False
+		sx = Rand(mapwidth)
+		sy = Rand(mapheight)
+		ex = Rand(mapwidth)
+		ey = Rand(mapheight)
+		If sx&lt;&gt;ex And sy&lt;&gt;ey Then exitloop = True
+	Wend
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Select map(x,y)
+		Case 0
+		Color 0,0,200
+		Default
+		Color 0,map(x,y)*8,0
+		End Select
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+End Function
+
+Function makemap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		map(x,y) = 0
+	Next
+	Next
+	For i=0 To 45
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+		x3 = x1+x2
+		y3 = y1+y2
+		If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+		map(x3,y3) = map(x3,y3) + 1
+		End If
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+		x3 = x1+x2
+		y3 = y1+y2
+		If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+		map(x3,y3) = map(x3,y3) + 1
+		End If
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+		x3 = x1+x2
+		y3 = y1+y2
+		If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+		map(x3,y3) = map(x3,y3) + 1
+		End If
+		Next
+		Next
+	Next
+End Function
+
+Function makecitybrush()
+	Restore citybrushdata
+	For y=0 To 4
+	For x=0 To 4
+		Read a
+		citybrush(x,y) = a
+	Next
+	Next
+End Function
+
+.citybrushdata
+Data 0,1,1,1,0
+Data 1,1,1,1,1
+Data 1,1,1,1,1
+Data 1,1,1,1,1
+Data 0,1,1,1,0
+
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Doing a bit of experimenting with maps</td><td align="right"><font class="tiny">(Posted 2014-06-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I was able to remove a couple of lines from the a* algorithm. I had not noticed that it was doing things that were not needed.<br><br>Below is a map creation method that I was messing with.<br><br><img src="17910&amp;log=1893_files/2hzl5de.jpg"><br><br>Here a video of a map creation method using the a*. <a href="http://youtu.be/gLgZ7jE9-OY" target="_blank">http://youtu.be/gLgZ7jE9-OY</a><br><br>Here is the b3d b+ code<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Type point
+	Field x,y
+End Type
+Dim map2(mapwidth,mapheight)
+
+
+While KeyDown(1) = False
+	Cls
+	ms = MilliSecs()+500
+	makemap()	
+	makepoints()
+	makeconmap()
+	drawmap2()
+	While ms&gt;MilliSecs()
+	Wend
+	Flip
+Wend
+End
+
+Function drawmap2()
+	Color 255,255,255
+	For y=0 To mapheight
+	For x=0 To mapwidth	
+		If map2(x,y) = 1
+			Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+		End If
+	Next
+	Next
+End Function
+
+Function makeconmap()
+	Dim map2(mapwidth,mapheight)
+	For this.point = Each point
+	For that.point = Each point
+		sx = this\x
+		sy = this\y
+		ex = that\x
+		ey = that\y
+		If findpath() = True 
+			For thus.path = Each path					
+				cont = True
+				For y=-1 To 1
+				For x=-1 To 1
+					If RectsOverlap(thus\x+x,thus\y+y,1,1,0,0,mapwidth,mapheight) = False Then cont = False
+				Next
+				Next
+				If cont = True Then
+				map2(thus\x,thus\y) = 1				
+				map2(thus\x-1,thus\y) = 1
+				map2(thus\x+1,thus\y) = 1
+				map2(thus\x,thus\y-1) = 1
+				map2(thus\x,thus\y+1) = 1
+				End If
+			Next
+		End If
+	Next
+	Next
+End Function
+
+Function drawpoints()
+	Color 255,255,0
+	For this.point = Each point
+		Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+	Next
+End Function
+
+Function makepoints()
+	Delete Each point
+	For i=0 To 9
+		this.point = New point
+		exitloop = False
+		While exitloop = False
+			x = Rand(mapwidth)
+			y = Rand(mapheight)
+			If RectsOverlap(x,y,1,1,5,5,mapwidth-10,mapheight-10)
+				exitloop = True
+			End If
+		Wend
+		this\x = x
+		this\y = y
+	Next
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Select map(x,y)
+		Case 0
+		Color 200,20,0
+		Default
+		Color 5,map(x,y)*10,5
+		End Select
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+End Function
+
+Function findpath()
+	If sx=ex And sy=ey Then Return False
+	Delete Each ol
+	Delete Each cl
+	Delete Each path
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	this.ol = New ol
+	this\x = sx
+	this\y = sy
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() Then Return False
+		lowestf = 100000
+		For this.ol = Each ol
+			If this\f &lt; lowestf
+				lowestf = this\f
+				tx = this\x
+				ty = this\y
+				tf = this\f
+				tg = this\g
+				th = this\h
+				tpx = this\px
+				tpy = this\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\px = tpx
+			that\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			olmap(tx,ty) = False
+			clmap(tx,ty) = True
+			that.cl = New cl	
+			that\x = tx
+			that\y = ty
+			that\px = tpx
+			that\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+				If olmap(newx,newy) = False
+				If clmap(newx,newy) = False
+					olmap(newx,newy) = True	
+					this.ol = New ol
+					this\x = newx
+					this\y = newy
+					this\g = map(newx,newy)+1
+					this\h = distance(newx,newy,ex,ey)
+					this\f = this\g+this\h
+					this\px = tx
+					this\py = ty
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 145
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3)+1
+			End If
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3)+1
+			End If
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3)+1
+			End If
+		Next
+		Next		
+	Next
+End Function
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	Repeat
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then Return
+	Forever
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Still practising with the a*</td><td align="right"><font class="tiny">(Posted 2014-06-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The last days I have been following the soccer. I did make time to 
+practise typing useable  a* routines. Today I retyped the a* one time 
+and I am about to type it in again. I keep finding things to improve. I 
+rarely make mistakes now after the dozens of times that I retyped the a*
+ code.<br><br>I have not spend a lot of time figuring out what to type 
+in for the civ clone project. Sometimes I get a idea for a small project
+ but I need to write that down for I keep forgetting what it was. I have
+ that microsoft note system for writing down things but I rarely use it.
+ The last time I had it open I added a couple of screen shots of 
+strategy games. I can look at it to get ideas out of.<br><br>There is so much that can be added in a strategy game but it is so difficult to find something that I could type in.<br><br>I think I need to watch more youtube or twitch video's of civ 1 and 2 and 3.<br><br>One
+ note that I just made was that I will need to store the sizes of the 
+water and land area's in a array. In civ 2 sea units were placed into 
+small 1 tile oceans. I think it is useful to know the size. For logical 
+amount of units on a area and such.<br><br>One thing I could make is a 
+project where I have units  explore the map. I can make a fog of war map
+ and have units remove that. That project wil probably teach me a few 
+things that I need to know.<br><br>One thing I could also make is part 
+where the user moves the units. The a* I could then also use. This based
+ on the later civ versions.<br><br>Here the movement part that I just made. b3d, b+ code.<br><br><img src="17910&amp;log=1893_files/1z3mcjo.jpg"><br><br>Here a video of it in action : <a href="https://www.youtube.com/watch?v=fofuWP8LW60" target="_blank">https://www.youtube.com/watch?v=fofuWP8LW60</a><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+
+sx = Rand(mapwidth)
+sy = Rand(mapheight)
+
+
+makemap()
+
+While KeyDown(1) = False
+	Cls
+	ex = MouseX() / tilewidth
+	ey = MouseY() / tileheight
+	If MouseDown(1) = True Then
+		sx = ex
+		sy = ey
+	End If
+	findpath()	
+	drawmap()
+	drawpath()
+	Text 0,0,"Press left mouse button to move red block"
+	Text 0,12,"Move the mouse to see a path"
+	Flip
+Wend
+End
+
+Function findpath()
+	If sx = ex And sy = ey Then Return False
+	Delete Each cl
+	Delete Each ol
+	Delete Each path
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Local tx,ty,tf,tg,th,newx,newy,lowestf
+	this.ol = New ol
+	this\x = sx
+	this\y = sy
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For this.ol = Each ol
+			If this\f &lt; lowestf
+				lowestf = this\f
+				tx = this\x
+				ty = this\y
+				tf = this\f
+				tg = this\g
+				th = this\h
+				tpx = this\px
+				tpy = this\py
+			End If
+		Next
+		If tx = ex And ty = ey 
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\px = tpx
+			that\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			olmap(tx,ty) = False
+			clmap(tx,ty) = True
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\f = tf
+			that\g = tg
+			that\h = th
+			that\px = tpx
+			that\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+				If olmap(newx,newy) = False
+				If clmap(newx,newy) = False
+				olmap(newx,newy) = True
+				this.ol = New ol
+				this\x = newx
+				this\y = newy
+				this\g = map(newx,newy)+1
+				this\h = distance(newx,newy,ex,ey)
+				this\f = this\g+this\h
+				this\px = tx
+				this\py = ty
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	Repeat
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then Return
+	Forever
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y 
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function drawpath()
+	Color 255,255,0
+	For this.path = Each path
+		Oval this\x*tilewidth,this\y*tileheight,6,6,False
+	Next
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) = 0
+			Color 50,50,255
+		Else
+			Color 50,map(x,y)*16,50
+		End If
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+	Color 255,0,0
+	Rect sx*tilewidth,sy*tileheight,tilewidth,tileheight,True
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 25
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next		
+	Next
+End Function
+</textarea><br><br>I made another version of the one above. This time 
+with more units. Each unit can be selected and be assigned a path with. 
+The right mouse button deselects a unit and the left mouse button 
+assigns a path and starts the movement. The enter key(28) for the next 
+turn. The units after selecting a path move until they get to the end of
+ the path. They can be selected to change the path.<br><br>Here a video of it in action : <a href="http://youtu.be/aa1bMapG6Zs" target="_blank">http://youtu.be/aa1bMapG6Zs</a><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Type unit
+	Field id,x,y,sx,sy,ex,ey
+	Field px[1024]
+	Field py[1024]
+	Field ploc,plen,active,movesleft,visible,moving
+End Type
+Global turn = 0
+Global unitactive = False
+Global flickertimer = MilliSecs()
+
+makemap()
+makeunits()
+
+While KeyDown(1) = False
+	Cls
+	dounits()
+	drawmap()
+	drawunits()
+	drawpath()
+	drawunitpaths()
+	If KeyDown(28) = True
+		turn = turn + 1
+		nextturn()
+		Delay 200
+		FlushKeys()
+	End If
+	Text 0,0,"Turn : "+turn
+	Flip
+Wend
+End
+
+Function nextturn()
+	For this.unit = Each unit
+		this\movesleft = 1
+	Next
+End Function
+
+Function dounits()
+	If MouseDown(2) = True
+		For this.unit = Each unit
+			this\active = False
+			this\visible = True
+		Next
+		Delete Each path
+	End If
+	For this.unit = Each unit
+		If this\active = True And this\moving = False
+			If flickertimer &lt; MilliSecs()
+				If this\visible = True Then this\visible = False Else this\visible = True
+				flickertimer = MilliSecs() + 500
+			End If
+			sx = this\x
+			sy = this\y
+			ex = MouseX() / tilewidth
+			ey = MouseY() / tileheight
+			If findpath() = True Then
+				If MouseDown(1) = True					
+					cnt = 0
+					For p.path = Each path
+						this\px[cnt] = p\x
+						this\py[cnt] = p\y
+						cnt=cnt+1
+					Next
+					this\plen = cnt-1
+					this\ploc = 1
+					this\moving = True
+					this\active = False
+					this\visible = True
+					this\ex = ex
+					this\ey = ey
+					this\sx = this\x
+					this\sy = this\y
+					Delete Each path
+				End If
+			End If
+		End If
+		If MouseDown(1) = True
+			sel = False
+			For d.unit  = Each unit
+				If d\active = True Then sel = True
+			Next
+			If sel = False 
+				If RectsOverlap(MouseX(),MouseY(),1,1,this\x*tilewidth,this\y*tileheight,tilewidth,tileheight)
+					For d.unit = Each unit
+						d\active = False
+						d\visible = True
+					Next
+					flickertimer = MilliSecs()
+					this\active = True
+					this\moving = False
+				End If
+			End If			
+		End If	
+		If this\moving = True And this\movesleft &gt; 0
+			this\movesleft = this\movesleft - 1
+			this\x = this\px[this\ploc]
+			this\y = this\py[this\ploc]
+			this\ploc = this\ploc + 1
+			If this\x = this\ex And this\y = this\ey
+				this\moving = False
+				this\plen = 0
+			End If
+		End If
+	Next
+End Function
+
+Function drawunitpaths()
+	Color 255,255,0
+	For this.unit = Each unit
+		If this\plen &gt; 0
+			For i=0 To this\plen
+				x = this\px[i] * tilewidth
+				y = this\py[i] * tileheight
+				Oval x+4,y+4,8,8,False
+			Next
+		End If
+	Next
+End Function
+
+Function drawunits()
+	For this.unit = Each unit
+		If this\visible = True
+			Color 255,255,255
+			Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+			Color 0,0,0		
+			Text this\x*tilewidth+tilewidth/2,this\y*tileheight+tileheight/2,this\id,True,True
+			Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,False
+		End If
+	Next
+End Function
+
+Function makeunits()
+	For i=0 To 4
+		this.unit = New unit
+		Repeat
+			this\x = Rand(mapwidth)
+			this\y = Rand(mapheight)
+			If map(this\x,this\y) &gt; 0 Then Exit
+		Forever
+		this\sx = this\x
+		this\sy = this\y
+		this\id = i			
+		this\movesleft = 1
+		this\visible = True
+	Next
+End Function
+
+Function findpath()
+	If sx = ex And sy = ey Then Return False
+	Delete Each cl
+	Delete Each ol
+	Delete Each path
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Local tx,ty,tf,tg,th,newx,newy,lowestf
+	this.ol = New ol
+	this\x = sx
+	this\y = sy
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For this.ol = Each ol
+			If this\f &lt; lowestf
+				lowestf = this\f
+				tx = this\x
+				ty = this\y
+				tf = this\f
+				tg = this\g
+				th = this\h
+				tpx = this\px
+				tpy = this\py
+			End If
+		Next
+		If tx = ex And ty = ey 
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\px = tpx
+			that\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			olmap(tx,ty) = False
+			clmap(tx,ty) = True
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\f = tf
+			that\g = tg
+			that\h = th
+			that\px = tpx
+			that\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+				If olmap(newx,newy) = False
+				If clmap(newx,newy) = False
+				olmap(newx,newy) = True
+				this.ol = New ol
+				this\x = newx
+				this\y = newy
+				this\g = map(newx,newy)+1
+				this\h = distance(newx,newy,ex,ey)
+				this\f = this\g+this\h
+				this\px = tx
+				this\py = ty
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	Repeat
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then Return
+	Forever
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y 
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function drawpath()
+	Color 255,0,0
+	For this.path = Each path
+		Oval this\x*tilewidth+4,this\y*tileheight+4,8,8,False
+	Next
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) = 0
+			Color 50,50,255
+		Else
+			Color 50,map(x,y)*16,50
+		End If
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 65
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next		
+	Next
+End Function
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Couple of short test programs.</td><td align="right"><font class="tiny">(Posted 2014-06-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have begun programming a short program with things for the civ clone.
+ I want to type in a map with roads between cities. I had increased the 
+speed of my a* algorithm and will see if a lot of roads now are 
+generated faster.<br><br>I will put the code in a codebox here in this message or a next entry.<br><br>Step 1 : Setup the a* code.<br>Step 2 : generate a simple heightmap<br>Step 3 : Draw the heightmap to see if everything went good.<br>Step 3 : Find 2 coordinates for the pathfinding.<br>Step 4 : create the functions for the pathfinding algorithm.<br>Step 5  : Create the pathfinding function<br>Step 6 : Test to see if everything worked.<br>Step 7 : Create the cities<br>Step 8 : create the roads<br>Step 9 : Check if everything works<br><br>Here a video of the creating of the roads : <a href="http://youtu.be/la0ChJHIV04" target="_blank">http://youtu.be/la0ChJHIV04</a><br><br>The code is b3d and b+.<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Type city
+	Field id,x,y
+End Type
+Dim roadmap(mapwidth,mapheight)
+
+makemap()
+makecities()
+makeroads
+;findpath()
+drawmap()
+drawcities()
+drawroads
+Flip
+WaitKey
+End
+
+Function makeroads()
+	For this.city = Each city
+	For that.city = Each city
+		sx = this\x
+		sy = this\y
+		ex = that\x
+		ey = that\y
+		findpath()
+		For a.path = Each path
+			roadmap(a\x,a\y) = True
+		Next
+	Next
+	Next
+End Function
+
+Function drawroads()
+	Color 200,200,200
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If roadmap(x,y) = True
+			Oval x*tilewidth+3,y*tileheight+3,tilewidth-6,tileheight-6,True
+		End If
+	Next
+	Next
+End Function
+
+Function drawcities()
+	Color 255,255,255
+	For this.city = Each city
+		Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+	Next
+End Function
+
+Function makecities()
+	While exitloop = False
+		x = Rand(mapwidth)
+		y = Rand(mapheight)
+		ld = 100000
+		For this.city = Each city
+			If distance(this\x,this\y,x,y) &lt; ld 
+				ld = distance(this\x,this\y,x,y)
+			End If
+		Next
+		If ld &gt; 5
+			this.city = New city
+			this\id = n
+			this\x = x
+			this\y = y
+			n=n+1
+			If n=10 Then exitloop = True
+		End If
+	Wend
+End Function
+
+Function findpath()
+	If sx = ex And sy = ey Then Return False
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Delete Each path
+	Delete Each cl
+	Delete Each ol
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	this.ol = New ol
+	this\x = sx
+	this\y = sy
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For this.ol = Each ol
+			If this\f &lt; lowestf
+				lowestf = this\f
+				tx = this\x
+				ty = this\y
+				tf = this\f
+				tg = this\g
+				th = this\h
+				tpx = this\px
+				tpy = this\py
+			End If
+		Next
+			If tx = ex And ty = ey
+				clmap(tx,ty) = True
+				that.cl = New cl
+				that\x = tx
+				that\y = ty
+				that\f = tf
+				that\g = tg
+				that\h = th
+				that\px = tpx
+				that\py = tpy
+				findpathback()
+				Return True
+				Else
+				removefromopenlist(tx,ty)
+				olmap(tx,ty) = False
+				clmap(tx,ty) = True
+				that.cl = New cl
+				that\x = tx
+				that\y = ty
+				that\f = tf
+				that\g = tg
+				that\h = th
+				that\px = tpx
+				that\py = tpy
+				For y=-1 To 1
+				For x=-1 To 1
+					newx = tx+x
+					newy = ty+y
+					If newx&gt;=0 And newy=&gt;0 And newx&lt;=mapwidth And newy&lt;=mapheight
+					If olmap(newx,newy) = False
+					If clmap(newx,newy) = False
+						olmap(newx,newy) = True
+						this.ol = New ol
+						this\x = newx
+						this\y = newy
+						If roadmap(newx,newy) = True Then
+							this\g = 1
+							Else
+							this\g = map(newx,newy)+1
+						End If
+						this\h = distance(newx,newy,ex,ey)
+						this\f = this\g+this\h
+						this\px = tx
+						this\py = ty
+					End If
+					End If
+					End If
+				Next
+				Next
+			End If
+	Forever
+End Function
+
+
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+	
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Color map(x,y)*8,map(x,y)*8,map(x,y)*8
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 24
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3=&gt;0 And y3=&gt;0 And x3&lt;=mapwidth And y3=&lt;mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3=&gt;0 And y3=&gt;0 And x3&lt;=mapwidth And y3=&lt;mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3=&gt;0 And y3=&gt;0 And x3&lt;=mapwidth And y3=&lt;mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		
+	Next
+End Function
+
+</textarea><br><br>Above is a simplified map of a ai country with cities
+ and roads. I will include a feature in my civclone where you can select
+ to play from in a advanced time in the game. Where the ai has already 
+expanded.<br><br>If I start programming small tests for the ai and its 
+land expansion and city settling part I will test more. Then I will test
+ to see if I need to create a road to the closest city or roads between 
+all of the cities. I will see how it looks.<br><br>The speed of the road
+ creation is pretty fast. I think it is faster then when the pathfinding
+ had no direct array coordinates lookup but lists in types that needed 
+to be cycled through to check if they were present.<br><br>I am now 
+thinking of creating a test where you have islands/continents. I want to
+ make a transport unit and see if I can make it so that a unit can 
+travel to any point on the map. If the path gets across the sea then a 
+transport unit wil be moved towards the unit and will be picked up and 
+transported to the next land/sea tile on the path. I need to figure out 
+how to do this in the code.<br><br>I programmed the part where the 
+islands are given a number. I created a array where this is written in. 
+This example has 3 islands numbered from left to right and down 1 to 3. 
+Run it to see it,<br><br>Here a video of the process : <a href="http://youtu.be/5i66B9s3HTc" target="_blank">http://youtu.be/5i66B9s3HTc</a><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd 2
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Dim islandmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Type unit
+	Field id,x,y,sx,sy,ex,ey,state,nextstate
+End Type
+Global myfont = LoadFont("verdana.ttf",10)
+SetFont myfont
+
+makemap()
+setislandmap()
+drawmap()
+drawislandmap()
+Flip
+WaitKey
+End
+
+
+Function setislandmap()
+	Delete Each ol
+	Delete Each cl
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) &gt; 0 And islandmap(x,y) = 0
+			cnt=cnt+1
+			islandmap(x,y) = cnt
+			this.ol = New ol
+			this\x = x
+			this\y = y
+			While openlistisempty() = False
+				this.ol = First ol
+				tx = this\x
+				ty = this\y
+				removefromopenlist(tx,ty)
+				olmap(tx,ty) = False
+				clmap(tx,ty) = True
+				For y1=-1 To 1
+				For x1=-1 To 1
+					newx = tx+x1
+					newy = ty+y1
+					If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+					If map(newx,newy) &gt; 0
+					If olmap(newx,newy) = False
+					If clmap(newx,newy) = False
+						olmap(newx,newy)= True
+						this.ol = New ol
+						this\x = newx
+						this\y = newy
+						islandmap(Newx,newy) = cnt
+					End If
+					End If
+					End If
+					End If
+				Next
+				Next
+				Cls
+				If KeyDown(1) = True Then End
+				drawmap
+				drawislandmap
+				Flip
+			Wend
+		End If
+	Next
+	Next
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function drawislandmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Color 255,255,255
+		Text x*tilewidth+tilewidth/2,y*tileheight+tileheight/2,islandmap(x,y),True,True
+	Next
+	Next
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Select map(x,y)
+			Case 0
+			Color 0,0,200
+			Default 
+			Color 0,map(x,y)*16,0
+		End Select
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 13
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3=&gt;0 And x3&lt;= mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If 
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3=&gt;0 And x3&lt;= mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If 
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3=&gt;0 And x3&lt;= mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If 
+		Next
+		Next
+		
+	Next
+End Function
+</textarea><br><br>When you get more features in a game like this then 
+you need to know for instance if a unit can travel from landmass 1 to 
+landmass 2. You can check it simply with the array.  I also used this 
+for the automated workers.<br><br>I made the first attempt at sea 
+transports. I made code where 1 unit moves to the shores and waits for 
+the transport then boards that transport. The transport then travels to 
+the dropoffpoint and from there the unit continues to its destination. 
+It took me quite a while to make. But I hope to have learned something.<br><br>Here a video of the experiment : <a href="http://youtu.be/0FIFON0LEyQ" target="_blank">http://youtu.be/0FIFON0LEyQ</a><br><br>here the code in bb+<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd 2
+Global turn = 0
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Dim islandmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Type unit
+	Field islandunit
+	Field isseaunit
+	Field moves
+	Field visible
+	Field id,x,y,sx,sy,ex,ey,state$,nextstate$
+	Field pickupx,pickupy
+	Field dropoffx,dropoffy
+	Field boardx,boardy
+	Field unboardx,unboardy
+	Field cargoid[10]
+	Field px[1024]
+	Field py[1024]
+	Field ploc ; path location
+End Type
+Global myfont = LoadFont("verdana.ttf",10)
+SetFont myfont
+
+this.unit = New unit
+this\visible = True
+this\id = 1
+this\state$ = "movetopickup"
+this\x = 10
+this\y = 10
+this\sx = 10
+this\sy = 10
+this\ex = 22
+this\ey = 22
+this\islandunit = True
+this.unit = New unit
+this\visible= True
+this\id = 2
+this\state$ = "movetopickup"
+this\x = 22
+this\y = 14
+this\isseaunit = True
+
+makemap()
+setislandmap()
+makepath()
+While KeyDown(1) = False
+	Cls
+	dounits()
+	drawmap()
+	drawislandmap()
+	drawunits()
+	drawlandunitpath()
+	drawpickuppoint()
+	drawdropoffpoint()
+	drawboardingpoints()
+	turn = turn + 1
+	For t.unit = Each unit
+		t\moves = 1
+	Next
+	Flip
+Wend
+End
+
+Function drawboardingpoints()
+	For this.unit = Each unit
+		If this\id = 1 Then
+			Color 255,255,0
+			Rect this\boardx*tilewidth,this\boardy*tileheight,tilewidth,tileheight,False
+			Rect this\unboardx*tilewidth,this\unboardy*tileheight,tilewidth,tileheight,False
+		End If
+	Next
+End Function
+
+Function dounits()
+	For this.unit = Each unit
+		While this\moves &gt; 0
+			Select this\state$
+				Case "movetopickup"				
+				this\ploc = this\ploc + 1
+				this\x = this\px[this\ploc]
+				this\y = this\py[this\ploc]
+				this\moves = this\moves - 1
+				If this\islandunit = True				
+				If this\x = this\pickupx And this\y = this\pickupy
+					this\state$ = "boardtransport"
+				End If				
+				Else
+				If this\x = this\boardx And this\y = this\boardy
+					this\state$ = "wait"
+				End If				
+
+				End If
+				Case "boardtransport"
+					If transport(this) = True Then					
+						this\visible = False
+						this\ploc = 0
+						this\state$ = "onboard"
+					Else
+						this\moves = 0
+					End If
+				Case "onboard"
+					this\moves=0
+				Case "movetodropoff"
+				this\ploc = this\ploc + 1
+				this\x = this\px[this\ploc]
+				this\y = this\py[this\ploc]				
+				this\moves = this\moves - 1
+				If this\x = this\unboardx And this\y = this\unboardy
+					this\state$ = "unboardtransport"
+				End If
+				Case "unboardtransport"
+					this\moves=0
+					unloadunit(this\cargoid[0])
+					this\state$="wait"
+				Case "wait"
+				this\moves = 0
+				Case "move"
+				this\ploc = this\ploc + 1
+				this\x = this\px[this\ploc]
+				this\y = this\py[this\ploc]
+				this\moves = this\moves-1
+				If this\x = this\ex And this\y = this\ey
+					this\state$ = "wait"
+				End If
+			End Select
+		Wend
+	Next
+	
+End Function
+
+Function unloadunit(id)
+	For this.unit = Each unit
+		If this\id = id
+			this\x = this\dropoffx
+			this\y = this\dropoffy
+			this\visible = True
+			this\moves = 0
+			this\sx = this\x
+			this\sy = this\y
+			sx = this\sx
+			sy = this\sy
+			ex = this\ex
+			ey = this\ey
+			findpath()
+			cnt=0
+			For p.path = Each path
+				this\px[cnt] = p\x
+				this\py[cnt] = p\y
+				cnt=cnt+1
+			Next
+			this\ploc = 0
+			this\state$ = "move"
+		End If
+	Next
+End Function
+
+Function transport(this.unit)
+	For that.unit = Each unit
+		If that\id = 2
+			If that\x = this\boardx And that\y = this\boardy
+				that\sx = this\boardx
+				that\sy = this\boardy
+				that\ex = this\unboardx
+				that\ey = this\unboardy
+				that\unboardx = this\unboardx
+				that\unboardy = this\unboardy
+				that\cargoid[0] = 1
+				sx = that\sx
+				sy = that\sy
+				ex = that\ex
+				ey = that\ey
+				findpath()
+				cnt=0
+				For p.path = Each path
+					that\px[cnt] = p\x
+					that\py[cnt] = p\y
+					cnt=cnt+1
+				Next
+				that\ploc = 0
+				that\state$ = "movetodropoff"
+				Return True
+			End If
+		End If
+	Next
+	Return False
+End Function
+
+Function makepath()	
+	this.unit = First unit
+	sx = this\sx
+	sy = this\sy
+	ex = this\ex
+	ey = this\ey
+	findpath()
+	For that.path = Each path
+		this\px[cnt] = that\x
+		this\py[cnt] = that\y
+		cnt=cnt+1
+	Next
+	this\ploc = 0
+	setpickup(this)
+	setdropoff(this)
+	settransport(this)
+End Function
+
+Function settransport(this.unit)
+	For that.unit = Each unit
+		If that\id = 2
+			that\sx = that\x
+			that\sy = that\y
+			that\ex = this\boardx
+			that\ey = this\boardy
+			sx = that\sx
+			sy = that\sy
+			ex = that\ex
+			ey = that\ey
+			findpath
+			For p.path = Each path
+				that\px[cnt] = p\x
+				that\py[cnt] = p\y
+				cnt=cnt+1
+			Next
+			that\ploc = 0
+		End If
+	Next
+End Function
+
+Function drawdropoffpoint()
+	this.unit = First unit
+	Color 255,0,0
+	Rect this\dropoffx*tilewidth,this\dropoffy*tileheight,tilewidth,tileheight,False
+End Function
+
+Function setdropoff(this.unit)
+	While exitloop = False
+		x1 = this\px[cnt]
+		y1 = this\py[cnt]
+		x2 = this\px[cnt+1]
+		y2 = this\py[cnt+1]
+		If map(x1,y1) = 0 And map(x2,y2) &gt; 0
+			this\dropoffx = x2
+			this\dropoffy = y2
+			this\unboardx = x1
+			this\unboardy = y1
+			Return
+		End If
+		cnt=cnt+1
+	Wend
+End Function
+
+Function drawpickuppoint()
+	this.unit = First unit
+	Color 255,255,0
+	Rect this\pickupx*tilewidth+4,this\pickupy*tileheight+4,tilewidth-8,tileheight-8,False
+End Function
+
+Function setpickup(this.unit)
+	While exitloop = False
+		x1 = this\px[cnt]
+		y1 = this\py[cnt]
+		x2 = this\px[cnt+1]
+		y2 = this\py[cnt+1]
+		If map(x1,y1) &gt; 0 And map(x2,y2) = 0
+			this\pickupx = x1
+			this\pickupy = y1
+			this\boardx = x2
+			this\boardy = y2
+			Return
+		End If
+		cnt=cnt+1
+	Wend
+End Function
+
+Function drawlandunitpath()
+	this.unit = First unit
+	Color 255,0,0
+	While exitloop = False
+		x = this\px[cnt]
+		y = this\py[cnt]
+		cnt=cnt+1
+		Oval x*tilewidth+3,y*tileheight+3,tilewidth-6,tileheight-6,True
+		If x = this\ex And y = this\ey Then exitloop = True
+	Wend
+End Function
+
+
+Function drawunits()
+	For this.unit = Each unit
+		If this\visible = True Then
+		If this\islandunit = True Then Color 255,255,255
+		If this\isseaunit = True Then Color 255,0,0
+		Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+		End If
+	Next
+End Function
+
+Function setislandmap()
+	Delete Each ol
+	Delete Each cl
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) &gt; 0 And islandmap(x,y) = 0
+			cnt=cnt+1
+			islandmap(x,y) = cnt
+			this.ol = New ol
+			this\x = x
+			this\y = y
+			While openlistisempty() = False
+				this.ol = First ol
+				tx = this\x
+				ty = this\y
+				removefromopenlist(tx,ty)
+				olmap(tx,ty) = False
+				clmap(tx,ty) = True
+				For y1=-1 To 1
+				For x1=-1 To 1
+					newx = tx+x1
+					newy = ty+y1
+					If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+					If map(newx,newy) &gt; 0
+					If olmap(newx,newy) = False
+					If clmap(newx,newy) = False
+						olmap(newx,newy)= True
+						this.ol = New ol
+						this\x = newx
+						this\y = newy
+						islandmap(Newx,newy) = cnt
+					End If
+					End If
+					End If
+					End If
+				Next
+				Next
+			Wend
+		End If
+	Next
+	Next
+End Function
+
+Function findpath()
+	If sx = ex And sy = ey Then Return False
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Delete Each path
+	Delete Each cl
+	Delete Each ol
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	this.ol = New ol
+	this\x = sx
+	this\y = sy
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For this.ol = Each ol
+			If this\f &lt; lowestf
+				lowestf = this\f
+				tx = this\x
+				ty = this\y
+				tf = this\f
+				tg = this\g
+				th = this\h
+				tpx = this\px
+				tpy = this\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			clmap(tx,ty) = True
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\f = tf
+			that\g = tg
+			that\h = th
+			that\px = tpx
+			that\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			olmap(tx,ty) = False
+			clmap(tx,ty) = True
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\f = tf
+			that\g = tg
+			that\h = th
+			that\px = tpx
+			that\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx&gt;=0 And newy=&gt;0 And newx&lt;=mapwidth And newy&lt;=mapheight
+				If olmap(newx,newy) = False
+				If clmap(newx,newy) = False
+					olmap(newx,newy) = True
+					this.ol = New ol
+					this\x = newx
+					this\y = newy
+					this\g = map(newx,newy)+1
+					this\h = distance(newx,newy,ex,ey)
+					this\f = this\g+this\h
+					this\px = tx
+					this\py = ty
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+	
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function drawislandmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Color 255,255,255
+		Text x*tilewidth+tilewidth/2,y*tileheight+tileheight/2,islandmap(x,y),True,True
+	Next
+	Next
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Select map(x,y)
+			Case 0
+			Color 0,0,200
+			Default 
+			Color 0,map(x,y)*16,0
+		End Select
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 10
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3=&gt;0 And x3&lt;= mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If 
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3=&gt;0 And x3&lt;= mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If 
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3=&gt;0 And x3&lt;= mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If 
+		Next
+		Next
+		
+	Next
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+</textarea><br><br>In the next code I made it so that there are a couple of cities on the map and a group of enemy units. The zone<br>around the enemy units is drawn and the borders<br>are used to place units in a defensive line. The cities<br>build units and send them to the defensive line until<br>there are enough units there.<br><br>Here a video of it in action : <a href="http://youtu.be/o7jVdpzr7DU" target="_blank">http://youtu.be/o7jVdpzr7DU</a><br><br>bb+ bb3d code<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+Global turn = 0
+SeedRnd 2
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type path
+	Field x,y	
+End Type
+Type ol 
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Dim zocmap(mapwidth,mapheight)
+Dim zocbrush(4,4)
+makezocbrush
+Dim linemap(mapwidth,mapheight)
+Type unit
+	Field id,x,y,p,sx,sy,ex,ey,moves
+	Field state$,ploc
+	Field px[1024]
+	Field py[1024]
+End Type
+
+Type city
+	Field id,x,y,p,unitbuild
+End Type
+
+Type bline
+	Field x,y
+	Field r ; reachable
+	Field s ; stacked count
+End Type
+
+Cls
+makemap()
+makeunits()
+makecities()
+makezocmap()
+makebline()
+
+While KeyDown(1) = False
+	Cls
+	docities()
+	dounits()
+	drawmap()
+	drawcities()
+	drawunits()
+	drawzocmap()
+	drawbline()
+	Color 255,255,255
+	Text 0,0,turn
+	Flip
+	For nt.unit = Each unit
+		nt\moves = 1
+	Next
+	turn = turn + 1
+	Delay 500
+Wend
+End
+
+
+Function dounits()
+	For this.unit = Each unit
+		If this\p = 2
+			While this\moves &gt; 0
+				Select this\state$
+					Case "move"
+					this\ploc = this\ploc + 1				
+					this\x = this\px[this\ploc]
+					this\y = this\py[this\ploc]
+					this\moves = this\moves - 1
+					If this\x = this\ex And this\y = this\ey
+						this\state$="fortify"
+					End If
+					Case "fortify"
+					this\moves =0			
+				End Select			
+			Wend
+		End If
+	Next
+End Function
+
+Function reinforce()
+	For this.unit = Each unit
+		If this\p = 1 Then cnt1 = cnt1 + 1
+		If this\p = 2 Then cnt2 = cnt2 + 1
+	Next
+	If cnt2 &lt; cnt1 Then Return True
+End Function
+
+Function docities()
+	For this.city = Each city
+		If this\p = 2 And reinforce() = True
+			this\unitbuild = this\unitbuild - 1
+			If this\unitbuild &lt; 1
+				this\unitbuild = 4
+				that.unit = New unit
+				that\id = newunitid()
+				that\p = 2
+				that\x = this\x
+				that\y = this\y
+				that\sx = this\x
+				that\sy = this\y
+				that\moves = 1
+				sc = 100
+				x=-1
+				y=-1
+				For b.bline = Each bline
+					If b\r = True
+					If b\s &lt; sc
+						sc = b\s
+						x = b\x
+						y = b\y
+					End If
+					End If
+				Next
+				that\ex = x
+				that\ey = y
+				sx = that\sx
+				sy = that\sy
+				ex = that\ex
+				ey = that\ey
+	;			DebugLog sx+","+sy+":"+ex+","+ey
+				If findpath() = False Then RuntimeError "error in docities function"
+				cnt=0
+				For p.path = Each path
+					that\px[cnt] = p\x
+					that\py[cnt] = p\y
+					cnt=cnt+1
+				Next
+				For bl.bline = Each bline
+					If bl\x = ex
+					If bl\y = ey
+						bl\s = bl\s+1
+					End If
+					End If
+				Next
+				that\ploc = 0
+				that\state$ = "move"
+			End If	
+		End If
+	Next
+End Function
+
+Function newunitid()
+	cnt = 0
+	While exitloop = False
+	cnt=cnt+1
+	exitloop = True
+	For this.unit = Each unit
+		If this\id = cnt Then exitloop = False	
+	Next
+	Wend
+	Return cnt	
+End Function
+
+Function makebline()
+	Delete Each bline
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		x1 = x+1
+		y1 = y
+		If x1=&gt;0 And y1=&gt;0 And x1&lt;=mapwidth And y1&lt;=mapheight
+			If zocmap(x,y) = 0
+			If zocmap(x1,y1) = 1
+			If map(x,y) &gt; 0
+			If map(x1,y1) &gt; 0
+			this.bline = New bline
+			this\x = x1
+			this\y = y1
+			End If
+			End If
+			End If
+			End If
+		End If
+		x1 = x-1
+		y1 = y
+		If x1=&gt;0 And y1=&gt;0 And x1&lt;=mapwidth And y1&lt;=mapheight
+			If zocmap(x,y) = 0
+			If zocmap(x1,y1) = 1
+			If map(x,y) &gt; 0
+			If map(x1,y1) &gt; 0
+			this.bline = New bline
+			this\x = x1
+			this\y = y1
+			End If
+			End If
+			End If
+			End If
+		End If
+		x1 = x
+		y1 = y-1
+		If x1=&gt;0 And y1=&gt;0 And x1&lt;=mapwidth And y1&lt;=mapheight
+			If zocmap(x,y) = 0
+			If zocmap(x1,y1) = 1
+			If map(x,y) &gt; 0
+			If map(x1,y1) &gt; 0
+			this.bline = New bline
+			this\x = x1
+			this\y = y1
+			End If
+			End If
+			End If
+			End If
+		End If
+		x1 = x
+		y1 = y+1
+		If x1=&gt;0 And y1=&gt;0 And x1&lt;=mapwidth And y1&lt;=mapheight
+			If zocmap(x,y) = 0
+			If zocmap(x1,y1) = 1
+			If map(x,y) &gt; 0
+			If map(x1,y1) &gt; 0
+			this.bline = New bline
+			this\x = x1
+			this\y = y1
+			End If
+			End If
+			End If
+			End If
+		End If
+		
+	Next
+	Next	
+	For that.city = Each city
+	For this.bline = Each bline
+		sx = that\x
+		sy = that\y
+		ex = this\x
+		ey = this\y
+		If findpath() = True Then this\r = True
+	Next
+	Next
+End Function
+
+Function drawbline()
+	For this.bline = Each bline
+		Color 200,200,0
+		Oval this\x*tilewidth+3,this\y*tileheight+3,tilewidth-6,tileheight-6,False
+		Color 255,255,255
+		Text this\x*tilewidth+tilewidth/2,this\y*tileheight+tileheight/2,"X",True,True
+	Next
+End Function
+
+Function makezocmap()
+	For this.unit = Each unit
+		If this\p = 1
+			x1 = this\x
+			y1 = this\y
+			For y2=0 To 4
+			For x2=0 To 4
+				If zocbrush(x2,y2) = 1
+					zocmap((x1+x2)-2,(y1+y2)-2) = 1
+				End If
+			Next
+			Next
+		End If
+	Next
+End Function
+
+Function drawzocmap()
+	Color 0,0,255
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If zocmap(x,y) = 1
+			Oval x*tilewidth,y*tileheight,tilewidth,tileheight,False
+		End If
+	Next
+	Next
+End Function
+
+Function makezocbrush()
+	Restore zocbrushdata
+	For y=0 To 4
+	For x=0 To 4
+		Read a
+		zocbrush(x,y) = a
+	Next
+	Next
+End Function
+
+Function drawcities()
+	For this.city = Each city
+		Select this\p
+			Case 2
+			Color 255,255,255
+			Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+			Color 0,0,0
+			Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,False
+		End Select
+	Next
+End Function
+
+Function makecities()
+	For i=0 To 2
+		cnt = cnt + 1
+		this.city = New city
+		this\id = cnt
+		this\p = 2
+		x1 = 5
+		y1 = 20	
+		this\x = x1+Rand(-5,5)
+		this\y = y1+Rand(-5,5)
+	Next
+End Function
+
+Function makeunits()
+	For i=0 To 25
+		cnt=cnt+1
+		this.unit = New unit
+		this\id = cnt
+		this\p = 1
+		x1 = 10
+		y1 = 10
+		this\x = x1+Rand(-5,5)
+		this\y = y1+Rand(-5,5)
+	Next
+End Function
+
+Function drawunits()
+	For this.unit = Each unit
+		Select this\p
+			Case 1:Color 200,0,0
+			Case 2:Color 200,200,200
+		End Select
+		Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+	Next
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Color 0,0,200
+		If map(x,y) &gt; 0 Then Color 0,map(x,y)*16,0
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True		
+	Next
+	Next
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 25
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+		x3 = x1+x2
+		y3 = y1+y2
+		If x3=&gt;0 And y3=&gt;0 And x3&lt;=mapwidth And y3&lt;=mapheight
+		map(x3,y3)=map(x3,y3)+1
+		End If
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+		x3 = x1+x2
+		y3 = y1+y2
+		If x3=&gt;0 And y3=&gt;0 And x3&lt;=mapwidth And y3&lt;=mapheight
+		map(x3,y3)=map(x3,y3)+1
+		End If
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+		x3 = x1+x2
+		y3 = y1+y2
+		If x3=&gt;0 And y3=&gt;0 And x3&lt;=mapwidth And y3&lt;=mapheight
+		map(x3,y3)=map(x3,y3)+1
+		End If
+		Next
+		Next
+		
+	Next
+End Function
+
+Function findpath()
+	If sx = ex And sy = ey Then Return False
+
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Delete Each path
+	Delete Each cl
+	Delete Each ol
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	this.ol = New ol
+	this\x = sx
+	this\y = sy
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For this.ol = Each ol
+			If this\f &lt; lowestf
+				lowestf = this\f
+				tx = this\x
+				ty = this\y
+				tf = this\f
+				tg = this\g
+				th = this\h
+				tpx = this\px
+				tpy = this\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			clmap(tx,ty) = True
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\f = tf
+			that\g = tg
+			that\h = th
+			that\px = tpx
+			that\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			olmap(tx,ty) = False
+			clmap(tx,ty) = True
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\f = tf
+			that\g = tg
+			that\h = th
+			that\px = tpx
+			that\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx&gt;=0 And newy=&gt;0 And newx&lt;=mapwidth And newy&lt;=mapheight
+				If map(newx,newy) &gt; 0
+				If olmap(newx,newy) = False
+				If clmap(newx,newy) = False
+				cont = True
+				If zocmap(newx,newy) = True
+					cont = False
+					For t.bline = Each bline
+						If newx = t\x And newy=t\y
+							cont = True
+						End If
+					Next
+				End If
+				If cont = True
+					olmap(newx,newy) = True
+					this.ol = New ol
+					this\x = newx
+					this\y = newy
+					this\g = map(newx,newy)+1
+					this\h = distance(newx,newy,ex,ey)
+					this\f = this\g+this\h
+					this\px = tx
+					this\py = ty
+				End If
+				End If
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+	
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+
+.zocbrushdata
+Data 0,1,1,1,0
+Data 1,1,1,1,1
+Data 1,1,1,1,1
+Data 1,1,1,1,1
+Data 0,1,1,1,0
+
+</textarea><br><br>The next thing I made is the ai that expands the 
+country. The settlers are build and travel from close position spots to 
+the entire map positions and create cities that build more settlers.<br><br>Here a video for the example : <a href="http://youtu.be/xx01VoM1nsQ" target="_blank">http://youtu.be/xx01VoM1nsQ</a><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+Global myfont = LoadFont("verdana.ttf",10)
+SetFont myfont
+SeedRnd 3
+Global turn = 0
+Global sx,sy,ex,ey
+Const tilewidth = 16
+Const tileheight = 16
+Const mapwidth = 39
+Const mapheight = 29
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Type city
+	Field id,x,y,state$,waitturns
+End Type
+Type unit
+	Field id,x,y,state$,substate$,ismilunit,isseaunit,issettlerunit
+	Field sx,sy,ex,ey,ploc,movesleft
+	Field boardx,boardy,unboardx,unboardy
+	Field pickupx,pickupy,dropoffx,dropoffy
+	Field px[1024]
+	Field py[1024]
+End Type
+Dim zonebrush(4,4)
+makezonebrush()
+Dim islandmap(mapwidth,mapheight)
+
+makemap()
+makeislandmap()
+findstartingposition
+While KeyDown(1) = False
+	Cls
+	docities
+	dounits()
+	drawmap()
+	drawislandmap()
+	drawcityzones()
+	drawcities()
+	drawunits()
+	Flip
+	For n.unit = Each unit
+		n\movesleft = 1
+	Next
+	turn = turn + 1
+	Delay 50
+Wend
+WaitKey
+End
+
+Function docities()
+	For this.city = Each city
+		Select this\state$
+			Case "buildsettler"
+				this\waitturns = this\waitturns - 1
+				If this\waitturns &lt; 1
+					that.unit = New unit
+					that\id = newunitid()
+					that\x = this\x
+					that\y = this\y
+					that\sx = this\x
+					that\sy = this\y
+					that\issettlerunit = True
+					that\movesleft = 1
+					that\state$ = "movetobuildcity"
+					If findnextcityplace(that) = True
+						sx = that\sx
+						sy = that\sy
+						ex = that\ex
+						ey = that\ey
+						;DebugLog sx+","+sy+";"+ex+","+ey
+						If findpath() = True
+							cnt=0
+							For p.path = Each path
+								that\px[cnt] = p\x
+								that\py[cnt] = p\y
+								cnt=cnt+1
+							Next
+							that\ploc = 0
+						Else
+							
+							RuntimeError "error in docities function"						 
+						End If
+						this\waitturns = 10
+					Else
+						this\state$ = "nothing"
+						Delete that
+					End If
+				End If
+			Case "nothing"				
+		End Select
+	Next
+End Function
+
+Function dounits()
+	For this.unit = Each unit
+		If this\movesleft &gt; 0
+			Select this\state$
+				Case "buildcity"
+					nc.city = New city
+					nc\x = this\x
+					nc\y = this\y
+					nc\id = newcityid()
+					nc\state$ = "buildsettler"
+					nc\waitturns = 10
+					Delete this
+				Case "movetobuildcity"
+					this\ploc = this\ploc + 1
+					this\x = this\px[this\ploc]
+					this\y = this\py[this\ploc]
+					this\movesleft = this\movesleft - 1
+					If this\x = this\ex And this\y = this\ey
+						this\state$ = "buildcity"
+					End If
+			End Select
+		End If
+	Next
+End Function
+
+Function findnextcityplace(u.unit)
+	cnt = 0
+	For that.unit = Each unit
+		If that\issettlerunit = True Then cnt=cnt+1
+	Next
+	If cnt &gt; 10 Then Return False
+	cnt = 0
+	ant = 5
+	While exitloop = False
+		cnt=cnt+1
+		If cnt&gt;1000 Then Return False
+		ant = ant + 1
+		exitloop2 = False
+		While exitloop2 = False
+			x = u\x + Rand(ant)-ant/2
+			y = u\y + Rand(ant)-ant/2
+			If RectsOverlap(x,y,1,1,0,0,mapwidth,mapheight) = True Then exitloop2 = True
+		Wend
+		If map(x,y) &gt; 0
+			dist = 10000
+			For this.city = Each city				
+				d = distance(this\x,this\y,x,y)
+				If d &lt; dist Then dist = d
+			Next
+			If dist &gt; 5
+				dist = 10000
+				For that.unit = Each unit
+					If that\state$="movetobuildcity"
+						d = distance(that\ex,that\ey,x,y)
+						If d&lt;dist Then dist = d
+					End If
+				Next
+			End If
+			If dist &gt; 5
+				exitloop = True
+			End If			
+		End If
+	Wend
+	u\ex = x
+	u\ey = y
+	Return True
+End Function
+
+Function makeislandmap()
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Delete Each ol
+	Delete Each cl
+	For y=0 To mapheight
+	For x=0 To mapwidth
+	If map(x,y) &gt; 0 And islandmap(x,y) = 0
+	cnt=cnt+1
+	this.ol = New ol
+	islandmap(x,y) = cnt
+	this\x = x
+	this\y = y
+	olmap(x,y) = True
+	While openlistisempty() = False
+		this.ol = First ol
+		tx = this\x
+		ty = this\y
+		removefromopenlist(this\x,this\y)
+		olmap(tx,ty) = False
+		clmap(tx,ty) = True
+		that.cl = New cl
+		that\x = tx
+		that\y = ty
+		For y1=-1 To 1
+		For x1=-1 To 1
+			newx =tx+x1
+			newy =ty+y1
+			If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+				If olmap(newx,newy) = False
+				If clmap(newx,newy) = False
+				If map(newx,newy) &gt; 0
+				If islandmap(newx,newy) = 0
+					olmap(newx,newy) = True
+					this.ol = New ol
+					this\x = newx
+					this\y = newy
+					islandmap(newx,newy) = cnt
+				End If
+				End If
+				End If
+				End If
+			End If
+		Next
+		Next
+	Wend
+	End If
+	Next
+	Next
+End Function
+
+Function drawislandmap()
+	Color 255,255,255
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Text x*tilewidth,y*tileheight,islandmap(x,y)
+	Next
+	Next
+End Function
+
+Function newunitid()
+	While exitloop = False
+		exitloop = True
+		For this.unit = Each unit
+			If this\id = cnt Then exitloop = False
+		Next
+		cnt=cnt+1
+	Wend
+	Return cnt
+End Function
+
+Function newcityid()
+	While exitloop = False
+		exitloop = True
+		For this.city = Each city
+			If this\id = cnt Then exitloop = False
+		Next
+		cnt=cnt+1
+	Wend
+	Return cnt
+End Function
+
+Function drawcityzones()
+	Color 200,200,200
+	For this.city = Each city
+		For y=0 To 4
+		For x=0 To 4
+			If zonebrush(x,y) = 1
+				x1 = x-2+this\x
+				y1 = y-2+this\y
+				Oval x1*tilewidth,y1*tileheight,tilewidth,tileheight,False
+			End If
+		Next
+		Next
+	Next
+End Function
+
+Function findstartingposition()
+	this.unit = New unit
+	While exitloop = False
+		x = Rand(mapwidth)
+		y = Rand(mapheight)
+		If map(x,y) &gt; 0 Then exitloop = True
+	Wend
+	this\id = 0
+	this\x = x
+	this\y = y
+	this\issettlerunit = True
+	this\state$ = "buildcity"
+End Function
+
+Function drawunits()
+	For this.unit = Each unit
+		x = this\x*tilewidth
+		y = this\y*tileheight
+		Color 200,200,200
+		Rect x,y,tilewidth,tileheight,True
+		Color 0,0,0
+		If this\isseaunit = True
+			Text x+tilewidth/2,y+tileheight/2,"N",True,True
+		End If
+		If this\issettlerunit = True
+			Text x+tilewidth/2,y+tileheight/2,"S",True,True
+		End If
+		If this\ismilunit = True
+			Text x+tilewidth/2,y+tileheight/2,"M",True,True
+		End If
+		Rect x,y,tilewidth,tileheight,False
+		Rect x+1,y+1,tilewidth-2,tileheight-2,False
+	Next
+End Function
+
+Function drawcities()
+	For this.city = Each city
+		x = this\x*tilewidth
+		y = this\y*tileheight
+		Color 255,255,255
+		Rect x,y,tilewidth,tileheight,True
+		Color 0,0,0
+		Rect x,y,tilewidth,tileheight,False
+	Next
+End Function
+
+Function findpath()
+	If sx = ex And sy=ey Then Return False
+	Delete Each cl
+	Delete Each ol
+	Delete Each path
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	olmap(sx,sy) = True
+	this.ol = New ol
+	this\x = sx
+	this\y = sy
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For this.ol = Each ol
+			If this\f &lt; lowestf
+				lowestf = this\f
+				tx = this\x
+				ty = this\y
+				tf = this\f
+				tg = this\g
+				th = this\h
+				tpx = this\px
+				tpy = this\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			clmap(tx,ty) = True
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\f = tf
+			that\g = tg
+			that\h = th
+			that\px = tpx
+			that\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			clmap(tx,ty) = True
+			olmap(tx,ty) = False
+			that.cl = New cl
+			that\x = tx
+			that\y = ty
+			that\f = tf
+			that\g = tg
+			that\h = th
+			that\px = tpx
+			that\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+				If olmap(newx,newy) = False
+				If clmap(newx,newy) = False
+					olmap(newx,newy) = True
+					this.ol = New ol
+					this\x = newx
+					this\y = newy
+					this\g = map(newx,newy)+1
+					this\h = distance(newx,newy,ex,ey)
+					this\f = this\g+this\h
+					this\px = tx
+					this\py = ty
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Color 0,map(x,y)*16,0
+		If map(x,y) = 0 Then Color 0,0,200		
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 15
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next		
+	Next
+End Function
+
+Function makezonebrush()
+	Restore zonedata
+	For y=0 To 4
+	For x=0 To 4
+		Read a
+		zonebrush(x,y) = a
+	Next
+	Next
+End Function
+
+.zonedata
+Data 0,0,1,0,0
+Data 0,1,1,1,0
+Data 1,1,1,1,1
+Data 0,1,1,1,0
+Data 0,0,1,0,0
+
+
+
+
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Thinking about ai</td><td align="right"><font class="tiny">(Posted 2014-06-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have not updated the worker automation log in a while. I have not 
+done a lot of thinking for that the last few weeks. I started this 
+worklog for a civ clone that I want to make. I intend to spend a lot of 
+time working on small things for the clone. I have no idea how long a 
+big complete version wil take and be playable. At the moment I have no 
+intention of starting the main project.<br><br>I have read though the 
+freeciv wiki for the ai and found not a lot of information. It seems the
+ ai is pretty basic. I have not played freeciv a lot though and it could
+ be that the code has more features then seen in the documentation.<br><br>Yesterday
+ I have found a way for the ai player to create defensive lines. I want 
+to create a oval zone on a unit in memory and have the outer edges set 
+for defensive destinations. I still need to think this through more. I 
+might create a small test program for this. I think I need to do a 
+little bit of line of sight to get the edges right.<br><br>I have not 
+done a lot of programming the last month. Today I retyped the a* code 
+twice and found a couple of improvments for the code.<br><br>The cat of 
+my parents that was run over by a car is fine. She recovered. Last night
+ she brought back a tiny bird that fell from its nest into my parents 
+home. Bad kitty :) <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

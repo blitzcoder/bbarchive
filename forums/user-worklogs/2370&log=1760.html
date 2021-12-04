@@ -1,0 +1,52 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style></head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for _PJ_</h1><h1>PARIS Particle Engine</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Cracking on</td><td align="right"><font class="tiny">(Posted 2011-12-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Due to the massive overhaul of the EKD Engine (See separate Worklog) 
+I've tinkered and streamlined the direction and proposal for PARIS as 
+well.<br><br>I will also convert its general naming conventions to suit 
+the EKD engine, although I will not use any existing functionality from 
+the Engine. The purpose is, that although I will ensure interoperability
+ so that PARIS can be used by products built with the engine - I need to
+ ensure that PARIS is kept separate so it can work "stand-alone" (albeit
+ plugged-in to whichever application it's being used for.<br><br>So, 
+although the variable and function naming will follow the stanndards 
+defined for the EKD Engine, no functions from the Engine will by used by
+ PARIS, and if similar are required, well, it's a small price to pay 
+that there may be these duplicates (albeit named differently - EVERY 
+PARIS function/variable/Object type has the prefix "PARIS")<br>in an app[lication that is built from the Engine but making use of PARIS.<br><br>_____________________________________________<br><br>So what's the result of this tinkering?<br><br>The
+ Structure has been streamlined a little. I've had to forego the rather 
+unnecessary concept of No Globals - especially where tracking counters 
+and Importing/Exporting are required), and even added some Constants to 
+make reading Bitwise flags easier.<br><br>To aid the actual workload / 
+timescale of actually programming the details such as the PARIS_Update()
+ function (the 'guts' of the beast), I've decided to open it up a little
+ in terms of efficiency temporarily - for example, many functions are 
+currently accepting the actual TypeObject as parameters or returning 
+them. This is faster of course, and easier to work with for ME - though 
+later, once it's all in a more complete state, I shall go back and 
+create some wrappers to use the "Friendly Name" parameters in order to 
+make it more accessable for others to make use of.<br><br>Another issue 
+with speed is using Single Surface systems. I'm still not entirely 
+confident with this, and am not sure how best to maximise performance 
+with such objects spread across multiple Particle types or Emitters.<br>This is something I hope to return to, but for now, again,m keeping it simple, I'm using good ol' B3D Sprites. (eugh!)<br><br>By making such sacrifices now, it should allow me to flush out the heart of the workings. NNot bad for a year and a half, eh? <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Nothing to see here folks</td><td align="right"><font class="tiny">(Posted 2010-08-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Summer's been long, hot and sunny. I've been to Wilton Salisbury, London (Twice) and all manner of social events... <br><br>Fun=1 Coding =0<br><br>As the suntan fades work will resume. For now I've got too much other stuff to deal with.<br><br>Immediate
+ concerns are to ensure the base funcitons are complete and all present.
+ I've got a feeling there's a lot I'm missing but cannot seem to think 
+what they are. Regardless, at some stage later, as necessity dictates or
+ as feature requests they will all be identified but I'd rather have the
+ work completed more orderly. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Basics</td><td align="right"><font class="tiny">(Posted 2010-06-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is a complete and highly powerful Particle Engine which not only 
+autonomously controls all particle activity autonomousy, but can be 
+easily integrated into ANY existing codebase. So it's not only good for 
+starting off, but can quickly be added to existing projects, or replace 
+less advantageous solutions.<br><br>Also featuring a unique ability to 
+generate and modify particle effects within the runtime of your code, so
+ for example, emitters can be visually placed accurately within the 
+current 3D world.<br><br>Batch processing and eficient links to existing
+ media as well as interaction with any in-game entities or game states 
+is all possible as well as traditional user abilities to manipulate 
+Emitters during the gameplay.<br><br>Will be VERY easy to control, but huge potential.<br><br>PARIS
+ can be loaded/unloaded wholly or inpart within the code to preserve 
+memory at all times, making it the most powerful, AND eficient Particle 
+solution for Blitz 3D in existence. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

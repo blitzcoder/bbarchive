@@ -1,0 +1,91 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for BlueWolf</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Verlet Physics</td><td align="right"><font class="tiny">(Posted 2004-01-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Besides my breakout clone I have started a project which I started to 
+think is a little bit too ambitious for my skill level. I am having some
+ problems with object and handle because of my lack of skill and 
+information. Right now it consists of a few functions<br><br>CreateParticle(parameters)<br>CreateConstraint(Parameters)<br>UpdateConstraints()<br>P_Update<br>AttatchVertex()<br>AttatchVertices()<br><br>I
+ think it will prove quite useful in a vehicular game or with some 
+twinks a single surface particle system. The best part is that if I ever
+ get it commented and working at an acceptable level I will post it in 
+the code arcs. but that's only if i get these Object and Handle issues 
+sorted out.<br> <br><br> <img src="7054&amp;log=1180_files/bluewolf.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Breakout</td><td align="right"><font class="tiny">(Posted 2004-01-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I started a breakout clone today which although right now has archaic 
+graphics and rough gameplay will(hopefully) have some cool 3D meshes 
+with cubemapping,vertex lighting and like in place of my ugly sprites.<br><br>so far it looks like this<br><br><pre class="code"> 
+Type Block ;Type for block
+	Field x#,y# ;x,y positions of the blocks
+	Field ifhit% ;0 if not hit 1 for every hit after
+	Field red,green,blue ;RGB color values
+	Field blck% ;the block graphic
+End Type
+
+Type Ball ;Type for the bouncy ball
+	Field x#,y# ;the x,y of the ball
+	Field ifhit%;if hitting=1 otherwise=0
+End Type
+
+Type Paddle ;the player type
+	Field x#,y# ;the position of the ball
+	Field Ifhit ;if touching ball=1 otherwise=0
+	Field pong; the paddle graphic
+End Type
+
+;Do some functions
+CreateBlocks()
+;CreatePaddle()
+;CreateBall()
+
+camera=CreateCamera()
+PositionEntity camera,0,0,-5
+
+light=CreateLight()
+PositionEntity light,-3,5,-5
+
+While Not KeyDown(1)
+;MovePaddle()
+;UpdateBall()
+;UpdatePaddle()
+
+UpdateWorld
+RenderWorld
+
+Flip
+Wend
+End
+
+Function CreateBlocks()
+	tempx=0
+	tempy=300
+	For i=0 To lvl1
+		
+		block.block=New Block
+		block\x=tempx
+		block\y=tempy
+		block\ifhit=0
+		block\red=Rnd(0,255)
+		block\green=Rnd(0,255)
+		block\blue=Rnd(0,255)
+		block\blck=LoadSprite("sprite.png") 
+		
+		ScaleSprite block\blck,2,2 
+		PositionEntity block\blck,block\x,block\y,10
+		EntityColor block\blck,block\red,block\green,block\blue
+	
+	Next
+	
+End Function 		  
+
+Function CreatePaddle()
+	
+	paddle.paddle=New paddle
+	paddle\x=400
+	paddle\y=2
+	paddle\pong=LoadSprite("paddle.png")
+	
+	PositionEntity paddle\pong,paddle\x,paddle\y,0
+	
+End Function 
+</pre><br><br>So yes it is a long way from done. So far it has been a very good project to learn from and that is what I am after<br> <br><br> <img src="7054&amp;log=1180_files/bluewolf.html"> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,791 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Qweeg</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Flood Fill - the solution</td><td align="right"><font class="tiny">(Posted 2006-03-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ As usual the user community come up trumps - special thanks to Tonyg 
+(who always seems to be helping me out); Curtastic; and ENAY.<br><br>tonyg
+ supplied me with code from snarty - which runs much quicker than mine. 
+ The only problem with it was that I found it a little difficult to 
+follow.  So I went back to the archives and found this BB snippet by Jim
+ Brown, which seemed similar but a little more straightforward for me to
+ follow:<br><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=151" target="_blank">http://www.blitzbasic.com/codearcs/codearcs.php?code=151</a><br><br>So
+ I converted this code to Max, It uses an array rather than a TList, but
+ actually seems to run a little quicker than the snarty code, so for now
+ I think this will do the job.  I might look at converting Curtastic's 
+code to Max at some point to compare, but since I have something that 
+works now I think I will move on.<br><br>Here is the converted code:<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Const CNST_FILLSTACK=5000'2350 ' increase this If you get holes in complex fills
+' Type To hold pixel coords
+Type typPixelPos
+	Field intXPos:Int
+	Field intYPos:Int
+End Type
+'Create a stack of Pixel types
+Global arrPixelData:typPixelPos[CNST_FILLSTACK]
+
+
+For Local i:Int = 0 To CNST_FILLSTACK - 1
+	arrPixelData[i] = New typPixelPos
+
+Next
+
+
+SeedRnd MilliSecs()
+
+Global intMouseXPos:Int
+Global intMouseYPos:Int
+Global pxmPixel:TPixmap
+Global imgPrintable:TImage
+
+Global intScreenWidth:Int = 1024 'temp
+Global intScreenheight:Int = 768 'temp
+
+Global intImageWidth:Int
+Global intImageHeight:Int
+
+Global intFillColor:Int = $FF00ff00
+Global intSelectedColor:Int
+Global intCurrentColor:Int
+
+Graphics 1024,768
+
+imgPrintable = LoadImage("Images\Printable1.png")
+DrawImage(imgPrintable,0,0)                                  
+
+intImageWidth = imgPrintable.width
+intImageHeight = imgPrintable.Height
+
+While not KeyHit(1)
+
+		Cls
+		DrawImage(imgPrintable,0,0)
+		
+		If MouseHit(1) = 1
+		
+			intMouseXPos = MouseX()
+			intMouseYPos = MouseY()
+		
+			pxmPixel = GrabPixmap(intMouseXPos,intMouseYPos,1,1)
+			intSelectedColor = ReadPixel(pxmPixel,0,0)
+	
+	  		FloodFill(intMouseXPos - 1,intMouseYPos - 1)  		
+  	
+  		EndIf
+  		Flip
+
+Wend
+
+
+Function FloodFill(fnintXPos:Int,fnintYPos:Int)
+
+	Local pxmPrintable:TPixmap = LockImage(imgPrintable)
+	Local intFirstEntry:Int
+	Local intLastEntry:Int
+	
+	Local intCurrentXPos:Int
+	Local intCurrentYPos:Int
+	Local blnContinue:Int = True
+
+	'Clear the coord stack
+	For Local i:Int = 0 To CNST_FILLSTACK - 1
+		arrPixelData[i].intXPos = 0
+		arrPixelData[i].intYPos = 0
+	Next
+	
+	intCurrentColor = pxmPrintable.ReadPixel(fnintXPos - 1, fnintYPos - 1)
+	
+	intFirstEntry=0
+	intLastEntry=1
+	
+	Repeat
+	
+		'fill To the Right
+		intCurrentXPos = arrPixelData[intFirstEntry].intXPos
+		intCurrentYPos = arrPixelData[intFirstEntry].intYPos
+		
+		Repeat
+			
+          	If intCurrentXPos + fnintXPos &gt;= 0 and..
+           	   intCurrentXPos + fnintXPos &lt; intImageWidth and..
+               intCurrentYPos + fnintYPos &gt; 0 and..
+               intCurrentYPos + fnintYPos &lt; intImageHeight	- 1
+	
+				intCurrentColor = pxmPrintable.ReadPixel(intCurrentXPos + fnintXPos, intCurrentYPos + fnintYPos)
+				blnContinue = True
+						
+				If intCurrentColor = intSelectedColor				                           
+				                           
+					pxmPrintable.WritePixel(intCurrentXPos + fnintXPos,intCurrentYPos + fnintYPos,intFillColor)
+					'check Above
+					If pxmPrintable.ReadPixel(intCurrentXPos + fnintXPos, intCurrentYPos + fnintYPos - 1) = intSelectedColor
+						arrPixelData[intLastEntry].intXPos = intCurrentXPos
+						arrPixelData[intLastEntry].intYPos = intCurrentYPos - 1
+						intLastEntry = intLastEntry + 1
+						If intLastEntry = CNST_FILLSTACK - 1 Then intLastEntry = 0
+					EndIf
+					'Check Below
+					If pxmPrintable.ReadPixel(intCurrentXPos + fnintXPos, intCurrentYPos + fnintYPos + 1) = intSelectedColor
+						arrPixelData[intLastEntry].intXPos = intCurrentXPos
+						arrPixelData[intLastEntry].intYPos = intCurrentYPos + 1
+						intLastEntry = intLastEntry + 1
+						If intLastEntry = CNST_FILLSTACK - 1 Then intLastEntry = 0
+					EndIf				
+					
+				Else
+					blnContinue = False
+				EndIf
+			Else
+				blnContinue = False
+			EndIf
+			
+			intCurrentXPos = intCurrentXPos + 1
+			
+		Until blnContinue = False
+
+		
+		'fill To the Left
+		intCurrentXPos = arrPixelData[intFirstEntry].intXPos - 1
+		intCurrentYPos = arrPixelData[intFirstEntry].intYPos
+		
+		Repeat
+			
+          	If intCurrentXPos + fnintXPos &gt;= 0 and..
+           	   intCurrentXPos + fnintXPos &lt; intImageWidth and..
+               intCurrentYPos + fnintYPos &gt; 0 and..
+               intCurrentYPos + fnintYPos &lt; intImageHeight - 1			
+			
+				intCurrentColor = pxmPrintable.ReadPixel(intCurrentXPos + fnintXPos, intCurrentYPos + fnintYPos)
+				blnContinue = True
+							
+				If intCurrentColor = intSelectedColor	                           
+				                           
+					pxmPrintable.WritePixel(intCurrentXPos + fnintXPos,intCurrentYPos + fnintYPos,intFillColor)
+					'check Above
+					If pxmPrintable.ReadPixel(intCurrentXPos + fnintXPos, intCurrentYPos + fnintYPos - 1) = intSelectedColor
+						arrPixelData[intLastEntry].intXPos = intCurrentXPos
+						arrPixelData[intLastEntry].intYPos = intCurrentYPos - 1
+						intLastEntry = intLastEntry + 1
+						If intLastEntry = CNST_FILLSTACK - 1 Then intLastEntry = 0
+					EndIf
+					'Check Below
+					If pxmPrintable.ReadPixel(intCurrentXPos + fnintXPos, intCurrentYPos + fnintYPos + 1) = intSelectedColor
+						arrPixelData[intLastEntry].intXPos = intCurrentXPos
+						arrPixelData[intLastEntry].intYPos = intCurrentYPos + 1
+						intLastEntry = intLastEntry + 1
+						If intLastEntry = CNST_FILLSTACK - 1 Then intLastEntry = 0
+					EndIf				
+					
+				Else
+					blnContinue = False
+				EndIf
+			Else
+				blnContinue = False
+			EndIf
+			
+			intCurrentXPos = intCurrentXPos - 1
+			
+		Until blnContinue = False
+		
+		intFirstEntry = intFirstEntry + 1
+		If intFirstEntry = CNST_FILLSTACK Then intFirstEntry = 0
+		
+	Until intFirstEntry = intLastEntry
+	
+	UnlockImage(imgPrintable)
+
+End Function
+</textarea><br><br>Next up I think I will take a look at the gui 
+interface next and start trying to pull the code I have done into 
+something more usable.  Good excuse to spend some time with the GUI 
+module too. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Flood Fill Frolic</td><td align="right"><font class="tiny">(Posted 2006-03-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Now I have the basis for applying effect filters to images, next up is 
+printables and colouring. Basically I think I will put in a few black 
+and white line drawings and a colour pallette and allow the user to 
+choose a colour and click areas of the pictures to fill them in that 
+colour.  But to do that I need a flood fill routine...<br><br>Now here's
+ where things get tricky - my first effort at this did actually work but
+ ran like a dog.  The problem was I was filling a pixel then checking 
+its neighbours and in turn their neighbours etc.  Whilst this works it 
+means each pixel could get check multiple times - and this just slows 
+the thing down to a crawl.<br><br>After banging my head against a wall for a while I decide its time to seek some help... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>pixmap and stuff</td><td align="right"><font class="tiny">(Posted 2006-03-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Okay.  Dug out some old DBPro code I did ages ago and decided to try 
+and adapt it to Blitzmax.  The DB code used Memblocks, so the plan is to
+ convert to use Pixmaps instead.<br><br>And voila it works!  Not the quickest code in the world, and probably been done before - but hey, the kids think its cool.<br><br>For
+ anyone that is interested here is the code I have at the moment.  There
+ are 12 effects (well 11 as one is the original image), accessed via the
+ function keys.  If you want to try it out you will need to substitute 
+the image for one of your own.  Be patient - particularly with F10 and 
+F11 - they are a little slow, but I am actually quite pleased with some 
+of the effects.  There are loads more too, but I ran out of function 
+keys - need to use a list item in the GUI module I think, and try out 
+drag and drop windows maybe - hmm, maybe that's for another day 
+(probably best if I tidy up the code I have already written too :) ).<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Strict
+
+Global
+ intImage:Int = 1
+Global intImageOriginl:Int = 1
+Global intEffect:Int = 1
+Global intImageWidth:Int
+Global intImageHeight:Int
+
+Global strFilterType:String = "None"       
+
+Global imgOriginalImage:TImage = LoadImage("images\airshiprace.jpg")
+Global imgFilteredImage:TImage = LoadImage("images\airshiprace.jpg")    
+         
+Global imgFilteredImage2:TImage = LoadImage("images\airshiprace.jpg")
+Global blnDisplayOriginal:Int = True
+
+Global intKeyCode:Int
+
+Graphics 800,600
+
+While not KeyHit(KEY_ESCAPE)
+
+	If strFilterType &lt;&gt; "Mosaic"
+	
+		Cls
+	
+		If blnDisplayOriginal = True
+			DrawImage(imgOriginalImage,0,0)
+		Else
+			DrawImage(imgFilteredImage,0,0)
+		EndIf
+	
+	EndIf
+	SetColor(0,0,0)
+	DrawText "Use Function keys to change the effect",10,10
+	DrawText "Current filter = " + strFilterType,10,30
+    SetColor(255,255,255)
+	Flip
+
+	
+	DrawImage(imgOriginalImage,0,0)
+	GrabImage(imgFilteredImage,0,0)
+
+	intKeyCode = WaitKey()
+	Select intKeyCode
+	Case KEY_ESCAPE
+		End
+	Case KEY_F1
+		blnDisplayOriginal = True	
+		strFilterType = "None"	
+	Case KEY_F2
+		blnDisplayOriginal = False
+		strFilterType = "Black and White"
+		
+		ApplySimpleFilter(imgFilteredImage, strFilterType)
+	Case KEY_F3
+		blnDisplayOriginal = False
+		strFilterType = "Sepia"
+
+		ApplySimpleFilter(imgFilteredImage, strFilterType)		
+	Case KEY_F4
+		blnDisplayOriginal = False
+		strFilterType = "Negative"
+		
+		ApplySimpleFilter(imgFilteredImage, strFilterType)
+	Case KEY_F5
+		blnDisplayOriginal = False
+		strFilterType = "Mosaic"
+		
+		ApplySimpleFilter(imgFilteredImage, strFilterType)
+	Case KEY_F6
+		blnDisplayOriginal = False
+		strFilterType = "Black and White Painting"
+		
+		ApplySimpleFilter(imgFilteredImage, strFilterType)
+	Case KEY_F7
+		blnDisplayOriginal = False
+		strFilterType = "Colour Painting"
+		
+		ApplySimpleFilter(imgFilteredImage, strFilterType)
+	Case KEY_F8
+		blnDisplayOriginal = False
+		strFilterType = "Sketch"
+		
+		ApplyPencilFilter(imgFilteredImage, strFilterType)
+	Case KEY_F9
+		blnDisplayOriginal = False
+		strFilterType = "Trace"
+		
+		ApplyPencilFilter(imgFilteredImage, strFilterType)
+	Case KEY_F10
+		blnDisplayOriginal = False
+		strFilterType = "Blur"
+		
+		ApplyBlurFilter(imgFilteredImage, 4)
+	Case KEY_F11
+		blnDisplayOriginal = False
+		strFilterType = "Watercolour"
+		
+		ApplyWaterColorFilter(imgFilteredImage,imgFilteredImage2)
+	Case KEY_F12
+		blnDisplayOriginal = False
+		strFilterType = "Scan Line"
+		
+		ApplySimpleFilter(imgFilteredImage, strFilterType)														
+	End Select
+	
+Wend
+
+Function ApplySimpleFilter(fnimgImage:TImage, fnstrFilterType:String)
+
+	Local intPixel:Int
+	Local intAlpha:Int
+	Local intRed:Int
+	Local intGreen:Int
+	Local intBlue:Int
+	Local intPixel2:Int
+	Local intAlpha2:Int
+	Local intRed2:Int
+	Local intGreen2:Int
+	Local intBlue2:Int
+	Local intPixel3:Int
+	Local intAlpha3:Int
+	Local intRed3:Int
+	Local intGreen3:Int
+	Local intBlue3:Int
+	Local intAlpha4:Int
+	Local intRed4:Int
+	Local intGreen4:Int
+	Local intBlue4:Int	
+	Local intBlendRed:Int
+	Local intBlendGreen:Int
+	Local intBlendBlue:Int
+	Local intColor1:Int
+	Local intColor2:Int
+	Local intMaskColor:Int
+	Local varMaskAdjustment:Float
+	Local varAdjustmentRate:Float
+	Local varOpacity:Float
+	Local varOppOpacity:Float
+	Local intGreyScale:Int
+	Local intXPos:Int = 0
+	Local intYPos:Int = 0
+	Local pxmImagePixmap:TPixmap
+	Local intNewPixelColour:Int
+	
+	Local intXStep:Int = 1
+	Local intYStep:Int = 1
+	
+	pxmImagePixmap = LockImage(fnimgImage)
+	
+	Select fnstrFilterType
+	Case "Scan Line"
+		intYStep = 3
+	Case "Mosaic"
+		intXStep = 5
+		intYStep = 5
+		Cls
+		DrawImage(imgOriginalImage,0,0)
+	Default
+		intXStep = 1
+		intYStep = 1
+	End Select
+
+
+	While intYPos &lt; fnimgImage.Height	
+		intXPos = 0
+		While intXPos &lt; fnimgImage.width
+	
+			intPixel = ReadPixel(pxmImagePixmap,IntXPos,intYPos)
+     		intAlpha = (intPixel &amp; $ff000000)
+      		intRed = (intPixel &amp; $ff0000 ) Shr 16
+      		intGreen = (intPixel &amp; $ff00 ) Shr 8
+      		intBlue = (intPixel &amp; $ff )
+      		
+      		'Now we have the colour components of the pixel, apply the 
+selected filter to it
+      		Select fnstrFilterType
+      		Case "Black and White"
+      			intGreyScale = (intRed * 0.3 + intGreen * 0.59 + intBlue * 
+0.11)
+      			intPixel = intAlpha | (intGreyScale Shl 16) | (intGreyScale Shl
+ 8) | intGreyScale
+      			
+      		Case "Sepia"
+      			intGreyScale = (intRed * 0.3 + intGreen * 0.59 + intBlue * 
+0.11)
+      			intPixel = intAlpha | (intGreyScale  Shl 16) | (intGreyScale 
+Shl 8) | intGreyScale / 2 'Half the blue amount for sepia   
+      			
+      		Case "Negative"
+      			intRed = 255 - intRed
+      			intGreen = 255 - intGreen
+      			intBlue = 255 - intBlue
+      			intPixel = intAlpha | (intRed Shl 16) | (intGreen Shl 8) | 
+intBlue
+      			
+      		Case "Mosaic"	      		
+      			SetColor(intRed,intGreen,intBlue)
+      			DrawRect(intXPos + 10, intYPos + 8, intXStep - 1, intYStep - 1)
+      			SetColor(255,255,255)
+      			
+      		Case "Black and White Painting"
+      			intGreyScale = (intRed * 0.3 + intGreen * 0.59 + intBlue * 
+0.11)
+
+      			If intGreyScale &gt; 0 and intGreyScale &lt; 50 Then 
+intGreyScale = 0
+      			If intGreyScale &gt; 50 and intGreyScale &lt; 100 Then 
+intGreyScale = 50
+				If intGreyScale &gt; 100 and intGreyScale &lt; 150 Then intGreyScale
+ = 100
+      			If intGreyScale &gt; 150 and intGreyScale &lt; 200 Then 
+intGreyScale = 150
+      			If intGreyScale &gt; 200 and intGreyScale &lt; 250 Then 
+intGreyScale = 200
+      			If intGreyScale &gt; 250  Then intGreyScale = 250
+      			
+      			intPixel = intAlpha | (intGreyScale Shl 16) | (intGreyScale Shl
+ 8) | intGreyScale
+      			      			
+      		Case "Colour Painting"
+				If intRed &gt; 300 Then intRed = 300
+				If intRed &gt; 0 and intRed &lt; 50 Then intRed = 0
+				If intRed &gt; 50 and intRed &lt; 100 Then intRed = 50
+				If intRed &gt; 100 and intRed &lt; 150 Then intRed = 100
+				If intRed &gt; 150 and intRed &lt; 200 Then intRed = 150
+				If intRed &gt; 200 and intRed &lt; 250 Then intRed = 200
+				If intRed &gt; 250  Then intRed = 250
+				
+				If intGreen &gt; 300 Then intGreen = 300
+				If intGreen &gt; 0 and intGreen &lt; 50 Then intGreen = 0
+				If intGreen &gt; 50 and intGreen &lt; 100 Then intGreen = 50
+				If intGreen &gt; 100 and intGreen &lt; 150 Then intGreen = 100
+				If intGreen &gt; 150 and intGreen &lt; 200 Then intGreen = 150
+				If intGreen &gt; 200 and intGreen &lt; 250 Then intGreen = 200
+				If intGreen &gt; 250  Then intGreen = 250
+				
+				If intBlue &gt; 300 Then intBlue = 300
+				If intBlue &gt; 0 and intBlue &lt; 50 Then intBlue = 0
+				If intBlue &gt; 50 and intBlue &lt; 100 Then intBlue = 50
+				If intBlue &gt; 100 and intBlue &lt; 150 Then intBlue = 100
+				If intBlue &gt; 150 and intBlue &lt; 200 Then intBlue = 150
+				If intBlue &gt; 200 and intBlue &lt; 250 Then intBlue = 200
+				If intBlue &gt; 250  Then intBlue = 250
+				
+				intPixel = intAlpha | (intRed Shl 16) | (intGreen Shl 8) | intBlue
+						
+			Case "Scan Line"       
+			
+				intRed:+20
+				intGreen:+20
+				intBlue:+20
+				intPixel = intAlpha | (intRed Shl 16) | (intGreen Shl 8) | intBlue
+
+      		End Select
+      		WritePixel(pxmImagePixmap,intXPos,intYPos,IntPixel)
+      		intXPos = intXPos + intXStep
+	    Wend
+    	intYPos = intYPos + intYStep
+	Wend
+		
+	UnlockImage(fnimgImage)
+EndFunction
+ 
+Function ApplyPencilFilter(fnimgImage:TImage, fnstrFilterType:String)
+
+	Local intPixel:Int
+	Local intAlpha:Int
+	Local intRed:Int
+	Local intGreen:Int
+	Local intBlue:Int
+	Local intPixel2:Int
+	Local intAlpha2:Int
+	Local intRed2:Int
+	Local intGreen2:Int
+	Local intBlue2:Int
+	Local intPixel3:Int
+	Local intAlpha3:Int
+	Local intRed3:Int
+	Local intGreen3:Int
+	Local intBlue3:Int
+	Local intBlendRed:Int
+	Local intBlendGreen:Int
+	Local intBlendBlue:Int
+	Local intColor1:Int
+	Local intColor2:Int
+	Local intMaskColor:Int
+	Local varMaskAdjustment:Float
+	Local varAdjustmentRate:Float
+	Local varOpacity:Float       
+	Local intGreyScale:Int
+	Local intXPos:Int = 0
+	Local intYPos:Int = 0
+	Local pxmImagePixmap:TPixmap
+	Local intNewPixelColour:Int
+	
+	Local intXStep:Int = 1
+	Local intYStep:Int = 1
+	                                                      
+	Local arrMask:Int[fnimgImage.Height,fnimgImage.width]
+		
+	
+	pxmImagePixmap = LockImage(fnimgImage)
+
+
+	While intYPos &lt; fnimgImage.Height	
+		intXPos = 0
+		While intXPos &lt; fnimgImage.width
+	
+			intPixel = ReadPixel(pxmImagePixmap,IntXPos,intYPos)
+     		intAlpha = (intPixel &amp; $ff000000)
+      		intRed = (intPixel &amp; $ff0000 ) Shr 16
+      		intGreen = (intPixel &amp; $ff00 ) Shr 8
+      		intBlue = (intPixel &amp; $ff )       
+      		
+      		'Now we have the colour components of the pixel, apply the 
+selected filter to it
+			
+			
+	  			If intXPos = 0 or intYPos = 0                                     
+                 
+	  				intMaskColor = 255
+	  			Else      		
+	      		                                               
+					intPixel2 = ReadPixel(pxmImagePixmap,IntXPos - 1,intYPos)
+		     		intAlpha2 = (intPixel2 &amp; $ff000000)
+		      		intRed2 = (intPixel2 &amp; $ff0000 ) Shr 16
+		      		intGreen2 = (intPixel2 &amp; $ff00 ) Shr 8
+		      		intBlue2 = (intPixel2 &amp; $ff )	
+		      		
+					intPixel3 = ReadPixel(pxmImagePixmap,IntXPos,intYPos - 1)
+		     		intAlpha3 = (intPixel3 &amp; $ff000000)
+		      		intRed3 = (intPixel3 &amp; $ff0000 ) Shr 16
+		      		intGreen3 = (intPixel3 &amp; $ff00 ) Shr 8
+		      		intBlue3 = (intPixel3 &amp; $ff )	
+		      		
+		      		intBlendRed = (intRed + intRed3) / 2
+		      		intBlendGreen = (intGreen2 + intGreen3) / 2
+		      		intBlendBlue = (intBlue2 + intBlue3) / 2
+		      		
+					intColor1 = (intRed * 0.3 + intGreen * 0.59 + intBlue * 0.11)
+					intColor2 = (intBlendRed * 0.3 + intBlendGreen * 0.59 + 
+intBlendBlue * 0.11)		      		
+		
+		      		Select fnstrFilterType
+					Case "Sketch"
+						varAdjustmentRate = 8.0         
+							
+						intMaskColor = (intColor1 - intColor2) * varAdjustmentRate
+						If intMaskColor &gt; 255 Then intMaskColor = 255
+			      		If intMaskColor &lt; 0 Then intMaskColor = min(0 - 
+intMaskColor,255)
+					    	
+						arrMask[intYPos,intXPos] = 255 - intMaskColor
+					
+
+					Case "Trace"
+						varOpacity = 0.5                         
+						varAdjustmentRate = 12.0	  
+						
+						intMaskColor = (intColor1 - intColor2) * varAdjustmentRate * 
+varOpacity      
+						intMaskColor = 255 - intMaskColor
+						If intMaskColor &gt; 255 Then intMaskColor = 255
+			      		If intMaskColor &lt; 0 Then intMaskColor = 0 - intMaskColor
+					    	
+						arrMask[intYPos,intXPos] = intMaskColor     						
+					
+					End Select			      		
+					 
+				EndIf			
+                                                                        
+       
+      		intXPos = intXPos + intXStep
+	    Wend
+    	intYPos = intYPos + intYStep
+	Wend
+	intYPos = 0	                   
+	While intYPos &lt; fnimgImage.Height	
+		intXPos = 0
+		While intXPos &lt; fnimgImage.width
+		        
+			intPixel = ReadPixel(pxmImagePixmap,IntXPos,intYPos)
+     		intAlpha = (intPixel &amp; $ff000000)
+				
+	        intPixel = intAlpha | (arrMask[intYPos,intXPos] Shl 16) | 
+(arrMask[intYPos,intXPos] Shl 8) | arrMask[intYPos,intXPos]        
+		    WritePixel(pxmImagePixmap,intXPos,intYPos,IntPixel)
+      		intXPos = intXPos + intXStep
+	    Wend
+    	intYPos = intYPos + intYStep
+	Wend		
+		
+	UnlockImage(fnimgImage)
+	
+EndFunction
+              
+                                                            
+Function ApplyBlurFilter(fnimgImage:TImage, fnintBlurFactor:Int)
+
+	Local intPixel:Int
+	Local intAlpha:Int
+	Local intRed:Int
+	Local intGreen:Int
+	Local intBlue:Int
+	Local intTopPixel:Int
+	Local intTopAlpha:Int
+	Local intTopRed:Int
+	Local intTopGreen:Int
+	Local intTopBlue:Int
+	Local intBottomPixel:Int
+	Local intBottomAlpha:Int
+	Local intBottomRed:Int
+	Local intBottomGreen:Int
+	Local intBottomBlue:Int  
+	Local intLeftPixel:Int
+	Local intLeftAlpha:Int
+	Local intLeftRed:Int
+	Local intLeftGreen:Int
+	Local intLeftBlue:Int  
+	Local intRightPixel:Int
+	Local intRightAlpha:Int
+	Local intRightRed:Int
+	Local intRightGreen:Int
+	Local intRightBlue:Int	
+	Local intXPos:Int
+	Local intYPos:Int
+	Local pxmImagePixmap:TPixmap
+	
+	pxmImagePixmap = LockImage(fnimgImage)
+            
+	For Local i:Int = 1 To fnintBlurFactor
+        intYPos = 1
+		While intYPos &lt; fnimgImage.Height	- 1
+			intXPos = 1
+			While intXPos &lt; fnimgImage.width - 1
+
+
+				intTopPixel = ReadPixel(pxmImagePixmap,IntXPos,intYPos - 1)
+	     		intTopAlpha = (intTopPixel &amp; $ff000000)
+	      		intTopRed = (intTopPixel &amp; $ff0000 ) Shr 16
+	      		intTopGreen = (intTopPixel &amp; $ff00 ) Shr 8
+	      		intTopBlue = (intTopPixel &amp; $ff )
+	      		
+				intBottomPixel = ReadPixel(pxmImagePixmap,IntXPos,intYPos + 1)
+	     		intBottomAlpha = (intBottomPixel &amp; $ff000000)
+	      		intBottomRed = (intBottomPixel &amp; $ff0000 ) Shr 16
+	      		intBottomGreen = (intBottomPixel &amp; $ff00 ) Shr 8
+	      		intBottomBlue = (intBottomPixel &amp; $ff )
+	      		
+				intLeftPixel = ReadPixel(pxmImagePixmap,IntXPos - 1,intYPos)
+	     		intLeftAlpha = (intLeftPixel &amp; $ff000000)
+	      		intLeftRed = (intLeftPixel &amp; $ff0000 ) Shr 16
+	      		intLeftGreen = (intLeftPixel &amp; $ff00 ) Shr 8
+	      		intLeftBlue = (intLeftPixel &amp; $ff )
+	      		
+				intRightPixel = ReadPixel(pxmImagePixmap,IntXPos + 1,intYPos)
+	     		intRightAlpha = (intRightPixel &amp; $ff000000)
+	      		intRightRed = (intRightPixel &amp; $ff0000 ) Shr 16
+	      		intRightGreen = (intRightPixel &amp; $ff00 ) Shr 8
+	      		intrightBlue = (intRightPixel &amp; $ff )	      			      			   
+   				
+		        
+				intRed = (intTopRed + intBottomRed + intLeftRed + intRightRed) / 4
+	      		intGreen = (intTopGreen + intBottomGreen + intLeftGreen + 
+intRightGreen) / 4
+	      		intBlue = (intTopBlue + intBottomBlue + intLeftBlue + 
+intRightBlue) / 4		                                                     
+       
+		                                                            
+				intPixel = ReadPixel(pxmImagePixmap,IntXPos,intYPos)
+	     		intAlpha = (intPixel &amp; $ff000000)
+		
+				intPixel = intAlpha | (intRed Shl 16) | (intGReen Shl 8) | intBlue
+							
+	      		WritePixel(pxmImagePixmap,intXPos,intYPos,IntPixel)
+	      		intXPos:+1
+		    Wend
+	    	intYPos:+1
+		Wend
+		          
+	Next
+		
+	UnlockImage(fnimgImage)
+EndFunction
+ 
+Function ApplyWaterColorFilter(fnimgSketch:TImage, fnimgBlur:TImage)
+             
+	Local intPixel:Int
+	Local intAlpha:Int
+	Local intRed:Int
+	Local intGreen:Int
+	Local intBlue:Int
+	Local intSketchPixel:Int
+	Local intSketchAlpha:Int
+	Local intSketchRed:Int
+	Local intSketchGreen:Int
+	Local intSketchBlue:Int
+	Local intBlurPixel:Int
+	Local intBlurAlpha:Int
+	Local intBlurRed:Int
+	Local intBlurGreen:Int
+	Local intBlurBlue:Int
+	'Local intColor1:Int
+	'Local intColor2:Int
+'	Local intMaskColor:Int
+	Local intXPos:Int = 0
+	Local intYPos:Int = 0                                       
+                                       
+     Local pxmSketchPixmap:TPixmap
+     Local pxmBlurPixmap:TPixmap
+     
+                                        
+	'First make a sketch of the image
+	ApplyPencilFilter(fnimgSketch, "Sketch")
+
+	'Next make a blurred version of the image
+	ApplyBlurFilter(fnimgBlur,1)
+
+	'Now blend the two together to get the watercolour effect
+	pxmSketchPixmap = LockImage(fnimgSketch)
+	pxmBlurPixmap = LockImage(fnimgBlur)  
+	
+	
+	While intYPos &lt; fnimgSketch.Height
+		intXPos = 0
+		While intXPos &lt; fnimgSketch.width
+
+
+			intSketchPixel = ReadPixel(pxmSketchPixmap,IntXPos,intYPos)
+	 		intSketchAlpha = (intSketchPixel &amp; $ff000000)
+	  		intSketchRed = (intSketchPixel &amp; $ff0000 ) Shr 16
+	  		intSketchGreen = (intSketchPixel &amp; $ff00 ) Shr 8
+	  		intSketchBlue = (intSketchPixel &amp; $ff )
+	  		
+			intBlurPixel = ReadPixel(pxmBlurPixmap,IntXPos,intYPos)
+	 		intBlurAlpha = (intBlurPixel &amp; $ff000000)
+	  		intBlurRed = (intBlurPixel &amp; $ff0000 ) Shr 16
+	  		intBlurGreen = (intBlurPixel &amp; $ff00 ) Shr 8
+	  		intBlurBlue = (intBlurPixel &amp; $ff )
+  		                                              			      			      				
+	        
+			intRed = (intSketchRed + intBlurRed) / 2
+  			intGreen = (intSketchGreen + intBlurGreen) / 2
+  			intBlue = (intSketchBlue + intBlurBlue) / 2         
+	
+			intPixel = intSketchAlpha | (intRed Shl 16) | (intGReen Shl 8) | 
+intBlue
+						
+  			WritePixel(pxmSketchPixmap,intXPos,intYPos,IntPixel)
+  			intXPos:+1
+	    Wend
+		intYPos:+1
+	Wend
+		
+	UnlockImage(fnimgSketch) ' Sketch is used as the final image drawn to 
+the screen
+	UnlockImage(fnimgBlur)
+
+EndFunction
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Special Effects with Pixmaps</td><td align="right"><font class="tiny">(Posted 2006-03-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ At the request of my two daughters I have decided to try and cobble 
+together a painting program/game for them.  Probably this will have some
+ sort of click and colour pictures for them to work with, and some 
+special effects that can be applied to pictures or photos.  Obviously 
+there are loads of programs that do this already, but my kids like to 
+play with the things I code and it will also give me some experience 
+with pixmaps and the GUI module.<br><br>First up, manipulating images using pixmaps... <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

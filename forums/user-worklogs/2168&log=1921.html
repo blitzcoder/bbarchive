@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="2168&amp;log=1921_files/analytics.js" type="text/javascript"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app212.us.archive.org';v.server_ms=190;archive_analytics.send_pageview({});});</script>
+<script type="text/javascript" src="2168&amp;log=1921_files/bundle-playback.js" charset="utf-8"></script>
+<script type="text/javascript" src="2168&amp;log=1921_files/wombat.js" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("http://web.archive.org/web");
+  __wm.wombat("http://www.mojolabs.nz/userlog.php?user=2168&amp;log=1921","20180122152705","http://web.archive.org/","web","/_static/",
+	      "1516634825");
+</script>
+<link rel="stylesheet" type="text/css" href="2168&amp;log=1921_files/banner-styles.css">
+<link rel="stylesheet" type="text/css" href="2168&amp;log=1921_files/iconochive.css">
+<!-- End Wayback Rewrite JS Include -->
+<title>FBEpyon Worklog</title><meta name="viewport" content="width=device-width, initial-scale=0.66"><meta name="description" content="worklog:true"><meta name="author" content="FBEpyon"><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style></head><body>
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for FBEpyon</h1><h1>Code Test</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Marching - 2</td><td align="right"><font class="tiny">2017-04-03</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">SuperStrict
+
+Import "perlin.cpp"
+
+Extern
+	Function GetNoise1D:Float( X:Float,                   Octave:Int, PerlinTable:Byte Ptr )
+	Function GetNoise2D:Float( X:Float, Y:Float,          Octave:Int, PerlinTable:Byte Ptr )
+	Function GetNoise3D:Float( X:Float, Y:Float, Z:Float, Octave:Int, PerlinTable:Byte Ptr )
+End Extern
+
+Function CreatePerlinTable:Float[]()
+	Local Randoms:Float[ $10000 ]
+	
+	For Local I:Int = 0 Until $10000
+		Randoms[ I ] = Rnd( -1.0, 1.0 )
+	Next
+	
+	Return Randoms
+End Function
+
+Global perlin:Float[][]
+
+For Local p:Int = 0 To 19
+
+	perlin :+ [CreatePerlinTable()]
+
+Next
+
+Global player:TVector = New TVector.Create(128,256,128)
+
+Global world:TWorld = New TWorld.Create(player)
+
+Graphics 640,480
+
+While Not KeyHit(KEY_ESCAPE)
+
+	world.Update(player)
+
+	If KeyDown(KEY_UP) player.z :+ 1
+	
+	Cls
+	
+	DrawText player.z/16, 0, 0
+	DrawText world.cur_chunk.pos.z, 0, 20
+
+	Flip
+
+Wend
+
+End
+
+Type TVector
+
+	Field x:Float, y:Float, z:Float
+
+	Method Create:TVector(_x:Float, _y:Float, _z:Float)
+	
+		x = _x
+		y = _y
+		z = _z
+	
+		Return Self
+	
+	End Method
+	
+	Method Get:Float[]()
+	
+		Local p:Int[] = [x,y,z]
+		
+		Return p
+		
+	End Method
+
+End Type
+
+Type TWorld
+
+	Field cur_chunk:TChunk
+	Field load_list:TList = CreateList()
+	
+	Method Create:TWorld(cur_pos:TVector)
+
+		If cur_chunk = Null Then cur_chunk = New TChunk.Create(cur_pos.x/16, cur_pos.y/16, cur_pos.z/16)
+		
+		load_list.AddLast(cur_chunk)
+
+		Update(cur_pos)
+
+		Return Self
+
+	End Method
+
+	Method Update(cur_pos:TVector)
+
+		Local pos:TVector = New TVector.Create(0,0,0)
+
+		pos.x = Float(cur_pos.x/16)
+		pos.y = Float(cur_pos.y/16)
+		pos.z = Float(cur_pos.z/16)
+		
+		'Print pos.x + "," + pos.y +"," + pos.z
+
+		If pos.Get() &lt;&gt; cur_chunk.pos.Get()
+		
+			Print cur_chunk.pos.x + "," + cur_chunk.pos.y +"," + cur_chunk.pos.z
+
+			For Local c:TChunk = EachIn ChunkUpdate(pos)
+
+				If Not c.loaded Then load_list.AddLast(c)
+
+				c.Update(pos)
+				
+				If c.pos.x = pos.x And c.pos.y = pos.y And c.pos.z = pos.z
+
+					cur_chunk = c
+											
+				EndIf
+				
+				'Print c.pos.x + "," + c.pos.y +"," + c.pos.z
+
+			Next
+
+			For Local l:TChunk = EachIn load_list
+
+				If Not ListContains(ChunkUpdate(pos),l)
+
+					ListRemove(ChunkUpdate(pos),l)
+
+				EndIf
+
+			Next
+				
+		EndIf
+
+	End Method
+
+	Method ChunkUpdate:TList(c:TVector)
+
+		Local list:TList = New TList
+
+		For Local x:Int = -1 To 1
+		For Local z:Int = -1 To 1
+
+			Local check:TVector = New TVector.Create(c.x*16 + x, 0, c.z*16 + z)
+			
+			For Local y:Int = 0 To 1
+
+				list.AddLast(New TChunk.Create(check.x/16, y, check.z/16))
+
+			Next
+
+		Next
+		Next
+		
+		Return list
+
+	End Method
+
+End Type
+
+Type TChunk
+
+	Field data:Float[16,16,16]
+	Field pos:TVector
+	Field loaded:Int
+
+	Method Create:TChunk(_x:Int, _y:Int, _z:Int)
+
+		pos = New TVector.Create(_x, _y, _z)
+
+		Return Self
+
+	End Method
+
+	Method Update(p:TVector)
+
+		If Not loaded
+
+			For Local x:Int = 0 To 15
+			For Local y:Int = 0 To 15
+			For Local z:Int = 0 To 15
+
+				Local voxel:TVector = New TVector.Create(x + (p.x * 16), y + (p.y * 16), z + (p.z * 16))
+
+				data[x, y, z] = GenerateBlock(voxel)
+				
+				'Print x + (p.x * 16) + "," + y + (p.y * 16) + "," + z + (p.z * 16) + ":" + data[x,y,z]
+				
+			Next
+			Next
+			Next
+
+			loaded = True
+
+		EndIf
+
+	End Method
+
+	Method GenerateBlock:Int(voxel:TVector)
+
+		Local TerrainFrq:Float = 2.0
+
+		Local Height:Float = ( 1.0 - voxel.y ) - Abs(    GetNoise3D( voxel.x * TerrainFrq, voxel.y*TerrainFrq, voxel.z*TerrainFrq, 4, Byte Ptr Perlin[ 0 ] )*0.2 ) ..
+	                                      - ( 1.0 + GetNoise3D( voxel.x*TerrainFrq, voxel.y*TerrainFrq, voxel.z*TerrainFrq, 5, Byte Ptr Perlin[ 8 ] ) )*0.5
+
+		Local cell:Int = 0
+
+		Local HeightThreshold:Float = -0.1
+
+		If Height &lt; HeightThreshold + 0.5
+
+			Local PerturbanceFrq:Float = 6
+			Local cavepos:TVector = New TVector.Create(0,0,0)
+
+			cavepos.x = voxel.x + GetNoise3D( voxel.x * PerturbanceFrq, voxel.y * PerturbanceFrq, voxel.z * PerturbanceFrq, 3, Byte Ptr Perlin[1] ) * 0.25
+			cavepos.y = voxel.y + GetNoise3D( voxel.x * PerturbanceFrq, voxel.y * PerturbanceFrq, voxel.z * PerturbanceFrq, 3, Byte Ptr Perlin[2] ) * 0.25
+			cavepos.z = voxel.z + GetNoise3D( voxel.x * PerturbanceFrq, voxel.y * PerturbanceFrq, voxel.z * PerturbanceFrq, 3, Byte Ptr Perlin[3] ) * 0.25
+
+			Local CaveFrq:Float = 2.0
+			Local Cave:Int = 1.0 - Abs(    GetNoise3D( voxel.x * CaveFrq, voxel.y * CaveFrq, voxel.z * CaveFrq, 1, Byte Ptr Perlin[0] )) &gt; 0.95
+			      Cave :* 	 1.0 - Abs(    GetNoise3D( voxel.x * CaveFrq, voxel.y * CaveFrq, voxel.z * CaveFrq, 1, Byte Ptr Perlin[0] )) &gt; 0.95
+
+			If Cave
+
+				cell = 0
+
+			Else
+
+				cell = 1
+
+			EndIf
+
+		Else
+
+			cell = 1
+
+		EndIf
+				
+		Return cell
+
+	End Method
+
+End Type
+
+</pre><br><br>NEW:<br><br><pre class="code">
+Global world:TWorld = New TWorld.Create()
+
+Graphics 640,480
+
+While Not KeyHit(KEY_ESCAPE)
+
+	Cls
+	
+	For Local c:TChunk = EachIn world.ChunkMap.Values()
+	
+		DrawRect 256 + c.Position.x, 256 + c.Position.z, 16, 16
+	
+	Next
+	
+	Flip
+
+Wend
+
+End
+
+
+Type TWorld
+
+	Field ChunkMap:TMap = CreateMap()
+	
+	Method Create:TWorld()
+		
+		For Local x:Int = -8 To 8
+			For Local y:Int = -1 To 1
+				For Local z:Int = -8 To 8
+			
+					CreateChunk(x * 16, y * 16, z * 16)
+			
+				Next
+			Next
+		Next
+				
+		Return Self
+	
+	EndMethod
+	
+	Method CreateChunk(_x:Int, _y:Int, _z:Int)
+	
+		Local WorldPos = New TWorldPos.Create(_x, _y, _z)
+		
+		Local newChunk:TChunk = New TChunk
+		
+		newChunk.Position = WorldPos
+	
+		ChunkMap.Insert(WorldPos, newChunk)
+	
+	End Method
+	
+	Method GetChunk:TChunk(_x:Int, _y:Int, _z:Int)
+	
+		Float Multiple:Float = TChunk.ChunkSize
+	
+		Local WorldPos:TWorldPos = New TVector.Create(0,0,0)
+		
+		WorldPos.x = Floor(x / Multiple) * TChunk.ChunkSize
+		WorldPos.y = Floor(y / Multiple) * TChunk.ChunkSize
+		WorldPos.z = Floor(z / Multiple) * TChunk.ChunkSize
+		
+		Local chunk:TChunk = TChunk(ChunkMap.ValueForKey(WorldPos))
+		
+		Return chunk
+	
+	End Method
+	
+	Method RemoveChunk(_x:Int, _y:Int, _z:Int)
+	
+		Local chunk:TChunk = TChunk(ChunkMap.ValueForKey(New TWorldPos.Create(_x, _y, _z)))
+		
+		If chunk
+		
+			ChunkMap.Remove(New TWorldPos.Create(_x, _y, _z))
+		
+		EndIf
+	
+	End Method
+	
+	Method SaveWorld()
+	
+		'Furture Chunks Saving
+	
+	End Method
+
+EndType
+
+Type TChunk
+
+	Global ChunkSize:Int = 16
+	Field ChunkData:Int[16,16,16]
+	Field Position:TVector = New TVector.Create(0,0,0)
+
+EndType
+
+Type TWorldPos
+
+	Field x:Float, y:Int, z:Int
+	
+	Method Create:TWorldPos(_x:Float, _y:Float, _z:Float)
+	
+		x = _x ; y = _y ; z = _z
+	
+		Return Self
+	
+	EndMethod
+
+EndType
+
+
+
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Marching</td><td align="right"><font class="tiny">2017-04-02</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> C:<br><br><pre class="code">
+int * getEdgeTable(){
+
+	return eTable
+
+}
+
+int * getTriTable(){
+
+	return tTable
+
+}
+
+int eTable[256]={
+0x0  , 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c,
+0x80c, 0x905, 0xa0f, 0xb06, 0xc0a, 0xd03, 0xe09, 0xf00,
+0x190, 0x99 , 0x393, 0x29a, 0x596, 0x49f, 0x795, 0x69c,
+0x99c, 0x895, 0xb9f, 0xa96, 0xd9a, 0xc93, 0xf99, 0xe90,
+0x230, 0x339, 0x33 , 0x13a, 0x636, 0x73f, 0x435, 0x53c,
+0xa3c, 0xb35, 0x83f, 0x936, 0xe3a, 0xf33, 0xc39, 0xd30,
+0x3a0, 0x2a9, 0x1a3, 0xaa , 0x7a6, 0x6af, 0x5a5, 0x4ac,
+0xbac, 0xaa5, 0x9af, 0x8a6, 0xfaa, 0xea3, 0xda9, 0xca0,
+0x460, 0x569, 0x663, 0x76a, 0x66 , 0x16f, 0x265, 0x36c,
+0xc6c, 0xd65, 0xe6f, 0xf66, 0x86a, 0x963, 0xa69, 0xb60,
+0x5f0, 0x4f9, 0x7f3, 0x6fa, 0x1f6, 0xff , 0x3f5, 0x2fc,
+0xdfc, 0xcf5, 0xfff, 0xef6, 0x9fa, 0x8f3, 0xbf9, 0xaf0,
+0x650, 0x759, 0x453, 0x55a, 0x256, 0x35f, 0x55 , 0x15c,
+0xe5c, 0xf55, 0xc5f, 0xd56, 0xa5a, 0xb53, 0x859, 0x950,
+0x7c0, 0x6c9, 0x5c3, 0x4ca, 0x3c6, 0x2cf, 0x1c5, 0xcc ,
+0xfcc, 0xec5, 0xdcf, 0xcc6, 0xbca, 0xac3, 0x9c9, 0x8c0,
+0x8c0, 0x9c9, 0xac3, 0xbca, 0xcc6, 0xdcf, 0xec5, 0xfcc,
+0xcc , 0x1c5, 0x2cf, 0x3c6, 0x4ca, 0x5c3, 0x6c9, 0x7c0,
+0x950, 0x859, 0xb53, 0xa5a, 0xd56, 0xc5f, 0xf55, 0xe5c,
+0x15c, 0x55 , 0x35f, 0x256, 0x55a, 0x453, 0x759, 0x650,
+0xaf0, 0xbf9, 0x8f3, 0x9fa, 0xef6, 0xfff, 0xcf5, 0xdfc,
+0x2fc, 0x3f5, 0xff , 0x1f6, 0x6fa, 0x7f3, 0x4f9, 0x5f0,
+0xb60, 0xa69, 0x963, 0x86a, 0xf66, 0xe6f, 0xd65, 0xc6c,
+0x36c, 0x265, 0x16f, 0x66 , 0x76a, 0x663, 0x569, 0x460,
+0xca0, 0xda9, 0xea3, 0xfaa, 0x8a6, 0x9af, 0xaa5, 0xbac,
+0x4ac, 0x5a5, 0x6af, 0x7a6, 0xaa , 0x1a3, 0x2a9, 0x3a0,
+0xd30, 0xc39, 0xf33, 0xe3a, 0x936, 0x83f, 0xb35, 0xa3c,
+0x53c, 0x435, 0x73f, 0x636, 0x13a, 0x33 , 0x339, 0x230,
+0xe90, 0xf99, 0xc93, 0xd9a, 0xa96, 0xb9f, 0x895, 0x99c,
+0x69c, 0x795, 0x49f, 0x596, 0x29a, 0x393, 0x99 , 0x190,
+0xf00, 0xe09, 0xd03, 0xc0a, 0xb06, 0xa0f, 0x905, 0x80c,
+0x70c, 0x605, 0x50f, 0x406, 0x30a, 0x203, 0x109, 0x0   };
+
+int tTable[256][16] =
+{{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 8, 3, 9, 8, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 3, 1, 2, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{9, 2, 10, 0, 2, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{2, 8, 3, 2, 10, 8, 10, 9, 8, -1, -1, -1, -1, -1, -1, -1},
+{3, 11, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 11, 2, 8, 11, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 9, 0, 2, 3, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 11, 2, 1, 9, 11, 9, 8, 11, -1, -1, -1, -1, -1, -1, -1},
+{3, 10, 1, 11, 10, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 10, 1, 0, 8, 10, 8, 11, 10, -1, -1, -1, -1, -1, -1, -1},
+{3, 9, 0, 3, 11, 9, 11, 10, 9, -1, -1, -1, -1, -1, -1, -1},
+{9, 8, 10, 10, 8, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 7, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 3, 0, 7, 3, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 1, 9, 8, 4, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 1, 9, 4, 7, 1, 7, 3, 1, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 10, 8, 4, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{3, 4, 7, 3, 0, 4, 1, 2, 10, -1, -1, -1, -1, -1, -1, -1},
+{9, 2, 10, 9, 0, 2, 8, 4, 7, -1, -1, -1, -1, -1, -1, -1},
+{2, 10, 9, 2, 9, 7, 2, 7, 3, 7, 9, 4, -1, -1, -1, -1},
+{8, 4, 7, 3, 11, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{11, 4, 7, 11, 2, 4, 2, 0, 4, -1, -1, -1, -1, -1, -1, -1},
+{9, 0, 1, 8, 4, 7, 2, 3, 11, -1, -1, -1, -1, -1, -1, -1},
+{4, 7, 11, 9, 4, 11, 9, 11, 2, 9, 2, 1, -1, -1, -1, -1},
+{3, 10, 1, 3, 11, 10, 7, 8, 4, -1, -1, -1, -1, -1, -1, -1},
+{1, 11, 10, 1, 4, 11, 1, 0, 4, 7, 11, 4, -1, -1, -1, -1},
+{4, 7, 8, 9, 0, 11, 9, 11, 10, 11, 0, 3, -1, -1, -1, -1},
+{4, 7, 11, 4, 11, 9, 9, 11, 10, -1, -1, -1, -1, -1, -1, -1},
+{9, 5, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{9, 5, 4, 0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 5, 4, 1, 5, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{8, 5, 4, 8, 3, 5, 3, 1, 5, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 10, 9, 5, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{3, 0, 8, 1, 2, 10, 4, 9, 5, -1, -1, -1, -1, -1, -1, -1},
+{5, 2, 10, 5, 4, 2, 4, 0, 2, -1, -1, -1, -1, -1, -1, -1},
+{2, 10, 5, 3, 2, 5, 3, 5, 4, 3, 4, 8, -1, -1, -1, -1},
+{9, 5, 4, 2, 3, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 11, 2, 0, 8, 11, 4, 9, 5, -1, -1, -1, -1, -1, -1, -1},
+{0, 5, 4, 0, 1, 5, 2, 3, 11, -1, -1, -1, -1, -1, -1, -1},
+{2, 1, 5, 2, 5, 8, 2, 8, 11, 4, 8, 5, -1, -1, -1, -1},
+{10, 3, 11, 10, 1, 3, 9, 5, 4, -1, -1, -1, -1, -1, -1, -1},
+{4, 9, 5, 0, 8, 1, 8, 10, 1, 8, 11, 10, -1, -1, -1, -1},
+{5, 4, 0, 5, 0, 11, 5, 11, 10, 11, 0, 3, -1, -1, -1, -1},
+{5, 4, 8, 5, 8, 10, 10, 8, 11, -1, -1, -1, -1, -1, -1, -1},
+{9, 7, 8, 5, 7, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{9, 3, 0, 9, 5, 3, 5, 7, 3, -1, -1, -1, -1, -1, -1, -1},
+{0, 7, 8, 0, 1, 7, 1, 5, 7, -1, -1, -1, -1, -1, -1, -1},
+{1, 5, 3, 3, 5, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{9, 7, 8, 9, 5, 7, 10, 1, 2, -1, -1, -1, -1, -1, -1, -1},
+{10, 1, 2, 9, 5, 0, 5, 3, 0, 5, 7, 3, -1, -1, -1, -1},
+{8, 0, 2, 8, 2, 5, 8, 5, 7, 10, 5, 2, -1, -1, -1, -1},
+{2, 10, 5, 2, 5, 3, 3, 5, 7, -1, -1, -1, -1, -1, -1, -1},
+{7, 9, 5, 7, 8, 9, 3, 11, 2, -1, -1, -1, -1, -1, -1, -1},
+{9, 5, 7, 9, 7, 2, 9, 2, 0, 2, 7, 11, -1, -1, -1, -1},
+{2, 3, 11, 0, 1, 8, 1, 7, 8, 1, 5, 7, -1, -1, -1, -1},
+{11, 2, 1, 11, 1, 7, 7, 1, 5, -1, -1, -1, -1, -1, -1, -1},
+{9, 5, 8, 8, 5, 7, 10, 1, 3, 10, 3, 11, -1, -1, -1, -1},
+{5, 7, 0, 5, 0, 9, 7, 11, 0, 1, 0, 10, 11, 10, 0, -1},
+{11, 10, 0, 11, 0, 3, 10, 5, 0, 8, 0, 7, 5, 7, 0, -1},
+{11, 10, 5, 7, 11, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{10, 6, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 3, 5, 10, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{9, 0, 1, 5, 10, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 8, 3, 1, 9, 8, 5, 10, 6, -1, -1, -1, -1, -1, -1, -1},
+{1, 6, 5, 2, 6, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 6, 5, 1, 2, 6, 3, 0, 8, -1, -1, -1, -1, -1, -1, -1},
+{9, 6, 5, 9, 0, 6, 0, 2, 6, -1, -1, -1, -1, -1, -1, -1},
+{5, 9, 8, 5, 8, 2, 5, 2, 6, 3, 2, 8, -1, -1, -1, -1},
+{2, 3, 11, 10, 6, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{11, 0, 8, 11, 2, 0, 10, 6, 5, -1, -1, -1, -1, -1, -1, -1},
+{0, 1, 9, 2, 3, 11, 5, 10, 6, -1, -1, -1, -1, -1, -1, -1},
+{5, 10, 6, 1, 9, 2, 9, 11, 2, 9, 8, 11, -1, -1, -1, -1},
+{6, 3, 11, 6, 5, 3, 5, 1, 3, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 11, 0, 11, 5, 0, 5, 1, 5, 11, 6, -1, -1, -1, -1},
+{3, 11, 6, 0, 3, 6, 0, 6, 5, 0, 5, 9, -1, -1, -1, -1},
+{6, 5, 9, 6, 9, 11, 11, 9, 8, -1, -1, -1, -1, -1, -1, -1},
+{5, 10, 6, 4, 7, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 3, 0, 4, 7, 3, 6, 5, 10, -1, -1, -1, -1, -1, -1, -1},
+{1, 9, 0, 5, 10, 6, 8, 4, 7, -1, -1, -1, -1, -1, -1, -1},
+{10, 6, 5, 1, 9, 7, 1, 7, 3, 7, 9, 4, -1, -1, -1, -1},
+{6, 1, 2, 6, 5, 1, 4, 7, 8, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 5, 5, 2, 6, 3, 0, 4, 3, 4, 7, -1, -1, -1, -1},
+{8, 4, 7, 9, 0, 5, 0, 6, 5, 0, 2, 6, -1, -1, -1, -1},
+{7, 3, 9, 7, 9, 4, 3, 2, 9, 5, 9, 6, 2, 6, 9, -1},
+{3, 11, 2, 7, 8, 4, 10, 6, 5, -1, -1, -1, -1, -1, -1, -1},
+{5, 10, 6, 4, 7, 2, 4, 2, 0, 2, 7, 11, -1, -1, -1, -1},
+{0, 1, 9, 4, 7, 8, 2, 3, 11, 5, 10, 6, -1, -1, -1, -1},
+{9, 2, 1, 9, 11, 2, 9, 4, 11, 7, 11, 4, 5, 10, 6, -1},
+{8, 4, 7, 3, 11, 5, 3, 5, 1, 5, 11, 6, -1, -1, -1, -1},
+{5, 1, 11, 5, 11, 6, 1, 0, 11, 7, 11, 4, 0, 4, 11, -1},
+{0, 5, 9, 0, 6, 5, 0, 3, 6, 11, 6, 3, 8, 4, 7, -1},
+{6, 5, 9, 6, 9, 11, 4, 7, 9, 7, 11, 9, -1, -1, -1, -1},
+{10, 4, 9, 6, 4, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 10, 6, 4, 9, 10, 0, 8, 3, -1, -1, -1, -1, -1, -1, -1},
+{10, 0, 1, 10, 6, 0, 6, 4, 0, -1, -1, -1, -1, -1, -1, -1},
+{8, 3, 1, 8, 1, 6, 8, 6, 4, 6, 1, 10, -1, -1, -1, -1},
+{1, 4, 9, 1, 2, 4, 2, 6, 4, -1, -1, -1, -1, -1, -1, -1},
+{3, 0, 8, 1, 2, 9, 2, 4, 9, 2, 6, 4, -1, -1, -1, -1},
+{0, 2, 4, 4, 2, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{8, 3, 2, 8, 2, 4, 4, 2, 6, -1, -1, -1, -1, -1, -1, -1},
+{10, 4, 9, 10, 6, 4, 11, 2, 3, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 2, 2, 8, 11, 4, 9, 10, 4, 10, 6, -1, -1, -1, -1},
+{3, 11, 2, 0, 1, 6, 0, 6, 4, 6, 1, 10, -1, -1, -1, -1},
+{6, 4, 1, 6, 1, 10, 4, 8, 1, 2, 1, 11, 8, 11, 1, -1},
+{9, 6, 4, 9, 3, 6, 9, 1, 3, 11, 6, 3, -1, -1, -1, -1},
+{8, 11, 1, 8, 1, 0, 11, 6, 1, 9, 1, 4, 6, 4, 1, -1},
+{3, 11, 6, 3, 6, 0, 0, 6, 4, -1, -1, -1, -1, -1, -1, -1},
+{6, 4, 8, 11, 6, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{7, 10, 6, 7, 8, 10, 8, 9, 10, -1, -1, -1, -1, -1, -1, -1},
+{0, 7, 3, 0, 10, 7, 0, 9, 10, 6, 7, 10, -1, -1, -1, -1},
+{10, 6, 7, 1, 10, 7, 1, 7, 8, 1, 8, 0, -1, -1, -1, -1},
+{10, 6, 7, 10, 7, 1, 1, 7, 3, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 6, 1, 6, 8, 1, 8, 9, 8, 6, 7, -1, -1, -1, -1},
+{2, 6, 9, 2, 9, 1, 6, 7, 9, 0, 9, 3, 7, 3, 9, -1},
+{7, 8, 0, 7, 0, 6, 6, 0, 2, -1, -1, -1, -1, -1, -1, -1},
+{7, 3, 2, 6, 7, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{2, 3, 11, 10, 6, 8, 10, 8, 9, 8, 6, 7, -1, -1, -1, -1},
+{2, 0, 7, 2, 7, 11, 0, 9, 7, 6, 7, 10, 9, 10, 7, -1},
+{1, 8, 0, 1, 7, 8, 1, 10, 7, 6, 7, 10, 2, 3, 11, -1},
+{11, 2, 1, 11, 1, 7, 10, 6, 1, 6, 7, 1, -1, -1, -1, -1},
+{8, 9, 6, 8, 6, 7, 9, 1, 6, 11, 6, 3, 1, 3, 6, -1},
+{0, 9, 1, 11, 6, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{7, 8, 0, 7, 0, 6, 3, 11, 0, 11, 6, 0, -1, -1, -1, -1},
+{7, 11, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{7, 6, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{3, 0, 8, 11, 7, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 1, 9, 11, 7, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{8, 1, 9, 8, 3, 1, 11, 7, 6, -1, -1, -1, -1, -1, -1, -1},
+{10, 1, 2, 6, 11, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 10, 3, 0, 8, 6, 11, 7, -1, -1, -1, -1, -1, -1, -1},
+{2, 9, 0, 2, 10, 9, 6, 11, 7, -1, -1, -1, -1, -1, -1, -1},
+{6, 11, 7, 2, 10, 3, 10, 8, 3, 10, 9, 8, -1, -1, -1, -1},
+{7, 2, 3, 6, 2, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{7, 0, 8, 7, 6, 0, 6, 2, 0, -1, -1, -1, -1, -1, -1, -1},
+{2, 7, 6, 2, 3, 7, 0, 1, 9, -1, -1, -1, -1, -1, -1, -1},
+{1, 6, 2, 1, 8, 6, 1, 9, 8, 8, 7, 6, -1, -1, -1, -1},
+{10, 7, 6, 10, 1, 7, 1, 3, 7, -1, -1, -1, -1, -1, -1, -1},
+{10, 7, 6, 1, 7, 10, 1, 8, 7, 1, 0, 8, -1, -1, -1, -1},
+{0, 3, 7, 0, 7, 10, 0, 10, 9, 6, 10, 7, -1, -1, -1, -1},
+{7, 6, 10, 7, 10, 8, 8, 10, 9, -1, -1, -1, -1, -1, -1, -1},
+{6, 8, 4, 11, 8, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{3, 6, 11, 3, 0, 6, 0, 4, 6, -1, -1, -1, -1, -1, -1, -1},
+{8, 6, 11, 8, 4, 6, 9, 0, 1, -1, -1, -1, -1, -1, -1, -1},
+{9, 4, 6, 9, 6, 3, 9, 3, 1, 11, 3, 6, -1, -1, -1, -1},
+{6, 8, 4, 6, 11, 8, 2, 10, 1, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 10, 3, 0, 11, 0, 6, 11, 0, 4, 6, -1, -1, -1, -1},
+{4, 11, 8, 4, 6, 11, 0, 2, 9, 2, 10, 9, -1, -1, -1, -1},
+{10, 9, 3, 10, 3, 2, 9, 4, 3, 11, 3, 6, 4, 6, 3, -1},
+{8, 2, 3, 8, 4, 2, 4, 6, 2, -1, -1, -1, -1, -1, -1, -1},
+{0, 4, 2, 4, 6, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 9, 0, 2, 3, 4, 2, 4, 6, 4, 3, 8, -1, -1, -1, -1},
+{1, 9, 4, 1, 4, 2, 2, 4, 6, -1, -1, -1, -1, -1, -1, -1},
+{8, 1, 3, 8, 6, 1, 8, 4, 6, 6, 10, 1, -1, -1, -1, -1},
+{10, 1, 0, 10, 0, 6, 6, 0, 4, -1, -1, -1, -1, -1, -1, -1},
+{4, 6, 3, 4, 3, 8, 6, 10, 3, 0, 3, 9, 10, 9, 3, -1},
+{10, 9, 4, 6, 10, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 9, 5, 7, 6, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 3, 4, 9, 5, 11, 7, 6, -1, -1, -1, -1, -1, -1, -1},
+{5, 0, 1, 5, 4, 0, 7, 6, 11, -1, -1, -1, -1, -1, -1, -1},
+{11, 7, 6, 8, 3, 4, 3, 5, 4, 3, 1, 5, -1, -1, -1, -1},
+{9, 5, 4, 10, 1, 2, 7, 6, 11, -1, -1, -1, -1, -1, -1, -1},
+{6, 11, 7, 1, 2, 10, 0, 8, 3, 4, 9, 5, -1, -1, -1, -1},
+{7, 6, 11, 5, 4, 10, 4, 2, 10, 4, 0, 2, -1, -1, -1, -1},
+{3, 4, 8, 3, 5, 4, 3, 2, 5, 10, 5, 2, 11, 7, 6, -1},
+{7, 2, 3, 7, 6, 2, 5, 4, 9, -1, -1, -1, -1, -1, -1, -1},
+{9, 5, 4, 0, 8, 6, 0, 6, 2, 6, 8, 7, -1, -1, -1, -1},
+{3, 6, 2, 3, 7, 6, 1, 5, 0, 5, 4, 0, -1, -1, -1, -1},
+{6, 2, 8, 6, 8, 7, 2, 1, 8, 4, 8, 5, 1, 5, 8, -1},
+{9, 5, 4, 10, 1, 6, 1, 7, 6, 1, 3, 7, -1, -1, -1, -1},
+{1, 6, 10, 1, 7, 6, 1, 0, 7, 8, 7, 0, 9, 5, 4, -1},
+{4, 0, 10, 4, 10, 5, 0, 3, 10, 6, 10, 7, 3, 7, 10, -1},
+{7, 6, 10, 7, 10, 8, 5, 4, 10, 4, 8, 10, -1, -1, -1, -1},
+{6, 9, 5, 6, 11, 9, 11, 8, 9, -1, -1, -1, -1, -1, -1, -1},
+{3, 6, 11, 0, 6, 3, 0, 5, 6, 0, 9, 5, -1, -1, -1, -1},
+{0, 11, 8, 0, 5, 11, 0, 1, 5, 5, 6, 11, -1, -1, -1, -1},
+{6, 11, 3, 6, 3, 5, 5, 3, 1, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 10, 9, 5, 11, 9, 11, 8, 11, 5, 6, -1, -1, -1, -1},
+{0, 11, 3, 0, 6, 11, 0, 9, 6, 5, 6, 9, 1, 2, 10, -1},
+{11, 8, 5, 11, 5, 6, 8, 0, 5, 10, 5, 2, 0, 2, 5, -1},
+{6, 11, 3, 6, 3, 5, 2, 10, 3, 10, 5, 3, -1, -1, -1, -1},
+{5, 8, 9, 5, 2, 8, 5, 6, 2, 3, 8, 2, -1, -1, -1, -1},
+{9, 5, 6, 9, 6, 0, 0, 6, 2, -1, -1, -1, -1, -1, -1, -1},
+{1, 5, 8, 1, 8, 0, 5, 6, 8, 3, 8, 2, 6, 2, 8, -1},
+{1, 5, 6, 2, 1, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 3, 6, 1, 6, 10, 3, 8, 6, 5, 6, 9, 8, 9, 6, -1},
+{10, 1, 0, 10, 0, 6, 9, 5, 0, 5, 6, 0, -1, -1, -1, -1},
+{0, 3, 8, 5, 6, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{10, 5, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{11, 5, 10, 7, 5, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{11, 5, 10, 11, 7, 5, 8, 3, 0, -1, -1, -1, -1, -1, -1, -1},
+{5, 11, 7, 5, 10, 11, 1, 9, 0, -1, -1, -1, -1, -1, -1, -1},
+{10, 7, 5, 10, 11, 7, 9, 8, 1, 8, 3, 1, -1, -1, -1, -1},
+{11, 1, 2, 11, 7, 1, 7, 5, 1, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 3, 1, 2, 7, 1, 7, 5, 7, 2, 11, -1, -1, -1, -1},
+{9, 7, 5, 9, 2, 7, 9, 0, 2, 2, 11, 7, -1, -1, -1, -1},
+{7, 5, 2, 7, 2, 11, 5, 9, 2, 3, 2, 8, 9, 8, 2, -1},
+{2, 5, 10, 2, 3, 5, 3, 7, 5, -1, -1, -1, -1, -1, -1, -1},
+{8, 2, 0, 8, 5, 2, 8, 7, 5, 10, 2, 5, -1, -1, -1, -1},
+{9, 0, 1, 5, 10, 3, 5, 3, 7, 3, 10, 2, -1, -1, -1, -1},
+{9, 8, 2, 9, 2, 1, 8, 7, 2, 10, 2, 5, 7, 5, 2, -1},
+{1, 3, 5, 3, 7, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 7, 0, 7, 1, 1, 7, 5, -1, -1, -1, -1, -1, -1, -1},
+{9, 0, 3, 9, 3, 5, 5, 3, 7, -1, -1, -1, -1, -1, -1, -1},
+{9, 8, 7, 5, 9, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{5, 8, 4, 5, 10, 8, 10, 11, 8, -1, -1, -1, -1, -1, -1, -1},
+{5, 0, 4, 5, 11, 0, 5, 10, 11, 11, 3, 0, -1, -1, -1, -1},
+{0, 1, 9, 8, 4, 10, 8, 10, 11, 10, 4, 5, -1, -1, -1, -1},
+{10, 11, 4, 10, 4, 5, 11, 3, 4, 9, 4, 1, 3, 1, 4, -1},
+{2, 5, 1, 2, 8, 5, 2, 11, 8, 4, 5, 8, -1, -1, -1, -1},
+{0, 4, 11, 0, 11, 3, 4, 5, 11, 2, 11, 1, 5, 1, 11, -1},
+{0, 2, 5, 0, 5, 9, 2, 11, 5, 4, 5, 8, 11, 8, 5, -1},
+{9, 4, 5, 2, 11, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{2, 5, 10, 3, 5, 2, 3, 4, 5, 3, 8, 4, -1, -1, -1, -1},
+{5, 10, 2, 5, 2, 4, 4, 2, 0, -1, -1, -1, -1, -1, -1, -1},
+{3, 10, 2, 3, 5, 10, 3, 8, 5, 4, 5, 8, 0, 1, 9, -1},
+{5, 10, 2, 5, 2, 4, 1, 9, 2, 9, 4, 2, -1, -1, -1, -1},
+{8, 4, 5, 8, 5, 3, 3, 5, 1, -1, -1, -1, -1, -1, -1, -1},
+{0, 4, 5, 1, 0, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{8, 4, 5, 8, 5, 3, 9, 0, 5, 0, 3, 5, -1, -1, -1, -1},
+{9, 4, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 11, 7, 4, 9, 11, 9, 10, 11, -1, -1, -1, -1, -1, -1, -1},
+{0, 8, 3, 4, 9, 7, 9, 11, 7, 9, 10, 11, -1, -1, -1, -1},
+{1, 10, 11, 1, 11, 4, 1, 4, 0, 7, 4, 11, -1, -1, -1, -1},
+{3, 1, 4, 3, 4, 8, 1, 10, 4, 7, 4, 11, 10, 11, 4, -1},
+{4, 11, 7, 9, 11, 4, 9, 2, 11, 9, 1, 2, -1, -1, -1, -1},
+{9, 7, 4, 9, 11, 7, 9, 1, 11, 2, 11, 1, 0, 8, 3, -1},
+{11, 7, 4, 11, 4, 2, 2, 4, 0, -1, -1, -1, -1, -1, -1, -1},
+{11, 7, 4, 11, 4, 2, 8, 3, 4, 3, 2, 4, -1, -1, -1, -1},
+{2, 9, 10, 2, 7, 9, 2, 3, 7, 7, 4, 9, -1, -1, -1, -1},
+{9, 10, 7, 9, 7, 4, 10, 2, 7, 8, 7, 0, 2, 0, 7, -1},
+{3, 7, 10, 3, 10, 2, 7, 4, 10, 1, 10, 0, 4, 0, 10, -1},
+{1, 10, 2, 8, 7, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 9, 1, 4, 1, 7, 7, 1, 3, -1, -1, -1, -1, -1, -1, -1},
+{4, 9, 1, 4, 1, 7, 0, 8, 1, 8, 7, 1, -1, -1, -1, -1},
+{4, 0, 3, 7, 4, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{4, 8, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{9, 10, 8, 10, 11, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{3, 0, 9, 3, 9, 11, 11, 9, 10, -1, -1, -1, -1, -1, -1, -1},
+{0, 1, 10, 0, 10, 8, 8, 10, 11, -1, -1, -1, -1, -1, -1, -1},
+{3, 1, 10, 11, 3, 10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 2, 11, 1, 11, 9, 9, 11, 8, -1, -1, -1, -1, -1, -1, -1},
+{3, 0, 9, 3, 9, 11, 1, 2, 9, 2, 11, 9, -1, -1, -1, -1},
+{0, 2, 11, 8, 0, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{3, 2, 11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{2, 3, 8, 2, 8, 10, 10, 8, 9, -1, -1, -1, -1, -1, -1, -1},
+{9, 10, 2, 0, 9, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{2, 3, 8, 2, 8, 10, 0, 1, 8, 1, 10, 8, -1, -1, -1, -1},
+{1, 10, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{1, 3, 8, 9, 1, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 9, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
+
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>auto_tile2</td><td align="right"><font class="tiny">2017-01-29</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">Type TNode
+
+	Field x:Int, y:Int
+	Field v:Int
+
+	Method Create:TNode(x:Int, y:Int, v:Int)
+		Self.x = x
+		Self.y = y
+		Self.v = v
+		Return Self
+	End Method
+
+	Method GetValue:Int()
+		Return Self.v
+	End Method
+
+End Type
+
+Type TTile
+
+	Field x:Int, y:Int
+	Field s:Int
+
+	Method Create:TTile(x:Int, y:Int, s:Int)
+		Self.x = x
+		Self.y = y
+		Self.s = s
+		Return Self
+	End Method
+
+End Type
+
+Type TWorld
+
+	Field tList:TList
+	Field nList:TList
+
+	Field w:Int, h:Int
+
+	Method Create:TWorld(w:Int, h:Int)
+		tList = CreateList()
+		nList = CreateList()
+		Self.w = w
+		Self.h = h
+		Return Self
+	End Method
+
+	Method GenerateNodes()
+		For Local x:Int = 0 Until Self.w
+		For Local y:Int = 0 Until Self.h
+			ListAddLast(nList, New TNode.Create(x, y, Rnd(2))
+		Next
+		Next
+	End Method
+
+	Method GenerateTiles()
+		For Local x:Int = 0 Until Self.w
+		For Local y:Int = 0 Until Self.h
+			Local tmpValue:Int = 0
+			Local scale:Int = 1
+			Local curNode:TNode = FindNode(x,y)
+			For Local n:TNode = EachIn CheckNeighbor(curNode)
+				tmpValue :+ n.GetValue() * scale
+				scale :* 2
+			Next
+		Next
+		Next
+	End Method
+
+	Method FindNode:TNode(x:Int, y:Int)
+		For Local n:TNode = EachIn nList
+			If n.x = x And n.y = y Then Return n
+		Next
+		Return Null
+	End Method
+
+	Method CheckNeighbor:TList(n:TNode)
+		Local tmpList:TList = CreateList()
+		For Local x:Int = -1 Until 1
+		For Local y:Int = -1 Until 1
+			Local checkx:Int = n.x + x
+			Local checky:Int = n.y + y
+			If checkx = 0 And checky = 0 Then Continue
+			If checkx &lt; w And checky &lt; h And checkx &gt;= 0 And checky &gt;= 0
+				ListAddLast(tmpList, FindNode(checkx, checky))
+			EndIf
+		Next
+		Next
+		Return tmpList
+	End Method
+
+	Method Draw()
+		For Local t:Tile = EachIn tList
+			'DrawImage img, t.x * 16, t.y * 18, t.s
+		Next
+	End Method
+
+End Type
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>models</td><td align="right"><font class="tiny">2017-01-05</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://openscad.net/#?r=true&amp;c=Ly8gZTNkIGZvciBDUFI0ODk2IGV2czE2MTcgYnJhY2tldAovLyBieTogRkJFcHlvbgovLyBPcmlnaW5hbCBWZXJzaW9uIDogMTIyOTE2CgokZm49NDA7Cgptb2R1bGUgZmFuX2R1bW15KCl7CiAgICBzY3Jld19sZW5ndGggPSAxNTsKICAgIHVuaW9uKCl7CiAgICAgICAgY29sb3IoInJlZCIpCiAgICAgICAgY3ViZShbMTAsMzAuMCwzMC4wXSwgY2VudGVyPXRydWUpOwoKICAgICAgICB0cmFuc2xhdGUoWzYsIC0xMiwgLTEyXSkKICAgICAgICByb3RhdGUoWzkwLDAsOTBdKQogICAgICAgIGN5bGluZGVyKHNjcmV3X2xlbmd0aCwxLjUsMS41LCBjZW50ZXI9dHJ1ZSk7CiAgICAKICAgICAgICB0cmFuc2xhdGUoWzYsIDEyLCAtMTJdKQogICAgICAgIHJvdGF0ZShbOTAsMCw5MF0pCiAgICAgICAgY3lsaW5kZXIoc2NyZXdfbGVuZ3RoLDEuNSwxLjUsIGNlbnRlcj10cnVlKTsKCiAgICAgICAgdHJhbnNsYXRlKFs2LCAxMiwgMTJdKQogICAgICAgIHJvdGF0ZShbOTAsMCw5MF0pCiAgICAgICAgY3lsaW5kZXIoc2NyZXdfbGVuZ3RoLDEuNSwxLjUsIGNlbnRlcj10cnVlKTsKCiAgICAgICAgdHJhbnNsYXRlKFs2LCAtMTIsIDEyXSkKICAgICAgICByb3RhdGUoWzkwLDAsOTBdKQogICAgICAgIGN5bGluZGVyKHNjcmV3X2xlbmd0aCwxLjUsMS41LCBjZW50ZXI9dHJ1ZSk7CiAgICB9Cn0KCm1vZHVsZSBmYW5fbW91bnQoKXsKICAgIGRpZmZlcmVuY2UoKXsKICAgICAgICB1bmlvbigpewogICAgICAgICAgICB0cmFuc2xhdGUoWy02LDAsLTIzXSkKICAgICAgICAgICAgY3ViZShbMjAsMjUuNSwyNS41XSwgY2VudGVyPXRydWUpOwogICAgICAgICAgICBkaWZmZXJlbmNlKCl7CiAgICAgICAgICAgICAgICB0cmFuc2xhdGUoWy0xNSwwLC0yM10pCiAgICAgICAgICAgICAgICBmYW5fY29uZSgzMCwyMCwzMCk7CiAgICAgICAgICAgICAgICB0cmFuc2xhdGUoWy0zMi41LDAsLTIzXSkKICAgICAgICAgICAgICAgIGZhbl9kdW1teSgpOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHVuaW9uKCl7CiAgICAgICAgICAgIHRyYW5zbGF0ZShbMCwgMCwgLTIzXSkKICAgICAgICAgICAgY3lsaW5kZXIoMjYsIDExLjAsIDExLjAsIGNlbnRlcj10cnVlKTsKICAgICAgICAgICAgdHJhbnNsYXRlKFstMjAsMCwtMjNdKQogICAgICAgICAgICBjdWJlKFszMCwyMC4wLDIwLjBdLCBjZW50ZXI9dHJ1ZSk7CiAgICAgICAgfQogICAgICAgIHByaW50X2hlYWQoKTsKICAgIH0KICAgIGRpZmZlcmVuY2UoKXsKICAgICAgICBkaWZmZXJlbmNlKCl7CiAgICAgICAgICAgIHRyYW5zbGF0ZShbLTMxLjI1LDAsLTIwLjVdKQogICAgICAgICAgICBjdWJlKFsxMi41LDMwLjAsMzUuMF0sIGNlbnRlcj10cnVlKTsKICAgICAgICAgICAgdHJhbnNsYXRlKFstMzIuNSwwLC0yM10pCiAgICAgICAgICAgIGZhbl9kdW1teSgpOwogICAgICAgIH0KICAgICAgICB0cmFuc2xhdGUoWy0yMCwwLC0yM10pCiAgICAgICAgY3ViZShbMzAsMjAuMCwyMC4wXSwgY2VudGVyPXRydWUpOwogICAgfQp9Cgptb2R1bGUgZmlucygpewogICAgZm9yIChpPVswOjExXSl7CiAgICAgICAgY29sb3IoInJlZCIpCiAgICAgICAgdHJhbnNsYXRlKFswLCAwLCAoLTExLjc1LShpKjIuNSkpXSkKICAgICAgICBjeWxpbmRlcigxLjUsIDExLjE1LCAxMS4xNSwgY2VudGVyPXRydWUpOwogICAgfQp9Cgptb2R1bGUgcHJpbnRfaGVhZCgpewogICAgZGlmZmVyZW5jZSgpewogICAgICAgIGNvbG9yKCJyZWQiKQogICAgICAgIHRyYW5zbGF0ZShbMCwgMCwgLTIzXSkKICAgICAgICBjeWxpbmRlcigyNiwgMTEuMTUsIDExLjE1LCBjZW50ZXI9dHJ1ZSk7CiAgICAgICAgZmlucygpOwogICAgfQoKICAgIHVuaW9uKCl7CiAgICAgICAgY29sb3IoInJlZCIpCiAgICAgICAgdHJhbnNsYXRlKFswLCAwLCAoLTQyLjcvMikrNi43XSkKICAgICAgICBjeWxpbmRlcig0Mi43LCA3LCA2LCBjZW50ZXI9dHJ1ZSk7CiAgICAgICAgCiAgICAgICAgY29sb3IoInJlZCIpCiAgICAgICAgdHJhbnNsYXRlKFswLCAwLCA0Ljg1XSkKICAgICAgICBjeWxpbmRlcigzLjcsIDgsIDgsIGNlbnRlcj10cnVlKTsKICAgICAgICAKICAgICAgICBjb2xvcigicmVkIikKICAgICAgICB0cmFuc2xhdGUoWzAsIDAsIC00LjVdKQogICAgICAgIGN5bGluZGVyKDMuMCwgOCwgOCwgY2VudGVyPXRydWUpOwogICAgfQp9Cgptb2R1bGUgdG9wX3Nsb3QoKXsKICAgIHRyYW5zbGF0ZShbMjIuMjUsIDAsIDQuODVdKQogICAgY3ViZShbNDQuNDUsMTYsMy43XSwgY2VudGVyPXRydWUpOwp9Cgptb2R1bGUgY2VudGVyX3Nsb3QoKXsKICAgIC8vY29sb3IoImdyZWVuIikKICAgIHRyYW5zbGF0ZShbMjIuMjUsIDAsIDBdKQogICAgY3ViZShbNDQuNDUsMTIsNl0sIGNlbnRlcj10cnVlKTsKfQoKbW9kdWxlIGJvdHRvbV9zbG90KCl7CiAgICB0cmFuc2xhdGUoWzMwLCAwLCAtNC41XSkKICAgIGN1YmUoWzYwLDE2LDMuMF0sIGNlbnRlcj10cnVlKTsgICAKfQoKbW9kdWxlIHRhYigpewogICAgZGlmZmVyZW5jZSgpewogICAgICAgIHRyYW5zbGF0ZShbMy4yNSw2LDAuMF0pCiAgICAgICAgY3lsaW5kZXIoMy4wLCAxLjAsIDEuMCwgY2VudGVyPXRydWUpOwogICAgICAgIHRyYW5zbGF0ZShbMy4yNSwwLjAsMC4wXSkKICAgICAgICBjdWJlKFszLDExLDNdLCBjZW50ZXI9dHJ1ZSk7CiAgICB9Cn0KCm1vZHVsZSBzZXRfdGFicygpewogICAgdGFiKCk7CiAgICBtaXJyb3IoWzAsMSwwXSkKICAgIHRhYigpOwp9Cgptb2R1bGUgZTNkX2hvbGUoKXsKICAgICAgICB1bmlvbigpewogICAgICAgICAgICAvL2NvbG9yKCJibHVlIikKICAgICAgICAgICAgY3lsaW5kZXIoNi4wLCA2LjAsIDYuMCwgY2VudGVyPXRydWUpOwoJICAgIHRyYW5zbGF0ZShbMCwwLC00LjVdKSAKICAgICAgICAgICAgY3lsaW5kZXIoMy4wLCA4LjAsIDguMCwgY2VudGVyPXRydWUpOwogICAgICAgICAgICB0cmFuc2xhdGUoWzAsMCw0Ljg1XSkKICAgICAgICAgICAgY3lsaW5kZXIoMy43LCA4LjAsIDguMCwgY2VudGVyPXRydWUpOwogICAgICAgIH0KfQoKbW9kdWxlIHBsYXRlKCl7CiAgICAgICAgdW5pb24oKXsKICAgICAgICBzZXRfdGFicygpOwoJZGlmZmVyZW5jZSgpewogICAgICAgICAgICAgICAgdHJhbnNsYXRlKFswLDAsMC4zNV0pCiAgICAgICAgICAgICAgICB1bmlvbigpewogICAgICAgICAgICAgICAgICAgIGN5bGluZGVyKDEyLjcsIDQ0LjQ1LCA0NC40NSwgY2VudGVyPXRydWUpOwogICAgICAgICAgICAgICAgICAgIHRyYW5zbGF0ZShbMCwwLC00Ljg1XSkKICAgICAgICAgICAgICAgICAgICBjeWxpbmRlcigzLCA0OCwgNDgsIGNlbnRlcj10cnVlKTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHVuaW9uKCl7CiAgICAgICAgICAgICAgICAgICAgdG9wX3Nsb3QoKTsKICAgICAgICAgICAgICAgICAgICBjZW50ZXJfc2xvdCgpOwogICAgICAgICAgICAgICAgICAgIGJvdHRvbV9zbG90KCk7CgkJICAgIGUzZF9ob2xlKCk7CiAgICAgICAgICAgICAgICB9Cgl9CiAgICAgICAgZmFuX21vdW50KCk7CiAgICB9Cn0KCm1vZHVsZSBmYW5fY29uZShoLCB3LCBkKXsKCiAgICBwID0gWwogICAgLy8gZnJvbnQKICAgIFswLDAsMF0sIC8vMAogICAgW3csNSw1XSwgLy8xCiAgICBbMCwwLGgrNV0sIC8vMgogICAgW3csNSxoLTVdLCAvLzMKICAgIC8vYmFjawogICAgWzAsZCwwXSwgLy80CiAgICBbdyxkLTUsNV0sIC8vNQogICAgWzAsZCxoKzVdLCAvLzYKICAgIFt3LGQtNSxoLTVdICAvLzcgCiAgICBdOwoKICAgIGYgPSBbCiAgICBbMCwyLDNdLAogICAgWzAsMywxXSwKICAgIFs0LDUsN10sCiAgICBbNCw3LDZdLAogICAgWzAsNCwyXSwKICAgIFsyLDQsNl0sCiAgICBbMiw2LDNdLAogICAgWzYsNywzXSwKICAgIFs1LDQsMF0sCiAgICBbMCwxLDVdLAogICAgWzMsNyw1XSwKICAgIFszLDUsMV0KICAgIF07CgogICAgdHJhbnNsYXRlKFstdy8yLC1kLzIsLWgvMl0pCiAgICBwb2x5aGVkcm9uKHAsIGYpOwp9CgovL3ByaW50X2hlYWQoKTsKLy90cmFuc2xhdGUoWy0zMi41LDAsLTIzXSkKLy9mYW5fZHVtbXkoKTsKcGxhdGUoKTsK" target="_blank">http://openscad.net/#?r=true&amp;c=Ly8gZTNkIGZvciBDUFI0ODk2IGV2czE2MTcgYnJhY2tldAovLyBieTogRkJFcHlvbgovLyBPcmlnaW5hbCBWZXJzaW9uIDogMTIyOTE2CgokZm49NDA7Cgptb2R1bGUgZmFuX2R1bW15KCl7CiAgICBzY3Jld19sZW5ndGggPSAxNTsKICAgIHVuaW9uKCl7CiAgICAgICAgY29sb3IoInJlZCIpCiAgICAgICAgY3ViZShbMTAsMzAuMCwzMC4wXSwgY2VudGVyPXRydWUpOwoKICAgICAgICB0cmFuc2xhdGUoWzYsIC0xMiwgLTEyXSkKICAgICAgICByb3RhdGUoWzkwLDAsOTBdKQogICAgICAgIGN5bGluZGVyKHNjcmV3X2xlbmd0aCwxLjUsMS41LCBjZW50ZXI9dHJ1ZSk7CiAgICAKICAgICAgICB0cmFuc2xhdGUoWzYsIDEyLCAtMTJdKQogICAgICAgIHJvdGF0ZShbOTAsMCw5MF0pCiAgICAgICAgY3lsaW5kZXIoc2NyZXdfbGVuZ3RoLDEuNSwxLjUsIGNlbnRlcj10cnVlKTsKCiAgICAgICAgdHJhbnNsYXRlKFs2LCAxMiwgMTJdKQogICAgICAgIHJvdGF0ZShbOTAsMCw5MF0pCiAgICAgICAgY3lsaW5kZXIoc2NyZXdfbGVuZ3RoLDEuNSwxLjUsIGNlbnRlcj10cnVlKTsKCiAgICAgICAgdHJhbnNsYXRlKFs2LCAtMTIsIDEyXSkKICAgICAgICByb3RhdGUoWzkwLDAsOTBdKQogICAgICAgIGN5bGluZGVyKHNjcmV3X2xlbmd0aCwxLjUsMS41LCBjZW50ZXI9dHJ1ZSk7CiAgICB9Cn0KCm1vZHVsZSBmYW5fbW91bnQoKXsKICAgIGRpZmZlcmVuY2UoKXsKICAgICAgICB1bmlvbigpewogICAgICAgICAgICB0cmFuc2xhdGUoWy02LDAsLTIzXSkKICAgICAgICAgICAgY3ViZShbMjAsMjUuNSwyNS41XSwgY2VudGVyPXRydWUpOwogICAgICAgICAgICBkaWZmZXJlbmNlKCl7CiAgICAgICAgICAgICAgICB0cmFuc2xhdGUoWy0xNSwwLC0yM10pCiAgICAgICAgICAgICAgICBmYW5fY29uZSgzMCwyMCwzMCk7CiAgICAgICAgICAgICAgICB0cmFuc2xhdGUoWy0zMi41LDAsLTIzXSkKICAgICAgICAgICAgICAgIGZhbl9kdW1teSgpOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgICAgIHVuaW9uKCl7CiAgICAgICAgICAgIHRyYW5zbGF0ZShbMCwgMCwgLTIzXSkKICAgICAgICAgICAgY3lsaW5kZXIoMjYsIDExLjAsIDExLjAsIGNlbnRlcj10cnVlKTsKICAgICAgICAgICAgdHJhbnNsYXRlKFstMjAsMCwtMjNdKQogICAgICAgICAgICBjdWJlKFszMCwyMC4wLDIwLjBdLCBjZW50ZXI9dHJ1ZSk7CiAgICAgICAgfQogICAgICAgIHByaW50X2hlYWQoKTsKICAgIH0KICAgIGRpZmZlcmVuY2UoKXsKICAgICAgICBkaWZmZXJlbmNlKCl7CiAgICAgICAgICAgIHRyYW5zbGF0ZShbLTMxLjI1LDAsLTIwLjVdKQogICAgICAgICAgICBjdWJlKFsxMi41LDMwLjAsMzUuMF0sIGNlbnRlcj10cnVlKTsKICAgICAgICAgICAgdHJhbnNsYXRlKFstMzIuNSwwLC0yM10pCiAgICAgICAgICAgIGZhbl9kdW1teSgpOwogICAgICAgIH0KICAgICAgICB0cmFuc2xhdGUoWy0yMCwwLC0yM10pCiAgICAgICAgY3ViZShbMzAsMjAuMCwyMC4wXSwgY2VudGVyPXRydWUpOwogICAgfQp9Cgptb2R1bGUgZmlucygpewogICAgZm9yIChpPVswOjExXSl7CiAgICAgICAgY29sb3IoInJlZCIpCiAgICAgICAgdHJhbnNsYXRlKFswLCAwLCAoLTExLjc1LShpKjIuNSkpXSkKICAgICAgICBjeWxpbmRlcigxLjUsIDExLjE1LCAxMS4xNSwgY2VudGVyPXRydWUpOwogICAgfQp9Cgptb2R1bGUgcHJpbnRfaGVhZCgpewogICAgZGlmZmVyZW5jZSgpewogICAgICAgIGNvbG9yKCJyZWQiKQogICAgICAgIHRyYW5zbGF0ZShbMCwgMCwgLTIzXSkKICAgICAgICBjeWxpbmRlcigyNiwgMTEuMTUsIDExLjE1LCBjZW50ZXI9dHJ1ZSk7CiAgICAgICAgZmlucygpOwogICAgfQoKICAgIHVuaW9uKCl7CiAgICAgICAgY29sb3IoInJlZCIpCiAgICAgICAgdHJhbnNsYXRlKFswLCAwLCAoLTQyLjcvMikrNi43XSkKICAgICAgICBjeWxpbmRlcig0Mi43LCA3LCA2LCBjZW50ZXI9dHJ1ZSk7CiAgICAgICAgCiAgICAgICAgY29sb3IoInJlZCIpCiAgICAgICAgdHJhbnNsYXRlKFswLCAwLCA0Ljg1XSkKICAgICAgICBjeWxpbmRlcigzLjcsIDgsIDgsIGNlbnRlcj10cnVlKTsKICAgICAgICAKICAgICAgICBjb2xvcigicmVkIikKICAgICAgICB0cmFuc2xhdGUoWzAsIDAsIC00LjVdKQogICAgICAgIGN5bGluZGVyKDMuMCwgOCwgOCwgY2VudGVyPXRydWUpOwogICAgfQp9Cgptb2R1bGUgdG9wX3Nsb3QoKXsKICAgIHRyYW5zbGF0ZShbMjIuMjUsIDAsIDQuODVdKQogICAgY3ViZShbNDQuNDUsMTYsMy43XSwgY2VudGVyPXRydWUpOwp9Cgptb2R1bGUgY2VudGVyX3Nsb3QoKXsKICAgIC8vY29sb3IoImdyZWVuIikKICAgIHRyYW5zbGF0ZShbMjIuMjUsIDAsIDBdKQogICAgY3ViZShbNDQuNDUsMTIsNl0sIGNlbnRlcj10cnVlKTsKfQoKbW9kdWxlIGJvdHRvbV9zbG90KCl7CiAgICB0cmFuc2xhdGUoWzMwLCAwLCAtNC41XSkKICAgIGN1YmUoWzYwLDE2LDMuMF0sIGNlbnRlcj10cnVlKTsgICAKfQoKbW9kdWxlIHRhYigpewogICAgZGlmZmVyZW5jZSgpewogICAgICAgIHRyYW5zbGF0ZShbMy4yNSw2LDAuMF0pCiAgICAgICAgY3lsaW5kZXIoMy4wLCAxLjAsIDEuMCwgY2VudGVyPXRydWUpOwogICAgICAgIHRyYW5zbGF0ZShbMy4yNSwwLjAsMC4wXSkKICAgICAgICBjdWJlKFszLDExLDNdLCBjZW50ZXI9dHJ1ZSk7CiAgICB9Cn0KCm1vZHVsZSBzZXRfdGFicygpewogICAgdGFiKCk7CiAgICBtaXJyb3IoWzAsMSwwXSkKICAgIHRhYigpOwp9Cgptb2R1bGUgZTNkX2hvbGUoKXsKICAgICAgICB1bmlvbigpewogICAgICAgICAgICAvL2NvbG9yKCJibHVlIikKICAgICAgICAgICAgY3lsaW5kZXIoNi4wLCA2LjAsIDYuMCwgY2VudGVyPXRydWUpOwoJICAgIHRyYW5zbGF0ZShbMCwwLC00LjVdKSAKICAgICAgICAgICAgY3lsaW5kZXIoMy4wLCA4LjAsIDguMCwgY2VudGVyPXRydWUpOwogICAgICAgICAgICB0cmFuc2xhdGUoWzAsMCw0Ljg1XSkKICAgICAgICAgICAgY3lsaW5kZXIoMy43LCA4LjAsIDguMCwgY2VudGVyPXRydWUpOwogICAgICAgIH0KfQoKbW9kdWxlIHBsYXRlKCl7CiAgICAgICAgdW5pb24oKXsKICAgICAgICBzZXRfdGFicygpOwoJZGlmZmVyZW5jZSgpewogICAgICAgICAgICAgICAgdHJhbnNsYXRlKFswLDAsMC4zNV0pCiAgICAgICAgICAgICAgICB1bmlvbigpewogICAgICAgICAgICAgICAgICAgIGN5bGluZGVyKDEyLjcsIDQ0LjQ1LCA0NC40NSwgY2VudGVyPXRydWUpOwogICAgICAgICAgICAgICAgICAgIHRyYW5zbGF0ZShbMCwwLC00Ljg1XSkKICAgICAgICAgICAgICAgICAgICBjeWxpbmRlcigzLCA0OCwgNDgsIGNlbnRlcj10cnVlKTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHVuaW9uKCl7CiAgICAgICAgICAgICAgICAgICAgdG9wX3Nsb3QoKTsKICAgICAgICAgICAgICAgICAgICBjZW50ZXJfc2xvdCgpOwogICAgICAgICAgICAgICAgICAgIGJvdHRvbV9zbG90KCk7CgkJICAgIGUzZF9ob2xlKCk7CiAgICAgICAgICAgICAgICB9Cgl9CiAgICAgICAgZmFuX21vdW50KCk7CiAgICB9Cn0KCm1vZHVsZSBmYW5fY29uZShoLCB3LCBkKXsKCiAgICBwID0gWwogICAgLy8gZnJvbnQKICAgIFswLDAsMF0sIC8vMAogICAgW3csNSw1XSwgLy8xCiAgICBbMCwwLGgrNV0sIC8vMgogICAgW3csNSxoLTVdLCAvLzMKICAgIC8vYmFjawogICAgWzAsZCwwXSwgLy80CiAgICBbdyxkLTUsNV0sIC8vNQogICAgWzAsZCxoKzVdLCAvLzYKICAgIFt3LGQtNSxoLTVdICAvLzcgCiAgICBdOwoKICAgIGYgPSBbCiAgICBbMCwyLDNdLAogICAgWzAsMywxXSwKICAgIFs0LDUsN10sCiAgICBbNCw3LDZdLAogICAgWzAsNCwyXSwKICAgIFsyLDQsNl0sCiAgICBbMiw2LDNdLAogICAgWzYsNywzXSwKICAgIFs1LDQsMF0sCiAgICBbMCwxLDVdLAogICAgWzMsNyw1XSwKICAgIFszLDUsMV0KICAgIF07CgogICAgdHJhbnNsYXRlKFstdy8yLC1kLzIsLWgvMl0pCiAgICBwb2x5aGVkcm9uKHAsIGYpOwp9CgovL3ByaW50X2hlYWQoKTsKLy90cmFuc2xhdGUoWy0zMi41LDAsLTIzXSkKLy9mYW5fZHVtbXkoKTsKcGxhdGUoKTsK</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>lua code</td><td align="right"><font class="tiny">2016-07-06</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">
+-- Lua file for player
+
+function CPlayer()
+
+	local p = {
+		x=0, 
+		y=0,
+		health=0,
+		item_id=0,
+		active=true,
+	}
+
+	-- Init the player and his position / default health / default item.
+	-- Item Deafult is 0 (nothing).
+
+	function p:create(v1, v2)
+		v1 = tonumber(v1)
+		v2 = tonumber(v2)
+		self.x = v1
+		self.y = v2
+		self.health = 3
+		self.item_id = 0
+		DoCall("cb_playercreate", self.x, self.y)
+	end
+
+	-- SETTER FUNCTIONS
+
+	function p:set_health(v1)
+		self.health = v1
+	end
+
+	function p:set_item_id(v1)
+		self.item_id = v1
+	end
+
+	function p:set_position(v1, v2)
+		self.x = v1
+		self.y = v2
+	end
+
+	-- GETTER FUNCTIONS
+
+	function p:get_health()
+		DoCall("cb_player_health", self.health)
+	end
+
+	function p:get_position()
+		DoCall("cb_player_position", self.x, self.y)
+	end
+
+	function p:get_item_id()
+		DoCall("cb_player_itemid", self.item_id)
+	end
+
+	return p
+
+end
+
+-- Set the global variable for player that can be used in other lua files.
+
+player = CPlayer()
+
+-- Clickteam Fusion Functions for external use.
+
+function Player_Create(x, y)
+	player:create(x, y)
+end
+
+-- SETTERS
+
+function Player_Set_Health(health)
+	player:set_health(health)
+end
+
+function Player_Set_ItemId(id)
+	player:set_item_id(id)
+end
+
+function Player_Set_Position(x, y)
+	player:set_position(x, y)
+end
+
+-- GETTERS
+
+function Player_Get_Health()
+	player:get_health()
+end
+
+function Player_Get_Position()
+	player:get_position()
+end
+
+function Player_Get_ItemId()
+	player:get_item_id()
+end
+
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Test</td><td align="right"><font class="tiny">2016-07-02</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">
+SuperStrict
+
+Local frm:TFrame = New TFrame.Create("Map Editor")
+Local sprite:TSpriteManager = New TSpriteManager.Create()
+Local gameobj:TGameObjectManager = New TGameObjectManger.Create()
+
+While True
+	WaitEvent
+Wend
+
+Type TCanvas
+
+	Method OnEvent(Event:TEvent) Abstract
+
+	Method Run()
+		AddHook EmitEventHook, MapHook, Self
+	End Method
+
+	Function MapHook:Object(id, data:Object, context:Object)
+		Local event:TEvent
+		Local map:TCanvas
+		event = TEvent(data)
+		map = TCanvas(context)
+		map.OnEvent event
+	End Function
+
+End Type
+
+Type TFrame Extend TCanvas
+
+	Field _win:TGadget
+	Field _window_flag:Int=WINDOW_TITLEBAR|WINDOW_MENU|WINDOW_STATUS|WINDOW_CENTER
+	Field _file_menu:TGadget
+	Field _edit_menu:TGadget
+
+	Field _canvas_map:TGadget
+	Field _timer:TTimer
+
+	Field _surface:TImage
+
+	Method Create:TFrame(name:String, width:Int, height:Int)
+		_win = CreateWindow(name, 0, 0, width, height, Null, _window_flag)
+		_file = CreateMenu("&amp;File", 0, WindowMenu(_win))
+
+		CreateMenu("&amp;New", 101, _file, KEY_N, MODIFIER_COMMAND)
+		CreateMenu("&amp;Open", 102, _file, KEY_O, MODIFIER_COMMAND)
+		CreateMenu("&amp;Close", 103, _file, KEY_W, MODIFIER_COMMAND)
+		CreateMenu("", 0, _file)
+		CreateMenu("E&amp;xit", 105, _file, KEY_F4, MODIFIER_COMMAND)
+
+		_canvas_map = CreateCanvas(0, 0, ClientWidth(_win), ClientHeight(_win), _win)
+		_canvas_map.SetLayout 1, 1, 1, 1
+
+		_surface = CreateImage(width, height, , DYNAMICIMAGE) '// Size of the maps in each level
+		_timer = CreateTimer(100)
+
+		Return Self
+	End Function
+
+	Method OnEvent(Event:TEvent)
+		Select Event.Id
+			Case EVENT_TIMERTICK
+				sprite.Update()
+				RedrawGadget _canvas_map
+			Case EVENT_GADGETPAINT
+				Draw_Canvas_Surface()
+			Case EVENT_WINDCLOSE
+				End
+			Case EVENT_MENUACTION
+				Select EventData()
+					Case 105
+						End
+				End Select
+			Case EVENT_APPTERMINATE
+				End
+		End Select
+	End Method
+
+	Method Get_Frame:TGadget()
+		Return _win
+	End Method
+
+	Method Get_Canvas:TGadget()
+		Return _canvas
+	End Method
+
+	Method Get_Surface:TImage()
+		Return _surface
+	End Method
+
+	Method Draw_Canvas_Surface()
+		SetGraphics CanvasGraphics(_canvas_map)
+		SetViewPort 0, 0, ImageWidth(_surface), ImageHeight(_surface)
+		SetOrigin 0, 0
+
+		' Place all draw commands here..
+		sprite.Render()
+		GrabImage _surface, 0, 0
+
+		Cls
+			DrawImage _surface, 0, 0
+		Flip
+	End
+
+End Type
+
+Method TSpriteManager()
+
+	Field _sprite_map:TMap
+	Field _total:Int
+
+	Method Create:TSpriteManager()
+		_sprite_map = CreateMap()
+		_total_sprite = 0
+		Return Self
+	End Method
+
+	Method Add_Sprite(name:String, file:String, dem:Int[], num:Int=1, z_order:Int=-1)
+
+		'If image is left in default z_order then it will not be drawn
+		'through the automatic rendering method, and must be drawn manually.
+
+		If Not MapContains(_sprite_map, name)
+			MapInsert(_sprite_map, name, New TSprite)
+			Get_Sprite(name)._img = LoadImage(file)
+			Get_Sprite(name)._w = dem[0]
+			Get_Sprite(name)._h = dem[1]
+			Get_Sprite(name)._row = Floor(width / height)
+			Get_Sprite(name)._num = num
+			Get_Sprite(name)._z = z_order
+			_total = _total + 1
+		Else
+			Notify("Unable to create new Sprite Object" + Chr(13) + "Please check naming of the Sprite Object", True)
+		End If
+	End Method
+
+	Method Delete_Sprite(name:String)
+		If MapContains(_sprite_map, name)
+			MapRemove(_sprite_map, name)
+		Endif
+	End Method
+
+	Method Position_Sprite(name:String, pos:Int[])
+		If MapContains(_sprite_map, name)
+			Get_Sprite(name)._x = pos[0]
+			Get_Sprite(name)._y = pos[1]
+		End If
+	End Method
+
+	Method Get_Sprite:TSprite(name:String)
+		Return TSprite(MapValueForKey(_sprite_map, name)
+	End Method
+
+	Method Update()
+		Local layer:TList[4] = CreateList()
+		Local counter:Int
+		For Local s:TSprite = Eachin MapValues(_sprite_map)
+			If s._z &gt;= 0 Then ListAddLast(layer[s._z], s)
+			If counter = s._fps - 1
+				s._cur = (s._cur + 1) Mod s._num
+			EndIf		
+			counter = (counter + 1) Mod s._fps
+		Next
+	End Method
+
+	Method Render()
+		Local frames_per_row:Int
+		Cls
+		For Local z:Int = 0 To 3
+		For Local layer:TSprite = Eachin layer[z]
+			Local row:Int = Floor(layer._cur / layer._row)
+			Local col:Int = Floor(layer._cur Mod layer._row)
+			DrawImageRect layer._img, layer._x, layer.y, col * layer._w, row * layer._h
+		Next
+		Next
+	End Method
+
+End Method
+
+Method TSprite
+
+	Field _x:Int, _y:Int
+	Field _w:Int, _h:Int
+	Field _fps:Int, _row:Int
+	Field _cur:Int, _num:Int
+	Field _z:Int
+	Field _img:TImage
+	
+End Method
+
+Method TGameObjectManager
+
+	Field _gameobj_map:TMap
+	FIeld _total:Int
+
+	Method Create:TGameObject(x:Int, y:Int)
+		_gameobject = CreateMap()
+		Return Self
+	End Method
+
+	Method Add_GameObject(name:String, dem:Int[])
+		If Not MapContains(_gameobj_map, name)
+			MapInsert(_gameobj_map, name, New TGameObject.Create())
+			Get_GameObject(name)._alive = True
+			Get_GameObject(name)._w = dem[0]
+			Get_GameObject(name)._h = dem[1]
+		EndIf
+	End Method
+
+	Method Del_GameObject(name:String)
+		If MapContains(_gameobj_map, name)
+			MapRemove(_gameobj_map, name)
+		EndIf
+	End Method
+
+	Method Position_GameObject(name:String, pos:Int[])
+		If MapContains(_gameobj_map, name)
+			Get_GameObject(name)._x = pos[0]
+			Get_GameObject(name)._y = pos[1]
+		EndIf
+	End Method
+
+	Method Update()
+		For Local g:TGameObject = Eachin MapValues(_sprite_map)
+			g._bound_l = g._x
+			g._boung_r = g._x + g._w
+			g._bound_t = g._y
+			g._bound_b = g._y + g._h
+		Next
+	End Method
+
+	Method Test_Collision:Int(name:String)
+		If Not MapContains(_sprite_map, name)
+			Return False
+		EndIf
+		For Local g:TGameObject = Eachin MapValues(_sprite_map)
+			If Get_GameObject(name)._bound_l &lt; g._bound_r Return False
+			If Get_GameObject(name)._bound_r &gt; g._bound_l Return False
+			If Get_GameObject(name)._bound_t &lt; g._bound_b Return False
+			If Get_GameObject(name)._bound_b &gt; g._bound_t Return False
+		Next
+		Return True
+	End Method
+
+	Method Get_GameObject:TGameObject(name:String)
+		Return TGameObject(MapValueForKey(_gameobj_map, name)
+	End Method
+
+End Method
+
+Method TGameObject
+
+	Field _x:Float, _y:Float
+	Field _w:Int, h:Int
+	Field _bound_l:Int, _bound_r:Int, _bound_t:Int, _bound_b:Int
+	Field _collide:Int
+	Field _alive:Int
+	
+End Method
+
+
+
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td align="right"><a href="http://monkeycoder.co.nz/" target="_blank"><img src="2168&amp;log=1921_files/monkey2.svg"></a> <a href="https://github.com/blitz-research" target="_blank"><img src="2168&amp;log=1921_files/github.svg"></a> <a href="https://discord.gg/qJccbSp" target="_blank"><img src="2168&amp;log=1921_files/discord.svg"></a></td></tr></tbody></table><br></div><br><table width="100%"><tbody><tr><td><!--
+     FILE ARCHIVED ON 15:27:05 Jan 22, 2018 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 00:08:37 Oct 17, 2021.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 131.928
+  exclusion.robots: 0.314
+  exclusion.robots.policy: 0.299
+  RedisCDXSource: 3.226
+  esindex: 0.012
+  LoadShardBlock: 103.842 (3)
+  PetaboxLoader3.datanode: 52.046 (4)
+  CDXLines.iter: 20.801 (3)
+  PetaboxLoader3.resolve: 74.805 (2)
+  load_resource: 49.367
+--></td></tr></tbody></table></body></html>

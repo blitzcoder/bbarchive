@@ -1,0 +1,74 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Duckstab[o]</h1><h1>Lua Scripting</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Areonx first Lua implementation</td><td align="right"><font class="tiny">(Posted 2009-08-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well ive had a good 8 hours sleep so im about to build the first prototype of Areonx Lua.<br><br>My first prototype is to enable movement scripting for the player <br><br> Window 7 Home Premium<br>Q6600 4*3.199Ghz<br>Single Nvidia G260 768mb DDR3 (Soon to be two :) )<br>780i XFX mobo<br>21 Viewsonic 16/10<br>4gb Ram<br>1.5tb harddrive<br><br><a href="http://www.mygamespace.com/duckstab?afcode=af25e085ee17" target="_blank">My Game Space Home Page</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Script Overide</td><td align="right"><font class="tiny">(Posted 2009-08-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> My next objective is to set up a mod folder so additional<br>scripts
+ may be loaded this mode will not be enabled for the core game but 
+modifications may be made in the form of a module ie like NWN and NWN2 <br><br> Window 7 Home Premium<br>Q6600 4*3.199Ghz<br>Single Nvidia G260 768mb DDR3 (Soon to be two :) )<br>780i XFX mobo<br>21 Viewsonic 16/10<br>4gb Ram<br>1.5tb harddrive<br><br><a href="http://www.mygamespace.com/duckstab?afcode=af25e085ee17" target="_blank">My Game Space Home Page</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Base Scripts</td><td align="right"><font class="tiny">(Posted 2009-08-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">
+Lua_Character.lua
+Lua_Race.lua
+Lua_Beast.lua
+Lua_Job.lua
+Lua_Mob.lua
+Lua_Spell.lua
+Lua_Tech.lua
+Lua_Trait.lua
+Lua_Skill.lua
+
+Lua_Player.lua
+Lua_Monster.lua
+Lua_Boss.lua
+</pre><br><br>These are the Core Scripts used to Create the game characters <br><br> Window 7 Home Premium<br>Q6600 4*3.199Ghz<br>Single Nvidia G260 768mb DDR3 (Soon to be two :) )<br>780i XFX mobo<br>21 Viewsonic 16/10<br>4gb Ram<br>1.5tb harddrive<br><br><a href="http://www.mygamespace.com/duckstab?afcode=af25e085ee17" target="_blank">My Game Space Home Page</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Basic control for Communication</td><td align="right"><font class="tiny">(Posted 2009-08-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Lua Object :Race<br><br><pre class="code">-- Race.lua
+
+Race = {}
+setmetatable(Race, {__mode="v"})
+
+function NewRace(name)
+	local char = {
+		Name = name,
+		Stats = {
+			Str=5,
+			Dex=5,
+			Agi=5,
+			Int=5,
+			Mnd=5,
+			Spd=5,
+			Lck=5,
+			
+			Hp=30,
+			Mp=10,
+		},
+		Trait = {
+			Trait1="Null",
+			Trait2="Null",
+			Trait3="Null",
+			Trait4="Null",
+			Trait5="Null",
+		},
+		Skill = {
+			Axe=1,
+			Sword=1,
+			Mace=1,
+			Club=1,
+			Staff=1,
+			Wand=1,
+			Gun=1,
+			Bow=1,
+		},
+		Magic = {
+			Fire=1,
+			Ice=1,
+			Water=1,
+			Wind=1,
+			Thunder=1,
+			Earth=1,
+			Light=1,
+			Dark=1,
+		}
+	}
+	table.insert(Race,char)
+	return char
+end
+
+</pre><br><br>This is a first concept for the player,npc,enemy base class.<br>Variations can be implemented with a simple text editor without the need to recompile the engine.<br><br><pre class="code">.....
+</pre> <br><br> Window 7 Home Premium<br>Q6600 4*3.199Ghz<br>Single Nvidia G260 768mb DDR3 (Soon to be two :) )<br>780i XFX mobo<br>21 Viewsonic 16/10<br>4gb Ram<br>1.5tb harddrive<br><br><a href="http://www.mygamespace.com/duckstab?afcode=af25e085ee17" target="_blank">My Game Space Home Page</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

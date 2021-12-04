@@ -1,0 +1,42 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Odds On</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>F-Engine 3D</td><td align="right"><font class="tiny">(Posted 2004-11-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is an engine I am working on for Blitz3D. It is not aimed for any 
+specific genres, it's merely intended to be a basic engine to make the 
+development of your game that much easier.<br><br>The basic idea behind 
+this engine is to get people to finish the underlying structure of their
+ project before they begin worrying about petty details such as the 
+appearance of the menus etc etc.<br><br>The engine is made up of a few 
+different parts. Firstly is the "project wizard". This allows you to 
+setup intro sequences, menu layouts (using a treeview), include files / 
+libraries and then compile it into source code.<br><br>Next is the 
+generic library of functions to aid in the development of the game 
+itself. The main feature is the entity system which allows you to apply 
+gravity and other simple forces to your game objects automatically.<br><br>Below is more detail on how certain aspects of the engine currently work.<br><br><b>Creating Menus</b><br>When
+ you are on the Menu tab of the project wizard (screenshot soon) there 
+is a large tree view with a single entry called "Main". This is the main
+ menu screen and you cannot edit/delete this node. Down the side are 
+options to Add / Remove / Rename new menu screens.<br><br>When you click
+ on "Add" you will be asked to choose a name for this new menu screen 
+(eg "Options"). It will then create the menu as a child of the "Main" 
+screen. You can then select the newly created "Options" node and create 
+more menu screens as childs of this menu screen (eg "Graphics", "Sound",
+ "Controls").<br><br>Below the treeview are several settings for the 
+menu screen, including a button graphic, up / over / down button sounds,
+ and an action to perform when the button is clicked. There are several 
+built-in actions to perform including "Start Game" and "Exit". You can 
+also select a custom written script (B3D source code) to execute when 
+the button is pressed.<br><br>That pretty much covers the menu system. 
+It has been designed so you can design your menu and have it in working 
+order in very short time. You can then come back to it at a later date 
+and specify menu button graphics to use etc.<br><br><b>Library of Functions</b><br>This
+ is basically an entity system for your projects. It does not interfere 
+with the running of your game in a big way. For example, if you wanted 
+to create a sphere that can be used with the engine you would do 
+something like this:<br><br><pre class="code">myobject = F_Entity( CreateSphere(  ) )</pre>The
+ mesh itself is returned by the F_Entity(  ) function which means you 
+can treat it like you would any other mesh. The only difference is the 
+name of the mesh contains a Handle to an Entity type so it can be 
+affected by the functions in the F-Engine library.<br><br>More info coming soon!<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

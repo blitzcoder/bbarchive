@@ -1,0 +1,426 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Scaremonger</h1><h1>[MAXGUI] TTableview</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>End of the line</td><td align="right"><font class="tiny">(Posted 2008-01-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> With Brucey converting wxWidgets to Blitzmax, this project seems a little pointless now. Development has ceasd. <br><br> ________________________________________<br><a href="http://www.itspeedway.net/" target="_blank">www.itspeedway.net</a> | <a href="http://www.scaremonger.net/" target="_blank">scaremonger.net</a><br><br>MODULES: <a href="http://www.itspeedway.net/ITSwinservice.ashx" target="_blank">ITS_Win32service.mod</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 2.0</td><td align="right"><font class="tiny">(Posted 2007-08-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Spent all day on this. Yawn...<br><br><img src="10142&amp;log=1498_files/TTableview20.html"><br><br><img src="10142&amp;log=1498_files/TTableview20b.html"><br><br>Just need to test, and I'll publish the code. <br><br> ________________________________________<br><a href="http://www.itspeedway.net/" target="_blank">www.itspeedway.net</a> | <a href="http://www.scaremonger.net/" target="_blank">scaremonger.net</a><br><br>MODULES: <a href="http://www.itspeedway.net/ITSwinservice.ashx" target="_blank">ITS_Win32service.mod</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>V0.1 - bug fixes.</td><td align="right"><font class="tiny">(Posted 2007-08-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Fixed bug in redraw()<br><br><b>Added</b><br>.cellpadding()<br>.cellspacing() <br><br> ________________________________________<br><a href="http://www.itspeedway.net/" target="_blank">www.itspeedway.net</a> | <a href="http://www.scaremonger.net/" target="_blank">scaremonger.net</a><br><br>MODULES: <a href="http://www.itspeedway.net/ITSwinservice.ashx" target="_blank">ITS_Win32service.mod</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Documentation...</td><td align="right"><font class="tiny">(Posted 2007-08-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Ok, I guess I need to produce this...<br><br>Exported Methods - TTableview<br><b>.create()</b><br><b>.cols%( count% )</b><br>    Gets or Sets the number of columns<br><b>.rows%( count% )</b><br>    Gets or Sets the number of rows<br><b>.cell( column%, row%, text$ = "" )</b><br>    Sets text in the specified cell<br><b>.JustifyColumn( column%, Justify%=LABEL_LEFT )</b><br>    Justifies a column, Can be LABEL_LEFT, LABEL_RIGHT or LABEL_CENTER<br><b>.size( columns$, rows%)</b><br>    Resizes the table.<br><b>.rowheight( height% )</b><br>    Sets the row height<br><b>.colwidth( width% )</b><br>    Sets the column width<br><b>.fillrow( row%, data$ )</b><br>    Fills row with data.<br>    (Data contains Comma seperated values).<br><b>.setcolor( red%, green%, blue% )</b><br>    Sets the table background color<br><b>.cellpadding%( padding% )</b><br>Gets or sets the cellpadding<br><b>.cellspacing%( spacing% )</b><br>Gets or sets the cellspacing <br><br> ________________________________________<br><a href="http://www.itspeedway.net/" target="_blank">www.itspeedway.net</a> | <a href="http://www.scaremonger.net/" target="_blank">scaremonger.net</a><br><br>MODULES: <a href="http://www.itspeedway.net/ITSwinservice.ashx" target="_blank">ITS_Win32service.mod</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Complete disbelief</td><td align="right"><font class="tiny">(Posted 2007-08-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I cannot believe there is not a Grid control in Maxgui!<br><br>Anyway...
+ I've written one (Well started anyways). I will probably keep 
+developing it if anyone is interested; but for now, it does the job I 
+needed it for.<br><br><img src="10142&amp;log=1498_files/TTableview10.html"><br><br>Here's some test code:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Strict 
+Import "TTableView.bmx"
+
+Local window:TGadget=CreateWindow("My Window",50,50,410,240)
+Local table:TTableView = createTableView( 10 , 10 , ClientWidth( window ) -20 , ClientHeight( window ) -20 , window )
+
+'# Set the size of the table.
+table.size( 5 , 4 )	'# Columns, Rows
+'# Fill row zero with the column headers
+table.fillRow( 0, "Name,Age,Sex,DOB,note" )
+
+'# Fill the cells in all rows except header row
+Local counter% = 0
+For Local col% = 0 Until table.cols()
+	For Local row% = 1 Until table.rows()
+		table.cell( col , row , String( counter ) )
+		counter:+1
+	Next
+Next
+
+'# Change the number of rows...
+table.rows( 6 )
+'# Adjust a columns width
+table.colwidth( 3 , 30 )
+'# Adjust justification of two columns
+table.justifyColumn( 2 , LABEL_CENTER )
+table.justifyColumn( 4 , LABEL_RIGHT )
+
+'# Reset the table size
+table.size( 7 , 6 )	'# Columns, Rows
+
+While WaitEvent()
+'DebugLog CurrentEvent.ToString()
+	Select EventID()
+		Case EVENT_WINDOWCLOSE
+			End
+	End Select
+Wend
+</textarea><br><b>TTableview</b><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'#
+'#
+ MAXGUI Gadget - TableView
+'#
+'# Version 0.1 - BETA
+'# Si Dunford (Scaremonger), August 2007
+'# Provides a MAXGUI Gadget called TTableView
+
+import "stringsplit.bmx"
+
+'############################################################
+'# Public constructor
+Function 
+CreateTableView:TTableView(x%,y%,w%,h%,group:TGadget,cellSpacing%=1,cellPadding%=1,style%=0)
+
+	Return New 
+TTableView.create(x,y,w,h,group,cellspacing,cellpadding,style)
+End Function
+Function 
+CreateTableViewCell:TTableViewCell(x%,y%,w%,h%,group:TGadget,CellPadding%=1,style%=0)
+
+	Return New TTableViewCell.create(x,y,w,h,group,cellpadding,style)
+End Function
+
+'############################################################
+'# Tableview Gadget
+Type TTableView Extends TProxyGadget
+Field gad:TGadget
+Field cells:TTableViewCell[][]		'[column][row]
+Field widths%[]
+Field heights%[]
+Field spacing%, padding%
+
+	'----------------------------------------
+	Method create:TTableView( x% , y% , w%, h%, group:TGadget, cellspacing%
+ =1, cellpadding% = 1, style% = 0 )	
+		'# Set up gadget
+		spacing = cellspacing
+		padding = cellpadding
+		'# Create
+		gad = CreatePanel( x , y , w , h , group )
+		SetPanelColor( gad, 64,64,64 )
+		setproxy gad
+		Return Self
+	End Method
+
+	'----------------------------------------
+	'GET/SET the number of columns
+	Method cols%( resize% = 0 )
+	Local colCount% = cells.length
+	Local rowCount% = cells[0].length
+		If resize &gt; 0 Then
+			' Resize the main array (which is used here as the width-index)
+			cells = cells[..resize]
+			' Resize all subarrays (each index of the main array points to a 
+different subarray)
+			For Local col% = 0 Until colCount ' "Until" is used, because you have
+ index "0" to index "width - 1" (0-based arrays)
+				cells[col] = cells[col][..resize]
+			Next
+			'# Resize the Widths.
+			widths = widths[..resize]
+			organise()
+		End If
+	Return colCount
+	End Method
+
+	'----------------------------------------
+	Method rows%( resize% = 0 )
+	Local colCount% = cells.length
+	Local rowCount% = cells[0].length
+		If resize &gt; 0 Then
+			' Resize all subarrays (each index of the main array points to a 
+different subarray)
+			For Local col% = 0 Until colCount ' "Until" is used, because you have
+ index "0" to index "width - 1" (0-based arrays)
+				cells[col] = cells[col][..resize]
+			Next
+			'# Resize the Heights.
+			heights = heights[..resize]
+			organise()
+		End If
+	Return rowCount
+	End Method
+
+	'----------------------------------------
+	Method cell$( col% , row% , data$ = Null )
+		If col &gt;= 0 And col &lt; cols() And row &gt;= 0 And row &lt; rows()
+ Then
+			SetGadgetText( cells[col][row].gad , data )
+			cells[col][row].gad.activate(ACTIVATE_REDRAW)
+		End If
+	End Method
+
+	'----------------------------------------
+	'# LABEL_LEFT, LABEL_CENTER or LABEL_RIGHT 
+	Method justifyColumn( col%, justification% = LABEL_LEFT )
+	Local cell:TTableViewCell
+		If col &gt;= 0 And col &lt; cols() Then
+			For Local row% = 0 Until rows()
+				cells[col][row].justify( justification )
+			Next
+		End If
+	End Method
+
+	'----------------------------------------
+	'# Allows the setting of the table size 
+	Method size( cols% , rows% , width% = 10 )
+		' Resize the main array (which is used here as the width-index)
+		cells = cells[..cols]
+		' Resize all subarrays (each index of the main array points to a 
+different subarray)
+		For Local i% = 0 Until cols ' "Until" is used, because you have index 
+"0" to index "width - 1" (0-based arrays)
+			cells[i] = cells[i][..rows]
+		Next
+		'# Resize the Heights and Widths.
+		heights = heights[..rows]
+		widths = widths[..cols]
+		'# Organise all cells
+		organise()
+'		SetGadgetShape( canvas, _x, _y, cols * 50, rows * 20)
+	End Method
+
+	'----------------------------------------
+	Method rowHeight( row%, h% )
+		If h% &gt; 0 And row &gt;= 0 And row &lt; rows() Then
+			heights[row] = h
+			organise()
+		End If
+	End Method
+
+	'----------------------------------------
+	Method colWidth( col% , w% )
+		If w% &gt; 0 And col &gt;= 0 And col &lt; cols() Then
+			widths[col] = w
+			organise()
+		End If
+	End Method
+
+	'----------------------------------------
+	'# Get/Set the entire content of a row
+	Method FillRow( row% , text$ )
+	Local data:String[] = split(text,",")
+		For Local col% = 0 Until cols()
+			If col &gt; data.length Then Continue
+			SetGadgetText( cells[col][row].gad , data[col] )
+			cells[col][row].gad.activate(ACTIVATE_REDRAW)
+		Next
+	End Method
+
+	'----------------------------------------
+	'# Organises all children to ensure they fit
+	Method organise() 
+	Local row% , col% , vpos% , hpos%
+	Local cell:TTableViewCell
+		'# Ensure that the width and height arrays do not contain ZERO
+		For row% = 0 Until rows()
+			If heights[row] &lt;= 0 Then heights[row] = 20	'# Default
+		Next
+		For col% = 0 Until cols()
+			If widths[col] &lt;= 0 Then widths[col] = 50	'# Default
+		Next
+		'# Reposition all cells into the canvas / resize them too...
+		hpos = spacing
+		vpos = spacing
+		For row = 0 Until rows()
+			For col = 0 Until cols() 
+				'# Ensure that there is a gadget in this cell...
+				cell = cells[col][row]
+				If Not cell Then
+					cells[col][row] = createTableViewCell( hpos , vpos , widths[col] , 
+heights[row], gad, padding )
+				Else
+					cell.update( hpos , vpos , widths[col] , heights[row], padding )
+				End If
+				hpos:+ widths[col] + spacing
+			Next
+			hpos = spacing
+			vpos:+ heights[row]+spacing
+		Next
+		
+	End Method
+	
+	'----------------------------------------
+	Method SetColor( r% , g% , b% )
+		SetPanelColor(gad, r,g,b )
+	End Method
+	'----------------------------------------
+	Method cellpadding%( padding% = -1 )
+	Local result = padding
+		If padding &gt;= 0 Then 
+			self.padding = padding
+			organise()
+		End If
+	Return result
+	End Method
+	'----------------------------------------
+	Method cellspacing%( spacing% = -1 )
+	Local result = spacing
+		If spacing &gt;= 0 Then 
+			self.spacing = spacing
+			organise()
+		End If
+	Return result
+	End Method
+
+End Type
+
+'############################################################
+Type TTableViewCell Extends TProxyGadget
+Field gad:TGadget
+Field bgr%,bgg%,bgb%
+Field fgr% , fgg% , fgb%
+Field padding%
+Field textJustify% = LABEL_LEFT
+
+	'----------------------------------------
+	Method New()
+		AddHook( EmitEventHook, _eventHook, Self )
+	End Method
+
+	'----------------------------------------
+	Method create:TTableViewCell( x% , y% , w%, h%, group:TGadget, 
+cellpadding% =1, style% = 0 )	
+		'# Set up gadget
+		padding = cellPadding
+		bgr = 192 ; bgg = 192 ; bgb = 192	'# Default background colour
+		fgr = 0 ; fgg = 0 ; fgb = 0	'# Default foreground colour
+		'# Create
+		gad = CreateCanvas( x , y , w , h , group )
+		setproxy gad
+		Return Self
+	End Method
+
+	'----------------------------------------
+	Method update( x% , y% , w% , h%, cellPadding% = 1 )
+		padding = cellPadding
+		SetGadgetShape( gad,x,y,w,h )
+	End Method
+
+	'----------------------------------------
+	Method justify( justification% )
+		textjustify = justification
+	End Method
+	
+	'----------------------------------------
+	Method onRedraw()
+		'# Due to what can only be a bug, I have moved the redraw to a
+		'# non-type function.
+		'# The problem exists when trying to setcolor() for drawing text
+		'# it appears to change the background instead of the foreground..!
+		_TTableViewCell_Redraw( Self )
+	End Method
+
+	'----------------------------------------
+	Function _eventHook:Object( id% , oEvent:Object , oWidget:Object )
+	Local widget:TTableViewCell	= TTableViewCell( oWidget )
+	Local event:TEvent 			= TEvent( oEvent )
+	
+		'# Ignore stuff that is not relevant
+	    If event = Null Or widget = Null Then Return oEvent
+	
+'If Event.ID &lt;&gt; EVENT_MOUSEMOVE And EVent.id &lt;&gt; 
+EVENT_TIMERTICK Then DebugLog "_EventProc() = [" + Event.ID + "] " + 
+Event.ToString()
+	
+		Select event.id
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_APPSUSPEND		'# Application suspended 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_APPRESUME		'# Application resumed 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_APPTERMINATE		'# Application wants To terminate 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_KEYDOWN			'# Key pressed. Event data contains keycode 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_KEYUP			'# Key released. Event data contains keycode 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_KEYCHAR			'# Key character. Event data contains unicode 
+value 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_MOUSEDOWN		'# Mouse button pressed. Event data contains 
+mouse button code 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_MOUSEUP			'# Mouse button released. Event data contains 
+mouse button code 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_MOUSEMOVE		'# Mouse moved. Event x And y contain mouse 
+coordinates 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_MOUSEWHEEL		'# Mouse wheel spun. Event data contains delta
+ clicks 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_MOUSEENTER		'# Mouse entered gadget area 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_MOUSELEAVE		'# Mouse Left gadget area 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_TIMERTICK		'# Timer ticked. Event source contains timer 
+Object 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_HOTKEYHIT		'# Hot key hit. Event data And mods contains 
+hotkey keycode And modifier 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_MENUACTION		'# Menu has been selected. 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_WINDOWMOVE		'# Window has been moved 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_WINDOWSIZE		'# Window has been resized 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_WINDOWCLOSE		'# Window close icon clicked 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_WINDOWACTIVATE	'# Window activated 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_WINDOWACCEPT		'# Drag And Drop operation was attempted 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_GADGETACTION		'# Gadget state has been updated.
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		Case EVENT_GADGETPAINT		'# A Canvas Gadget needs To be redrawn 
+			widget.onRedraw()
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_GADGETSELECT		'# A TreeView Node has been selected. 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_GADGETMENU		'# User has Right clicked a TreeView Node Or 
+TextArea gadget. 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_GADGETOPEN		'# A TreeView Node has been expanded. 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_GADGETCLOSE		'# A TreeView Node has been collapsed. 
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'		Case EVENT_GADGETDONE		'# An HTMLView has completed loading a page.
+'		'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		End Select
+	
+	Return oEvent
+	End Function
+
+End Type
+
+'############################################################
+Function _TTableviewcell_Redraw( cell:TTableViewCell )
+Local x% , y%
+Local text$ = cell.getText()
+	SetGraphics CanvasGraphics(cell.gad)
+	SetClsColor( cell.bgr, cell.bgg, cell.bgb ) 
+	Cls
+	y = (cell.gad.height - TextHeight("A") )/2 + cell.padding 
+	Select cell.textJustify
+	Case LABEL_LEFT ; x = cell.padding
+	Case LABEL_CENTER ; x = (cell.gad.width - TextWidth(text))/2
+	Case LABEL_RIGHT ; x = cell.gad.width - TextWidth(text) - cell.padding
+	End Select
+	SetColor( cell.fgr, cell.fgg, cell.fgb )
+	DrawText( text, x,y)
+	Flip
+End Function
+</textarea><br>And you'll also need this library file...<br><b>StringSplit.bmx</b><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'#
+'# StringSplit
+'#
+'# Version 1.0
+'# Si Dunford (Scaremonger), Nov 2006
+'# Provides support for split() function
+'#
+'# Split:Array( string$, delimiter$=" " )
+
+Function Split:Array(sStr$, sDelimiter$=" ")
+Local sItem$,asResult$[]
+Local nPos%=sStr.Find(sDelimiter)
+Local nPre%=0
+	While nPos &gt; 0 And nPos &lt; Len(sStr)
+		sItem = Mid(sStr , nPre , (nPos - nPre) + 1)
+		nPre = nPos + 2
+		nPos = sStr.Find(sDelimiter,nPre)
+		asResult = asResult[..Len(asResult)+1]
+		asResult[Len(asResult)-1] = sItem
+	Wend
+	asResult = asResult[..Len(asResult)+1]
+	asResult[Len(asResult)-1] = Right(sStr, Len(sStr)-nPre+1)
+	Return asResult
+End Function
+</textarea> <br><br> ________________________________________<br><a href="http://www.itspeedway.net/" target="_blank">www.itspeedway.net</a> | <a href="http://www.scaremonger.net/" target="_blank">scaremonger.net</a><br><br>MODULES: <a href="http://www.itspeedway.net/ITSwinservice.ashx" target="_blank">ITS_Win32service.mod</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

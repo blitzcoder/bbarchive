@@ -1,0 +1,143 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Glenny-boy</h1><h1>Drop Fighter</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Project Status</td><td align="right"><font class="tiny">(Posted 2004-05-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, development has slowed down on Drop Fighter, but not in a serious
+ way. Just had a lot going on. On the plus side, the end is in sight. 
+All the big systems are in and I've started some serious optimisation. 
+I'm a little nervous with how this'll perform on mid-range systems at 
+the moment.<br><br>My to-do list has gone from 12 items to 3, and I'm 
+actually at the point now of making levels. This doesn't mean the engine
+ is finished by any means, I expect to be tweaking and adding stuff as I
+ see the need. However, I've achieved pretty much everything I set out 
+to in the beginning.<br><br>I'm hoping to hit beta within the next two months, fingers crossed.<br><br>On with the readme:<br><br>Versions<br>--------<br>v0.89 -- 19/05/04 -- The big giant patch.<br>=================<br>Additions and changes:<br>         -Ships can now cause a blast wave when they explode.<br>         -Campaign editor written. Campaign files not yet integrated with game.<br>         -Time limit in missions implemented.<br>         -Map mode added, with zoom, scroll, centre and briefing functions.<br>         -Text attributes added to missions format, including mission title and <br>         briefing.<br>         -Blastwaves are now variable-speed.<br>         -Fancy addition to blastwave effect- a harmless fast-moving "pre-wave".<br>         -Optimisations to blastwave.<br>
+         -New menu for choosing secondary weapon. Much simpler, using 
+only the secondary fire buttons. This means the player can choose their 
+weapon without having to put down whatever control device they use.<br>         -Player ship's shield now recharges while docking/docked.<br>         -Space missions now have a moving starfield.<br>         -Missiles can now be launched from turrets. This includes ship-mounted turrets.<br>         -Missiles now have a faint trace on the HUD. Makes them visible from a distance.<br>         -New secondary weapon: ECM wave. A harmless wave that emanates from your fighter and eliminates all missiles in range.<br>         -Profiles have been added for individual player options and savegames.<br>         -Motion blur option added.<br>         -Optimisations to particle effects.<br>         -Scripts for missions, so far allowing messages to be sent to the player from other ships.<br>         -Control keys can be redefined.<br>         -Missiles can now target buildings.<br>         -Removed ATG Missile and made ATA Missile into just plain ol'"Missiles". These can target air or ground targets.<br>         -Turrets will now target structures and other turrets. This is great for when capital ships pass low over enemy bases.<br>         -Missions are now selectable, along with campaigns.<br>         -Fighters will now actively attempt to avoid the ground.<br>
+         -Level script files can now include 'conditions'. There are 
+three conditions to check for with six possible responses. Doesn't sound
+ like a lot, but using these, the level design has been blown open to 
+allow for much more varied missions.<br>	 -Optimisation: Turret targetting and tracking calculations now only take 35-40% of the time that they used to.<br>
+	 -Optimisation: fixes to collision handling have allowed the cap to be 
+tightened on the number of between-frame collision test carried out. 
+This is on a trial basis for the moment.<br><br>Bugfixes:<br>         -Blastwaves no longer continue to exist when the level changes or the game ends.<br>         -Mouse pointer is now centered when game starts and map menu is opened.<br>
+         -Game should no longer crash when a ship or building targetted 
+by AI is destroyed by something else. This is commonly a missile-related
+ problem.<br>         -Shadows are no longer offset from their correct 
+position when game is running in 640x480. Still, I'd like a better 
+shadow system, I still think they look poor.<br>         -Game no longer crashes when dust particles are present on space missions.<br>
+         -Target leading had a huge bug, where sometimes turrets would 
+miscalculate a target's distance to be much further away than it was, 
+making some turrets freeze up and stop firing. This has been fixed, 
+although target leading may need further tweaks.<br>         -Ships that
+ need to be intercepted as a mission goal (which converts to "protected"
+ when in range) will cause a mission failure if they are destroyed and 
+are friendly.<br>         -Ships no longer crash downwards in space. Instead they just explode.<br>         -Ship-to-ship collisions are now correctly handled.<br><br>v0.88 -- 30/03/04<br>=================<br>Additions and changes:<br>         -Added harmless wreckage from explosions. Looks pretty cool.<br>         -Fighters will now stick a little closer to their targets when giving chase.<br>         -Added gridlocking to editor. This enables modular construction.<br>
+         -Optimised collision checking. It now only occurs within a 
+slightly larger radius around the object than it's most distant point.<br>         -Ships can now face different directions in the editor.<br>         -Items can now be deleted in the editor.<br>         -Ships can now be loaded at a rally point in the editor.<br>         -Fixed memory leak that left tens or hundreds of files open at a time, depending on the level.<br>
+         -Many, many, many fixes to make the engine reference ground/sea
+ impacts only on missions that actually have those elements.<br>         -Tweaks to target leading on turrets: note to self-- are they begin thrown off by being attached to a moving object?<br>
+         -'Intercept' is now a valid goal. Ships with 'Intercept' as 
+their mission requirement will revert to 'Protect' or 'Destroy' when 
+approached, depending on their allegience.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Project Status</td><td align="right"><font class="tiny">(Posted 2004-03-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here's the latest pile of updates for Drop Fighter. I've been mainly 
+focussing on much-needed AI updates, and I'm glad to say that it's now a
+ hell of a lot more challenging. Also, here's a screenshot:<br><br><img src="6244&amp;log=1194_files/od9.html"><br><br>v0.87a -- 18/03/04 -- The Turrets Patch<br>==================<br>Bugfixes:<br>         -Turrets are now correctly destroyed when their parent ship is destroyed.<br>
+         -Turrets were still occasionally pointing down into themselves.
+ Now, they're simply not allowed to look below horizontal. That'll teach
+ them.<br>         -Turrets now /really/ won't shoot crashing enemies, even when that's all there is to shoot.<br>
+         -Okay, I think I've got this licked, but I guess we'll have to 
+see: turrets will not fire if their view is blocked. This includes their
+ target being occluded by buildings and spaceships. Their projectile may
+ occasionally still scrape the side of something that should be out of 
+the way, but I've made sure this is rare.<br>         -Small bug in turret target leading fixed: they would not target-lead in some circumstances.<br>         -Turrets no longer judder when facing a target.<br>         -Upside-down turrets now track as well as right-way-up turrets.<br><br>v0.87 -- 17/03/04 -- The AI Patch<br>=================<br>Additions and changes:<br>         -AI: Turret tracking is now greatly improved. Turrets will now target-lead.<br>         -AI: Missile AI is now much better at shooting air targets.<br>         -AI: Fighters now target-lead.<br>         -Weapons: Trialling bullets travelling at 200% speed.<br>         -Weapons: New weapon type: laser. Currently used for some enemy turrets.<br>         -Graphics: Upgraded effect for blast waves.<br>         -Graphics: New, smarter icons for secondary weapons.<br>         -Gameplay: Buildings can now generate blast waves.<br>         -Gameplay: Airbrake added. Not sure how this'll affect gameplay. We'll see.<br>         -AI: Fighters now use airbrake.<br>         -AI: Improved fighter AI. Can hold target better.<br>
+         -Gameplay: Turrets can now be attached to ships. Not too sure 
+how well they're gonna work in different situations, but they're there, 
+and they're shootin'.<br><br>Bugfixes:<br>         -AI: Turrets now wait
+ until they are within 90 degrees of the enemy before elevating their 
+barrel. This prevents the issue of turrets getting confused and rotating
+ downwards when an enemy comes into range.<br>         -It is now no 
+longer possible to dock by flying at parts of the Command Cruiser's hull
+ that are adjacent to the docking bay.<br>         -Ships can only dock in capships of the same side.<br>         -Fighters will now correctly identify targets other than the player.<br>         -Score loss for taking out friendlies is now applied.<br>         -Turrets will now correctly identify targets other than the player.<br>
+         -If a shot strikes a building close to the ground, priority is 
+now given to shot vs building checks rather than shot vs ground. This 
+allows the  shot to deal damage rather than appear to pass through the 
+object.<br>         -Turrets no longer target ships that are in the process of crashing to the ground.<br><br>v0.86 -- 14/03/04 -- The Weaponry Patch<br>=================<br>Additions and changes:<br>         -Weapon damage and other stats are no longer hard-coded.<br>
+         -Ship-type weapons like missiles can now inherit data from the 
+weapons database. This is done automatically when a weapon is spawned.<br>         -Modifier data added for weapons vs. materials.<br>         -Area of effect variables added.<br>         -Limited ammo for secondaries added.<br>         -Command cruiser now reloads player ammo.<br>         -When docked, weapon select menu appears on-screen. Currently mouse-operated.<br>         -HUD now reflects weapon choices and remaining ammo.<br>         -New score and shield indicators. Look much tidier.<br>         -Ship-to-ship collisions are now slightly less lethal than they used to be.<br>         -Ship-type weapons deal correct damage to buildings, instead of just impact damage.<br>         -Blastwaves are now implemented.<br>         -High Yield Bomb is now useable as a secondary weapon.<br>         -Tightened up missile thrust threshold for being on-target.<br>
+         -AI adjustment: fighters can now tone down their movements when
+ they are on target, allowing them to make very minor course 
+corrections. Large improvements to accuracy, although still poor in a 
+high-speed fight.<br><br>Bugfixes:<br>         -Ships now explode when involved in fatal building collisions, rather than just vanishing.<br>         -Updated docking checks to make sure that no ship-type weapon is allowed to dock.<br>         <br>v0.85 -- 11/03/04 -- The Missiles Patch<br>=================<br>Additions and changes:<br>         -AI: Missile AI is substantially improved (at last!). Still needs some work, but they strike nearly every time.<br>         -Gameplay: Missiles now explode after a period of time.<br>         -Graphics: New font. Looks loads better.<br>         -Graphics: HUD updated to use 3d rendering and new font.<br>
+         -AI: Missiles can now cunningly cut their thrust if they are 
+not on course, reducing their turning circle. On screen, missiles still 
+appear to constantly be thrusting.<br>         -Gameplay: Gun sight added to HUD forward view.<br><br>Bugfixes:<br>         -Fixed bug causing incorrect reactions to ship-to-ship collisions.<br>         -Missiles now deal damage depending on their payload strength rather than the raw collision damage.<br>
+         -Fixed bug that, err, caused missiles to try to avoid any ships
+ in close proximity. That's what I get for using modified fighter AI.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Project Status</td><td align="right"><font class="tiny">(Posted 2004-03-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Drop Fighter is an arcade combat game. The player flies the newest "Drop Fighter" on a mission to save Earth.<br><br>Details
+ and screenshots to follow in a week or two. Meanwhile, here's the 
+latest from the readme file below. Pretty dry stuff, really. The game 
+has actually been in production since November 2003, but was at that 
+stage a testbed for me to experiment with.<br><br><br>Versions<br>--------<br>v0.84 -- 04/03/04<br>=================<br>Additions and changes:<br>         -Graphics: Added more elaborate hit effect to shot vs building collisions.<br>         -Graphics: Dust particles no longer travel beneath the ground.<br>         -Collisions: Shots vs buildings collisions are now more accurate.<br><br>Bugfixes<br>         -Fixed crashing bug to do with handles for muzzle flare effects.<br>         -It's now longer possible to enter a GAME OVER situation during a MISSION COMPLETE or MISSION FAILURE situation.<br><br>v0.83 -- 02/03/04<br>=================<br>Additions and changes:<br>
+         -AI tweak: Added extra checks to ensure fighter will swerve 
+away earlier from the target it is attacking. This is to counter the 
+tendency of fighters to charge at someone they are attacking.<br>       
+  -Graphics: trying out a new, slick-looking fighter. "Good guys" tech 
+will, hopefully, from now on reflect this newer, high-tech look. "Bad 
+guy" tech will look more muscular and chunky.<br>         -Handling: 
+Experimenting with reducing the "slide" while turning at speed. So far, 
+works quite well. Gives the player more control and freedom of movement.<br>         -Graphics: Minor improvements to the internal camera used when docking.<br>         -Misc: Player launches faster from Command Cruiser.<br><br>v0.82 -- 01/03/04<br>=================<br>Additions and changes:<br>         -Three new buildings and a new turret are available to be put in the game.<br>
+         -Shot range is now calculated in actual distance rather than 
+time. This makes 8 million times more sense and allows shot maximum 
+travel distance to be married up to the range within which turrets and 
+fighters start firing at enemies.<br>         -Missile lock will now target ground objects as well as airborne items.<br>
+         -AI tweak: fighters will now increase their speed if target 
+speed exceeds their own, and they are roughly facing the target.<br>    
+     -AI tweak: enemies will only fire on targets if within weapons 
+range (currently all references to this are hand-coded), in addition to 
+the other conditions that need to be true.<br>         -AI tweak: fighters will not shoot a target if their view of it is obscured.<br>
+         -AI tweak: AI ships will now swerve and thrust clear of any 
+ships that are getting quite close. Reduces likelihood of them hitting 
+each other and player, and prevents player from tailing them so easily.<br><br>v0.81 -- 27/02/04<br>=================<br>Additions and changes:<br>         -Enemy turrets will now shoot the nearest friendly craft in range.<br>         -Change to building file format to include friendly/enemy buildings. Settable in editor.<br>
+         -Turrets will check their own allegience before deciding who to
+ fire at, making it possible for the player to have help from 
+ground-based turrets.<br>         -Fixed long-standing bug where particles would not orient to the camera for the first frame of their existence.<br>         -Shots are now larger and more visible, with a billboard-glow.<br>         -Vastly improved collision detection for shots.<br>
+         -Added more elaborate hit effect for shots. Has surprisingly 
+low performance hit, but may impact low-end computers more.<br><br>v0.80 -- 22/02/04<br>=================<br>Additions and changes:<br>
+         -Created improved menu-driven GUI. So far integrated into the 
+unit editor, and may soon be added to the level editor. Hopefully, this 
+game will ship with editors to add units to the game and make new 
+missions. It's unlikely the game will ship with editors for the actual 
+base worlds or ships.<br>         -Spawn options are now settable in the unit editor.<br>         -Ships now spawn from hangars etc. Aircraft carriers soon to follow!<br>
+         -Added new "launch" AI mode, so ships fire up their engines and
+ follow a straight course for a few seconds while taking off.<br>       
+  -Idle AI has now been altered to include search-and-destroy. Any ships
+ with no active AI profile will switch to attack when anenemy unit is 
+nearby.<br>         -Enemy turrets will now shoot at the player.<br><br>v0.77 -- 15/02/04<br>=================<br>Additions and changes:<br>
+         -Fixed some framerate issues with missiles. Missiles no longer 
+collide with other missiles, and do not generate particle trails beyond a
+ certain range.<br>         -New missile model. Looks a bit groovier, 
+but I'm not sure it's worth the extra polygons for something that's 
+barely seen.<br><br>v0.76 -- 11/02/04<br>=================<br>Additions and changes:<br>         -AI upgrade. Enemy fighters are much better shots, but still do not target lead.<br>         -Some of the explosions are now even cooler!<br>         -Implemented varied explosion types for different buildings.<br>         -Missile-ship collision now implemented.<br>         -Capital ships now explode and are removed from the game world when <br>         destroyed.<br>         -Interface upgrade, with new GUI. Mouse driven buttons and graphic options screen added.<br><br>v0.75 -- 10/02/04<br>=================<br>Additions and changes:<br>         -Ship-to-building collisions now implemented<br>
+         -Added speed-step for ship collision checks. If a ship moves a 
+large distance between frames, the program will perform additional 
+checks to minimise the chance of the ship passing through a shot or 
+building.<br>         -Collision routines updated with low-poly collision checks. Much faster.<br>         -Ship-to-ship collisions now implemented.<br>         -Player ship now crashes to the ground when destroyed, like other ships.<br>         -Reversed checking for shots so that impact effects are more visible.<br>         -Hit effect for shots striking ships.<br>         -Ships now leave a smoke trail when crashing.<br>         -Ships now have a nice metallic sheen to them.<br>         -Ships can no longer be damaged by enemy fire while docked.<br>         -Ships no longer cause a wake or surface dust effects while crashing.<br>         -Ships crash a little faster.<br><br>v0.72a -- 09/02/04<br>=================<br>Additions and changes:<br>         -File format changes to buildings: they can now be flagged as mission critical (protect or destroy) in the editor.<br>
+         -File format changes to level header: level can now be given a 
+time limit, and the requirement of docking in the mothership to complete
+ the mission can be toggled on and off.<br>         -Shadows have been made sharper, at the cost of the distance from the camera that shadows are generated.<br>
+         -Checking for "mission complete/failed" added, based on mission
+ destruction targets and mission protect targets, as well as the 
+optional requirement to dock with the Command Cruiser to trigger mission
+ completion.<br>         -Any ships placed in or close to the Command Cruiser docking area in the editor will begin the mission docked.<br><br>Bugfixes:<br>         -Game no longer crashes when clearing world while a muzzle flare is present in the game world.<br>         -Game no longer occasionally crashes when clearing the world due to uncleared waypoint markers.<br>	 -Game no longer crashes when clearing world due to waypoint handles being stored as floats. (a)<br>         -Game no longer creates multiple (unused) instances of world items after each play cycle.<br>         -Ships now correctly have their attributes erased when they are destroyed.<br>
+         -Game will no longer reinitialise the graphics mode between 
+menu and gameplay. This also removes the need to recreate multiple 
+in-game elements between the two stages.<br>         -Fixed numerous memory leaks and wastage.<br>         -Fixed control for setting mission critical requirement on ships and buildings in the level editor.<br><br>v0.7 -- 04/02/04<br>================<br>Additions and changes:<br>	-2 new building models<br>	-Adjusted file format to allow for buildings that spawn fighters<br>	-Added rotation for buildings, so they can be placed to face any direction<br>	-Clouds<br>	-Shadows (quite poor: need improvement)<br>	-Moving texture layers for sea; not quite friendly with older graphics cards at this stage<br>
+	-External windowed configuration program so players can choose 
+resolution and GFX device before running the game. This resolves an 
+issue where the default resolution was 640x480x16, which is actually too
+ LOW for some drivers. I wanted the game to start in the most widely 
+compatible screen mode, and 800x600x32 is really a safe bet these days. 
+Nevertheless, even safer is letting the player choose resolutions. How 
+this works with multiple monitors or wierd-sized monitors is anyone's 
+guess for now.<br><br>Bugfixes:<br>	-Fixed crash that always occurred when new game begins after one has already been played.<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

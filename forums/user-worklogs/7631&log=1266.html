@@ -1,0 +1,302 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for John J.</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress Update</td><td align="right"><font class="tiny">(Posted 2005-10-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been working on a detailed design document for the engine. It's 
+now over 8 pages, and I've hardly begun. The GUI of the editor is nearly
+ complete now. I'll soon create the Blitz3D module for the editor and 
+get everything to "work". I've made several terrain/entity/world editors
+ before, although none with a user interface as nice and easy to use as 
+this. Since I'm using C++ builder, I easily added a nice (large) 
+icon-based media browser to pick entities, textures, effects, etc., and 
+other elements like a custom HTML help system, tree-view-style drop-down
+ lists, etc. The terrain editor will have a new tool I have been 
+planning, which should really help making photo-realistic terrains.<br><br>The
+ actual engine hasn't been changed much since the last entry. The editor
+ and software design document have been given primary focus recently.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Major changes</td><td align="right"><font class="tiny">(Posted 2005-10-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm planning on making some major changes to the project. First of all,
+ I'm planning on branching this into two seperate projects: one will be 
+an independant 3D game engine that will make use of most of the 
+algorithms and optimizations I have developed with this project. The 
+other will be the actual game, which will make use of the game engine 
+module. Created along with the 3D game engine will be a map editor that 
+supports all of the engine's features. Of course, the engine will be 
+expandible.<br><br>One major improvement will be that this time I will 
+be working with a fairly well thought-out Software Design Document. The 
+SDD will specify every detail, including file formats, engine usage, as 
+well as all the technical details.<br><br>Converting my project really 
+won't be too hard, since all my algorithms and sub-modules (grass 
+system, tree system, etc.) are already complete. The major changes will 
+be made in the general way files are loaded / entities are handled.<br><br>The
+ editor UI is being created with C++ Builder 6. I plan to have a Blitz3D
+ window which will communicate with the GUI app by TCP/IP localhost. I 
+think this method is actually  <i>easier</i> than combining the GUI with
+ the Blitz3D app, as well as having the advantages of a nice Windows XP 
+style interface (with a .manifest file). The GUI app will send to the 
+Blitz3D app any GUI changes made by the user. For example, the user may 
+click "File-&gt;New", which opens up a New Map dialog. After the user 
+has confirmed all the settings and clicked OK, the GUI app sends a "NEW"
+ command to the Blitz3D app, and the Blitz3D app follows the user's 
+instructions. If the user clicks Cancel, no "NEW" command needs to be 
+sent. So, all the complications of managing the GUI is hidden, with only
+ important messages being sent to the Blitz3D app.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>MegaMesh Postponed</td><td align="right"><font class="tiny">(Posted 2005-10-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've decided to postpone work on MegaMesh. Instead of getting off track
+ creating a seperate produce, I'll leave the optimization systems as 
+they are for now. I'll try to focus on making progress, and optimize 
+later.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>MegaMesh - The Universal Optimization Engine</td><td align="right"><font class="tiny">(Posted 2005-09-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've stopped work on adding an occlusion system to the tree system. 
+Instead of adding these optimizations to each system 
+(tree/object/grass/etc), I'm creating a "universal" optimization system.<br><br>My
+ "universal" optimization system (possibly called "MegaMesh") will 
+dynamically adjust LOD, and occlude objects. In addition to this, large 
+objects will be split up automatically into smaller "chunks" (possibly 
+with Octree style subdivision). Groups of small objects will be grouped 
+into minimal-surface meshes (only meshes marked as STATIC).<br><br>This 
+way, simply mark all your trees as MM_STATIC, and the manager will group
+ them optimally, use LOD, and occlude trees behind mountains, for 
+example.<br><br>Also, you can mark characters as MM_ANIMATED and it will
+ be optimized with LOD (automatic LOD calculations are made with my 
+polygon reduction system), and occlusion. For example, 1000 enemies 
+could be hiding within a building, and all will be excluded from 
+rendering except those visible. Also, enemies far away will be reduced 
+in polygon count, just enough so you can't notice the difference.<br><br>Additionally,
+ a system like this could be used with an enormous FPS level consisting 
+of 1,000,000s of polygons. The level will automatically be split up into
+ "chunks", where each "chunk" is individually LOD and occlusion 
+optimized. For example, standing in one room where only 5% of the level 
+is visible will only render that 5%. This allows gigantic levels to be 
+used without suffering from performance issues.<br><br>One major 
+advantage to the system is it's ease of use. So far, setting a mesh for 
+one of the optimization techniques modifies the mesh in almost no way 
+apparent to you. You still use the same entity handle. You still can 
+scale, position, and rotate the entity just as you normally would 
+(except in MM_STATIC mode). However, higher level of optimizations 
+somewhat limit entity manipulation (see the modes below for details).<br><br>Different
+ modes are offered which can be applied to each indivual entity. 
+Choosing the right mode for the job is easy; simply think:<br><i>"Is this object going to be animated?"</i> If so, set to <b>MM_ANIMATED</b>.<br><i>"Is this object going to be moved and rotated, but not animated?"</i> If so, set to <b>MM_NORMAL</b>.<br><i>"Is this object going to be static, and never moved or animated"</i>. If so, set to <b>MM_STATIC</b>.<br><br>That
+ is really all the user (programmer) need to know about the modes, 
+although the technical details are availible if you are interested:<br><br><b>MM_OFF</b>
+ turns off optimizations on a mesh (restores it to a state before the 
+mesh was set as MM_ANIMATED, MM_NORMAL, etc - removing all 
+optimizations). This is the only mode that allows mesh deformation 
+(manipulation) during runtime.<br><br><b>MM_ANIMATED</b> turns on just 
+LOD and oclusion optimizations for a mesh. This is good for characters, 
+vehicles, and other relatively small dynamic objects. Animation, 
+positioning, and rotation is allowed with this mode. However, as with 
+all optimization modes, this does not allow mesh manipulation (vertex, 
+polygon, uvs, etc. data manipulation) during runtime.<br><br><b>MM_NORMAL</b>
+ turns on LOD, occlusion, and division optimizations. This is best for 
+any object that won't be animated, but you still plan on 
+positioning/rotating. This offers a good balance of control and 
+optimization.<br><br><b>MM_STATIC</b> turns on all optimizations (LOD, 
+occlusion, division, and grouping). This mode is best suited for large 
+numbers of static (unmovable) objects like grass, trees, rocks, and 
+buildings. This mode offers speed boosts only on multiple small objects 
+(for example, a MM_STATIC house is not further optimized than a 
+MM_NORMAL house). This mode simply adds the "grouping" optimization, 
+which combines objects and surfaces to batch rendering and minimize 
+video card state changes.<br><br>To summarize, MegaMesh is a "universal"
+ optimization engine. Simply mark your meshes as the appropriate type, 
+and the engine will optimize it for you. Reduced polygon meshes for LOD 
+are even generated automatically for you (optionally, you can use your 
+own reduced-poly meshes).<br><br>With this system, you could multiply 
+the density and complexity of you meshes by a factor of 10x with out 
+performance loss, or gain a 10x FPS boost. Since the system is so 
+complex, and will take a considerable amount of my time to create, AND 
+would pretty much take care of all the graphics optimizations you'll 
+ever need to worry about (letting you focus on art and gameplay), I may 
+sell it for a small price. Possibly, I may decide to make it availible 
+for free (like Texture Studio, and my other tools and libraries).<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Occlusion</td><td align="right"><font class="tiny">(Posted 2005-09-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm currently working on a tree occlusion system to add to the tree 
+system's features. This should give a big FPS boost to the game.<br><br>It
+ works using linepicks on different tree groups (tree groups are usually
+ groups of about 100-200 trees). When a tree group is hidden from the 
+viewer (camera), it is not rendered. For example, if the user is in a 
+valley, all the trees on the hills surrounding the valley and trees on 
+the back sides of mountains are not rendered, because they are not 
+visible to the player. The occlusion system will also eliminate 
+rendering trees when inside a building.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tree Shadows</td><td align="right"><font class="tiny">(Posted 2005-08-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Now the tree system draws a small shadow for each tree, with no 
+performance loss (since it draws the shadows directly to the terrain 
+color map).<br><br>Also, the clutter system only shades grass according 
+to the terrain brightness, instead of actually setting it's color. This 
+works best for grass textures with color varience.<br><br>The game seems
+ to run smoothly most of the time (&gt;60 FPS), although it slows down 
+considerably when the camera enters a dense forest full of high-res tree
+ props. This is probably due to the high fill rate needed to draw this, 
+although I'd still like to improve frame rates so I'm still thinking of 
+ways to increase performance.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Grass Colors</td><td align="right"><font class="tiny">(Posted 2005-08-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I modified the grass system so that the grass is colored to the terrain
+ it's on, so grass on the dark side of a mountain, for example, will 
+appear darker than other areas.<br><br>I'm re-writing the vehicle 
+physics, and hopefully it won't be as bad as it was before. Before 
+vehicles were "locked" on the terrain, and slided sideways down hills 
+often. Now I'm trying to create a "realistic" physics engine for the 
+vehicles.<br><br>I'm also modifying the tree loader so each tree will 
+darken one pixel of the terrain colormap. This should create an 
+approximate shadow effect (it will be darker in forests than open 
+plains, for example).<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Water FX!</td><td align="right"><font class="tiny">(Posted 2005-08-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Now the weapon display is completed, now showing not only the current 
+weapon, but two little progress bars showing the amount of ammo left, 
+and the amount of time left for the reload to be complete (useful for 
+tanks and other slow-loading heavy weapons).<br><br>Another new 
+"feature" I added is underwater FX! I downloaded the underwater-like 
+screen distortion effect by JFK (it's suprizingly fast!), made a few 
+changes to it to suit my game, and implimented it into the engine, in 
+addition to adding a swirly refraction-like effect to the camera. The 
+complete effect looks really nice, and fairly realistic. (I also added 
+some nice swimming/diving code, or the effect wouldn't be of much use 
+:D).<br><br>A few small bugs have been recently fixed, one of them a 
+small problem involving incorrect collision boxes for vehicles, 
+aircraft, and static objects.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Improved Controls and Performance!</td><td align="right"><font class="tiny">(Posted 2005-08-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I signifigantly improved the first person controls. I added 
+realistic gravity effects, which increases the speed as the player 
+falls; The reason I did not impliment this earlier is the 
+CountCollisions() function didn't seem to indicate when the player was 
+in contact with the terrain, it turns out that the update function was 
+re-setting the player pivot's collision type every loop, which seems to 
+"dump" the collision data. In addition to the realistic gravity, the 
+camera now rolls and bobs as the player "walks", making it feel more 
+realistic. Also, I added controls to jump and crouch.<br><br>I further 
+optimized the graphics engine, particularly the grass/rock/clutter 
+system. Now the entire world is being rendered at over 60 FPS on my 
+GeForce 5200 at 1024x768 with the graphics detail set to high density. I
+ also downsized the grass "clumps", since the grass as seen in the 
+screenshot below is a little long (it almost buries the jeep!)<br><br>The
+ vehicle and aircraft "physics" are still very primitive, as I haven't 
+decided which physics engine to use. Today I fixed the current vehicle 
+physics so that vehicles won't drive under water :).<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Project Status</td><td align="right"><font class="tiny">(Posted 2005-08-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Not much overall progress has been made on the project recenty. I've 
+optimized the engine slightly, and fixed a few misc. bugs related to 
+alpha sorting when under water. I also added some fog to the scene which
+ adds to the realism slightly. Some things remaining on my ToDo list 
+are:<br><br><i><br><b>&gt;</b> Fix object collision boxes<br><b>&gt;</b> Fix possible bullet memory leak<br><b>&gt;</b> Eliminate control lag<br><b>&gt;</b> Swim/dive code<br><b>&gt;</b> Optimize bullet update function<br><b>&gt;</b> Weapon group display system (30%)<br><b>&gt;</b> Integrate physics engine<br><b>&gt;</b> Birds, butterflys, etc.<br><b>&gt;</b> Sun flare effects<br><b>&gt;</b> Particle system<br><b>&gt;</b> Bullet holes<br><b>&gt;</b> Mission editor<br><b>&gt;</b> Terrain lightmapper<br><b>&gt;</b> Aircraft and vehicle editor<br><b>&gt;</b> Sound effects<br><b>&gt;</b> Night effects<br><b>&gt;</b> Add altimeter and speedometer to HUD<br><b>&gt;</b> GUI system<br><b>&gt;</b> Mission system<br><b>&gt;</b> Menu system<br><b>&gt;</b> Artificial intelligence<br><b>&gt;</b> Add targeting aid<br><b>&gt;</b> Tire tracks<br><b>&gt;</b> Sun flare<br></i><br><br>As you can see, there's still quite a way to go, but at least it's slowly beginning to take shape.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Editor</td><td align="right"><font class="tiny">(Posted 2005-07-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The state of the editor has progressed a little, with the interface 
+almost complete now. The mission editor will be used to create and 
+texture terrains, as well as placing entities, and setting up mission 
+objectives. However, the mission editor will not be used to create 
+vehicles/aircraft and set their physics up; a seperate editor will be 
+used for this. Not much overall progress has been made recently, as I 
+haven't been spending very much time  this project. I haven't yet 
+decided how physics will be handled, although I'm sure a physics library
+ will be needed. I'm also exploring the possibilities of all the major 
+physics engines availible to Blitz3D (Tokomak, and ODE are all I am 
+aware of currently), for use with vehicle physics.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Water</td><td align="right"><font class="tiny">(Posted 2005-06-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I added some simple water, using an transparent plane with an animated 
+texture applied. The next step in development will probably be to move 
+the physics code over to ODE.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Physics</td><td align="right"><font class="tiny">(Posted 2005-06-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've mostly decided that using my own simple "physics" for cars and 
+aircraft just isn't good enough. I'm planning on using ODE, possibly 
+with [K]ODE for all physics. This way, vehicle physics will not only be 
+more fun, but vehicles can go flying into the air in pieces when hit by a
+ bomb, for example.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Screenshot</td><td align="right"><font class="tiny">(Posted 2005-06-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here's a screenshot showing the grass and tree system:<br><img src="7631&amp;log=1266_files/jun-22-05.html"><br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Mission Editor</td><td align="right"><font class="tiny">(Posted 2005-06-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I've begun development on the mission editor that will be used to
+ create all the missions and levels of the complete game. So far, I've 
+layed out the user interface for the terrain editor with the BlitzUI 
+visual designer. Hopefully, the editor will be simple and easy to use. 
+With it you will be able to model the terrain, add objects (such as 
+buildings you can enter), add vehicles and aircraft, trees, grass, 
+rocks, and even edit the mission objectives.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Implimented</td><td align="right"><font class="tiny">(Posted 2005-06-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The clutter system is now implimented into the game engine. The 
+graphics look pretty nice now with grass swaying in the breeze, and 
+rocks scattered randomely on the ground, although frame rates are 
+getting lower and lower. I'm going to have to find some way to optimize 
+it further, because it's running &lt;50 FPS on a GeForce FX 5200 at 
+1024x768.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Clutter System Completed</td><td align="right"><font class="tiny">(Posted 2005-06-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The clutter module is completed, and I'm ready to impliment it into the
+ actual game. Now the grass sways smoothly in the breeze. I also was 
+able to increase the grass view range far ahead by changing the way the 
+view distance is handled, so that the grass is thinner far ahead of the 
+camera, and thicker close to the camera, and in a way that the variation
+ of grass density is barely noticeible (this method also affects any 
+clutter, so the rocks do this too).<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Grass and Rocks!</td><td align="right"><font class="tiny">(Posted 2005-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The clutter system is now partially working, displaying an infinite 
+field of grass and small rocks. The next steps to complete the clutter 
+module is to add wind sway for grass, and possibly the ability to bend 
+grass down when you walk over it.<br><br>The next step after the clutter
+ system will probably be water. With all the grass, trees, buildings, 
+vehicles, and aircraft, I don't think reflective water would be 
+feasible, performance wise, unless you have a very high end video card, 
+which I (and many others) don't have. I will probably use multiple 
+transparent textured ground planes subdivided into a 10x10 grid, and 
+given a high specular value, and maybe a static sphere map. This type of
+ water should be adequate for this type of game.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Clutter system improvements, Factory interrior model</td><td align="right"><font class="tiny">(Posted 2005-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm current re-wrote the clutter system so that it is much easier to 
+use for the the user (programmer), while maintaining efficient 
+instructions. Adding infinite grass and rocks to a scene is as simple 
+as:<br><pre class="code">grass = ClutterLoad("grass.png")
+rock = ClutterLoad("rock.3ds") ;It autodetects whether the file is 3D or 2D
+
+ClutterDensity(grass, 1000)
+ClutterDensity(rock, 20)
+</pre><br><br>With grass, rocks, branches, and other misc. "clutter" in a
+ scene, it would be very memory-wasteful to use a "cluttermap" for each 
+clutter type. Instead, I think the density of clutter over a span of 
+terrain will be varied randomely, keeping within a predefined range 
+specified in the mission XML file.<br><br>Since each grass clump is an 
+individual entity, it would be easy to add a wind function to sway the 
+grass in the wind, as there would be no performance hit at all. So, I 
+plan to add this feature, even so that the intensity of the wind varies 
+slowly.<br><br>I also made an interrior of a factory with Maplet, that I
+ will possibly use in the game. I plan to allow the player to walk 
+around inside buildings, as well as on the terrain, although I haven't 
+thought of what good it will do the player :).<br><br>I'll probably give
+ away or sell my tree and clutter modules some day, once I make sure all
+ the bugs are worked out (and using them in my game is the best way to 
+test them).<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Clutter System</td><td align="right"><font class="tiny">(Posted 2005-06-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm changing the grass system to a more generic "clutter" system. The 
+Clutter System will display misc. small objects (grass, rocks, branches)
+ all over the huge range of the terrain. The grass won't be using a 
+single surface system, so that there won't be any z-sort alpha issues. 
+Although it will seem there are millions of these objects along the 
+terrain, there may only be a few thousand, dynamically re-arranged near 
+the camera so that it appears to be infinite (fading out in the 
+distance).<br><br>Also, I added some XML tags to the config.xml file and
+ modified the program to load and save the tree system 
+density/range/LOD. When the game engine is complete, I'll probably work 
+on the GUI system where the user can adjust sliders and set the 
+tree/grass/terrain/etc detail to run best on their machine, which will 
+save/load with this file. BlitzXML seems to really be helping out on 
+this project, because loading and saving any type of data to/from a file
+ is really easy.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Infinite Grass</td><td align="right"><font class="tiny">(Posted 2005-06-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've begun work on an infinite grass system. I first tried using 
+individual entities for each "clump" of grass, but 2,500 of these 
+signifigently slow down the game. I think I'm going to have to make a 
+single surface sprite system, instead of using individual entities for 
+each grass "clump", although I'm not sure if this will cause a slow-down
+ when they are rotated and swayed with the wind function.<br><br>Also, 
+the weapon loadout display now shows only the current weapon, and will 
+show the amount of remaining rounds, and re-load time when completed. 
+Weapons may now be switched using the number keys (1234567890), as well 
+as the mouse scroll wheel.<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Camera Shake</td><td align="right"><font class="tiny">(Posted 2005-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Now when you shoot a big gun (like a tank shell), the camera will 
+rumble realistically! The camera also shakes and rumbles if you get 
+shot, the magnitude of the shake depending on the amount of damage :)<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New Tree System</td><td align="right"><font class="tiny">(Posted 2005-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I totally rewrote my old tree-system, so that when you approach a 
+forest from a distance, there is no visible "snapping" from one LOD 
+level to another. Now there is hardly any noticeable level-of-detail 
+transition for trees, as everything fades smoothly.<br><br>I've decided 
+to use the excellent nSprite image library for all 2D drawing (HUDs, 
+GUIs, etc.), since it is superior to standard 2D in so many ways (MUCH 
+faster, transparency for images, fast rotation, high compatibility, 
+etc.).<br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Current Progress</td><td align="right"><font class="tiny">(Posted 2005-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Currently, you can walk (and use binoculars), get in vehicles and 
+aircraft, and (of course) drive or pilot them. When an aircraft or 
+vehicle you drive is equipped with guns, you can shoot. The game 
+currently supports vehicles (jeeps, tanks, trucks, etc.), aircraft 
+(jets, ufo's, etc.), and static objects (houses, trees, etc.).<br><br>The
+ HUD system displays a small "progress" type bar below an object if it 
+is damaged, and will dissapear after about 3 seconds of not being 
+damaged at all. When the mouse moves over an friendly or enemy vehicle 
+or aircraft, either "friendly", or "enemy" will appear over the object. 
+The HUD also includes a radar, and weapon selection info (not complete).<br><br>All
+ files loaded and saved by the game engine are in XML format (using my 
+BlitzXML module), since XML is a very structured and modular format.<br><br>The
+ game engine is based on modules, seperated into individual files 
+(main.bb, pilots.bb, vehicles.bb, aircraft.bb, scenery.bb, camera.bb, 
+treesystem2.bb, etc.)<br><br>Since I began development on this game 
+before I started this worklog, a few of the posts above will have 
+incorrect dates, as I will post a few entries for some of the major 
+featured currently implimented, instead of when they were actually 
+completed.<br><br>Here are a few (outdated) screenshots:<br><img src="7631&amp;log=1266_files/screen1.html"><br><img src="7631&amp;log=1266_files/screen2.html"><br><img src="7631&amp;log=1266_files/screen3.html"><br> <br><br> __________________________________________________________________________________________________________________<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=59233" target="_blank">BlitzMax OOP Tutorial</a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=69532" target="_blank"><i>BlitzForest</i></a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=69531" target="_blank"><i>GameScript</i></a> | <a href="http://www.blitzmax.com/Community/posts.php?topic=56469" target="_blank"><i>MaXML</i></a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1285" target="_blank"><i>Polygon Reduction</i></a> || <a href="http://www.blitzbasic.com/Community/posts.php?topic=44978" target="_blank">RoboSumo</a> | <a href="http://www.blitzbasic.com/Community/posts.php?topic=46368" target="_blank">Texture Studio</a> |  <a href="http://www.blitzbasic.com/Community/posts.php?topic=56502" target="_blank">BattleTanks II</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

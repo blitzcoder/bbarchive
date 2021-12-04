@@ -1,0 +1,33 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for skidracer</h1><h1>MaxEdit</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Sporadic additions</td><td align="right"><font class="tiny">(Posted 2006-11-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've added hotkey options which works well on windows but not so good on Mac.<br><br>Under
+ cocoamaxgui, keyboard accelerators are configured using both system 
+menu accelerators and the hotkey hook. Tiger also nabs some function 
+keys so there is a bit of a balancing act providing a cross platform 
+solution.<br><br>For Linux, it's been a while, not sure what's in store, hopefully next week.<br><br>Also
+ begun the svn plugin. The project tree in maxedit is getting a bit of a
+ face lift for the event with any tool able to add hooks for project and
+ file operations so will hopefully open the way for some project 
+configuration enhancements such as dll production, pre and post 
+processing steps, dependencies etc.<br><br>Have been wondering where to 
+start with a guieditor shell. Should it be based on maxtk view gadgets, 
+raw maxgui gadgets or maybe something outside the box that lets you 
+configure any static information in a bmx project and modifies it as you
+ go. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Now hosted at code.google.com</td><td align="right"><font class="tiny">(Posted 2006-10-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Development of MaxEdit was started soon after the first release of 
+MaxIDE. It has been mostly casual development done at home so has taken 
+some time to come together. <br><br>To host the project at 
+code.google.com I have added an MIT license which seems to be as close 
+to public domain as you can get without being public domain. Go 
+figure...<br><br>This first alpha contains code plugins for BlitzMax, 
+Blitz3D and C/C++. There is also the start of a simple image viewer, an 
+optional history system that archives all revisions, a find in files 
+search tool and a few other bits and bobs.<br><br>The maxtk folder 
+contains the beginnings of a new toolkit for MaxGui used by the new 
+Options system which aims to make light work of configuring persistant 
+user interfaces with a flow oriented layout engine.<br><br>To check it 
+out you need to have subversion installed and use the following batch 
+file which will create and sync a folder called maxedit from where the 
+batch file is run from.<br><br>Oops, remove spaces from h t t p when pasting the following due to blitz forum problem:<br><div class="quote"> <br>svn checkout h t t p://max-edit.googlecode.com/svn/trunk/ maxedit<br> <br></div><br><br><a href="http://code.google.com/p/max-edit/" target="_blank">MaxEdit Project Page</a> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,953 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>
+        <!-- Google Analytics -->
+        <script async="" src="17910&amp;log=1901_files/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-34362789-1', 'auto');  // Replace with your property ID.
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+</head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Pakz</h1><h1>Minecraft like project</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Video of a map on low end laptop</td><td align="right"><font class="tiny">(Posted 2014-11-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://youtu.be/XJHe6RYqQyA" target="_blank">http://youtu.be/XJHe6RYqQyA</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Code from yesterday</td><td align="right"><font class="tiny">(Posted 2014-11-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="17910&amp;log=1901_files/2ugdiz9.jpg"><br><br>Yesterday
+ I wanted to experiment with making tunnels. I made something simple. I 
+also made code to optimize the map. The code checks if it can create 
+bigger cubes. It takes a little bit of time but the result is good.<br><br><br>Here the code :<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">
+ ; CreateCube Example 
+; ------------------ 
+
+Graphics3D 640,480,32,2
+SetBuffer BackBuffer() 
+SeedRnd MilliSecs()
+
+Global CamPivot = CreatePivot( )					;create camera pivot
+Global Camera = CreateCamera( )						;create camera with CamPivot as parent
+
+AmbientLight 255,255,255							;the the global light level to fullbright
+
+Global Gravity# = 0.16								;Game gravity
+Global PlayerGravity# = 0.0							;current player gravity
+
+EntityType CamPivot, 1
+EntityRadius CamPivot, 1.5
+EntityType Camera, 1
+EntityRadius Camera, 1.5
+
+Global FlyMode=1									;if 1 then flymode is on
+Global WalkSpeed#=.5								;this handled the walking motion
+Global Jumped=0										;Jump check
+
+
+Global mapw = 75
+Global mapd = 75
+Global maph = 40
+
+Dim amap(mapw,mapd)
+Dim map(mapw,maph,mapd)
+Dim cmap(mapw,mapd)
+Dim ccmap(mapw,maph,mapd)
+
+Type block
+	Field x,y,v
+End Type
+
+Type m
+	Field x#,y#,z#,w#,h#,sx#,sy#,sz#,del
+End Type
+
+camera=CreateCamera() 
+
+light=CreateLight() 
+RotateEntity light,90,0,0 
+
+
+initmap2()
+initmap()
+
+WireFrame False
+
+MoveEntity camera,0,5,0
+timer = CreateTimer(60)
+While Not KeyDown( 1 ) 
+	WaitTimer timer
+	TurnEntity CamPivot, 0, 0 -MouseXSpeed(), 0		;left/right rotation
+	TurnEntity Camera, MouseYSpeed(), 0, 0			;up/down rotation
+	RotateEntity CamPivot, EntityPitch#( CamPivot ), EntityYaw#( CamPivot ), 0	;z roll correction
+	MoveMouse GraphicsWidth()/2, GraphicsHeight()/2	;move mouse pointer to center of screen
+
+	RotateEntity Camera, EntityPitch#( Camera ), EntityYaw#( CamPivot ), 0		;Z roll correction
+
+	If KeyDown( 54 ) =1 							;Walk key (Right Shift)
+		WalkSpeed# = .05
+	Else
+		WalkSpeed# = .5
+	EndIf
+
+	If KeyDown( 17 ) =1 Then MoveEntity Camera, 0, 0, WalkSpeed#
+	If KeyDown( 208 ) =1 Then MoveEntity Camera, 0, 0, 0-WalkSpeed#
+	PositionEntity CamPivot, EntityX#( Camera ), EntityY#( Camera ), EntityZ#( Camera )
+	If KeyDown( 203 ) =1 Then MoveEntity CamPivot, -1, 0, 0
+	If KeyDown( 205 ) =1 Then MoveEntity CamPivot, 1, 0, 0
+
+	; ******* END OF GRAVITY CHECK ************
+	TranslateEntity CamPivot, 0, PlayerGravity#, 0	;move camera pivot according to current gravity force
+	
+	RenderWorld 
+	Text 0,0,TrisRendered()
+Flip 
+Wend 
+
+End 
+
+Function initmap()
+	For y=0 To 10
+	For x=20 To 40
+	For z=20 To 40
+		map(x,y,z) = 1
+	Next
+	Next
+	Next
+	
+	sx = 20
+	sy = 20
+	ex = 40
+	ey = 40
+	While sx &lt;&gt; ex And sy &lt;&gt; ey 
+		Delete Each block
+		this.block = New block
+		this\x = 5
+		this\y = 5
+		this\v = 1
+
+		For i=0 To 80
+			For this.block = Each block
+				If Rand(1,5) = 1
+					For y=-1 To 1
+					For x=-1 To 1
+						If Rand(1,5) = 1
+							st = True
+							x1 = this\x+x
+							y1 = this\y+y
+							For that.block = Each block
+								If that\x = x1 And that\y = y1 Then that\v = that\v + 1 : st = False
+							Next
+							If st = True
+								If RectsOverlap(x1,y1,1,1,0,0,9,9) = True
+								that.block = New block
+								that\x = x1
+								that\y = y1
+								that\v = 1
+								End If
+							End If
+						End If
+					Next
+					Next
+				End If
+			Next
+		Next
+		
+		For b.block = Each block
+			If b\v &gt; 6
+			If sx+b\x &lt; 40
+			map(sx+b\x,b\y,sy) = 0
+			End If
+			End If
+		Next		
+		If sx&lt;ex Then sx=sx+1
+		If sx&gt;ex Then sx=sx-1
+		If sy&lt;ey Then sy=sy+1
+		If sy&gt;ey Then sy=sy-1
+	Wend
+	
+
+	;
+	; Step 2 get small squares and turn them into bigger squares
+	For y=0 To maph
+	For x=0 To mapw
+	For z=0 To mapz
+		ccmap(x,y,z) = 0
+	Next
+	Next
+	Next
+	exitloop = False
+	x1 = 0
+	y1 = 0
+	z1 = 0
+	rad = 10
+	While exitloop = False
+		fits = True
+		If map(x1,y1,z1) = 1
+			For y2=-rad To rad
+			For z2=-rad To rad
+			For x2=-rad To rad
+				x3 = x1+x2
+				y3 = y1+y2
+				z3 = z1+z2
+				If x3=&gt;0 And y3&gt;=0 And z3&gt;=0 And x3&lt;=mapw And y3&lt;=maph And z3&lt;=mapd
+					If ccmap(x3,y3,z3) = 1 Then fits = False:Exit
+					If map(x3,y3,z3) = 0 Then fits = False:Exit
+				Else
+					fits = False:Exit
+				End If
+			Next		
+			Next
+			Next
+			
+			If fits = True
+				For y2=-rad To rad
+				For z2=-rad To rad
+				For x2=-rad To rad
+					x3 = x1+x2
+					y3 = y1+y2
+					z3 = z1+z2
+					ccmap(x3,y3,z3) = 1		
+				Next
+				Next
+				Next
+				r1.m = New m
+				r1\x = x1;-rad
+				r1\y = y1;-rad
+				r1\z = z1;-rad
+				r1\sx = rad*2+1
+				r1\sy = rad*2+1
+				r1\sz = rad*2+1
+			End If
+		End If
+		x1 = x1 + 1
+		If x1 &gt; mapw
+			y1 = y1 + 1
+			x1 = 0
+		End If
+		If y1=&gt;maph Then 
+			x1 = 0
+			y1 = 0
+			z1 = z1 + 1		
+		End If
+		If z1=&gt;mapd			
+			x1 = 0
+			y1 = 0
+			z1 = 0
+			rad = rad - 1
+			Cls
+			Text 0,0,"fitting "+rad
+			Flip
+		End If
+		If rad &lt; 0 Then exitloop = True
+
+	Wend
+	
+	For m.m = Each m
+		c = CreateCube()
+		PositionEntity c,m\x*2,m\y*2,m\z*2
+		EntityColor c,0,Rand(100,200),0
+		ScaleEntity c,m\sx,m\sy,m\sz
+	Next
+End Function
+
+Function initmap2()
+
+	domidpoint()
+	
+	;
+	For y=0 To mapd
+	For x=0 To mapw
+		amap(x,y) = amap(x,y)/10
+		cmap(x,y) = False
+	Next
+	Next
+	;
+	; Step 1 - Get batches of small surfaces and turn them into big surfaces
+	rad = 25
+	x1 = 0
+	y1 = 0
+	Exitloop = False
+	While exitloop = False			
+		cb = amap(x1,y1)
+		fits = True	
+		For x2=-rad To rad
+		For y2=-rad To rad
+			If KeyDown(1) = True Then End
+			x3 = x1+x2
+			y3 = y1+y2
+			If RectsOverlap(x3,y3,1,1,0,0,mapw+1,mapd+1) = True
+				If Not amap(x3,y3) = cb Then fits = False:Exit
+				If cmap(x3,y3) = 1 Then fits = False:Exit
+			Else
+				fits = False:Exit
+			End If
+		Next
+		Next
+		If fits = True Then
+			For x2=-rad To rad
+			For y2=-rad To rad
+				x3 = x1+x2
+				y3 = y1+y2
+				cmap(x3,y3) = 1
+			Next
+			Next
+			this.m = New m
+			this\x = x1
+			this\y = cb-12
+			this\z = y1
+			this\sx = rad*2+1
+			this\sy = 1
+			this\sz = rad*2+1
+		End If
+		x1 = x1 + 1
+		If x1 &gt; mapw
+			y1 = y1 + 1
+			x1 = 0
+		End If
+		If x1 =&gt; mapw And y1=&gt;mapd Then
+			x1 = 0
+			y1 = 0
+			rad = rad - 1
+			Cls
+			Text 0,0,"Countdown:"+rad
+			Flip
+		
+		End If
+		If rad &lt; 0 Then exitloop = True
+
+	Wend
+	;
+	; Step 2 get small squares and turn them into bigger squares
+	tot=0
+	For this.m = Each m
+	tot=tot+1
+	Next
+	cnt2 = 0
+	For this.m = Each m
+		cnt2 = cnt2 + 1
+		Cls
+		Text 0,0,"Step : "+cnt2+" of "+tot
+		Flip False
+		cnt=0
+		For that.m = Each m
+			If this\x+1 = that\x And this\y = that\y And this\z = that\z Then cnt=cnt+1 : that\del = True
+			If this\x = that\x And this\y = that\y And this\z+1 = that\z Then cnt=cnt+1 : that\del = True
+			If this\x+1 = that\x And this\y = that\y And this\z+1 = that\z Then cnt=cnt+1 :that\del = True
+		Next
+		If cnt=3 Then 
+			a1.m = New m
+			a1\x = this\x+.5
+			a1\y = this\y
+			a1\z = this\z+.5
+			a1\sx = 2
+			a1\sy = 1
+			a1\sz = 2
+			For that.m = Each m
+				If that\del = True Then Delete that
+			Next
+			Delete this
+		Else
+		For that.m = Each m
+		that\del = False
+		Next
+		End If
+	Next
+
+	For this.m = Each m
+		c = CreateCube()
+		PositionEntity c,this\x*2,this\y*2,this\z*2
+		ScaleEntity c,this\sx,this\sy,this\sz
+		EntityColor c,0,Rand(100,155),0
+	Next
+
+End Function
+
+
+; Here the midpoint code begins.
+Function domidpoint()
+  ; Erase the old map array..
+  For y = 0 To mapd
+  For x = 0 To mapw
+    amap(x,y)=0
+  Next
+  Next
+  ; Setup points in the 4 corners of the map.
+  amap(0,0) = 128
+  amap(mapw,0) = 128
+  amap(mapw,mapd) = 128
+  amap(0,mapd) = 128
+  ; Do the midpoint
+  midpoint(0,0,mapw,mapd)
+End Function 
+
+ ; This is the actual Mid point displacement code.
+ Function midpoint(x1,y1,x2,y2)
+   	; If this is pointing at just on pixel, Exit because
+ 	; it doesn't need doing}
+   	If x2-x1&lt;2 And y2-y1&lt;2 Then Return False
+
+ 	; Find distance between points And
+  	;use when generating a random number.
+    dist=(x2-x1+y2-y1)
+    hdist=dist / 2
+  	;Find Middle Point
+    midx=(x1+x2) / 2
+    midy=(y1+y2) / 2
+  	;Get pixel colors of corners
+    c1=amap(x1,y1)
+    c2=amap(x2,y1)
+    c3=amap(x2,y2)
+    c4=amap(x1,y2)
+
+  	; If Not already defined, work out the midpoints of the corners of
+  	; the rectangle by means of an average plus a random number.
+    If(amap(midx,y1)=0) Then amap(midx,y1)=((c1+c2+Rand(dist)-hdist) / 2)
+    If(amap(midx,y2)=0) Then amap(midx,y2)=((c4+c3+Rand(dist)-hdist) / 2)
+    If(amap(x1,midy)=0) Then amap(x1,midy)=((c1+c4+Rand(dist)-hdist) / 2)
+    If(amap(x2,midy)=0) Then amap(x2,midy)=((c2+c3+Rand(dist)-hdist) / 2)
+
+  	; Work out the middle point...
+    amap(midx,midy) = ((c1+c2+c3+c4+Rand(dist)-hdist)/4)
+
+  	; Now divide this rectangle into 4, And call again For Each smaller
+  	; rectangle
+    midpoint(x1,y1,midx,midy);
+    midpoint(midx,y1,x2,midy);
+    midpoint(x1,midy,midx,y2);
+    midpoint(midx,midy,x2,y2);
+
+End Function
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More optimizing</td><td align="right"><font class="tiny">(Posted 2014-11-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I just finished my first attempt at a cave. It did not look to good yet.<br>I
+ did create a routine that loops through the map and checks from the 
+largest cubes to the 1 size cube if they can replace sets of Tiny cubes.
+ Thus reducing the amount of triangles. The reducing is pretty fast.<br><br>I
+ also tried the last code here on my gaming laptop and it can Handle 
+bigger maps. But I wil develop the code on the slow pc and make it so 
+that you can increase the size for fast computers.<br><br>I now Need to find better ways of creating maps. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New try</td><td align="right"><font class="tiny">(Posted 2014-11-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="17910&amp;log=1901_files/13z0sy8.jpg"><br><br>I
+ spend a couple of hours trying to make maps. This one is quite big and 
+generates fast to. Code below (no external media) Use the w key to move 
+forward and the mouse to look.<br>See how big you can make the maps on your rigg by changing global mapw and mapd to higher values.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">
+ ; CreateCube Example 
+; ------------------ 
+
+Graphics3D 800,600,32,2
+SetBuffer BackBuffer() 
+SeedRnd 1
+
+Global CamPivot = CreatePivot( )					;create camera pivot
+Global Camera = CreateCamera( )						;create camera with CamPivot as parent
+
+AmbientLight 255,255,255							;the the global light level to fullbright
+
+Global Gravity# = 0.16								;Game gravity
+Global PlayerGravity# = 0.0							;current player gravity
+
+EntityType CamPivot, 1
+EntityRadius CamPivot, 1.5
+EntityType Camera, 1
+EntityRadius Camera, 1.5
+
+Global FlyMode=1									;if 1 then flymode is on
+Global WalkSpeed#=.5								;this handled the walking motion
+Global Jumped=0										;Jump check
+
+
+Global mapw = 75
+Global mapd = 75
+Global maph = 10
+
+Dim amap(mapw,mapd)
+Dim map(mapw,maph,mapd)
+Dim cmap(mapw,mapd)
+
+Type m
+	Field x#,y#,z#,w#,h#,sx#,sy#,sz#,del
+End Type
+
+camera=CreateCamera() 
+
+light=CreateLight() 
+RotateEntity light,90,0,0 
+
+
+initmap()
+
+WireFrame False
+
+MoveEntity camera,0,50,0
+timer = CreateTimer(60)
+While Not KeyDown( 1 ) 
+	WaitTimer timer
+	TurnEntity CamPivot, 0, 0 -MouseXSpeed(), 0		;left/right rotation
+	TurnEntity Camera, MouseYSpeed(), 0, 0			;up/down rotation
+	RotateEntity CamPivot, EntityPitch#( CamPivot ), EntityYaw#( CamPivot ), 0	;z roll correction
+	MoveMouse GraphicsWidth()/2, GraphicsHeight()/2	;move mouse pointer to center of screen
+
+	RotateEntity Camera, EntityPitch#( Camera ), EntityYaw#( CamPivot ), 0		;Z roll correction
+
+	If KeyDown( 54 ) =1 							;Walk key (Right Shift)
+		WalkSpeed# = .05
+	Else
+		WalkSpeed# = .5
+	EndIf
+
+	If KeyDown( 17 ) =1 Then MoveEntity Camera, 0, 0, WalkSpeed#
+	If KeyDown( 208 ) =1 Then MoveEntity Camera, 0, 0, 0-WalkSpeed#
+	PositionEntity CamPivot, EntityX#( Camera ), EntityY#( Camera ), EntityZ#( Camera )
+	If KeyDown( 203 ) =1 Then MoveEntity CamPivot, -1, 0, 0
+	If KeyDown( 205 ) =1 Then MoveEntity CamPivot, 1, 0, 0
+
+	; ******* END OF GRAVITY CHECK ************
+	TranslateEntity CamPivot, 0, PlayerGravity#, 0	;move camera pivot according to current gravity force
+	
+	RenderWorld 
+	Text 0,0,TrisRendered()
+Flip 
+Wend 
+
+End 
+
+Function initmap()
+
+	domidpoint()
+	
+	;
+	For y=0 To mapd
+	For x=0 To mapw
+		amap(x,y) = amap(x,y)/10		
+		cmap(x,y) = False
+	Next
+	Next
+	;
+	; Step 1 - Get batches of small surfaces and turn them into big surfaces
+	rad = 25
+	x1 = 0
+	y1 = 0
+	Exitloop = False
+	While exitloop = False			
+		fits = True
+		cb = amap(x1,y1)
+		For x2=-rad To rad
+		For y2=-rad To rad
+			If KeyDown(1) = True Then End
+			x3 = x1+x2
+			y3 = y1+y2
+			If RectsOverlap(x3,y3,1,1,0,0,mapw+1,mapd+1) = True
+				If Not amap(x3,y3) = cb Then fits = False:Exit
+				If cmap(x3,y3) = 1 Then fits = False:Exit
+			Else
+				fits = False:Exit
+			End If
+		Next
+		Next
+		If fits = True Then
+			For x2=-rad To rad
+			For y2=-rad To rad
+				x3 = x1+x2
+				y3 = y1+y2
+				cmap(x3,y3) = 1
+			Next
+			Next
+			this.m = New m
+			this\x = x1
+			this\y = cb
+			this\z = y1
+			this\sx = rad*2+1
+			this\sy = 1
+			this\sz = rad*2+1
+		End If
+		x1 = x1 + 1
+		If x1 &gt; mapw
+			y1 = y1 + 1
+			x1 = 0
+		End If
+		If x1 =&gt; mapw And y1=&gt;mapd Then
+			x1 = 0
+			y1 = 0
+			rad = rad - 1
+			Cls
+			Text 0,0,"Countdown:"+rad
+			Flip
+		
+		End If
+		If rad &lt; 0 Then exitloop = True
+
+	Wend
+	;
+	; Step 2 get small squares and turn them into bigger squares
+	For this.m = Each m
+		cnt=0
+		For that.m = Each m
+			If this\x+1 = that\x And this\y = that\y And this\z = that\z Then cnt=cnt+1 : that\del = True
+			If this\x = that\x And this\y = that\y And this\z+1 = that\z Then cnt=cnt+1 : that\del = True
+			If this\x+1 = that\x And this\y = that\y And this\z+1 = that\z Then cnt=cnt+1 :that\del = True
+		Next
+		If cnt=3 Then 
+			a1.m = New m
+			a1\x = this\x+.5
+			a1\y = this\y
+			a1\z = this\z+.5
+			a1\sx = 2
+			a1\sy = 1
+			a1\sz = 2
+			For that.m = Each m
+				If that\del = True Then Delete that
+			Next
+			Delete this
+		Else
+		For that.m = Each m
+		that\del = False
+		Next
+		End If
+	Next
+
+	For this.m = Each m
+		c = CreateCube()
+		PositionEntity c,this\x*2,this\y*2,this\z*2
+		ScaleEntity c,this\sx,this\sy,this\sz
+		EntityColor c,0,Rand(100,155),0
+	Next
+
+End Function
+
+
+; Here the midpoint code begins.
+Function domidpoint()
+  ; Erase the old map array..
+  For y = 0 To mapd
+  For x = 0 To mapw
+    amap(x,y)=0
+  Next
+  Next
+  ; Setup points in the 4 corners of the map.
+  amap(0,0) = 128
+  amap(mapw,0) = 128
+  amap(mapw,mapd) = 128
+  amap(0,mapd) = 128
+  ; Do the midpoint
+  midpoint(0,0,mapw,mapd)
+End Function 
+
+ ; This is the actual Mid point displacement code.
+ Function midpoint(x1,y1,x2,y2)
+   	; If this is pointing at just on pixel, Exit because
+ 	; it doesn't need doing}
+   	If x2-x1&lt;2 And y2-y1&lt;2 Then Return False
+
+ 	; Find distance between points And
+  	;use when generating a random number.
+    dist=(x2-x1+y2-y1)
+    hdist=dist / 2
+  	;Find Middle Point
+    midx=(x1+x2) / 2
+    midy=(y1+y2) / 2
+  	;Get pixel colors of corners
+    c1=amap(x1,y1)
+    c2=amap(x2,y1)
+    c3=amap(x2,y2)
+    c4=amap(x1,y2)
+
+  	; If Not already defined, work out the midpoints of the corners of
+  	; the rectangle by means of an average plus a random number.
+    If(amap(midx,y1)=0) Then amap(midx,y1)=((c1+c2+Rand(dist)-hdist) / 2)
+    If(amap(midx,y2)=0) Then amap(midx,y2)=((c4+c3+Rand(dist)-hdist) / 2)
+    If(amap(x1,midy)=0) Then amap(x1,midy)=((c1+c4+Rand(dist)-hdist) / 2)
+    If(amap(x2,midy)=0) Then amap(x2,midy)=((c2+c3+Rand(dist)-hdist) / 2)
+
+  	; Work out the middle point...
+    amap(midx,midy) = ((c1+c2+c3+c4+Rand(dist)-hdist)/4)
+
+  	; Now divide this rectangle into 4, And call again For Each smaller
+  	; rectangle
+    midpoint(x1,y1,midx,midy);
+    midpoint(midx,y1,x2,midy);
+    midpoint(x1,midy,midx,y2);
+    midpoint(midx,midy,x2,y2);
+
+End Function
+
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Thing I made - random mountain like</td><td align="right"><font class="tiny">(Posted 2014-11-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="17910&amp;log=1901_files/fduln9.jpg"><br><br>This
+ is one of the first things I made. It is a block structure made up of 
+cubes. The next thing I did was to try and turn cubes combinations into 
+bigger cubes. This went wrong as it took to long.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF"> ; CreateCube Example 
+; ------------------ 
+
+Graphics3D 640,480,32,2
+SetBuffer BackBuffer() 
+
+Global CamPivot = CreatePivot( )					;create camera pivot
+Global Camera = CreateCamera( )						;create camera with CamPivot as parent
+
+AmbientLight 255,255,255							;the the global light level to fullbright
+
+MoveEntity CamPivot,1,6,1						;Move camera above terrain
+
+Global Gravity# = 0.16								;Game gravity
+Global PlayerGravity# = 0.0							;current player gravity
+
+EntityType CamPivot, 1
+EntityRadius CamPivot, 1.5
+EntityType Camera, 1
+EntityRadius Camera, 1.5
+
+Global FlyMode=1									;if 1 then flymode is on
+Global WalkSpeed#=.5								;this handled the walking motion
+Global Jumped=0										;Jump check
+
+
+Global mapw = 25
+Global maph = 25
+Global mapd = 25
+
+Dim map(mapw,maph,mapd)
+
+camera=CreateCamera() 
+
+light=CreateLight() 
+RotateEntity light,90,0,0 
+
+; Create cube 
+;cube=CreateCube() 
+
+;PositionEntity cube,0,0,5 
+
+initmap()
+
+WireFrame True
+
+While Not KeyDown( 1 ) 
+	TurnEntity CamPivot, 0, 0 -MouseXSpeed(), 0		;left/right rotation
+	TurnEntity Camera, MouseYSpeed(), 0, 0			;up/down rotation
+	RotateEntity CamPivot, EntityPitch#( CamPivot ), EntityYaw#( CamPivot ), 0	;z roll correction
+	MoveMouse GraphicsWidth()/2, GraphicsHeight()/2	;move mouse pointer to center of screen
+
+	RotateEntity Camera, EntityPitch#( Camera ), EntityYaw#( CamPivot ), 0		;Z roll correction
+
+	If KeyDown( 54 ) =1 							;Walk key (Right Shift)
+		WalkSpeed# = .05
+	Else
+		WalkSpeed# = .5
+	EndIf
+
+	If KeyDown( 157 ) =1							;Fly mode (Right CTRL)
+		FlyMode=1
+	Else
+		FlyMode=0
+	EndIf
+
+	;Cursor keys for movement
+	If FlyMode=0
+		If KeyDown( 200 ) =1 Then MoveEntity CamPivot, 0, 0, WalkSpeed#
+		If KeyDown( 208 ) =1 Then MoveEntity CamPivot, 0, 0, 0-WalkSpeed#
+		PositionEntity Camera, EntityX#( CamPivot ), EntityY#( CamPivot ), EntityZ#( CamPivot )
+	Else
+		If KeyDown( 200 ) =1 Then MoveEntity Camera, 0, 0, WalkSpeed#
+		If KeyDown( 208 ) =1 Then MoveEntity Camera, 0, 0, 0-WalkSpeed#
+		PositionEntity CamPivot, EntityX#( Camera ), EntityY#( Camera ), EntityZ#( Camera )
+	EndIf
+	If KeyDown( 203 ) =1 Then MoveEntity CamPivot, -1, 0, 0
+	If KeyDown( 205 ) =1 Then MoveEntity CamPivot, 1, 0, 0
+
+	; ******* END OF GRAVITY CHECK ************
+	TranslateEntity CamPivot, 0, PlayerGravity#, 0	;move camera pivot according to current gravity force
+	
+RenderWorld 
+	Text 0,0,TrisRendered()
+Flip 
+Wend 
+
+End 
+
+Function initmap()
+	exitloop = False
+
+	While exitloop = False
+		x1 = Rand(mapw)
+		y1 = Rand(maph)
+		z1 = Rand(mapd)
+		rad = Rand(3,6)
+		For y2=-rad To rad
+		For x2=-rad To rad
+		For z2=-rad To rad
+			x3 = x1+x2
+			y3 = y1+y2
+			z3 = z1+z2
+			If x3&gt;=0 And y3&gt;=0 And z3&gt;=3 And x3&lt;=mapw And y3&lt;=maph And z3&lt;=mapd
+				map(x3,y3,z3) = map(x3,y3,z3) + 1
+			End If
+		Next
+		Next
+		Next
+		If map(x1,y1,z1) &gt; 20 Then exitloop = True
+	Wend
+	For y=0 To maph
+	For x=0 To mapw
+	For z=0 To mapd
+		If map(x,y,z) &lt; 15 Then map(x,y,z) = 0 Else map(x,y,z) = 1
+	Next
+	Next
+	Next
+	
+	For y=0 To maph
+	For x=0 To mapw
+	For z=0 To mapd
+		If map(x,y,z) = 1
+			c = CreateCube()
+			PositionEntity c,x,y,z
+		End If
+	Next
+	Next
+	Next	
+End Function
+
+</textarea><br><br><img src="17910&amp;log=1901_files/5k0rxt.jpg"><br><br>Above
+ is a map that I made that has some cube replacing done. It takes about 
+10 seconds to replace 2 cube combinations to 1 cube with the same size. 
+This takes to long I think.<br><br>Here a video of what I have now. <a href="http://youtu.be/IlDX6ANvQ-k" target="_blank">http://youtu.be/IlDX6ANvQ-k</a><br><br>Here the last code I have where I optimized a bit.<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF"> ; CreateCube Example 
+; ------------------ 
+
+Graphics3D 640,480,32,2
+SetBuffer BackBuffer() 
+SeedRnd MilliSecs()
+
+Global CamPivot = CreatePivot( )					;create camera pivot
+Global Camera = CreateCamera( )						;create camera with CamPivot as parent
+
+AmbientLight 255,255,255							;the the global light level to fullbright
+
+Global Gravity# = 0.16								;Game gravity
+Global PlayerGravity# = 0.0							;current player gravity
+
+EntityType CamPivot, 1
+EntityRadius CamPivot, 1.5
+EntityType Camera, 1
+EntityRadius Camera, 1.5
+
+Global FlyMode=1									;if 1 then flymode is on
+Global WalkSpeed#=.5								;this handled the walking motion
+Global Jumped=0										;Jump check
+
+
+Global mapw = 50
+Global mapd = 50
+Global maph = 50
+
+Dim map(mapw,maph,mapd)
+
+Type m
+	Field x#,y#,z#,w#,h#,s#
+End Type
+
+camera=CreateCamera() 
+
+light=CreateLight() 
+RotateEntity light,90,0,0 
+
+
+initmap()
+
+WireFrame True
+
+MoveEntity camera,0,20,0
+
+While Not KeyDown( 1 ) 
+	TurnEntity CamPivot, 0, 0 -MouseXSpeed(), 0		;left/right rotation
+	TurnEntity Camera, MouseYSpeed(), 0, 0			;up/down rotation
+	RotateEntity CamPivot, EntityPitch#( CamPivot ), EntityYaw#( CamPivot ), 0	;z roll correction
+	MoveMouse GraphicsWidth()/2, GraphicsHeight()/2	;move mouse pointer to center of screen
+
+	RotateEntity Camera, EntityPitch#( Camera ), EntityYaw#( CamPivot ), 0		;Z roll correction
+
+	If KeyDown( 54 ) =1 							;Walk key (Right Shift)
+		WalkSpeed# = .05
+	Else
+		WalkSpeed# = .5
+	EndIf
+
+	If KeyDown( 200 ) =1 Then MoveEntity Camera, 0, 0, WalkSpeed#
+	If KeyDown( 208 ) =1 Then MoveEntity Camera, 0, 0, 0-WalkSpeed#
+	PositionEntity CamPivot, EntityX#( Camera ), EntityY#( Camera ), EntityZ#( Camera )
+	If KeyDown( 203 ) =1 Then MoveEntity CamPivot, -1, 0, 0
+	If KeyDown( 205 ) =1 Then MoveEntity CamPivot, 1, 0, 0
+
+	; ******* END OF GRAVITY CHECK ************
+	TranslateEntity CamPivot, 0, PlayerGravity#, 0	;move camera pivot according to current gravity force
+	
+	RenderWorld 
+	Text 0,0,TrisRendered()
+Flip 
+Wend 
+
+End 
+
+Function initmap()
+	exitloop = False
+
+	While exitloop = False
+		x1 = Rand(mapw)
+		z1 = Rand(mapd)
+		rad = Rand(3,6)
+		For x2=-rad To rad
+		For z2=-rad To rad
+			x3 = x1+x2
+			z3 = z1+z2
+			If x3&gt;=0 And z3&gt;=3 And x3&lt;=mapw And z3&lt;=mapd
+				map(x3,0,z3) = map(x3,0,z3) + 1
+			End If
+		Next
+		Next
+		If map(x1,0,z1) &gt; 20 Then exitloop = True
+	Wend
+	
+	For x=0 To mapw
+	For z=0 To mapd
+		If map(x,y,z) &gt; 0 Then
+			this.m = New m
+			this\x = x
+			this\z = z
+			this\y = y + map(x,y,z)
+			this\s = 1
+		End If
+	Next
+	Next	
+
+	For y=0 To 5
+	For x=0 To mapw
+	For z=0 To mapd
+		For this.m = Each m
+			If this\x = x And this\z = z And this\y = y
+				For a1.m = Each m
+				If a1\x = x+1 And a1\z = z And a1\y = y
+					this\s = 2
+					Delete a1
+				End If
+				Next
+			End If
+		Next
+	Next	
+	Next	
+	DebugLog y
+	Next
+	
+	For this.m = Each m
+		c = CreateCube()
+		ScaleEntity c,this\s,1,1
+		PositionEntity c,this\x,this\y,this\z
+		cnt=cnt+1
+	Next
+	DebugLog cnt
+End Function
+
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Learning and designing</td><td align="right"><font class="tiny">(Posted 2014-11-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A few days ago I decided to Do Some 3D programming. Years ago I made a few things but i stopped doing 3D things.<br>Computers got better I hope so i think i can make bigger things.<br><br>The
+ first thing I tried was to get with the help of the code archives 
+create a base to start with. I decided to create maps that look like 
+those in minecraft.<br><br>I discovered how to create simple maps with 
+just a few lines of code. I am using that to create the maps. I Need to 
+start to Discover how to get pretty maps.<br><br>I have already got 
+ideas on how to make caves. I Will experiment with that soon. I can get a
+ few hundred thousand tris on my work pc. I have already started with 
+making code that removes the Tiny cubes and replaces them with bigger 
+ons. That would make bigger maps possible.<br>A few hours ago though I 
+got to the point where it took tens of seconds to loop through the map 
+array where the code finds sets of blocks to replace.<br>That was a setback. I Will try to speed it up.<br><br>I Will place the code I make on this worklog. It wont require external files.<br>The code will be b3d. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

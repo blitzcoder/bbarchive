@@ -1,0 +1,618 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Zakk</h1><h1>TileMap System</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>0.5</td><td align="right"><font class="tiny">(Posted 2011-03-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> 45 minute's work.<br><br>New Features:<br>-Can load sprite sheets for the tile images.<br><br>Any 16x16 texture should work, here's the on I used:<br><pre class="code">http://i829.photobucket.com/albums/zz219/Belimoth/Coding/texture.png</pre><br>To Do:<br>-Better drawing code.<br>-Better
+ Move() function; right now the player will slide past small doorways if
+ the movement speed is set above a certain threshold and they aren't 
+aligned properly.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TileMap System 0.5.bmx
+SuperStrict
+Graphics 800, 600
+'=============================
+Global draw_bound:Byte = False
+'=============================
+Include "TileMap Type 0.5.bmx"
+Include "Player Type 0.4.bmx"
+Include "TQuad Type.bmx"
+'=============================
+
+
+
+
+
+'=============================
+TileMap.Initialize(32, 32)
+Player.Move(50, 50)
+'=============================
+While Not KeyHit(KEY_ESCAPE)	
+	TileMap.Update()
+	Player.Update()
+
+
+	'============TEMP=============
+	If KeyHit(KEY_PAGEUP) Then Player.h = Max(1, Player.h-1)
+	If KeyHit(KEY_PAGEDOWN) Then Player.h :+ 1
+	'=============================
+	If KeyHit(KEY_MINUS) Then Player.w = Max(1, Player.w-1)
+	If KeyHit(KEY_EQUALS) Then Player.w :+ 1
+	'=============================
+	Local n:Int
+	For n = 1 To 9
+		If KeyHit(n+48)
+			Player.speed = n
+		EndIf
+	Next
+	'=============================
+	If KeyHit(KEY_TAB)
+		TileMap.SetRender()	'toggles render mode
+	EndIf
+	'===========/TEMP=============
+	
+	
+	'============TEMP=============
+	If KeyHit(KEY_SPACE) Then draw_bound = 1-draw_bound	'show how far player can move in the four directions
+	'=============================
+	If draw_bound = True
+		SetColor 255, 0, 0
+		TileMap.BoundQuad( Player.Quad() ).Draw()
+	EndIf
+	'===========/TEMP=============
+	
+	
+	SetColor 128, 128, 128
+	TileMap.Draw()
+	SetColor 255, 255, 255
+	Player.Draw()
+	'============TEMP=============
+	Local column:Int = 520, row:Int = 20
+	DrawText "arrowkeys move, mouse edits map", column, row*0
+	DrawText "+/- to change player width", column, row*1
+	DrawText "pageup/down to change player height", column, row*2
+	DrawText "#1-9 to set player speed", column, row*3
+	DrawText "S to save map, L to load", column, row*4
+	DrawText "space to toggle bounding quad", column, row*5
+	DrawText "     warning: it is obnoxious", column, row*6
+	DrawText "tab to toggle render mode", column, row*7
+	DrawText "     requires texture.bmp", column, row*8
+	'===========/TEMP=============
+	Flip
+	Cls
+Wend
+'=============================
+
+
+
+
+
+'=============================
+'Include "Functions.bmx"	'there are no functions
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TileMap Type 0.5.bmx
+'=============================
+Type Tilemap
+	Const size:Int = 16
+	'=============================
+	Global w:Int, h:Int
+	Global array:Int[,]
+	'=============================
+	Global texture:TImage
+	Global render_mode:Byte
+		Const MODE_SQUARES:Int = 0
+		Const MODE_TEXTURE:Int = 1
+	Global texture_loaded:Byte
+	'============TEMP=============
+	Global mx:Int, my:Int		'used for editing the map
+	Global mcolor:Byte = 1
+	'===========/TEMP=============
+	Function Initialize(width:Int, height:Int)
+		w = width
+		h = height
+		array = New Int[w, h]
+	End Function
+	'=============================
+	Function Draw()
+		Local x:Int, y:Int
+		'=============================
+		Select render_mode
+			Case MODE_SQUARES
+				For x = 0 To w-1
+				For y = 0 To h-1
+					If array[x, y]
+						DrawRect(x*size, y*size, size, size)
+					EndIf
+				Next
+				Next
+			Case MODE_TEXTURE
+				For x = 0 To w-1
+				For y = 0 To h-1
+					DrawImage texture, x*size, y*size, array[x, y]
+				Next
+				Next
+			Default
+		End Select
+		'============TEMP=============
+		SetColor mcolor*128, mcolor*128, mcolor*128
+		DrawRect(mx*size+2, my*size+2, size-4, size-4)
+		'===========/TEMP=============
+	End Function
+	'============TEMP=============
+	Function Update()
+		mx = Min( MouseX()/size, w-1); mx = Max(mx, 0)
+		my = Min( MouseY()/size, h -1); my = Max(my, 0)
+		'=============================
+		If MouseDown(1)
+			array[mx, my] = mcolor		'continue drawing on tiles
+		Else
+			mcolor = 1-array[mx, my]	'set color to opposite of tile under mouse cursor
+		EndIf
+		'=============================
+		If KeyHit(KEY_L) Then LoadMap("default.map")
+		If KeyHit(KEY_S) Then SaveMap("default.map")
+	End Function
+	'===========/TEMP=============
+	Function BoundQuad:TQuad(q:TQuad)	
+		Local x0:Int = q.x0/size		'TileMap coordinates
+		Local x1:Int = q.x1/size		'TileMap coordinates
+		Local y0:Int = q.y0/size		'TileMap coordinates
+		Local y1:Int = q.y1/size		'TileMap coordinates
+		'=============================
+		Local new_x0:Int, new_x1:Int
+		Local new_y0:Int, new_y1:Int
+		'=============================
+		Local x:Int, y:Int
+		Local bounded:Int
+		'=============================
+		bounded = False
+		y = y0
+		Repeat
+			y :- 1
+			For x = x0 To x1
+				If y = -1
+					bounded = True
+				ElseIf array[x, y] = 1
+					bounded = True
+				EndIf
+			Next
+		Until bounded = True
+		new_y0 = y+1
+		'=============================
+		bounded = False
+		y = y1
+		Repeat
+			y :+ 1
+			For x = x0 To x1
+				If y = h
+					bounded = True
+				ElseIf array[x, y] = 1
+					bounded = True
+				EndIf
+			Next
+		Until bounded = True
+		new_y1 = y-1
+		'=============================
+		bounded = False
+		x = x0
+		Repeat
+			x :- 1
+			For y = y0 To y1
+				If x = -1
+					bounded = True
+				ElseIf array[x, y] = 1
+					bounded = True
+				EndIf
+			Next
+		Until bounded = True
+		new_x0 = x+1
+		'=============================
+		bounded = False
+		x = x1
+		Repeat
+			x :+ 1
+			For y = y0 To y1
+				If x = w
+					bounded = True
+				ElseIf array[x, y] = 1
+					bounded = True
+				EndIf
+			Next
+		Until bounded = True
+		new_x1 = x-1
+		'=============================
+		Local new_q:TQuad = TQuad.Create(new_x0*size, (new_x1+1)*size, new_y0*size, (new_y1+1)*size)
+		Return new_q
+	EndFunction
+	'=============================
+	Function LoadMap(path:String)		'loads tilemap from file
+		Local file:TStream = ReadFile(path)
+		Local x:Int, y:Int
+		'=============================
+		If Not file
+			Return
+		Else
+			w = file.ReadInt()
+			h = file.ReadInt()
+			Initialize(w, h)
+			For x = 0 To w-1
+			For y = 0 To h-1
+				array[x, y] = file.ReadByte()
+			Next
+			Next
+			'=============================
+			CloseFile(file)
+		EndIf
+	End Function
+	'=============================
+	Function SaveMap(path:String)		'saves tilemap to file
+		Local file:TStream = WriteFile(path)
+		Local x:Int, y:Int
+		'=============================
+		file.WriteInt(w)
+		file.WriteInt(h)
+		For x = 0 To w-1
+		For y = 0 To h-1
+			file.WriteByte( array[x, y] )
+		Next
+		Next
+		CloseFile(file)
+	End Function
+	'=============================
+	Function LoadTexture:Int(path:String)		'returns false if texture doesn't load properly
+		Local image:TImage = LoadImage(path)
+		Local cell_count:Int = ImageWidth(image)/size
+		texture = LoadAnimImage(path ,size, size, 0, cell_count-1)
+		If texture = Null
+			texture_loaded = False
+		Else
+			texture_loaded = True
+		EndIf
+		Return texture_loaded
+	End Function
+	'============TEMP=============
+	Function SetRender(mode:Int = -1)		'sets render_mode to specified, if unspecified it toggles
+		If mode = -1
+			render_mode = 1 - render_mode
+		Else
+			render_mode = mode
+		EndIf
+		If render_mode = MODE_TEXTURE
+			If texture_loaded = False
+				render_mode = LoadTexture("texture.bmp")
+			EndIf
+		EndIf
+	End Function
+	'===========/TEMP=============
+End Type
+'=============================
+</textarea> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>0.4</td><td align="right"><font class="tiny">(Posted 2011-03-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> 5 hour's work. The plan is to create a basic tile-and-object system.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TileMap System 0.4.bmx
+SuperStrict
+Graphics 800, 600
+'=============================
+Global draw_bound:Byte = False
+'=============================
+Include "TileMap Type 0.4.bmx"
+Include "Player Type 0.4.bmx"
+Include "TQuad Type.bmx"
+'=============================
+
+
+
+
+
+'=============================
+TileMap.Initialize(32, 32)
+Player.Move(50, 50)
+'=============================
+While Not KeyHit(KEY_ESCAPE)	
+	TileMap.Update()
+	Player.Update()
+
+
+	'============TEMP=============
+	If KeyHit(KEY_PAGEUP) Then Player.h = Max(1, Player.h-1)
+	If KeyHit(KEY_PAGEDOWN) Then Player.h :+ 1
+	'=============================
+	If KeyHit(KEY_MINUS) Then Player.w = Max(1, Player.w-1)
+	If KeyHit(KEY_EQUALS) Then Player.w :+ 1
+	'=============================
+	Local n:Int
+	For n = 1 To 9
+		If KeyHit(n+48)
+			Player.speed = n
+		EndIf
+	Next
+	'===========/TEMP=============
+	
+	
+	'============TEMP=============
+	If KeyHit(KEY_SPACE) Then draw_bound = 1-draw_bound	'show how far player can move in the four directions
+	'=============================
+	If draw_bound = True
+		SetColor 255, 0, 0
+		TileMap.BoundQuad( Player.Quad() ).Draw()
+	EndIf
+	'===========/TEMP=============
+	
+	
+	SetColor 128, 128, 128
+	TileMap.Draw()
+	SetColor 255, 255, 255
+	Player.Draw()
+	'============TEMP=============
+	Local column:Int = 520, row:Int = 20
+	DrawText "arrowkeys move, mouse edits map", column, row*0
+	DrawText "+/- to change player width", column, row*1
+	DrawText "pageup/down to change player height", column, row*2
+	DrawText "#1-9 to set player speed", column, row*3
+	DrawText "S to save map, L to load", column, row*4
+	DrawText "space to toggle bounding quad", column, row*5
+	DrawText "     warning: it is obnoxious", column, row*6
+	'===========/TEMP=============
+	Flip
+	Cls
+Wend
+'=============================
+
+
+
+
+
+'=============================
+Include "Functions.bmx"	'there are no functions
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TileMap Type 0.4.bmx
+'=============================
+Type Tilemap
+	Const size:Int = 16
+	'=============================
+	Global w:Int, h:Int
+	Global array:Int[,]
+	'============TEMP=============
+	Global mx:Int, my:Int		'used for editing the map
+	Global mcolor:Int = 1
+	'===========/TEMP=============
+	Function Initialize(width:Int, height:Int)
+		w = width
+		h = height
+		array = New Int[w, h]
+	End Function
+	'=============================
+	Function Draw()
+		Local x:Int, y:Int
+		'=============================
+		For x = 0 To w-1
+		For y = 0 To h-1
+			If array[x, y]
+				DrawRect(x*size, y*size, size, size)
+			EndIf
+		Next
+		Next
+		'============TEMP=============
+		SetColor mcolor*128, mcolor*128, mcolor*128
+		DrawRect(mx*size+2, my*size+2, size-4, size-4)
+		'===========/TEMP=============
+	End Function
+	'============TEMP=============
+	Function Update()
+		mx = Min( MouseX()/size, w-1); mx = Max(mx, 0)
+		my = Min( MouseY()/size, h -1); my = Max(my, 0)
+		'=============================
+		If MouseDown(1)
+			array[mx, my] = mcolor		'continue drawing on tiles
+		Else
+			mcolor = 1-array[mx, my]	'set color to opposite of tile under mouse cursor
+		EndIf
+		'=============================
+		If KeyHit(KEY_L) Then Load("default.map")
+		If KeyHit(KEY_S) Then Save("default.map")
+	End Function
+	'===========/TEMP=============
+	Function BoundQuad:TQuad(q:TQuad)	
+		Local x0:Int = q.x0/size		'TileMap coordinates
+		Local x1:Int = q.x1/size		'TileMap coordinates
+		Local y0:Int = q.y0/size		'TileMap coordinates
+		Local y1:Int = q.y1/size		'TileMap coordinates
+		'=============================
+		Local new_x0:Int, new_x1:Int
+		Local new_y0:Int, new_y1:Int
+		'=============================
+		Local x:Int, y:Int
+		Local bounded:Int
+		'=============================
+		bounded = False
+		y = y0
+		Repeat
+			y :- 1
+			For x = x0 To x1
+				If y = -1
+					bounded = True
+				ElseIf array[x, y] = 1
+					bounded = True
+				EndIf
+			Next
+		Until bounded = True
+		new_y0 = y+1
+		'=============================
+		bounded = False
+		y = y1
+		Repeat
+			y :+ 1
+			For x = x0 To x1
+				If y = h
+					bounded = True
+				ElseIf array[x, y] = 1
+					bounded = True
+				EndIf
+			Next
+		Until bounded = True
+		new_y1 = y-1
+		'=============================
+		bounded = False
+		x = x0
+		Repeat
+			x :- 1
+			For y = y0 To y1
+				If x = -1
+					bounded = True
+				ElseIf array[x, y] = 1
+					bounded = True
+				EndIf
+			Next
+		Until bounded = True
+		new_x0 = x+1
+		'=============================
+		bounded = False
+		x = x1
+		Repeat
+			x :+ 1
+			For y = y0 To y1
+				If x = w
+					bounded = True
+				ElseIf array[x, y] = 1
+					bounded = True
+				EndIf
+			Next
+		Until bounded = True
+		new_x1 = x-1
+		'=============================
+		Local new_q:TQuad = TQuad.Create(new_x0*size, (new_x1+1)*size, new_y0*size, (new_y1+1)*size)
+		Return new_q
+	EndFunction
+	'=============================
+	Function Load(path:String)		'loads tilemap from file
+		Local file:TStream = ReadFile(path)
+		Local x:Int, y:Int
+		'=============================
+		If Not file
+			Return
+		Else
+			w = file.ReadInt()
+			h = file.ReadInt()
+			Initialize(w, h)
+			For x = 0 To w-1
+			For y = 0 To h-1
+				array[x, y] = file.ReadByte()
+			Next
+			Next
+			'=============================
+			CloseFile(file)
+		EndIf
+	End Function
+	'=============================
+	Function Save(path:String)		'saves tilemap to file
+		Local file:TStream = WriteFile(path)
+		Local x:Int, y:Int
+		'=============================
+		file.WriteInt(w)
+		file.WriteInt(h)
+		For x = 0 To w-1
+		For y = 0 To h-1
+			file.WriteByte( array[x, y] )
+		Next
+		Next
+		CloseFile(file)
+	End Function
+	'=============================
+End Type
+'=============================
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Player Type 0.4.bmx
+'=============================
+Type Player
+	Global speed:Int = 4
+	'=============================
+	Global x:Float, y:Float
+	Global w:Int = 16, h:Int = 16
+	'=============================
+	Function Update()
+		Local xspeed:Float, yspeed:Float
+		'=============================
+		If KeyDown(KEY_LEFT)
+			xspeed = -speed
+		ElseIf KeyDown(KEY_RIGHT)
+			xspeed = speed
+		EndIf
+		'=============================
+		If KeyDown(KEY_UP)
+			yspeed = -speed
+		ElseIf KeyDown(KEY_DOWN)
+			yspeed = speed
+		EndIf
+		'=============================
+		Move(xspeed, yspeed)
+	End Function
+	'=============================
+	Function Move(xspeed:Float, yspeed:Float)
+		Local bound:TQuad = TileMap.BoundQuad( Quad() )	'determines how far player can move in each of the four directions
+		'=============================
+		If Abs(yspeed) &gt; Abs(xspeed)			'I suspect diagonal movement might break at high speeds... 
+			MoveY(yspeed, bound)
+			bound = TileMap.BoundQuad( Quad() ) 	'reevaluate bound before moving in second dimension
+			MoveX(xspeed, bound)
+		Else
+			MoveX(xspeed, bound)
+			bound = TileMap.BoundQuad( Quad() )	 'reevaluate bound before moving in second dimension
+			MoveY(yspeed, bound)
+		EndIf
+	End Function
+	'=============================
+	Function MoveX(xspeed:Float, bound:TQuad)
+			If xspeed &gt; 0
+				x = Min(bound.x1-w, x+xspeed)
+			ElseIf xspeed &lt; 0
+				x = Max(bound.x0, x+xspeed)
+			EndIf
+	End Function
+	'=============================
+	Function MoveY(yspeed:Float, bound:TQuad)
+		If yspeed &gt; 0
+			y = Min(bound.y1-h, y+yspeed)
+		ElseIf yspeed &lt; 0
+			y = Max(bound.y0, y+yspeed)
+		EndIf
+	End Function
+	'=============================
+	Function Quad:TQuad()		'returns the player's position in TQuad form; could be improved but serves its purpose
+		Local q:TQuad = TQuad.Create(x, x+w-1, y, y+h-1)
+		Return q
+	End Function
+	'=============================
+	Function Draw()
+		DrawRect x, y, w, h
+	End Function
+	'=============================
+End Type
+'=============================
+</textarea><br><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'TQuad Type.bmx
+'=============================
+Type TQuad		'TRect would be more descriptive of this type's purpose
+	Field x0:Float, x1:Float	'left and right
+	Field y0:Float, y1:Float	'top and bottom
+	'=============================
+	Field w:Float, h:Float
+	'=============================
+	Function Create:TQuad(x0:Float, x1:Float, y0:Float, y1:Float)
+		Local q:TQuad = New TQuad
+		q.x0 = x0; q.x1 = x1
+		q.y0 = y0; 	q.y1 = y1
+		q.w = x1 - x0
+		q.h = y1 - y0
+		Return q
+	End Function
+	'============TEMP=============
+	Method Draw()
+		DrawRect x0, y0, w, h
+	End Method
+	'===========/TEMP=============
+End Type
+'=============================
+</textarea><br><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'=============================
+'Functions.bmx
+'=============================
+'No really, there aren't any
+'=============================
+</textarea> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

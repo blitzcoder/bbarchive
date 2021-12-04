@@ -1,0 +1,37 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for ima747</h1><h1>MiniB3D Sound</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Updated link</td><td align="right"><font class="tiny">(Posted 2009-05-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> It was brought to my attention that the links are broken. Here's a current link for v1.2<br><br><a href="http://toscaledesign.com/minib3d/minib3dSoundv1.2.zip" target="_blank">http://toscaledesign.com/minib3d/minib3dSoundv1.2.zip</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>v1.2 - Stop playing!</td><td align="right"><font class="tiny">(Posted 2007-04-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://ima747.gotdns.com/blitzmax/minib3dSoundv1.2.zip" target="_blank">http://ima747.gotdns.com/blitzmax/minib3dSoundv1.2.zip</a><br><br>Some
+ speed improvements, a bunch of new functions and updated documentation,
+ debugging etc. It sounds like I got the crackling out.<br><br>One thing
+ to note is if you free an entity while it's playing a sound it will 
+cause your program to crash. call EntityStop3DSound() on the entity 
+before freeing it to stop all sounds attached to the entity from 
+playing. It was eroniously stated that freeing an entity would stop it 
+from playing previously but I had forgotten to test that out... if you 
+tried it your program would crash. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>v1.1 - Starts and Beginnings...</td><td align="right"><font class="tiny">(Posted 2007-04-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> v1.1 - <a href="http://ima747.gotdns.com/blitzmax/minib3dSoundv1.1.zip" target="_blank">http://ima747.gotdns.com/blitzmax/minib3dSoundv1.1.zip</a><br><br>Born
+ of necesity, this is a positional 3D sound system for use with MiniB3D.
+ I never used Blitz3D and as such am not designing this around their 
+sound system, so appologies if you're porting code. It is built around 
+the Blitz Audio module, and therefore should work on any system that can
+ play sound. What it does is handle all the panning, channel depth 
+setting, volume tweaking and (if you enable doppler  the doppler effect)
+ play rate, making a sound apear to be coming from a point in 3D space 
+relative to the listen point (usualy your camera, or player character's 
+head).<br><br>Currently it does not have an environmental simulation so 
+walls etc will not effect a sound. However this is part of the ultimate 
+goal of the project (assuming I can figure out how to do that...). 
+However in it's current form it should be a servicable alternative to 
+just playing sounds straight up.<br><br>It is designed as a module, and 
+requires minib3d to be installed as a module as well. As a module it has
+ a documentation through the internal help system. It can very easily be
+ modified to be an external include/import rather than a module, just 
+poke around at the top of the file. I will eventualy distribute it like 
+minib3d, in module and include form, but for now you just have to tweak 
+the top 3 lines or so.<br><br>Included in version 1.1 (released along 
+with the start of this worklog) are some example programs to get you 
+started. A basic example of how to add it to an existing project. And an
+ advanced example of most features and functions of the sytem in 
+practice with real world examples of why you might want to use a given 
+feature.<br><br>I'm looking for feedback and input so if you are confused, or have any things you'd like to see added please contact me.<br><br>Now if only I could screenshot sound to give you a better idea of how this works... <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,22 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for skidracer</h1><h1>MaxGui and beyond</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>oh one</td><td align="right"><font class="tiny">(Posted 2008-01-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> blog time...<br><br>LinuxFLTK, where do I start...<br><br>After
+ deciding gcc3.3 was the only way I could get FLTK stable on a work 
+machine in December I've been meaning to put a little effort into 
+finding out why. There have also been reports of MaxIDE coming to a 
+grinding halt at the end of a days coding penguin style so even more 
+excuses to hunt down some problems. <br><br>The low level freeprocess 
+module is something Mark has talked about replacing and a recent OSX 
+10.5 patch leads me to think perhaps MaxIDE is leaving something 
+dangling when closing launched processes.<br><br>MaxGui has moved to 
+it's own module branch, from BRL to MaxGui and is now maintained in a 
+subversion repository available to registered users.<br><br>The 
+win32MaxGuiEx module has also moved from the axe syncmods location and 
+is now resident as the default Windows driver in the new MaxGui module 
+space. <br><br>The MaxGui.win32maxguiex module is a pure bmx 
+implementation of the original brl.win32maxgui which in turn was ported 
+from at the time Mark's original BlitzPlus source. It is unicode only so
+ MaxGui.win32maxgui should continue to be used if you are hoping to 
+support Win95 and Win98 platforms.<br><br>  further notifications pending... <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

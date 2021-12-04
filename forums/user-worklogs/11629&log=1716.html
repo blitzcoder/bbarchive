@@ -1,0 +1,81 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Zakk</h1><h1>MS Paint Clone</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Redux</td><td align="right"><font class="tiny">(Posted 2009-12-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've finally moved to BlitzMax, so most of my BB code will have to be discarded. <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Basics</td><td align="right"><font class="tiny">(Posted 2009-11-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The goal with this project is to more-or-less reproduce most of the 
+functions of MS Paint with a similiar interface and a few added tools 
+and such. So far I've just reproduced the basic window layout and the 
+menu structure. Thanks to Leadwerks for answering my question about menu
+ seperators before I could ask it  :) <a href="http://www.blitzbasic.com/Community/posts.php?topic=29528" target="_blank">http://www.blitzbasic.com/Community/posts.php?topic=29528</a> <br>(I'm picky about the details)<br><br><pre class="code">Global window=CreateWindow("My Paint",0,0,GraphicsWidth(),GraphicsHeight(),0,15)
+MaximizeWindow window
+
+Global menu=WindowMenu(window)
+Global file=CreateMenu("File",1,menu)
+CreateMenu "New",11,file
+CreateMenu "Open...",12,file
+CreateMenu "Save",13,file
+CreateMenu "Save As...",14,file
+CreateMenu "",0,file
+CreateMenu "Exit",15,file
+Global edit=CreateMenu("Edit",2,menu)
+CreateMenu "Undo",21,edit
+CreateMenu "Redo",22,edit
+CreateMenu "",0,file
+CreateMenu "Cut",23,edit
+CreateMenu "Copy",24,edit
+CreateMenu "Paste",25,edit
+CreateMenu "Clear Selection",26,edit
+CreateMenu "Invert Selection",27,edit
+CreateMenu "Select All",28,edit
+Global view=CreateMenu("View",3,menu)
+	Global zoom=CreateMenu("Zoom",31,view)
+	Global custom=CreateMenu("Custom",311,zoom)
+		Dim zoomlevel(7)
+		zoomlevel(0)=CreateMenu("12.5%",3111,custom)
+		For n=0 To 5
+			num=Int(25*(2^n))
+			zoomlevel(n+1)=CreateMenu(num+"%",3112+n,custom)
+		Next
+		CheckMenu zoomlevel(3)
+	CreateMenu "",0,zoom
+	CreateMenu "Show Grid",312,zoom
+Global image=CreateMenu("Image",4,menu)
+CreateMenu "Flip/Rotate...",41,image
+CreateMenu "Resize/Skew...",42,image
+CreateMenu "Crop",43,image
+CreateMenu "Invert Colors",44,image
+CreateMenu "Attributes...",45,image
+CreateMenu "Clear Image",46,image
+CreateMenu "Draw Opaque",47,image
+Global colors=CreateMenu("Colors",5,menu)
+CreateMenu "Edit Colors...",51,colors
+UpdateWindowMenu window
+
+Global workspace=CreatePanel(56,49,1310,626,window,1)
+SetPanelColor workspace,192,192,192
+
+
+Repeat
+id=WaitEvent()
+Select id
+Case $401
+
+Case $101
+
+Case $803
+	Quit()
+End Select
+Forever
+
+
+
+
+
+Function Quit()
+	FreeGadget window
+	End
+End Function
+
+
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

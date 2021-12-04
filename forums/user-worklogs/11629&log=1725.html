@@ -1,0 +1,327 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Zakk</h1><h1>TUIO Client</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Still Messy Code</td><td align="right"><font class="tiny">(Posted 2009-12-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">'TUIO Client.bmx
+'=============================
+SuperStrict
+Graphics 640, 480
+Include "OSC.bmx"
+Include "message type.bmx"
+Include "puck type.bmx"
+Include "events.bmx"
+'=============================
+
+
+
+'=============================
+Global bytes_got:Int=0
+'=============================
+Global GetByte:Byte[]
+Global socket:TSocket, stream:TSocketStream
+	socket = TSocket.CreateUDP()
+'=============================
+If Not socket
+	RuntimeError("Your sockets are fried!")
+End If
+socket.Bind(3333)
+Print "creating stream"
+stream = TSocketStream.Create(socket)
+Global avail:Int
+'=============================
+
+
+	
+'==========MAIN LOOP==========
+Local n:Int, stringy:String
+While Not KeyHit(KEY_ESCAPE)
+	avail = socket.ReadAvail()
+	If avail &gt; 0
+		stringy=stream.ReadString(avail)
+		GetByte=New Byte[avail]
+		For n=0 To avail-1
+			GetByte[n]=stringy[n]
+		Next
+		bytes_got=-1
+		GetMessages()
+	EndIf
+	
+	Local p:TPuck
+	For p=EachIn TPuck.global_list
+		SetRotation p.a_degrees
+		SetHandle 10, 10
+		DrawRect p.x, p.y, 21, 21
+	Next
+	Flip
+	Cls
+Wend
+'=============================
+
+</pre><br><br><pre class="code">'OSC.bmx
+
+'==========FUNCTIONS==========
+Function NextByte:Byte()
+	bytes_got:+1
+	If bytes_got&lt;=avail-1
+		Return GetByte[bytes_got]
+
+	EndIf
+	Notify "overread"
+	Return 222
+End Function
+'=============================
+Function NextInt:Int()
+	Return (NextByte() Shl 24) | (NextByte() Shl 16) | (NextByte() Shl 8) | NextByte()
+End Function
+'=============================
+Function NextFloat:Float()
+	Local i:Int=NextInt()
+	Local f:Float Ptr=Float Ptr(Varptr(i))
+	Return f[0]
+End Function
+'=============================
+Function GetMessages()
+	bytes_got:+8
+	Print "#bundle"
+	bytes_got:+8
+	'=============================
+	Local c:Byte
+	Local message:TMessage
+	While bytes_got&lt;avail-1
+		Print "size: "+Nextint()
+		message=TMessage.GetMessage()
+		message.Printout()
+		message.Process()
+		While (bytes_got Mod 4)&lt;&gt;3
+			c=NextByte()
+		Wend	
+	Wend
+	Print ""
+End Function
+'=============================
+Function OSC_ReadString:String()
+	Local s:String, c:Byte
+		c=NextByte()
+	While c&lt;&gt;Null
+		s=s+Chr(c)
+		c=NextByte()
+		If c=Null
+			s=s
+		EndIf
+	Wend
+	While (bytes_got Mod 4)&lt;&gt;3
+		c=NextByte()
+		s=s
+	Wend
+	Return s
+End Function
+'=============================
+</pre><br><br><pre class="code">'message type.bmx
+'=============================
+Const ARG_INT:Int=1, ARG_FLOAT:Int=2, ARG_STRING:Int=3
+'=============================
+
+
+
+'=============================
+Type TArgument
+	Field kind:Int
+	Field i:Int, f:Float, s:String
+End Type
+'=============================
+Type TMessage
+	Field address_pattern:String
+	Field type_tags:String
+	Field argument_list:TList
+	Field message_type:String
+	'=============================
+	Function GetMessage:TMessage()
+		Local message:TMessage=New TMessage
+		
+		message.address_pattern=OSC_ReadString()		'Read OSC Address Pattern
+		message.type_tags=OSC_ReadString()
+		Print "address: "+message.address_pattern
+		Print "type tags: "+message.type_tags
+		Local typetags:String=Right(message.type_tags, Len(message.type_tags)-1)
+		Print typetags
+		Local L:Int=Len(typetags), n:Int, c:String
+		For n=0 To L-1
+			c=Left(typetags, 1)
+			typetags=Right(typetags, Len(typetags)-1)
+			Local arg:TArgument=New TArgument
+			Select c
+				Case "i"		'int32
+					arg.kind=ARG_INT
+					arg.i=NextInt()
+					message.argument_list.AddLast( arg )
+				Case "f"		'float32
+					arg.kind=ARG_FLOAT
+					arg.f=NextFloat()
+					message.argument_list.AddLast( arg )
+				Case "s"		'OSC-String
+					arg.kind=ARG_STRING
+					arg.s=OSC_ReadString()
+					'message.argument_list.AddLast( arg )
+					message.message_type=arg.s
+				Case "b"		'OSC-blob
+				End Select
+		Next
+		Return message
+	End Function
+	'=============================
+	Method New()
+		argument_list=New TList
+	End Method
+	'=============================
+	Method Printout()
+		Local o:Object
+		For o=EachIn argument_list
+			If TArgument(o)
+				Local a:TArgument=TArgument(o)
+				Select a.kind
+					Case ARG_INT
+						Print "Int: "+a.i
+					Case ARG_FLOAT
+						Print "Float: "+a.f
+					Case ARG_STRING
+						Print "String: "+a.s
+					Default
+				End Select
+			EndIf
+		Next
+	End Method
+	'=============================
+	Method Process()
+		Local profile:String=Right(address_pattern, address_pattern.length-6)
+		Print "profile: "+profile
+		Select profile
+			Case "2Dobj"
+				Print "message type: "+message_type
+				Select message_type
+					Case "alive"
+						TPuck.alive_list.Clear()
+						Local arg:TArgument, p:TPuck, new_puck:Int
+						For arg=EachIn argument_list
+							If arg.kind=ARG_INT
+								new_puck=True
+								p=TPuck.SessionId_Puck(arg.i)
+								If p&lt;&gt;Null
+									TPuck.alive_list.AddLast(p)
+								Else
+									p=New TPuck
+									p.session_id=arg.i
+									TPuck.alive_list.AddLast(p)
+									EventCall_PuckEnter(p)
+								EndIf
+							EndIf
+						Next
+						For p=EachIn TPuck.global_list
+							If Not TPuck.alive_list.Contains(p)
+								EventCall_PuckLeave(p)
+							EndIf
+						Next
+					Case "set"
+						Local p:TPuck
+						Local array:Object[]=ListToArray(argument_list) 's i x y a X Y A m r
+						Local session_id:Int=TArgument(array[0]).i
+						p=TPuck.SessionId_Puck(session_id)
+						If p&lt;&gt;Null
+							p.class_id=TArgument(array[1]).i
+							Local sensor_x:Float=TArgument(array[2]).f
+							Local sensor_y:Float=TArgument(array[3]).f
+							Local a_radians:Float=TArgument(array[4]).f
+							EventCall_PuckMove(p, sensor_x, sensor_y, a_radians)
+						EndIf
+					Case "fseq"
+				End Select'
+			Case "2Dcur"
+			Default
+		End Select
+	End Method
+End Type
+'=============================
+
+</pre><br><br><pre class="code">'puck type.bmx
+'=============================
+Const sensor_w:Int=640, sensor_h:Int=480
+'=============================
+
+'=============================
+Type TPuck
+	'=============================
+	Global global_list:TList=New TList
+	Global alive_list:TList=New TList
+	'=============================
+	Field global_link:TLink
+	Field session_id:Int
+	Field class_id:Int
+	Field sensor_x:Float, sensor_y:Float
+	Field x:Int, y:Int
+	Field a_radians:Float, a_degrees:Float
+	'=============================
+	Function Update_Alive()
+		
+	End Function
+	'=============================
+	Function SessionId_Puck:TPuck(sid:Int)
+		Local p:TPuck
+		For p=EachIn TPuck.global_list
+			If p.session_id=sid
+				Return p
+			EndIf
+		Next
+		Return Null
+	End Function
+	'=============================
+	Method New()
+		global_link=global_list.AddLast(Self)
+	End Method
+	'=============================
+	Method Destroy()
+		global_link.Remove()
+	End Method
+End Type
+'=============================
+</pre><br><br><pre class="code">'events.bmx
+
+'=============================
+Global EVENT_PUCKENTER:Int=AllocUserEventId()
+Global EVENT_PUCKLEAVE:Int=AllocUserEventId()
+Global EVENT_PUCKMOVE:Int=AllocUserEventId()
+'=============================
+
+'=============================
+Function EventCall_PuckMove(puck:Object, sensor_x:Float, sensor_y:Float, a_radians:Float)
+	Local x:Int=sensor_x*sensor_w, y:Int=sensor_y*sensor_h
+	Local a_degrees:Float=RadToDeg(a_radians)
+	Local puckmove:TEvent=TEvent.Create(EVENT_PUCKMOVE, puck, a_degrees, 0, x, y, Null)
+	PostEvent(puckmove, True)
+	Rem
+	the event data contains the pucks rotation
+	End Rem
+	Local p:TPuck=TPuck(puck)
+	p.sensor_x=sensor_x
+	p.sensor_y=sensor_y
+	p.a_radians=a_radians
+	p.a_degrees=a_degrees
+	p.x=sensor_x*sensor_w
+	p.y=sensor_y*sensor_h
+End Function
+'=============================
+Function EventCall_PuckEnter(puck:Object)
+
+End Function
+'=============================
+Function EventCall_PuckLeave(puck:Object)
+	Local p:TPuck=TPuck(puck)
+	p.Destroy()
+End Function
+'=============================
+Function RadToDeg:Float(rad:Float)
+	Return rad*180.0/Pi
+End Function</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Functional at last.</td><td align="right"><font class="tiny">(Posted 2009-12-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Progress is coming along nicely, I've gotten my client program to communicate with the TUIO simulator acquired <a href="http://reactivision.sourceforge.net/" target="_blank">here</a>,
+ but the OSC client part of the program is pretty stripped down. When 
+this project is done I will definitely be coming back to that.<br><br>I 
+finally managed to get TSocketStream to be able to read floats and ints 
+from UDP streams, using a pretty straightforward workaround involving 
+pointers.<br><br>Will post the code after I finish cleaning it up. <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,67 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for nawi</h1><h1>3d lib</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>.</td><td align="right"><font class="tiny">(Posted 2008-01-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Development is going slowly, because of school stuff.. I managed to add
+ fog (which took like a minute), but there's a shot anyway (I like 
+screenshots:). By the way, the code for the library looks like this:<br><pre class="code">Strict
+Import "ngl.bmx"
+
+
+Local Gfx:NGraphics = NGraphics.Start(800,600)
+Local Cam:NCamera = NCamera.CreateCamera()
+Cam.Move(30,10,-60)
+Cam.SetClearColor(163,192,255)
+Cam.EnableFog(30,100,163,192,255)
+HideMouse
+
+Local Cube:NEntity = NEntity.CreateCube()
+Cube.LoadTexture("crate.jpg")
+Cube.EntityAlpha 0.3
+
+Local Mesh:NEntity = NEntity.LoadMesh("md2/fish.md2")
+Mesh.ScaleMesh(0.3,0.3,0.3)
+
+Local Light:NLight = NLight.CreateLight()
+Light.Translate(20,40,0)
+Light.Ambient(255,255,255)
+Light.Diffuse(255,255,255)
+
+Local Map:NEntity = NEntity.Heightmap("hmap.bmp")
+Map.LoadTexture("grass.png")
+
+Repeat
+	'Camera control
+	If KeyDown(KEY_LEFT) Then Cam.Move(-0.3,0,0)
+	If KeyDown(KEY_RIGHT) Then Cam.Move(0.3,0,0)
+	If KeyDown(KEY_UP) Then Cam.Move(0,0,0.3)
+	If KeyDown(KEY_DOWN) Then Cam.Move(0,0,-0.3)
+    
+        Mesh.Animate()
+ 
+        Gfx.Render
+	Gfx.Swap(1)
+Until KeyHit(KEY_ESCAPE)
+</pre><br><br><img src="8225&amp;log=1552_files/n3dfogym7.html"><br><img src="8225&amp;log=1552_files/n3dtestky5.html"> <br><br> ---<br><a href="http://www.youtube.com/watch?v=R3jkUhG68wY" target="_blank">Home Taping is Killing Music</a> - <a href="http://stuntmoto.org/" target="_blank">StuntMoto</a> -<a href="http://www.fsf.org/" target="_blank">Free software for free people</a> - <a href="http://patentabsurdity.com/" target="_blank">Patent Absurdity</a> - "1984, you've read the book, now live it!" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>particles</td><td align="right"><font class="tiny">(Posted 2008-01-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The particle engine is pretty much done. Switched to point sprite 
+opengl extension, which is pretty fast. Z-sorting more than halves the 
+fps though :/. This is required for alpha particles.<br><br><img src="8225&amp;log=1552_files/n3dpar2pz2.html"> <br><br> ---<br><a href="http://www.youtube.com/watch?v=R3jkUhG68wY" target="_blank">Home Taping is Killing Music</a> - <a href="http://stuntmoto.org/" target="_blank">StuntMoto</a> -<a href="http://www.fsf.org/" target="_blank">Free software for free people</a> - <a href="http://patentabsurdity.com/" target="_blank">Patent Absurdity</a> - "1984, you've read the book, now live it!" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>.</td><td align="right"><font class="tiny">(Posted 2008-01-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Added support for parent/child, added CreateSprite (which just creates a
+ quad which consists of 2 triangles), and finally heightmap loading. 
+This just loads the heightmap, and the result is a normal entity/mesh..<br><img src="8225&amp;log=1552_files/n3dhmcb4.html"> <br><br> ---<br><a href="http://www.youtube.com/watch?v=R3jkUhG68wY" target="_blank">Home Taping is Killing Music</a> - <a href="http://stuntmoto.org/" target="_blank">StuntMoto</a> -<a href="http://www.fsf.org/" target="_blank">Free software for free people</a> - <a href="http://patentabsurdity.com/" target="_blank">Patent Absurdity</a> - "1984, you've read the book, now live it!" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>shaders</td><td align="right"><font class="tiny">(Posted 2008-01-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Added support for GLSL shaders. It was pretty simple, but the real 
+difficulty is creating new shaders.. but that is left for the users :).<br><br>Here's a basic toon shader:<br><img src="8225&amp;log=1552_files/n3dshadertu6.html"><br>and another one:<br><img src="8225&amp;log=1552_files/n3dshar4.html"> <br><br> ---<br><a href="http://www.youtube.com/watch?v=R3jkUhG68wY" target="_blank">Home Taping is Killing Music</a> - <a href="http://stuntmoto.org/" target="_blank">StuntMoto</a> -<a href="http://www.fsf.org/" target="_blank">Free software for free people</a> - <a href="http://patentabsurdity.com/" target="_blank">Patent Absurdity</a> - "1984, you've read the book, now live it!" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>.</td><td align="right"><font class="tiny">(Posted 2008-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I've mostly been watching The League of Gentlemen, so I didn't 
+get much done. I added FreeEntity,FreeTexture and AddMesh methods, and 
+optimized list creating.. now the list is only created just before 
+rendering if necessary, instead of every mesh operation, except for 
+copyentity. This way copying an entity uses the old mesh until it is 
+modified. <br><br> ---<br><a href="http://www.youtube.com/watch?v=R3jkUhG68wY" target="_blank">Home Taping is Killing Music</a> - <a href="http://stuntmoto.org/" target="_blank">StuntMoto</a> -<a href="http://www.fsf.org/" target="_blank">Free software for free people</a> - <a href="http://patentabsurdity.com/" target="_blank">Patent Absurdity</a> - "1984, you've read the book, now live it!" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New project, 3d lib</td><td align="right"><font class="tiny">(Posted 2008-01-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been working on an OpenGL 3D library, I've got the basic stuff of 
+entities, cameras, movement etc working, and MD2 loading with 
+animations. I also have texture loading working. I still need to work on
+ the particle system.. Lights are pretty much done too.<br><br>Today I've mostly doing optimizing, and it is starting to be performing decently. Statistics:<br>1000
+ MD2 entities, with textures and alpha translucency, 1000 triangles each
+ totaling 1 million triangles, and I get ~47fps at 800x600 resolution. 
+With 100 entities, I'll get 280fps. This is with 8400M laptop gfx card.<br><br>Random shots:<br><img src="8225&amp;log=1552_files/n3dlwa6.html"><br><img src="8225&amp;log=1552_files/n3dparco2.html"><br><img src="8225&amp;log=1552_files/n3da1mn7.html"> <br><br> ---<br><a href="http://www.youtube.com/watch?v=R3jkUhG68wY" target="_blank">Home Taping is Killing Music</a> - <a href="http://stuntmoto.org/" target="_blank">StuntMoto</a> -<a href="http://www.fsf.org/" target="_blank">Free software for free people</a> - <a href="http://patentabsurdity.com/" target="_blank">Patent Absurdity</a> - "1984, you've read the book, now live it!" </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

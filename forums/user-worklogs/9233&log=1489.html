@@ -1,0 +1,25 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Glenn Dodd</h1><h1>Jigsaw Puzzle</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Jigsaw Puzzle 21 July 2007</td><td align="right"><font class="tiny">(Posted 2007-07-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ To start with i will be using Greys Framework, which is really good as 
+now i have a project to do i will learn it properly. Thanks Grey.<br>The concept is fairly simple. Get a picture, cut it into pieces, mix them up and then try to reassemble.<br>To
+ start with i will use pieces that are square. There won't be any fancy 
+interconnecting bits. Once i have this working i will add different 
+shapes (triangles, octagonals etc) with the nice connecting pieces.<br>Staring with a simple 4 * 4 piece puzzle.<br>Each piece being numbered:<br> 1,  2,   3,   4<br> 5,  6,   7,   8<br> 9, 10, 11, 12<br>13, 14, 15, 16<br><br>The puzzle piece type will hold:<br>Number,
+ image, 4 sides (top, bottom, left and right). Each side will have a 
+reference to the side of another piece it connects to. ie the top of 
+piece 7 will connect to the bottom of piece 3. Each side will have a 
+boolean for "side connected" so it should be easier to move joined 
+pieces around. ie if i move piece 7, and it is already connected to 
+piece 3 then both should move.<br>Each side should have a center point 
+(screen x and y coordinate) so if a piece is dropped next to it, and the
+ 2 center points are close enough, then they can snap together, aligning
+ themselves properly. That should also simplify the checks for if an 
+item is close enough to a correct joining piece, as i only need to check
+ if any of the 4 sides (center points) are close enough to a joining 
+side (center point).<br><br>Once i get the basic game functionality 
+working then i will add timers, help methods (showing which pieces it 
+should join to, or where on the picture grid it fits in) and being able 
+to choose your own picture, number of pieces and shape for the pieces.<br><br>I would really appreciate some feedback on how other poeple would do this too.<br><br>Cheers<br>Glenn <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

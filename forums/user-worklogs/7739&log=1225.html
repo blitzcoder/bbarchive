@@ -1,0 +1,65 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Regular K</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Sound system</td><td align="right"><font class="tiny">(Posted 2005-10-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I created a rather small, but robust and very good sound system. I may release it publicly if anyone wants it.<br><br>Mundus uses it, Ive implemented its first sounds just a while ago :)<br><br>Each
+ sound has an accompanying dat file that contains the distance at which 
+it can be heard and the volume factor. The volume factor can be used to 
+make the sound louder or quieter. <br><br>Sounds are loaded into an 
+type, that array is assigned to an array with an ID, for quick accessing
+ rather than searching through a list of types for it.<br><br>When a 
+sound is played, an emitter is created. If the X parameter is assigned, 
+the sounds Pan is calculated. If X and Y are assigned, the distance the 
+player is away from the sound is calculated, and pan is calculated for 
+the sound.<br><br>This allows a nice "3d" effect of the sounds, creates a nice effect.<br><br>Emitters can be paused, resumed, etc all on command.<br><br>All done in 86 lines.<br> <br><br> ---<br>ATI X850 XT, 1GIG RAM, AMD Althon 3200+ (~2.0GHz)<br>BlitzMax, BlitzPlus </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Autoupdater</td><td align="right"><font class="tiny">(Posted 2005-10-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My game, Mundus, features a rather effective autoupdater. Whenever the 
+game is ran (not in debug mode), it instantly closes and starts up the 
+autoupdater. The autoupdater then downloads a list of files and 
+calculates the checksums of the client files (if they exist). Compares 
+the files, if the checksum doesnt match or the file doesnt even exist, 
+it begins to download the file. Once all the files are downloaded, it 
+closes it self and starts the client up.<br><br>Currently theres 47 files it downloads about 80-100 kb/s (for me), in total 3 MBs. It downloads it in around a minute.<br><br>The file host is a webserver hosted off of my computer right now. It will do for now.<br> <br><br> ---<br>ATI X850 XT, 1GIG RAM, AMD Althon 3200+ (~2.0GHz)<br>BlitzMax, BlitzPlus </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Remake</td><td align="right"><font class="tiny">(Posted 2005-10-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The remake is a big jump from the older versions Ive made (I think I got a few of them).<br><br>I will write about each specific part of the game as I get time to.<br><br>Right now heres a quick summary:<br>Mundus
+ is a 2d, top down, shooter, but it may be considered an ORPG or Action 
+RPG considering its mixed with MMORPG and action shooter. Accounts can 
+be registered in the client. The world is made up of 64x64  grids, each 
+being 640x480 pixels. That allows me to load the maps as needed, not all
+ at once. Those are called grids.<br><br>When you create your account, 
+you choose a "kingdom" to be in (3 kingdoms in total). Each kingdom are 
+made up of territories. A territory is made up of many grids (20x15 
+tiles chunk of the world). Main goal of the game is to conquer other 
+kingdoms by capturing their territories. Currently, capturing takes 60 
+seconds but that subject to change.<br><br>Thats a really rough description of the game.<br> <br><br> ---<br>ATI X850 XT, 1GIG RAM, AMD Althon 3200+ (~2.0GHz)<br>BlitzMax, BlitzPlus </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New stuff</td><td align="right"><font class="tiny">(Posted 2004-10-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> DOES ANYONE WANT TO HELP ME DESIGN THIS WORLD? PLEASE EMAIL AT seankarol@... !!!<br><br>Im
+ thinking of adding another skill named Stealth. it would be when you 
+use it, you go invisible to the other teams for a limited amount of time
+ (level*1000 ms), thus making it a good ambush skill, especially in 
+neutral territory (the blue gun is a assassin gun, that does lots of 
+dmg, perfect for this)<br><br>I added leaders for the Red and Blue team (same as a king)<br><br>I
+ added a skill! accuracy! everytime you shoot you gain 1 experience to 
+that skill. the experience to level is 80*level. this affects your 
+bullet accuracy (which right now is incorrect) by accuracy-level.<br><br>NPCs can walk around now, but mostly only guards do (so far)<br>NPCs have 3 different answers for every command now, one for each team (neutral, red and blue)<br>NPCs can die now!<br><br>I added laws to the neutral territories to stop people from just killing NPCs (that are useful, like gunsmiths)<br>One
+ of the two laws is: if you shoot your gun and a NPC sees you do it, you
+  are marked as dangerous. if a guard sees you marked as dangerous, you 
+instantly lose 200 gold, you are sent to the starting place and you lose
+ your gun and get a pistol in 2 minutes.<br>another law is: every swear 
+you say, you get fined 5 gold pieces, it will stop people from swearing 
+non-stop, but not the odd swear<br><br>I redid all the guns:<br>pistol<br>sub-machine gun<br>machine gun<br>rifle<br>assault rifle<br>sniper rifle<br>(if you got any other suggestions that follow that style please email me it :))<br><br>Fixed the blood bug (they actually show now!)<br><br>I also fixed many bugs<br> <br><br> ---<br>ATI X850 XT, 1GIG RAM, AMD Althon 3200+ (~2.0GHz)<br>BlitzMax, BlitzPlus </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>NPCs</td><td align="right"><font class="tiny">(Posted 2004-10-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I added the ability for some NPCs to heal you for 50 gold pieces.<br><br>NPC's
+ work in a different way than most RPG's in my game, you type in the 
+global chat "command npc", command being a commands name 
+(hi,bye,talk,trade,heal,join) and NPC being the NPCs name.<br> <br><br> ---<br>ATI X850 XT, 1GIG RAM, AMD Althon 3200+ (~2.0GHz)<br>BlitzMax, BlitzPlus </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>About the Game</td><td align="right"><font class="tiny">(Posted 2004-10-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The game is online, using RottNet :)<br>it
+ works, you join the game, your team is neutral. you can go around and 
+join the red or blue team or go to hostile territory thats either owned 
+by the red or blue team.<br><br>its 2d, and top down<br><br>there are npcs! they just stand there and say stuff, you can trade, talk, say hi, say bye, or join (like the team).<br><br>every time you kill an enemy, you get some gold.<br>if
+ you have the most kills, your the KING! the king gets alot more gold 
+than regular players but is also a target and should be protected by the
+ kings teammates if in hostile territory.<br><br>i see lots in this game and i want to see it through!<br> <br><br> ---<br>ATI X850 XT, 1GIG RAM, AMD Althon 3200+ (~2.0GHz)<br>BlitzMax, BlitzPlus </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Entry #1</td><td align="right"><font class="tiny">(Posted 2004-09-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, I need to start planning my game more as it develops, so I thought worklogs would help me.<br><br>The forum is at <a href="http://omapc.tk/" target="_blank">http://omapc.tk</a><br><br>Just
+ to familarize yourself with my game a bit, One Man Army is a top down 
+shooter (2D) being programmed by me, graphics are by KingDiz, sounds are
+ ripped from CS (if you can help me here, please contact me) and its 
+being tested by about 5 people.<br><br>Ive been starting to prepare for a demo I plan to release on the 30th, which I hope that will be released.<br><br>I
+ got the map editor, about 90% done, I cant work up the strength to 
+continue on it and finish the few features that still exist.<br><br>So, ive been pushing my bonus map maker to make some bonus maps but he hasnt produced anything useable for the game.<br><br>I
+ have animations for the player throwing a grenade that are overdue for,
+ oh 12 days I think? That set the development back a bit.<br><br>I 
+finished most of the AI, they're pretty good but some of it random that I
+ cant even answer. They are very tough and have well no cheating 
+adantage over the player that the player cant do.<br><br>Even if this game is 100% profit-free, Im still taking it seriously.<br><br>Well, my todo list currently for the demo is:<br>- grenades, once i get the animations<br>- about 8 bonus maps to smack out of my bonus mapper<br>- finish the bloody map editor, BORING!<br>- start optimization of the engine, its pretty demanding<br><br>Ill continue the log later, gotta go to sleep soon (school)<br> <br><br> ---<br>ATI X850 XT, 1GIG RAM, AMD Althon 3200+ (~2.0GHz)<br>BlitzMax, BlitzPlus </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

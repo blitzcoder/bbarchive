@@ -1,0 +1,55 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for SculptureOfSoul</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Tile Engine</td><td align="right"><font class="tiny">(Posted 2006-07-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, I've just started programming after a couple year hiatus. 
+Actually, I don't know if you could rightfully call what I used to do 
+"programming" in the truest sense of the word, since I was using 
+Clickteams Click &amp; Create, a clickable script oriented game making 
+environment.<br><br>Anyways, I've got a lot to learn and I figured I 
+might as well dive in the deepend. So I started working on my tile 
+engine. Tile engine...deep end? Well, whipping up a basic tile engine is
+ quite easy, but I looked at some of the features I'd like to have and 
+unfortunately they demanded a more complex engine.<br><br>Anyhow, I've 
+been working on the engine and surrounding framework for a couple of 
+weeks now, learning Bmax and OOP as I go. So far, everything has gone 
+fairly smooth, except for the fact that my engine framework keeps 
+growing and growing, and I've got so much code to put in place before I 
+can do anything fun.<br><br>Here are the core design specifications of the Martyr Tile Engine, further described below:<br><br>Unlimited map size<br>Any size tile at any location<br>Y sorting &amp; Height sorting<br>Unlimited layers*<br>Dynamic Virtual Layer system <br>Tile Image Independance<br>Animated Tiles <br>Dynamic Data loading (map &amp; tilesets)<br>Advanced File scheme - 1 int per ANY tile type, be it an animated tile, a map object, a player object, etc.<br>Seamless travel <br><br><br>Unlimited map size:<br>Theoretically the map can be as large as you like. The only constraint is the amount of disk space available.<br><br>Any size tile at any location:<br>Each tileset can only contain tiles of one size, but that size can be different for each. <br><br>Y &amp; Height sorting:<br>Tiles
+ are Y sorted and height sorted. Height sorting draws tiles that have a 
+higher "height value" above those with a lower height value.  <br><br>Unlimited Layers:<br>Theoretically
+ unlimited layers are possible. *Although right now I've got it set to 
+256 as I'm using a byte to represent the layer value of a tile.<br><br>Dynamic Virtual Layer System:<br>Imagine
+ a map that consists primarily of a background grass tile. Now that's 
+one virtual 'layer'. In the middle of the map is a house - these tiles 
+are layered over the grass tiles. The walls of the house, the floors, 
+and the interior, comprise the next virtual layer. The roof and chimney 
+are placed above the walls, floor and interior, and comprise the next 
+virtual layer. At this point, each tile on the map where the house is 
+has 3 layers. With a normal layer system this would require three passes
+ across every spot in the map array that is visible on screen. <br><br>The
+ dynamic virtual layer system allows *each spot in the map file* to have
+ only as many layers as it needs. If you want to utilize 8 virtual 
+layers on 2 tiles, the render engine will only make 8 passes on those 2 
+tiles, and every other tilespace will only require as many passes as it 
+has virtual layers. <br><br>This allows you to stack tons of masked 
+tiles on top of one another in one or two spots without slowing the 
+rendering process down much at all. <br><br>Coupled with some other 
+features in the engine, this will also allow some other neat effects, 
+which I will display in the future.<br><br><br>Tile Image Independence:<br>Each
+ tile in a tileset is completely independent of any draw flags, 
+animation info, or any other extraneous info about the tile. What does 
+this mean?<br><br>This means that you could have two copies of an 
+animated tile, say a water tile, on the map, and each is functionally 
+unique while they share the same image set. So the water tile at the top
+ of the screen can have waves rippling gently in the wind while the 
+water tile that your character just stepped into can be displaying a 
+splash animation. <br><br>Again, all extraneous info about a tile (besides the actual images) is not stored in the tile. <br><br>Animated Tiles:<br>Animated
+ tiles that can have multiple animation states, varying speeds per 
+frame, various loop states (PingPong, etc). The animation is not stored 
+in the tile, but in the tileset, and each incarnation of an animated 
+tile can have unique parameters.<br><br>Dynamic Data Loading:<br>...will add info later.<br><br>Advanced File Scheme: <br>...will add info later.<br><br>Seamless Travel: <br>This
+ is possible thanks to the dynamic data loading along with the virtual 
+layer system (you can go up or down floors within a building without any
+ need for a pause to load, for instance).<br><br><br>A pretty big bite for my first real programming project. Of course, it's just the tip of the iceberg =).<br><br>More info soon, I hope. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

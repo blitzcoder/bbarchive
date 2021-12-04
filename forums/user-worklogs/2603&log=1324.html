@@ -1,0 +1,46 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Ross C</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress!</td><td align="right"><font class="tiny">(Posted 2006-05-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Ok, it's been a while since i posted on this, but i'm moving forward 
+alot. I have added in loading, using the windows file requestor. Thanks 
+to some code i found in the archives. Also added in scaling mode, which 
+is fairly important.<br><br>Other additions include:<br><br>Parent/child
+ tracking - A visual link between the child and parent will be in the 
+form of a line between the meshes, which updates and follows when the 
+meshes are moved. I also implemented 3d bounding boxes, coloured so you 
+can identify what mesh is a parent and what is a child. If you select an
+ entity, it will have a bounding box BLUE. It's parent will have a RED 
+bounding box and it's child have have a GREEN bounding box.<br><br>Back 
+to the loading system. When a mesh is loaded in, it is put into an array
+ of master meshes. And a copy is created and placed on the map. So, 
+everytime you want another mesh of that kind, you simply copy it, or use
+ the multi-place mode, where you click on the geometry and it will drop a
+ copy and align it to an axis you choose. It doesn't need to be aligned 
+however. This will be useful for alot of things such as placing an 
+entity side by side with another one :o) or say putting chairs against 
+walls. An option to invert the normals would be good too.<br><br>All 
+this is done for rendering speeds and as little memory usage as 
+possible. The only problem will be saving this. I will need to save this
+ out as a .b3d and run the final scene through Gile[s] to lightmap it. 
+THEN, export it to .b3d and import it into the editor, break up 
+everything upon loading and save out to a level file, so i can sort out 
+master meshes and what entities are copies... etc<br><br>I have made 
+everything centre on it's local axis upon loading into the editor. It 
+makes it simplier to rotate items, as the mesh centre can't be changed 
+for copied entities, as it effects all the copies. They are also scaled 
+to a size of 1 unit wide or deep, depending on which is largest.<br><br>There
+ is a few problems with rotate mode. For some reason, when you click but
+ don't drag on a child entity, it spins for no reason. Something to do 
+with the parenting process no doubt. Anyway, screenies later :o) <br><br> -----------------------------------------<br>Athlon64 3200+, 1 GB RAM, Radeon 9800 Pro 128 MB .WIN XP. DX9.0c<br><br>HeightMap to NormalMap Convertor - <a href="http://www.rosscrooks.pwp.blueyonder.co.uk/height_normal_bb.zip" target="_blank">.bb</a> - <a href="http://www.rosscrooks.pwp.blueyonder.co.uk/height_normal_exe.zip" target="_blank">.exe </a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1013" target="_blank"> Change texture mask colour/clear alpha info </a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First Report</td><td align="right"><font class="tiny">(Posted 2006-03-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I actually posted this a while back, on the blitz showcase i think. 
+But, this is a progress update on the editor. I've added in Rotation 
+mode. Each mode will make use of the Lock grid feature. You can lock any
+ or all axis to a grid, for movement/rotation, and scaling when i get 
+round to it. Same goes for locking movement/rotation along one axis.<br><br>Useful for moving say a cube along the X axis. It works pretty well together.<br><br>The
+ buttons system works very well too. All of the button are single 
+surface quads. BUT they use 2d screen positioning, just like an image. 
+So, to detect whether the mouse is clicking on a button, i simple do a 
+RectsOverlap check, using the buttons X,Y location and it's 
+width/height. I'm proud of myself for that one :D<br><br>To try it out, with the full source code, sparing commented ;o), go here:<br><br>www.rosscrooks.pwp.blueyonder.co.uk/editor_new.zip<br><br><img src="2603&amp;log=1324_files/editor_sc1.PNG"><br><br><img src="2603&amp;log=1324_files/editor_sc2.PNG"><br><br><img src="2603&amp;log=1324_files/editor_sc3.PNG"> <br><br> -----------------------------------------<br>Athlon64 3200+, 1 GB RAM, Radeon 9800 Pro 128 MB .WIN XP. DX9.0c<br><br>HeightMap to NormalMap Convertor - <a href="http://www.rosscrooks.pwp.blueyonder.co.uk/height_normal_bb.zip" target="_blank">.bb</a> - <a href="http://www.rosscrooks.pwp.blueyonder.co.uk/height_normal_exe.zip" target="_blank">.exe </a> | <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1013" target="_blank"> Change texture mask colour/clear alpha info </a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,22 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Jedive</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BSP Factory finished !!!</td><td align="right"><font class="tiny">(Posted 2003-08-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After a lot of work, BSP Factory is finally finished. It loads a BSP 
+file (Half-Life version) perfectly, lightmaps it using YAL, and exports 
+to B3D.<br><br>All the entity information is exported to the B3D as 
+pivots, and you can access them loading the B3D with LoadAnimMesh(). The
+ handle it returns contains a pivot named "bsp_root". This pivot 
+contains several children. The first child is the map itself. The other 
+children are the entities found in the BSP. All their properties are 
+exported in their names, as 'property1=value|property2=value...'. It 
+also exports texture flags (alpha maps, masked textures, spherical 
+maps), and automatically deletes surfaces with a 'caulk' texture.<br><br>Now, I have to write some documentation and that's all!!!<br><br>Here is a little map example created with Quark and BSP Factory: <a href="http://www.galeon.com/jedive/storage/bsp_example.zip" target="_blank">http://www.galeon.com/jedive/storage/bsp_example.zip</a><br><br>And here's a screenshot of the program:<br><br><img src="4211&amp;log=1167_files/bspfactory.html"><br> <br><br> == Jedive ==<br>MacBook Core Duo 2Ghz, 2GB, Intel GMA950, Snow Leopard / Win7 / Ubuntu<br>Mac Mini Core 2 Duo 2.2Ghz, 8GB, nVidia 9400, Snow Leopard / Lion </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BSP Factory</td><td align="right"><font class="tiny">(Posted 2003-01-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have decided to make a B3D exporter which imports Half-Life BSPs, 
+which means that you will finally be able to use BSP in your commercial 
+games without worring about id's licence issues. BSP Factory will import
+ the BSP with lightmaps and entity information. You will be able to 
+change the textures and its properties (transparency, shininess, etc) 
+from the program, add or remove entities and export everything into a 
+B3D file.<br><br>I want to make this app low-cost, about 20 US dollars.<br><br>Here is a screen of a BSP imported without lightmaps:<br><br><img src="4211&amp;log=1167_files/dod_overlord.html"><br> <br><br> == Jedive ==<br>MacBook Core Duo 2Ghz, 2GB, Intel GMA950, Snow Leopard / Win7 / Ubuntu<br>Mac Mini Core 2 Duo 2.2Ghz, 8GB, nVidia 9400, Snow Leopard / Lion </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

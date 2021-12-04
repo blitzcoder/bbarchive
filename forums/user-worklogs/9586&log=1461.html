@@ -1,0 +1,47 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Rozek</h1><h1>BlitzLua</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>bugfix update, examples</td><td align="right"><font class="tiny">(Posted 2007-06-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hello,<br><br>it's
+ hard these days to find spare time for work on BlitzLua - however, I've
+ now another release ready (containing a few bugfixes and an initial set
+ of examples - more to come) <br><br> Kind regards,<br><br>Andreas Rozek </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Icons for MacOS X</td><td align="right"><font class="tiny">(Posted 2007-05-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Not much has happened during the last few days (too much other work)<br><br>However,
+ there is now a new BlitzLua executable for MacOS X which uses the Lua 
+logo rather than that of BlitzMax. This allows to distinguish between 
+Lua scripts running under BlitzLua and "real" BlitzMax programs.<br><br>The respective .icns file is also available separately:<br><br><a href="http://www.andreas-rozek.de/BlitzMax/BlitzLua.icns" target="_blank">http://www.Andreas-Rozek.de/BlitzMax/BlitzLua.icns</a> <br><br> Kind regards,<br><br>Andreas Rozek </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>bug-fix release</td><td align="right"><font class="tiny">(Posted 2007-05-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A new release is on the server.<br><br>It
+ primarily fixes a bug, where BlitzMax NULL objects (which might result 
+from a failed create or load operation) get passed to Lua as a NULL 
+userdata (which is useless and difficult to check under Lua) rather than
+ as NIL (which is the proper Lua way)<br><br>Additionally, you may now loadImage and loadAnimImage - I simply "forgot" to implement them (sorry) <br><br> Kind regards,<br><br>Andreas Rozek </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>minor update, official announcement on lua-users.org</td><td align="right"><font class="tiny">(Posted 2007-05-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Another minor update has just been released - it's again just the documentation which has been extended.<br><br>Additionally, both the (still inofficial) axe.lua package and BlitzLua are now listed on lua-users.org (axe.lua is a <a href="http://lua-users.org/wiki/LuaAddons" target="_blank">"Code Wrapper"</a>, BlitzLua a <a href="http://lua-users.org/wiki/LibrariesAndBindings" target="_blank">"GUI Toolkit"</a>) <br><br> Kind regards,<br><br>Andreas Rozek </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>minor update of BlitzLua pre-alpha 1</td><td align="right"><font class="tiny">(Posted 2007-05-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ A minor update has just been released. Apart from a file which was 
+missing before (LuaIcon.o), the package now contains a few additional 
+files (mainly Lua logo graphics) and a slightly modified documentation.<br><br>EDIT:
+ today, there has been another update, which now includes documentation 
+for the additional Lua functions that are also part of the package.<br><br>If
+ you plan to compile the BlitzLua executable under Windows (or run the 
+examples on any platform), you should download the actual version - 
+otherwise, you don't really need it <br><br> Kind regards,<br><br>Andreas Rozek </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BlitzLua pre-alpha 1 released</td><td align="right"><font class="tiny">(Posted 2007-05-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The author has just published the first pre-alpha version of 
+"BlitzLua", a Lua interface for many BlitzMax and MaxGUI modules (see 
+the internal documentation for a complete list).<br><br>With BlitzLua, 
+it is possible to run Lua scripts which have full access to graphical 
+user interfaces, 2D and 3D graphics, sound and networking - under 
+Windows, Linux and MacOS X. BlitzLua uses the author's version of the <a href="http://www.blitzmax.com/Community/posts.php?topic=69429" target="_blank">axe.lua</a> module.<br><br>You
+ may use the module to evaluate Lua scripts within your own BlitzMax 
+application or use a precompiled executable to run stand-alone Lua 
+scripts.<br><br>BlitzLua comes in three "flavours": a "function 
+interface", an "object interface" and an "objective interface" - the 
+"function interface" has been implemented and is fully usable, the 
+remaining interfaces should come within the next two weeks.<br><br><b>Status</b><br><br>The
+ package should currently be considered as "pre-alpha": it has only 
+roughly been tested, and this will not change until the "objective 
+interface" has been fully implemented.<br><br><b>Package Download and Installation</b><br><br>The full source code is available at<br><br>www.Andreas-Rozek.de/BlitzMax/BlitzLua.zip<br><br>After
+ downloading the ZIP archive you should create a new folder "lua.mod" 
+within the BlitzMax module folder (i.e. 
+&lt;blitzmax-installation-folder&gt;/mod/lua.mod/) and unpack the 
+archive into that directory.<br><br>If not already done, you should also
+ download and install the author's (inofficial) version of axe.lua (see 
+link above) - the "official" version (which comes with BlitzMax) is not 
+sufficient!<br><br>After unpacking, please "Build Modules" and "Document
+ Modules" from within your BlitzMax IDE. Afterwards, the module and its 
+documentation are available.<br><br><b>Stand-alone Executable</b><br><br>The stand-alone executable (which is also called BlitzLua) is available at<br><br>- Windows: www.Andreas-Rozek.de/BlitzMax/BlitzLua.debug.exe<br>- MacOS X: www.Andreas-Rozek.de/BlitzMax/BlitzLua.debug.app.zip<br>- Linux: www.Andreas-Rozek.de/BlitzMax/BlitzLua.debug<br><br>The module documentation also contains some information about the BlitzLua executable.<br><br>Please send any questions and bug reports to the author. <br><br> Kind regards,<br><br>Andreas Rozek </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

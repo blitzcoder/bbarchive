@@ -1,0 +1,333 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for errno!</h1><h1>Jux</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>To dream a little dream...</td><td align="right"><font class="tiny">(Posted 2007-08-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The language is now complete almost ready to sell. sales will be 
+handled by the team i work with, not me directly. i'm strictly a coder 
+these days, after vivid, i think i've given up being a pr guy ever 
+again.<br><br>much to the dismay of warren i'm sure. (Hi warren. how's the lawsuit going? muwhahah :) )<br><br>Without
+ further ado, here are two modules wrote in the script language. this is
+ 100% compiled/ran within a blitzmax module. so it'll run on any 
+platform blitz supports now or in the future. no external depenecies 
+like bison or flax, the parser is 100% original.<br><br>List.mod<br><br><pre class="code">class ListItem
+{
+	object Item;
+	ListItem Next;
+	void ListItem(object data)
+	{
+		Item = data;
+		Next = null;
+	}
+}
+
+class List
+{
+	ListItem First;
+	ListItem Last;
+	ListItem Current;
+	int Size;
+	
+	void List()
+	{
+		First = null;
+		Last = null;
+		Current = null;
+		Size = 0;
+	}
+	
+	void Clear()
+	{
+		Current = null;
+		Last = null;
+		First = null;
+		Size = 0;
+	}
+	
+	void Add(object data)
+	{
+		ListItem tmp = new ListItem(data);
+	
+		if( Size = 0 )
+		{
+			First = tmp;
+			Last = First;
+			Size = 1;
+			return;
+		}
+		Last.Next = tmp;
+		Last = tmp;
+		Size = Size + 1;
+	}
+	void Start()
+	{
+		Current = null;
+	}
+	int Next()
+	{
+		if( Current = null )
+		{
+			
+			Current = First;
+			return 1;
+		}
+		
+
+		Current = Current.Next;
+		
+		if( Current = null )
+		{
+			return 0;
+		}
+		return 1;
+	}
+	object Get()
+	{	
+		return Current.Item;
+	}
+}
+
+</pre><br><br>Event.Mod (Work in progress)<br><br><pre class="code">
+class Event
+{
+	object Source;
+	int ID;
+	int X,Y;
+	void Event(object src,int eid,int ex,int ey)
+	{	
+		Source = src;
+		ID = eid;
+		X = ex;
+		Y = ey;
+	}
+}
+
+class Connection
+{
+	object Source;
+	int EventID;
+	object Callback;
+	
+	void Connection(object src,int id,object call)
+	{
+		Source = src;
+		EventID = id;
+		Callback = call;
+	}
+	
+}
+
+class EventManager
+{
+	static List Events;
+	static List Connections;
+	static object MouseMoveCallback;
+	
+	
+	static void EventManager(){}
+	
+	static void Initialize()
+	{
+		Events = new List();
+		Connections = new List();
+	}
+	
+	static int EventCount()
+	{
+		return Events.Size;
+	}
+	
+	static Connection AddConnection(object src,int id,object callback)
+	{
+		Connection con = new Connection(src,id,callback);
+		Connections.Add(con);
+		return con;
+	}
+	
+	static int PumpEvents()
+	{
+		Events.Clear();
+		
+		while( 1 )
+		{
+			int id = BlitzEvent.PollEvent();
+			if( id ){
+				Event tmp = new Event(BlitzEvent.EventSource(),id,0,0);
+				object tmpobj = [tmp];
+				Events.Add( tmpobj );
+			}else{
+				break;
+			}
+		}
+	}
+	
+	
+}
+
+</pre><br><br>It's not C#, I swear! :) It looks alot like C#, but there are differences. <br><br>And lastly, here's a demo program script. program scripts are like program classes in C#, they are the main script.<br><br>but it's easy to circumvent main program scripts and call classes/methods directly from modules via the virtualmachine class.<br><br><pre class="code">class Bat
+{
+	float x,y;
+	void Bat(float bx,float by)
+	{
+		x = bx;
+		y = by;
+	}
+}
+
+class program
+{
+	static int rx,ry;
+	static void OnMouseMove(Event evt)
+	{
+		rx = evt.X;
+		ry = evt.Y;
+	}
+	
+	static int main(string[] args)
+	{
+		Gfx.OpenScreen(640,480);
+		EventManager.Initialize()
+				
+		
+				
+		while(1)
+		{
+			Gfx.Cls();
+			
+			Gfx.Rect(rx,ry,100,100);
+			
+			if( EventManager.EventCount() &gt; 0 )
+			{
+			
+				EventManager.Events.Start();
+			}
+			
+			EventManager.PumpEvents();
+			
+			Gfx.Text( 'Events:'+(EventManager.EventCount()),2,2);
+			
+			Gfx.Flip();
+		}
+				
+	}
+}
+
+
+</pre><br><br><br>And here's the blitz max code require to load the 
+above modules and to expose the demo functions to the script. no 
+convoluted bvm invoker generation here. (I gave up trying. Please do a 
+user friendly version korn. i like the idea of a virtual blitz)<br><br><pre class="code">Function system_write:Variable(pars:Parameters)
+	Local text:Variable = Variable(pars.pars.ValueAtIndex(0))
+	Print text.StringValue()
+End Function
+
+Function gfx_init:Variable(fp:Parameters)
+	Local width:Variable = fp.Get(0)
+	Local height:Variable = fp.Get(1)
+	SetGraphicsDriver GLMax2DDriver()
+	Graphics(width.IntValue(),height.IntValue(),0)
+End Function
+
+Function gfx_rect:Variable(fp:Parameters)
+	Local x:Variable = fp.Get(0)
+	Local y:Variable = fp.Get(1)
+	Local w:Variable = fp.Get(2)
+	Local h:Variable = fp.Get(3)
+	DrawRect(x.IntValue(),y.IntValue(),w.IntValue(),h.IntValue());
+End Function
+
+Function gfx_flip:Variable(fp:Parameters)
+	Flip(0)
+End Function
+
+Function gfx_cls:Variable(fp:Parameters)
+	Cls
+End Function
+
+Function gfx_setcolor:Variable(fp:Parameters)
+	SetColor(fp.Get(0).IntValue(),fp.Get(1).IntValue(),fp.Get(2).IntValue())
+End Function
+
+Function gfx_text:Variable(fp:Parameters)
+	DrawText(fp.Get(0).StringValue(),fp.Get(1).IntValue(),fp.Get(2).IntValue())
+End Function
+
+Function gfx_ticks:Variable(fp:Parameters)
+	Local ret:Variable = New Variable
+	ret.VType = VariableType.Type_Int
+	ret._IVal = MilliSecs()
+	Return ret
+End Function
+
+Function BlitzEvent_PollEvent:Variable(fp:Parameters)
+	
+	Return variable.CreateInt( PollEvent() )
+			
+End Function
+
+Function BlitzEvent_EventSource:Variable(fp:Parameters)
+	
+	Local ret:Variable = Variable(EventSource())
+				
+	If ret = Null
+		Return variable.CreateObject(Null)
+	Else
+		Return ret
+	EndIf
+				
+End Function
+
+'Local com:Compiler = Compiler.Create()
+'Local src:Source = com.LoadSource("test.wfs")
+'Local asm:Assembly = com.CompileProgram( src )
+
+'--------------[  Load Default Modules ] 
+
+Local Asm:Assembly = CompileFactory.CompileProgram("test.wfs")
+Local ListModule:Assembly = CompileFactory.CompileModule("list")
+Local InputModule:Assembly = CompileFactory.CompileModule("input")
+Local EventModule:Assembly = compileFactory.CompileModule("event")
+'-----------[ BlitzEvent Class ] 
+
+Local cls_BlitzEvent:Class = class.CreateUserClass("BlitzEvent")
+
+cls_BlitzEvent.AddRealMethod(BlitzEvent_PollEvent,"PollEvent",True)
+cls_BlitzEvent.AddRealMethod(BlitzEvent_EventSource,"EventSource",True)
+
+EventModule.AddClass( cls_BlitzEvent )
+
+'-----------[ GFX CLASS ]
+Local cls_2d:Class = class.CreateUserClass("Gfx")
+
+cls_2d.AddRealMethod(gfx_init,"OpenScreen",True)
+cls_2d.AddRealMethod(gfx_rect,"Rect",True)
+cls_2d.AddRealMethod(gfx_flip,"Flip",True)
+cls_2d.AddRealMethod(gfx_cls,"Cls",True)
+cls_2d.AddRealMethod(gfx_setcolor,"SetColor",True)
+cls_2d.AddRealMethod(gfx_text,"Text",True)
+cls_2d.addrealmethod(gfx_ticks,"Ticks",True)
+
+asm.AddClass(cls_2d)
+
+
+'----------------[ System Class ] ------------
+
+Local testClass:Class = class.CreateUserClass("system")
+testclass.AddRealMethod(system_write,"write",True)
+asm.AddClass(testclass)
+
+'------------------------------------[ Demo Code] ------------------
+
+
+Local vmu:VirtualMachine = New VirtualMachine
+
+vmu.AddModule(InputModule)
+vmu.AddModule(ListModule)
+vmu.AddModule(EventModule)
+vmu.SetProgramAssembly(asm)
+vmu.Execute()
+
+
+</pre><br><br>As you can see, very easy and flexible. you can even 
+assign C++ functions to script methods, by externing in the function at 
+the top of your blitz source, then passing it to addrealmethod function.<br><br>How much will it cost? <br><br>Find out, next time, on 'my wife's boobs are bigger than youir wife's boobs. Another fine Fox production'. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Coming out shortly</td><td align="right"><font class="tiny">(Posted 2007-04-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The first version was wrote in C# but I have ported it to blitzmax for speed. C# can be a little slow.<br><br>I will release a demo and perhaps even a freeware version. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

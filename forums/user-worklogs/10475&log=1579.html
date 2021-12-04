@@ -1,0 +1,138 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>        <script type="text/javascript" async="" src="10475&amp;log=1579_files/ga.js"></script><script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34362789-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        </script></head><body>
+			
+			<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Drak</h1><h1>Drak's RPG</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Screens</td><td align="right"><font class="tiny">(Posted 2012-12-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="10475&amp;log=1579_files/npc13.webp"><br><img src="10475&amp;log=1579_files/npc11.webp"><br><img src="10475&amp;log=1579_files/npc12.webp"><br><img src="10475&amp;log=1579_files/npc9.webp"><br><img src="10475&amp;log=1579_files/npc10.webp"><br><img src="10475&amp;log=1579_files/npc_7.webp"><br><img src="10475&amp;log=1579_files/arrow_primitive.webp"><br><img src="10475&amp;log=1579_files/npc8.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More features</td><td align="right"><font class="tiny">(Posted 2011-03-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> 1. Added shields to npc equipment lists.  Shields have their own collision response. <br>2.
+ Added 6 facial hair meshes each with 5 possible hair colors to the npc 
+spawn list.  This simply makes 30 possible mustache\beard combinations 
+to diversify random npc looks.<br>3. Add those 30 different combinations to 7 different face textures, and you get 210 different face combinations. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>End of Winter update</td><td align="right"><font class="tiny">(Posted 2011-03-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> In-game world editor.  DONE.<br>1. Ability to add, alter, manipulate, delete, scale meshes and scenery finished.<br>2. Ability to save those meshes to a file, and also load later finished.<br>3. Ability to add npcs, soldiers, etc, finished.<br>4. Ability to save npc locations, states, etc, finished.<br>5.
+ Ability to alter atmoshpheric conditions finished.  Time of day, 
+lighting, ambient light, sounds, all changeable in real time. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Further animations and collision detection</td><td align="right"><font class="tiny">(Posted 2010-04-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Got the new animations done for dying.  1 is an instant kill animation 
+where the npc\enemy collapses instantly and the other the target kind of
+ stumbles a bit, and then collapses.  <br><br>Improved collision detection and response for the "hittable" parts of the enemy meshes.<br><br>Reworked
+ two animations.  Draw bow and hold aim.  The "hold aim" looks great but
+ the "draw bow" animation I'm just not quite satisfied with.  Will 
+tinker more with that animation later.<br><br>I had a problem where I 
+was getting a MAV when a killed enemy dissapears.  I had trouble 
+directly accessing the arrows stuck to the corpse, but have come to a 
+sucessful solution.  (The corpse would delete itself, along with the 
+children, and then the function that updates the arrows would try to 
+access the deleted arrows, and cause a MAV.) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Further breaking down..</td><td align="right"><font class="tiny">(Posted 2010-03-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've further broken down the primitives attached to my characters into 
+parts.  I can now correctly identify which body part an arrow or 
+projectile has struck, even while the enemy is animating. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>2 years no update? wow</td><td align="right"><font class="tiny">(Posted 2010-03-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Wow seriously almost 2 years ago I posted my last worklog update.  
+That's crazy.  The fact is I spent about 23 of the last 24 months NOT 
+working on this game.  Been working on other projects.<br><br>You can 
+throw away those npcs from posts below, I have new npcs, new models, new
+ animations.  Those npcs below in my other posts now look like garbage 
+to me.  I've been busy with seperate head models that follow the player.
+  I have, just today, FINALLY (in like 3 hours) got perfect collisions 
+with my animated characters.  No longer will arrows stick in the air 
+where the model is "posed" in it's base pose.  I put some primitives in 
+place on certain bones in my models, gave them a seperate collision 
+response, then when an arrow hits one of these "parts", the arrow is 
+then parented to the corresponding bone that is the parent of the 
+collision box.  Sound complicated?  The complicated part was getting the
+ primitives set up just right.  In actuality the process is quite 
+simple.  The results though, are amazing. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Coding Inventory</td><td align="right"><font class="tiny">(Posted 2008-04-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Been working on the inventory system quite furiously.  I finally have a
+ working model that loads, adds, changes slots, deletes items, etc.  
+Basically everything I was wanting.  I do have to still implement a 
+function to let the player willingly destroy\trash an item.  Here's a 
+screenshot of the demo program I created to test the inventory.  This 
+program can BASICALLY be imported directly into the rpg game with only a
+ few minor changes.  My game allows for a 20 slot inventory instead of 
+12, which will be very simple to change over.  The inventory icons will 
+be drawns over the inventory gui instead of black screen. :)<br><br><img src="10475&amp;log=1579_files/inv_test.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A few characters</td><td align="right"><font class="tiny">(Posted 2008-03-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This is a compilation image of some of the characters and/or npcs from 1 town.<br><br>The npc's in plain clothes have 4 animations: Walking, 2 idle animations, and die.  (they cannot fight in this game)<br><br>The
+ guard entity has 6 animations:  Walk, idle, search, attack, attack idle
+ (attack mode) , take damage, and die.  Hm, I guess that's 7 animations.
+  <br><br>The townsperson has 2108 tris, while the guard has 2304 tris, 
+from the added helmet and weapon.  This model does have a few less tris 
+in the feet as he doesn't have toes that show like the shoeless, poor 
+npc.<br><br><img src="10475&amp;log=1579_files/animation_compilation.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Under attack</td><td align="right"><font class="tiny">(Posted 2008-03-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Working on the guard system, which is also basically the same as the 
+"monster" system.  The only difference is the guards in each town have a
+ "switch" that triggers agressiveness towards the player.<br><br><img src="10475&amp;log=1579_files/day_guard.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More Screenshots</td><td align="right"><font class="tiny">(Posted 2008-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This was the first photo I posted on the blitzbasic website.  This is 
+how dark it is at night without moonlight.  You can also see the crappy 
+2d quick key icons I used to have, unlike the last post.<br><br><img src="10475&amp;log=1579_files/dark_withfire2.webp"><br><br>This
+ photo is just a pic of some standards I have made that sit atop a large
+ gate.  This is actually an in-game screenshot, although it doesn't look
+ like it.  It's taken through a zoom feature that is just for 
+debug/screenshots.  I've gotten MUCH better at uv\texturing at this 
+point.<br><img src="10475&amp;log=1579_files/day_gate.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Latest photos.</td><td align="right"><font class="tiny">(Posted 2008-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> These photos are some of the latest I have.<br><br>Basically
+ what I have done is ripped all the functions from my game directly into
+ a new one.  Most of them I have as include files so it was very very 
+easy.  This one is about a month old and I was beginning on day\night 
+cycle and light level for the moon.  When the moon is out, as the 
+message box states on the bottom, this is how dark it is.  It is MUCH 
+darker when the moon is not out, which is about 30% chance for it to NOT
+ be out.<br><br><img src="10475&amp;log=1579_files/darnkess.webp"><br><br>This
+ one is very recent.  I have updated "Quick Key" icons, which no one 
+probably saw the old crappy hand drawn ones I had.  These are actual 3d 
+models I created just for this and the inventory,  which were then 
+rendered.  You are looking at a health potion and a chunk of Galena, 
+which is the a mineral that usually contains high amounts of silver.<br><img src="10475&amp;log=1579_files/day_town.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Adding placeholder enemies!</td><td align="right"><font class="tiny">(Posted 2008-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This is the last screenshot I have before I switched to my new terrain system. <br><br>Here
+ I have added some placeholder enemies, the scary red squares!  The 
+squares roamed about the elven ruins there, colored green until the 
+player got too close, then they turned red and attacked the player.  
+This did 2 things: first it told me (or anyone) instantly that the 
+square was pissed and something was going to happen. Second it told me 
+my code was working and the square was going into attack mode.<br><br>I have also added message readouts to the message box as you can see.<br><br><img src="10475&amp;log=1579_files/old_redsquare.webp"><br><br>This
+ photo below is of a barracks I had in the castle in the old terrain 
+system, and is much older because there is no message box.<br><br><img src="10475&amp;log=1579_files/ss3.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>An RPG takes shape finally.</td><td align="right"><font class="tiny">(Posted 2008-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> In this screenshot, the game has grown from a survival game into a RPG, which is it's final state.<br><br>At this point I had been doing a LOT of modeling around this time.  <br><br>I've
+ added lots of houses, a castle, some mansions, etc.  Also added since 
+the last screenshot are a health and fatigue bar, direction display, and
+ a message box.  The message box took quite a bit of tweaking to finally
+ get right, but it's the same exact message box I use to this day, 
+although the font is changed.<br><br>This world, or terrain, or whatever
+ you want to call it was huge, 4096x4096 blits units.  It is WAY bigger 
+than the terrains I use now, which are 512x512 I believe.  In case 
+anyone is wondering, the "iteration" text display is a readout I was 
+using for ambient sounds, which fired off a various sound every 1000 
+iterations.<br><br>Also added a crude time cycle at this point, 24 hour days, each with 2000 "general times" in them. :)<br><br>This screenshot is about 8 months old at the time of this post.<br><br><img src="10475&amp;log=1579_files/old_town.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More old screenshots</td><td align="right"><font class="tiny">(Posted 2008-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ In this photo, I have added an actual terrain, complete with lots of 
+new trees, added a basic sky,(which I believe I just changed the clear 
+screen color and fog color), and added a few debugging texts to the 
+screen.<br><br><img src="10475&amp;log=1579_files/beta_pioneer.webp"><br><br>Oh,
+ and on the bottom left you can see I must have been working on my basic
+ HUD, which is just an alpha'd sprite at about 30% transparency that I 
+will draw over in future updates.<br><br>The game also has changed away 
+from a FPS, which at this point you can see it's name is Pioneer: 1806. 
+ It had grown into a survival game at this point.<br><br>This screenshot is probably about 12-15 months old at the time of this post. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Posting older screenshots</td><td align="right"><font class="tiny">(Posted 2008-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here I have modeled a crude gun, which was supposed to be a 1903, which
+ I had the correct shape but I had not yet textured it.  These last 2 
+shots are about 2 years old.  Actually, you can see I screwed up this 
+screenshot and pasted it over another screenshot. :)<br><br>This is a 
+photo of the player looking down the actual sights of a modeled m1903 
+rifle.  I HATE fps games that use the center of the screen for aiming.  
+If you look closely you have a front sight that you have to actually AIM
+ at your target.  The gun featured a modeled bullet that was actually a 
+small 3d triangle, (4 polys, you couldn't see it anyway, it shot too 
+fast as in real life) which acted as a bullet and had gravity strictly 
+based only on it's distance.  Not true to life but if you were aiming at
+ something far away you actually had to aim your rifle above the target.
+  I also built in small imperfections into the trajectory of the bullet 
+so it would never go perfectly straight, always just a slight angle 
+(like .1 degrees at the most) to the left, right, ect.  I may have to 
+resurrect this as a new game somday.<br><img src="10475&amp;log=1579_files/alpha_fps2.webp"><br><br>I have also added some "enemies" which were basically cylinders, and removed the trees while adding some bushes. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Updating with Old screenshots</td><td align="right"><font class="tiny">(Posted 2008-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been working on a continous game for about 2 years while learning 
+how to code and model.  I've had some old screenshots on my hard drive 
+for a long time and am working on posting some of these old shots.<br><br>This
+ is my FIRST screenshot.  At this time, my game was going to be a FPS, 
+and in this shot I've got only basic movement and a few entities to look
+ at, but it was a good start.<br><img src="10475&amp;log=1579_files/alpha_fps.webp"> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

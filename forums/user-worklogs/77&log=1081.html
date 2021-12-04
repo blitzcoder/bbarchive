@@ -1,0 +1,97 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for morduun</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brogue 0.4.5</td><td align="right"><font class="tiny">(Posted 2002-03-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Back in action!  Been a while, so the first thing I did was go through 
+the loop and optimize a few calls.  I think I got a few cycles out of 
+the deal, though I hate replacing nice, neat function calls.<br><br>Rewriting
+ the monster waypointing logic, and having much more luck this time.  In
+ fact, it's safe to say that waypointing is finally working properly; 
+it's destination changing that's a little off-kilter this time, and 
+that's a much easier nut.<br><br>Expect Alpha 2, with all 6 trap types and two kinds of monsters patrolling the dungeon, some time next week...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brogue 0.4.3</td><td align="right"><font class="tiny">(Posted 2002-01-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Grrrrr.  Bloody monsters!<br><br>I've
+ come a long way in understanding exactly what the old AI routines are 
+doing, and the plan I formed to translate the old AI to the real-time 
+environment works well enough to go with (ie, not perfect, but good 
+enough, and beats the heck out of rolling my own AI!).  It's an awesome 
+feeling to flip wireframe on and watch the monsters navigate the rooms 
+and the corridors...<br><br>Of course, I =have= to bloody turn wireframe
+ on, because inevitably the stinking stupid things fail to completely 
+follow my carefully coded AI, and so in short order end up either in a 
+Mexican standoff with each other or stuck on a doorway with a protruding
+ arch.  I've had one tenacious ant manage to stay mobile for about five 
+minutes (and he WAS very cool to follow around), but eventually he got 
+stuck as well.  *&amp;#$&amp;#^*$!!!<br><br>The logic is clear, the code
+ somehow fails to conform to the logic, and debugging is definitely not 
+my strongest suit.  If I can solve this one tiny, insignificant little 
+problem I'll be able to move on (and even release a new demo), but for 
+now I'm stuck on it.  Time to play some Wizardry 8.<br><br>Grrrrr.  Bloody monsters!<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brogue 0.4.2</td><td align="right"><font class="tiny">(Posted 2001-12-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ brogue jumped to version 0.4.0 with the completion of all six original 
+rogue trap types: teleport, bear, sleep gas, pit, dart and rust.  All of
+ them work well, and all come accompanied with animated models, particle
+ effects, sound effects and so forth where appropriate.  I'm proud of 
+the way they came out, and while I was playing with my simple particle 
+engine I threw in some dungeon dressing -- there are a few random points
+ in the tunnels now that drip water.  Nothing big, but it's fun to be 
+trotting around in the dungeon and hear the drips get farther and 
+closer. ;)  Also, as a result of some very helpful feedback from the 
+Blitz IRC gang, I've converted the game to achieve steady gameplay on 
+any rig, regardless of framerate.  Still having some trouble with 
+tweening and RenderWorld, but I'm sure it'll come. <br><br>The next 
+milestone is a big one: monsters.  The deeper I dig into the old 
+sources, especially in the monster code, the nastier parts of them are. 
+ There are a LOT of globals, a lot of wild assumptions, and some 
+=extremely= ugly design hacks that work fine for a turn-based ASCII game
+ but totally ruin anything approaching realtime (one, for instance, 
+completely circumvents the main game loop while the rogue hangs around 
+paralyzed.  Yikes!).<br><br>Having said that, though, I've finally got 
+all of the old movement code translated from C into Blitz, and by 
+sacrificing some grey cells I've come up with a gameplan to make the old
+ movement routines work in tandem with 3D waypoints in realtime.  There 
+is a LOT of work to do before a playable demo with patrolling and 
+attacking monsters becomes available, but the method is clear now, at 
+least, and I'm making headway.<br><br>If I'm especially lucky and/or inspired, a playable demo with working monster AI may be available the second week of January.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brogue 0.3.4: alpha one</td><td align="right"><font class="tiny">(Posted 2001-12-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ First public release to get a feel for how the engine's performing on a
+ variety of boxes, find bugs I haven't seen yet, etc.  Not much 
+functionality change from 0.3.1, though one real trap is in now, there 
+are pick-up sounds for some objects, and the whole thing has been 
+converted to use Terabit's data packing routines.<br><br>Interested parties can download the beta <a href="http://www.echthros.com/files/brogue034.zip" target="_blank">here</a>.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brogue 0.3.1</td><td align="right"><font class="tiny">(Posted 2001-12-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Stairs are now in, as are both EdzUp's random dungeons and BasicGamer's
+ perfect mazes.  Levels choose randomly between these variants on 
+creation, and all stocking routines work perfectly with them.  I'm 
+having some strangeness in the player placement occur here and there, 
+but other than that oddment things are moving along.<br><br>Rudimentary 
+traps are in; for now I'm displaying them as translucent red boxes, so I
+ know they've actually been placed properly.  Implementing them is going
+ to be a little odd, as Blitz doesn't have any native means of detecting
+ collision but not affecting the movement of the colliding entities!  
+I've created some simple models to represent traps in the game, and am 
+trying my best to make them inconspicuous enough to stumble into, but 
+spottable if you're really cautious.<br><br>Spurred on by gema's post on
+ internet data transfer through CGI, brogue also now has an 
+internet-enabled high-score board.  It's currently rudimentary and does 
+not do any encryption or security, but it does maintain a top-ten list 
+of the highest scores, and does some basic error detection and 
+information verification.  The code to enable it in BB is also 
+implemented, so while it's somewhat premature (as there's no game to 
+play yet!), when the game IS playable, the net scoreboard will be 
+available for competitive solo Rogues.<br><br>Next up: finishing trap 
+collision &amp; effects, basic monster placement, and support for 
+inventories -- both player and monster!<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>brogue 0.1.2</td><td align="right"><font class="tiny">(Posted 2001-12-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've started work on a rogue clone (brogue = blitz rogue) with a twist 
+-- this one's as true to the original sources as possible, but instead 
+of the traditional turn-based, top-down, ASCII-art gameplay, I'm 
+throwing all that out and turning it into a first-person realtime 
+dungeon hack.<br><br>In a slight departure from the original, I've 
+nearly finished incorporating EdzUp's random dungeon generation code, 
+and I'm working on putting in functionality to create a perfect maze as a
+ level variant as well, so there will be a bit more level types to play 
+in than rogue's original 9 rooms.<br><br>In order to keep the rest of 
+the gameplay as true as possible to the original, I'm working from the 
+original rogue 5.3 C source and porting a fairly large percentage of it 
+over.  The original level creation and stocking code is, in fact, 
+completely ported as of now, and I'm moving on to the next stage of the 
+alpha, which is the placement of stairs and traps in the level.<br><br>Also
+ in keeping with the original, when complete brogue will be freeware and
+ open source -- so keep your eyes peeled, and let me know if there are 
+any special bits you'd like to see in the game!<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

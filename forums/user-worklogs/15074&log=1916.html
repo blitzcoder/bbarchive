@@ -1,0 +1,2065 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>
+        <!-- Google Analytics -->
+        <script async="" src="15074&amp;log=1916_files/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-34362789-1', 'auto');  // Replace with your property ID.
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+</head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Flanker</h1><h1>UDP Network library</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Current version and documentation</td><td align="right"><font class="tiny">(Posted 2016-01-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Last and current version of the library : <b>v1.12</b><br><br><b><u>LIBRARY INFOS :</u></b><br>This
+ library is designed to replace Blitz3D native DirectPlay commands as it
+ is depreciated in newer Windows version. The UDP network library only 
+uses UDP protocol for fast packets delivery, but this doesn't guarantee 
+arrival or order of packets instead of TCP protocol. It includes 
+automatic server switch if the main server quits and constant ping-pong 
+from server to clients to check for timeouts. With the help on the 
+forums, I try to make it easy to use but powerful and reliable.<br><br>Thanks to Rick Nasher and Guy Fawkes for testing and suggestions.<br>Thanks to stayne for mapping a level to test the library in good conditions.<br>Thanks to RemiD for discussions about server/client managment.<br><br><br><b><u>DOCUMENTATION :</u></b><br>First
+ of all, the library uses variables with "net_" prefix, and functions 
+with "Net_" prefix, be aware with your own variables and functions.<br><br><u>Available functions :</u><br><br><b>Net_StartInput()</b><br>A
+ basic prompt input console to host a server or join an existing one. 
+Returns 2 if server is created, or 1 if the designated server is 
+reachable. Returns 0 if an error occured.<br><br><b>Net_HostServer(port)</b><br>You
+ can override the prompt console and directly create a server on 
+designated port (returns 2 if server created, 0 if not). Avoid to use 
+port 0, as a random available port will be used instead.<br><br><b>Net_JoinServer(ip$,port)</b><br>You
+ can override the prompt console and directly join a server at 
+designated ip and port (returns 1 if server is reachable, 0 if not). Ip 
+must be in string dotted format (x.x.x.x).<br><br><b>Net_StopNetwork()</b><br>Just properly stops the current server or client session, and reset it to default state.<br><br><b>Net_CreatePlayer(name$)</b><br>Creates
+ the LOCAL player with the designated name (ie. the player of THIS 
+computer, this is not used to create other players). This must be called
+ once and only once after you created or joined a session.<br><br><b>Net_RequestPlayer(id)</b><br>Used
+ by clients to ask the server informations about a player ID. This can 
+be useful if you received a message from a ID you don't know, because 
+with UDP protocol, packets may not arrive (or eventually arrive in any 
+order), so you can miss a new player "100" message. This will force the 
+server to resend you that message with proper informations.<br><br><b>Net_KickPlayer(name$)</b><br>Kicks the player with the designated name if you are the server.<br><br><b>Net_CheckMessage()</b><br>Call
+ this function often to check if a new message has arrived. It returns 1
+ if a message if available. If so, the variables Net_MsgTyp, 
+Net_MsgFrom, Net_MsgTo and Net_MsgString will automatically be filled 
+with appropriate data.<br><br><b>Net_SendMessage(typ,message$="",sender=0,recipient=0)</b><br>Sends a message to the server or connected clients. This is the function you will use to update your network.<br>-
+ typ is a number (from 1 to 99) you will use to know what kind of 
+message it is. For example, 1 will be chat message, 2 will be player 
+position... it's up to you. <u>You may write message type from 1 to 99 for you needs.</u><br>- message$ is a string to join to the message. You can use it to send chat message or even data stripped with / for example.<br>- sender is the ID of the player who sent the message. When you send a message, you don't need to fill it, it's automatic.<br>-
+ recipient is the recipient of the message, or 0 if everyone have to 
+receive it. If you don't fill it, it will be 0 (=broadcast)<br><u>NOTE :
+ a message with recipient = 0 (broadcast), won't be sent to the sender 
+player. You can force it by filling the recipient with the sender ID.</u><br><br><br><u>Available variables :</u><br><br><b>Net_MsgType</b> : Integer - The identification type of the last received message.<br><b>Net_MsgFrom</b> : Integer - The ID of the player who sent the message.<br><b>Net_MsgTo</b> : Integer - The ID of the player who has to receive the message (or 0 if broadcast to everyone).<br><b>Net_MsgString</b> : String - The message string or data string received with the packet.<br><br>Also, the library uses standard message types you will find useful :<br>- <b>100</b> : tells that a new player has joined (use Net_MsgString to get the name, and Net_MsgFrom to get the ID).<br>- <b>101</b> : tells a player has quit (use Net_MsgString to get the name, and Net_MsgFrom to get the ID).<br>- <b>102</b> : the host has changed, the new host ID can be read with Net_MsgFrom.<br>- <b>103</b> : ping update (read the ping in Net_MsgString and the player ID in Net_MsgFrom).<br>- <b>200</b> : fatal exception, if you receive that, something went wrong...<br><br><br><u>Library parameters :</u><br><br><b>net_timeOut</b> : Integer - The time in milliseconds before the connection closes when we don't receive any new packets (timeout).<br><br><b>net_autoRouteMessages</b> : Boolean - Tells if the server has to automatically route clients messages to other clients.<br>If set to True, when a client sends a message to the server, the server automatically send it to all other clients.<br>If
+ set to False, the server won't route any received message to other 
+clients, so you can, for example check for cheats, correct the packet, 
+ignore it etc... server side.<br><br><b>net_autoSwitchHost</b> : Boolean
+ - Allows the server to switch to another player if it quits (the new 
+host will be the most ancient connected player). Check for message type 
+102 to see when it happens.<br><br><b>net_defaultPort</b> : Integer - 
+The default port used by the library if you don't fill a port in the 
+input console. Port must be in the range 0-65535.<br><br><br><b>Send binary data :</b><br>Since v1.1, you can append binary data to your messages very easily.<br>You can use the functions <b>Net_WriteByte(byte), Net_WriteShort(short), Net_WriteInt(int), Net_WriteFloat(float), Net_WriteString(string)</b> to write what you want to your message.<br>You will have to do that just before you use the SendMessage() command.<br>To read binary data back from a message, use the functions <b>Net_ReadByte(), Net_ReadShort(), Net_ReadInt(), Net_ReadFloat(), Net_ReadString()</b>, in the same order you wrote the data.<br>See the examples for more infos.<br><br><br><b><u>LIBRARY CODE :</u></b><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;-----------------------------------------------------------------------------------------------------------------------------------;
+;
+ Blitz3D UDP Network library 1.12													Author : Flanker 
+(geadupr@...), jan 2016	;
+;-----------------------------------------------------------------------------------------------------------------------------------;
+
+;
+ Documentation here : &lt;a 
+href="http://www.blitzbasic.com/logs/userlog.php?user=15074&amp;log=1916"
+ 
+target="_blank"&gt;http://www.blitzbasic.com/logs/userlog.php?user=15074&amp;log=1916&lt;/a&gt;
+;
+ 
+-----------------------------------------------------------------------------------
+
+;
+ Here you can change the timeout variable (milliseconds) :
+Global net_timeOut = 10000
+
+; Here you can set the server to act as a router or not :
+Global net_autoRouteMessages = True
+
+; here enable or disable auto switch host :
+Global net_autoSwitchHost = True
+
+; Also you can set a default port (thanks to Rick Nasher for the idea) :
+; (NOTE : if you want to be server, you'll have to make a port 
+forwarding in your router/NAT for this port, or the server port you 
+enter in the console)
+Global net_defaultPort = 32512
+
+; From here I can't say better than Stayne on BB forums :
+; "Going down the confusing rabbit hole of trying to decipher someone 
+else's network code is a dark one. Gooooooooooood luck." :)
+; Feel free to contact me by e-mail if you need help.
+
+;-----------------------------------------------------------------------------------------------------------------------------------;
+;
+ Oh, and BTW, this library is licensed under the NoLicenseRequired 
+agreement, meaning that you can do whatever you want with it... ;
+;-----------------------------------------------------------------------------------------------------------------------------------;
+
+Type
+ net_client
+	Field ID
+	Field name$
+	Field IP
+	Field port
+	Field ping
+	Field lastPong
+End Type
+
+Global net_version$ = "v1.12"
+Global net_mode
+Global net_stream
+Global net_backupStream
+Global net_port
+Global net_serverIP
+Global net_serverPort
+Global net_ID
+Global net_countID
+Global net_pingTime = MilliSecs()
+Global net_lastUpdate = MilliSecs()
+Global net_msgCount
+
+Global net_dataBank = CreateBank(512)
+Global net_dataOffset ; writing/reading bank offset
+
+; these are not functions but they have a "Net_" prefix as they will be 
+used by library user
+Global Net_MsgType
+Global Net_MsgFrom
+Global Net_MsgTo
+Global Net_MsgString$
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_StartInput()
+
+	;;; basic start input
+	.net_reset
+		
+		Cls:Locate 0,0
+		Print "1. Join server"
+		Print "2. Create server"
+		net_mode = Input("? ")
+
+		If net_mode = 1
+			Cls:Locate 0,0
+			ip$ = Input("Server IP (x.x.x.x) ? ")
+			If ip &lt;&gt; ""
+				net_serverPort = Input("Server port (0-65535) ? ")
+				net_port = Input("Local port (0-65535) ? ")
+			Else
+				ip = "127.0.0.1"
+				net_serverPort = net_defaultPort
+				net_port = Rand(1024,65535)
+			EndIf
+			Cls:Locate 0,0
+			Return Net_JoinServer(ip,net_serverPort)
+		ElseIf net_mode = 2
+			Cls:Locate 0,0
+			net_port = Input("Local port (0-65535) ? ")
+			If net_port = 0 Then net_port = net_defaultPort
+			Cls:Locate 0,0
+			Return Net_HostServer(net_port)
+		Else
+			Goto net_reset
+		EndIf
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_HostServer(port)
+
+	net_port = port
+
+	net_stream = CreateUDPStream(net_port)
+	
+	If net_stream And Net_StreamBackup()
+		net_mode = 2
+		net_port = UDPStreamPort(net_stream)
+		Return 2
+	EndIf
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_JoinServer(ip$,port)
+
+	net_serverIP = Net_DotToInt(ip)
+	net_serverPort = port
+
+	net_stream = CreateUDPStream(net_port)
+	
+	If net_stream
+		
+		net_port = UDPStreamPort(net_stream)
+				
+		net_temp = MilliSecs()
+		
+		; while we didn't reach timeout
+		While MilliSecs()-net_temp &lt; net_timeOut
+		
+			; we will send the message every second until timeout or until we are
+ approved
+			If MilliSecs()-net_temp2 &gt; 1000
+				WriteByte net_stream,201 ; I want to check the library version
+				WriteString net_stream,net_version
+				SendUDPMsg(net_stream,net_serverIP,net_serverPort)
+				net_temp2 = MilliSecs()
+			EndIf
+		
+			; check for answer
+			If RecvUDPMsg(net_stream)
+				If UDPMsgIP(net_stream) = net_serverIP And UDPMsgPort(net_stream) = 
+net_serverPort
+					If ReadByte(net_stream) = 202 Then Return 1
+				EndIf
+			EndIf
+
+			Delay 1
+		Wend
+		
+		CloseUDPStream(net_stream):net_stream = 0
+		
+	EndIf	
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_StopNetwork()
+
+	If net_stream
+		If net_mode = 2
+			
+			; send disconnection message of the server
+			n.net_client = First net_client
+			Net_SendMessage(101,n\name,n\ID)
+			Delete n
+			
+			If net_autoSwitchHost ; switching host
+						
+				; count players
+				For n.net_client = Each net_client
+					net_temp = net_temp + 1				
+				Next
+				
+				If net_temp &gt; 0
+			
+					; choose the new host, it will be the most ancient client
+					n.net_client = First net_client
+					
+					net_newHostID = n\ID
+					net_newHostName$ = n\name
+					net_newHostIP = n\IP
+					net_newHostPort = n\port
+									
+					; then send new informations to players
+					For n.net_client = Each net_client
+						
+						WriteByte net_stream,206
+						WriteShort net_stream,net_newHostID
+						
+						If n\ID = net_newHostID ; send that only to the new host
+							
+							WriteShort net_stream,net_temp ; players count
+							
+							For c.net_client = Each net_client
+								WriteShort net_stream,c\ID
+								WriteString net_stream,c\name
+								WriteInt net_stream,c\IP
+								WriteShort net_stream,c\port	
+							Next
+												
+						Else ; send new host infos to other players
+						
+							WriteInt net_stream,net_newHostIP
+							WriteInt net_stream,net_newHostPort
+						
+						EndIf
+						
+						SendUDPMsg(net_stream,n\IP,n\port)
+				
+					Next
+				
+				EndIf
+
+			EndIf
+			
+			If net_backupStream Then 
+CloseUDPStream(net_backupStream):net_backupStream = 0
+		Else
+			WriteByte net_stream,205
+			SendUDPMsg(net_stream,net_serverIP,net_serverPort)
+		EndIf
+		CloseUDPStream(net_stream):net_stream = 0
+	EndIf
+
+	For n.net_client = Each net_client
+		Delete n
+	Next
+	
+	net_mode = 0
+
+	net_stream = 0
+	net_port = 0
+	
+	net_serverIP = 0
+	net_serverPort = 0
+	
+	net_ID = 0
+		
+	Net_MsgType = 0
+	Net_MsgString = ""
+	Net_MsgFrom = 0
+	Net_MsgTo = 0
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_CreatePlayer(name$)
+
+	If net_stream
+	
+		If net_mode = 2
+			
+			n.net_client = New net_client
+			net_ID = Net_GenerateID()
+			n\ID = net_ID
+			n\name = name
+			Return n\ID
+			
+		Else
+	
+			net_temp = MilliSecs()
+			
+			; while we didn't reach timeout
+			While MilliSecs()-net_temp &lt; net_timeOut
+			
+				; we will send the message every second until timeout or until we 
+are approved
+				If MilliSecs()-net_temp2 &gt; 1000
+					WriteByte net_stream,203 ; I want to check the library version
+					WriteString net_stream,name
+					SendUDPMsg(net_stream,net_serverIP,net_serverPort)
+					net_temp2 = MilliSecs()
+				EndIf
+			
+				; check for answer
+				If RecvUDPMsg(net_stream)
+					If UDPMsgIP(net_stream) = net_serverIP And UDPMsgPort(net_stream) =
+ net_serverPort
+						If ReadByte(net_stream) = 204
+							net_ID = ReadShort(net_stream)
+							Return net_ID
+						EndIf
+					EndIf
+				EndIf
+	
+				Delay 1
+			Wend
+			
+			CloseUDPStream(net_stream):net_stream = 0
+				
+		EndIf
+		
+	EndIf
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_RequestPlayer(id)
+
+	If net_mode &lt;&gt; 2
+		WriteByte net_stream,207
+		WriteShort net_stream,id
+		SendUDPMsg(net_stream,net_serverIP,net_serverPort)
+	EndIf
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_KickPlayer(name$)
+
+	If net_mode = 2
+	
+		For n.net_client = Each net_client
+		
+			If n\name = name
+				Net_SendMessage(101,n\name,n\ID)
+				Delete n
+			EndIf		
+		
+		Next
+	
+	EndIf
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_CheckMessage()
+
+	If net_stream
+	
+		If RecvUDPMsg(net_stream)
+			
+			If net_mode &lt;&gt; 2 ; if we are client
+				; we will ignore messages that are not sent from the server
+				If UDPMsgIP(net_stream) &lt;&gt; net_serverIP Or 
+UDPMsgPort(net_stream) &lt;&gt; net_serverPort Then Return			
+				net_lastUpdate = MilliSecs() ; client side timeout check
+			EndIf
+			
+			net_temp = ReadByte(net_stream)
+			
+			If net_temp &gt; 0 And net_temp &lt; 200
+				
+				Net_MsgType = net_temp
+				Net_MsgFrom = ReadShort(net_stream)
+				Net_MsgTo = ReadShort(net_stream)
+				Net_MsgString = ReadString(net_stream)
+				
+				If ReadAvail(net_stream) ; binary data
+					net_dataOffset = ReadAvail(net_stream)
+					ReadBytes net_dataBank,net_stream,0,net_dataOffset
+				EndIf
+				
+				If net_mode = 2 And net_autoRouteMessages And Net_MsgFrom &lt;&gt; 
+net_ID And Net_MsgTo &lt;&gt; net_ID And Net_MsgType &lt; 100
+					Net_RouteMessage(Net_MsgType,Net_MsgFrom,Net_MsgTo,Net_MsgString)
+				Else
+					net_dataOffset = 0
+				EndIf
+				
+				Return 1
+			Else
+						
+				Select net_temp
+				
+					Case 0 ; ping-pong
+										
+						If net_mode = 2
+							For n.net_client = Each net_client
+								If UDPMsgIP(net_stream) = n\IP And UDPMsgPort(net_stream) = 
+n\port
+									n\lastPong = MilliSecs()
+									n\ping = n\lastPong-net_pingTime
+									If n\ping &gt; 999 Then n\ping = 999
+									Net_SendMessage(103,n\ping,n\ID)
+									Net_SendMessage(103,n\ping,n\ID,n\ID)
+								EndIf
+							Next
+						ElseIf UDPMsgIP(net_stream) = net_serverIP And 
+UDPMsgPort(net_stream) = net_serverPort
+							WriteByte net_stream,0
+							SendUDPMsg(net_stream,net_serverIP,net_serverPort)
+						EndIf
+				
+					Case 201 ; a client wants to check his library version
+												
+						If net_mode = 2
+							If ReadString(net_stream) = net_version
+								WriteByte net_stream,202 ; client library version approved
+								
+SendUDPMsg(net_stream,UDPMsgIP(net_stream),UDPMsgPort(net_stream))
+							EndIf
+						EndIf
+					
+					Case 203 ; a client wants to connect
+										
+						If net_mode = 2
+						
+							; verify if the pair ip/port already exists
+							For n.net_client = Each net_client
+								; if so, we resend him the approval, ID, and the list of clients
+								If UDPMsgIP(net_stream) = n\IP And UDPMsgPort(net_stream) = 
+n\port
+									WriteByte net_stream,204 ; connection approved
+									WriteShort net_stream,n\ID
+									SendUDPMsg(net_stream,n\IP,n\port)
+									
+									For c.net_client = Each net_client
+										If c\ID &lt;&gt; n\ID Then 
+Net_SendMessage(100,c\name,c\ID,n\ID)
+									Next
+									
+									Return
+								EndIf
+							Next
+							
+							; everything is fine create the client
+							n.net_client = New net_client
+							n\ID = Net_GenerateID()
+							n\name = ReadString(net_stream)
+							n\IP = UDPMsgIP(net_stream)
+							n\port = UDPMsgPort(net_stream)
+							n\lastPong = MilliSecs()
+													
+							; inform the player that we approved
+							WriteByte net_stream,204 ; connection approved
+							WriteShort net_stream,n\ID
+							SendUDPMsg(net_stream,n\IP,n\port)
+							
+							; and we tell him who is already connected
+							For c.net_client = Each net_client
+								If c\ID &lt;&gt; n\ID Then Net_SendMessage(100,c\name,c\ID,n\ID)
+							Next
+							
+							; finally, inform all players that a New player has joined
+							Net_SendMessage(100,n\name,n\ID)
+																				
+						EndIf
+											
+					Case 205 ; a client is leaving
+												
+						If net_mode = 2
+						
+							; check wich client is leaving
+							For n.net_client = Each net_client
+								If UDPMsgIP(net_stream) = n\IP And UDPMsgPort(net_stream) = 
+n\port
+									Net_SendMessage(101,n\name,n\ID) ; tell other clients who 
+leaved
+									Delete n
+									Return
+								EndIf
+							Next
+						
+						EndIf
+					
+					Case 206 ; the host is leaving, new host informations
+										
+						If net_mode = 1
+							net_temp = ReadShort(net_stream) ; new host ID
+							
+							If net_temp = net_ID ; we are the new host
+								If Net_StreamBackup()
+									net_mode = 2
+									net_temp = ReadShort(net_stream) ; number of players to create
+																								
+									For i = 1 To net_temp
+										n.net_client = New net_client
+										n\ID = ReadShort(net_stream)
+										n\name = ReadString(net_stream)
+										n\IP = ReadInt(net_stream)
+										n\port = ReadShort(net_stream)
+										n\lastPong = MilliSecs()
+									Next
+																		
+									Net_SendMessage(102,"",net_ID)
+									
+								Else
+									Net_StopNetwork()
+									RuntimeError("Failed to become the new host.")
+								EndIf
+							Else
+								net_serverIP = ReadInt(net_stream)
+								net_serverPort = ReadInt(net_stream)
+							EndIf
+						EndIf
+					
+					Case 207 ; a player needs information about one specific client
+					
+						If net_mode = 2
+													
+							; wich client needs infos
+							For n.net_client = Each net_client
+
+								If UDPMsgIP(net_stream) = n\IP And UDPMsgPort(net_stream) = 
+n\port
+									
+									; about wich client
+									net_temp = ReadShort(net_stream)
+									
+									; retrieve infos									
+									For c.net_client = Each net_client
+										If c\ID &lt;&gt; n\ID And c\ID = net_temp Then 
+Net_SendMessage(100,c\name,c\ID,n\ID):Return
+									Next
+									
+								EndIf
+							Next
+						
+						EndIf
+						
+				End Select	
+			
+			EndIf
+								
+		EndIf
+		
+		If net_mode = 2
+			Net_PingClients()
+		Else
+			If MilliSecs()-net_lastUpdate &gt; net_timeOut
+				Net_StopNetwork()
+				RuntimeError("Connection lost with server.")
+			EndIf
+		EndIf
+		
+	EndIf
+		
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_SendMessage(typ,message$="",sender=0,recipient=0)
+
+	If sender = 0 Then sender = net_ID
+
+	If net_mode = 2
+		
+		For n.net_client = Each net_client
+		
+			If recipient = n\ID Or recipient = 0
+					
+				If n\ID &lt;&gt; net_ID
+					
+					If n\ID &lt;&gt; sender Or n\ID = recipient
+					
+						WriteByte net_stream,typ
+						WriteShort net_stream,sender
+						WriteShort net_stream,recipient
+						WriteString net_stream,message
+						
+						If net_dataOffset &gt; 0 Then WriteBytes 
+net_dataBank,net_stream,0,net_dataOffset
+						
+						SendUDPMsg(net_stream,n\IP,n\port)
+					EndIf
+						
+				ElseIf typ &gt; 99
+					
+					WriteByte net_backupStream,typ
+					WriteShort net_backupStream,sender
+					WriteShort net_backupStream,recipient
+					WriteString net_backupStream,message
+					SendUDPMsg(net_backupStream,2130706433,net_port) ; integer IP 
+"127.0.0.1"
+										
+				EndIf
+				
+			EndIf
+		Next
+
+	Else
+			
+		WriteByte net_stream,typ
+		WriteShort net_stream,sender
+		WriteShort net_stream,recipient
+		WriteString net_stream,message
+		
+		If net_dataOffset &gt; 0 Then WriteBytes 
+net_dataBank,net_stream,0,net_dataOffset
+		
+		SendUDPMsg(net_stream,net_serverIP,net_serverPort)
+				
+	EndIf
+	
+	net_dataOffset = 0
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_RouteMessage(typ,sender,recipient,message$)
+
+	; we check if the message comes from one of the client (protection from
+ outside)
+	; and if the sender ID matches the IP and port and finally if the 
+client doesn't try to send a message to himself (protection from inside)
+	For n.net_client = Each net_client
+		If UDPMsgIP(net_stream) = n\IP And UDPMsgPort(net_stream) = n\port
+			If sender = n\ID And recipient &lt;&gt; n\ID Then approved = 1
+		EndIf
+	Next
+
+	If approved
+	
+		For n.net_client = Each net_client
+		
+			If recipient = n\ID Or recipient = 0
+					
+				If n\ID &lt;&gt; net_ID
+					
+					If n\ID &lt;&gt; sender
+						WriteByte net_stream,typ
+						WriteShort net_stream,sender
+						WriteShort net_stream,recipient
+						WriteString net_stream,message
+						
+						If net_dataOffset &gt; 0 Then WriteBytes 
+net_dataBank,net_stream,0,net_dataOffset
+						
+						SendUDPMsg(net_stream,n\IP,n\port)
+					EndIf
+			
+				EndIf
+					
+			EndIf
+		Next
+		
+	EndIf
+	
+	net_dataOffset = 0
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_WriteByte(value)
+	PokeByte net_dataBank,net_dataOffset,value
+	net_dataOffset = net_dataOffset + 1
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_WriteShort(value)
+	PokeShort net_dataBank,net_dataOffset,value
+	net_dataOffset = net_dataOffset + 2
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_WriteInt(value)
+	PokeInt net_dataBank,net_dataOffset,value
+	net_dataOffset = net_dataOffset + 4
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_WriteFloat(value#)
+	PokeFloat net_dataBank,net_dataOffset,value
+	net_dataOffset = net_dataOffset + 4
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_WriteString(value$)
+	PokeInt net_dataBank,net_dataOffset,Len(value)
+	net_dataOffset = net_dataOffset + 4
+	For i = 0 To Len(value)-1
+		PokeByte net_dataBank,net_dataOffset+i,Asc(Mid(value,i+1,1))
+	Next
+	net_dataOffset = net_dataOffset + Len(value)
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_ReadByte()
+	net_dataOffset = net_dataOffset + 1
+	Return PeekByte(net_dataBank,net_dataOffset-1)
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_ReadShort()
+	net_dataOffset = net_dataOffset + 2
+	Return PeekShort(net_dataBank,net_dataOffset-2)
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_ReadInt()
+	net_dataOffset = net_dataOffset + 4
+	Return PeekInt(net_dataBank,net_dataOffset-4)
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_ReadFloat#()
+	net_dataOffset = net_dataOffset + 4
+	Return PeekFloat(net_dataBank,net_dataOffset-4)
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_ReadString$()
+	
+	lenght = PeekInt(net_dataBank,net_dataOffset)
+	net_dataOffset = net_dataOffset + 4
+	For i = 0 To lenght-1
+		chars$ = chars$ + Chr(PeekByte(net_dataBank,net_dataOffset+i))
+	Next
+	net_dataOffset = net_dataOffset + lenght
+	Return chars
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_StreamBackup()
+
+	net_backupStream = CreateUDPStream()
+	Return net_backupStream
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_PingClients()
+
+	If MilliSecs() - net_pingTime &gt; 1000
+		
+		For n.net_client = Each net_client
+					
+			If n\ID &lt;&gt; net_ID
+				WriteByte net_stream,0
+				SendUDPMsg(net_stream,n\IP,n\port)
+				
+				If MilliSecs() - n\lastPong &gt; net_timeOut
+					Net_SendMessage(101,n\name,n\ID) ; tell other clients who leaved
+					Delete n
+				EndIf	
+			EndIf
+		Next
+		
+		net_pingTime = MilliSecs()	
+	
+	EndIf
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_GenerateID()
+
+	While id = 0
+		
+		id = Rand(1,255)
+		
+		For n.net_client = Each net_client
+			If n\ID = id Then id = 0
+		Next
+	
+	Wend
+
+	Return id
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ Net_DotToInt%(ip$)
+
+	; thanks to Chroma on b3d forums for the code !
+
+	off1=Instr(ip$,".")	  :ip1=Left$(ip$,off1-1)
+	off2=Instr(ip$,".",off1+1):ip2=Mid$(ip$,off1+1,off2-off1-1)
+	off3=Instr(ip$,".",off2+1):ip3=Mid$(ip$,off2+1,off3-off2-1)
+	off4=Instr(ip$," ",off3+1):ip4=Mid$(ip$,off3+1,off4-off3-1)
+	Return ip1 Shl 24 + ip2 Shl 16 + ip3 Shl 8 + ip4
+	
+End Function</textarea><br>Name it "UDPNetwork_lib.bb" and include it in your game code.<br><br><b><u>SIMPLE 2D EXAMPLE (TUTORIAL) :</u></b><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;;
+ A simple 2d example of the library functions. It can be a tutorial to 
+start with.
+
+;; The important thing to remember is that it is an example and I would 
+say, it has nothing to do with the library.
+;; So you can do it totally differently, call your variable differently 
+etc... but here is an example to use the library functions.
+
+SeedRnd MilliSecs()
+
+
+; first we include the network library
+Include "UDPNetwork_lib.bb"
+
+
+; we will need a nickname :
+Global my_name$ = Input("What's your name ? ")
+If my_name = "" Then my_name = "player" + Rand(100,999)
+
+; we will also need to know wich identity the server gives to us :
+Global my_ID
+
+
+; time to init the network :
+; bring the included library "console" to choose if we host or join a 
+game
+Global network_mode = Net_StartInput()
+
+; network_mode will be 1 or 2 based on our choices
+; 1 means we are client, 2 means we are server, 0 means an error occured
+
+If network_mode = 1 Or network_mode = 2 ; no error
+	
+	; ask our identity to the server with our name
+	my_ID = Net_CreatePlayer(my_name)
+	
+	If my_ID = 0 ; error
+		Net_StopNetwork() ; close the network properly
+		RuntimeError("Failed to create player.")
+	EndIf
+	
+Else ; error
+	Net_StopNetwork()
+	RuntimeError("Failed to start game.")
+EndIf
+
+AppTitle(net_port)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+ from here we are officially connected to the server, or we created a 
+server and it's running, time to make the game
+Graphics 640,480,32,2
+SetBuffer BackBuffer()
+
+
+; we declare a type for players to store name, ID, position and all that
+ you want
+Type player
+	Field name$
+	Field ID
+	Field x
+	Field y
+End Type
+
+; our player will also be stored in this type, let's create it, and we 
+will position randomly on the screen
+p.player = New player
+p\name = my_name
+p\ID = my_ID
+p\x = Rand(GraphicsWidth())
+p\y = Rand(GraphicsHeight())
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+ the very simple game is initiated, let's start the loop
+While Not KeyHit(1)
+	
+	; first we will verify the network at each frame
+	; Net_CheckMessage() will tell us if a network packet has arrived
+	
+	; it's always better for the server to check ALL available messages in 
+the same frame, so use While-Wend instead of If-EndIf
+	
+	; for clients, this will reduce the lag too, but can cause chaotic 
+behaviours because you can for example receive 2 position packets
+	; in the same frame for the same player, so the first packet will be 
+"overwritten" by the second and then skipped.
+	; in this example i limit clients to read only one packet per frame, 
+see before Wend, so it causes lag beetween clients but movements are 
+smoother.
+	
+	While Net_CheckMessage() = 1
+	
+		; when Net_CheckMessage() = 1, we can read the packet data stored 
+automatically in the following variables :
+		; Net_MsgTyp, Net_MsgString, Net_MsgFrom, Net_MsgTo	
+	
+		; check the message type (what kind of packet is that ?)
+		Select Net_MsgType
+		
+			Case 100 ; we received a standard packet 100, telling us a new player
+ joined the server, let's create the player
+				
+				neo.player = New player
+				neo\name = Net_MsgString ; his name is stored in the packet string 
+data
+				neo\ID = Net_MsgFrom ; we can retrieve his identity by checking who 
+sent the packet
+				
+				; when a new player connects, the server will decide where it spawns
+				; the new player will need to know where he spawned, and the other 
+players too
+				; also, the new player will need to know where the other players are
+				
+				; let's do this if we are the server :
+				If network_mode = 2
+					; we decide the position
+					neo\x = Rand(GraphicsWidth())
+					neo\y = Rand(GraphicsHeight())
+					
+					; then we send the position to all players
+					; for that we say that message type "1" will be a player's position
+					; the position will be stored in the packet string like that "x/y" 
+so "/" separates x and y
+					; for the players to know the identity of the player to update, we 
+say it in the sender variable with p\ID
+					; finally, as we want all players to know, we broadcast the packet 
+so recipient = 0 (everyone)
+					Net_SendMessage(1,neo\x + "/" + neo\y,neo\ID,0)
+					
+					; BUT !
+					; when we send a message to everyone (0), it doesn't send it to the
+ sender identity
+					; here, as the server we said that the sender ID was the player 
+(p\ID) to know who to update
+					; so we could create a special message just for him by forcing the 
+recipient ID like that :
+					; Net_SendMessage(1,neo\x + "/" + neo\y,neo\ID,neo\ID)
+					
+					; but instead see below :
+					
+					; the new player needs to know the location of other players, so we
+ will parse them one by one.
+					; and one by one also means the new player we just created, so he 
+will receive his own position too.
+					For other.player = Each player
+						; when other\ID = neo\ID, the new player will receive his position
+						Net_SendMessage(1,other\x + "/" + other\y,other\ID,neo\ID) ; this 
+time we precised that neo\ID is the recipient
+					Next
+										
+				EndIf
+								
+			
+			Case 101 ; we received a standard packet 101 telling us a player has 
+left the server
+			
+				; we will check wich player sent the packet
+				For p.player = Each player
+					If p\ID = Net_MsgFrom ; here he is
+						Delete p ; we just delete him
+					EndIf
+				Next
+			
+			Case 102 ; the original server has quit and a new server has been 
+designated, let's see who it is, if it's us we change our network_mode
+			
+				For p.player = Each player
+					If p\ID = Net_MsgFrom And p\ID = my_ID Then network_mode = 2
+				Next
+				
+				
+			Case 1 ; now the custom message type 1 we created above, wich 
+represent a player's position
+			
+				; we check who sent the packet, or in fact, who is to update
+				For p.player = Each player
+					If p\ID = Net_MsgFrom ; here he is
+						
+						; then we read back the x and y position, separated by "/"
+						offset = Instr(Net_MsgString,"/",1)
+						p\x = Left(Net_MsgString,offset-1)
+						p\y = Right(Net_MsgString,Len(Net_MsgString)-offset)
+						
+						; the player position is updated
+						
+					EndIf
+				Next
+			
+			
+		End Select
+		
+		; if we are a client, we only read one packet per frame to avoid 
+overwritting packets
+		; try to comment this line and see what happens
+		; lag will be reduces beetween clients, but movements beetween clients
+ will be jerky
+		; this problem is not linked with the library but with the too simple 
+example, here we send way too much packets for a normal game.
+		If network_mode = 1 Then Exit
+
+	Wend
+	
+	
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	
+	; now we update the game and all players (including our player)
+	
+	Cls ; clear screen
+	
+	; draw a grid on the screen
+	Color 50,50,50
+	For x = 0 To GraphicsWidth() Step 32
+		Line x,0,x,GraphicsHeight()
+	Next
+	For y = 0 To GraphicsHeight() Step 32
+		Line 0,y,GraphicsWidth(),y		
+	Next
+
+
+	my_update = 0 ; this variable is used to send our position only if we 
+moved
+	
+	
+	For p.player = Each player
+	
+		Color 255,255,255
+	
+		If p\ID = my_ID ; here we are
+			
+			If KeyDown(203) And p\x &gt; 0 ; left, and check if we don't go out 
+of the screen
+				p\x = p\x - 2
+				my_update = 1
+			EndIf
+			
+			If KeyDown(205) And p\x &lt; GraphicsWidth() ; right
+				p\x = p\x + 2
+				my_update = 1
+			EndIf
+			
+			If KeyDown(200) And p\y &gt; 0 ; up
+				p\y = p\y - 2
+				my_update = 1
+			EndIf
+			
+			If KeyDown(208) And p\y &lt; GraphicsHeight() ; down
+				p\y = p\y + 2
+				my_update = 1
+			EndIf
+			
+			; now, if we moved (my_update = 1) we send our position
+			If my_update = 1 Then Net_SendMessage(1,p\x + "/" + p\y) ; we don't 
+need to fill sender and recipient, so sender will be automatically us, 
+and recipient will be 0 = everyone
+			
+			; we will draw our player in orange
+			Color 255,200,0
+			
+		EndIf
+		
+		; now we draw p.player and his name
+		Oval p\x-5,p\y-5,11,11,1
+		Text p\x+10,p\y,p\name
+		
+	Next
+
+	Flip ; finally flip the buffers
+
+Wend
+
+; when we quit the game we need to properly close the network with a 
+library command :
+Net_StopNetwork()
+
+End
+
+; if you delete the comments, there is not so much code left, don't 
+think it's complicated :p
+; hope this example helps</textarea><br>This example is quite simple. It
+ can be a kind of a tutorial to start to use the library. It's fully 
+commented so it seems to be big, but the code itself is not ! :-)<br><br><b><u>ADVANCED 3D EXAMPLE :</u></b><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">SeedRnd
+ MilliSecs()
+
+Const gameLogicFPS = 60
+
+Include "UDPNetwork_lib.bb"
+
+Global localID
+Global localName$ = Input("Enter your name : ")
+If localName = "" Then localName = "player" + Rand(100,999)
+
+Global localPlayerMesh
+
+Type player
+	Field id
+	Field name$
+	Field ping
+	
+	Field life
+	Field kills
+	Field deaths
+	
+	Field mesh
+	Field r,g,b
+
+	Field nextX#,nextY#,nextZ#
+	Field previousX#,previousY#,previousZ#
+	Field nextYaw#
+	Field previousYaw#
+	Field nextTime
+	Field previousTime
+	
+	Field lastPacket
+	
+	Field currentY#
+	Field velocityY#
+End Type
+
+Type bullet
+	Field mesh
+	Field angle#
+	Field time
+	Field id ; id of player who fired
+End Type
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+ Camera code from jfk EO-11110, thanks
+Global bounce_cam=1 ;  smooth camera motion? (0/1)
+Global bounce_div#=10.0 ; the higher, the more sluggish the camera will 
+follow. Recc: 3.0 to 20.0
+; some globals used by ChaseCam
+Global old_x#,old_y#,old_z#
+; desired distance between camera and player mesh
+Global x_dis#=7.0,y_dis#=3,z_dis#=7.0,y_dis_or#=y_dis#
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;
+ network init ----------------------------------------;
+Global localMode = Net_StartInput() ; bring the library "console" to 
+connect
+
+If localMode = 1 Or localMode = 2 ; 1 means we are client, 2 means we 
+are server
+	
+	localId = Net_CreatePlayer(localName) ; this command inits the server 
+or local client
+	
+	If localId = 0 ; error
+		Net_StopNetwork() ; close the network properly
+		RuntimeError("Failed to create player.")
+	EndIf
+	
+	If localMode = 1 Then AppTitle("Client : " + localName + " (port:" + 
+net_port + "/ ID=" + localID + ")")
+	If localMode = 2 Then AppTitle("Server : " + localName + " (port:" + 
+net_port + "/ ID=" + localID + ")")
+	
+Else ; error
+	Net_StopNetwork()
+	RuntimeError("Failed to start game.")
+EndIf
+;------------------------------------------------------;
+
+Graphics3D 640,480,32,2
+SetBuffer BackBuffer()
+
+CreateScene()
+
+Global camera = CreateCamera()
+CameraRange camera,0.1,1000
+
+; create our own local player
+localPlayerMesh = CreatePlayer(localID,localName)
+old_x = EntityX(localPlayerMesh):old_y = EntityY(localPlayerMesh):old_z =
+ EntityZ(localPlayerMesh) ; update camera position
+
+; we send our color to the server
+p.player = Object.player(GetPlayer(localID))
+Net_SendMessage(3,p\r + "/" + p\g + "/" + p\b)
+
+; variables used to send our positions at a constant delay (saves 
+bandwidth but makes a constant ping)
+Global updatePosition = MilliSecs()
+Global updateTick = 50
+
+; chat
+Global messageDisplayNumber = 10
+Global messageOffset
+Dim message$(messageDisplayNumber)
+
+Global chatMode
+Global chatMessage$ = localName + "&gt; "
+Global chatMillisecs = MilliSecs()
+Global chatCursor
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+tweeningPeriod = 1000 / gameLogicFPS
+tweeningTime = MilliSecs() - tweeningPeriod
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+While Not KeyHit(1)
+
+	;; I use tweening from castle demo here :
+	;;
+	;; 		- this allows to have very fast execution outside the tweening 
+loop,
+	;; 		  so the network is updated as fast as possible (needs Flip False)
+	;;
+	;; 		- this makes the game logic updated at a constant rate (Const 
+FPS=)
+	;;		  so no need to set deltatime (and it saves CPU time for other 
+things)
+
+
+	;; 
+-------------------------------------------------------------------------------------------------;
+ FAST EXECUTION (outside of tweening)
+	;; 
+-------------------------------------------------------------------------------------------------;
+
+	
+	; see the function, the interpolation variables are set properly here
+	UpdateNetwork()
+		
+	;; 
+-------------------------------------------------------------------------------------------------;
+
+
+	Repeat
+		tweeningElapsed = MilliSecs() - tweeningTime
+	Until tweeningElapsed
+	tweeningTicks = tweeningElapsed / tweeningPeriod
+	tweeningRate# = Float(tweeningElapsed Mod 
+tweeningPeriod)/Float(tweeningPeriod)
+	For k = 1 To tweeningTicks
+		tweeningTime = tweeningTime + tweeningPeriod
+		If k = tweeningTicks Then CaptureWorld
+		
+		;; 
+---------------------------------------------------------------------------------------------;
+ MAIN UPDATE
+		;; 
+---------------------------------------------------------------------------------------------;
+
+		
+		; update our player
+		UpdateLocalPlayer()
+		
+		; the interpolation is made in this function
+		UpdatePlayers()
+		
+		; update the bullets... only the server check for player kills
+		UpdateBullets()
+
+		UpdateWorld()
+		
+		UpdateChaseCam(camera,localPlayerMesh)
+		
+		;; 
+---------------------------------------------------------------------------------------------;
+
+		
+	Next
+	
+	RenderWorld tweeningRate
+
+	;; 
+-------------------------------------------------------------------------------------------------;
+ 2D UPDATE
+	;; 
+-------------------------------------------------------------------------------------------------;
+
+	
+	DrawPlayersNames()
+	
+	If KeyHit(28) And chatMode = 0 Then chatMode = 1:FlushKeys()
+	If chatMode = 1 Then UpdateChat()
+	
+	DrawMessages()
+	
+	If KeyDown(15) Then DrawScoreTable()
+	
+	;; 
+-------------------------------------------------------------------------------------------------;
+
+	
+	Flip
+
+Wend
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Net_StopNetwork()
+
+End
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ UpdateNetwork()
+
+	; update incoming packets (better check ALL incoming messages so use 
+While Wend)
+	While Net_CheckMessage() ; will check for a new message and fill 
+Net_MsgType, Net_MsgString$, Net_MsgFrom and Net_MsgTo variables so we 
+can read it
+		
+		p.player = Object.player(GetPlayer(Net_MsgFrom)) ; get the player 
+handle
+
+		If Handle(p) = 0 And Net_MsgType &lt; 100 ; we received an update 
+packet from a player we don't know
+			; so we ask the server who he is and return because we can't update 
+him for now
+			; the server will resend us the info in a new player "100" message
+			Net_RequestPlayer(Net_MsgFrom)
+			Return
+		EndIf
+		
+		Select Net_MsgType ; check the type of message
+						
+			Case 1 ; chat message
+			
+				NewMessage(Net_MsgString)
+									
+			Case 2 ; player position and angle, example of packing data into 
+string
+				
+				offset1 = Instr(Net_MsgString,"/",1)
+				offset2 = Instr(Net_MsgString,"/",offset1+1)
+				offset3 = Instr(Net_MsgString,"/",offset2+1)
+								
+				p\previousX = p\nextX
+				p\previousY = p\nextY
+				p\previousZ = p\nextZ
+				p\previousYaw = p\nextYaw
+				
+				p\nextX = Left(Net_MsgString,offset1-1)
+				p\nextY = Mid(Net_MsgString,offset1+1,offset2-offset1-1)
+				p\nextZ = Mid(Net_MsgString,offset2+1,offset3-offset2-1)
+				p\nextYaw = Right(Net_MsgString,Len(Net_MsgString)-offset3)
+
+				p\previousTime = p\nextTime
+				p\nextTime = MilliSecs()
+							
+			Case 3 ; update player colors
+						
+				offset1 = Instr(Net_MsgString,"/",1)
+				offset2 = Instr(Net_MsgString,"/",offset1+1)
+							
+				p\r = Left(Net_MsgString,offset1-1)
+				p\g = Mid(Net_MsgString,offset1+1,offset2-offset1-1)
+				p\b = Right(Net_MsgString,Len(Net_MsgString)-offset2)
+								
+				EntityColor p\mesh,p\r,p\g,p\b
+				
+			Case 4 ; a player fired
+			
+				CreateBullet(Net_MsgFrom)
+							
+			Case 5 ; a player lost some life
+			
+				p\life = Net_MsgString
+			
+			Case 6 ; a player killed another one
+			
+				k.player = Object.player(GetPlayer(Net_MsgString)) ; killed player 
+ID in MsgData
+				NewMessage(p\name + " killed " + k\name)
+				
+				ResetPlayer(k\id)
+			
+			Case 7 ; the server sends us score update for a player
+			
+				offset = Instr(Net_MsgString,"/",1)
+				
+				p\kills = Left(Net_MsgString,offset-1)
+				p\deaths = Right(Net_MsgString,Len(Net_MsgString)-offset)
+						
+			Case 100 ; new player connected, OR the server tells us who is 
+already connected so we can create players when joining the game
+							
+				If localMode = 2
+					For p.player = Each player
+						Net_SendMessage(2,p\nextX + "/" + p\nextY + "/" + p\nextZ + "/" + 
+p\nextYaw,p\id,Net_MsgFrom)
+						Net_SendMessage(3,p\r + "/" + p\g + "/" + p\b,p\id,Net_MsgFrom)
+						
+						Net_SendMessage(5,p\life,p\id,Net_MsgFrom)
+						Net_SendMessage(7,p\kills+"/"+p\deaths,p\id,Net_MsgFrom)
+					Next
+				EndIf
+				
+				NewMessage(Net_MsgString + " connected")
+				CreatePlayer(Net_MsgFrom,Net_MsgString)
+				
+			Case 101 ; a player has quit
+						
+				For p.player = Each player
+					If Net_MsgFrom = p\id
+						NewMessage(p\name + " disconnected")
+						FreeEntity p\mesh
+						Delete p
+					EndIf
+				Next
+							
+			Case 102 ; host has changed
+			
+				For p.player = Each player
+					If Net_MsgFrom = p\id
+						If p\id = localID
+							AppTitle("Server : " + localName + " (port:" + net_port + ")")
+							NewMessage("You are the new host")
+							localMode = 2
+						Else
+							NewMessage(p\name + " is the new host")
+						EndIf					
+					EndIf
+				Next
+			
+			Case 103 ; ping update
+			
+				For p.player = Each player
+					If Net_MsgFrom = p\id
+						p\ping = Net_MsgString
+					EndIf
+				Next
+
+		End Select
+
+	Wend
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ UpdateLocalPlayer()
+
+	; update our player
+	p.player = Object.player(GetPlayer(localID)) ; get our player
+
+	; inputs
+	If KeyDown(200) Then MoveEntity p\mesh,0,0,0.3
+	If KeyDown(208) Then MoveEntity p\mesh,0,0,-0.3
+	If KeyDown(203) Then TurnEntity p\mesh,0,3,0
+	If KeyDown(205) Then TurnEntity p\mesh,0,-3,0
+		
+	; fire
+	If MouseHit(1)
+		Net_SendMessage(4,"")
+		CreateBullet(localID)
+	EndIf
+	
+	; jump
+	If MouseHit(2)
+		; check if player is one the ground
+		LinePick(EntityX(p\mesh),EntityY(p\mesh),EntityZ(p\mesh),0,-1.2,0)
+		If PickedEntity()
+			p\velocityY = 0.5 ; set "inverse" of gravity velocity
+		EndIf	
+	EndIf
+	
+	; we create a message type "2" for player position
+	If MilliSecs()-updatePosition &gt; updateTick
+	
+		Net_SendMessage(2,EntityX(p\mesh) + "/" + EntityY(p\mesh) + "/" + 
+EntityZ(p\mesh) + "/" + EntityYaw(p\mesh))
+		updatePosition = MilliSecs()
+	EndIf
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ UpdatePlayers()
+
+	For p.player = Each player
+				
+		If p\id &lt;&gt; localID ; update other players only
+						
+			;; LINEAR INTERPOLATION ;;;;;;;;;;
+			
+			If p\nextTime &lt;&gt; p\previousTime ; if both packets arrived at 
+the same time, we can't interpolate
+				
+				curTime# = Float(MilliSecs()-p\nextTime) / 
+Float(p\nextTime-p\previousTime) ; curTime will be ideally 0.0-1.0, if 
+it's &gt; 1.0 then it performs extrapolation
+				
+				If curTime &gt; 1 Then curTime = 1 ; extrapolation gives anoying 
+jittering effects
+				
+				; special fix for yaw as EntityYaw returns a value beetween +180 ans
+ -180, the interpolation can go backward
+				If p\previousYaw &lt; 0 Then p\previousYaw = p\previousYaw + 360
+				If p\nextYaw &lt; 0 Then p\nextYaw = p\nextYaw + 360
+				If Abs(p\nextYaw-p\previousYaw) &gt; 180
+					If p\nextYaw &gt; p\previousYaw
+						p\previousYaw = p\previousYaw + 360
+					Else
+						p\previousYaw = p\previousYaw - 360
+					EndIf
+				EndIf
+				
+				PositionEntity 
+p\mesh,p\previousX+(p\nextX-p\previousX)*curTime,p\previousY+(p\nextY-p\previousY)*curTime,p\previousZ+(p\nextZ-p\previousZ)*curTime
+
+				RotateEntity 
+p\mesh,0,p\previousYaw+(p\nextYaw-p\previousYaw)*curTime,0
+				
+			Else
+			
+				PositionEntity p\mesh,p\nextX,p\nextY,p\nextZ
+				RotateEntity p\mesh,0,p\nextYaw,0
+			
+			EndIf
+			;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+						
+			ResetEntity p\mesh ; reset entity is useful here because of 
+collisions
+
+		Else ; update our player, basically it just compute gravity
+		
+			p\velocityY = p\velocityY - 0.03 ; fake gravity
+			If EntityY(p\mesh) - p\currentY &gt;= 0 ; if player is not falling we
+ limit the gravity
+				If p\velocityY &lt; -0.03 Then p\velocityY = -0.03
+			EndIf
+		
+			p\currentY = EntityY(p\mesh)
+			TranslateEntity p\mesh,0,p\velocityY,0
+						
+		EndIf
+	Next
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ CreatePlayer(id,name$)
+
+	For p.player = Each player
+		If p\id = id Then Return ; player already connected
+	Next
+
+	p.player = New player
+	p\id = id
+	p\name = name
+	
+	p\life = 100
+	
+	p\mesh = CreateSphere()
+	EntityType p\mesh,2
+	EntityRadius p\mesh,1
+	
+	NameEntity p\mesh,Handle(p)
+	
+	nose = CreateSphere(8,p\mesh):EntityColor nose,255,0,0
+	PositionEntity nose,0,0,1
+	ScaleEntity nose,0.3,0.3,0.3
+	
+	eyeLeft = CreateSphere(8,p\mesh):EntityColor eyeLeft,255,255,255
+	PositionEntity eyeLeft ,.29,.4,.7;1
+	ScaleEntity eyeLeft ,0.2,0.2,0.2
+	
+	pupilLeft = CreateSphere(8,p\mesh):EntityColor pupilLeft ,0,0,0
+	PositionEntity pupilLeft ,.3,.4,.9;1
+	ScaleEntity pupilLeft ,0.05,0.05,0.02
+	
+	eyeRight = CreateSphere(8,p\mesh):EntityColor eyeRight ,255,255,255
+	PositionEntity eyeRight ,-.29,.4,.7;1
+	ScaleEntity eyeRight ,0.2,0.2,0.2
+		
+	pupilRight = CreateSphere(8,p\mesh):EntityColor pupilRight ,0,0,0
+	PositionEntity pupilRight ,-.3,.4,.9;1
+	ScaleEntity pupilRight ,0.05,0.05,0.02
+
+	unaBrow = CreateCone(8,1,p\mesh):EntityColor unaBrow ,0,0,0
+	PositionEntity unaBrow ,0,.45,.7
+	RotateEntity unaBrow ,-180,0,0
+	ScaleEntity unaBrow ,.7,.2,.3
+	
+	p\nextX = -20
+	p\nextY = 1
+	p\nextZ = -20
+	p\nextYaw = -45
+	
+	p\previousX = p\nextX
+	p\previousY = p\nextY
+	p\previousZ = p\nextZ
+	p\previousYaw = p\nextYaw
+	
+	p\r = Rand(255)
+	p\g = Rand(255)
+	p\b = Rand(255)
+	EntityColor p\mesh,p\r,p\g,p\b
+	
+	PositionEntity p\mesh,p\nextX,p\nextY,p\nextZ
+	RotateEntity p\mesh,0,p\nextYaw,0
+	ResetEntity p\mesh
+	
+	p\currentY = p\nextY
+	
+	p\previousTime = MilliSecs()
+	p\nextTime = MilliSecs()+1
+	
+	Return p\mesh
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ ResetPlayer(id)
+
+	p.player = Object.player(GetPlayer(id))
+
+	p\life = 100
+
+	p\nextX = -20
+	p\nextY = 1
+	p\nextZ = -20
+	p\nextYaw = -45
+
+	p\previousX = p\nextX
+	p\previousY = p\nextY
+	p\previousZ = p\nextZ
+	p\previousYaw = p\nextYaw
+
+	PositionEntity p\mesh,p\nextX,p\nextY,p\nextZ
+	RotateEntity p\mesh,0,p\nextYaw,0
+	ResetEntity p\mesh
+	
+	p\currentY = p\nextY
+	
+	p\previousTime = MilliSecs()
+	p\nextTime = MilliSecs()+1
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ GetPlayer(id)
+
+	For p.player = Each player
+		If p\id = id
+			Return Handle(p)					
+		EndIf
+	Next
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ DrawPlayersNames()
+
+	For p.player = Each player
+	
+		Color 255,255,255
+		CameraProject(camera,EntityX(p\mesh),EntityY(p\mesh),EntityZ(p\mesh)) 
+			
+		If p\id &lt;&gt; localID Then Text 
+ProjectedX(),ProjectedY()-60,p\name,1,1
+		
+		Color 255,(255./100.)*p\life,(255./100.)*p\life
+		Text ProjectedX(),ProjectedY()-40,p\life,1,1
+
+	Next
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ CreateBullet(id)
+
+	p.player = Object.player(GetPlayer(id))
+
+	b.bullet = New bullet
+	
+	b\id = p\id
+	
+	b\mesh = CreateSphere(2)
+	ScaleEntity b\mesh,0.2,0.2,0.2
+	EntityColor b\mesh,255,0,0
+		
+	PositionEntity b\mesh,EntityX(p\mesh),EntityY(p\mesh),EntityZ(p\mesh)
+	RotateEntity b\mesh,0,EntityYaw(p\mesh),0
+	
+	EntityType b\mesh,3
+	EntityRadius b\mesh,0.2
+		
+	b\time = MilliSecs()
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ UpdateBullets()
+
+	For b.bullet = Each bullet
+	
+		MoveEntity b\mesh,0,0,1
+		
+		If CountCollisions(b\mesh)
+		
+			If localMode = 2 ; only the server compute bullets collision with 
+player
+				If GetEntityType(CollisionEntity(b\mesh,1)) = 2 ; a player is hit
+				
+					touchedPlayer.player = 
+Object.player(EntityName(CollisionEntity(b\mesh,1)))
+					
+					If touchedPlayer\id &lt;&gt; b\id ; avoid self killing
+					
+						touchedPlayer\life = touchedPlayer\life - 10
+						
+						If touchedPlayer\life &gt; 0 ; touched
+							Net_SendMessage(5,touchedPlayer\life,touchedPlayer\id)
+							
+Net_SendMessage(5,touchedPlayer\life,touchedPlayer\id,touchedPlayer\id)
+						Else ; killed
+							killerPlayer.player = Object.player(GetPlayer(b\id))
+							
+							killerPlayer\kills = killerPlayer\kills + 1
+							touchedPlayer\deaths = touchedPlayer\deaths + 1						
+							
+							Net_SendMessage(6,touchedPlayer\id,killerPlayer\id)
+							
+Net_SendMessage(6,touchedPlayer\id,killerPlayer\id,killerPlayer\id)
+													
+							
+Net_SendMessage(7,killerPlayer\kills+"/"+killerPlayer\deaths,killerPlayer\id)
+
+							
+Net_SendMessage(7,killerPlayer\kills+"/"+killerPlayer\deaths,killerPlayer\id,killerPlayer\id)
+
+							
+							
+Net_SendMessage(7,touchedPlayer\kills+"/"+touchedPlayer\deaths,touchedPlayer\id)
+
+							
+Net_SendMessage(7,touchedPlayer\kills+"/"+touchedPlayer\deaths,touchedPlayer\id,touchedPlayer\id)
+
+							
+							NewMessage(killerPlayer\name + " killed " + touchedPlayer\name)
+							ResetPlayer(touchedPlayer\id)
+						EndIf
+						
+					EndIf
+					
+				EndIf
+			EndIf
+			
+			FreeEntity b\mesh
+			Delete b
+			
+		ElseIf MilliSecs()-b\time &gt; 2000
+		
+			FreeEntity b\mesh
+			Delete b
+			
+		EndIf
+	
+	Next
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ NewMessage(msg$)
+
+	messageOffset = messageOffset + 1
+	
+	If messageOffset &gt; messageDisplayNumber
+	
+		messageOffset = messageOffset - 1
+		
+		For i = 2 To messageDisplayNumber
+			message(i-1) = message(i)		
+		Next
+		
+		message(messageDisplayNumber) = msg
+	
+	Else
+	
+		message(messageOffset) = msg
+	
+	EndIf
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ DrawMessages()
+
+	Color 255,255,255
+
+	For i = 1 To messageOffset
+	
+		Text 0,(i-1)*15,message(i)	
+	
+	Next
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ UpdateChat()
+
+	key = GetKey()
+
+	If key
+		If key = 13
+			If chatMessage &lt;&gt; localName + "&gt; "
+				For i = Len(localName + "&gt; ") To Len(chatMessage)
+					If Mid(chatMessage,i,1) &lt;&gt; " "
+						Net_SendMessage(1,chatMessage)
+						NewMessage(chatMessage)
+						Exit
+					EndIf
+				Next
+			EndIf
+			chatMessage = localName + "&gt; "
+			chatMode = 0
+		ElseIf key = 8 And Len(chatMessage) &gt; Len ( localName + "&gt; " )
+			chatMessage = Left(chatMessage,Len(chatMessage)-1)
+		ElseIf key &gt; 31 And key &lt; 127
+			chatMessage = chatMessage + Chr(key)
+		EndIf
+	EndIf
+	
+	Color 255,255,255
+	Rect 0,GraphicsHeight()-20,GraphicsWidth(),20,1
+	
+	Color 0,0,0
+	Rect 0,GraphicsHeight()-20,GraphicsWidth(),20,0
+	
+	
+	If MilliSecs()-chatMillisecs &gt; 500
+		chatCursor = Not chatCursor
+		chatMillisecs = MilliSecs()
+	EndIf
+	
+	If chatCursor
+		Text 5,GraphicsHeight()-17,chatMessage + "|"
+	Else
+		Text 5,GraphicsHeight()-17,chatMessage
+	EndIf
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ DrawScoreTable()
+
+	For p.player = Each player
+		count = count + 1
+	Next
+	
+	baseX = (GraphicsWidth()-350)/2
+	baseY = (GraphicsHeight()-(35+20*count))/2
+
+	Color 0,0,0
+	Rect baseX,baseY,350,35+20*count,1
+
+	Color 255,192,0
+	Rect baseX,baseY,350,35+20*count,0
+
+	Text baseX+10,baseY+10,"Player          Kills     Deaths     Ping"
+	Line baseX,baseY+25,baseX+349,baseY+25
+
+	For p.player = Each player
+	
+		Color 255,255,255
+		If p\id = localID Then Color 255,100,100
+	
+		i = i + 1
+		Text baseX+10,baseY+10+20*i,p\name
+		Text baseX+157,baseY+10+20*i,p\kills,1,0
+		Text baseX+240,baseY+10+20*i,p\deaths,1,0
+		Text baseX+322,baseY+10+20*i,p\ping,1,0
+	Next
+
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ UpdateChaseCam(camera,player) ; thanks to jfk EO-11110 on bb forums for
+ this function !
+	PositionEntity 
+camera,EntityX(player,1),EntityY(player,1),EntityZ(player,1)
+	ResetEntity camera
+	x#=EntityX(player)+Sin(-EntityYaw(player)+180)*x_dis#
+	y#=EntityY(player)+y_dis#
+	z#=EntityZ(player)+Cos(-EntityYaw(player)+180)*z_dis#
+	
+obstacle=LinePick(EntityX(player),EntityY(player),EntityZ(player),(x-EntityX(player)),y_dis#,(z-EntityZ(player)),0.1)
+
+	If obstacle=0
+		new_x#=x
+		new_y#=y
+		new_z#=z
+	Else
+		new_x#=PickedX()
+		new_y#=PickedY()
+		new_z#=PickedZ()
+	EndIf
+	If bounce_cam=0
+		PositionEntity camera,new_x,new_y,new_z
+	Else
+		x=old_x+((New_x-old_x)/bounce_div#)
+		y=old_y+((New_y-old_y)/bounce_div#)
+		z=old_z+((New_z-old_z)/bounce_div#)
+		PositionEntity camera,x,y,z
+	EndIf
+	PointEntity camera,player
+	TurnEntity camera,-20,0,0     ; if you want the player mesh more on the
+ bottom of the screen
+	old_x#=EntityX(camera)
+	old_y#=EntityY(camera)
+	old_z#=EntityZ(camera)
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ CreateScene()
+
+	texture = TextureCreate(128)
+	
+	ground = CreatePlane()
+	EntityColor ground,150,150,150
+	EntityTexture ground,texture
+	
+	cube = CreateCube():EntityColor cube,150,200,150
+	ScaleEntity cube,5,5,5:PositionEntity cube,0,5,0
+	EntityTexture cube,texture
+	
+	sphere = CreateSphere(16):EntityColor sphere,200,150,150
+	ScaleEntity sphere,3,1,3:PositionEntity sphere,0,9.7,0
+	
+	platform = CreateCube():EntityColor platform,150,150,200
+	ScaleEntity platform,3,1,10:PositionEntity platform,0,4.13,-13.15
+	TurnEntity platform,-30,0,0
+	EntityTexture platform,texture
+	
+	FreeTexture texture
+	
+	EntityType ground,1:EntityPickMode ground,2
+	EntityType cube,1:EntityPickMode cube,2
+	EntityType sphere,1:EntityPickMode sphere,2
+	EntityType platform,1:EntityPickMode platform,2
+
+	light = CreateLight()
+	TurnEntity light,30,70,0
+	
+	;; COLLISIONS
+	Collisions 2,1,2,3 ; player to scene
+	Collisions 2,2,1,3 ; player to player
+	
+	Collisions 3,1,2,1 ; bullet to scene
+	Collisions 3,2,1,1 ; bullet to player
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Function
+ TextureCreate(size)
+	texture = CreateTexture(size,size,9)
+	SetBuffer TextureBuffer(texture)
+	Color 255,255,255
+	Rect 0,0,size,size,1
+	Color 0,0,0
+	Rect 0,0,size,size,0
+	Line 0,0,size,size
+	Line 0,size,size,0
+	SetBuffer BackBuffer()
+	Return texture
+End Function</textarea><br>This is an advanced example I try to improve each time to see what we can get with the library.<br>Each
+ player sends his position to the server at a constant rate. Beetween 
+position packets, linear interpolation is done to position the players 
+smoothly.<br>Also, I finally use tweening in the main loop, so the game 
+logic is updated at a constant rate, but the network is updated outside 
+tweening, as fast as possible to reduce the ping. <br><br> <a href="http://www.passmark.com/baselines/V8/display.php?id=39209516361" target="_blank"><img src="15074&amp;log=1916_files/39209516361.png"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 1.12</td><td align="right"><font class="tiny">(Posted 2016-01-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> CURRENT VERSION<br><br>- modified the connection procedure according to issues we found online recently<br> - added function Net_RequestPlayer(id) for a player to request infos about another player<br>
+	-&gt; for example, if we receive a packet from a player we didn't 
+create yet (because UDP can never arrive, or in disorder), then the 
+server will resend us the infos ID/name of the player in a "100" message
+ (new player)<br> - IDs and packets modified to accept up to 65535 
+players, yes, optimistic :) but it also allow the random ID generation 
+to have less chance to find an ID that already exists <br><br> <a href="http://www.passmark.com/baselines/V8/display.php?id=39209516361" target="_blank"><img src="15074&amp;log=1916_files/39209516361.png"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 1.11</td><td align="right"><font class="tiny">(Posted 2016-01-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> OBSOLETE VERSION<br><br>Just a little update to the v1.11 but quite important :<br><br>- fixed a coding issue with ping causing weird effects<br>- added some protection from outside <br><br> <a href="http://www.passmark.com/baselines/V8/display.php?id=39209516361" target="_blank"><img src="15074&amp;log=1916_files/39209516361.png"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 1.1</td><td align="right"><font class="tiny">(Posted 2016-01-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> OBSOLETE VERSION<br><br><b><u>Changes :</u></b><br>- Variable "net_switchHost" renamed To "net_autoSwitchHost"<br>- Added variable "net_autoRouteMessages" to make the server act as a router or not<br>- Added constant ping-pong from server to players to check timeouts<br>- Added client side verification of connection timeout<br>- Function Net_StartInput() modified to save time for local testing<br>- Added variable "net_defaultPort" to specify the port to use by default<br>-
+ Number of clients is now limited to 255, so instead of sending 8 bytes 
+(2 integers ID, sender/recipient) in each packets we only send 2 bytes<br>- Packets structure modified to make easier the implementation of bytes writing -&gt; Typ/Sender/Recipient/Message/Data<br>- Added functions to easily write/read binary data in a packet<br>- Variable Net_MsgData renamed to Net_MsgString to avoid confusion with binary data<br>-
+ Reinforced protection from outside (non connected clients) and inside 
+(so a client can't steal the identity of another client, and can't send a
+ message to himself) [WIP]<br>- enough for this first major update :) <br><br> <a href="http://www.passmark.com/baselines/V8/display.php?id=39209516361" target="_blank"><img src="15074&amp;log=1916_files/39209516361.png"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 1.0</td><td align="right"><font class="tiny">(Posted 2015-12-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> OBSOLETE VERSION<br><br>In
+ this first version, the server acts as a router, so when a client sends
+ a packet to the server, it is automatically forwarded to all other 
+clients (fast and simple). The library is easy to use with very few 
+commands. The code structure is reliable for future development. <br><br> <a href="http://www.passmark.com/baselines/V8/display.php?id=39209516361" target="_blank"><img src="15074&amp;log=1916_files/39209516361.png"></a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

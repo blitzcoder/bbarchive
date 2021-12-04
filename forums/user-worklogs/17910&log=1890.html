@@ -1,0 +1,3512 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>
+        <!-- Google Analytics -->
+        <script async="" src="17910&amp;log=1890_files/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-34362789-1', 'auto');  // Replace with your property ID.
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+</head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Pakz</h1><h1>Civilization 3 automation</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Working again on the project</td><td align="right"><font class="tiny">(Posted 2014-04-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have retyped the civ project without the units code a number of 
+times. I keep finding better ways of doing things when I retype it.<br><br>I
+ now use the dim command to clear arrays. I bet this is faster then 
+looping through the entire array and setting each value to 0. It seems 
+to work alright.<br><br>I have been thinking of how to move units in 
+groups. Not for the workers but for other units. I was looking at a lets
+ play of civilization 1 and noticed that millitary units were close to 
+each other and seemed to move together.<br>I have a few ideas on how to do the same thing. This wil probably take me a while to make though.<br><br>I
+ stil have not found a better way of prioritizing which tiles need to be
+ improved first. Terrain analysis or common sense code. It is pretty 
+hard to get good behaviour. Workers in the last versions would just 
+select tiles anywhere on the map and travel there. I was experimenting 
+with staying close to home cities and was planning on counting the units
+ in a area so that the units nearby would be able to work the tiles. 
+Units can be traveling a while and other units in the area would travel 
+elsewhere if the tile nearby was in the far away unit queue. Bad 
+behaviour.<br><br>I can not find anything on the Internet on how to do 
+the ai for this kind of thing. So I wil probably keep typing away until I
+ get something that behaves right.<br><br>I am a bit shaken this day. 
+The cat of my parents got driven over by a car. I saw it happen. The cat
+ follows me when I walk the dog of my parents and today me and my 
+stephfather were letting the dog out. The cat followed and crossed the 
+street when a car was just passing by and got under the wheel. The cat 
+is now at a vets clinic. Tomorow we will hear if she survived the night 
+and if she needs a operation.<br>The cats name is moesie. She is 6 years old.<br>I feel terrible when I think about it. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>improved the a*</td><td align="right"><font class="tiny">(Posted 2014-04-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I spend a while thinking of what to do with the project. I happened to think of a way to speed up the a* algorithm that I made.<br>I now check the new open nodes directly for presence in a array. Also the closed nodes are checked directly now.<br>This should make it a lot faster.<br><br>Here is the a* code.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Dim olmap(mapwidth,mapheight)
+Dim clmap(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+
+Repeat
+	Cls
+	makemap()
+	setcoordinates()
+	findpath()
+	drawmap()
+	drawpath()
+	Flip
+	If KeyDown(1) = True Then End
+Forever
+
+Function findpath()
+	If sx=ex And sy=ey Then Return False
+	Delete Each ol
+	Delete Each cl
+	Delete Each path
+	Dim olmap(mapwidth,mapheight)
+	Dim clmap(mapwidth,mapheight)
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	a.ol = New ol
+	a\x = sx
+	a\y = sy
+	olmap(sx,sy) = True
+	Repeat
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For a.ol = Each ol
+			If a\f &lt; lowestf
+				lowestf = a\f
+				tx = a\x
+				ty = a\y
+				tf = a\f
+				tg = a\g
+				th = a\h
+				tpx = a\px
+				tpy = a\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			b.cl = New cl
+			b\x = tx
+			b\y = ty
+			b\f = tf
+			b\g = tg
+			b\h = th
+			b\px = tpx
+			b\py = tpy
+			findpathback()
+			Return True
+		Else
+			removefromopenlist(tx,ty)
+			olmap(tx,ty) = False
+			clmap(tx,ty) = True
+			b.cl = New cl
+			b\x = tx
+			b\y = ty
+			b\f = tf
+			b\g = tg
+			b\h = th
+			b\px = tpx
+			b\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+			newx = tx+x
+			newy = ty+y
+			If newx&gt;=0 And newy&gt;=0 And newx&lt;=mapwidth And newy&lt;=mapheight
+			If olmap(newx,newy) = False
+			If clmap(newx,newy) = False
+				a.ol = New ol
+				a\x = newx
+				a\y = newy
+				a\g = map(newx,newy)+1
+				a\h = distance(newx,newy,ex,ey)
+				a\f = a\g+a\h
+				a\px = tx
+				a\py = ty
+				olmap(newx,newy) = True
+			End If
+			End If
+			End If
+			Next
+			Next
+		End If
+	Forever
+End Function
+
+Function findpathback()
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = x
+	that\y = y
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+				Insert that Before First path
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+End Function
+
+Function drawpath()
+	For this.path = Each path
+		x = this\x*tilewidth
+		y = this\y*tileheight
+		Color 155,155,155
+		Oval x,y,tilewidth,tileheight,True
+		Color 255,255,255
+		Text x,y,cnt
+		cnt=cnt+1
+	Next
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function setcoordinates()
+	While exitloop = False
+		sx = Rand(mapwidth)
+		sy = Rand(mapheight)
+		ex = Rand(mapwidth)
+		ey = Rand(mapheight)
+		If sx&lt;&gt;ex And sy&lt;&gt;ey Then exitloop = True
+	Wend
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Color map(x,y)*8,map(x,y)*8,map(x,y)*8
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+	Color 255,255,255
+	Rect sx*tilewidth-2,sy*tileheight-2,tilewidth+4,tileheight+4,False
+	Rect ex*tilewidth-2,ey*tileheight-2,tilewidth+4,tileheight+4,False
+End Function
+
+Function makemap()
+	Dim map(mapwidth,mapheight)
+	For i=0 To 45
+		x1 = Rand(mapwidth)
+		y1 = Rand(mapheight)
+		For y2=-4 To 4
+		For x2=-4 To 4
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-2 To 2
+		For x2=-2 To 2
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+		For y2=-1 To 1
+		For x2=-1 To 1
+			x3 = x1+x2
+			y3 = y1+y2
+			If x3&gt;=0 And y3&gt;=0 And x3&lt;=mapwidth And y3&lt;=mapheight
+				map(x3,y3) = map(x3,y3) + 1
+			End If
+		Next
+		Next
+	Next
+End Function
+</textarea><br><br>I will retype this code for a number of times to get 
+to know it more. I will be using this for the next worker automation 
+experiment. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Found something new</td><td align="right"><font class="tiny">(Posted 2014-04-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I was sitting down and browsing the blitz basic website with the tablet
+ and check the b+ manual. I saw a command that I never used before. It 
+was Insert. I looked at the code and I thought I might be able to use it
+ to build the list of coordinates that the pathfinding routine makes. 
+These get build in reverse becourse it builds the path from the end to 
+the beginning. <br><br>Now I simply do :<br><br>this Insert before first path<br><br>In the findpathback function and the path is now from start to end in stead of end to start.<br>In
+ the last few retypes of the program I had a lot of extra lines for 
+reversing the path and I should of fixed it before by reversing the list
+ in the pathfinding functions. <br><br>I am getting better at it :) <br><br>I
+ hope to get more work done today. Though I am not sure what I wil do. 
+Maybe retype the map generator and pathfinding again or work on the last
+ retype where I had that finished. There I could start on the unit 
+automation parts. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Improving the code</td><td align="right"><font class="tiny">(Posted 2014-04-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have been thinking how I could make the code better. I have a long 
+select case part in the sourcecode and it would-be become huge if I 
+added more features.<br>I have a State for each thing that the unit 
+does. I tried using substates but this was not the way. I am now 
+thinking that I should use more functions that get called from in the 
+cases.<br><br>I have also been thinking of adding an nextstate field for
+ the units. I was using a job field so I wil rename that to nextstate. I
+ think I am using a finite State method for the automation part. Though I
+ am not sure.<br><br>I am also planning of ordening the path type when 
+the path is found and created. It is in reverse and I was reversing it 
+in the select case part of the game. This should schorten it Some more.<br><br>I
+ am retyping the entire thing to see if I can find a better way of 
+coding it. It does not take so long since I have typed most of the code 
+multiple times and type it in almost bug free every time. I have typed 
+the a star part more then 25 times already in 3 years time. I started 
+retyping my work to memorize it. I am sure this is useful for something.<br><br>I have already been figuring out how to Handle the automation with other ai players.  The war units wil follow later on.<br><br>I
+ stil have problems with the priority of the tile improvments. What 
+needs to be done first and which unit should do it. This is difficult.<br><br>I hope to get Some work done in the next hours. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Starting over again</td><td align="right"><font class="tiny">(Posted 2014-04-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have gotten to the point where I can get no further. The code was 
+about a thousand lines long and all I was doing was adding the same type
+ of things to it. I also saw that I could improve the code. I wil start 
+over again and see if I can get farther next time.<br><br>here is a video of the last version. <br><a href="http://youtu.be/rhvmi7yr8Uw" target="_blank">http://youtu.be/rhvmi7yr8Uw</a><br><br>anyway here is the current code : no external media required. b3d or b+ code.<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Global turn = 1
+Global debugmode = True
+Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd 8
+Global myfont = LoadFont("verdana.ttf",12)
+SetFont myfont
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Global sx,sy,ex,ey
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Global treeimage = CreateImage(16,16)
+Global hillimage = CreateImage(16,16)
+Global mountainimage = CreateImage(16,16)
+Global irrigationimage = CreateImage(16,16)
+Type city
+	Field id
+	Field x,y,size
+End Type
+Dim roadmap(mapwidth,mapheight)
+Dim irrigationmap(mapwidth,mapheight)
+Type cityroadimp
+	Field x,y
+End Type
+Type groadimp
+	Field x,y
+End Type
+Type girriimp
+	Field x,y
+End Type
+Type Gforrestimp
+	Field x,y
+End Type
+Type gmineimp
+	Field x,y
+End Type 
+Type cityirriimp
+	Field x,y
+End Type
+Type cityfield
+	Field x,y
+End Type
+Dim islandmap(mapwidth,mapheight)
+Type unit
+	Field x,y,id,cityid
+	Field homecityx,homecityy
+	Field movesleft#,waitturns
+	Field px[1024]
+	Field py[1024]
+	Field state$
+	Field substate$
+	Field job$
+	Field ploc
+	Field sx,sy,ex,ey
+End Type
+
+makecityfield
+makeimages()
+makemap()
+makeislandmap
+createcities(Rand(5,10))
+createunits()
+;this.unit = New unit
+;this\x = 20
+;this\y = 20
+;this\state$ = "automate"
+makeroads()
+makecityirriimp()
+makeglobalimps()
+While KeyDown(1) = False
+	Cls
+	drawmap(2)
+	drawroadmap()
+	drawirrigationmap()
+	drawunits()	
+	drawcities()
+	dounits()
+	For this.unit = Each unit
+		this\movesleft = 1
+	Next
+	Color 0,0,0
+	Rect 0,0,100,15,True
+	Color 255,255,255
+	Text 0,0,"Turn:"+turn
+	turn = turn+1
+	Flip
+Wend
+End
+
+Function dounits()
+	For this.unit = Each unit
+		While this\movesleft &gt; 0
+			Select this\state$
+				Case "automate"
+					;find job
+					job = False
+					If roadsconnectingcitiesleft(this) = True
+						this\state$ = "connectcitieswithroads"
+						job = True
+					End If
+					If job = False
+						If improvmentsnearcity(this) = True
+							this\state$ = "improvearoundcities"
+							job = True
+						End If
+					End If
+					If job=False
+						If improvmentsleft(this) = True 
+							this\state$ = "improve"
+							job = True
+						End If
+					End If
+					If job = False
+						If unitisinhomecity(this) = False
+							this\state$ = "gobacktohomecity"
+							job = True
+						End If
+					End If
+					If job = False Then this\movesleft = 0
+				Case "improve"
+					job = False
+					If job = False
+						shortest = 100000
+						For qw.groadimp = Each groadimp
+							If islandmap(this\x,this\y) = islandmap(qw\x,qw\y)
+								d = distance(qw\x,qw\y,this\x,this\y)
+								If d &lt; shortest						
+									shortest = d				
+									job = True
+									this\job$ = "layroad"
+									ex = qw\x
+									ey = qw\y
+								End If
+							End If
+						Next
+					End If
+					If job = True Then
+						DebugLog MilliSecs()
+						If this\x = ex And this\y = ey Then
+							this\state$ = this\job$
+							this\ex = ex
+							this\ey = ey
+							this\sx = this\x
+							this\sy = this\y
+							this\waitturns = 4
+							removegroadimp(ex,ey)
+							Else
+							sx = this\x
+							sy = this\y
+							If findpath() = True
+								removegroadimp(ex,ey)
+								this\sx = sx
+								this\sy = sy
+								this\ex = ex
+								this\ey = ey
+								cnt = 0
+								For ig.path = Each path
+									cnt=cnt+1
+								Next
+								cnt=cnt-1
+								ig.path = Last path
+								For i=0 To cnt
+									this\px[i] = ig\x
+									this\py[i] = ig\y
+									ig = Before ig
+								Next
+								this\ploc = 0
+								this\state$ = "move"
+							Else
+								this\state$="automate"
+							End If
+						End If
+					End If
+					If job = False 
+						this\state$ = "automate"
+					End If
+				Case "improvearoundcities"
+					shortest = 100000
+					For iac.cityirriimp = Each cityirriimp
+						d = distance(this\x,this\y,iac\x,iac\y)
+						If d &lt; shortest
+							shortest = d
+							ex = iac\x
+							ey = iac\y
+						End If
+					Next
+					If ex = this\x And ey = this\y
+						this\sx = this\x
+						this\sy = this\y
+						this\ex = ex
+						this\ey = ey
+						this\state$ = "layirrigation"
+						this\waitturns = "4"
+						removeirrifromlist(ex,ey)
+					Else
+						removeirrifromlist(ex,ey)
+						sx = this\x
+						sy = this\y
+						If findpath() = True Then
+							this\sx = this\x
+							this\sy = this\y
+							this\ex = ex
+							this\ey = ey
+							cnt = 0
+							For iac2.path = Each path
+								cnt=cnt+1
+							Next		
+							cnt=cnt-1
+							iac2.path = Last path
+							For i=0 To cnt
+								this\px[i] = iac2\x
+								this\py[i] = iac2\y
+								iac2 = Before iac2
+							Next
+							this\ploc = 0
+							this\state$ = "move"
+							this\job$ = "buildirrigation"
+						Else
+						this\state$="automate"
+						End If
+					End If
+				Case "gobacktohomecity"
+					For e.city = Each city
+						If e\id = this\cityid
+							this\ex = e\x
+							this\ey = e\y
+							ex = e\x
+							ey = e\y
+						End If						
+					Next	
+					sx = this\x
+					sy = this\y
+					this\sx = this\x
+					this\sy = this\y
+					If findpath()= True Then
+						cnt = 0
+						this\ploc = 0
+						For c.path = Each path
+							cnt = cnt + 1
+						Next
+						cnt=cnt-1
+						gbhc.path = Last path
+						For i=0 To cnt
+							this\px[i] = gbhc\x
+							this\py[i] = gbhc\y
+							gbhc = Before gbhc
+						Next
+						this\state$ = "move"
+						this\job$ = "automate"
+					Else
+						this\state$ = "automate"
+					End If			 
+				Case "connectcitieswithroads"
+					; find closest road for unit
+					continue = False
+					For that.cityroadimp = Each cityroadimp
+						If islandmap(that\x,that\y) = islandmap(this\x,this\y)
+							continue = True
+						End If
+					Next
+					If continue = True Then
+						shortest = 100000
+						For that.cityroadimp = Each cityroadimp
+							If islandmap(this\x,this\y) = islandmap(that\x,that\y)
+								d = distance(this\x,this\y,that\x,that\y)
+								If d&lt;shortest
+									shortest = d
+									ex = that\x
+									ey = that\y
+								End If
+							End If
+						Next
+						If this\x = ex And this\y = ey
+							this\sx = x
+							this\sy = y
+							this\ex = x
+							this\ey = y
+							this\state$ = "layroad"
+							this\waitturns = 4
+							removecityroadimp(ex,ey)
+						Else
+							sx = this\x
+							sy = this\y
+							If findpath() = True
+								this\sx = this\x
+								this\sy = this\y
+								this\ex = ex
+								this\ey = ey
+								;DebugLog this\sx+","+this\sy+":"+this\ex+","+this\ey
+								removecityroadimp(ex,ey)
+								cnt = 0
+								For a.path = Each path
+									cnt = cnt + 1
+								Next		
+								cnt=cnt-1
+								a.path = Last path
+								For i=0 To cnt
+									this\px[i] = a\x
+									this\py[i] = a\y
+									a = Before a
+								Next
+								this\ploc = 0
+								this\state$ = "move"
+								this\job$ = "layroad"								 		
+							Else
+								this\state$ = "automate"
+							End If
+						End If
+					Else
+						this\state = "automate"
+					End If
+				Case "move"
+					this\ploc = this\ploc + 1
+					this\x = this\px[this\ploc]
+					this\y = this\py[this\ploc]
+					If roadmap(this\x,this\y) = 1
+						this\movesleft = this\movesleft - 0.3
+					Else
+						this\movesleft = this\movesleft - 1
+					End If
+					If this\x = this\ex And this\y = this\ey
+						this\state$ = this\job$
+						Select this\job$
+							Case "layroad"
+							this\waitturns = 4
+							Case "buildirrigation"
+							this\waitturns = 4
+						End Select
+					End If
+					If debugmode = True Then
+						Cls
+						drawmap(2)
+						drawroadmap()
+						drawirrigationmap()						
+						drawunits()	
+						drawcities()
+						Color 0,0,0
+						Rect 0,0,100,15,True
+						Color 255,255,255
+						Text 0,0,"Turn:"+turn
+						Flip
+						If KeyDown(1) = True Then End
+					End If
+				Case "layroad"
+					this\waitturns = this\waitturns - 1
+					this\movesleft = 0
+					If this\waitturns =&lt; 0
+						this\state$="automate"
+						roadmap(this\x,this\y) = 1
+					End If
+				Case "buildirrigation"
+					this\waitturns = this\waitturns - 1
+					this\movesleft = 0
+					If this\waitturns =&lt; 0
+						this\state$ = "automate"
+						irrigationmap(this\x,this\y) = 1
+					End If
+			End Select
+		Wend
+	Next
+End Function
+
+Function removegroadimp(x,y)
+	For this.groadimp = Each groadimp
+		If this\x = x And this\y = y Then
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function makeglobalimps()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If nearbycity(x,y) = True Then
+		Select map(x,y)
+			Case 1
+			a.groadimp = New groadimp
+			a\x = x
+			a\y = y
+			Case 2
+			a.groadimp = New groadimp
+			a\x = x
+			a\y = y
+			Case 3
+			a.groadimp = New groadimp
+			a\x = x
+			a\y = y			
+			Case 4
+			a.groadimp = New groadimp
+			a\x = x
+			a\y = y
+		End Select
+	EndIf
+	Next
+	Next
+End Function
+
+Function nearbycity(x,y)
+	For this.city = Each city
+		If distance(x,y,this\x,this\y) &lt; 6 Then Return True
+	Next
+End Function
+
+
+Function improvmentsleft(this.unit)
+	For a.girriimp = Each girriimp
+		If islandmap(a\x,a\y) = islandmap(this\x,this\y)
+			Return True
+		End If
+	Next
+	For b.gforrestimp = Each gforrestimp
+		If islandmap(b\x,b\y) = islandmap(this\x,this\y)
+			Return True
+		End If		
+	Next
+	For c.groadimp = Each groadimp
+		If islandmap(c\x,c\y) = islandmap(this\x,this\y)
+			Return True
+		End If		
+	Next
+	For d.gmineimp = Each gmineimp
+		If islandmap(d\x,d\y) = islandmap(this\x,this\y)
+			Return True
+		End If		
+	Next		
+End Function
+
+Function removeirrifromlist(x,y)
+	For this.cityirriimp = Each cityirriimp
+		If this\x = x And this\y = y 
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function improvmentsnearcity(this.unit)
+	For that.cityirriimp = Each cityirriimp
+		If islandmap(this\x,this\y) = islandmap(that\x,that\y)
+			Return True
+		End If
+	Next
+End Function
+
+Function unitisinhomecity(this.unit)
+	For that.city = Each city
+		If this\cityid = that\id
+		If this\x = that\x And this\y = that\y Then Return True
+		End If
+	Next
+End Function
+
+Function removecityroadimp(x,y)
+	For this.cityroadimp = Each cityroadimp
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function roadsconnectingcitiesleft(this.unit)
+	For that.cityroadimp = Each cityroadimp
+		If islandmap(this\x,this\y) = islandmap(that\x,that\y) Then Return True
+	Next
+End Function
+
+Function makecityirriimp()
+	For this.city = Each city	
+		For that.cityfield = Each cityfield
+			x = this\x+that\x
+			y = this\y+that\y
+			If x=&gt;0 And y=&gt;0 And x=&lt;mapwidth And y=&lt;mapheight
+			If islandmap(x,y) = islandmap(this\x,this\y)
+			If map(x,y) = 1
+				a.cityirriimp = New cityirriimp
+				a\x = x
+				a\y = y
+			End If
+			End If
+			End If
+		Next
+	Next
+End Function
+
+Function drawunits()
+	For this.unit = Each unit
+		Color 255,0,0
+		Rect this\x*tilewidth,this\y*tileheight,16,16,True
+		x = this\x*tilewidth+8
+		y = this\y*tileheight+8
+		Color 255,255,255
+		Select this\state$
+			Case "layroad"
+			Text x,y,"R",True,True
+			Case "buildirrigation"
+			Text x,y,"I",True,True
+		End Select
+	Next
+End Function
+
+Function drawirrigationmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If irrigationmap(x,y) = 1 Then
+			;Color 50,255,20
+			;Oval x*tilewidth+4,y*tileheight+4,16-8,16-8,True
+			DrawImage irrigationimage,x*tilewidth,y*tileheight
+		End If
+	Next
+	Next
+End Function
+
+Function createunits()
+	For this.city = Each city
+		num = Rand(2,5)
+		For i=1 To num
+			that.unit = New unit
+			that\x = this\x
+			that\y = this\y
+			that\homecityx = this\x
+			that\homecityy = this\y
+			that\id = unitnum
+			that\cityid = this\id
+			that\movesleft = 1
+			that\state$ = "automate"					 
+		Next
+	Next
+End Function
+
+Function makecityfield()
+	Restore cityf
+	For y=-2 To 2
+	For x=-2 To 2
+		Read a
+		If a = 1 Then
+			this.cityfield = New cityfield
+			this\x = x
+			this\y = y
+		End If
+	Next
+	Next	
+End Function
+
+Function makeislandmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		islandmap(x,y) = 0
+	Next
+	Next
+	Delete Each ol
+	Delete Each cl
+	currentisland = 0
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) &gt; 1
+			If islandmap(x,y) = 0
+				currentisland = currentisland + 1
+				exitloop = False
+				a.ol = New ol
+				a\x = x
+				a\y = y
+				islandmap(a\x,a\y) = currentisland
+				While exitloop = False
+					If openlistisempty() = True Then exitloop = True
+					If exitloop = False
+					c.ol = First ol
+					x2=c\x
+					y2=c\y
+					removefromopenlist(x2,y2)
+					d.cl = New cl
+					d\x = x2
+					d\y = y2
+					For y1=-1 To 1
+					For x1=-1 To 1
+						If x2+x1=&gt;0 And y2+y1=&gt;0 And x2+x1=&lt;mapwidth And y2+y1=&lt;mapheight
+						If isonopenlist(x2+x1,y2+y1) = False
+						If isonclosedlist(x2+x1,y2+y1) = False
+						If map(x2+x1,y2+y1) =&gt;1
+							b.ol = New ol
+							b\x = x2+x1
+							b\y = y2+y1
+							islandmap(x2+x1,y2+y1) = currentisland
+						End If					
+						End If
+						End If
+						End If
+					Next
+					Next
+					End If
+				Wend
+			End If
+		End If		
+	Next
+	Next
+End Function
+
+Function drawroadmap()
+	Color 200,200,0
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		For y1=-1 To 1
+		For x1=-1 To 1
+			nx = x+x1
+			ny = y+y1
+			If nx=&gt;0 And ny=&gt;0 And nx=&lt;mapwidth And ny=&lt;mapheight
+				If roadmap(x,y) = True And roadmap(nx,ny) = True Then
+				Line nx*tilewidth+8,ny*tileheight+8,x*tilewidth+8,y*tileheight+8
+				End If
+			End If
+		Next
+		Next
+	Next
+	Next
+	
+End Function
+
+Function makeroads()
+	For this.city = Each city
+	For that.city = Each city
+	If Not this\id = that\id
+		sx = this\x
+		sy = this\y
+		ex = that\x
+		ey = that\y
+		DebugLog sx+","+sy+","+ex+","+ey
+		findpath
+		For a.path = Each path
+			roadmap(a\x,a\y) = 1
+		Next
+	End If
+	Next
+	Next
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If roadmap(x,y) = True And cityontile(x,y) = False Then
+			z.cityroadimp = New cityroadimp
+			z\x = x
+			z\y = y
+		End If
+		roadmap(x,y) = False
+	Next
+	Next
+	For this.city = Each city
+		roadmap(this\x,this\y) = True
+	Next
+End Function
+
+Function cityontile(x,y)
+	For this.city = Each city
+		If this\x = x And this\y = y Then Return True
+	Next
+End Function
+
+Function findpath()
+	Delete Each ol
+	Delete Each cl
+	Delete Each path	
+	If sx=ex And sy=ey Then Return False
+	Local tx,ty,tf,tg,th,newx,newy,lowestf,exitloop
+	a.ol = New ol
+	a\x = sx
+	a\y = sy
+	While exitloop = False
+		If openlistisempty() = True Then Return False
+		lowestf = 100000
+		For b.ol = Each ol
+			If b\f &lt; lowestf
+				lowestf = b\f
+				tx = b\x
+				ty = b\y
+				tf = b\f
+				tg = b\g
+				th = b\h
+				tpx = b\px
+				tpy = b\py
+			End If
+		Next
+		If tx = ex And ty = ey ; path found
+			exitloop = True
+			c.cl = New cl
+			c\x = tx
+			c\y = ty
+			c\f = tf
+			c\g = tg
+			c\h = th
+			c\px = tpx
+			c\py = tpy
+			findpathback
+		Else
+			removefromopenlist(tx,ty)
+			d.cl = New cl
+			d\x = tx
+			d\y = ty
+			d\f = tf
+			d\g = tg
+			d\h = th
+			d\px = tpx
+			d\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+			newx = tx+x
+			newy = ty+y
+			If newx=&gt;0 And newy=&gt;0 And newx=&lt;mapwidth And newy=&lt;mapheight
+			If isonclosedlist(newx,newy) = False
+			If isonopenlist(newx,newy) = False
+			If map(newx,newy) &gt; 0
+			e.ol = New ol
+			e\x = newx
+			e\y = newy
+			If roadmap(newx,newy) = 1 
+			e\g = 1
+			Else
+			e\g = map(newx,newy)*3
+			End If
+			e\h = distance(newx,newy,ex,ey)
+			e\f = e\g+e\h
+			e\px = tx
+			e\py = ty
+			End If
+			End If
+			End If
+			End If
+			Next
+			Next
+		End If
+	Wend
+	Return True
+End Function
+
+Function findpathback()
+	Local exitloop = False
+	Local x = ex
+	Local y = ey
+	that.path = New path
+	that\x = ex
+	that\y = ey
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function isonopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y Then Return True
+	Next
+End Function
+
+Function isonclosedlist(x,y)
+	For this.cl = Each cl
+		If this\x = x And this\y = y Then Return True
+	Next
+End Function
+
+Function drawpath()
+	Color 255,255,0
+	For this.path = Each path
+		Oval this\x*tilewidth,this\y*tileheight,4,4,True
+	Next
+End Function
+
+Function createcities(num)
+	Delete Each city
+	For i=1 To num
+		this.city = New city
+		this\id = i
+		this\size = Rand(1,10)
+		exitloop = False
+		While exitloop = False And KeyDown(1) = False
+			x = Rand(mapwidth)
+			y = Rand(mapheight)
+			If map(x,y) = 1
+			sdist = 1000
+			For that.city = Each city
+				d = distance(that\x,that\y,x,y)
+				If d&lt;sdist Then sdist = d
+			Next
+			If sdist&gt;5 Then
+				this\x=x
+				this\y=y
+				roadmap(x,y) = 1
+				exitloop = True
+			End If
+			End If
+		Wend
+	Next
+End Function
+
+Function drawcities()
+	For this.city = Each city
+		Color 0,0,0
+		Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,False
+		Color 255,255,255
+		Rect this\x*tilewidth+1,this\y*tileheight+1,tilewidth-2,tileheight-2,True
+		Color 100,100,100
+		Text this\x*tilewidth+8,this\y*tileheight+8,this\size,True,True
+	Next
+End Function
+
+Function drawmap(mode = 1)
+	If mode = 1
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,False
+		Text x*tilewidth,y*tileheight,map(x,y)
+	Next
+	Next
+	End If
+	If mode = 2 Or mode = 3
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Select map(x,y)
+			Case 0;water
+			Color 0,0,200
+			Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+			Case 1;gras
+			Color 0,100,0
+			Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+			Case 2;tree
+			Color 0,100,0
+			Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True						
+			DrawImage treeimage,x*tilewidth,y*tileheight
+			Case 3;hills
+			Color 0,100,0
+			Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True						
+			DrawImage hillimage,x*tilewidth,y*tileheight
+			Case 4;mountain
+			Color 0,100,0
+			Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True						
+			DrawImage mountainimage,x*tilewidth,y*tileheight			
+		End Select
+			;Color 0,0,0
+			;Rect x*tilewidth,y*tileheight,tilewidth+1,tileheight+1,False
+			If mode = 3
+			Color 255,255,255
+			Text x*tilewidth+12,y*tileheight+12,islandmap(x,y),True,True
+			End If
+	Next
+	Next
+	End If
+End Function
+
+Function makemap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+	map(x,y)=0
+	Next
+	Next
+	For i=0 To 30
+		x = Rand(mapwidth)
+		y = Rand(mapheight)
+		For y1=-4 To 4
+		For x1=-4 To 4
+			If x+x1=&gt;0 And y+y1=&gt;0 And x+x1=&lt;mapwidth And y+y1=&lt;mapheight
+				map(x+x1,y+y1)=map(x+x1,y+y1)+1
+			End If
+		Next
+		Next
+		For y1=-2 To 2
+		For x1=-4 To 4
+			If x+x1=&gt;0 And y+y1=&gt;0 And x+x1=&lt;mapwidth And y+y1=&lt;mapheight
+				map(x+x1,y+y1)=map(x+x1,y+y1)+1
+			End If
+		Next
+		Next
+		For y1=-1 To 1
+		For x1=-4 To 4		
+			If x+x1=&gt;0 And y+y1=&gt;0 And x+x1=&lt;mapwidth And y+y1=&lt;mapheight
+				map(x+x1,y+y1)=map(x+x1,y+y1)+1
+			End If
+		Next
+		Next
+	Next
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) = 1 Then map(x,y) = 1;gras
+		If map(x,y) = 2 Then map(x,y) = 1;gras
+		If map(x,y) = 3 Then map(x,y) = 1;gras
+		If map(x,y) = 4 Then map(x,y) = 1;gras
+		If map(x,y) =&gt;1 And Rand(12) = 1 Then map(x,y) = 2
+		If map(x,y) =&gt;1 And Rand(22) = 1 Then map(x,y) = 3
+		If map(x,y) = 5 Then map(x,y) = 2;trees
+		If map(x,y) = 6 Then map(x,y) = 2;trees
+		If map(x,y) = 7 Then map(x,y) = 2;trees		
+		If map(x,y) = 8 Then map(x,y) = 3;hills
+		If map(x,y) = 9 Then map(x,y) = 3;hills
+		If map(x,y) &gt; 9 Then map(x,y) = 4;mountains			
+	Next
+	Next	
+End Function
+
+Function makeimages()
+	SetBuffer ImageBuffer(treeimage)
+	Restore tree
+	Color 0,200,0
+	For y=0 To 15
+	For x=0 To 15
+	Read a
+	If a = 1 Then Plot x,y
+	Next
+	Next
+	SetBuffer ImageBuffer(hillimage)
+	Color 200,100,0
+	For y=0 To 15
+	For x=0 To 15
+	Read a
+	If a = 1 Then Plot x,y
+	Next
+	Next
+	SetBuffer ImageBuffer(mountainimage)
+	Color 200,200,200
+	For y=0 To 15
+	For x=0 To 15
+	Read a
+	If a = 1 Then Plot x,y
+	Next
+	Next
+	SetBuffer ImageBuffer(irrigationimage)
+	Color 200,200,20
+	For y=0 To 15
+	For x=0 To 15
+	Read a
+	If a = 1 Then Plot x,y
+	Next
+	Next
+	SetBuffer BackBuffer()
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+.tree
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0
+Data 0,1,1,1,1,0,1,1,1,1,1,0,0,0,0,0
+Data 0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0
+Data 0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,1,0,0,0,0,1,1,1,1,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+.hill
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+.mountain
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0
+Data 0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0
+Data 0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0
+Data 0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0
+Data 0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+.irrigation
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0
+Data 0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0
+Data 0,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0
+Data 0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0
+Data 0,0,1,0,0,0,0,0,1,0,0,1,0,0,1,0
+Data 0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0
+Data 0,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0
+Data 0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,0
+Data 0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0
+Data 0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0
+Data 0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,0
+Data 0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0
+Data 0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Data 0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+
+
+.cityf
+Data 0,0,1,0,0
+Data 0,1,1,1,0
+Data 1,1,0,1,1
+Data 0,1,1,1,0
+Data 0,0,1,0,0
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Another version done</td><td align="right"><font class="tiny">(Posted 2014-04-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The last version is done up to a point where the units move one after 
+another and build road on a map where cities are preplaced. It took me 
+longer then I had thought to get this far.<br><br>Here is a video of the latest attempt.<br><a href="http://youtu.be/90XCUQvJ_Ms" target="_blank">http://youtu.be/90XCUQvJ_Ms</a><br><br>I
+ had to buy a screen recorder for after I installed windows 8.1 the 
+camstudio software did not work as before. The screen was not in the set
+ region and the video got messed up.<br>I bought a screen recorder from steam. It records correctly and uses the mpeg codec.<br><br>Windows
+ 8.1 needed to instal a driver when I first ran the blitz plus 
+sourcodecode. But after it was installed then blitzplus worked.<br><br>I hope to continue on this project. I am going to look at the sourcode and see what I can do next. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Another go at it.</td><td align="right"><font class="tiny">(Posted 2014-04-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> It has been a while since I did Some programming. I think About programming more then I do the actualiteit programming.<br>I am staying up this night and plan to retype the automation thing from the start. I wil make Some improvments.<br>I
+ did Some thinking in the automation order. Cities connected with roads 
+get the highest priority. Then roads around cities. Then irrigation and 
+mining and clearingbank forrest around cities. Then every tile wil be 
+done and units wil travel with ship to Islands to do work there.<br><br>I wil Need to plan the transport part and boats Need to be automatically created.<br><br>I
+ have also been learning and reading About types. The blitz manual is 
+not that greatly written with al the features of types. I did find the 
+tutorial in the b3d forum and I read through it every now and then. I am
+ learning to use the undocumented features more in the code. I do think 
+that I Need more experience with types so I wil be trying to experiment 
+in the code. Handle and object is something that I Need to look at.<br><br>The astar is pretty slow. At least the one that I made. I Need to keep the map small until I get further with the program. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Long failed session</td><td align="right"><font class="tiny">(Posted 2014-04-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I spend hours on making another version. I changed the way the worker function worked. I also increased the resolution.<br>I
+ could not get it to work. The workers first did not move and then I 
+spend a long time trying to get 2 workers working. I was not sucessful.<br>The
+ road was not being build completely. Parts were not being build. I 
+think I spend a few hours trying to get it to work. I retyped the 
+functions a number of times.<br><br>The last 2 days I programmed a lot and I hope that I stay in the spirit of programming.<br><br>Programming
+ these workers is not easy. I never really programmed complex artificial
+ intelligence so this is a learning experience.<br><br>I hope to fix the problems and get the current version working.<br><br>edit :<br><br>I
+ was thinking of what I could do to fix the problems. I decided I wil 
+use a couple of improvment types that I wil fill with al the imrpovments
+ of the map. The worker wil then be able to select the closest 
+improvement. I wil create one for the roads that connect cities and one 
+with left over improvments. <br>Before that I was using a 
+multidimensional array that I needed to read through. I think a type 
+with only the x and y values and improvment kind wil be easier. I hope 
+this wil solve the problems that I had.<br>I wil retype the entire program and make the changes.<br>I think I wil also make data graphics this time. I wil keep it so that I wil be able to run it without any external files. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Another improved version</td><td align="right"><font class="tiny">(Posted 2014-04-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I created a new version. This time first roads are build. Then forrest is cleared. and then irrigation is build.<br>Now the units stay close to their home cities.<br><br>There is stil a problem with islands. Units construct nothing sometimes. I think I need to do checking if a unit is on a island.<br><br>Below
+ is the current code : it runs at full speed up to 200 turns and then 
+begins over again. There are 3 workers per city and a random amount of 
+cities. Every run a new map is generated.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+Type city
+	Field x,y,id
+End Type
+Type unit	
+	Field x,y,id,cityid
+	Field px[1024]
+	Field py[1024]
+	Field loc,endloc
+	Field sx,sy,ex,ey
+	Field state$	
+	Field substate$
+	Field movesleft#
+	Field waitturns
+End Type
+Type unavail
+	Field x,y
+End Type
+Type take
+	Field x,y
+End Type
+.start
+Global endsim = False
+Global layroads = False
+Global clearforrest = False
+Global buildirrigation = False
+Dim roadmap(mapwidth,mapheight)
+Dim irrigationmap(mapwidth,mapheight)
+Dim impmap(mapwidth,mapheight,2)
+turn=0
+makemap
+createcities(Rand(5,20))
+createroadmap()
+For y=0 To mapheight
+For x=0 To mapwidth
+	impmap(x,y,0) = roadmap(x,y)
+	roadmap(x,y) = 0
+Next
+Next
+createunits()
+
+While KeyDown(1) = False
+	Cls
+	drawmap
+	drawroads
+	drawcities
+	drawunits
+	drawirrigation
+	dounits
+	turn=turn+1
+	setturnsback
+	Text 0,0,turn
+	Flip:
+	If turn &gt; 200 Then Goto start
+Wend
+End
+
+Function drawirrigation()
+	Color 0,250,0
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If irrigationmap(x,y) = 1 Then
+			Rect x*tilewidth,y*tileheight,tilewidth,tileheight,False
+		End If
+	Next
+	Next
+End Function
+
+Function setturnsback()
+	For this.unit = Each unit
+		this\movesleft = 1
+	Next
+End Function
+
+Function dounits()
+	While unitsmovesleft() = True
+	For this.unit = Each unit
+		Select this\state$
+			Case "idle"
+				done=False
+				this\movesleft = 0
+				If layroads = False Then
+					this\state$ = "layroads"
+					this\substate$ = "findroadtolay"
+					done = True
+				End If
+				If done = False
+					If clearforrest = False
+						this\state$ = "removetrees"
+						this\substate$ = "findtree"
+						done = True
+					End If
+				End If
+				If done=False
+					If buildirrigation = False
+						this\state$ = "buildirrigation"
+						this\substate$ = "findirrigation"
+						done = True
+					End If
+				End If				
+			Case "buildirrigation"
+				Select this\substate$
+					Case "findirrigation"
+						If setclosestirrigation(this) = False
+							this\state$ = "movehome"
+							this\substate$ = "planpath"
+						Else
+							sx = this\x
+							sy = this\y
+							this\sx = sx
+							this\sy = sy
+							this\ex = ex
+							this\ey = ey
+							findpath
+							cnt = 0
+							For that.path = Each path
+								cnt=cnt+1
+							Next
+							this\endloc = cnt
+							this\loc = 0
+							that.path = Last path
+							For i=1 To cnt
+								this\px[i] = that\x
+								this\py[i] = that\y
+								that = Before that		
+							Next			
+							this\substate$ = "onroute"								
+						End If
+					Case "onroute"
+						If this\movesleft &gt; .3						
+							If this\x = this\ex And this\y = this\ey
+								this\substate$ = "birrigation"
+								this\waitturns = 4
+								this\movesleft = this\movesleft - 1	
+							Else
+								If roadmap(this\px[loc+1],this\py[loc+1]) = True Then
+									this\movesleft = this\movesleft - .3
+									Else
+									this\movesleft = this\movesleft - 1
+								End If					
+								this\loc = this\loc + 1
+								this\x = this\px[this\loc]
+								this\y = this\py[this\loc]
+							End If
+						Else
+							this\movesleft = 0
+						End If
+					Case "birrigation"
+						this\waitturns = this\waitturns - 1
+						this\movesleft = this\movesleft - 1
+						If this\waitturns = 0 Then
+						irrigationmap(this\x,this\y) = True
+						this\state$ = "buildirrigation"
+						this\substate="findirrigation"
+						End If											
+				End Select				
+			Case "layroads"
+				Select this\substate$
+					Case "findroadtolay"
+						If setpathclosestroadimp(this) = False Then
+							this\state$ = "movehome"
+							this\substate$ = "planpath"
+							layroads = True
+							Else
+							sx = this\x
+							sy = this\y
+							this\sx = sx
+							this\sy = sy
+							this\ex = ex
+							this\ey = ey
+							findpath
+							cnt = 0
+							For that.path = Each path
+								cnt=cnt+1
+							Next				
+							this\endloc = cnt
+							this\loc = 0
+							that.path = Last path
+							For i=1 To cnt
+								this\px[i] = that\x
+								this\py[i] = that\y
+								that = Before that		
+							Next			
+							this\substate$ = "onroute"							
+						End If
+					Case "onroute"
+						If this\movesleft &gt; .3						
+							If this\x = this\ex And this\y = this\ey
+								this\substate$ = "placeroad"
+								this\waitturns = 4
+								this\movesleft = this\movesleft - 1	
+							Else
+								If roadmap(this\px[loc+1],this\py[loc+1]) = True Then
+									this\movesleft = this\movesleft - .3
+									Else
+									this\movesleft = this\movesleft - 1
+								End If					
+								this\loc = this\loc + 1
+								this\x = this\px[this\loc]
+								this\y = this\py[this\loc]
+							End If
+						Else
+							this\movesleft = 0
+						End If
+					Case "placeroad"
+						this\waitturns = this\waitturns - 1
+						this\movesleft = this\movesleft - 1
+						If this\waitturns = 0 Then
+						roadmap(this\x,this\y) = True
+						this\state$ = "layroads"
+						this\substate="findroadtolay"
+						End If
+						
+				End Select
+			Case "movehome"
+				Select this\substate$
+					Case "planpath"
+						sethomecitypath(this\cityid)
+						sx = this\x
+						sy = this\y
+						this\sx = sx
+						this\sy = sy
+						this\ex = ex
+						this\ey = ey
+						findpath
+						cnt = 0
+						For that.path = Each path
+							cnt=cnt+1
+						Next
+						this\endloc = cnt
+						this\loc = 0
+						that.path = Last path
+						For i=1 To cnt
+							this\px[i] = that\x
+							this\py[i] = that\y
+							that = Before that		
+						Next			
+						this\substate$ = "onroute"
+					Case "onroute"
+						If this\movesleft &gt; .3						
+							If this\x = this\ex And this\y = this\ey
+								this\substate$ = "nothing"
+								this\movesleft = this\movesleft - 1	
+							Else
+								If roadmap(this\px[loc+1],this\py[loc+1]) = True Then
+									this\movesleft = this\movesleft - .3
+									Else
+									this\movesleft = this\movesleft - 1
+								End If					
+								this\loc = this\loc + 1
+								this\x = this\px[this\loc]
+								this\y = this\py[this\loc]
+							End If
+						Else
+							this\movesleft = 0
+						End If
+					Case "nothing"
+						this\state$ = "idle"
+											
+				End Select			
+			Case "removetrees"
+				Select this\substate$
+					Case "findtree"
+					If setclosesttree(this\cityid) = False 
+						clearforrest = True
+						this\state$ = "movehome"
+						this\substate$ = "planpath"
+						Else
+						this\state$ = "removingtree"
+						sx = this\x
+						sy = this\y
+						this\sx = sx
+						this\sy = sy
+						this\ex = ex
+						this\ey = ey
+						findpath
+						cnt = 0
+						For that.path = Each path
+							cnt=cnt+1
+						Next
+						this\endloc = cnt
+						this\loc = 0
+						that.path = Last path
+						For i=1 To cnt
+							this\px[i] = that\x
+							this\py[i] = that\y
+							that = Before that		
+						Next			
+						;RuntimeError this\ex+","+this\ey+":"+this\px[this\endloc]+","+this\py[this\endloc]					
+						this\substate$ = "onroute"
+					End If
+				End Select
+			Case "removingtree"
+				Select this\substate$
+					Case "onroute"
+						If this\movesleft &gt; .3						
+							If this\x = this\ex And this\y = this\ey
+								this\substate$ = "removingtree"
+								this\waitturns = 4
+								this\movesleft = this\movesleft - 1	
+							Else
+								If roadmap(this\px[loc+1],this\py[loc+1]) = True Then
+									this\movesleft = this\movesleft - .3
+									Else
+									this\movesleft = this\movesleft - 1
+								End If					
+								this\loc = this\loc + 1
+								this\x = this\px[this\loc]
+								this\y = this\py[this\loc]
+							End If
+						Else
+							this\movesleft = 0
+						End If
+					Case "removingtree"
+						this\waitturns = this\waitturns - 1
+						this\movesleft = this\movesleft - 1
+						If this\waitturns = 0 Then
+						map(this\x,this\y) = 2
+						this\state$ = "removetrees"
+						this\substate="findtree"
+						End If
+				End Select
+		End Select
+	Next
+	Wend
+End Function
+
+Function setclosestirrigation(this.unit)
+	Delete Each unavail
+	For that.unit = Each unit
+		If that\state$ = "buildirrigation"
+			thot.unavail = New unavail
+			thot\x = that\ex
+			thot\y = that\ey		
+		End If
+	Next
+	lowest = 100000
+	goahead = False
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) = 2
+		If Not irrigationmap(x,y) = True
+		If onunavail(x,y) = False
+			d = distance(x,y,this\x,this\y)
+			If d&lt;lowest Then
+				lowest = d
+				ex = x
+				ey = y
+				For a.city = Each city
+					If this\cityid = a\id
+						If distance(ex,ey,a\x,a\y) &lt; 6 Then goahead = True
+					End If
+				Next
+			End If
+		End If
+		End If
+		End If
+	Next
+	Next
+	If goahead = False Then Return False Else Return True
+End Function
+
+Function onunavail(x,y)
+	For this.unavail = Each unavail
+		If this\x = x And this\y = y Then Return True
+	Next
+	Return False
+End Function
+
+Function setpathclosestroadimp(this.unit)
+	doit = False
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If impmap(x,y,0) = True Then doit = True
+	Next
+	Next
+	If doit = False Then Return False
+	lowest = 100000
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If impmap(x,y,0) = True
+			d = distance(x,y,this\x,this\y)			
+			If d&lt;lowest
+				ex = x
+				ey = y
+				sx = this\x
+				sy = this\y		
+				If findpath() = True Then lowest=d
+			End If
+		End If
+	Next
+	Next
+	impmap(ex,ey,0) = 0
+	Return True
+End Function
+
+Function sethomecitypath(cityid)
+	For this.city = Each city
+		If this\id = cityid Then
+			ex = this\x
+			ey = this\y
+			Return
+		End If
+	Next
+End Function
+
+Function setclosesttree(cityid)
+	Delete Each unavail
+	For this.unit = Each unit
+		If this\state$ = "removingtree"
+			a.unavail = New unavail
+			a\x = this\ex
+			a\y = this\ey
+		End If
+	Next
+	For that.city = Each city
+		If that\id = cityid
+			lowest = 100000
+			foundtree = False
+			For y=0 To mapheight
+			For x=0 To mapwidth
+				If map(x,y) = 3 Then
+					foundtree = True
+					notdo=False
+					For b.unavail = Each unavail
+						If b\x = x And b\y = y
+							notdo = True
+						End If
+					Next
+					If notdo = False
+						d = distance(x,y,that\x,that\y)
+						If d&lt;lowest
+							lowest=d							
+							ex = x
+							ey = y
+						End If
+					End If
+				End If
+			Next
+			Next
+		End If
+	Next
+	If lowest&gt;6 Then foundtree = False
+	If foundtree = False Then Return False Else Return True
+End Function
+
+Function unitsmovesleft()
+	For this.unit = Each unit
+		If this\movesleft &gt; 0 Then Return True
+	Next
+	Return False
+End Function
+
+Function drawunits()
+	Color 50,50,50
+	For this.unit = Each unit
+		Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+	Next
+End Function
+
+Function createunits()
+	Delete Each unit
+	For this.city = Each city
+		For i=1 To 3
+			that.unit = New unit
+			that\id = num
+			that\cityid = this\id
+			that\x = this\x
+			that\y = this\y
+			that\state$ = "idle"
+			that\substate$ = ""
+			that\movesleft# = 1
+			that\sx = that\x
+			that\sy = that\y
+			num=num+1
+		Next
+	Next
+End Function
+
+Function drawroads()
+	Color 100,50,0
+	For y=0 To mapheight
+	For x=0 To mapwidth
+	For y1=-1 To 1
+	For x1=-1 To 1
+		If x+x1=&gt;0 And y+y1=&gt;0 And x+x1=&lt;mapwidth And y+y1=&lt;mapheight		
+		If roadmap(x,y) = True And roadmap(x+x1,y+y1) = True
+			Line (x+x1)*tilewidth+8,(y+y1)*tileheight+8,x*tilewidth+8,y*tileheight+8
+			Line (x+x1)*tilewidth+9,(y+y1)*tileheight+8,x*tilewidth+9,y*tileheight+8
+		End If
+		End If
+	Next
+	Next
+	Next
+	Next
+End Function
+
+
+Function createroadmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		roadmap(x,y) = False
+	Next
+	Next
+	For this.city = Each city
+	For that.city = Each city
+		If this\x &lt;&gt; that\x And this\y &lt;&gt; that\y
+		sx = this\x
+		sy = this\y
+		ex = that\x
+		ey = that\y
+		findpath
+		For a.path = Each path
+			roadmap(a\x,a\y) = True
+		Next
+		End If
+	Next
+	Next
+End Function
+
+Function createcities(num)
+	Delete Each city
+	For i=1 To num
+		exitloop = False
+		domistake = False
+		While exitloop = False
+			If KeyDown(1) = True Then End
+			x = Rand(mapwidth)
+			y = Rand(mapheight)
+			If map(x,y) &gt; 1 And (Not map(x,y) = 4)
+				dist = 100000
+				For that.city = Each city
+					d2 = distance(x,y,that\x,that\y)
+					If d2 &lt; dist Then dist = d2
+				Next
+				If dist &gt; 3 Then
+					For that.city = Each city
+						If that\x = x And that\y = y Then domistake = True
+					Next
+					If domistake = False Then
+						exitloop = True
+						this.city = New city
+						this\x = x
+						this\y = y
+						this\id = i
+					End If
+				End If
+			End If
+		Wend
+	Next
+End Function
+
+Function drawcities()
+	Color 255,255,255
+	For this.city = Each city
+		Rect this\x*tilewidth,this\y*tileheight,tilewidth,tileheight,True
+	Next
+End Function
+
+Function findpath()
+	If sx = ex And sy = ey Then Return
+	Delete Each ol
+	Delete Each cl
+	Delete Each path
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf,exitloop
+	a.ol = New ol
+	a\x = sx
+	a\y = sy
+	While exitloop = False
+		If openlistisempty() = True Then exitloop = True : pathnotfound = True
+		lowestf = 100000
+		For b.ol = Each ol
+			If b\f &lt; lowestf
+				lowestf = b\f
+				tx = b\x
+				ty = b\y
+				tf = b\f
+				tg = b\g
+				th = b\h
+				tpx = b\px
+				tpy = b\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			exitloop = True
+			c.cl = New cl
+			c\x = tx
+			c\y = ty
+			c\f = tf
+			c\g = tg
+			c\h = th
+			c\px = tpx
+			c\py = tpy
+			findpathback
+		Else
+			removefromopenlist(tx,ty)
+			d.cl = New cl
+			d\x = tx
+			d\y = ty
+			d\f = tf
+			d\g = tg
+			d\h = th
+			d\px = tpx
+			d\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx=&gt;0 And newy=&gt;0 And newx=&lt;mapwidth And newy=&lt;mapheight
+				If isonopenlist(newx,newy) = False
+				If isonclosedlist(newx,newy) = False
+				If map(newx,newy) &gt; 1
+					e.ol = New ol
+					e\x = newx
+					e\y = newy
+					If roadmap(newx,newy) = True Then
+					e\g = tg 
+					Else
+					e\g = map(newx,newy) + 1
+					End If
+					e\h = distance(newx,newy,ex,ey)
+					e\f = e\g+e\h
+					e\px = tx
+					e\py = ty
+				End If
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Wend
+	If pathnotfound = True Then Return False
+	Return True
+End Function
+
+Function findpathback()
+	Local exitloop = False
+	Local x = ex
+	Local y = ey
+	that.path = New path
+	that\x = ex
+	that\y = ey
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function isonclosedlist(x,y)
+	For this.cl = Each cl
+		If this\x = x And this\y = y Then Return True
+	Next
+End Function
+
+Function isonopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y Then Return True
+	Next
+End Function
+
+Function drawpath()
+	Local cnt=0
+	For this.path = Each path
+		cnt=cnt+1
+	Next
+	If cnt = 0 Then Return
+	Color 255,255,255
+	this.path = First path
+	x1 = this\x
+	y1 = this\y
+	For that.path = Each path
+		Line that\x*tilewidth+8,that\y*tileheight+8,x1*tilewidth+8,y1*tileheight+8
+		x1 = that\x
+		y1 = that\y
+	Next
+End Function
+
+Function setcoordinates()
+	Local exitloop = False
+	While exitloop = False
+		sx = Rand(mapwidth)
+		sy = Rand(mapheight)
+		ex = Rand(mapwidth)
+		ey = Rand(mapheight)
+		If sx&lt;&gt;ex And sy&lt;&gt;ey
+		If map(sx,sy) &gt; 1 And map(ex,ey) &gt; 1
+			exitloop = True
+		End If
+		End If
+	Wend
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Select map(x,y)
+			Case 1 : Color 0,0,200
+			Case 2 : Color 0,100,0
+			Case 3 : Color 0,200,0
+			Case 4 : Color 100,100,100
+		End Select
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+	Next
+	Next
+;	Color 30,255,20
+;	Oval sx*tilewidth,sy*tileheight,tilewidth,tileheight,True
+;	Color 255,20,10
+;	Oval ex*tilewidth,ey*tileheight,tilewidth,tileheight,True
+End Function
+
+Function makemap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		map(x,y) = 0
+	Next
+	Next
+	For i=0 To 45
+		x = Rand(mapwidth)
+		y = Rand(mapheight)
+		For y1=-4 To 4
+		For x1=-4 To 4
+			If x+x1=&gt;0 And y+y1=&gt;0 And x+x1=&lt;mapwidth And y+y1=&lt;mapheight
+				map(x+x1,y+y1) = map(x+x1,y+y1) + 1
+			End If
+		Next
+		Next
+		For y1=-2 To 2
+		For x1=-2 To 2
+			If x+x1=&gt;0 And y+y1=&gt;0 And x+x1=&lt;mapwidth And y+y1=&lt;mapheight
+				map(x+x1,y+y1) = map(x+x1,y+y1) + 1
+			End If
+		Next
+		Next
+		For y1=-1 To 1
+		For x1=-1 To 1
+			If x+x1=&gt;0 And y+y1=&gt;0 And x+x1=&lt;mapwidth And y+y1=&lt;mapheight
+				map(x+x1,y+y1) = map(x+x1,y+y1) + 1
+			End If
+		Next
+		Next
+	Next
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) &lt; 3 Then map(x,y) = 1
+		If map(x,y) =&gt; 3 And map(x,y) &lt; 5 Then map(x,y) = 2
+		If map(x,y) =&gt; 5 And map(x,y) &lt; 8 Then map(x,y) = 3
+		If map(x,y) =&gt; 8 Then map(x,y) = 4
+	Next
+	Next
+End Function
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Grinding</td><td align="right"><font class="tiny">(Posted 2014-04-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I am in the proces of memorizing the new map generator and the 
+pathfinding code. I have retyped it a couple of times this night. The 
+base program is between 200 and 300 lines each version.<br><br>I was 
+also thinking the last days on how to do the transportation of units 
+between land masses. I have the new map generator and this can create 
+islands. I think I wil need to figure out how to move the units on the 
+entire world. I could floodfil each location and check if it has been 
+filled before. Then I could add a array with the island-land mass number
+ on it. Then I could see what kind of pathfinding I need to do.<br><br>I
+ was thinking of creating a path on the entire map including the water 
+and then find the start and end land cel in the path. I would need to 
+send a boat transport to the first water cel and then the ship and cargo
+ could be send to the next location.<br><br>I wil spend more time thinking about this.<br><br>Also.
+ I was thinking of letting cities create a new unit every 5 turns. 
+Coastal cities should then create a fleet that can be used for 
+transporting the worker units.<br><br>I stil need to think if I want to create settler units.<br><br>Here is the base program that I have at the moment. <br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+SetBuffer BackBuffer()
+SeedRnd MilliSecs()
+Global sx,sy,ex,ey
+Const mapwidth = 39
+Const mapheight = 29
+Const tilewidth = 16
+Const tileheight = 16
+Dim map(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+
+While KeyDown(1) = False
+	makemap
+	setpathcoordinates()
+	findpath
+	drawmap
+	drawpath
+	Flip
+	For i=0 To 100
+		If KeyDown(1) = True Then End
+		Delay 1
+	Next
+Wend
+End
+
+Function findpath()
+	Delete Each cl
+	Delete Each ol
+	Delete Each path
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,exitloop,lowestf
+	a.ol = New ol
+	a\x = sx
+	a\y = sy
+	While exitloop = False
+		If openlistisempty() = True Then exitloop = True
+		lowestf = 100000
+		For b.ol = Each ol
+			If b\f &lt; lowestf
+				lowestf = b\f
+				tx = b\x
+				ty = b\y
+				tf = b\f
+				tg = b\g
+				th = b\h
+				tpx = b\px
+				tpy = b\py
+			End If
+		Next
+		If tx = ex And ty = ey
+			exitloop = True
+			c.cl = New cl
+			c\x = tx
+			c\y = ty
+			c\f = tf
+			c\g = tg
+			c\h = th
+			c\px = tpx
+			c\py = tpy
+			findpathback
+		Else
+			removefromopenlist(tx,ty)
+			d.cl = New cl
+			d\x = tx
+			d\y = ty
+			d\f = tf
+			d\g = tg
+			d\h = th
+			d\px = tpx
+			d\py = tpy
+			For y=-1 To 1
+			For x=-1 To 1
+				newx = tx+x
+				newy = ty+y
+				If newx=&gt;0 And newy=&gt;0 And newx=&lt;mapwidth And newy=&lt;mapheight
+				If isonopenlist(newx,newy) = False
+				If isonclosedlist(newx,newy) = False
+				If map(newx,newy) &gt; 1
+					e.ol = New ol
+					e\x = newx
+					e\y = newy
+					e\g = map(newx,newy) + 1
+					e\h = distance(newx,newy,ex,ey)
+					e\f = e\g+e\h
+					e\px = tx
+					e\py = ty
+				End If
+				End If
+				End If
+				End If
+			Next
+			Next
+		End If
+	Wend
+End Function
+
+Function drawpath()
+	that.path = First path
+	x1 = that\x
+	y1 = that\y
+	For this.path = Each path
+		Color 255,255,255
+		Line this\x*tilewidth+8,this\y*tileheight+8,x1*tilewidth+8,y1*tileheight+8
+		x1 = this\x
+		y1 = this\y
+;		Oval this\x*tilewidth+8,this\y*tileheight+8,8,8,True
+;		Color 255,255,255
+;		Oval this\x*tilewidth+10,this\y*tileheight+10,4,4,True
+	Next
+End Function
+
+Function findpathback()
+	Local exitloop = False
+	Local x = ex
+	Local y = ey
+	a.path = New path
+	a\x = ex
+	a\y = ey
+	While exitloop = False
+		For this.cl = Each cl
+			If this\x = x And this\y = y 
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+End Function
+
+Function openlistisempty()
+	For this.ol = Each ol
+		Return False
+	Next
+	Return True
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function isonopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y Then Return True
+	Next
+End Function
+
+Function isonclosedlist(x,y)
+	For this.cl = Each cl
+		If this\x = x And this\y = y Then Return True
+	Next
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Abs(x2-x1)+Abs(y2-y1)
+End Function
+
+Function setpathcoordinates()
+	Local exitloop = False
+	While exitloop = False
+		sx = Rand(mapwidth)
+		sy = Rand(mapheight)
+		ex = Rand(mapwidth)
+		ey = Rand(mapheight)
+		If sx&lt;&gt;ex And sy&lt;&gt;ey
+		If map(sx,sy) = 2 And map(ex,ey) = 2
+		findpath()
+		For this.path = Each path
+			exitloop = True
+		Next
+		End If
+		End If
+	Wend
+End Function
+
+Function drawmap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		Select map(x,y)
+			Case 1 : Color 0,0,200
+			Case 2 : Color 0,100,0
+			Case 3 : Color 0,200,0
+			Case 4 : Color 100,100,100
+		End Select
+		Rect x*tilewidth,y*tileheight,tilewidth,tileheight,True
+		Color 0,0,0
+		Rect x*tilewidth,y*tileheight,tilewidth+1,tileheight+1,False
+	Next
+	Next
+	Color 0,0,0
+	Oval sx*tilewidth+4,sy*tileheight+4,10,10,True
+	Color 0,255,0
+	Oval sx*tilewidth+6,sy*tileheight+6,6,6,True
+	Color 255,255,255
+	Text sx*tilewidth+14,sy*tileheight,"Start"	
+	Color 0,0,0
+	Oval ex*tilewidth+4,ey*tileheight+4,10,10,True
+	Color 255,0,0
+	Oval ex*tilewidth+6,ey*tileheight+6,6,6,True
+	Color 255,255,255
+	Text ex*tilewidth+14,ey*tileheight,"End"		
+	Color 0,0,0
+	Rect 0,0,400,16,True
+	Color 255,255,255
+	Text 0,0,"Water"
+	Text 100,0,"Gras"
+	Text 200,0,"Trees"
+	Text 300,0,"Mountains"
+	Color 0,0,200
+	Rect 80,0,10,10,True
+	Color 0,100,0
+	Rect 180,0,10,10,True
+	Color 0,200,0
+	Rect 280,0,10,10,True
+	Color 100,100,100
+	Rect 380,0,10,10,True
+	
+End Function
+
+Function makemap()
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		map(x,y) = 0
+	Next
+	Next
+	For i=0 To 45
+		x = Rand(mapwidth)
+		y = Rand(mapheight)
+		For y1=-4 To 4
+		For x1=-4 To 4
+			x2 = x+x1
+			y2 = y+y1
+			If x2=&gt;0 And y2=&gt;0 And x2=&lt;mapwidth And y2=&lt;mapheight
+				map(x2,y2) = map(x2,y2) + 1
+			End If
+		Next
+		Next
+		For y1=-2 To 2
+		For x1=-2 To 2
+			x2 = x+x1
+			y2 = y+y1
+			If x2=&gt;0 And y2=&gt;0 And x2=&lt;mapwidth And y2=&lt;mapheight
+				map(x2,y2) = map(x2,y2) + 1
+			End If
+		Next
+		Next
+		For y1=-2 To 2
+		For x1=-2 To 2
+			x2 = x+x1
+			y2 = y+y1
+			If x2=&gt;0 And y2=&gt;0 And x2=&lt;mapwidth And y2=&lt;mapheight
+				map(x2,y2) = map(x2,y2) + 1
+			End If
+		Next
+		Next		
+	Next
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) &lt; 3 Then map(x,y) = 1
+		If map(x,y) =&gt;3 And map(x,y) &lt; 5 Then map(x,y) = 2
+		If map(x,y) =&gt;5 And map(x,y) &lt;9 Then map(x,y) = 3
+		If map(x,y) =&gt; 9 Then map(x,y) = 4
+	Next
+	Next
+End Function
+
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Planning stage</td><td align="right"><font class="tiny">(Posted 2014-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I spend a couple of hours laying on my bed thinking of what and how to program new features for the civ game.<br>I think I wil add naval units that can transport the workers to different islands that have no improvements.<br><br>Currently
+ I check the entire map if improvments can be added. If they are on a 
+island then I wil need to move a worker or more workers to the shore and
+ they need to get into a ship that wil take them to the other land 
+masses.<br><br>I was also thinking of adding settler units that create 
+cities. I have also been thinking of adding more then one computer 
+player.<br><br>I am already at a 1000 lines of code so adding more 
+things can get the code to become really big. My last civ clone thing 
+was almost 15000 lines long.<br><br>I wil continue to think about what to do next. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I Optimized the code</td><td align="right"><font class="tiny">(Posted 2014-03-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I created buffer images that I draw every frame instead of drawing the 
+map tile by tile. Now the example is a whole lot faster and I can barely
+ follow what is happening.<br><br>I think the a* that I made is fast 
+enough for rts style games. I have a random amount of units every run of
+ 200 turns and there can be up to 100 workers on the map working. It 
+runs pretty fast with the a* in action. I was not sure of this since it 
+is unoptimized and checks each list every step. The example looks a 
+little bit like a rts game so I think creating a rts for me will now be 
+easier. I never done one before.<br><br>I had about 14 views on youtube 
+on the current example. Not much but most of my videos have little 
+views. My most viewed video that has been on youtube for a year or so 
+and has had about 60 views.<br>I will need something more impressive and more populair to get more views I guess.<br><br>I
+ wil see what I will do next with this example. I thought that 
+improvements once city improvements are done could be selected closer to
+ a city. But there are more then one cities so this wil not be that easy
+ to program I think. I wil see.<br><br>Here is the program that I made so far. It is b3d of b+ code. It uses no external media and works right away.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,32,2
+
+Global mountainim = CreateImage(16,16)
+Global forrestim = CreateImage(16,16)
+
+SetBuffer BackBuffer()
+Global sx,sy,ex,ey
+Global mapwidth = 39
+Global mapheight = 29
+Global cellwidth = 16
+Global cellheight = 16
+
+Dim pathmap(mapwidth,mapheight)
+Dim map(mapwidth,mapheight)
+Type ol
+	Field x,y,f,g,h,px,py
+End Type
+Type cl
+	Field x,y,f,g,h,px,py
+End Type
+Type path
+	Field x,y
+End Type
+
+
+Dim improvments(mapwidth,mapheight,4)
+Dim forrestmap(mapwidth,mapheight)
+Dim mountainmap(mapwidth,mapheight)
+Dim irrigationmap(mapwidth,mapheight)
+Dim roadmap(mapwidth,mapheight)
+
+Global roadmapim = CreateImage(mapwidth*16,mapheight*16)
+Global irrigationmapim = CreateImage(mapwidth*16,mapheight*16)
+Global mountainmapim = CreateImage(mapwidth*16,mapheight*16)
+Global forrestmapim = CreateImage(mapwidth*16,mapheight*16)
+Global mapim = CreateImage(mapwidth*16,mapheight*16)
+Global citymapim = CreateImage(mapwidth*16,mapheight*16)
+
+makemountainimage()	
+makeforrestimage()
+
+Global turn = 0
+
+Type city
+	Field id
+	Field x,y
+	Field name$
+End Type
+
+Type worker
+	Field id
+	Field homeid
+	Field waitturns
+	Field openfororders
+	Field x,y
+	Field sx,sy,ex,ey
+	Field stage
+	Field order ; 1 lay road; 2 = lay irri, 3 = roadandirri
+	Field plantile
+	Field px[999]
+	Field py[999]
+	Field pl ; path loc
+	Field plen ; path len
+End Type
+
+SeedRnd MilliSecs()
+;readmap()
+.begin
+turn =0
+makemap
+newcity(1,"Berlin")
+newcity(2,"Amsterdam")
+newcity(3,"London")
+newcity(4,"Madrid")
+
+For i=0 To Rand(1,100)
+	newworker(i)
+Next
+
+createmountains()
+createforrest()
+makeimprovments0() ; cities between roads
+makeimprovments1() ; irrigation
+
+
+;drawpath
+updateroadmapim
+updatecitiesmapim
+updatemapim
+updateforrestmapim
+updatemountainmapim
+updateirrigationmapim
+While KeyDown(1) = False
+	Cls
+	drawmapim()
+	drawforrestmapim()
+	drawirrigationmapim()
+	drawmountainmapim()
+	drawroadmapim()
+	drawcitiesmapim()
+	drawworkers()
+	doworkers()
+	turn = turn + 1	
+	Text 0,0,"Turn :" + turn
+	If turn = 200
+		For y=0 To mapheight
+		For x=0 To mapwidth
+			map(x,y) = 0
+			roadmap(x,y) = 0
+			irrigationmap(x,y) = 0
+			mountainmap(x,y) = 0
+			forrestmap(x,y) = 0
+			For ii=0 To 4
+				improvments(x,y,ii) = 0
+			Next
+		Next
+		Next
+		Delete Each worker
+		Delete Each city
+		SetBuffer ImageBuffer(roadmapim)
+		Cls
+		SetBuffer ImageBuffer(mountainmapim)
+		Cls
+		SetBuffer ImageBuffer(forrestmapim)
+		Cls
+		SetBuffer ImageBuffer(irrigationmapim)
+		Cls
+		SetBuffer ImageBuffer(mapim)
+		Cls
+		SetBuffer ImageBuffer(citymapim)
+		Cls
+		SetBuffer BackBuffer()
+		Goto begin
+	End If
+	Flip
+Wend
+
+Function doworkers()
+	For this.worker = Each worker
+		If this\openfororders = True Then
+			this\stage = setworkerstage()
+			DebugLog this\stage+","+MilliSecs()
+		End If
+		Select this\order
+			Case 0 ; find place to work
+				Select this\stage
+					Case 0
+						sx = this\x
+						sy = this\y
+						this\sx = sx
+						this\sy = sy
+						setclosesimprovment(this\stage)	
+						this\ex = ex
+						this\ey = ey
+						findpath
+						d=0
+						For dist.path = Each path
+							d=d+1							
+						Next						
+						this\plen = d
+						this\pl = 0
+						For dp.path = Each path
+							this\px[d] = dp\x
+							this\py[d] = dp\y
+							d=d-1
+						Next
+						this\order = 1
+						this\openfororders = False
+					Case 1
+						sx = this\x
+						sy = this\y
+						this\sx = sx
+						this\sy = sy
+						setclosesimprovment(this\stage)	
+						this\ex = ex
+						this\ey = ey
+						findpath
+						d=0
+						For dist.path = Each path
+							d=d+1							
+						Next
+						d=d-1
+						this\plen = d
+						this\pl = 0
+						For dp.path = Each path
+							this\px[d] = dp\x
+							this\py[d] = dp\y
+							d=d-1
+						Next
+						this\order = 1
+						this\openfororders = False
+					Case 2
+						sx = this\x
+						sy = this\y
+						this\sx = sx
+						this\sy = sy
+						setclosesimprovment(this\stage)	
+						this\ex = ex
+						this\ey = ey
+						findpath
+						d=0
+						For dist.path = Each path
+							d=d+1							
+						Next
+						d=d-1
+						this\plen = d
+						this\pl = 0
+						For dp.path = Each path
+							this\px[d] = dp\x
+							this\py[d] = dp\y
+							d=d-1
+						Next
+						this\order = 1
+						this\openfororders = False
+	
+					Case 3
+						this\openfororders = False
+				End Select				
+			Case 1 ; travel
+				If this\pl &lt; this\plen Then 
+					this\pl = this\pl + 1
+					this\x = this\px[this\pl]
+					this\y = this\py[this\pl]
+
+
+					Else
+					this\order = 2
+					this\waitturns = 3
+				End If
+			Case 2 ; improve tile
+				;DebugLog roadmap(this\ex,this\ey) + ","+irrigationmap(this\ex,this\ey)
+				If this\waitturns &gt; 0 Then this\waitturns = this\waitturns - 1
+				If this\waitturns = 0 Then
+					If roadmap(this\ex,this\ey) = 0 Then
+						roadmap(this\ex,this\ey) = 1							
+						updateroadmapim()
+						this\order = 0
+						this\openfororders = True
+					End If
+					If this\order = 2
+						If irrigationmap(this\ex,this\ey) = 0 
+							irrigationmap(this\ex,this\ey) = 1
+							updateirrigationmapim()
+							this\order = 0
+							this\openfororders = True
+						End If
+					End If
+					this\order = 0
+					this\openfororders = True
+				End If
+			End Select
+	Next
+End Function
+
+Function setclosesimprovment(stage)
+	Select stage
+		Case 0 ; find closest road impr		
+		closest = 10000
+		For y=0 To mapheight
+		For x=0 To mapwidth
+			If Not roadmap(x,y) = improvments(x,y,0)
+			If workinghere(x,y) = False
+				d = distance(sx,sy,x,y)
+				If d &lt; closest Then 
+					closest = d
+					ex = x
+					ey = y
+				End If
+			End If
+			End If
+		Next
+		Next
+		Case 1 ; find closest irri impr
+		closest = 10000
+		For y=0 To mapheight
+		For x=0 To mapwidth
+			If Not irrigationmap(x,y) = improvments(x,y,1)
+			If workinghere(x,y) = False
+				d = distance(sx,sy,x,y)
+				If d &lt; closest Then 
+					closest = d
+					ex = x
+					ey = y
+				End If
+			End If
+			End If
+		Next
+		Next
+		Case 2 ; find closest all improvment
+		closest = 10000
+		For y=0 To mapheight
+		For x=0 To mapwidth
+			If map(x,y) = 0
+			If roadmap(x,y) = 0 Or irrigationmap(x,y) = 0
+			If workinghere(x,y) = False
+				d = distance(sx,sy,x,y)
+				If d &lt; closest Then 
+					closest = d
+					ex = x
+					ey = y
+				End If
+			End If
+			End If
+			End If
+		Next
+		Next				
+	End Select
+End Function
+
+Function setworkerstage()
+	;3 stages
+	; 0 roads between cities
+	; 1 irrigation around cities
+	; 2 each tile improvments
+	; 3 do nothing
+	; lay roads between cities
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If improvments(x,y,0) = 1
+		If Not improvments(x,y,0) = roadmap(x,y)
+			If workinghere(x,y) = False
+;				DebugLog "phase 1"
+				Return 0
+				
+			End If
+		End If
+		End If
+	Next
+	Next
+	; make irrigation around cities
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If improvments(x,y,1) = 1
+		If Not improvments(x,y,1) = irrigationmap(x,y)
+			If workinghere(x,y) = False
+				Return 1
+			End If
+		End If
+		End If
+	Next
+	Next
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) = 0
+		If irrigationmap(x,y) = 0 
+			Return 2
+		End If
+		If roadmap(x,y) = 0 
+			Return 2
+		End If
+		End If		
+	Next
+	Next
+	Return 3
+End Function
+
+Function workinghere(x,y)
+	For this.worker = Each worker
+		If this\ex = x And this\ey = y Then Return True
+		If this\x = x And this\y = y Then Return True
+	Next
+End Function
+
+Function findpath()
+	If sx = ex And sy = ey Then Return
+	; Remove old pathfinding data
+	Delete Each ol
+	Delete Each cl
+	Delete Each path
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		pathmap(x,y) = map(x,y)
+	Next
+	Next
+	; Move the start position onto the open list
+	d.ol = New ol
+	d\x = sx
+	d\y = sy
+	Local exitloop = False
+	Local tx,ty,tf,tg,th,tpx,tpy,newx,newy,lowestf
+	While exitloop = False
+		; If the open list is empty then exit loop (path not found)
+		If openlistisempty() = True Then exitloop = True
+		; Get the position from the open list with the lowest f value
+		lowestf = 100000
+		For e.ol = Each ol
+			If e\f &lt; lowestf Then
+				lowestf = e\f
+				tx = e\x
+				ty = e\y
+				tf = e\f
+				tg = e\g
+				th = e\h
+				tpx = e\px
+				tpy = e\py
+			End If
+		Next
+		; If the current position is the end position then path is found
+		If tx = ex And ty = ey Then
+			exitloop = True
+			f.cl = New cl
+			f\x = tx
+			f\y = ty
+			f\f = tf
+			f\g = tf
+			f\h = th
+			f\px = tpx
+			f\py = tpy
+			findpathback()
+			Else
+			; Move the current position to the closed list
+			g.cl = New cl
+			g\x = tx
+			g\y = ty
+			g\f = tf
+			g\g = tg
+			g\h = th
+			g\px = tpx
+			g\py = tpy
+			; Remove the current position from the open list
+			removefromopenlist(tx,ty)
+			; Get the eight positions from around the current position
+			; and move them to the open list
+			;
+			For y1=-1 To 1
+			For x1=-1 To 1
+			newx = tx + x1
+			newy = ty + y1
+			If newx &gt; -1 And newy &gt; -1 And newx &lt; mapwidth+1 And newy &lt; mapheight+1
+			If isonopenlist(newx,newy) = False Then
+			If isonclosedlist(newx,newy) = False Then
+			If pathmap(newx,newy) = 0 Then
+				h.ol = New ol
+				h\x = newx
+				h\y = newy
+				h\g = tg + tileval(newx,newy)
+				h\h = distance(newx,newy,ex,ey)
+				h\f = h\g+h\h
+				h\px = tx
+				h\py = ty
+			End If
+			End If
+			End If
+			End If
+			Next
+			Next
+			;
+			
+			
+		End If
+	Wend
+End Function
+
+Function tileval(x,y)
+	a = 3
+	If mountainmap(x,y) = 1 Then a = 7
+	If forrestmap(x,y) = 1 Then a = 5
+	If roadmap(x,y) = 1 Then a = 1
+	Return a
+End Function
+
+Function newworker(workerid)
+	this.worker = New worker
+	Local exitloop = False
+	While exitloop = False
+		x = Rand(mapwidth)
+		y = Rand(mapheight)
+		If map(x,y) = 0
+			this\x = x
+			this\y = y
+			exitloop = True
+		EndIf
+		this\id = workerid
+		this\openfororders = True
+	Wend
+End Function
+
+Function findpathback()
+	Local exitloop = False
+	x = ex
+	y = ey
+	that.path = New path
+	that\x = ex
+	that\y = ey
+	While exitloop = False
+		For this.cl = Each cl
+			If x = this\x And y = this\y Then
+				x = this\px
+				y = this\py
+				that.path = New path
+				that\x = x
+				that\y = y
+			End If
+		Next
+		If x = sx And y = sy Then exitloop = True
+	Wend
+
+End Function
+
+Function drawpath()
+	Color 255,255,0
+	For this.path = Each path
+		Oval this\x*cellwidth+4,this\y*cellheight+4,8,8,True
+	Next
+End Function
+
+Function openlistisempty()
+	Local count = 0
+	For this.ol = Each ol
+		count = count + 1
+		If count &gt; 0 Then Return False
+	Next
+	If count = 0 Then Return True
+End Function
+
+Function isonclosedlist(x,y)
+	For this.cl = Each cl
+		If this\x = x And this\y = y Then Return True
+	Next
+	Return False
+End Function
+
+Function isonopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y Then Return True
+	Next
+	Return False
+End Function
+
+Function removefromopenlist(x,y)
+	For this.ol = Each ol
+		If this\x = x And this\y = y Then
+			Delete this
+			Return
+		End If
+	Next
+End Function
+
+Function setcoordinates()
+	Local exitloop = False
+	While exitloop = False
+		sx = Rand(mapwidth)
+		sy = Rand(mapheight)
+		ex = Rand(mapwidth)
+		ey = Rand(mapheight)
+		If map(sx,sy) = 0 And map(ex,ey) = 0 Then
+			If sx&lt;&gt;ex And sy&lt;&gt;ey Then
+				exitloop = True
+			End If
+		End If
+	Wend
+End Function
+
+Function updatemapim()
+	SetBuffer ImageBuffer(mapim)
+	Color 0,0,255
+	For y = 0 To mapheight
+	For x = 0 To mapwidth
+		If map(x,y) = 1 Then
+			Color 0,0,255
+			Rect x*cellwidth,y*cellheight,cellwidth,cellheight,True
+		End If
+		If map(x,y) = 0 Then
+			Color 0,180,0
+			Rect x*cellwidth,y*cellheight,cellwidth,cellheight,True			
+		End If
+		Color 0,0,0
+		Rect x*cellwidth,y*cellheight,cellwidth+1,cellheight+1,False
+
+	Next
+	Next
+	SetBuffer BackBuffer()
+End Function
+
+Function drawmapim()
+	DrawImage mapim,0,0
+End Function
+
+Function distance(x1,y1,x2,y2)
+	Return Sqr( ( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ) )
+End Function
+
+Function makemap(steps = 100)
+	Local aproved = False
+	While aproved = False
+		For y = 0 To mapheight
+		For x = 0 To mapwidth
+			map(x,y) = 0
+		Next
+		Next
+		x = mapwidth / 2
+		y = mapheight / 2
+		steps = Rand(500) + 500
+		For i=0 To steps
+			nstepf = False
+			While nstepf = False
+				dir = Rand(8)
+				Select dir
+					Case 1 : nx = x - 1 : ny = y - 1
+					Case 2 : ny = y - 1
+					Case 3 : nx = x + 1 : ny = y - 1
+ 					Case 4 : nx = x - 1
+					Case 5 : nx = x + 1
+					Case 6 : nx = x - 1 : ny = y + 1
+					Case 7 : ny = y + 1
+					Case 8 : nx = x + 1 : ny = y + 1
+				End Select
+					If nx &lt; mapwidth And nx &gt; 0 And ny &lt; mapheight And ny &gt; 0 Then
+						x = nx
+						y = ny
+						nstepf = True
+					End If
+			Wend
+			drawbrush(x,y) 
+		Next
+		aproved = True
+		For y=0 To mapheight
+			If map(0,y) = 1 Then aproved = False
+		Next
+		For y=0 To mapheight
+			If map(mapwidth,y) = 1 Then aproved = False
+		Next
+		For x=0 To mapwidth
+			If map(x,0) = 1 Then aproved = False
+		Next
+		For x=0 To mapwidth
+			If map(x,mapheight) = 1 Then aproved = False
+		Next
+		For y=0 To mapheight
+			For x=mapwidth-7 To mapwidth
+				If map(x,y) = 1 Then aproved = False
+			Next
+		Next
+		hasone = False
+		For y=0 To mapheight
+			If map(mapwidth-8,y) = 1 Then hasone = True
+		Next
+		If hasone = False Then aproved = False
+		hasone = False
+		For y=0 To mapheight
+			If map(3,y) = 1 Then hasone = True
+		Next
+		If hasone = False Then aproved = False
+		hasone = False
+		For x=0 To mapwidth
+			If map(x,3) = 1 Then hasone = True
+		Next
+		If hasone = False Then aproved = False
+		hasone = False
+		For x=0 To mapwidth
+			If map(x,mapheight-3) = 1 Then hasone = True
+		Next
+		If hasone = False Then aproved = False
+	Wend
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If map(x,y) = 1 Then map(x,y) = 0 Else map(x,y) = 1
+	Next
+	Next
+End Function 
+
+Function drawbrush(x,y)
+	x1 = x - 1
+	y1 = y - 1
+	If x1 &gt; 0 And x1 &lt; mapwidth And y1 &gt; 0 And y1 &lt; mapheight Then
+		map(x1,y1) = 1
+	End If
+	x1 = x
+	y1 = y - 1
+	If x1 &gt; 0 And x1 &lt; mapwidth And y1 &gt; 0 And y1 &lt; mapheight Then
+		map(x1,y1) = 1
+	End If
+	x1 = x + 1
+	y1 = y - 1
+	If x1 &gt; 0 And x1 &lt; mapwidth And y1 &gt; 0 And y1 &lt; mapheight Then
+		map(x1,y1) = 1
+	End If
+	x1 = x - 1
+	y1 = y 
+	If x1 &gt; 0 And x1 &lt; mapwidth And y1 &gt; 0 And y1 &lt; mapheight Then
+		map(x1,y1) = 1
+	End If
+	x1 = x + 1
+	y1 = y
+	If x1 &gt; 0 And x1 &lt; mapwidth And y1 &gt; 0 And y1 &lt; mapheight Then
+		map(x1,y1) = 1
+	End If
+	x1 = x - 1
+	y1 = y + 1
+	If x1 &gt; 0 And x1 &lt; mapwidth And y1 &gt; 0 And y1 &lt; mapheight Then
+		map(x1,y1) = 1
+	End If
+	x1 = x 
+	y1 = y + 1
+	If x1 &gt; 0 And x1 &lt; mapwidth And y1 &gt; 0 And y1 &lt; mapheight Then
+		map(x1,y1) = 1
+	End If
+	x1 = x + 1
+	y1 = y + 1
+	If x1 &gt; 0 And x1 &lt; mapwidth And y1 &gt; 0 And y1 &lt; mapheight Then
+		map(x1,y1) = 1
+	End If
+End Function
+
+Function newcity(cityid,name$)
+	this.city = New city
+	this\id = cityid
+	this\name$ = name$
+	Local exitloop = False
+	While exitloop = False
+		x = Rand(mapwidth)
+		y = Rand(mapheight)
+		If map(x,y) = 0 And dfocisgood(x,y) = True
+			this\x = x
+			this\y = y
+			exitloop = True
+		End If
+	Wend
+End Function
+
+Function dfocisgood(x,y)
+	Local aproved = True
+	For this.city = Each city
+		If distance(x,y,this\x,this\y) &lt; 8 Then aproved = False
+	Next
+	Return aproved
+End Function
+
+Function drawworkers()
+	Color 255,255,255
+	For this.worker = Each worker
+		Rect this\x*cellwidth,this\y*cellheight,cellwidth,cellheight,True
+	Next
+End Function
+
+Function updatecitiesmapim()
+	SetBuffer ImageBuffer(citymapim)
+	For this.city = Each city
+		Color 100,100,100
+		Rect this\x*cellwidth,this\y*cellheight,16,16,True
+		Color 255,255,255
+		Text this\x*cellwidth,this\y*cellheight,this\name$		
+	Next	
+	SetBuffer BackBuffer()
+End Function
+
+Function drawcitiesmapim()
+	DrawImage citymapim,0,0
+End Function
+
+Function updateroadmapim()
+	SetBuffer ImageBuffer(roadmapim)
+	Color 200,100,40
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If roadmap(x,y) = 1
+			For y1=-1 To 1
+			For x1=-1 To 1
+				If x+x1 =&gt;0 And x+x1=&lt;mapwidth And y+y1 =&gt;0 And y+y1 =&lt; mapheight
+					If roadmap(x+x1,y+y1) = 1
+						Line (x+x1)*cellwidth+8,(y+y1)*cellheight+8,x*cellwidth+8,y*cellheight+8
+						Line (x+x1)*cellwidth+9,(y+y1)*cellheight+8,x*cellwidth+9,y*cellheight+8
+					End If
+				End If
+			Next
+			Next
+		End If
+	Next
+	Next
+	SetBuffer BackBuffer()
+End Function
+
+Function drawroadmapim()
+	DrawImage roadmapim,0,0
+End Function
+
+Function updateirrigationmapim()
+	SetBuffer ImageBuffer(irrigationmapim)
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If irrigationmap(x,y) = 1
+			Color 40,255,10
+			Rect x*cellwidth+2,y*cellheight+2,16-4,16-4,True
+		End If
+	Next
+	Next	
+	SetBuffer BackBuffer()
+End Function
+
+Function drawirrigationmapim()
+	DrawImage irrigationmapim,0,0
+End Function
+
+Function makeimprovments0()
+	For this.city = Each city
+	For that.city = Each city
+		If Not this\id = that\id
+			sx = this\x
+			sy = this\y
+			ex = that\x
+			ey = that\y
+			findpath()
+			For other.path = Each path
+				roadmap(other\x,other\y) = 1
+			Next
+		End If
+	Next
+	Next
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		improvments(x,y,0) = roadmap(x,y)
+		roadmap(x,y) = 0	
+	Next	
+	Next
+	
+End Function
+
+Function makeimprovments1()
+	For this.city = Each city
+		For y = -2 To 2
+		For x = -2 To 2
+		If this\x+x =&gt;0 And this\x+x =&lt;mapwidth And this\y+y =&gt; 0 And this\y+y =&lt; mapheight	
+			If map(this\x+x,this\y+y) = 0
+			If mountainmap(this\x+x,this\y+y) = 0
+				improvments(this\x+x,this\y+y,1) = 1
+			End If
+			End If
+		End If
+		Next
+		Next
+	Next
+;	For y=0 To mapheight
+;	For x=0 To mapwidth
+;		If improvments(x,y,1) = 1 Then irrigationmap(x,y) = 1
+;	Next
+;	Next
+End Function
+
+Function updatemountainmapim()
+	SetBuffer ImageBuffer(mountainmapim)
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If mountainmap(x,y) = 1 Then
+			DrawImage mountainim,x*cellwidth,y*cellheight			
+		End If
+	Next
+	Next	
+	SetBuffer BackBuffer()
+End Function
+
+Function drawmountainmapim()
+	DrawImage mountainmapim,0,0
+End Function
+
+Function updateforrestmapim()
+	SetBuffer ImageBuffer(forrestmapim)
+	For y=0 To mapheight
+	For x=0 To mapwidth
+		If forrestmap(x,y) = 1
+			DrawImage forrestim,x*cellwidth,y*cellheight
+		End If
+	Next
+	Next
+	SetBuffer BackBuffer()
+End Function
+
+Function drawforrestmapim()
+	DrawImage forrestmapim,0,0
+End Function
+
+Function makemountainimage()	
+	SetBuffer ImageBuffer(mountainim)
+	Color 100,100,100
+	Restore mountain
+	For y=0 To 15
+	For x=0 To 15
+		Read a
+		If a = 1 Then Plot x,y
+	Next
+	Next
+	SetBuffer BackBuffer()
+End Function
+
+Function makeforrestimage()
+	SetBuffer ImageBuffer(forrestim)
+	Color 10,100,20
+	Restore forrest
+	For y=0 To 15
+	For x=0 To 15
+		Read a
+		If a = 1 Then Plot x,y
+	Next
+	Next
+	SetBuffer BackBuffer()
+End Function
+
+
+Function createforrest()
+	For i=0 To Rand(40)+20
+		exitloop = False
+		While exitloop = False
+			x = Rand(mapwidth)
+			y = Rand(mapheight)
+			If map(x,y) = 0
+				do = True
+				For this.city = Each city
+					If this\x = x And this\y = y Then do = False
+				Next
+				If do = True Then exitloop = True
+			End If
+		Wend
+		forrestmap(x,y) = 1
+	Next	
+End Function
+
+
+Function createmountains()
+	For i=0 To Rand(10)+10
+		exitloop = False
+		While exitloop = False
+			x = Rand(mapwidth)
+			y = Rand(mapheight)
+			If map(x,y) = 0
+				do = True
+				For this.city = Each city
+					If this\x = x And this\y = y Then do=False
+				Next		
+				If do = True Then exitloop = True
+			End If
+		Wend
+		mountainmap(x,y) = 1
+	Next
+End Function
+
+.mountain
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0
+Data 0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0
+Data 0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0
+Data 0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0
+Data 0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0
+Data 0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+.forrest
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,1,1,1,0,0,1,0,0,0,0,1,0,0
+Data 0,0,0,0,0,1,0,0,1,1,0,0,1,1,0,0
+Data 0,0,0,0,1,1,1,0,1,1,1,1,1,1,0,0
+Data 0,0,0,0,1,1,1,1,0,1,1,1,1,1,0,0
+Data 0,0,0,1,1,1,1,1,0,1,1,1,1,0,0,0
+Data 0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0
+Data 0,0,1,1,0,0,0,1,1,0,0,1,1,1,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Data 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Second attempt finished</td><td align="right"><font class="tiny">(Posted 2014-03-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here is a link to a video of my second attempt that I just finished.<br><br><a href="http://www.youtube.com/watch?v=6LNGoTIixJs" target="_blank">http://www.youtube.com/watch?v=6LNGoTIixJs</a><br><br>I
+ got a random number of workers working on the map. They build roads 
+between cities and then improvments around cities and then improve every
+ tile. For the video I recorded 200 turns before a new map is started.<br><br>I
+ am learning a lot with this automation. This can also be converted to 
+be used by the computer players. They will be able to build their 
+country this way.<br><br>I have not added mine improvments yet and there
+ are no railroads or rivers either. The mountains and forrests are 
+randomly placed on each map. I Need to modify the code to draw them in 
+groups.<br><br>My laptop on which I recorded the video is 2 or 3 times 
+raster then the desktop on which I programmed it. I was surprises at the
+ speed it ran. Thing is though that the dog of my parents chased the 
+cat. and jumped on the keyboard. Two keys broke of. The insert and home 
+key. I plugged in a external keyboard and now use that. I am working 
+more on the desktop lately but it is a i3 with non dedicated video card.
+ The laptop is a gaming laptop.<br><br>I wil have to think About what to
+ do next with this example. There is a lot of difference with civ. My 
+code is simple. Maybe i wil start over and make it with different ai 
+players. I wil see. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Different aproach</td><td align="right"><font class="tiny">(Posted 2014-03-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I remembered that in civ that you could be blocked when building roads 
+between cities. Maybe it is better to plan a new path between cities 
+each time a tile has been turned into a road tile.<br><br>I deleted al 
+the code from the last attempt and now wil code a simple editor for 
+getting better paths. I wil test the a* code and the worker code before 
+making the code for improving the tiles around the cities.<br><br>It is 
+not as easy as I first thought. I keep thinking of things that Need to 
+be done. No wonder that civ clones are almost never made.<br><br>The code on the last try was at more than 700 lines. I have no idea how many lines I wil get when I am done with it. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First try</td><td align="right"><font class="tiny">(Posted 2014-03-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I created the first version of the program. It is still buggy and I need to find those bugs.<br><br>The
+ map generator from me that is on the code archives is in it and creates
+ a island. On it are currently 3 cities and 3 workers. I made it so that
+ there are build phases. Currently the first fase is implemented. 
+Building roads between cities. This sort of works but I am not happy on 
+it yet.<br><br>I made a short video of it that is on my google plus account. See my account link.<br><br>edit :<br><br>here is the direct link to the video.<br><br><a href="http://www.youtube.com/watch?v=eW-y8H85thk" target="_blank">http://www.youtube.com/watch?v=eW-y8H85thk</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Design stage first few days</td><td align="right"><font class="tiny">(Posted 2014-03-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I wanted to create a part of civilization 3 that I really used when 
+playing the game. Workers that improve the terrain by themselfs. I am 
+using the tablet to design and plan the entire thing.<br><br>I have been writing a lot of things down in onenote for the iPad.<br><br>I
+ was planning on using scripts for the units and then create and run 
+these. But now I got the idea to use 3 finished versions of the maps of 
+the different stages of the improvments.<br><br>Map 1 with cities connected with roads.<br>Map 2 with improvments around cities.<br>Map 3 with every tile improved.<br><br>There
+ Will be a random amount of workers and cities and the game Will run 
+automatically from start to end. I wil use a random map generator using 
+the random walk methode. There wil be roads, water, graslands, forrest, 
+and fortresses. The workers Will travel to the nearest tile to improve. 
+When the roads between cities are finished then improvments around 
+cities are next then every tile on the map Will be improved.<br><br>I Need to go think About it more to be sure this is the easiest and best way to do it.<br><br>The
+ game Will not be playable. It wil run from zero improvments to the 
+entire map improved. It wil be 2D and have no drawn graphics. The map is
+ the size of the screen.<br><br>I wil be using the a* algorithm to 
+create connections between the cities and to send the workers around the
+ map from job to job. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,46 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Ked</h1><h1>JipParticles</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Current Features and All that Crap</td><td align="right"><font class="tiny">(Posted 2010-02-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ As of January 30, 2010, I've been (somewhat) working on a particle 
+system for BlitzMax. I intend to make it easy to use and relatively 
+powerful, but we'll see about that last part. :)<br><br>The particle system is split up into 4 different types: <b>TEmitPoint</b>, <b>TParticle</b>, <b>TParticleAttributes</b>, and <b>TParticleEffect</b>.<br><br><b>TEmitPoint</b> is simply the emitter for the particle effect.<br><b>TParticle</b> is, of course, the particle that is emitted from the emitter.<br><b>TParticleAttributes</b>
+ is used to set the behavior of the particles of an emitter. Like to set
+ the speed, alpha, rotation, scale, color, life amount, emit delay, 
+maximum amount of particles to be emitted at a time, and a lot more.<br><b>TParticleEffect</b>
+ is what you would build your own particle effect on. (You are allowed 
+10 emitters per particle effect.) For example, this is what my fire 
+particle effect looks like:<pre class="code">Type TFireEffect Extends TParticleEffect Final
+	Method Create:TFireEffect()
+		'initialize
+		Init(False,3)
+		
+		'layer 1
+		Local a:TParticleAttributes=New TParticleAttributes
+		a.LoadFromFile("incbin::fire_data/flames.dat")
+		
+		SetLayerAttributes(1,a)
+		
+		'layer 2
+		Local b:TParticleAttributes=New TParticleAttributes
+		b.LoadFromFile("incbin::fire_data/smoke.dat")
+		
+		SetLayerAttributes(2,b)
+		
+		'layer 3
+		Local c:TParticleAttributes=New TParticleAttributes
+		c.LoadFromFile("incbin::fire_data/sparks.dat")
+		
+		SetLayerAttributes(3,c)
+		
+		'play
+		StartEffect()
+		
+		Return Self
+	EndMethod
+EndType
+
+Function CreateFireEffect:TFireEffect()
+	Return New TFireEffect.Create()
+EndFunction</pre>And that's it! You have a full-blown particle effect.<br><br>To see my particle demos that I've released so far, go here: <a href="http://www.blitzbasic.com/Community/posts.php?topic=88848" target="_blank">http://www.blitzbasic.com/Community/posts.php?topic=88848</a> <br><br> Ked<br><div class="quote"> Windows XP | NVIDIA GeForce 8500 GT | AMD Athlon 64 X2 Dual Core 4400+ 2.3 Ghz<br>BlitzMax | MaxGUI <br></div> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

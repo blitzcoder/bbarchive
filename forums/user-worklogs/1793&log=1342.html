@@ -1,0 +1,113 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for SebHoll</h1><h1>Max'd GUI</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Development Has Started Again...</td><td align="right"><font class="tiny">(Posted 2007-05-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hi Everyone,<br><br>For
+ a while I've been really busy doing other projects and decided to take a
+ break from development. I've spent the last two days rewriting certain 
+parts of the program I didn't like and adding some more features.<br><br>In no particlular order:<br><br>1) I've decided to ditch the MDI layout in favour of the more modern multiple screen layout.<br>2) The <b>Event Coder</b> parser has been rewritten and optimised. It's now (hopefully, though not fully tested) as fast as the official IDE.<br>3) Toolbars and menu support has been added.<br>4) Ability to multi-select gadgets using either the Control key or by dragging a selection box over the gadgets.<br>5) Cut, Copy and Paste have been added properly.<br>6) Right-click menus for quick access.<br>7) Live preview and debugging of code.<br>8) The action-pad, an innovative new UI that provides quick access to common controls.<br>9) Drag and drop is now a hell of a lot better on Windows<br><br>However,
+ there's still a lot to do. I still haven't tackled the Undo/Redo 
+features or gadget grids or many other features I feel are necessary. <br><br>Mac
+ at the moment, I don't know how it's progressing as I haven't tried to 
+compile the source on it recently. Linux, for some reason, doesn't 
+compile at all - it throws up some sort of error, and the most useful 
+response I've had so far, is it could be with doing something strange 
+with Constants...<br><br>Anyway, I hope to keep going and hopefully, 
+there should be a release by July/August. I wish it would be sooner, but
+ there is still a lot to do, and I've still got a busy schedule as it 
+is.<br><br>I'll aim to upload some screenies soon,<br><br><br>Seb <br><br> ---<br><b>BlitzMax v1.41 with <a href="http://web.archive.org/logs/userlog.php?user=1793&amp;log=1596" target="_blank">latest MaxGUI</a></b><br><i>Running on Mac OS X 10.6, Windows 7 x64 and Ubuntu 10.04</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Sorting Out The Tough Stuff...</td><td align="right"><font class="tiny">(Posted 2006-09-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hi,<br><br>Thought
+ another worklog update is due. Max'd GUI has been improved and evolved 
+in many ways, see the image below (notice the new resize handles on the 
+selected gadget, icon support, and now tabber and graphics canvas 
+placeholder functionality):<br><br><img src="1793&amp;log=1342_files/update.html"><br><br>One major improvement that I forgot to mention here is the presence of the event coder now built-in to Max'd GUI.<br><br><b>The Event Coder Window</b><br><img src="1793&amp;log=1342_files/codebuilder.html"><br><br><b>Events for Window Gadget:</b> - <i>More to come shortly</i><br><img src="1793&amp;log=1342_files/codeevent.html"><br><br><b>Switching Between Gadgets:</b><br><img src="1793&amp;log=1342_files/codeobject.html"><br><br>Basically,
+ at the moment, I'm trying to tackle the really hard stuff that I've 
+been putting back till I knew what I was going to do. So far I've 
+managed to add:<br><br>&gt; Relatively stable tabber support<br>&gt; Basic Toolbar Gadget<br>&gt; Gadget Selector Window<br>&gt; BETA Cut, Copy and Paste commands<br><br>Still to do apart from stabilising the above...<br><br>&gt; <b>MENUs</b> - I've got a feeling this isn't going to be easy but with every mistake, the solution becomes clearer.<br>&gt; <b>Improved/Updated Documentation</b> - Should be the nice easy part of the project after full-on coding for months.<br>&gt; <b>Linux and Mac Catch-up!</b>
+ - So many bugs in the Cocoa module, and so many minor (yet 
+catastrophic) discrepancies between GUI modules, it's likely to take a 
+while to iron it all out.<br><br>Bug reports currently yet to be processed by Skid/Mark:<br><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=62957" target="_blank">Hiding Window Bug</a> - Win32<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=62785" target="_blank">Toolbar Resize Bug</a> - Win32<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=61776" target="_blank">Disabled Menu HotKeys</a> - Win32<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=62869" target="_blank">Disabling Gadgets</a> - Cocoa<br><br>And this very erratic behaviour with Max'd GUI on Mac:<br><br><strike><a href="http://www.blitzbasic.com/Community/posts.php?topic=62854" target="_blank">BlitzMax App Crashes Without Debugger</a></strike> - Fixed<br><br>Anyway, I'm sorry for the delay but I hate releasing something when it's not actually complete/working... <br><br> ---<br><b>BlitzMax v1.41 with <a href="http://web.archive.org/logs/userlog.php?user=1793&amp;log=1596" target="_blank">latest MaxGUI</a></b><br><i>Running on Mac OS X 10.6, Windows 7 x64 and Ubuntu 10.04</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Getting Nearer...</td><td align="right"><font class="tiny">(Posted 2006-08-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Fixed loads of bugs - for those of you that are interested, see below:<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Fixed: Window Client-Coords bug (new windows are now created by default as WINDOW_CLIENTCOORDS)
+Fixed: parenting bug
+Fixed: parenting updating only when needed
+Fixed: gadget toolbar never gains focus
+Fixed: keyboard shortcuts now work properly (use ctrl+arrowkeys / ctrl+shift+arrowkeys)
+Fixed: "Add Window" icons now reappear once a "New Project" is made
+Fixed: Tool windows don't snap to grid immediately, only after finished resize()
+Fixed: About Box "X" now works
+Fixed: Main window correctly regains focus after displaying modal windows
+Fixed: Source now only exports SetGadgetText() if default text is provided
+Added: Icon strips can now be assigned to combo and list boxes
+Added: Tips can now be assigned to items via textbox
+Added: Icons can now be assigned to items via combobox
+Fixed: Tool windows break when they are resized using EventHooks()
+Fixed: AddItems window now modified to be able to accomodate additions
+Added: F2 now toggles the Gadget Toolbar
+Fixed: Icons in list-views now work properly (especially -1 icons)
+Fixed: Excess window moving problems
+Added: F5 key to run preview window
+Added: Exports flags in string form (e.g. WINDOW_STATUS|WINDOW_CLIENTCOORDS)
+Removed: Extra String$ + Extra Num fields and replaced with additional flag buttons
+Added: PDF Help is extracted into tmp while running
+Added: OpenURL() added where necessary
+Added: Duplicate (clone) gadget
+Fixed: Flag options more spaced out for Mac Cocoa capability
+Fixed: Max'd GUI background is stretched properly across whole window on Windows
+Fixed: Gadget's overlapping problems on Window (gadget sent to back when dragging)
+Added: Gadget Name check and validation (only a-z, A-Z, 0-9, _ )
+Added: Treeview support with icon
+Added: Ability to change snap size from 1(off)-10 pixels
+Added: Options, Only have to restart when you have to restart...
+Added: Command Line file loading support - drag .gui files onto EXE and file associations
+Added: RemoveImage and RemoveIconStrip push buttons</textarea><br><br>The
+ first release of the Windows version is in very good shape, and the 
+Linux one is doing better. While developing Max'd GUI, as you can 
+imagine, a lot of bugs have also been found with MaxGUI modules itself 
+and the FLTK Linux MaxGUI module is, to be perfectly honest, useless! A 
+big thanks to Brucey for making the GTK module which works so much 
+better and more reliably.<br><br>I have also started work on the help 
+docs/tutorial and also made major improvements in stability and speed. 
+As you can imagine though, I don't want to release it until it is ready.<br><br>Will keep worklog up to date when major improvements are made,<br><br><br>Seb <br><br> ---<br><b>BlitzMax v1.41 with <a href="http://web.archive.org/logs/userlog.php?user=1793&amp;log=1596" target="_blank">latest MaxGUI</a></b><br><i>Running on Mac OS X 10.6, Windows 7 x64 and Ubuntu 10.04</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Introduction</td><td align="right"><font class="tiny">(Posted 2006-07-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hi Everyone,<br><br>Just
+ thought I'd start a worklog for my latest project: Max'd GUI (until I 
+think of a better name it's staying :P). I intend it to be a fully 
+functional GUI editor for BlitzMax (written in MAX) which can eventually
+ be compiled on different O/S's for cross-platfrom capability.<br><br>I 
+had a few initial ideas of how I'd go about it but when I started coding
+ I found them to be extremely difficult to practically implement. <br><br>Eventually,
+ I found a way that I might be able to sort it out - panels. Each gadget
+ has it's own "hotspot" panel that detects mouse movement, button hits 
+and keyboard events.<br><br>I initially was resizing gadgets every time 
+things changed but once things started being too complex (when changing 
+flags with buttons, etc) I scrapped it and re-wrote the core with a new 
+idea in mind: the gadget is redrawn whenever a change is made in it's 
+new position. This may seem as though it would be very slow and 
+sluggish, but in practice it isn't. <br><br>This solution results in 
+shape, size, position, background colours, dragging, parenting, flags 
+and items all being added successfully to gadgets. You can instantly 
+turn a push button into a radio button (or checkbox) on-the-fly and drag
+ items around the window (with them updating in real time). <br><br>Now 
+for some pics. Below is a screenshot of the application once it is first
+ opened. As you can see, the window is divided into 2 parts: object 
+properties on the left; drawing area on the right. There is also a 
+floating GADGET toolbar which you use to start adding stuff... <br><br><a href="http://members.aol.com/sebhollington123/blitz/large/start.png" target="_blank"><img src="1793&amp;log=1342_files/start.html"></a><br>Click for larger image<br><br>Once
+ you have added a window, you now have access to all other gadgets which
+ currently include: buttons; text fields; labels; checkboxes; radio 
+buttons; panels; scroll bars; sliders; spinners; password fields; list 
+boxes; combo boxes; web gadgets and rich edit controls. Here is a sample
+ screenshot of all the gadgets in place in a window:<br><br><img src="1793&amp;log=1342_files/basic.html"><br><br>Max'd
+ GUI features a Preview button which compiles the window to a temporary 
+location so you can see what it would actually look like in your 
+program:<br><br><a href="http://members.aol.com/sebhollington123/blitz/large/exporting.png" target="_blank"><img src="1793&amp;log=1342_files/exporting.html"></a><br>Click for larger image<br><br>The
+ left panel provides you access to the customizable parts for each 
+gadget. Simply click to select the gadget you want to change, and modify
+ the info. The item will update on the fly.<br><br><img src="1793&amp;log=1342_files/props1.html"> <img src="1793&amp;log=1342_files/flags.html"><br><br>So, to recap, main features are:<br><br>&gt; <b>Cross Platform</b> - I don't have access to a Mac yet to compile on but I haven't used any Non BlitzMax commands so all should be well.<br>&gt; <b>Fully customizable</b> gadget names, text, size, position, flags<br>&gt;
+ Code can be exported into BMX format at the click of a button, and then
+ compiled or opened into your editor at your discretion. <i>Code is SuperStrict compliant.</i><br>&gt; <b>Projects can be saved and loaded</b> from/to Max'd GUI.<br>&gt; Includes a <b>full item editor</b> to add items to combo boxes and listboxes<br>&gt; Flags can be set using check boxes and radio buttons.<br><br>Major features I should be adding before release:<br><br>&gt; <strike>Add Gadgets: Tabber; Toolbar; Treeview</strike> Done :-)<br>&gt; <strike>Use of iconstrips, colour and fonts on gadgets</strike> Done :-)<br><br>Minor add-ons:<br><br>&gt; <strike>Picture Panels</strike> Done :-)<br>&gt; <strike>Cut, Copy and Paste functions</strike> Done :-)<br>&gt; Fully functioning options (that are actually useful) :P<br>&gt; <strike>Optional XP-style manifest addition (when on Win32)</strike> Done<br><br>So
+ this is my brief introduction to my latest project. Tell me what you 
+think, and if you have any feasible ideas, as this is still very much in
+ development stage:<br><br><br>Seb <br><br> ---<br><b>BlitzMax v1.41 with <a href="http://web.archive.org/logs/userlog.php?user=1793&amp;log=1596" target="_blank">latest MaxGUI</a></b><br><i>Running on Mac OS X 10.6, Windows 7 x64 and Ubuntu 10.04</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Gadget Toolbar</td><td align="right"><font class="tiny">(Posted 2006-07-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The gadget toolbar is a floating toolbar that provides you access to 
+all the gadgets available in Max'd GUI. It can be hidden or shown when 
+you want to see it and remains ontop of the window being drawn so it can
+ always be accessed:<br><br><img src="1793&amp;log=1342_files/toolbar.html"><br><br>Reading from left to right:<br><br>Gadget
+ Style|Window|Group|Tabber|Button|Radio|Checkbox|Label|Text 
+Field|Password Box|Rich Edit Box|Treeview|Combo Box|List Box|Progress 
+Bar|Slider|Horizontal Scroll|Vertical Scroll|Picture|Web Gadget <br><br> ---<br><b>BlitzMax v1.41 with <a href="http://web.archive.org/logs/userlog.php?user=1793&amp;log=1596" target="_blank">latest MaxGUI</a></b><br><i>Running on Mac OS X 10.6, Windows 7 x64 and Ubuntu 10.04</i> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

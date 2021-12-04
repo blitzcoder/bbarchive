@@ -1,0 +1,61 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for AaronK</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Initial state</td><td align="right"><font class="tiny">(Posted 2004-12-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ----------------------------------------------------------<br>NOTE: There are no BlitzMax specifics in here it's all   Blitz language neutral so don't expect to find any leaked info here.<br>----------------------------------------------------------<br><br><br>I've
+ been lucky enough to be on the BlitzMax Beta team for a short while, 
+and one of the things I wanted to do was rewrite my AStar algorithm that
+ I wrote a long time ago in the old Blitz2d. This time though, my AStar 
+stuff is in a nice, reusable module, so anyone will easily be able to 
+use it with only a couple of lines of code - When BlitzMax is out of 
+course!.<br><br>To prove it's reusability I decided to redo the 
+Loderunner conversion that I did originally with the old Algorithm and I
+ was very suprised at how easy it was to reuse the AStar code, so I'm 
+happy about that part.<br><br>Originally I was just going to convert the
+ old code, and plug in the new AStar and a few days ago someone kindly 
+found me the original Loderunner source to do this with (I'd lost mine).
+ Unfortunately, I tried to convert it to BlitzMax but it was proving too
+ time consuming and on top of that the old code was not Object Oriented.
+ So I thought a rewrite would be a good thing to do.<br><br>Progress is pretty good at the moment and currently I have:<br><br>- The maps loading and displaying correctly.<br>- You can run around the map<br>- You can dig<br>- The enemy can chase you around the map<br>- Enemy can die in holes<br>- Level Finished condition works (Hidden ladder appears)<br><br>There
+ is still alot to go, as the old version had a demo mode, built in 
+editor etc. Also there is quite a bit of tweaking that will need to be 
+done to get things feeling "original" and tight.<br><br>Problems<br>--------<br><br>** Blocked based systems<br><br>I've
+ always found writing block based games frustrating. Trying to write an 
+elegant system for handling all the myriads of collision combinations 
+with various parts of the game has always seemed elusive and I'm never 
+entirely happy with the result. Tweak one thing and other parts of it 
+seem to change. In a game like Loderunner, you have to handle situations
+ like<br><br>- Falling and landing on blocks<br>- Landing on enemy heads<br>- Landing and moving along bars<br>- Enemies climbing out of holes and not falling straight back in<br>- Player running over enemy heads<br>- Ladder climbing<br>- Not walking through some blocks<br>- Walking along the ground where there is no block below you (bottom of map)<br>- Not diging outside the map boundaries <br><br>Now
+ I agree most of these are easy to do, but the resulting code just seems
+ somewhat messy to me. I'm sure there must be a better way to model a 
+block based world than what I normally do which is write specific 
+condition handling code. Ahh well, just a pet concern of mine...<br><br>** Enemy movement<br>This
+ is where I stray far from the original Apple ][e version in that I'm 
+pretty sure they didn't use the A* pathfinding algorithm to do their 
+enemy movement. Of course, this is the reason I wrote the game so I'm 
+not changing it but it does have it's problems - mainly that it's too 
+good. Some of the things I have implemented.<br><br>- The enemy only 
+looks a short way ahead of itself when looking for you. This means that 
+they can hardly ever (Unless you are very close) find the perfect path 
+to you. This was a easy as passing a "MaxNode" value to the pathfinding 
+algorithm.<br><br>- Once an enemy has found a path it will follow it and
+ only look for you again when they reach the end, or a predetermined 
+time has elapsed. This works pretty well in dumbing them down because in
+ Loderunner the player is usually running around a lot.<br><br>- Related
+ to the above, the enemies don't have to recalculate their paths often 
+which means less CPU time used for AStar. And the distribution of the 
+enemies doing this means that they generally don't generate their paths 
+in the same game update loop.<br><br>- I use a simple distance calculation. Makes it faster and less accurate<br><br>-
+ One little thing that you have to worry about is that the enemy should 
+only change direction on a block boundary. Specifically this is for 
+ladder climbing. I had a wierd bug where what was happening was that the
+ enemy was trying to go up a ladder but wasn't directly under it, so it 
+was effectively hitting it's head on the block above and not moving.<br><br><br>Enhancements<br>------------<br><br>** Model/View<br>One
+ of the enhancements I'm doing to this version is to separate model and 
+view some more. This way I can plug in different views as I always 
+wanted to do a version of Loderunner that used actual 3d models - still 
+side on, just 3d. Keeping the model and view separate means I should be 
+able to plug the bits in quite easily when I get around to it.<br><br>** Difficulty<br>I
+ might add in difficulty which, in my version could amount simply to 
+making the pathfinding better on the higher difficulties and generating 
+paths more often.<br> <br><br> -----------------------------------------<br>P4 3Ghz, Matrox G550, 500Gig HD space.<br><br>"But don't you know how old I'll be before I really learn to Paint/Write/Act?"<br><br>"Yes, exactly the same age you'll be if you don't" </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

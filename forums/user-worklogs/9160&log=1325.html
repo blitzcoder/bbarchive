@@ -1,0 +1,168 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Blitzplotter</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Finished Product</td><td align="right"><font class="tiny">(Posted 2009-03-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Finished the application, a demo of which is available here:<br><br>www.wishingwellsoftware.co.uk <br><br> Blitz3D &amp; JV-ODE for 3D physics fun, BMax for finishing projects. VStudio, a necessary evil &amp; less fun. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>B3D has led to BMax</td><td align="right"><font class="tiny">(Posted 2006-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ However, I was close to giving up on my project.... but Grey Alien's 
+game framework persuaded me to get the full version of BMax.<br><br>Apps
+ coming along nicely, very close to just adding the 'polish' that every 
+good app needs.  My polish may take some 6 motnhs or so yey.... <br><br> Blitz3D &amp; JV-ODE for 3D physics fun, BMax for finishing projects. VStudio, a necessary evil &amp; less fun. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A return to the Drawing Board...</td><td align="right"><font class="tiny">(Posted 2006-03-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Spent a while hanging together some code without any real'design' as 
+such.  I am so amazed by the capabilities of B3D I have to start again 
+from scratch.<br><br>My <b>'hiccup'</b> seemed to be attempting to 
+develop a program using multiple 3d entities without any attention to 
+the frames-per-second.  After reading numerous Blitz Research entries, 
+came to the conclusion that starting from scratch (whlist montoring the 
+demands on the CPU) was necessary.<br><br>I have only just started plodding through the Blitz 3D manual to gain a full appreciation of the capabilities of B3d.<br><br>So
+ far, I've discovered that the following snippet of code, as long as I 
+keep stop_choke at around above 200, will keep my CPU activity below 
+10%.  This was my major problem on my last 'hacked' together code.  Just
+ goes to show that time spent on design is time well spent.<br><br>In anticipation of the re-development of my application, my hours spent sleeping seem to be diminishing.....<br><br>If
+ you press Ctrl+alt+Delete and bring up your CPU's performance you will 
+develop an understanding of the demands 6 entities can place your 
+CPU/graphics card dependant on the stop_choke value....<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">
+;--------- Set up Global Variables --------------
+Graphics3D 640,480,2,3
+
+Global graphix=1		;(1-4 4 high)
+Global no_polys=50
+Global nearnow = False
+do_once=True
+stop_choke = 245	;keeps cpu usage down below 10%
+
+Global Cyls#=60 ;max 60 cylinders on screen 
+
+
+;--------- End of setup global vars -----------
+
+;----------- Modify Globals from .ini file ----
+;-------suits you ----------All in good time-------------------
+
+; load in graphix
+
+
+
+
+;----------------------------------------------
+
+; set up basic graphics:
+If graphix=1;low
+Graphics3D 640,480,2,3
+EndIf
+If graphix=2;med
+Graphics3D 640,480,4,3
+EndIf
+If graphix=3;avg
+Graphics3D 800,600,2,3
+EndIf
+If graphix=4;high
+Graphics3D 1200,1024,2,3
+EndIf
+
+SetBuffer BackBuffer();  double buffering
+
+;Add ambient light of red
+AmbientLight 255,0,0
+
+
+
+camera = CreateCamera()
+
+CameraViewport camera,0,0,GraphicsWidth(),GraphicsHeight()
+;Move the camera back a bit;
+
+
+; need a more efficient way to create 6 / 26 / 36 cylinders
+  Global cylinder1=CreateCylinder(no_polys)
+  MoveEntity cylinder1,-7,0,6
+  
+  Global cylinder2=CreateCylinder(no_polys,1)
+  MoveEntity cylinder2,-4,2,8
+  Global cylinder3=CreateCylinder(no_polys,1)
+  MoveEntity cylinder3,-2,4,10
+  Global cylinder4=CreateCylinder(no_polys,1)
+  MoveEntity cylinder4,0,6,12
+  Global cylinder5=CreateCylinder(no_polys,1)
+  MoveEntity cylinder5,2,8,14
+  Global cylinder6=CreateCylinder(no_polys,1)
+  MoveEntity cylinder6,4,10,16
+
+
+
+;Or move all the entities at once
+entmove=1
+
+While Not KeyHit(1)
+	If nearnow = False  ;making go away to kick off with
+	    offset = offset+1
+	EndIf
+	
+	If EntityZ(cylinder1) &gt; 50
+	    nearnow = True
+		offset = -1  ;if far away bring back
+	EndIf
+	
+	If EntityZ(cylinder1) &lt; 1
+		offset = 1   ;if just onscreen push away again
+		nearnow = False
+	EndIf
+	
+	;move cylinder offset distance from it's current location
+	;need to suss how have an array of icons................
+	MoveEntity cylinder1,0,0,offset
+	MoveEntity cylinder2,0,0,offset
+	MoveEntity cylinder3,0,0,offset
+	MoveEntity cylinder4,0,0,offset
+	MoveEntity cylinder5,0,0,offset
+	MoveEntity cylinder6,0,0,offset
+	
+	;top_letters()
+	
+	;updateanims and check for collisions
+	UpdateWorld;
+	
+	;render draw all graphics in world;
+	RenderWorld
+
+;--------------------------------------------------------------
+;fps checker routine
+
+
+fpschecker=fpschecker+1
+If MilliSecs()&gt;fpstimer+1000
+fpstimer=MilliSecs()
+fps=fpschecker
+fpschecker=0
+EndIf
+Color 100,100,100
+
+Text 200,200,"FPS:=" + fps
+Flip
+
+;end of fps timer
+
+	
+	;flip page to see whats happening
+	Flip
+	
+	oldset=offset
+	
+	
+	Delay stop_choke
+	
+Wend
+
+
+
+While Not KeyHit(1)
+	
+	UpdateWorld
+	
+	RenderWorld
+	
+	Flip
+Wend
+
+End
+
+</textarea><br><br><br>Well,progress has been slow.... Work &amp; Social life hampering progress.  However my goal is creeping ever closer.... <br><br> Blitz3D &amp; JV-ODE for 3D physics fun, BMax for finishing projects. VStudio, a necessary evil &amp; less fun. </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

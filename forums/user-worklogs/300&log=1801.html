@@ -1,0 +1,281 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Oddball</h1><h1>Hack, Slash, Loot</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Savings at last</td><td align="right"><font class="tiny">(Posted 2011-05-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The biggest addition, and also the most requested feature in testing, 
+is that the game now saves on exit. Testers would press escape thinking 
+it had a function other than instant quit and would as a result lose 
+their game. Now the game is saved exactly as you left it and no matter 
+how you exited the game. The code for this is a little unrefined at the 
+moment as I just dump the whole game memory to file and restore it when 
+the app is restarted, but I'll clean it all up after I'm satisfied it's 
+working properly in all situations.<br><br>I've managed to rope the talented <a href="http://www.jackmenhorn.com/" target="_blank">Jack Menhorn</a>
+ in to do the music. Surprisingly there was a lot of interest from 
+composers wanting to add their talents to the game, but as soon as Jack 
+showed an interest I signed him up.  With Jack on board I thought it was
+ time to finalise the music player. It was pretty much complete, but it 
+needed better transitions when one track interrupts another and other 
+minor changes. It's all around a more solid piece of code now.<br><br>One
+ issue flagged up in testing was that players were still sometimes 
+accidentally clicking the wrong tile when trying to attack monsters. 
+This popped up last time as well, and I thought I'd solved it by making 
+spaces with monsters in 'attract' the cursor. This obviously wasn't 
+enough so I decided to finally put this problem to bed with a couple of 
+major additions. The first is a floor grid. You can now, if you wish, 
+have a grid overlaid on to the floor to show you beyond all doubt where 
+each tile is. The second is a magnifier. You can now zoom the gameplay 
+area in or out so everything is much easier to click and see. You can 
+also use it to zoom out and see the whole level on the screen all at 
+once. And finally I made it easier to find and use the full screen 
+option. Some of the testers didn't understand that increasing the window
+ size would eventually make the game go into full screen so now you can 
+also use the shortcuts [cmd+F] or [F11].<br><br>There have also been 
+plenty of more minor additions. Dungeon shapes are now implemented. 
+These are the overall shape of the dungeon, its outline if you will. 
+This means dungeon levels can be massive and sprawling or small and 
+compact, as well as different shapes such as a round wizard's tower or 
+skull shaped castle. The item preview now shows if the item is raising 
+or lowering stats by colouring them green or red. I've nerfed swift 
+items. originally items with swiftness just wouldn't have any other 
+bonuses and so the thinking was that taking up a slot was their 
+downside. It seems like that wasn't enough so now all items with 
+swiftness will also contain some form of curse/penalty. Hopefully that 
+will balance it. And finally I've added level feelings when something 
+special or unusual is present on the level. I may also add a level 
+difficulty indicator to this as well, but I just need a reliable way to 
+calculate a level's difficulty.<br><br>Website <a href="http://www.hackslashloot.com/" target="_blank">HackSlashLoot.com</a><br>Twitter <b>@</b><a href="http://www.twitter.com/OddballDave" target="_blank"><b>OddballDave</b></a> <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>An enchantment by any other name</td><td align="right"><font class="tiny">(Posted 2011-04-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Added the enchantment name generator. Before all enchanted items were 
+simply labeled enchanted, but this addition gives enchanted items a 
+richer set of names. This is only superficial and has no real game 
+effect. It's also a little sparse at the moment, but there'll be plenty 
+of time to flesh it out later. I only wanted to get the code in and 
+working for now.<br><br>I finally succumbed and added keyboard controls.
+ Standard roguelike keys(yuck!) are supported as well as numpad and 
+cursor keys. The only things that don't have keybindings yet are the 
+game options and title screen. If I was making this game just for myself
+ I wouldn't have bothered with keyboard controls as HSL is designed to 
+be played with the mouse, but I understand that others prefer keys. Also
+ some of the testers wanted to use a mix of keys for movement, and mouse
+ for targeting.<br><br>Website <a href="http://www.hackslashloot.com/" target="_blank">HackSlashLoot.com</a><br>Twitter <b>@</b><a href="http://www.twitter.com/OddballDave" target="_blank"><b>OddballDave</b></a> <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wizard, I choose you!</td><td align="right"><font class="tiny">(Posted 2011-04-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've actually been doing a lot of bug fixing and optimisation this 
+week. Not really had a lot of bugs to fix during development so far, but
+ as it is becoming a much larger, and complex, beast they have started 
+to creep in. I have had time for a few new features though.<br><br>The 
+most requested feature from testing was to be able to select your 
+character. This is now in, as is selecting the quest you wish to embark 
+on. When finished there will be three characters available from the 
+start with the others becoming available depending upon the number of 
+times you have died. These 'unlockable' characters are more powerful 
+than the original three so having their availability dependant upon the 
+amount of times you die seems the sensible way to do things.<br><br>As I
+ mentioned in my last log tile spaces can now contain more than one 
+item. This presented a problem as it was difficult to tell when a space 
+had more than one item in it. I have solved this by having the items 
+expand into a stack when you hover the cursor over the tile. I am also 
+contemplating having monsters drop there entire inventory instead of 
+just the one item as it now. This may become annoying for the player 
+though as there'll be a lot more item shuffling involved. I'll probably 
+try it and see how it feels.<br><br>Artifacts are now retainable from 
+game to game. Each quest will contain one or more artifacts. These items
+ are more powerful or unusual than enchanted items, and after being 
+found once they will be included(randomly) in your inventory for other 
+quests. Artifacts won't be dropped by ordinary monsters they will be 
+reserved for bosses and the like.<br><br>Finally I finished adding the 
+secondary effects for the special damage types. I may add some more, but
+ I'll wait to see if inspiration hits. Either way I'm more than happy 
+with the current ones. <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>And the results are in</td><td align="right"><font class="tiny">(Posted 2011-04-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Been working on HSL a lot this week so I've split this post into two 
+sections. If your not interested in what testing taught me skip to the 
+second part.<br><br><b>It was a testing time...</b><br>So the response 
+to my call for testers was phenomenal. Got tons of useful feedback, and 
+I've been working through the points raised all week. I'd like to share 
+some observations from the testing process if nobody minds.<br><br><b>It's a scary world</b>
+ I was extremely nervous about showing the game off to complete 
+strangers as I had no idea what the reaction would be. I needn't have 
+worried the general mood from the testers was a positive one.<br><b>I'm stupid, but I already knew that</b>
+ One thing I was certain would happen was that I would have missed some 
+really obvious issue, and sure enough there were a few slap my forehead 
+moments when the responses came in. As I work on the game almost every 
+day I'm extremely familiar with the game and therefore have no 
+perspective as a new comer to the game. This was one of the most useful 
+aspects of the testing, and I appreciated that a few of the testers 
+tried the game without reading the 'How to' guide first.<br><b>Carrot before stick</b>
+ Feedback that started with the positives felt more constructive than 
+feedback that had the negatives first. I know that both styles are just 
+as useful as each other but the beginning set the tone for the rest of 
+the feedback. This is something that I will certainly be more mindful of
+ in future when I give feedback to others.<br><b>You can't please everyone</b>
+ This is important to remember. A lot of the feedback I got was 
+contradictory, one person thought some part was good, another would 
+think it was bad. An important aspect of sorting through the feedback 
+was assessing what was due to personal taste and what was due to a 
+design issue.<br><b>Getting noticed</b> Twitter was great for recruiting
+ testers, and I was helped by the 2 Girls 1 Game preview. Next time I 
+may consider using other social networking or tech solutions that allow 
+for better two-way dialog with testers.<br><br><a href="http://twitpic.com/4ihyqh" target="_blank"><img src="300&amp;log=1801_files/4ihyqh.html"></a><br><i>The new 'distressed' GUI and the 'tool tip' styled hint at the bottom</i><br><br><b>And the result</b><br>I
+ did actually work on the game a little too. The biggest change is that 
+each tile can now contain more than one item. My original intention was 
+to keep the game simplified, and one item per tile seemed like a good 
+way to keep it that way. Enough people found this frustrating to warrant
+ a rethink. The most compelling argument was having a potion dropped but
+ then killing a monster over it and having the potion obliterated by the
+ newly dropped item. This unfairly punishes the player for killing two 
+monsters.<br><br>I added some of the damage secondary effects. Each 
+damage type(fire,lightning,etc) has a secondary effect if you deal that 
+damage and/or are resistant to it. I'm keeping these effects 
+undocumented so the player can discover them as they play. Although when
+ a secondary effect is triggered it is noted in the turn log so as not 
+to confuse the player as to why it happened. For those who don't mind 
+spoilers here's a taster <b>*SPOILER*</b><font class="tiny">Life Steal(Necrotic) killing a monster with necrotic damage will steal some of the life force giving the player a health boost</font>.<b>*SPOILER*</b><br><br>The
+ other additions are all to do with usability. This was a key focus of 
+testing and helped tremendously. I now have 'tool tip' style hints when 
+hovering the mouse over stats and icons. As the name suggests hints give
+ the player a sense of what each thing means without going into detail. 
+They are aimed at the player who doesn't like to read help files, or 
+needs their memory jogging. The tile cursor got a revamp meaning it is 
+now more obvious when a feature is usable. Also you can now hover the 
+cursor over an item to see how it would affect you stats. Creatures on 
+the minimap now flash to distinguish them from other elements. Finally 
+there have been other minor graphical and layout changes. Most notable 
+of which is the new icons for swift and shadeform. Well shadeform still 
+uses the same icon, but now it pulses in time with the player. <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Sound stuff</td><td align="right"><font class="tiny">(Posted 2011-04-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Been working exclusively on sound this week. The sound effects are 
+procedurally generated at runtime using Brucey's wrapping of DrPetter's 
+sfxr code. That means no two sword hits(or footfalls, or bow twangs, 
+etc) sound the same. The sound generation code is all in, but not all 
+the sound effect profiles are done yet. The music code is in too, but 
+I'm just using placeholder tracks now. Music isn't going to be a major 
+feature of the game, but I do want to use it as a cue for various game 
+states and situations. And finally volume control is all done.<br><br>Also Overlord Ror from <a href="http://2g1g.thepodkast.com/" target="_blank">2 Girls 1 Game</a> has been giving the game a try and has posted a <a href="http://2g1g.thepodkast.com/2011/04/preview-hack-slash-loot/" target="_blank">preview of what she thinks of it so far</a>.<br><br>Website <a href="http://www.hackslashloot.com/" target="_blank">HackSlashLoot.com</a><br>Twitter <b>@</b><a href="http://www.twitter.com/OddballDave" target="_blank"><b>OddballDave</b></a> <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Nothing to report, but...</td><td align="right"><font class="tiny">(Posted 2011-03-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Gameplay video: <a href="http://www.youtube.com/watch?v=yAHtHOewJJY" target="_blank">http://www.youtube.com/watch?v=yAHtHOewJJY</a><br><br>Website <a href="http://www.hackslashloot.com/" target="_blank">HackSlashLoot.com</a><br>Twitter <b>@</b><a href="http://www.twitter.com/OddballDave" target="_blank"><b>OddballDave</b></a> <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Unacceptable behaviour</td><td align="right"><font class="tiny">(Posted 2011-03-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I decided it was time to rework the enemy AI to make the enemies 
+tactics a little less predictable. I ripped out the old code and rewrote
+ it from scratch, and it's turned out great. The enemy's behaviour is 
+formulated based upon three elements, the creature's intelligence, the 
+creature's combat prowess, and the current situation.<br><br>There are four levels of creature intelligence, none/animal, dumb/bloodlust, normal, and smart.<br>- <i>None/animal</i>
+ is for animals, like giant rats, or creature with no intelligence at 
+all, like zombies and golems. Creatures with this intelligence will 
+usual charge when attacked or threatened.<br>- <i>Dumb/bloodlust</i> is 
+for unintelligent monsters, like Trolls, or bloodthirsty creatures, like
+ barbarians. Dumb isn't much of a step up from none, but dumb monsters 
+will alert comrades and formulate tactics with them, like cutting of the
+ players retreat.<br>- <i>Normal</i> is the most common intellect level 
+which most enemies will have. Normal has a far greater range of tactics,
+ and can even decide to pickup objects from fallen comrades if it will 
+improve their situation. Other tactics are hanging back and using ranged
+ weapons, or retreating to gather more help.<br>- <i>Smart</i> is 
+reserved for the most intelligent characters you'll encounter, mainly 
+bosses and their kind. It isn't much different to normal, but those 
+small variances make all the difference. Smart monsters are more 
+interested in self preservation than the others and will order comrades 
+to wear down the player before endangering themselves.<br><br>The 
+creature's combat prowess is based upon its skill when compared to the 
+player. Enemies weaker than the player are more likely to hesitate, hang
+ back or even retreat. Whereas monsters stronger than the player will be
+ braver and more likely to engage the player quickly, even if that means
+ the player will get the first strike.<br><br>The final aspect, 
+situation, is based solely on the situation the player and enemies find 
+themselves in at that moment in time. For example a cornered enemy isn't
+ going to hang back when faced with a player armed with a bow, he'd just
+ be pelted with arrows. He's more likely to charge the player.<br><br>Using
+ these three factors the enemy have a rich arsenal of behaviours that 
+throw up some interesting combats. Here's a few examples from my 
+testing, two goblins with normal intelligence aided by two giant rats 
+with animal intellect. One goblin sports a bow so he hung back and laid 
+down covering fire, the other equipped with a longsword hung back just 
+long enough to let the two giant rats take the first few hits before 
+joining the fray.<br><br>Another example, I opened a door to reveal a 
+goblin rager, with bloodlust, who immediately charged at me. I wasn't 
+too worried as I easily outmatched him, but unbeknownst to me he had 
+alerted an unarmed hobgoblin, normal intellect, who wasn't in my view. 
+The fight with the rager only lasted a couple of turns but in that time 
+the hobgoblin had managed to alert more enemies to my presence. Before I
+ realised what had happened there where now about ten enemies bearing 
+down on me and my situation needless to say had become hopeless.<br><br>Wow!
+ That turned into a wall of text. As you can probably gather I'm quite 
+pleased with how the enemy AI worked out. In other news I've also been 
+working on the visual queues for the various actions characters can 
+perform. Attack animations have been in for a while, but other things 
+like, item pick ups, drinking potions, etc. had no visual queue to show 
+they had happened. They're not all in yet but I've got most of it done. 
+I've been trying to avoid using particle effects for any of it, but some
+ of my visual effects aren't up to standard so I my have to relent and 
+have a bespoke few particle effects. Next I might have a go at sound, 
+although I haven't even considered what I'm going to do for music yet.<br><br>Website <a href="http://www.hackslashloot.com/" target="_blank">HackSlashLoot.com</a><br>Twitter <b>@</b><a href="http://www.twitter.com/OddballDave" target="_blank"><b>OddballDave</b></a> <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Resource management</td><td align="right"><font class="tiny">(Posted 2011-03-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The big addition since my last log is a dynamic asset loader, which can
+ handle realtime alterations to the games resources. The realtime aspect
+ won't really come into play outside of my testing, but does mean the 
+game is more than capable of handling post release asset updates, 
+additions and changes. This also nails down the games file 
+structure/handling ready for creating releasable versions for testing. 
+The other changes to the game are mainly internal optimisations and 
+general code tidying.<br><br>On the subject of releasing a test build, the first round of testing will probably be organised through my Twitter account(<b>@</b><a href="http://www.twitter.com/OddballDave" target="_blank"><b>OddballDave</b></a>), so keep an eye out there if you're interested in getting in on the the first public build. <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Procedural item gen continued</td><td align="right"><font class="tiny">(Posted 2011-02-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I actually finished magic/special item gen the other day but personal 
+stuff stopped me posting a devlog entry. I'm very happy with the 
+results, getting a pair of winged boots that speeded up my character was
+ one highlight. Another was when I found a magical pork chop in a 
+barrel, I don't remember what it did when I ate it but who cares what it
+ did it was a magical pork chop!!! The gameplay is almost feature 
+complete now. I just have one more feature to add then I'll be moving 
+onto content and add all those lovely bells and whistle.<br><br><img src="300&amp;log=1801_files/43rdak.html"> <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Procedural item generation</td><td align="right"><font class="tiny">(Posted 2011-02-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="300&amp;log=1801_files/c8.html">
+ I feel like I've finally got a system I like for the procedural item 
+generator. The old version felt too random and was easily identifiable 
+as a random algorithm. The new version is much more discrete, and makes 
+much better choices when allocating magic/special items. I've achieved 
+this by using a tagging system. Anything that request an item from the 
+generator will pass a set of 'tags' with the request. Some of the tags 
+are auto-generated and some are specified by the dungeon theme. These 
+tags tell the generator preferable item properties. When the generator 
+needs to make a choice during the creation process it first checks the 
+tags for any preferred properties and then favours those choices over 
+the others. An example might be when a weapon is needed for the wizard 
+to wield the 'magicuser' tag will be used, the generator now knows to 
+remove any options that a wizard cannot use. The tags are extremely 
+versatile and can be used for a wide variety of filtering, not just for 
+character class. There are ~100 recognised tags at the moment and I'm 
+far from finished, I'd say the item generator is about 50% done.<br><br>I
+ did get a little sidetracked whilst figuring out the item generator, 
+and added some extra gameplay features that I hadn't originally planned 
+for. Hopefully this isn't the start of feature creep and I can stay 
+focused now that I have a better idea of the direction I'm going. <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Queued movement</td><td align="right"><font class="tiny">(Posted 2011-02-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="300&amp;log=1801_files/c7.html">
+ I was supposed to be working on the magic/special item generation, but I
+ didn't like how it was turning out so I've put that on the back burner 
+whilst I think how best to implement it. I did however work on queueing 
+the players actions so that the player can get things done with the 
+fewest amount of clicks possible. Now you can click on anywhere you've 
+been and if it's still accessible then your man will make his own way 
+there. This means if you find yourself having to backtrack it's much 
+less of a chore. As the game works with a limited/small viewport I've 
+also allowed for the player to click on the minimap to achieve the same 
+effect. The queued events are interrupted if a new monster appears or if
+ the player is attacked. <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The story so far</td><td align="right"><font class="tiny">(Posted 2011-01-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="300&amp;log=1801_files/hsltitle2.html"><br><br><a href="http://www.hackslashloot.com/media/hslscreen01.png" target="_blank"><img src="300&amp;log=1801_files/hslthumb01.html"></a> <a href="http://www.hackslashloot.com/media/hslscreen02.png" target="_blank"><img src="300&amp;log=1801_files/hslthumb02.html"></a> <a href="http://www.hackslashloot.com/media/hslscreen03.png" target="_blank"><img src="300&amp;log=1801_files/hslthumb03.html"></a> <a href="http://www.hackslashloot.com/media/hslscreen04.png" target="_blank"><img src="300&amp;log=1801_files/hslthumb04.html"></a><br><br><img src="300&amp;log=1801_files/c1.html">
+ This has been in development for a little while, and the few people who
+ follow me on Twitter may have already seen some teasing screenshots 
+already. But now I thought it was time to start a DevLog as I really 
+start to ramp up development on this.<br><br><b>The story so far</b><br><img src="300&amp;log=1801_files/c2.html">
+ The basic engine is in. Player and enemy movement is all working. 
+Combat runs smoothly, if a little uneven at the moment. Level generation
+ is working better than I'd hoped. Dungeons are created and populated 
+with monsters features and items. I wanted level gen. to look like it 
+could have been done by a human level designer, and for the most part 
+things look so. There are only the occasional 'why is it like that?!' 
+moment, but plenty of 'that looks fitting' moments. Most of the 
+interface elements are in, the only missing ones are the sound related 
+stuff.<br><br><img src="300&amp;log=1801_files/c3.html"> My aim is to 
+have masses of content, so much in fact that most will never see all of 
+it. I want players to mention something cool they saw in the game to 
+other players and have the other players response be 'I've never seen 
+one of those whenever I've played'. This may be too much of an 
+undertaking so it's more of a 'shoot for the moon' goal. The content 
+currently stands at 125 dungeon features, 85 monsters, and 46 items in 
+the first dungeon theme, although that should increase dramatical before
+ I'm finished. And that brings me to another aspect of the game, dungeon
+ themes. Each dungeon will have a coherent theme which should mean that 
+you will not get out of place monsters, items or features on any play 
+through. I'm not sure how many dungeon themes I'm going for but I 
+already have a lot of ideas so again this will be as many as I can.<br><br><b>Still to do</b><br><img src="300&amp;log=1801_files/c4.html">
+ There is loads still to do, hence the 20% icon at the top. The game is 
+still missing the whole front end, currently it goes straight into the 
+game. There is no sound at all, I'll probably do that last, and look to 
+getting someone in to do the music. There is very little in the way of 
+effects in there, so there's still lots more visual punch is to come.<br><br><b>Additional Info</b><br>Website <a href="http://www.hackslashloot.com/" target="_blank">HackSlashLoot.com</a><br>Twitter <b>@</b><a href="http://www.twitter.com/OddballDave" target="_blank"><b>OddballDave</b></a> or <a href="http://twitter.com/search?q=%23hackslashloot" target="_blank">#hackslashloot</a><br>DevLog: <a href="http://forums.tigsource.com/index.php?topic=17415.0" target="_blank">TIGSource</a> <br><br> DaveW<br><br><img src="300&amp;log=1801_files/smallblob.gif"><b>PhysLite[</b><a href="http://www.gooeyblob.com/phys.html" target="_blank">Info</a><b>]<img src="300&amp;log=1801_files/smallblob.gif">ODD.mod[</b><a href="http://www.gooeyblob.com/mods/odd2dmodule.zip" target="_blank">Odd2D.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/aspectmodule.zip" target="_blank">Aspect.mod</a><b>][</b><a href="http://www.gooeyblob.com/temp/asciifontmodule.zip" target="_blank">AsciiFont.mod</a><b>]</b><br>"When you're the last man standing and still packing nukes you don't need experience points."<i> - Brian Van Hoose</i> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

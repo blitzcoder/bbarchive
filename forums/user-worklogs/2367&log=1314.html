@@ -1,0 +1,53 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Orca</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Comments</td><td align="right"><font class="tiny">(Posted 2006-02-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> No major progress to report, but every little improvement adds up over time. <br><br>"stoopidcc" now supports <br>- comments<br>- multiple statements on a single line<br><br><pre class="code">'this is a comment
+
+'declare some variables
+var lives = 100, score = 0; var time = 0
+var bonus
+
+'do some calculations here
+bonus = 1000
+score = score
+
+print bonus 'print is parsable, but does nothing right now..
+</pre><br><br>print keyword is legal, but does nothing at the moment. I 
+still havent added real code generation..its also a just a temp keyword.
+ <br><br>Other minor happenings:<br>-now under version control<br>-split into multiple files<br>-I
+ started rolling my own console thru WriteConsole, since blitzplus's has
+ annoying behaviour, but it isn't quite working yet. Not real sure why, 
+but cba right now. <br><br>Would like to add more tonight but I've gotta hurry up and get Supergrafx out the door, as well as continue with my game :X<br><br><br>*Orca steps into the shadows and dissappears..<br> <br><br> ------------------------------------<br>"Fall down seven times, get up eight."<br><a href="http://devblog.timbarela.com/" target="_blank">http://devblog.timbarela.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First Steps</td><td align="right"><font class="tiny">(Posted 2006-01-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, for 4 hours worth of work, I'm pretty pleased.<br><br>"stoopid compiler" ( tentative title ) can<br>-declare and assign variables<br>-reject non declared variables<br><br>This is a valid program:<br><pre class="code">var name, x, y
+var score = 0, lives = 99
+
+var apple = 1, orange
+
+var cat = 1, dog = cat
+
+x = y
+orange = apple
+
+</pre><br><br>I know, it doesn't look like much, but I'm handcrafting 
+this, as opposed to using a compiler generation tool. Its a decent 
+amount of work( well about 4 hours worth this time ).<br><br>One can 
+probably come up with some quick and dirty ways to parse and translate 
+^that^, but hacks won't really workout in the longhaul. I've had a few 
+other attempts at compilers, and the code can get gnarly and out of 
+control real quick, if you dont keep it in check.<br><br>And I've still 
+got plenty of things to add. The stuff that really makes a compiler a 
+"compiler"... Putting in some quicky hack just wont work. Nope. I'm doin
+ it proper. Well mostly. I'm doing 2 passes, 1 for scanning the source 
+and creating a tokenized "stream", and then another pass which parses 
+the tokens and generates the code. I've yet to see the need for a 
+parse/abstract syntax tree ...but I'm still n00b at this ^_^<br><br>I've
+ learned a bunch from my previous attempts, and I feel more comfortable 
+this time around. Its going much faster and smoother.<br><br>Long term 
+plan is to slowly build it in blitz, until it is self hosting..The 
+language I envision is sort of a middleground between c and basic. Best 
+of both worlds.<br><br>I should probably be doing this in c#, but I've 
+had this itch to do a large-ish project in blitz, something that would 
+be kinda cool to say "I made that". I've written a lot of code in blitz 
+over the years, but most of it hasn't been seen by anyone besides 
+myself, which is a bummer. I also thought about doing a console 
+emulator....<br><br>Hmmmmm.... Maybe I'll do both o_O<br><br>...Anyways went off on a tangent, next steps:<br><br>-Expressions... right now they only consist of either a variable or a number.. no add ops or anything of the sort<br>-Code generation<br>-Print keyword - just a temporary keyword so I can get some output, since I dont have function calls yet.<br>-"If" construct.. need to control program flow<br><br>This is my fun project though, so probably gonna be a weekend thing.<br><br>Stay tuned.<br> <br><br> ------------------------------------<br>"Fall down seven times, get up eight."<br><a href="http://devblog.timbarela.com/" target="_blank">http://devblog.timbarela.com</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,744 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Zakk</h1><h1>Variable Controllers</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Interpolation Functions</td><td align="right"><font class="tiny">(Posted 2009-12-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here's the first part of the update, it's a little cluttered at points 
+but basically this is the same as the previous except that it allows you
+ to pass your own Interpolation function to the ramp (so there is no 
+longer a need for StairController, just a StairInterpolate function ;)<br><br><pre class="code">'variable controllers.bmx
+Include "interpolation functions.bmx"
+
+'=============================
+Type TVariableController
+	Global global_map:TMap = New TMap
+	'=============================
+	Field key:String
+	Field target:Float Ptr
+	'=============================
+	Function Update_All()
+		Local vc:TVariableController
+		Local map_enum:TMapEnumerator = global_map.Values()
+		For vc = EachIn map_enum
+			vc.Update()
+		Next
+	End Function
+	'=============================
+	Method Update() Abstract
+	'=============================
+	Method Destroy()
+		global_map.Remove(Self)
+	End Method
+	'=============================
+End Type
+'=============================
+
+
+
+'=============================
+Type TRampController Extends TVariableController
+	Field start_value:Float
+	Field start_time:Int
+	Field end_value:Float
+	Field end_time:Int
+	Field duration:Int
+	Field previous_value:Float
+	Field difference:Float
+	Field InterpFunc:Float(v1:Float, v2:Float, t:Float, fflags:Int, fparams:Float[])
+	Field flags:Int
+	Field parameters:Float[]
+	'=============================
+	Function Find:TRampController(target:Float Ptr)
+		Local key:String = String( Int(target) )
+		Return TRampController( global_map.ValueForKey(key) )
+	End Function
+	'=============================
+	Function Create:TRampController(target:Float Ptr, value:Float, duration:Int, InterpFunc:Float(v1:Float, v2:Float, t:Float, fflags:Int, fparams:Float[]), flags:Int, params:Float[])
+		Local ramp:TRampController = Find(target)
+		If ramp&lt;&gt;Null
+			ramp.Destroy()		'new ramps override old ones
+		EndIf
+		'=============================
+		ramp:TRampController = New TRampController
+		ramp.target = target;   Local key:String = String( Int(target) );   global_map.Insert(key, ramp)
+		'=============================
+		ramp.start_value = target[0]
+		ramp.start_time = MilliSecs()
+		ramp.end_value = value
+		ramp.end_time = ramp.start_time+duration
+		ramp.duration = duration
+		ramp.difference = ramp.end_value-ramp.start_value
+		ramp.previous_value = target[0]
+		'=============================
+		ramp.InterpFunc = InterpFunc
+		ramp.flags = flags
+		ramp.parameters = params
+		'=============================
+		Return ramp
+	End Function
+	'=============================
+	Method Update()
+		If target[0]&lt;&gt;previous_value
+			Destroy()		'ramp is interrupted (doesn't respond if the variable is 'set' to it's current value)
+			Return			'multiple ramps on the same variable would destroy eachother at this step
+		EndIf
+		Local current_time:Int = MilliSecs()
+		If current_time &gt;= end_time
+			target[0] = end_value
+			Destroy()
+			Return
+		EndIf
+		Local time_passed:Float = current_time-start_time
+		target[0] = InterpFunc(start_value, end_value, time_passed/duration, flags, parameters)
+		previous_value = target[0]
+	End Method
+	'=============================
+End Type
+'=============================
+Function Ramp(f:Float Var, value:Float, milliseconds:Int, InterpFunc:Float(v1:Float, v2:Float, t:Float, fflags:Int, fparams:Float[]) = LineInterpolate, flags:Int = 0, params:Float[] = Null)
+	Local target:Float Ptr = Varptr(f)
+	Local r:TRampController = TRampController.Create(target, value, milliseconds, InterpFunc, flags, params)
+End Function
+'=============================
+Function ReverseRamp(f:Float Var, milliseconds:Int=0)
+	Local target:Float Ptr = Varptr(f)
+	Local ramp1:TRampController = TRampController.Find(target)
+	If ramp1 = Null Then Return
+	If milliseconds = 0
+		Local time_passed:Int = MilliSecs()-ramp1.start_time
+		milliseconds = time_passed
+	EndIf
+	Local ramp2:TRampController = TRampController.Create(target, ramp1.start_value, milliseconds, ramp1.InterpFunc, ramp1.flags, ramp1.parameters)
+End Function
+'=============================
+Function HaltRamp(f:Float Var)
+	Local target:Float Ptr = Varptr(f)
+	Local ramp:TRampController = TRampController.Find(target)
+	If ramp&lt;&gt;Null
+		ramp.Destroy()
+		Return
+	EndIf
+End Function
+'=============================
+</pre><br><br>Here's what I've got so far in terms of Interpolation functions (to be continued)<br><br><pre class="code">'interpolation functions.bmx
+
+'=============================
+Function LineInterpolate:Float(v1:Float, v2:Float, t:Float, flags:Int=0, parameters:Float[]=Null)		't=[0...1]
+	Return v1*(1-t) + v2*(t)
+End Function
+'=============================
+
+
+
+'=============================
+Global INTERP_EASEIN:Int = 1, INTERP_EASEOUT:Int = 2
+'=============================
+Function SmoothInterpolate:Float(v1:Float, v2:Float, t:Float, flags:Int=0, parameters:Float[]=Null)
+'...
+End Function
+'=============================
+
+
+'=============================
+Function StairInterpolate:Float(v1:Float, v2:Float, t:Float, flags:Int=0, parameters:Float[]=Null)
+'...
+End Function
+'=============================
+
+
+
+'=============================
+Function ExpInterpolate()
+'...
+End Function
+'=============================
+</pre><br><br>This system allows you to pass flags and a float array of parameters to the Interpolate functions for style options / etc...<br>And if you don't need to Interpolate any variable over time, these functions can be used on their own :)<br><br><br>Here's compatible example code, but it doesn't showcase most of the new features yet.<br><br><pre class="code">'ramp example.bmx
+'=============================
+SuperStrict
+Include "variable controllers3.bmx"
+Graphics 400, 300
+'=============================
+
+
+
+'=============================
+Global myfloat:Float=150
+'=============================
+
+
+
+'=============================
+While Not KeyHit(KEY_ESCAPE)
+	'=============================
+	If KeyHit(KEY_SPACE)
+		Ramp(myfloat, Rnd(0, 300), Rnd(500, 2000))
+	EndIf
+	'=============================
+	If KeyHit(KEY_BACKSPACE)
+		ReverseRamp(myfloat)
+	EndIf
+	'=============================
+	If MouseHit(1)
+		myfloat=MouseY()
+	EndIf
+	'=============================
+	If MouseHit(2)
+		HaltRamp(myfloat)
+	EndIf
+	'=============================
+	TVariableController.Update_All()
+	'=============================
+	Local ramp:TRampController
+	Local map_enum:TMapEnumerator = TVariableController.global_map.Values()
+	For ramp=EachIn map_enum
+		SetColor 255, 255, 0
+		DrawOval 190, ramp.end_value-10, 20, 20
+		SetColor 0, 0, 255
+		DrawOval 190, ramp.start_value-10, 20, 20
+	Next
+	'=============================	
+	SetColor 255, 255, 255
+	DrawOval 190, myfloat-10, 20, 20
+	'=============================	
+Flip
+Cls
+Wend
+End
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Variable Controllers (incomplete)</td><td align="right"><font class="tiny">(Posted 2009-12-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ More controllers. I didn't bother starting the StairController code 
+because my next update will make it obsolete (it's going to be cool).<br>WrapController
+ would be pretty straightforward to adapt from ClipController, but I'm 
+trying to develop a system that allows for more complicated ranges &amp;
+ wrap/clip behavior, and that deals with the erractic behavior that 
+occurs when a variable wraps while being ramped.<br>Also, in the next update RampControllers should be evaluated before ClipControllers, etc..<br><br><pre class="code">'variable controllers.bmx
+
+'=============================
+Type TVariableController
+	Global global_list:TList = New TList
+	'=============================
+	Field global_link:TLink
+	Field target:Float Ptr
+	'=============================
+	Function Update_All()
+		Local vc:TVariableController
+		For vc = EachIn global_list
+			vc.Update()
+		Next
+	End Function
+	'=============================
+	Method Update() Abstract
+	'=============================
+	Method New()
+		global_link = global_list.AddLast(Self)
+	End Method
+	'=============================
+	Method Destroy()
+		global_link.Remove()
+	End Method
+	'=============================
+End Type
+'=============================
+
+
+
+'=============================
+Type TRampController Extends TVariableController
+	Field start_value:Float
+	Field start_time:Int
+	Field end_value:Float
+	Field end_time:Int
+	Field duration:Int
+	Field previous_value:Float
+	Field difference:Float
+	'=============================
+	Function Find:TRampController(target:Float Ptr)
+		Local ramp:TRampController
+		For ramp=EachIn global_list
+			If ramp.target = target
+				Return ramp
+			EndIf
+		Next
+		Return Null
+	End Function
+	'=============================
+	Function Create:TRampController(target:Float Ptr, value:Float, duration:Int, override:Int =T rue)
+		Local ramp:TRampController = Find(target)
+		If ramp&lt;&gt;Null
+			Select override
+				Case True
+					ramp.Destroy()		'new ramps override old ones
+				Case False
+					Return Null		'old ramps override new ones
+				Default
+			End Select
+		EndIf
+		'=============================
+		ramp:TRampController = New TRampController
+		ramp.target = target
+		ramp.start_value = target[0]
+		ramp.start_time = MilliSecs()
+		ramp.end_value = value
+		ramp.end_time = ramp.start_time+duration
+		ramp.duration = duration
+		ramp.difference = ramp.end_value-ramp.start_value
+		ramp.previous_value = target[0]
+		Return ramp
+	End Function
+	'=============================
+	Method Update()
+		If target[0]&lt;&gt;previous_value
+			Destroy()		'ramp is interrupted (doesn't respond if the variable is 'set' to it's current value)
+			Return		'multiple ramps on the same variable will destroy eachother at this step
+		EndIf
+		Local current_time:Int = MilliSecs()
+		If current_time &gt;= end_time
+			target[0] = end_value
+			Destroy()
+			Return
+		EndIf
+		Local time_passed:Float=current_time-start_time
+		target[0] = start_value + time_passed*difference/duration 
+		previous_value = target[0]
+	End Method
+	'=============================
+End Type
+'=============================
+Function Ramp(f:Float Var, value:Float, milliseconds:Int, override:Int=True)
+	Local target:Float Ptr = Varptr(f)
+	Local r:TRampController = TRampController.Create(target, value, milliseconds, override)
+End Function
+'=============================
+Function ReverseRamp(f:Float Var, milliseconds:Int=0)
+	Local target:Float Ptr = Varptr(f)
+	Local ramp1:TRampController = TRampController.Find(target)
+	If ramp1 = Null Then Return
+	If milliseconds = 0
+		Local time_passed:Int = MilliSecs()-ramp1.start_time
+		milliseconds = time_passed
+	EndIf
+	Local ramp2:TRampController = TRampController.Create(target, ramp1.start_value, milliseconds, True)
+End Function
+'=============================
+Function HaltRamp(f:Float Var)
+	Local target:Float Ptr = Varptr(f)
+	Local ramp:TRamp = TRampController.Find(target)
+	If ramp&lt;&gt;Null
+		ramp.Destroy()
+		Return
+	EndIf
+End Function
+'=============================
+
+
+
+'=============================
+Type TStairController
+'...
+End Type
+'=============================
+
+
+
+'=============================
+Type TClipController
+	Field lower_bound:Float
+	Field upper_bound:Float
+	'=============================
+	Function Find(target:Float Ptr)
+		Local clipper:TClipController
+		For clipper = EachIn global_list
+			If clipper.target = target
+				Return clipper
+			EndIf
+		Next
+		Return Null
+	End Function
+	'=============================
+	Function Create:TClipController(target:Float Ptr, lower_bound:Float, upper_bound:Float, override:Int = True)
+		Local clipper:TClipController
+		clipper = Find(target)
+		If clipper &lt;&gt; Null
+			Select override
+				Case True
+					clipper.Destroy()
+				Case False
+					Local clipper2:TClipController = Create2(target, lower_bound, upper_bound)
+					Return Combine(clipper, clipper2)
+				Default
+			End Select
+		EndIf
+		'=============================
+		Return Create2(target, lower_bound, upper_bound)
+	End Function
+	'=============================
+	Function Create2:TClipController(target:Float Ptr, lower_bound:Float, upper_bound:Float)
+		Local clipper:TClipController = New TClipController
+		clipper.target = target
+		clipper.lower_bound = lower_bound
+		clipper.upper_bound = upper_bound
+		Return clipper
+	End Function
+	'=============================
+	Function Combine:TClipController(clipper1:TClipController, clipper2:TClipController)
+		Local target:Float Ptr = clipper1.target
+		Local lower_bound:Float = Max(clipper1.lower_bound, clipper2.lower_bound)
+		Local upper_bound:Float = Min(clipper1.upper_bound, clipper2.upper_bound)
+		clipper1.Destroy()
+		clipper2.Destroy()
+		Return TClipController.Create(target, lower_bound, upper_bound)
+	End Function
+	'=============================
+End Type
+'=============================
+Function Clip(f:Float Var, lower_bound:Float, upper_bound:Float, override:Int = True)
+	Local target:Float Ptr = Varptr(f)
+	Local clipper:TClipController = TClipController(target, lower_bound, upper_bound, override)
+End Function
+'=============================
+Function Unclip(f:Float Var)
+	Local target:Float Ptr = Varptr(f)
+	Local clipper:TClipController = TClipController.Find(target)
+	If clipper &lt;&gt; Null
+		clipper.Destroy()
+	EndIf
+End Function
+'=============================
+
+
+
+'=============================
+Type TWrapController
+'...
+End Type
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Alternate override behavior</td><td align="right"><font class="tiny">(Posted 2009-12-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Slight modification of the previous that allows for more than two 
+different ways to handle situations where a new ramp is called for a 
+variable that is already being ramped.<br><br><pre class="code">'ramp function.bmx
+'=============================
+Const RAMP_OVERRIDE:Int=0, RAMP_IGNORE:Int=1, RAMP_STACK:Int=2
+'=============================
+
+'=============================
+Function Ramp(f:Float Var, value:Float, milliseconds:Int, override:Int=RAMP_OVERRIDE)
+	Local target:Float Ptr = Varptr(f)
+	Local r:TRamp = TRamp.Create(target, value, milliseconds, override)
+End Function
+'=============================
+Function ReverseRamp(f:Float Var, milliseconds:Int=0)
+	Local target:Float Ptr = Varptr(f)
+	Local ramp1:TRamp = TRamp.FindRamp(target)
+	If ramp1=Null Then Return
+	If milliseconds = 0
+		Local time_passed:Int = MilliSecs()-ramp1.start_time
+		milliseconds = time_passed
+	EndIf
+	Local ramp2:TRamp = TRamp.Create(target, ramp1.start_value, milliseconds, True)
+End Function
+'=============================
+Function HaltRamp(f:Float Var)
+	Local target:Float Ptr = Varptr(f)
+	Local ramp:TRamp = TRamp.FindRamp(target)
+	If ramp&lt;&gt;Null
+		ramp.Destroy()
+		Return
+	EndIf
+End Function
+'=============================
+
+'=============================
+Type TRamp
+	Global global_list:TList = New TList
+	'=============================
+	Field global_link:TLink
+	'=============================
+	Method New()
+		global_link = global_list.AddLast(Self)
+	End Method
+	'=============================
+	Field target:Float Ptr
+	Field start_value:Float
+	Field start_time:Int
+	Field end_value:Float
+	Field end_time:Int
+	Field duration:Int
+	Field previous_value:Float
+	Field difference:Float
+	Field chain_ramp:TRamp
+	'=============================
+	Function FindRamp:TRamp(target:Float Ptr)
+		Local ramp:TRamp
+		For ramp=EachIn global_list
+			If ramp.target = target
+				Return ramp
+			EndIf
+		Next
+		Return Null
+	End Function
+	'=============================
+	Function Create:TRamp(target:Float Ptr, value:Float, duration:Int, override:Int=RAMP_OVERRIDE)
+		duration=Max(duration, 1)
+		Local ramp:TRamp = FindRamp(target), new_ramp:TRamp
+		If ramp&lt;&gt;Null
+			Select override
+				Case RAMP_OVERRIDE
+					ramp.Destroy()		'new ramps override old ones
+				Case RAMP_IGNORE
+					Return Null		'old ramps override new ones
+				Case RAMP_STACK
+					ramp.Chain(value:Float, duration:Int)
+				Default
+					ramp.Destroy()
+			End Select
+		EndIf
+		'=============================
+		new_ramp:TRamp = New TRamp
+		new_ramp.target = target
+		new_ramp.start_value = target[0]
+		new_ramp.start_time = MilliSecs()
+		new_ramp.end_value = value
+		new_ramp.end_time = new_ramp.start_time+duration
+		new_ramp.duration = duration
+		new_ramp.difference = new_ramp.end_value-new_ramp.start_value
+		new_ramp.previous_value = target[0]
+		Return new_ramp
+	End Function
+	'=============================
+	Function Update_All()
+		Local ramp:TRamp
+		For ramp = EachIn global_list
+			ramp.Update()
+		Next
+	End Function
+	'=============================
+	Function Print_All()
+		Local ramp:TRamp
+		For ramp = EachIn global_list
+			Print ramp.ToString()
+		Next
+	End Function
+	'=============================
+	Method Update()
+		If target[0] &lt;&gt; previous_value
+			Destroy()		'ramp is interrupted (doesn't respond if the variable is set to it's current value)
+			Return
+		EndIf
+		Local current_time:Int = MilliSecs()
+		If current_time &lt;= start_time		'for stacking
+			Return
+		EndIf
+		If current_time &gt;= end_time
+			target[0] = end_value
+			Destroy()
+			Return
+		EndIf
+		Local time_passed:Float = current_time-start_time
+		target[0] = start_value + time_passed*difference/duration 
+		previous_value = target[0]
+	End Method
+	'=============================
+	Method Chain(value:Float, duration:Int)
+		If chain_ramp&lt;&gt;Null
+			chain_ramp.Chain(value, duration)
+		Else
+			chain_ramp=New TRamp
+			chain_ramp.global_link.Remove()
+			chain_ramp.end_value=value
+			chain_ramp.duration=duration
+		EndIf
+	End Method
+	'=============================
+	Method Destroy()
+		If chain_ramp&lt;&gt;Null
+			Local tar:Float Ptr=target
+			Local val:Float = chain_ramp.end_value
+			Local dur:Int = chain_ramp.duration
+			Local second_chain:TRamp = chain_ramp.chain_ramp
+			global_link.Remove()
+			Local ramp:TRamp = Create(tar, val, dur)
+			ramp.chain_ramp = second_chain
+		Else
+			global_link.Remove()
+		EndIf
+	End Method
+	'=============================
+	Method ToString:String()
+		Return "start_value: "+start_value+"   end_value: "+end_value+"   duration: "+duration
+	End Method
+End Type
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TRamp</td><td align="right"><font class="tiny">(Posted 2009-12-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Original code from forum.<br><br><pre class="code">'ramp function.bmx
+
+'=============================
+Function Ramp(f:Float Var, value:Float, milliseconds:Int, override:Int=True)
+	Local target:Float Ptr = Varptr(f)
+	Local r:TRamp = TRamp.Create(target, value, milliseconds, override)
+End Function
+'=============================
+Function ReverseRamp(f:Float Var, milliseconds:Int=0)
+	Local target:Float Ptr = Varptr(f)
+	Local ramp1:TRamp = TRamp.FindRamp(target)
+	If ramp1=Null Then Return
+	If milliseconds = 0
+		Local time_passed:Int = MilliSecs()-ramp1.start_time
+		milliseconds = time_passed
+	EndIf
+	Local ramp2:TRamp = TRamp.Create(target, ramp1.start_value, milliseconds, True)
+End Function
+'=============================
+Function HaltRamp(f:Float Var)
+	Local target:Float Ptr = Varptr(f)
+	Local ramp:TRamp = TRamp.FindRamp(target)
+	If ramp&lt;&gt;Null
+		ramp.Destroy()
+		Return
+	EndIf
+End Function
+'=============================
+
+'=============================
+Type TRamp
+	Global global_list:TList = New TList
+	'=============================
+	Field global_link:TLink
+	'=============================
+	Method New()
+		global_link = global_list.AddLast(Self)
+	End Method
+	'=============================
+	Field target:Float Ptr
+	Field start_value:Float
+	Field start_time:Int
+	Field end_value:Float
+	Field end_time:Int
+	Field duration:Int
+	Field previous_value:Float
+	Field difference:Float
+	'=============================
+	Function FindRamp:TRamp(target:Float Ptr)
+		Local ramp:TRamp
+		For ramp=EachIn global_list
+			If ramp.target=target
+				Return ramp
+			EndIf
+		Next
+		Return Null
+	End Function
+	'=============================
+	Function Create:TRamp(target:Float Ptr, value:Float, duration:Int, override:Int=True)
+		Local ramp:TRamp=FindRamp(target)
+		If ramp&lt;&gt;Null
+			Select override
+				Case True
+					ramp.Destroy()		'new ramps override old ones
+				Case False
+					Return Null		'old ramps override new ones
+				Default
+			End Select
+		EndIf
+		'=============================
+		ramp:TRamp = New TRamp
+		ramp.target = target
+		ramp.start_value = target[0]
+		ramp.start_time = MilliSecs()
+		ramp.end_value = value
+		ramp.end_time = ramp.start_time+duration
+		ramp.duration = duration
+		ramp.difference = ramp.end_value-ramp.start_value
+		ramp.previous_value=target[0]
+		Return ramp
+	End Function
+	'=============================
+	Function Update_All()
+		Local ramp:TRamp
+		For ramp=EachIn global_list
+			ramp.Update()
+		Next
+	End Function
+	'=============================
+	Function Print_All()
+		Local ramp:TRamp
+		For ramp=EachIn global_list
+			Print ramp.ToString()
+		Next
+	End Function
+	'=============================
+	Method Update()
+		If target[0]&lt;&gt;previous_value
+			Destroy()		'ramp is interrupted (doesn't respond if the variable is set to it's current value)
+			Return
+		EndIf
+		Local current_time:Int = MilliSecs()
+		If current_time &gt;= end_time
+			target[0]=end_value
+			Destroy()
+			Return
+		EndIf
+		Local time_passed:Float=current_time-start_time
+		target[0] = start_value + time_passed*difference/duration 
+		previous_value = target[0]
+	End Method
+	'=============================
+	Method Destroy()
+		global_link.Remove()
+	End Method
+	'=============================
+	Method ToString:String()
+		Return "start_value: "+start_value+"   end_value: "+end_value+"   duration: "+duration
+	End Method
+End Type
+'=============================
+</pre><br><br>here's a usage example.<br>controls:<br>-spacebar ramps myfloat to a random value over a random interval<br>-backspace reverses an in-progress ramp to return myfloat to it's previous value<br>-left click anywhere to set myfoat's value (this interrupts an in-progress ramp)<br>-right click anywhere to halt an in-progress ramp<br><pre class="code">'ramp example.bmx
+'=============================
+SuperStrict
+Include "ramp function.bmx"
+Graphics 400, 300
+'=============================
+
+
+
+'=============================
+Global myfloat:Float=150
+'=============================
+
+
+
+'=============================
+While Not KeyHit(KEY_ESCAPE)
+	'=============================
+	If KeyHit(KEY_SPACE)
+		Ramp(myfloat, Rnd(0, 300), Rnd(500, 2000))
+	EndIf
+	'=============================
+	If KeyHit(KEY_BACKSPACE)
+		ReverseRamp(myfloat)
+	EndIf
+	'=============================
+	If MouseHit(1)
+		myfloat=MouseY()
+	EndIf
+	'=============================
+	If MouseHit(2)
+		HaltRamp(myfloat)
+	EndIf
+	'=============================
+	TRamp.Update_All()
+	'=============================
+	Local ramp:TRamp
+	For ramp=EachIn TRamp.global_list
+		SetColor 255, 255, 0
+		DrawOval 190, ramp.end_value-10, 20, 20
+		SetColor 0, 0, 255
+		DrawOval 190, ramp.start_value-10, 20, 20
+	Next
+	'=============================	
+	SetColor 255, 255, 255
+	DrawOval 190, myfloat-10, 20, 20
+	'=============================	
+Flip
+Cls
+Wend
+End
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

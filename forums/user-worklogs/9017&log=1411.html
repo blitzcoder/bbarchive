@@ -1,0 +1,66 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for joko229</h1><h1>2D Adventure</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Minor setback</td><td align="right"><font class="tiny">(Posted 2007-01-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The engine’s scene manager was already complete when I bought the 
+iGlass library. It pulled the static and animated images from the 
+database and set their positions and order. The engine is pretty simple,
+ each image was managed in either an actor or prop class that handled 
+mouse-over and click events and sent the events to the event manager. <br><br>After
+ I integrated iGlass to get my popup stuff working I found that it was 
+doing the same stuff in it’s RefreshGui function and I was getting weird
+ anomalies like the cursor going under some images and incorrect order 
+of overlapping images. <br><br>I had to decide to either commit to 
+iGlass and wire it into the scene manager or go back to writing my own 
+popup and listbox classes. After testing a few approaches I figured that
+ it would take less time and coding to rewrite the scene manager but 
+that pretty much cements the iGlass library into the engine instead of 
+hanging off to the side as I had intended. <br><br>I finished that last night and now have to work through my fear of commitment. <br><br> Play as hard as you work </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>GUIs and such</td><td align="right"><font class="tiny">(Posted 2007-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Getting the actor dialog to work in a popup window was turning into a bigger piece then I wanted to spend on it. <br><br>I
+ decided it was time to turn to a GUI library. I tried MaxGUI but I 
+didn’t read the forums well enough or I would have figured out before I 
+bought it that it wasn’t the right tool for in-game display management. 
+After looking at a few GUIs I settled on iGlass because it came with a 
+lot of example code and documentation.<br><br>I thought that it was 
+another wrong turn at first when I discovered that it didn’t support 
+hiding the scrollbars in the listbox. I didn’t like the utilitarian look
+ of the  scrollbars for presenting the user input choices in the 
+conversation. It just didn't look game-like. <br><br>I bought the lib to
+ save programming time and didn’t want to dig into the source code but I
+ opened up the hood just to see how big a deal it would be. A few 
+minutes later I was an iGlass fan. The code is very well organized and 
+readable and I ended up extending the listbox class while I had it open –
+ 20 minutes max. Nice work Philippe <br><br>On to the inventory manager – hoo-rah <br><br> Play as hard as you work </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Actor Dialog</td><td align="right"><font class="tiny">(Posted 2007-01-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The actor dialog feature is complete. It is a question answer type of 
+system that will run rules based on the user input. The currently the 
+rules are:<br><br>Rule 1 - put item in inventory, fact = item number<br>Rule 2 - put entry in Journal, fact = dialogText number<br>Rule 3 - put location in Journal, fact = scene number<br>Rule 4 - update gameState, fact = gameState number<br><br>There will be more as I go along but these will do for now. <br><br> Play as hard as you work </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>happy new year</td><td align="right"><font class="tiny">(Posted 2006-12-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My favorite games are 2D adventure/puzzle games. I fell in love with 
+the old Sierra games in the 80s and still play that style when I find 
+them. <br><br>I had to come up with a way that one person working part 
+time could actually finish a visually appealing and playable game. Some 
+of the latest games in the genre like Syberia appear to use a mixture of
+ 2D backgrounds and 3D models and simulate the 2D view port with fixed 
+camera angles. I experimented with that idea using the Torque engine but
+ decided that creating the 3D models and animations was out of scope for
+ one person.<br><br>I settled on Blitzmax for the game engine after doing some tests with other engines which included:<br>-Torque (both 3D and 2D)<br>-Flat Red Ball (FRB)<br>-Darkbasic Pro<br>-Game Studio A6<br><br>I
+ went back and forth a few times and even had a basic working version of
+ the game engine in FRB. The final call came from a test that I set up 
+with several engines using the same backgrounds and sprites that I had 
+cobbled together. Blitzmax displayed the best quality sprites with 
+Torque Game Builder coming in a close second. I liked the particle 
+engine in Torque but getting my game logic going seemed to just take 
+forever so I switched to Blitzmax and it is really coming along. I 
+really liked FRB because it is written in C# but it had the worst 
+display of all of the tests - darn shame.<br><br>I am working on a bmax 
+game engine that has a little workflow engine using Sqlite for the 
+database. The basic “find stuff and take them to someone” games are just
+ a form of workflow but licensing Staffware is out of my budget so I 
+rolled my own. So far I have basic setup, navigation, and scene 
+management done and actor dialog about at 80%. The player journal and 
+inventory system are still on drawing board. When it is finished, the 
+entire game will be driven from the database. <br><br>I went with Poser 
+for the animations. It is easy to create animations and convert them to 
+high quality sprites and there is an excellent community for buying 
+artwork so I don’t have to do all of it myself. I am using 3DS Max for 
+creating the background art but started using Vue d’Esprit for rendering
+ because it gives better control over lighting and atmosphere.<br><br>I will have some screenshots in next few weeks and I am on track to have a playable demo by June 07. <br><br> Play as hard as you work </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

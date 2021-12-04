@@ -1,0 +1,97 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Mordax_Praetorian</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Animations</td><td align="right"><font class="tiny">(Posted 2005-01-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> -Thanks go to Grey Alien for making the contents of this entry possible<br><br>For
+ the sake of having to set a limit, the engine now supports 26 
+simultanious animations at varying framerates (this includes walking 
+animations)<br><br>Oh yes.... Walking Animations, that bit of the engine
+ that my testers have wanted for so long, they are currently testing a 
+single walking animation and current feedback looks good, it is smooth 
+and stable on all systems<br><br>for those of you who didnt see the forum posts, the system works like this:<br><br>Animation Details are stored in 2 arrays, 1 for numbers and one for text<br><br>The
+ frames themselves are not stored in the arrays, just instructions 
+identifieing which animation it is and the speed it is going at<br><br>Animations are set easily with a function that makes sure all the information goes in the right place<br><br>The
+ play animation function scans through the animations and updates as 
+apropriate, the function is run often and at all times, it is accurate 
+to millisecconds<br><br>When an animation is finished it will either loop or be deleted (theres a function for that too)<br><br>I
+ will probably make another function for preparing animations, one that 
+would load the frames up into memory for the specified animation<br><br>There is also a function for searching the array, it returns a 1 if an animation is currently playing<br><br>I'm
+ not sure right now of the possible lag effects on some systems, having 
+26 animations all playing at different framerates could slow things down<br><br>Due to lack of feedback I'm not going to post any more builds here till things are more finished<br><br>-Mordax<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Updates</td><td align="right"><font class="tiny">(Posted 2004-12-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Build 5 is ready, you can download it in the Showcase forum<br><br>Ive
+ been thinking recently about Walking Animations, they are in high 
+demand by my Alpha Testers so I think its time I made them a priority, 
+the slowdown produced by them should allow me to remove the 
+press-per-move system and replace it with a hold-to-move system that 
+should be a lot nicer<br><br>Its time to start experimenting, normaly 
+these would be easily done with Animations however with the colour 
+editing system I have in place they may require a more unique aproch, 
+I'll keep you all informed<br><br>-Mordax<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Dialouge System and Colour Substitution</td><td align="right"><font class="tiny">(Posted 2004-11-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> 2 recent things I got working were the dialouge system and colour substitution<br><br>The
+ Colour Substitution system allows you to have many copies of the same 
+picture but all with different colors, and all comming from the same 
+file<br><br>Basicly the engine masks the image for the colour to change,
+ then clears the back buffer to the new colour, draws the picture and 
+grabs it again, thus swapping the old colour for a new one<br><br>Its 
+current aplication is in the Character Generator, which uses this to 
+allow the player to pick hair, eye, skin and clothes colours<br><br>The 
+dialouge system is something you can find out about for yourself as I 
+will releasing the current Alpha version to the Blitz community<br><br>The
+ source code is present, however in order to safeguard my repuation with
+ the fickle minded masses I am holding the rites to it until the final 
+release, I know all too well what can happen if things get out too early<br><br>If
+ you would like the Alpha Version please provide me with the E-Mail 
+address (by way of the "Seten Myrianon Alpha Release" topic in the Blitz
+ Showcase forum) to send the link too, the link is not to be given to 
+anyone else<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Graphics!</td><td align="right"><font class="tiny">(Posted 2004-10-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yesterday the engine made the jump from ASCII to proper graphics, there will be screenshots soon<br><br>As the end product will be Open Source I'll tell you a bit about how these graphics work<br><br>The
+ engine's graphics center around 32x32 pixel tiles, in order to specify 
+what tiles go where there are 2 things you need to do:<br><br>The fist 
+is to specify tilesets, tilesets are collections of tiles with 1 
+specific theme, all tilesets should have the same layout, I.e the top 
+left most tile is always a floor tile, in code you change the tilesets 
+stored in memory by changing the value of 2 globals called TS1$ and 
+TS2$, and running a function called LoadTS(), this may later change to 
+just a function LoadTS(TS1$,TS2$), but I will probably need to have 
+access to TS1$ and TS2$ elsewhere so I will not be changing this till I 
+know for sure, the second tileset is optional and should be set to 
+"None" if your not using it<br><br>The second thing to do is make an 
+RCode file (.RCode), RCode stands for Room Code, they are in essance 
+just .txt files that have been re-named, so you can open them in 
+notepad, the idea of changing the extention is to throw people off who 
+may want to snoop around your room layouts, I have tested that this idea
+ works by sending an RCode file to an expert Pascal coder who couldnt 
+figure out what it was<br><br>Your RCode file will specify what tile 
+goes where, each tile in your tileset(s) has a 4 letter code, each room 
+is 15x15 tiles, so you simply type the codes in kinda like this:<br><br>[Code]<br>XXXX|SW1A|SW1C|SW1D|FW1A|FW1C|FW1A|FF1B|FW1A|FW1D|FW1A|FW1A|XXXX|XXXX|XXXX|<br>XXXX|SF1A|SF1A|SF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|XXXX|XXXX|XXXX|<br>XXXX|SF1C|SF1B|SF1B|FF1B|FF1A|FF1A|FF1A|FF1D|FF1A|FF1A|FF1A|FW1A|XXXX|XXXX|<br>XXXX|SF1A|SF1A|SF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|XXXX|XXXX|<br>XXXX|XXXX|SF1A|SF1A|SF1A|FF1A|FF1A|FF1A|FF1D|FF1A|FF1A|FF1D|FF1A|XXXX|XXXX|<br>XXXX|SW1B|SF1C|SF1A|SF1A|SF1A|FF1A|FF1A|FF1A|FF1A|FF1B|FF1A|FF1A|FW1B|XXXX|<br>SW1A|SF1A|SF1A|SF1D|SF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1D|XXXX|<br>SF1A|SF1A|SF1C|SF1B|FF1A|FF1A|FF1A|FF1A|FF1C|FF1A|FF1A|FF1A|FF1A|FF1A|XXXX|<br>XXXX|SF1A|SF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|XXXX|<br>XXXX|FF1A|SF1B|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1C|FF1A|FF1A|XXXX|<br>XXXX|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|XXXX|<br>XXXX|FF1A|FF1A|FF1A|FF1C|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|XXXX|<br>XXXX|FF1C|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|XXXX|<br>XXXX|FF1A|FF1A|FF1D|FF1A|FF1A|FF1B|XXXX|FF1A|FF1A|FF1A|FF1A|FF1A|FF1A|XXXX|<br>XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|XXXX|<br>[/Code]<br><br>every
+ block of 4 represents a tile, the engine will read the codes and store 
+them in an array called M$(16, 16) of which the codes use 1-15 either 
+way, it will then read M$ and place the apropriate tile<br><br>In the 
+above example, XXXX represents a black tile, anything with F as the 
+first letter comes from the first tileset while anything with S as the 
+first letter comes from the second tileset, for the next letter F 
+represents a floor, while W represents a wall, the other 2 letters 
+specify the exact type, FW1A for example is First-Wall type 1A<br><br>Why not just go straght from RCode file to screen?<br><br>Well, M$ has its uses elsewhere as well, collision for example isnt done in a standard style for combat-mode related purposes<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Introduction</td><td align="right"><font class="tiny">(Posted 2004-10-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> As you may have read on my supposedly confusing website I am infact coding an RPG engine<br><br>The
+ "Myrianon" engine will be not only used in the hopefuly not too distant
+ future to create games by me, but should also be released Open Source 
+to other developers<br><br>So what eventual goals does this project work to:<br><br>The
+ first is to create, develop and demonstrate hopefuly the most diverse 
+RPG world in existance, my world "Seten" has quite a long fictional 
+history and a lot more planned for later games spread accross the 
+timeline of Seten, from its stone age to its space age, and while many 
+RPG worlds will boast their diverse mix of terrain types from forests to
+ swamps to deserts, to sowfields, very few indeed add their own terrain 
+types to that list that dont exist on our own world, at the time of 
+writing the world of Seten has been in design for about 4 years<br><br>The
+ second, and far less likely goal is to bring the graphical 
+"development" of the gaming industry to a halt and to instead force the 
+industry to focus on gameplay development, this enhancement of gameplay 
+is the focus of releasing the engine Open Source, I'm confident that 
+what I have planed is the right way to do things and thus more amature 
+RPG programmers will use the engine<br><br>The third and final ultimate 
+goal of the engine is to provide me with a nice happy retirement, the 
+fact that I'm 17 doesnt mean that I cant plan ahead, the money from any 
+games I make with my engine will all go straght into a high interest 
+bank account for use when I retire<br><br>So, how are things currently with the engine:<br><br>Well
+ I currently have quite a lot of it to convert from other languages to 
+Blitz, I'm finding that there are so many more efficiant options in 
+Blitz that most of it is being re-written in the process, I'm also 
+pixeling the graphics to be used in the sample game to be included in 
+the engines code<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

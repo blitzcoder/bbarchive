@@ -1,0 +1,446 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for skidracer</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>just guessing</td><td align="right"><font class="tiny">(Posted 2006-09-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been trying to wrap a dll meant for Visual C++. The thiscall 
+calling convention is not currently supported in BlitzMax and requires a
+ lot of glue code. <br><br>Objects created in libraries disitributed for
+ OLE usage (extend IUnknown) are supported by BlitzMax natively as the 
+dx modules demonstrate.<br><br>I have had a little look into what it 
+would take to implement thiscall calling convention, from what I could 
+make out the assembly language would need to be something like so but 
+the stack register stuff is just a guess.<br><br><pre class="code">save esp,[staticsp]
+pop ecx
+call thiscallpointer
+load esp,[staticsp]
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>thrustar source code</td><td align="right"><font class="tiny">(Posted 2005-07-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This was going to be a tutorial a while back, did find it useful for stresstesting BlitzMax collisions etc.<br><br>hold down the right arrow and hammer the s key to set up a swarm, <br><br>space to fire, and there is a smoke key somewhere also...<br><br>www.nitrologic.net/thrustar/player.png<br>www.nitrologic.net/thrustar/stars.png<br>www.nitrologic.net/thrustar/bullet.png<br>www.nitrologic.net/thrustar/smoke.png<br>www.nitrologic.net/thrustar/shoot.wav<br>www.nitrologic.net/thrustar/thrust.wav<br><br><pre class="code">' thrustar.bmx
+' by simon@...
+
+' hold down the right arrow and hammer the s key....
+
+Strict	'you know I am
+
+Type TShape
+	Field	x#,y#	'position
+	Field	vx#,vy#	'velocity
+	Field	rot#		'rotation
+	Field	scale#=1.0
+	Field	drag#=1.0
+	Field	image
+	Field	layer
+
+	Method New()
+		ShapeList.AddFirst Self
+	End Method
+
+	Method Reset(shooter:TShape)
+		x=shooter.x
+		y=shooter.y
+		vx=shooter.vx+5*Sin(shooter.rot)
+		vy=shooter.vy-5*Cos(shooter.rot)
+		rot=shooter.rot
+	End Method
+
+	Method Turn(angle#)
+		rot=rot+angle			'turn
+	End Method
+	
+	Method Thrust(throttle#)
+		vx:+throttle*Sin(rot)	' thrust
+		vy:-throttle*Cos(rot)
+	End Method		
+	
+	Method Update()
+		vx=vx*drag			' drag
+		vy=vy*drag
+		x:+vx				' speed
+		y:+vy
+		If layer
+			SetRotation rot
+			SetScale scale,scale
+			CollideImage image,x,y,0,0,layer,Self
+		EndIf
+	End Method
+		
+	Method Draw()
+		SetRotation rot
+		SetScale scale,scale
+		DrawImage image,x,y
+	End Method
+
+	Method Collide()
+	End Method
+End Type
+
+Type TBullet Extends TShape
+	Field	age
+
+	Method Reset(shooter:TShape)
+		super.Reset(shooter)
+		image=BulletImage
+		layer=BULLETLAYER
+		drag=0.94
+	End Method
+
+	Method Update()
+		Thrust 0.8
+		super.Update
+		age=age+1
+		If age=150 ShapeList.Remove Self
+	End Method
+End Type
+
+Type TLaser Extends TBullet
+	Field	orgx,orgy
+
+	Method Reset(shooter:TShape)
+		super.Reset(shooter)
+		orgx=x
+		orgy=y
+		drag=1
+		PlaySound ShootWav
+	End Method
+
+	Method Update()
+		Thrust 2.2
+		super.Update
+		age=age+1
+		If age=150 ShapeList.Remove Self
+	End Method
+
+	Method Draw()
+		SetColor 0,255,55
+		SetRotation 0
+		SetScale scale,scale
+		DrawLine (orgx+x)/2,(orgy+y)/2,x,y',oldx,oldy
+		SetColor 255,255,255
+	End Method
+End Type
+
+Type TPlayer Extends TShape
+	Field	smoke#
+	Field	thrustchannel
+	Field	thrustvolume#
+		
+	Method New()
+		image=shipimage
+		drag=0.94
+		thrustchannel=CueSound(ThrustWav)
+		SetChannelVolume thrustchannel,0
+		ResumeChannel thrustchannel
+	End Method
+	
+	Method Shoot()
+		New TBullet.Reset(Self)
+	End Method
+
+	Method Fire()
+		New TLaser.Reset(Self)
+	End Method
+
+
+	Method AddMine()
+		New TSpawn.Reset(Self)
+	End Method
+
+	Method AddSmoke(amount#)
+		smoke=smoke+amount
+		If smoke&lt;1.0 Return
+		New TSmoke.Reset(Self)
+		smoke:-1
+	End Method
+	
+	Method Thrust(th#)
+		super.Thrust th
+		thrustvolume=1.0
+	End Method
+	
+	Method Update()
+		SetChannelRate thrustchannel,2*thrustvolume
+		SetChannelVolume thrustchannel,0.5*thrustvolume
+		If thrustvolume&gt;0.0 thrustvolume=0.9*thrustvolume
+	
+		If KeyDown(KEY_RIGHT) turn 5
+		If KeyDown(KEY_LEFT) turn -5
+		If KeyDown(KEY_UP) thrust 0.5
+		If KeyDown(KEY_DOWN) thrust -0.3
+
+		If KeyHit(KEY_SPACE) Fire
+'		If KeyHit(KEY_SPACE) Fire'Shoot
+		If KeyDown(KEY_CONTROL) AddSmoke 0.5
+		If KeyHit(KEY_S) AddMine
+
+		super.Update
+	End Method
+End Type
+
+Type TSpawn Extends TShape
+	Field	count
+
+	Method Reset(shooter:TShape)
+		super.Reset(shooter)
+		drag=0.3
+	End Method
+	
+	Method Update()
+		count:+1
+		If count=100 New TBaddie.Reset(Self);count=0
+		super.Update
+	End Method
+
+	Method Draw()
+		DrawOval x,y,20,20
+	End Method
+
+End Type
+
+Type TSmoke Extends TShape
+	Field	gen,age
+	Field	alpha#
+
+	Method Reset(shooter:TShape)
+		super.Reset(shooter)
+		image=SmokeImage
+		drag=0.01
+		scale=.2'3.0
+		alpha=0.3'1.0
+	End Method
+
+	
+	Method Spawn()
+	End Method
+
+	Method Update()
+		super.Update
+		scale:+0.003
+		alpha:-0.0004
+		If alpha&lt;0 ShapeList.remove Self
+	End Method
+	
+	Method Draw()
+		SetBlend LIGHTBLEND
+		Local t=alpha*255
+		SetColor t,t,t
+'		SetAlpha alpha
+		super.Draw
+		SetBlend ALPHABLEND
+		SetColor 255,255,255
+	End Method
+
+End Type
+
+Type TBaddie Extends TShape
+	Field speed#
+
+	Method New()
+		image=shipimage
+		drag=0.94
+		speed=0.3
+	End Method
+
+	Method Update()
+		turn 0.7		
+		thrust speed
+		speed=speed+0.001
+		super.Update
+	End Method
+	
+	Method Collide()
+		Local bullets:Object[]
+		Local bullet:TBullet
+		SetRotation rot
+		SetScale scale,scale
+		bullets=CollideImage(image,x,y,0,BULLETLAYER,0)
+		If bullets
+			ShapeList.Remove Self
+			For bullet=EachIn bullets
+				ShapeList.Remove bullet
+			Next
+		EndIf
+	End Method
+End Type
+
+' thrustar9.bmx
+
+Const URL$=""			'http::nitrologic.net/thrustar/"
+
+Const BULLETLAYER=1
+Const BADDYLAYER=2
+
+Graphics 800,600
+
+HideMouse 
+
+SetBlend ALPHABLEND 
+
+AutoMidHandle True
+
+Global shipimage=LoadImage(LoadBank(URL+"player.png"))
+Global starsimage=LoadImage(LoadBank(URL+"stars.png"))
+Global bulletimage=LoadImage(LoadBank(URL+"bullet.png"))
+Global smokeimage=LoadImage(LoadBank(URL+"smoke.png"))
+
+Global shootwav=LoadSound(LoadBank(URL+"shoot.wav"))
+Global thrustwav=LoadSound(LoadBank(URL+"thrust.wav"),1)
+
+Global player:TPlayer
+Global ShapeList:TList=New TList
+
+player=New TPlayer
+
+While Not KeyHit(KEY_ESCAPE)
+	
+	ResetCollisions
+' update moves and adds to collision layers
+	For Local shape:TShape=EachIn ShapeList
+		shape.Update
+	Next
+' collide checks position with other collision layers
+	For Local shape:TShape=EachIn ShapeList
+		shape.Collide
+	Next
+' render
+	Cls
+	Local w=GraphicsWidth()/2
+	Local h=GraphicsHeight()/2
+	SetOrigin w-player.x,h-player.y
+	TileImage starsimage
+	For Local shape:TShape=EachIn ShapeList
+		shape.Draw
+	Next
+	Flip
+	
+	FlushMem
+Wend
+</pre><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>bigted architecture</td><td align="right"><font class="tiny">(Posted 2005-07-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Internal testing on MacOS codeplay (the BlitzMax IDE developed in 
+BlitzMax) is stepping up, it will be available for that platform soon 
+and compatability with BlitzMax's current MacOS IDE is a primary 
+concern, keybindings etc.<br><br>The BlitzMax Windows/Linux IDE was 
+known as codeplay in development, but due to similarly named rockgroups 
+extremely poor showings of late the next release will be referred to as 
+bigted.<br><br>The plan is to include bigted source code with the MaxGui module.<br><br>bigted
+ features a new view architecture, beginning with Options I am adding a 
+property list style presentation system for gadgets. The aim is to clean
+ up the original options source code with clean lists such as from a 
+typical OptionsPage class constructor:<br><pre class="code">	Method CreateToolOptions:TToolOptions(parent:TOptionsPage)
+		SetName "Tools Options"
+		parent.AddPage Self
+		outputstyle=AddGadgetStyle("Output")
+		navstyle=AddGadgetStyle("NavBar")
+		Return Self
+	End Method
+
+</pre><br>The gadgestyle object is the current label, backgroundcolor, 
+forgroundcolor, font combo but instead of a bunch of fixed size gadgets 
+being created i'm now using the friendlier button view extensions:<br><pre class="code">Type TGadgetStyle Extends TGroupView
+	Field	label:TLabel
+	Field	fg:TColorButton
+	Field	bg:TColorButton
+	Field	font:TFontButton
+
+	Method Apply(gadget:TGadget)	
+		SetGadgetFont gadget,font.font
+		SetGadgetColor gadget,bg.red,bg.green,bg.blue,True
+		SetGadgetColor gadget,fg.red,fg.green,fg.blue,False
+	End Method
+	
+	Method Set(fg_rgb,bg_rgb,fname$,fsize)
+		fg.set(fg_rgb)
+		bg.set(bg_rgb)
+		font.set(fname,fsize)
+	End Method
+
+	Method CreateGadgetStyle:TGadgetStyle(dad:TNode,name$)		'Viewname$,xpos,ypos,window)
+		dad.Append Self			
+		SetHorizontalFlow	
+		label=AddLabel(name)
+		fg=AddColorButton($ffffff)
+		bg=AddColorButton($ff00ff)
+		font=AddFontButton("Courier",12,0)
+		Return Self
+	End Method
+End Type
+</pre><br>The options pages already serialize themselves to the .ini 
+file but this will be provided by the OptionsPage class itself so third 
+party addons can stay relaxed about such productions but benefit from 
+the automatic persistants it provides (their settings are automatically 
+saved in the application.ini file, undo and redo just work...)<br><br>The options requester itself has morphed into a treeview + propertypageview ala xtools visualstudio look.<br><br>PropertyPages
+ allows persistant objects to be added to an application tree very 
+easily with an entire state able to be captured or replayed being 
+inherited behavior of the widgets you build the Pages from.<br><br>I 
+expect the widget object will change it's name but it's currently called
+ TView, with TGadgetView being an extension that encapsulates a MaxGui 
+class so the View tree itself is unhinged and avaialable for use by some
+ Max3D goodness. <br><br>The overall goal of an application is to 
+provide agreed ways for the user to coordinate object behaviors. The 
+idea for bigted is to abstract off all the standard system behavior to a
+ host so that all BlitzMax applications can benefit from default File 
+and Edit behaviors and provide them in as system standard manner as 
+possible.<br><br>The host object also provides a mechansim so that 
+multiple tools can share the same application framework. Which is where 
+I'm at at the moment, rejigging the ".bmx" specific code in codeplay 
+into a modular plugin tool type of a guy that can plug into the new view
+ architecture which if I didn't mention before serializes MaxGui usage 
+entirely so is a nice starting point for a gadget editor that we have 
+been talking about at the office.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Frosty winter coding...</td><td align="right"><font class="tiny">(Posted 2005-05-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Currently on the list:<br><br>Add ReadAvail and WriteAvail and SetNagel etc. to socketstream.bmx<br><br>Investigate distortion report with FreeAudio on the Mac<br><br>Add 1 channel jpeg and 2 channel png support.<br><br>Code examples for the retro interface to UDPStream and TCPServer objects<br><br>Big effort on code examples and command descriptions for MaxGui module.<br><br>Tidy up some IDE issues<br><br>* Startup file-not-founds causing a settings issues?<br>* Linux IDE tabs incorrect after a CloseTab<br>* End Debug task automatically when rebuilding project<br>* debugger.stdio.c not quite current with debugger.macos.m<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>huh?</td><td align="right"><font class="tiny">(Posted 2004-05-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It was with a little trepidation that I posted the acidstub code in 
+code archives. I'd been feeling a bit stupid on how easy it was to 
+bridge Blitz and C++ and how well they complement each other in a single
+ project.<br><br>The following generates stub code for each language, it
+ needs a tidy as the invoke stuff for acidstub.h is not that clever. It 
+will expose all your Blitz functions if you list them in a .decl file 
+which people are already want to do for the syntax highlighting 
+convenience.  <br><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1009" target="_blank">http://www.blitzbasic.com/codearcs/codearcs.php?code=1009</a><br><br>----<br><br>BlitzPlus
+ v139 is still unreleased, apparently there is some FMod / music patches
+ going in. In the few days the build was in my care I was able to add 
+the following:<br><br>CreateImage now defaults to dynamic (LoadImage still defaults to managed) <br><br>CreateHtmlView supports style parameter - 1=NOCONTEXTMENU 2=NONAVIGATE<br><br>HtmlView now generates GadgetEvents with eventdata setings 0=pageloads 1=usernavigate <br><br>new HtmlView commands : HtmlViewCurrentURL() HtmlViewEventURL(html) HtmlViewStatus(html) HtmlViewRun(html,script$)<br><br>RemoveGadgetItem on last item now clears Tabber completely<br><br>RequestFile and RequestDir now have optional default values<br><br>RequestFile no longer appends "All Files" option when extension$ parameter is used<br><br>Win32DSMovie DrawMovie render now uses BitBlt if IDirectSurface::Blt fails due to unsupported pixel conversion<br><br>Better checking for negative sized banks and copybank ranges<br><br>Delay now resets negative parameters to 0<br><br>Added FontSize FontName FontStyle FontAscend and FontDescend getters<br><br>Return key on List Item now causes event, still no arrow key messages:(<br><br>TreeViewNodes now have icon parameters and TreeView supports SetGadgetIconStrip<br><br><br><pre class="code">HtmlViewRun html,"document.body.innerHTML='&lt;form method=GET&gt;&lt;input type=text name=login value=simon&gt;&lt;/form&gt;'"
+</pre><br><br>The biggest improvement is with the control of the 
+HtmlView gadget. Being able to issue scripts and receive user GET and 
+POST events should open a lot of possibilities including hosting and 
+controlling of ActiveX controls (speech, database, spreadsheets...) 
+embedded in the view.<br><br>----<br><br>The first version of BlitzLobby
+ is nearly ready. It allows your Blitz games to register on the user's 
+system allowing them to be launched from programs such as MSN Messenger.
+ The chat connection details are made available to the game making it 
+very simple for multiplayer Blitz games to find each other.<br><br>---<br><br>This
+ little spurt of productivity on my part is due to the completion of a 
+very ambitious contract I've been coding for last 2 years. Skidmarks 
+Construction Kit is also now back out of the garage to be readied for 
+release. The following is the 2001 beta released before I got badly side
+ tracked...<br><br><a href="http://www.nitrologic.net/simon/skidbeta1.zip" target="_blank">http://www.nitrologic.net/simon/skidbeta1.zip</a><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BlitzMud</td><td align="right"><font class="tiny">(Posted 2002-08-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://nitrologic.net/cgi-nitrologic/wizzy.pl?BlitzMud" target="_blank"><br>Skeleton multiuser server code.</a><br><br>Anyone interested in working on a blitz telnet client? Someone may even have some code already to contribute? <br><br>Would
+ be interested in extending an existing IRC client also, will also need a
+ mudder configuration (enter text at bottom of continually scrolling 
+telnet feed).<br><br>Read the <a href="http://cmc.uib.no/moo/docs/manuals/formatted/html/ProgrammersManual.html#SEC2" target="_blank">LambdaMoo programmers manual</a>
+ and an even more interesting breakdown of the database file format. 
+Definately won't be using a binary format, and i'll be mirroring most of
+ the work this guy Pavel has done.<br><br>Post <a href="http://www.blitzbasic.com/Community/posts.php?topic=11782" target="_blank">here</a>.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>jscript blitz interface working</td><td align="right"><font class="tiny">(Posted 2002-06-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've just got a jscript interpreter running with blitz. It needed a 
+separate thread which was a complete bitch to code but now it's done and
+ nearly ready for beta.<br><br>Skidmarks Construction Kit has been coded
+ in a very object oriented manner which does make the B3D source tree a 
+little unmanageable at times.<br><br>My bscript engine allows you to 
+easily build and publish ActiveX classes in native blitz and then 
+control them from ecmascript (jscript) which for oop heads like me 
+should result in much spinning of propellors. <br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>skidbeta1 uploaded...</td><td align="right"><font class="tiny">(Posted 2002-04-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This first public beta weighs in at 7 meg and includes two tracks and 
+max 12 trucks. Beta testers signup page will be availble soon, until 
+then get it before it's gone and please do not echo at this time.<br><br><a href="http://www.nitrologic.net/simon/skidbeta1.zip" target="_blank">skidbeta1.zip</a><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Skidmarks Construction Kit</td><td align="right"><font class="tiny">(Posted 2001-11-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've been trying to keep a diary on my website on the <a href="http://nitrologic.net/cgi-nitrologic/wizzy.pl?SkidStatus" target="_blank">skidstatus</a>page.<br><br>At
+ the beginning of the week I decided to byte the bullet and pull out my 
+own software sprite handling code and start using Blitz sprites. The 
+reason I was using my own meshes which I manually turned towards the 
+camera was for the lighting control I had for things like flagpoles and 
+for things like trees I was free to use extra geometry to cut down on 
+overdraw. However the overhead of hiding and showing cameras and using 
+multiple calls to RenderWorld for splitscreen to work properly ended up 
+too large out they come. The offshoot of this has been to get Mark to 
+fix sprite viewmode 3 which is another reason I didn't fancy using Blitz
+ sprites in the first place.<br><br>With all that optimized I am still 
+faced with the problem of generating a smooth display with a physics 
+engine that needs to be updated 10 times a second. Even with the 
+wonderful tweening, a physics engine that needs about 10ms to tickover 
+produces a major headache where every 4-6 renders the cpu needs to go 
+and update the physics. It is definately more important that each render
+ is equally spaced in time from the previous than the maximum number of 
+frames are rendered per second...<br><br>Still got a few things up my sleeve so until nextime...<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

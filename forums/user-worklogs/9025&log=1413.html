@@ -1,0 +1,29 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Sub_Zero</h1><h1>Raw Socket test</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The first steps.... Understanding and then implementing</td><td align="right"><font class="tiny">(Posted 2007-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This christmas holiday I decided to fool around and learn the IP 
+(Internet Protocol) and ICMP (Internet Control Message Protocol) 
+protocols.<br>Determined to learn these packet layouts and layers from 
+scratch (without using any library); reading specs on the internet, 
+googling, googling some more.<br><br>Upon researching, I realized that the ICMP (Internet Control Message Protocol, <a href="http://rfc.net/rfc792.html" target="_blank">RFC792</a>), actually is essential to the IP protocol (Internet Protocol, <a href="http://rfc.net/rfc791.html" target="_blank">RFC791</a>).<br>According
+ to the standards (RFC), any networking device, or networking software, 
+that handles the IP Protocol, should also handle the ICMP protocol. Why?
+ One example is that ICMP is used to send a detailed message back to the
+ source if something goes wrong with the initial IP packet, for example a
+ Destination Unreachable Message.<br><br>So, the IP protocol would not 
+work well without the ICMP protocol, and the ICMP protocol will not be 
+possible without the IP protocol.<br>It's all set up in protocol layers 
+where the IP layer always is the first layer. If an ICMP packet is being
+ sent, it will always be encapsulated in a IP packet, so the icmp packet
+ will appear in a layer ontop the IP layer.<br>Neither the IP or ICMP protocols use any network ports.<br><br>Using
+ SOCK_RAW, instead of maybe SOCK_STREAM (TCP (Transmission Control 
+Protocol)) or SOCK_DGRAM (UDP (User Datagram Protocol)), a raw network 
+socket can be opened, where you define yourself the structure of the 
+protocols/packets to be sent/received.<br><br>I've managed to send icmp 
+echo messages (ping requests) to my router, and even get echo reply 
+messages (ping replies) in return. However, I'm still having a look at 
+the calculation of the ICMP checksum, since ethereal (A network 
+protocol/packet sniffer/capture software) is reporting that the checksum
+ is incorrect, even if my router does reply to the echo request.<br>There's still a lot of work to do.<br><br>The ICMP protocol is so much more than just echo and echo reply packets.<br><br>Depending on how much spare time I have, I might eventually do a blitzmax ICMP type. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,1224 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Picklesworth</h1><h1>Picklesworth's Ramblings</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>It breathes!</td><td align="right"><font class="tiny">(Posted 2008-01-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The Alchemy Game now has working tablet support, with basic verlet physics, too!<br><br>Thanks for the tablet module, Fredborg :)<br><br>This
+ is really very cool. Unfortunately, running in a window is now out of 
+the question since Windows treats the drawing tablet as a mouse (even 
+though I have access to absolute coordinates on the tablet, as a float 
+from 0 to 1). Regardless, quite fun.<br><br>Edit: Rats! My screenshot isn't working :( Too bad... Anyway, it's a bunch of swirly lines falling downwards...<br><br>Before anyone says "crayon physics clone", I should make this clear: This game is not a clone.<br><br>Rather,
+ I am going in a number of fresh directions. First off, since this uses 
+verlet physics, it is completely possible to create squishy and 
+breakable objects. For that matter, it is necessary to!<br><br>Secondly,
+ this is by no means a puzzle game. I am working on a strategy approach,
+ though single player mode will probably have puzzles due to my complete
+ incompetence with AI. (Granted, I am also terrible at designing 
+puzzles. That's all a long way off, however).<br><br>I mentioned "single
+ player mode". Yes, this is probably going to be multiplayer. Still 
+undecided whether I will be doing a turn based approach, a real time 
+thing or both. Multiplayer + physics sounds like suicide, but thankfully
+ the physics engine here is extremely primitive and inefficient. That 
+also means it makes no "guesses", and is very predictable across 
+platforms.<br><br>My current plan is a resource management approach, 
+where actually acquiring things and stopping opponents is a matter left 
+entirely to your imagination. To keep the game from going mad, drawing 
+is limited to a small portion of the scene. Actually getting creations 
+to have an impact elsewhere is where the game gets really tricky... but I
+ will leave that for when I have something to show off.<br><br>As for 
+catch phrases and names, Intelligent Design strikes me as something that
+ would grab a lot of attention, for better or worse. The project name 
+for this version is "Plato". Mentioning alchemy and ancient Greek 
+philosophers in the same place is by no means a coincidence.<br><br>Today's
+ problem: Points are added for every single frame that the user is 
+pressing with the pen. While an amazing tech demo (no major slowdowns 
+yet! Computers have come a long way), this is really confusing the 
+physics engine and wasting memory. Oh, and it's stupid.<br>I need to 
+either put a timer on this or have it only add points when the pen moves
+ a certain amount. Both solutions sound pretty arbitrary... I may want 
+to track the angle of movement, so when it changes significantly a point
+ is added. That way, important details in an object are not lost.<br>Next
+ up are collisions and physics stability. Right now, objects pass 
+straight through each other, and sometimes disappear into thin air :( <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Decoupling...</td><td align="right"><font class="tiny">(Posted 2008-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Complete decoupling...<br>"Don't
+ do it!" bellowed the cobweb which had fully formed between my forehead 
+and the closed door of my room. I decided not to follow that advice 
+completely, since spiderwebs tend to be quite inaccurate (a pig? 
+intelligent? Hah!). I did not let the moment pass gently, though. 
+Clearly, I was going too far. I seemed to have embarked on a mad journey
+ to create a computer game whose graphics, physics and input components 
+never knew that each other existed, and where the only thing that knew 
+about them all was a three-line main loop.<br>That a spiderweb had just 
+talked to me was a nice reminder that this quest had been initiated 
+following an "epiphany" in the morning of January 1st. The numerous 
+typos in my leftover pseudo-code's comments were suddenly quite 
+telling...<br><br>The system I had come up with was, in a few ways, 
+fairly cool. I had a few central objects for things in the scene, and 
+each of those hosted a bunch of Components, which passively handled 
+graphics, physics, networking and the like. The cool part with those 
+components is that any component could be added and removed at any time 
+with no changes to the actual object. The other cool part is that the 
+scene objects maintained some very simple information, with 
+graphics-specific stuff divided nicely into the graphics components.<br>The
+ "neato" part came with eventual net code. Theoretically, this meant 
+that an object could easily be created with an additional networing 
+component that quietly ensured consistent positioning of objects between
+ client and server. The main loop, graphics and physics code would be 
+none the wiser!<br><br>The bad part is that I had a whole bunch of 
+objects created for each component of each thing in my scene. I had 
+designed this to ensure only needing to iterate through every scene 
+object once, but I had instead done something far worse: I was iterating
+ through each object in the scene, then around three components for each
+ object. Some of those components, like the graphics one, had to do yet 
+more fiddling with loops because they like to have quite a pile of 
+information only available in the scene objects.<br>At that point, 
+chances of having graphics implemented as a blind component seemed quite
+ hopeless. In addition, I was wondering how the heck a menu system would
+ be implemented and rendered without either a huge Select block or a 
+whole bunch of different graphics object components. It was then, 
+following a fifteen minute debate raging inside my skull, that the 
+spiderweb gave me its message. Code cowboyism returned to my veins, and 
+minutes of backspacing later I created a very nice, simple system with 
+divided front and back ends where I have finally accepted the fact that I
+ do not currently need to use the "Extends" or "Abstract" keywords in 
+any extensive (or Extensible) way.<br><br>Anyone thinking that a system 
+like this Components thingimabob is a good idea, consider function 
+pointers or the existing Hooks. They are simple and do not work nicely 
+in huge quantity for a very good reason: because creating a million 
+objects to support ten thousand objects is a <i>very bad idea</i>. If 
+those do not work (as I thought for some reason during my intoxicated 
+epiphany), at least remember that attempts at symmetry will ultimately 
+prove useless at the lower levels anyway (graphics do not work like 
+physics), so may as well not be attempted in the high level code either.
+ <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>That extensions system, MiniB3D, Equilibrium, et al.</td><td align="right"><font class="tiny">(Posted 2007-02-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> These past 4 months have been pretty wacky.<br><br>I've unfortunately gotten out of the practice of programming, which kind of sucks... I was <a href="http://www.deltahumanesociety.org/" target="_blank">using PHP</a>
+ for a long while, but I've learned to not classify it as programming. 
+It's just weird and I think it has contributed to my recent lapse. 
+Really, what kind of language has Variable Variables? It's a fine idea 
+and fitting with the hash-tabley way that it works, but try saying 
+"variable variable" aloud without sounding like a dork, hm?<br>The good 
+news there is that over this time I have unlearned some bad habits of 
+the past, so this BlitzMax stuff which I've moved on to should prove 
+nicer than my past code.<br><br>I have recently engaged in toying with 
+Simon's MiniB3D. The engine I am sort of developing off of it is not 
+really the same (I am drifting in a very different direction at this 
+point) but it is certainly small and Blitz3Dish and following along with
+ MiniB3D's efforts very closely. Currently my intent is to trim stuff 
+away from the 3D engine and move it to an Extension system. The core 
+engine will be a skeleton, and then piles of extensions will power 
+everything from culling to physics.<br><br>The advantage to this 
+approach is that features can be added to the engine in a way that is 
+both indirect and tidy; no changes have to be done to the engine even 
+though those new features work at a very low level. With an extension 
+system, a new feature like a shadow system can theoretically be enabled 
+by importing an extension and calling its initialization code.<br>This 
+also means that every bit of code can hopefully be worked on 
+independently and will continue to work even after updates. (For 
+example, an update - even to TMesh - will not break someone's personal 
+.glah loader).<br><br>When it works, it will be very cool!<br>Of course,
+ that's the catch: "When it works". This thing is proving an interesting
+ puzzle. It isn't really a whole lot of code, but there is always a 
+nagging feeling that every time I change something, some possibility 
+becomes impossible. <br><br>It needs to be possible to create a file 
+loader extension on the same whim as a new graphics feature, and it also
+ needs to be possible to load them in the same way. That is a much more 
+difficult puzzle than it seems because while a file loader may want to 
+be extended one way, RenderWorld wants to be extended another way. While
+ that loaded extension won't need to go anywhere but the file loader; 
+the graphics feature might want a function of its own and maybe to 
+completely remove another chunk of code; a physics extension will want 
+to change the behaviour of the entity movement commands, what happens in
+ UpdateWorld, as well as introduce dozens of its own functions that 
+integrate with MiniB3D.<br>It gets weird and headache-inducing... fast.<br><br>Originally
+ I was using a really stupid design in which information on Extensions 
+was stored in maps full of strings (Keys) linking to other strings 
+(Values). I later changed that to a hash table, and then I fully 
+realized that it was stupid. The good news is that I finally learned 
+about hash tables. They're quite cool, and it's always nice to learn 
+what all these techy terms are; it really demystifies everything, but 
+not in the bad way. Now I can join that "In crowd" that always seems to 
+be talking about their hash :b<br>Long story short for the uninitiated, a
+ hash table is a way to speed up comparison, storing and lookup of 
+strings by turning them into more sensible variable types using 
+convoluted equations. (String comparison is SLOW, Integer comparison is 
+fast).<br>So anyway, that was a very stupid design. Now I am using 
+something a bit more interesting which I think will shape up to be THE 
+ONE. With this extension system, I want it to be as easy to write an 
+extension as it is to create extendible code. With that in mind, someone
+ should be able to create an extendible extension or to pull out this 
+Extensions system and use it with ease even in their own projects.<br><br>The
+ plan is Containers. An Extension container is placed at any part of the
+ program that wants to be extended. For example, TMesh has a global 
+TMesh_LoadMesh_ExtensionContainer container. Every time LoadMesh is 
+called, this container is told to execute a list of functions stored 
+inside of it. With Containers, making code extendible can be as simple 
+as defining a container and calling its Update function in the code to 
+be made extendible.<br><br>Originally the idea was that Extensions would
+ define what they are by a list of Key/Value combinations, and then 
+whenever an Extension is created every Container would look at it using a
+ callback function. If a container liked the values set by an extension,
+ it would add it to its list of contained extensions to be executed with
+ its Update method.<br><br>Recently, though, I rethought that idea. It 
+was a daft design because it reduced the control for both Extensions and
+ Containers and instead placed it entirely on luck. Potentially nice in 
+that a Container could theoretically be able to sneakily snatch up any 
+extensions that fit a criteria (for example, a new container could want 
+to use mesh loader Extensions), but really it was just stupid and not to
+ mention difficult. I will maybe address the idea in the future because 
+covertly recognizing and snatching Extensions could be pretty cool in 
+terms of the goal for everything to be developed seperately, but for now
+ any such design will do nothing but distract me.<br><br>Now if code 
+wants to be extendable it can just create a container globally (as 
+described previously) and then an Extension can add itself to that 
+container explicitly. Alternatively, as with a TMesh_LoadMesh extension,
+ code can define a new TExtension class that extends TExtension to store
+ some more values. For example, TExtension_LoadMesh has an additional 
+field called FileType. (I'm still working on variable naming consistency
+ here, as you can see). With this design an Extension has to know what 
+it is extending and it has to know how to extend it. To write a file 
+loader extension, one must create an instance of TExtension_LoadMesh and
+ add that to TMesh_LoadMesh_ExtensionContainer; to create an extension 
+that just adds a call to RenderWorld, one has to create a generic 
+extension and apply it to the correct container.<br><br>I should take 
+now to point out in my usual word-swapping rambly way that an Extension 
+is really a collection of individual functions, and that the functions 
+are in fact what I have been referring to as Extensions. Extensions hold
+ data, while functions get dumped in containers. Crazy, yes, but 
+hopefully it will work when it's in code.<br><br><br><br>Why did I start
+ playing with MiniB3D, anyway? Well, it all winds back to Equilibrium, 
+which is my development name for "The Game" described below. It has some
+ decent preliminaries now, and hopefully once the Extensions system is 
+in I will be able to muddle together a Newton Physics Engine Extension, 
+thus having a working engine on which to build Equilibrium. (Me? 
+Procrastinating? Of course not!).<br><br><br><b>APE</b>? It's deceased. 
+Not really deceased; it's going to be reincarnated. BlitzMax's abilities
+ are perfect for it. It has changed direction and is now going to be an 
+editor base with no mention of physics anywhere. I will not rest until 
+someone can get Pong running in it. Consider it the Emacs of 3D editors.<br>That
+ first version does work fairly well to mark hitboxes and the like 
+around a mesh and has been used at least once (by me) to mark hotspots 
+for a 3D diagram.<br>I probably won't do anything with it until 
+OpenWorld/Arena/Whatever becomes a bit more realistic, because I hope to
+ pile them both into the same general extendability ideas, hopefully in 
+such a way that one complements the other. Since Equilibrium now 
+actually has a direction and a chance to be built in the next century 
+without me getting bored and moving back to APE beforehand, APE probably
+ will not be its editor.<br>Both ideas are more undeveloped than usual, so I'm unusually ignoring them. They might be good ideas, though, some day.<br><br><br><b>Equilibrium</b>'s direction? It does have one, I promise. Some lurking and a <a href="http://forums.indiegamer.com/archive/index.php/t-9600.html" target="_blank">single question</a>
+ asked at IndieGamer.com has led me to meditative games. The vision at 
+the moment is sort of a gradual design that flows. It stays complex at 
+heart, but everything is unified under a single concept. While the game 
+does have a lot of stuff where different elements have different impacts
+ (explosions, etc. are fun! Not sure if I explained the cannons on each 
+board, but the idea is that a cannon fires a projectile of whatever 
+element the board it is on is made out of). I am going to leave that 
+fancy "how to make things explode" stuff entirely up to the player to 
+discover; I do not want to swamp anyone with long descriptions of 
+anything. There is no "this is a useful material to attack with"; just 
+easy seeming gameplay with a twist.<br>For the sake of that flow thing, this should hopefully come down to a single mouse button to control the game. <a href="http://www.blitzbasic.com/Community/posts.php?topic=65892" target="_blank">TeraBit's Contour Cam</a>
+ demo really inspired me in that regard. It showed me that the 
+impossible is possible; I can have 3D camera controls that do not 
+necessarily require button presses, thus making this a lot less 
+complicated!<br><br><br><br>I've dropped and merged a lot of garbage so 
+everything I am doing feels pretty sane now. Finally. Lots of it 
+(Grasshopper, maybe APE) will probably happen for Equilibrium, but won't
+ happen until Equilibrium needs them. Joy!<br><br><br>Okay, I'd better 
+add something useful to this. Good news! Thanks to Google, we are now 
+safe from unknowingly breaking patent laws! (Which is either good or 
+bad, depending on how you look at it. So much for truthfully claiming 
+ignorance).<br><a href="http://www.google.com/patents" target="_blank">http://www.google.com/patents</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>That bug in Grasshopper</td><td align="right"><font class="tiny">(Posted 2006-11-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ As some people may be aware, Grasshopper has a serious bug which makes 
+it unusable in Opera; it assumes plugins to always be located in the 
+/browser/plugins directory, which is not true. (Opera puts them in 
+/browser/DATA/plugins).<br><br>Thankully, the eventual fix is one which actually forces me to push Grasshopper forward to something a bit more complete.<br><br>There
+ are many ways to fix this, but they tend to require hard-coded browser 
+recognition to hunt down the Plugins registry entry for a particular 
+browser, which seems just as easily screwed up as before. Thus, I have 
+two possibilities:<br><br>-There may be a function/property in NPAPI 
+which tells me where the browser's Plugins directory is. (Since plugins 
+are DLLs, their original location isn't easily found by just searching 
+where the program was executed from). This is seeming a tad unlikely, 
+but I'm hoping that maybe something will appear.<br><br>-Registry! Registry! Registry!<br>The
+ real fix is one which is already necessary for Grasshopper's future. 
+Plugins will not need to know where they are stored; instead, they will 
+find an entry in the registry containing the installation path for the 
+program that is a part of them. (Eew... I suck at explaining this 
+system).<br>This means that plugin programs can then be stored in more 
+sane places such as Program Files. As a result, two browsers could then 
+use the same Grasshopper plugin without having to install the entire 
+thing twice.<br><br><br>I'm leaning towards the second solution, of course, but the first one may make a good fallback...<br><br>This means that the next Grasshopper version will actually be a big increment, featuring a fancy installer maker!<br><br><br>By the way, I am really sorry about how much of a mess this worklog is... I'll try to sort it out.<br>Very smart of the web folks to include a Move option! <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Open Arena</td><td align="right"><font class="tiny">(Posted 2006-09-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ A new side-project of mine (branching from some of the very early stuff
+ in Equilibrium, described below with the nonsense title "Worklog 4") is
+ going to build on my love for ridiculously open-ended 'finish it 
+yourself' software with an adventurous concept admittedly inspired by 
+something else. (What, Toribash? I've never heard of it! :p). It may 
+even be a precursor to the previously mentioned open world simulation; 
+perhaps going so far as to have a web plug-in mode.<br><br>I believe 
+this project to be adventurous, because it goes beyond conventional game
+ modifiability to the point where the entire game is built around mods 
+that are seemlessly downloaded completely automatically and very 
+quickly, in-game, from any game server.<br>I guess the complete 
+modifiability makes it more like a game engine, but it is to be limited 
+and simplified in such a way that developing for it is an easy task and 
+the results still apply to a specific style. (Err... reasoning to be 
+seen).<br><br><br>Open Arena<br><br>An open-ended online physics-based game with significant power given to the server.<br><br>The server manages the shape of the game world, player characters and more via run-time scripts.<br>The client manages physics code and general control rules as instructed to by the server.<br><br>Its open design will allow for unique looks, feels, and gameplay styles for each server such as:<br>-Toribash-inspired sparring simulation<br>-A full persistent battlefield<br>-Multiplayer or single-player physics puzzles (Single-player using a server built into the client program).<br><br>With
+ content sent directly from the server to the client on the fly, servers
+ must keep files rather small which justifies a Matrix-esque 
+'practically empty world' style with a floor and various simple objects.<br>The menus and starting effects will follow this style, so presumably most unofficial servers will follow suit.<br><br>Load
+ times will be kept at a minimum to compensate for the downloads 
+required for each game, and the servers will send most world and object 
+data with a scripting language such as (but much easier than) VRML, 
+which again could reduce download times and ensure that the physics 
+simulation works properly and (from the point of view of a server 
+developer) automatically.<br><br>To avoid security issues and for the sake of cross-platform compatibility, run-time scripts are likely to be done via LUA.<br>The modelling language will also be done via LUA (or whatever other scripting language is used for run-time scripts).<br><br>While
+ the physics simulation is to be a turn-based approach like that of 
+Toribash, it is easy for a server to use a real-time system by setting 
+frames per turn to 1 and turn selection time to 0. Keyboard controls 
+could theoretically be created by having hot-keys control particular 
+physics properties. Neither of these possibilities will be directly 
+intended, though I will use them as a goal for the software's openness.<br><br>I
+ hope that this software will present itself as a huge crossroads of 
+worlds and possibilities, where every glance reveals a fresh idea and 
+where anyone can bring their own visions to reality.<br><br><br>Now, why did I really post here?<br><a href="http://www.wikihow.com/Make-Chai-Tea" target="_blank">I learned how to make Chai Tea!</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Worklog #4</td><td align="right"><font class="tiny">(Posted 2006-05-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I guess I look a bit nutty using the worklogs so much...<br><br>Well, this is the project that starts tying it all together so those other ones will finally go away.<br><br>I
+ am going to definietly be using a grown up APE as a level editor, and 
+I'll hopefully be able to produce an easy email game interface thanks to
+ the Grasshopper Web Plugin System.<br><br>This is actually a good thing
+ to have all these different projects, since it means that I will not be
+ inventing any new ones. There is enough variety here that I can switch 
+between them when another one drives me crazy. (Though the different 
+qualities of code is a bit infuriating. I may be rewiring APE again... 
+depends on what happens with the plugin system, though).<br><br><br>About the game:<br><br>The
+ game that I am working on makes sense only to myself. I hope that as I 
+develop this worklog, my thoughts will organize themselves and it will 
+begin to make sense in a way that anyone can understand.<br><br>The idea
+ is to create a 3d strategy game entirely based around physics, in which
+ all 3 planes of movement are important to the gameplay.<br><br>The 
+underlying concept for the game is simple: Players place markers on the 
+board to capture territory. Markers can only be placed if nearby to the 
+area of influence of another marker. Like Go, a marker becomes useless 
+when surrounded by your opponent's markers, making it necessary to 
+create chains for better chance of survival.<br>A marker's area of 
+influence is quite large; I have always been interested in the freedom 
+offered by Go, in which markers can be placed absolutely anywhere on the
+ board.<br><br>In this game, a board is a platform floating in midair...
+ usually a flat, slightly rounded object, but occasionally boards will 
+have different shapes.<br>A scene will consist of many of these boards placed in varied locations.<br>Boards
+ are tilted by markers, which are actually quite heavy objects. Other 
+special objects, such as propellers, can also be activated or placed to 
+manipulate boards. (Also cannons and the like, but I'll deal with 
+pyrotechnics and idiotic details later on).<br>A board in complete 
+posession of a player offers many tactical and defensive advantages: The
+ player can now place his markers anywhere on that board, the board can 
+be moved about along the x or z axis in a way similar to 3d chess 
+(except slightly more cool), and other positive effects which go beyond 
+the depths of this introduction will also occur.<br><br>With all these elements in place, the game becomes a game about balance -- about managing the universe.<br>The
+ player has to conquer the universe (reasoning for that is actually 
+sound this time, by the way), but he must do this without destroying it 
+and himself. (Now, wouldn't that be embarassing!)<br><br><br>Of course, there's a lot more than this.<br>So much that I, for once, can't be bothered to write about it.<br>All will become clear when it gets further finished...<br><br><br><br>On to technical stuff:<br><br>My
+ previous fiddling with the Tokamak Physics Engine to get the game up 
+and running has encountered hard times. Convex hulls in Tokamak are 
+poorly implemented, and misbehave when objects are stacked on them. I 
+was also unhappy with some stuttering effects which I had been 
+encountering, and the difficulty that arose when attempting to add the 
+ability for platforms to sink.<br>Unfortunately, I need convex hulls because of the varied (but convex) shapes of boards.<br>Since
+ this game, being a strategy game, requires that I have VERY stable and 
+reliable physics, I have switched to the Newton Dynamics Engine.<br><br>This
+ engine, like Tokamak, features convex hulls. It is also very reliable 
+and does not hop around when faced with confusing problems to solve.<br>I am pleased with my choice so far. In fact, I believe this may be one of the best free physics engines available!<br><br>I
+ will be moving the project to BlitzMax to avoid the pain of porting 
+Newton myself, so it will be a while before things are up and running 
+again since I have to hunt down a new 3d engine. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>How to fix Exporters!</td><td align="right"><font class="tiny">(Posted 2006-05-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I realized that my scripts system was totally stupid, and so I am now hoping to simplify things.<br><br>GUI / Variables settings for different configuration packages will be stored in human-readable scripts, as before.<br>I'll see about improving them, though...<br><br><br>The change is occuring in Exporters and other scripts which would probably occur in runtime.<br>Rather than solve how to get mathematics working in the scripting language, I am switching over to DLLs.<br>APE
+ will use B3d's CallDLL command (or something similar) to access and 
+pass information with Exporter DLLs, allowing for far more flexibility 
+and ease of use for the whole system.<br><br>I have run a quick test which seems to work...<br>CallDLL
+ is a pain to use, and I am currently looking around for an alternative.
+ I will also now have to develop an APE Plugin Library or something like
+ that for the DLL end. The whole thing, as with all plugin systems, will
+ have to be very strict.<br><br>Other advanced program functionality is 
+possible under the same system such as moving the planned object 
+visualization scripts into a DLL, and performing fancy config package 
+specific operations on objects during run-time :)<br>This may also more easily open up for making APE a 2d/3d editor... and maybe eventually 4d if I'm stupid enough.<br><br><br>It will be a pain, but well worth it in the end. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Surfaces Are Gone!</td><td align="right"><font class="tiny">(Posted 2006-05-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Wow... it's been a long time. Over 6 months, in fact.<br><br>Yep,
+ I'm still here. That tippy platform physics game got me digging in 
+APE's source code for my convex hull code, so I decided to work on stuff
+ while I was at it.<br>I still need this program, anyway; it will make a fantastic level editor, I hope.<br><br><br><br>Reflecting
+ my obsession with making this program into a totally open, scriptable 
+editor, I am now removing the Surfaces object type.<br><br>It will be 
+replaced with a more complex system in which scripts define Variable 
+Sets; collections of variables which can be accessed by any number of 
+other objects (thus being quite different from regular variables tacked 
+onto objects).<br>These are the same Variables as used everywhere else, 
+but they are able to coexist without getting in eachother's way since 
+the seperate linked lists do not connect with eachother, thus achieving 
+two chains of the same Type object.<br>Of course, we can also have more than one type of variable sets; we can have a surface set, a sound set... whatever :P<br>All will carry the pinkish icon.<br><br>The system should easily be robust enough for these variable sets to be used in a number of ways by the exporter scripts.<br>Since
+ any object type can easily be iterated through, the exporter can just 
+iterate through Variable Sets and decide what to call. It could be a 
+command to create new type instances, set variables in an object, or 
+even create a new Tokamak phyics engine surface as before.<br><br>A cool
+ thing here is that some things which I originally expected to be 
+requiring scripts to do is actually possible with the systems already in
+ place. As an obvious example, object variables can be stored in 
+Variable Sets, but be translated entirely into just variables being 
+assigned to a single object in the final export. (Err... that made no 
+sense).<br><br><br>Telling a variables script to have a variable that is
+ actually a pointer to a variable set remains easy. (In fact, probably 
+easier than before).<br><br><br>Now all I have left to fix up in the 
+unification department is the funny selection modes... I wonder if I 
+could throw in a 2d editor...<br>I guess the selection modes can be 
+fixed up with object type scripts, as described below, where I could 
+create 3d physics geometries through a script instead of hardcoding 
+them.<br><br>Figuring out LUA is getting more and more tempting.<br><br><br>The
+ added unification and abolishment of anything directly related to 
+physics engines (that will be in the Physics Package, hopefully) has 
+justified a name change, of course.<br>Maybe I'll think of a real name, 
+for once? A few have crossed my mind... the most tempting one so far was
+ quickly forgotten. It was pretty good, though. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>In other news...</td><td align="right"><font class="tiny">(Posted 2006-04-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ In other news, ghDownload has hit the can, and was then snuffed out by a
+ pile of mashed corn with chocolatey cabbage sauce (a vaguely similar 
+idea).<br>Why?<br>Well... let's just say... it isn't what Grasshopper 
+is, and I wouldn't support it well enough to make it a sensible content 
+delivery mechanism. There are better things out there for those looking 
+for such an application :)<br><br>I will clean it up a bit and transform
+ it into nice, clean example code. Then, any adventurous lad could play 
+around with it if he wanted... and perhaps even make something of it.<br><br><br>There
+ will still be quite a few options available for plugin installation, 
+though; one of which may be a more strict downloader. (Download-specific
+ this time, no fancy OSA-kit style stuff). Perhaps it will end up having
+ the same name as ghDownload, so sorry if I confuse anyone.<br><br>I 
+have been recently exploring ways to completely eliminate the need to 
+pass ghEmdedder a window handle, because the window handle of the main 
+app (son of ghMain; aka. the Blitz program) could perhaps be retrieved 
+by ghMain early enough... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Okay, that does it!!</td><td align="right"><font class="tiny">(Posted 2006-03-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yep, I'm still working on this. My other mysteriously fantastically 
+amazing game project will be making use of both Grasshopper (simple 
+shortcut to playing email games or the like) and APE (level editor, once
+ it's pummelled with scripts)... so good news to anyone who has been 
+hoping that I finish these some day (if there is anyone...), and bad 
+news to anyone who wants to play that game in the next year.<br>The fact that that game is not intended to be freeware will definietly improve the development time of these two tools.<br><br>After a little detour, I finally have good news rolling in!<br>I
+ am almost ready to make extensive modifications to PluginHostCtrl, in 
+order to hardcode it as a full alternative plugin specifically for 
+Grasshopper under IE. The window messages being sent to its child window
+ ( ghMain.dll (Woohoo! I'm still with it :P (as you can see, I'm back to
+ my irritating multiple brackets thing (as though one set of them wasn't
+ bad enough))) ) ... the window messages being sent to its child window 
+will be (as usual...) stolen by the new PluginHostCtrl, I will code the 
+responses directly using ActiveX's own interface instead of whatever is 
+broken in the handling of functions called by the NPAPI plugin, and all 
+will be well until this thing goes open-source and someone breaks 
+something. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A wise choice</td><td align="right"><font class="tiny">(Posted 2006-02-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Internet Explorer support for advanced functionality has been yanked, 
+until the day that Microsoft has a stroke of intelligence and puts back 
+NPAPI plugin support, or a generous person fixes ActiveX in Grasshopper.
+ Or I fix it.<br><br>A bit of a shame, but it had to be done.<br><br><br>I will keep my eyes open for other ways to talk to IE. I may still be able to hard-code a fix here.<br><br><br>Also,
+ in a true stroke of genius, I seem to have killed the messaging system 
+that used to work after recompiling ghMain... so I will fix that and 
+then deal with my new-found self-hatred by inconveniencing other people 
+in CS:S. If you wish to join me, I generally play in "Seatle 
+Alpha-Kilo", IP:209.247.83.40:27015. Perhaps we can transform it into 
+the unofficial North America Blitz CS Server.<br><br><br>8:30pm<br>Okay, never mind the canning IE support part. The function to check what web browser we are running under <i>also</i> causes PluginHostCtrl to crash IE... so it's going to be all or nothing.<br><br><br>I
+ fixed the messaging system, by the way. I had modified some constants 
+shared between ghMain and ghEmbedder02, and I never recompiled 
+ghEmbedder. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I know what's going wrong!!</td><td align="right"><font class="tiny">(Posted 2006-02-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have performed many, many, many tests on PluginHostCtrl in an attempt
+ to figure out what is going wrong with it when I call special functions
+ from ghEmbedder.<br>I believe that the problem is as follows:<br>ghEmbedder.dll sends a window message, using WM_COPYDATA, to its parent window. (The window belonging to ghMain.dll).<br>Unlike
+ Firefox, something in Internet Explorer is being rather picky here, and
+ either PluginHostCtrl is using the WM_COPYDATA message as well and 
+screws up when it recieves mine, PluginHostCTRL doesn't like recieving 
+messages that don't belong to it, or something in the deep expanses of 
+IE doesn't like my WM_COPYDATA messages.<br>Either way, the message is 
+definietly never going to the right place, which means that the crash is
+ occuring in something's window message handler. Presumably, Firefox 
+sends messages destined for plugins downwards to the plugin, while IE 
+steals them. (Hmm... Parents taking advantage of their Children?).<br><br>Okay, that's all good. I could probably fix it, right?!<br>The problem? I have no idea where, physically, the message handler actually is!<br>(Why can't all programs just be the same?)<br><br>So...
+ the first thing I am going to do is explore other, equally comfortable 
+ways to communicate between two processes and see if IE panics with 
+them. I may be able to just stick to the same technique, but send window
+ messages to a hidden window that Internet Explorer doesn't know about. 
+This will be a bit tricky, because the window will have to be nicely 
+obscured so that IE has no idea that it exists, but it shouldn't 
+negatively affect the speed of anything.<br>If that doesn't work, I will
+ make a few more hopeless attempts to make PluginHostCtrl behave 
+(assuming that it is the source of my problems, which it probably is).<br>If <i>that</i>
+ doesn't work, I'll finish these nice features for NP-API browsers, turn
+ them off when running under PluginHostCtrl, release the update, release
+ the source, and hope that some other genius fixes the problem for the 
+good of humanity.<br><br><br><br><br>There is one good thing to come of 
+this. In the next IE vs. Firefox argument, I can explain that I hate IE 
+because it cost me 6 weeks of my life.<br><br><br>6:00pm<br>Okay, I was wrong :(<br>It
+ turns out now that the messaging system is not at fault... which is 
+good and bad. Bad, because now I have absolutely no idea where in this 
+infernal source code the problem could possibly be (it's not where it 
+should be!), and good because I can stick with the same messaging 
+system. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Stability at last</td><td align="right"><font class="tiny">(Posted 2006-01-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The previous problem, sadly, (and fortunately), was not Messenger's fault. In fact, it can only be blamed on myself.<br><br>100
+ MessageBoxes later (did I mention that it's impossible to run this 
+thing in a debugger?), I figured out the problem! It's really sad, too.<br>I
+ noticed that the const char* variable being passed to the other program
+ was not being cut off properly, thus causing it to read a bunch of text
+ after it as gobbledygoop. While the whole debugging process and lessons
+ learned was very interesting, I'm sure you won't want to read about it.
+ I had to add +1 to the length of the text in the cbData parameter of 
+COPYDATASTRUCT, because if I don't, the NULL character is shaved off so 
+the string could go on forever. Windows does some stuff to my structure 
+when I send the message, so it was rather awkward to find the problem.<br><br>Now, I'm really going to add those other features.<br>I
+ have decided to support NSIS (NullSoft Install System) as the system 
+that Grasshopper will automatically create install scripts for, and I am
+ also still thinking of doing a nice external program that any decent 
+installer could call to put a plugin in the right place.<br><br>It's all coming together! Quite literally, too :)<br><br><br><br><br>Jan. 19/06<br>I'm
+ gradually adding new functions now. I just added the ability to open 
+new web pages through the browser (with a target just like in HTML). I 
+am looking at what is involved with a ghMoveWindow function...<br><br>There
+ seem to be annoying incompatibilities with Internet Explorer and 
+pluginhostctrl.dll which cause a crash. (Apparently, pluginhostctrl does
+ not yet simulate NPAPI's streams and statusbar stuff... Let's hope IE 7
+ starts using Gecko again, or I'll have to rewrite this thing with 
+ActiveX!)<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Good and bad news, as always</td><td align="right"><font class="tiny">(Posted 2006-01-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I now have a working status bar message thing going on in the "Tanx" example. Pretty fun stuff :)<br><br>Unfortunately,
+ my messaging system is recieving interference from none other than MSN 
+Messenger! Messages do not appear to be recieved by ghMain. This could 
+be a problem that lies either in my code (pehaps I called SendMessage 
+wrong) or with Messenger itself. The idea of Messenger being responsible
+ for this interference isn't too hard to believe, since the program is 
+spanned across many windows and probably tries to be modular. I will 
+need to review my source code, submit a few queries to various forums, 
+and see if this really is Messenger's fault. It would be swell if it 
+was, because I despise the thing.<br><br>2:15pm<br>Okay, unfortunately, 
+there are also a lot of other unreliable details, so I will have to 
+assume that the memory being sent to ghMain has not been properly done, 
+and/or the SendMessage function isn't getting window handles properly.<br>Too bad... I was looking forward to blasting Messenger!<br><br>4:00pm<br>Okay, I admit. The last 2 hours was spent playing Counter-Strike... not programming.<br>I
+ had a sudden realization after being turfed 30 times, which is that the
+ NPAPI commands ask for a plugin instance. This, of course, would imply 
+that these commands can be called externally! This may solve all the my 
+problems! (Or maybe it won't). <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Messaging is operational!</td><td align="right"><font class="tiny">(Posted 2006-01-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Program messaging is now fully operational using the window message WM_COPYDATA.<br>There
+ is no actual functionality done, but I have performed a successful test
+ in which data was sent from the plugin to ghMain and back! At the 
+moment, all it does is send a message to ghMain, then ghMain pops a 
+MessageBox up and responds.<br>Good thing it's the weekend soon. All I 
+have to do is survive tomorrow and then I'll have a nice bunch of 
+programming to amuse myself with on the weekend. And a release. 
+Hopefully.<br><br><br>This is getting surprisingly compilcated now, and 
+I'm glad that I have some sort of naming convention going on. The 
+Grasshopper package now uses 4 external tools for plugin creation and 
+the updater, ghMain (PluginBase), ghEmbedder, and ghDownload. All of 
+these last 3 programs will soon be able to work together simultaneously.
+ I am pleased to be able to state that every single program involved is 
+perfectly synchronized with the other.<br><br><br>I am poking at getting
+ an automatic embedder going with ghEmbedder. I hope to allow the option
+ to get process information about the main program, thus allowing it to 
+perform the embedding operation with very minimal developer input. This 
+functionality will definietly exist in ghDownload.<br>The messaging 
+stuff will also remove the need for a command line to be passed to send 
+plugin arguments, which means that not only will the main program no 
+longer need to pass its very nonstandard command-line to ghEmbedder, but
+ it will also allow for more arguments to be safely passed to the 
+plugin.<br><br>I could even completely remove the need for the developer
+ to grab his program's own window handle to pass to ghEmbedder, because 
+this information could be collected by ghMain.<br><br><br><br>Regarding 
+some inconsistency... "The Main Program", "Your Program", and some times
+ even, foolishly, "The Plugin" are all the program created by the 
+developer that is transformed into a web plugin by Grasshopper.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Communication with plugin will have to happen soon...</td><td align="right"><font class="tiny">(Posted 2006-01-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It seems that, in order to get this downloader working nicely with 
+relative paths to files and good download speeds, I will need to start 
+looking at communication between the program and its plugin (the part 
+that can talk to the web browser).<br><br>Hopefully this will allow for 
+the user to easily set up Streams, which are used to download web 
+content for the plugin to use. This includes files being linked to by 
+the SRC parameter, as well as entire web pages that were linked to by an
+ Anchor tag.<br><br>The current methods which I have considered are:<br>--Window messages (WM_COPYDATA)<br>--Messages sent through a file in the Temp directory<br>--Messages
+ sent through an array shared between two programs. I doubt that this is
+ possible, and if it is, I doubt that it will work. It would be nice 
+though.<br><br><br>With the addition of this feature, I will begin to 
+make the Netscape Plugin API easily available for the developer. This 
+includes sending all sorts of messages back to the web browser such as 
+to download files, display web pages (in a new window, a particular 
+frame, or even the plugin's own window), or even to send mail.<br>How many of these features will be added, I am not yet sure. Hopes are high, though!<br><br>Note
+ that, since these features would be slightly more... uhm... 
+competitive... than the other stuff, I will be perhaps looking at a 
+"Donate Now and Recieve" type thing, or actually going for a payed-for 
+code library.<br><br>Thankfully, Grasshopper's nature would make it 
+quite interesting as a paid-for thing. I could release the entire 
+general plugin stuff would be free software, with the ability to 
+communicate with ghEmbedder.dll. The only thing that has to actually be 
+bought then is the ghEmbedder.dll that can use this communication 
+system.<br><br>Of course, this will only happen if I am certain that I have done a perfect job, though. It gives me the shivers when I release <i>free</i> software that isn't perfect. (And speaking of which, this doesn't mean that APE is gone).<br><br><br><br>This should all prove to be rather interesting... if I don't start trying to kill my computer first.<br><br><br>January 9/06<br>Scratch
+ the chance of going pay thing. I had a bit of thought and eventually 
+decided that it's better to just go for free, since I'm likely to be 
+developing an open source project with this system anyway.<br>I'm about 
+to go for it... just need to prepare myself for the next step. I am 
+testing a new option for ghDownload, which is AutoEmbed. This option 
+will make ghDownload attempt to use Windows's Process commands to embed 
+your program itself, instead of making you do it.<br>I'm also looking at
+ moving ghDownload straight to C++, but this may be a bad idea. (Not 
+that I think C++ is less powerful, but because I know that I am less 
+powerful with C++). Once I have streams working, the hard part (file 
+downloading) will be done, so the chances of me doing that are a bit 
+better.<br><br>I appear to have found the shared memory system that I need... now time to see if Windows complains! (In about 6 hours)<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ghDownload is going well</td><td align="right"><font class="tiny">(Posted 2006-01-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The ghDownload Plugin is going very nicely. So far, a person can easily
+ use the ghDownload plugin as a technique to very quickly install and 
+execute web plugins on demand.<br>All of the main elements work to a 
+decent extent so far. It will download and extract a .gh file (or .zip, 
+.z, or anything else 7-zip understands) into its own directory and 
+execute the program contained within it as requested through a simple 
+little information file. The system also stores downloads, so the same 
+file will never need to be downloaded twice unless its information file 
+states that it should be.<br><br>I am current encountering weird 
+incompatibilities with Internet Explorer. Something to do with what 
+directory my program is being booted in, I expect.<br><br>It looks like 
+ghDownload can also act as a fantastic installer. So, once I've written 
+my installer for ghDownload, I will see about making it smaller 
+(currently it's a Blitz3d program... maybe I can port it over to BMax), 
+and perhaps registering it. With those two steps completed, it could act
+ as an excellent way to download and install a web plugin with (quite 
+honestly) the press of a button. Of course, this could easily be made 
+into the press of 2 or 3 buttons, depending on whether you're using an 
+installer with license information and such.<br><br>After that, I will 
+try my best to make it clear how this installer of mine works so that 
+others could write their own installers if need be. I will also write a 
+quick command-line utility... or maybe a DLL... or both... that places 
+files in the correct directory or returns the plugins directory in which
+ to place files.<br><br>Sadly, I am also doing this around a bunch of 
+other stuff, including a very stylish (behind the scenes, anyway) web 
+site, so it will take a while.<br><br><br><br><br>I also need to build a ghDownload section into the main program. Shouldn't be too hard...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 0.3 Out!</td><td align="right"><font class="tiny">(Posted 2005-12-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I managed to hold back my common sense for about 5 minutes and release it.<br><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=54824" target="_blank">http://www.blitzbasic.com/Community/posts.php?topic=54824</a><br><br>Now, if all has gone well, I'm going to work on something else for a little while until the way across my next problem is found.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Internet Explorer is in! Again!</td><td align="right"><font class="tiny">(Posted 2005-12-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Fully working in IE... writing a little plugin registering script, an 
+HTML file creator, and redoing my interface for the plugin creator to 
+use a treeview instead of a bunch of text boxes.<br><br>The problem was silly, and it was easily fixed when I got back to programming.<br><br><br>Once again, this may be released today... unless I decide to add something else.<br><br>Features missing from version 0.3:<br>-Plugin installer maker - There will be a tutorial in the help file for this, though.<br>-Cabinet file maker for automatic installation via some web browsers. (Better than installer maker)<br>-Direct
+ communication with the web browser through ghMain.dll (the "real" 
+plugin). I hope to achieve this in order to open up room for the huge 
+number of options made available by NPAPI. Since I always feel a bit bad
+ about knowingly writing constantly to someone's hard drive, this will 
+be done through either windows messages, absurdly fancy DLL stuff, or a 
+few arrays shared between the programs... perhaps with its address 
+passed by the command line. My thoughts are currently leaning towards 
+the last one, but may change once I see how much is involved.<br><br>Thankfully, the updater can be used to get improvements to the program, so there is nothing to worry about!<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Internet Explorer is in!</td><td align="right"><font class="tiny">(Posted 2005-12-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> IE support is done. Almost.<br><br>The
+ problem was, as always, very simple. It was figured out through the 
+addition of a mile of Message Boxes added to my source code.<br><br>A 
+plugin booted through PluginHostCtrl appears to have its app path as 
+wherever the HTML page is, instead of the directory in which the web 
+browser exists. This is a problem, but it's fixable... somehow. I think I
+ was using a rather cheesy method to get the plugin's directory anyway. 
+There's probably a better way.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>It's all ready... now some finishing goodies</td><td align="right"><font class="tiny">(Posted 2005-12-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The window positioning bug was fixed. It was a very stupid mistake, as I
+ suspected. I was looking in all the wrong places for 90 minutes. The 
+problem was that I had foolishly placed a "static" thingy to the 
+declaration for the ghGetValue function in a desperate and knowingly 
+useless attempt to fix a bug which I then forgot to remove. Of course, 
+this ended up with me getting the same result if I called the function 
+twice. (Thus, window height was the same as window width).<br><br>Very dumb mistake.<br><br>I
+ also added two new functions to ghEmbedder.dll, allowing for the user 
+to create/change/whatever their application window even after calling 
+ghInit(). The other function allows for the absurd technique of grabbing
+ a program's window handle by its window name.<br><br>New functions are:<br><pre class="code">ghSetEmbedWindow_hWnd(hWnd%)
+ghSetEmbedWindow_name(name$)</pre><br><br><br>I originally intended to 
+not have Internet Explorer support until the next version, but since 
+it's so easy to do I should just do it right now for first impressions. 
+The only hard part is downloading the control that I need...<br><br>Unfortunately,
+ the writing of installers is still going to be a manual process... I 
+have a few useful links with regards to that in the documentation, and 
+links regarding how to register a plugin's MIME type.<br>Don't worry! It
+ is possible and accepted to have a plugin with an unregistered MIME 
+type; in fact, many professional plugins like Quicktime do this.<br><br><br>I am <b>not</b>
+ aiming for a Christmas release. The reason for that is because everyone
+ else is, and so this would get lost in the turmoil. Consequently, I am 
+aiming for a Dec. 24 release. Either that or Dec. 26... unless, 
+miraculously, nobody does anything on the 25th and I'm actually done.<br><br>Still
+ some work to do. I have to add ActiveX support, which will then require
+ me to improve the automatic HTML page generator... I may as well also 
+add in a "non-registered MIME type" option that puts "x-" before MIME 
+types. Maybe I'll simplify it even more by having seperate fields for 
+Major and Minor type. I'm still aiming for less than two weeks from 
+last...<br><br><br><br>Dec. 24<br>Well, it looks like this control is 
+giving me more trouble than I thought. Right now, it is installed 
+properly and the control itself works, but it is not executing some 
+plugins. Thankfully, this problem is happening to a few test plugins 
+(which should work), so I'm guessing that whatever is going wrong is not
+ my fault. Which really only makes things worse, but I can probably fix 
+this somehow. If worse comes to worse, I'll just write a conversion to 
+ActiveX. There isn't much to change.<br><br>Unfortunately, finding the 
+ActiveX SDK is an impossible task with the most likely place being 
+blocked by a message on MSDN telling me that they've merged sections of 
+their site, but not actually leading me onwards to the content that I 
+requested.<br>I do not see how anyone can possibly prefer these things over Netscape Gecko.<br><br><br><br>Just a little side note:<br>I
+ bothered to put a bloody version number on my DLLs -- a complicated 
+task that has barely ever been achieved before. It was very hard... it 
+involved clicking twice slowly on my compiled DLLs, and typing 030 onto 
+the end.<br>What does this mean? ghEmbedder.dll and other Grasshopper 
+DLLs are some of the few DLLs in the entire known universe that actually
+ take measures to avoid <a href="http://en.wikipedia.org/wiki/DLL_hell" target="_blank">screwing things up.</a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Documentation is done!</td><td align="right"><font class="tiny">(Posted 2005-12-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The documentation is finished!<br>There
+ are a few horrible parts, so I will keep this here for a while before I
+ release. I also need to sort out web browser compatibility in my 
+documentation. To put it simply, the docs are not idiot-proof. I may 
+just release them as-is, though, and watch people suffer in the hopes 
+that they will contribute meaningful, useful input into how better to 
+explain things because I'm really bad at explanations. I tried to fix 
+how I tend to explain things incomprehensibly by adding a "how it works"
+ section so that people have a better idea of my constantly changing 
+lingo, but I don't think it help quite enough. Since it's free and open 
+source software, though, and I dont have a "donate" button anywhere, I 
+don't think it would be much to ask for a few people to help me with 
+documentation.<br><br>There is also still an easy to fix error in ghEmbedder.dll...<br><br><br>The the mean time, I just built the web page:<br><a href="http://crumbsoftware.f2o.org/index.php?p=products/grasshopper/" target="_blank">http://crumbsoftware.f2o.org/index.php?p=products/grasshopper/</a><br>The news is all lies... that was just for a test of my updater.<br><br>That's
+ the first time I have actually used my web site's PHP stuff that I made
+ a while ago to create a new section, and it was miraculously easy!<br><br><br>I
+ added an Internet updater and news viewer to the main program... very 
+fun to get stuff like that working. The process of checking for an 
+update is rather simplistic, but I think it works fine. It just 
+downloads the 3 byte verinfo file from the web site, and if it has a 
+bigger number then it needs to update. It's not nearly as annoying as 
+various others, because it neither forces you to update nor pesters you 
+with an annoying popup message saying "Hey, look at me! I was released 
+as an unfinished product so they had to FIX ME AFTER!" In fact, it's 
+completely up to the user to even check for an update!<br><br>The rest 
+of the updater is also pretty neat. Theoretically, I could put every 
+single program file onto my web space, make note of them in the program,
+ and then if the executable was moved to a blank directory it would be 
+able to sort itself out and reinstall every single other missing file 
+with absolutely no user interaction beyond hitting "Download All Missing
+ Files."<br><br>Of course, that functionality isn't entirely in here, as
+ it's just used to download external tools whose licenses required me to
+ download directly from their web site... but I may put it somewhere 
+else eventually. A self-repairing installation seems like an extremely 
+useful thing to have.<br><br><br>Another cool thing: It is possible to 
+download two, three, or even more files at once. It simply pauses the 
+other download until the new one finishes. The reason why that is so 
+cool is because I didn't have to do anything for it -- it just happened.
+ I love that.<br><br>Very cool stuff.<br><br><br><br>After this project,
+ I am going to return to APE, but I'll also be working on a game, 
+currently titled "The Orb Game." I won't say much more beyond that, 
+other than that 95% of it is completely unique. And when I say 
+completely, I don't mean like the war under the sea game being 
+completely unique because it's under the sea. This is unique.<br><br>Anyway, back the Grasshopper Web Plugin System...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I didn't lie, because it's not my fault.</td><td align="right"><font class="tiny">(Posted 2005-12-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Excellent news on the recent problems with the plugin failing to initialize.<br>After
+ a lot of random fiddling, I have learned that the problems with the dll
+ modification operation are that the tools which I am using are 
+counteracting eathother. (The resource editor appears to kill the 
+useability of the DLL, while the Hex editor appears to destroy... or 
+maybe damage... resource information). Since there is no way that these 
+programs would do this normally, this must be my fault. Maybe they don't
+ like DLLs.<br><br>The end result for any editing (even done manually), 
+seems to be that the DLL no longer runs at all. The resource file on it 
+is still found by web browsers, which is weird. This is a setback, but 
+hopefully not too much. If worse comes to worse, I'll use a c++ compiler
+ to recompile the DLL.<br><br>Thankfully, I have a very cool, 
+idiot-proof, missing file replacing, tools system... I hope to turn it 
+into a sort of an easy to use installer framework over time... and some 
+nice script files that I can edit in notepad without touching real code.
+ Modular software is fun.<br><br>...<br>Now to read over some help files.<br><br>Whatever
+ the problem is, I'm hoping to be able to fix it all in one single move.
+ Maybe I will change the DLL to find out what file to execute through 
+its resource script.<br><br><br><br><br>In a recent revelation, I have 
+made ghEmbedder completely seperate from Grasshopper's main browser-end 
+DLL. This is useful, because it means that it can be used for performing
+ the (admittedly simple) operation on anything. Both DLLs weigh in at 
+about 60KB each. It is also useful because it means far less fiddling 
+for everyone.<br><br><br><br>2:15 PM<br>Problem solved! I set the 
+FileToExecute string to have a size of _MAX_PATH (thus less potential of
+ messing up when altered externally), and then changed it from a 
+constant to extern. I have no idea what that did other than what I 
+learned from a quick peek at the Visual Studio documentation, but I'm 
+sure that whatever it was didn't break anything.<br><br>I also changed my hex editor script to not use replaceall by the command line as the method to change the filepath. This works.<br><br><br>Now I just have to sort out window positioning and my tutorial on the writing of an installer.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>It's done... almost</td><td align="right"><font class="tiny">(Posted 2005-12-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> 3 entries in one day, and a fourth to come soon.<br>Maybe I shouldn't have started this worklog. It's so exciting, though!!<br><br>Here is my now fully working .decls file, with only one tiny little bit of complexity (grabbing window handle):<br><pre class="code">.lib "ghEmbedder.dll"
+
+ghInit(childHWnd%,args$)
+ghGetArg$(argn$)
+ghEmbedWindow%()
+ghQuit%()</pre><br><br>Now I'm going to fix docs, which will then be 20 
+times easier to both read and understand, figure out how to get this app
+ plugging into the dll that embedded it instead of the one in the 
+userlibs folder, improve the main Grasshopper Plugin Maker function so 
+that it isn't stupid, write a program downloader sample, (to demonstrate
+ that this is the same as the others, except a bit more flexible), and 
+hopefully release today or tomorrow!!!<br><br><br><br><br>Confirmed: 
+Documentation for the program embedding section is 34 lines long. I'm 
+going to bed. Just have two sections to go... and a bit of sifting and 
+sorting.<br><br>Invisible music player demo has been made.<br><br>I'm 
+surprised how large this has become... the main directory is 53 MB. It 
+appears to all be the work of precompiled header files and such, though,
+ so no worries.<br>Real file size at the moment is about 8MB... I probably have some excess compiled code in there.<br>There appear to be some window alignment issues, and strange last-minute issues involving it just not wanting to work...<br><br><br><br>December 20/05<br>Right
+ after I fix everything else, I seem to have broken the pluginbase 
+dll... It looks like this is something gone wrong on the C++ end of 
+things. The plugin is simply not initializing - no error message or 
+anything, though. I'm still aiming for a short release.<br>It looks as 
+though the problem has to do with my integration into the web browser. 
+Heck, maybe it's the HTML tester page itself :)<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Success!</td><td align="right"><font class="tiny">(Posted 2005-12-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I now have an application correctly starting up and embedding itself within its parent window through a DLL.<br><br>Now the hard part... parsing arguments and returning them as strings :(<br><br>It's
+ definietly easier to use now; what used to be 6 lines of code and 80 
+lines of very poorly written documentation is now 1 line of code and 1 
+line of docs :)<br><br>Currently have two dll functions for Blitz: 
+ghQuit() (tells app when to quit) and ghEmbedWindow(). Now all I need 
+for now is ghCollectArgs() and ghGetArg(). Perhaps also a ghInit() so 
+the programmer doesn't have to pass it window handles all the time. 
+(Though it barely matters, and means for a slower release...)<br><br>DLLs are quite fun, actually. When they work...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The ultimate solution to Documentation!</td><td align="right"><font class="tiny">(Posted 2005-12-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I managed to stop myself from turning my signature into a worklog by just posting my progress here.<br><br>So,
+ you may have noticed that Grasshopper did not come out 4 days ago like I
+ said. The reason for that is because I have gone through many frantic 
+revisions of the documentation in a hopeless attempt to make this thing 
+more user friendly.<br><br>Then I realized: It would be easier to just 
+finish the next version, which pops the whole thing into a single DLL, 
+than to write the documentation for this version. So, version 0.2 will 
+not be released, but 0.3 will. Hopefully soon... Developement here is 
+quite slow because a single test requires that I compile a DLL, write a 
+selfembedder, plug the DLL into that selfembedder, and then run it all 
+through a web browser.<br><br><br>So, what does it all do?<br>Grasshopper
+ gives you the ability to easily produce advanced, highly customizable, 
+web browser plugins which are executed automatically, whenever needed, 
+directly within a web browser. Its unique behaviour opens up a myriad of
+ possibilities; audio playback, 3d file format viewing, image viewers, 
+PDF viewers... etc.<br>Grasshopper is different from other tools like 
+it, because it allows for you to set your own MIME types/file extension 
+settings for your plugins, it is free, and it has room for future 
+extensions to recieve functions from a JavaScript on a web page.<br><br><br>This is a screenshot of the main Grasshopper executable... doing... just about everything it does:<br><img src="7206&amp;log=1272_files/img2.jpg"><br>It
+ does very believeable fake multithreading - that embedded app tester is
+ running at the precise same time as the external tool downloader, the 
+downloader's web browser, and the plugin creator (though nobody notices 
+that one because it's a practically instant process).<br>The entire 
+program is powered by plain Blitz3d with WinBlitz and a single external 
+DLL for embedding Internet Explorer. I'm quite pleased with it.<br><br><br><br>So far, for the DLL support, I have encountered a bit of progress and a bit of bother.<br>For the progress part: I actually figured out how to write a Blitz-compatible DLL :)<br>It's
+ turned out to be quite easy. So far, the DLL will embed the Blitz 
+runtime window within a requested parent window and then it goes on to 
+make a failed attempt at repositioning it and changing its window 
+styles.<br>The bother: When Blitz accesses the DLL, it will be probably 
+be a totally different instance than the one accessed by the web 
+browser, so I will need to figure out some clever way to communicate 
+between the web browser instance of the DLL and the Blitz program, while
+ using the Blitz program's instance of the DLL to do stuff.<br>I may be completely wrong, though.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Camera controls</td><td align="right"><font class="tiny">(Posted 2005-10-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I had fun today with tweeking the control scheme.<br>APE is now the first program I have ever used which features super camera tilting powers!<br><br>It
+ was a nice way to relax from the green colour of strings that my code 
+has taken on of late... It's pretty cool how one can tell what section 
+of a program they're viewing based on the colours that the IDE displays 
+it with. (I only just noticed after all these years)<br><br>So... This is probably how the camera controls will stay:<br>"F12" to switch camera modes<br>"R" to reset camera<br>Orbit Mode:<br>---Right click to orbit camera (wings3d-inspired)<br>---"A" to move camera pivot to a point (wings3d-inspired)<br>---Middle click to zoom camera (mouse forward &amp; backward) and tilt camera (mouse left and right)<br>---Mouse wheel and NumPad + and - zooms in and out<br>Free-flight Mode:<br>---WASD camera movement<br>---MouseLook, usually<br>---Right click to freeze camera<br>---Middle click to tilt camera<br>---Shift to move quickly<br><br><br>As you can see, I'm quite proud of this little configuration, and I hope to see it used in every single other program existent.<br><br>Why did I post this? Worklogs are fun. I highly recommend that you start one.<br>Try to keep your images on the same web server though. (grumblings at legion.gibbering.net, which I previously used...) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A good day</td><td align="right"><font class="tiny">(Posted 2005-10-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Today was a good day. A very good day, in fact.<br><br>Behold, the box!<br>I
+ haven't said much about advanced stuff like water lately. No worries 
+though, I just had to sort out how it will work under the new interface.
+ The user will be able to create dummy objects (boxes, usually), to 
+which can be assigned all sorts of variables, such as if it is physics 
+engine water (which could be dealt with properly by an exporter for a 
+physics engine such as Meqon, for instance).<br>These dummy objects will
+ have different creation methods, as determined by yet another script 
+file. When they come about, there will be a great deal of turmoil as I 
+put geometries into the system. All will go in place of where the 
+geometry editor currently is, with the simple addition of a single 
+dropdown selection box.<br><br><br>I have nearly finished writing the 
+docs for the variables scripts system to the extent that they will act 
+as a guideline for myself. Once again, I feel comfortable, because 
+finally I, too, hate writing docs.<br><br><br>Now, why was today in particular a good day?<br>I have completed the interpreter for the variables scripts system.<br>It's always a great feeling when code just pops together mechanically with minimal effort -- as though it programmed itself.<br>That
+ happened here. My script interpreter was finished much more quickly 
+than expected because every variables list for every object is treated 
+the exact same. The template vars lists, after being read from the 
+variable scripts, are saved to an array of types. That is when I was 
+really amazed. I thought I still had loads of work ahead, but, in fact, 
+all that needs to be done to assign a list to an object is to duplicate 
+the variables connected to the template chain into the actual object's 
+variables chain. Wonderfully perfectly easy. Not to mention, quite fast!
+ It's also a great feeling when I can talk about my code and it sounds 
+like a foreign language to everyone but me. A fine sense of completion. I
+ can now safely say that APE is half finished!<br>I will never doubt open-ended programming again!<br><br>Still
+ have a bit of work to do, such as combo box selections for variables in
+ the scripts, and the automatic variables, and other stuff... but that's
+ all relatively straight-forward. After that comes the new geometry 
+editor.<br><br>Oh, and I should have done this one earlier:<br><img src="7206&amp;log=1272_files/Heirarchy.jpg"><br>This
+ is the structure of the different objects in my program. I did this 
+after I realized that I was referring to entities as objects and objects
+ as entities. Don't ask why entities are called entities and not meshes.
+ Ever.<br>The answer to that question may come five years after version 1.<br><br><br>A
+ test version of the program may appear once I have the variables 
+scripts complete. It will not be an operable program, but it will be 
+useful to have people (hopefully) playing with the scripting language, 
+thus uncovering any bugs which I would not have found because I go too 
+easy on my interpreter :)<br><br><br><br>Oh, and a bit of bad/good news.
+ I was reminded today that people usually need to take breaks from 
+projects... I think I'm one of them. I am going to tweak APE a bit more 
+so that I can get back into it easily when I return in a while, and I am
+ going to work on two other projects: SW3d (a program that I have a log 
+for and which may become an important part of APE, among other things), 
+and "The Orb Game" (a proper working title), which I have mentioned a 
+few times... I have to start it up soon because I'm already designing 
+too much.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Light at the end of the tunnel</td><td align="right"><font class="tiny">(Posted 2005-08-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've cured my recent obsession with GTA San Andreas by deciding that I hate it.<br>I have also done a surprisingly effective chunk of work since the last time I posted in this log.<br><br>-To start off, the program now uses Windows XP Themesupport, which makes it look 20 times nicer.<br><br>-I
+ also gave the program a more uniform feel by adding a heirarchy into 
+the Objects treeview, in which the user can quickly bring up and modify 
+Scenes, Groups, Meshes, Surfaces, and even Geometries! Along with this 
+nice tree system, I did some beautifying with my first ever image strip,
+ which is clearly visible as the only bit of colour in the image. It 
+turned out somewhat like the look that Google uses, which is good.<br><br>-The side bar is now on the left, because when it was on the right, I had to reposition it whenever the window was resized.<br><br>-I
+ decided to use the default font for text boxes, even though, for me, it
+ is big and bold. This was probably the right decision.<br><br>-The 
+positions window is no longer in the sidebar, which means that the 
+program will be useable at a lower screen resolution. The GUI was also 
+cleverly designed so that I could, at any time, decide to make any of 
+those other windows floating as well. I would be very grateful if 
+someone gave me code to do dockable and undockable windows with WinBlitz
+ :)<br><br>-The variables system is <i>Finished</i>! Now, to make it 
+fully operational, I actually have to create the variables part of the 
+interfaces system in order to make it all work perfectly. The system 
+allows for variables, which are stored in linked lists, to be assigned 
+to anything. Since it is rather useful, I was careful to make the 
+variables module easy to integrate into other projects. There is a tiny 
+bit that simply needs to be removed, which is part of the program's GUI.
+ (I think the GUI has become the most common topic in this worklog...).<br><br>-I have managed to stop the close button from closing the window. Believe it or not, this is progress!<br><br>-I now have surfaces working again -- And better than ever! (Thanks to the variables system)<br><br>-Geometry
+ creation and selection mode changing is back in. Currently can only 
+create boxes, because I haven't yet created the geometry creation 
+window. The geometry creation interface will recieve a bit of fiddling 
+anyways. Basically, geometries are created as before but can also have 
+their shape and size changed at any time (even by using the selected 
+faces).<br><br>-I have a working right-click menu in the Objects list. (Thanks for the help, WinBlitz guy!).<br><br>-Objects can be deleted via the Objects list. (:D)<br><br><br><br><img src="7206&amp;log=1272_files/Progress_August_05_2005.jpg"><br><br><br><br>Just a quick report on the web site end as well:<br>You
+ may have seen my excited post about having transformed my web site to 
+PHP. This also means that the APE section is fully operational. A forum 
+section has also been set up for the program, and its purpose will 
+become clear with the next release.<br>While writing this log I added a totally awesome random logo thingy. I have two logo designs, and 6 colours for each one :) <a href="http://crumbsoftware.f2o.org/" target="_blank">http://crumbsoftware.f2o.org/</a><br>The
+ logo in that particular position is actually just a stand-in for an 
+eventual random content or daily progress screenshot thing.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Recent Developments</td><td align="right"><font class="tiny">(Posted 2005-06-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Note: "APOE" is now officially renamed to "APE".<br><br>At last, I have finished work on the new GUI!<br>After
+ two days trying in vain to solve the same irritating problem, I found a
+ solution that required two lines of code and a bit of indenting. <i>I hate it when that happens!</i><br><br>Anyway, here it is:<br><img src="7206&amp;log=1272_files/Progress_June_22_2005.JPG"><br><br>As
+ you can see, it looks very slimmed down compared to the old look. This 
+is due to a very useful change in the way that the program works, and 
+also because sidebars are cool.<br>The new GUI is now compatible with all screen resolutions!<br><br>Now,
+ all that remains is transporting my old program, along with the BlitzUI
+ commands, into the new framework. That will be a very irritating 
+process, but should only take a day. Actually, it's kind of fun to do in
+ some ways, once all the problems are cleared up, because features seem 
+to suddenly appear out of nowhere.<br>After that, it's back to the exporters and interface scipts...<br><br>I
+ realized after looking at my screenshots directory, that it has been a 
+year and one day since I got convex hulls working in my program. While 
+this is in numerous ways a very sad thing that it has taken me so long, I
+ am also very proud to have managed to stick to one thing for so long. 
+After the next update, and once joints are in, I'll be working on other 
+projects which have been haunting me with happy dreams for the last year
+ and a half that I have worked on APE.<br><br>About that one month late 
+release guess... Don't trust anything by me that says "Done in two 
+weeks"... But it's definietly around two weeks now.<br><br><br>Note: 
+(July 2, 2005) I'm still standing by two weeks and a bit for merging the
+ two programs, but it's taking longer than I expected... I didn't 
+realize how hard-coded it all was. So, while I smash APE (the new 
+program) and APOE (the old program) together, I'm going to work at 
+cleaning up the source code.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Interfaces</td><td align="right"><font class="tiny">(Posted 2005-05-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, my plan to slowly back myself out while making everyone happy is almost complete.<br>I'm
+ having so much fun with the exporter scripts (now featuring very basic 
+If statements), that I am going to also start work on interface files. 
+Interfaces will allow for people to more easily customize the naming of 
+various parts of the program, and the existence/nonexistence of certain 
+things, to better suit particular physics engines. Interfaces will also 
+feature a simple and yet very flexible variable system (like every 
+respectable level building application has), through which attributes 
+like Mass and Handle are set, as well as any other custom variables 
+(including, obviously the ability to have totally non-physics related 
+variables assigned on a per-entity basis). The variable system will 
+later be well aware of when Blitz types are used for variables, and 
+attempt (but only if it will succeed every time) to ensure that all 
+Types work properly on export.<br><br>Along with the much-needed variable system and (later) interfaces, will be a total GUI overhaul. <br>Why
+ overhaul the GUI already? I realized, to my horror, that the program 
+only seems to look decent at or above 1280x1024 screen resolution. And, 
+the entity properties menu would be horribly out of place and 
+inconsistent if things were more efficiently and uniformly organized in 
+the entity variable list.<br>I will likely decide on a sidebar GUI. 
+Because this wouldn't be too complicated, I may even go for a win32 job,
+ to better appeal to a wide array of people.<br><br>But first: Exporters. Coming soon - ETA: Monday.<br>My ETAs are probably proper now, by the way. Probably.<br>Update is probably the Monday after (May 30th)<br><br><br>It's all coming together very snugly now! I can almost justify working on something else at the same time at last...<br><br><br><br>Also
+ note: I am well aware that capsules have been wrecked again. (They end 
+up being too small). They will take a while to fix, because that will 
+not be until the auto-resize-to-rotation function is done (though it 
+shouldn't take too much longer).<br><br><br><br>Complications have 
+arisen: The update would be ready by now, but I have decided to make the
+ new loader scripts system immeadiately connected with the variable 
+system, which is hard-coded to my GUI, which is encountering many of 
+those irritating little problems that we always seem to get with 
+Windows.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Exporter Scripts in progress...</td><td align="right"><font class="tiny">(Posted 2005-05-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This is the final version of the APOE exporter script file.<br>The help file isn't done yet, but will be made right after the code is finished.<br>(Note:
+ As I test this system, I will probably put a file loader/saver in to 
+save myself time, so that is likely to be in the next update as well)<br><br><pre class="code">//APOE default exporter
+//See ExporterHelp for info
+
+/Functions
+&lt;RBCount&gt; = TOKSIM_SetRigidBodiesCount [nRBs]
+&lt;ABCount&gt; = TOKSIM_SetAnimatedBodiesCount [nABs]
+&lt;GeomCount&gt; = TOKSIM_SetGeometriesCount [nGeoms]
+&lt;SimCreate&gt; = TOKSIM_CreateSimulator([sGravX],[sGravY],[sGravZ])
+
+&lt;SurfaceCreate&gt; = TOKSIM_SetMaterial [sMatIndex],[sFriction],[sRestitution] ;Material: [sName]
+
+&lt;RB_Create&gt; 			[eHandle]=TOKRB_Create()
+&lt;RB_Position&gt; 			TOKRB_SetPosition [eHandle],x#,y#,z# ;For this version of APOE, you must set positions manually
+&lt;RB_Rotation&gt; 			TOKRB_SetRotation [eHandle],pitch#,yaw#,roll# ;For this version of APOE, you must set positions manually
+&lt;RB_LinearDamping&gt; 		TOKRB_SetLinearDamping [eHandle],[eLinearDamping]
+&lt;RB_AngularDamping&gt; 		TOKRB_SetAngularDamping [eHandle],[eAngularDamping]
+&lt;RB_SetMass&gt; 			TOKRB_SetMass [eHandle],[eMass]
+
+&lt;RB_BoxInertiaTensor&gt; 		TOKRB_SetBoxInertiaTensor [eHandle],[eTensorWidth],[eTensorHeight],[eTensorDepth],[eMass]
+&lt;RB_CylinderInertiaTensor&gt;	TOKRB_SetCylinderInertiaTensor [eHandle],[eTensorDiameter],[eTensorDepth],[eMass]
+&lt;RB_SphereInertiaTensor&gt; 	TOKRB_SetSphereInertiaTensor [eHandle],[eTensorDiameter],[eMass]
+
+&lt;RB_AddBox&gt; 			[gHandle Equals Default="Geom"]TOKRB_AddBox([eHandle],[gWidth],[gHeight],[gDepth])
+&lt;RB_AddCapsule&gt; 		[gHandle Equals Default="Geom"]TOKRB_AddCylinder([eHandle],[gDiameter],[gDepth])
+&lt;RB_AddSphere&gt; 			[gHandle Equals Default="Geom"]TOKRB_AddSphere([eHandle],[gDiameter])
+&lt;RB_AddCHull&gt;			CHull = LoadConvex([gCHullFile])
+&lt;RB_AddCHull&gt;			TOKRB_AddConvex([eHandle],cHull,BankSize(cHull))
+
+&lt;AB_Create&gt; 			[eHandle]=TOKAB_Create()
+&lt;AB_Position&gt; 			TOKAB_SetPosition [eHandle],x#,y#,z# ;For this version of APOE, you must set positions manually
+&lt;AB_Rotation&gt; 			TOKAB_SetRotation [eHandle],pitch#,yaw#,roll# ;For this version of APOE, you must set positions manually
+
+&lt;AB_BoxInertiaTensor&gt; 		TOKAB_SetBoxInertiaTensor [eHandle],[eTensorWidth],[eTensorHeight],[eTensorDepth],[eMass]
+&lt;AB_CylinderInertiaTensor&gt;	TOKAB_SetCylinderInertiaTensor [eHandle],[eTensorDiameter],[eTensorDepth],[eMass]
+&lt;AB_SphereInertiaTensor&gt; 	TOKAB_SetSphereInertiaTensor [eHandle],[eTensorDiameter],[eMass]
+
+&lt;AB_AddBox&gt; 			[gHandle Default="Geom"]TOKAB_AddBox([eHandle],[gWidth],[gHeight],[gDepth])
+&lt;AB_AddCapsule&gt; 		[gHandle Default="Geom"]TOKAB_AddCylinder([eHandle],[gDiameter],[gDepth])
+&lt;AB_AddSphere&gt; 			[gHandle Default="Geom"]TOKAB_AddSphere([eHandle],[gDiameter])
+&lt;AB_AddCHull&gt;			CHull = LoadConvex([gCHullFile])
+&lt;AB_AddCHull&gt;			[gHandle Default="Geom"]TOKAB_AddConvex([eHandle],cHull,BankSize(cHull))
+
+&lt;Geom_Place&gt;			TOKGEOM_SetPositionAndRotation [gHandle],[gX],[gY],[gZ],[gPitch],[gYaw],[gRoll]
+&lt;Geom_MaterialIndex&gt;		TOKGEOM_SetMaterialIndex [gHandle],[gMatIndex]
+
+
+
+/Main
+	;APOE Physics Editor 0.12; output for [Select OutputType [0=collection of objects][1=[eFName]] ]
+	&lt;RBCount&gt; 
+	&lt;ABCount&gt; 
+	&lt;GeomCount&gt; 
+	&lt;SimCreate&gt; 
+
+
+	//Materials
+	;Materials
+	[SurfacesLoop]
+		&lt;SurfaceCreate&gt;
+	[/SurfacesLoop]
+
+
+	//Objects
+	[ObjectsLoop]
+		;Output for object: [eFname]
+		&lt;RB_Create&gt; &lt;AB_Create&gt;
+		&lt;RB_Position&gt; &lt;AB_Position&gt; 
+		&lt;RB_Rotation&gt; &lt;AB_Rotation&gt; 
+
+		&lt;RB_LinearDamping&gt;
+		&lt;RB_AngularDamping&gt; 
+
+		&lt;RB_SetMass&gt; 
+		&lt;RB_BoxInertiaTensor&gt; 
+		&lt;RB_CylinderInertiaTensor&gt;
+		&lt;RB_SphereInertiaTensor&gt;
+
+		[GeometriesLoop]
+			&lt;RB_AddBox&gt; &lt;AB_AddBox&gt;
+			&lt;RB_AddCapsule&gt; &lt;AB_AddCapsule&gt;
+			&lt;RB_AddSphere&gt; &lt;AB_AddSphere&gt;
+			&lt;RB_AddCHull&gt; &lt;AB_AddCHull&gt;
+
+			&lt;Geom_Place&gt;
+			&lt;Geom_MaterialIndex&gt;
+		[/GeometriesLoop]
+	[/ObjectsLoop]
+
+
+
+/CHullLoader
+    Function LoadConvex(file$)
+    	Convex = CreateBank(FileSize(file$))
+	filein = ReadFile(file$)
+    	For i=0 To FileSize(file$)-1
+    		PokeByte Convex,i,ReadByte(filein)
+    	Next
+    	CloseFile filein
+    	Return Convex
+    End Function
+</pre><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>1 eighth done at last! (or was that what I said last year?)</td><td align="right"><font class="tiny">(Posted 2005-04-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://www.blitzbasic.com/Community/posts.php?topic=46345" target="_blank">http://www.blitzbasic.com/Community/posts.php?topic=46345</a><br>That took a long time to post :)<br><br><br>Oh yah, here's the screenshot that I promised with every window in the program visible:<br><img src="7206&amp;log=1272_files/img1.jpg"><br><br>Good news:<br>Now that I've got someone else doing something similar, I will be working a bit more quickly... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hmmm... I should have thought of this... maybe 10 months ago?</td><td align="right"><font class="tiny">(Posted 2005-02-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I just realised that with a large flow of other ideas for things that I
+ must do (including my entry for the 2005 Coder's Workshop Water 
+Competition (which thankfully will use physics)), which make my pitiful 
+release date estimations even less accurate than they were, I am going 
+to release the rigid body editor for APOE in a seperate package 
+extremely soon. It will export to .bb code, and it will be very simple. 
+Simply a faster way to set up rb objects for tokamak one by one, with a 
+windows select file window. Exactly how the program first began and was 
+intended to be before it went out of hand. It will also have a happy and
+ easy file format for other physics engines... Or maybe just that and no
+ .bb export...<br>Then with a bit of pressure relieved, I will gradually
+ finish off the big program which is still going to be made for my own 
+sake as well as everyone else's (because we still need joints and ropes 
+and fun stuff like that).<br><br>The APOE structure is also due for an 
+overhaul soon. I have decided to split the program into two levels of 
+operation. One way to run it would be on a per-object basis, or for 
+groups of objects (to allow for joints to still be set up), and there 
+would also be the method which would have everything arranged into a 
+scene (which is a method that many people would not want to have to use 
+in many cases).<br><br>The RB editor will be updated as I build on APOE 
+itself - meaning that it will be given object groups and joints and 
+ropes before APOE is done.<br><br>With that in mind, the release date 
+for APOE is now "when it's done". The release date for the Rigid Body 
+Editor is my usual 2 weeks, because I still need to build a quick .bb 
+exporter, and single out the rb editor from the rest of the program, and
+ iron out a problem, and drink tea.<br><br><br><br><br><br>PS: If you 
+ever happen to come across the guy who had the bright idea to put 
+capsules in a physics engine - please kill him for me.<br><br>PPS: 2 
+weeks is an estimation. You may be aware that I always say two weeks. It
+ just means "Soon, I think, assuming it all works." In this case, 
+everything is working. I'm spending a bit of time streamlining my code a
+ bit more.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Further Puttering</td><td align="right"><font class="tiny">(Posted 2005-01-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ---Sunday, Jan 23, 2005---<br>Just
+ to prove I'm still working, I have suddenly and mysteriously built 1000
+ lines of code to my main program module. There is now 3007 lines of my 
+own code :D I just felt like saying that, it feels special! This is my 
+first ever program exceeding 1000 lines.<br><br>---Wednesday Jan 12, 2005---<br>Sad
+ news. The release date of mid-January was set assuming that nobody 
+dies, and nobody breaks both arms after slipping on ice. Sadly, both of 
+those things happened. I would have tried to get it done this weekend, 
+but I'm gone then, so it can't be worked on until the week after 
+(thankfully, I have a good deal of time to work on this from Monday to 
+the end of January).<br><br>Features not in release 1:<br>Ragdoll Specific Editor<br>Plugins<br>Wizards<br>Advanced object editor (except for ropes, which will be in)<br>No fix for flat convex hull crash - just don't be dumb (you'll see)<br><br>*List may be updated* (but I hope not)<br><br>---Original---<br>Object
+ transformations are in at last. Scaling of objects via the movement 
+arrows is currently inoperative, and I doubt that it will ever operate 
+smoothly. The position window, however, does scaling just fine - and 
+it's better to use it anyways. For movement and rotations using that 
+window, the program will decide whether the number is floating point or 
+an integer, so if you make all your object positions square on without 
+decimals, it will actually be worthwhile.<br>Of course, both windows still work fine for rotation and movement of objects.<br><br>I
+ have finally got enough windows available to open that I can almost do 
+one of those silly screenshots in which every single window in the 
+program is visible.<br><br>Free flight camera mode is in, making it easier to see what you are doing.<br><br>Object
+ groups can pop in at any time because throughout the construction of 
+the program, I have always treated my code as though they already 
+existed. They will probably exist within the next few days.<br><br>Ropes
+ are oddly enough, not added yet. Neither are joints or scene 
+properties. Those are all coming soon in that order. When that happens, 
+you will see a misleading and hard to understand screenshot of every 
+window in the program open and at their most busy looking settings.<br><br><br>Also,
+ I'm going to try something that seems like a fairly good idea and worth
+ trying out. I am going to release a beta of the program with no saving,
+ loading, or in fact any file format even planned. With that release, I 
+will stay very open to any feature requests (and, of course, bug 
+reports). Because there would be no file format to worry about 
+accidentally bothering, I will be able to make room for the features 
+without too much hastle, and no worries regarding backwards 
+compatibility.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Release Draws Nearer</td><td align="right"><font class="tiny">(Posted 2004-11-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ---Saturday, November 27, 2004---<br>Okay,
+ break's over. I learned that the only way I could get out of my 
+Half-Life2 adiction was by buckling down and beating it. I finally did 
+(my god the thing is huge!) and now I'm back to APOE. Yesterday I did 
+some bits of coolification, and it runs more happily now. It is getting 
+more and more streamlined, and my problem count is going down. I can 
+feel a release of Version 0.2 by the end of December... Maybe mid 
+January.<br><br>Oh, by the way, I got Caps-Lock going properly in BlitzUI! It's a bit of a hack job, but it works well :)<br><br>---Original---<br>I've
+ decided, since this is going to be freeware, and there seems to be a 
+demand for programs like this, I'm going to release the current version 
+of it soon, right after I tweek a few things, finish something I forgot,
+ close off unfinished stuff, write docs, and give it a file format + 
+tutorial on loading it (I'll write a loader in blitz for now).<br>Currently it may seem pretty baren, but it <i>will</i> grow. I have a nice source code structure at this point, so adding new features should be fairly easy.<br><br>Okay, the real reason for this crazy decision: HL2 coming soon, and I'm getting it on release. I expect 20 hours of delays.<br>Then I will be back and working extra hard so I can make a game to compete with its physics-based gameplay...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Finally I'm free again</td><td align="right"><font class="tiny">(Posted 2004-10-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After much fiddling, I have rescued my program from a horrible plague 
+of errors, and the Object Library is now done, with lots of fun 
+functionality.<br>Basically, now a mesh is imported, you can set various
+ default settings like geometries and mass, etc. Then any number (Up to 
+1024 I think) of entities using that mesh can be added to the scene. 
+It's simple, but it took me forever because I had to do a lot of 
+changing to both my own code and Blitz UI along the way. This caused a 
+week and a half of errors. Finally I'm pretty much out of that bother, 
+and I can go back to being creative again!<br><br>The full story about my bug fixing is here in the form of The Adventures of Logan and Lance #1.<br><a href="http://www.blitzbasic.com/Community/posts.php?topic=39904" target="_blank">http://www.blitzbasic.com/Community/posts.php?topic=39904</a><br>Believe it or not, it is actually a very accurate representation of what happened.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Goodish news</td><td align="right"><font class="tiny">(Posted 2004-09-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> ---Wednesday Oct 13, 2004---<br>No real progress, but I'm back.<br><br>---Saturday Oct 9, 2004---<br>Where
+ am I? I hear you ask (considering you are reading this). Well, 
+basically, when I finally got my source code back I was a bit out of 
+practice and I had fallen out of that nice little stage you get with a 
+project when you can just keep on going forever. In other words, I'm 
+taking a short(ish) break in which I will take care of other unfinised 
+business and stuff that I have been intent on doing for ages.<br><br>---Sunday September 19, 2004---<br>Here's some real news (didn't feel like adding a new post):<br>Playing
+ with a car demo in ODE somehow led me to a decision that the loader 
+will work in a much more open way, which forces the programmer to do a 
+lot of the work (and removes the one line loading), but for good reason.
+ Faked effects should still be able to work. I will also maybe write 
+quick loaders for various engines and languages so the person doesn't 
+have to. There is definietly very good reasoning for this, mostly based 
+on my own inevitable laziness. Here is an idea of how the loader would 
+work in blitz:<br><pre class="code">;APOE loader concept 0.1
+
+world = LoadScene("Tokamak","Scene.apoe")
+
+For i = 0 To GetSceneRBCount(world)
+
+	rb = TOKRB_Create()
+	TOKRB_SetMass rb,GetMass_RB(i)
+	TOKRB_SetPosition rb,getX_RB(i),getY_RB(i),getZ_RB(i)
+	TOKRB_SetRotation rb,getPitch_RB(i),getYaw_RB(i),getRoll_RB(i)
+	;list of all possible rb specific commands goes here. 
+	;A bit fiddly, but it only needs to be done once
+
+	For g = 0 To getGeomCountRB()
+	
+		;all RB settings
+	
+	Next
+
+Next
+
+;Similar method for joints and everything else
+</pre><br>So basically it is done by retrieving bits of information from the dll, which simply reads the file and arranges everything.<br>If I get adventurous, maybe I will set up automatic object grouping so that there are no needless function calls.<br><br>---Original---<br><br>Not great progress, but I'm happy today because it's the first progress in a month.<br>I
+ have merged my code from my old hard drive (hard drive crashed, went to
+ data recovery) and my new hard drive (bought it so computer would run 
+during data recovery) and I have it going nicely. I now have nicer code 
+structure in some bits, a completely working surface library, and the 
+advanced object creator's framework is in. Soon (after I add in some 
+pretty gfx and arrange the dropdown menus properly) I will put in rope 
+creation (though it seems like it may get fiddly, so expect delays). In 
+terms of gfx addins, there will be little icons all over the place, and 
+in the surfaces library there is an icon that's actually of use to 
+visualise the friction on a surface with a normal map (I for one, have 
+trouble with avoiding setting friction to 100%).<br>Also found someone 
+who may be willing to do some dll programming (the loader for apoe 
+exports will be in a dll, along with various functions to make physics 
+easier both for me and for you).<br><br>So, APOE is back for those that noticed it being gone.<br>Felt like posting this because worklogs are cool. Real news to come. Soon.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress update</td><td align="right"><font class="tiny">(Posted 2004-08-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I know people hate it when things that were interesting disappear, so I'll tell you why I haven't said much recently:<br>I've been away on vacation for a while (so obviously that puts me back a few days)<br>I
+ literally wasted 3 weeks trying to make a function that determines if a
+ section of a mesh is flat, and the solution has only come at the very 
+minute of this writing (seriously, I thought of it just while I was 
+typing this).<br>Finally, I have been doing busy work which I may as well not mention.<br><br>Now, on with my good update :D<br>Joints and ropes are now being implemented<br>The
+ object geometry editor now has a window to edit geometry properties, 
+which means that the interface is no longer in testing stages.<br>An 
+object physical attributes window is in the works, so that objects can 
+be edited in a more friendly way and the windows will be smaller, better
+ organised, and more attractive overall.<br><br>And the important bit: 
+I'm going to bite the bullet and learn C or something so that the 
+program will come packed with a dll containing all the handy time-saving
+ functions required to make physics programming easy no matter what 
+engine you use. This would include an APOE loader, rope editing 
+functions, and a physics updater that works for buoyancy and other 
+special options.<br>My reason for this decision is that I've realised 
+that the only people who want this will be people who know how to code, 
+and if they are using a physics engine, then they probably know mostly 
+how to use it without my aid. Besides, most people don't want a whole 
+individual program for their physics scene, and end up copying and 
+pasting everything that is important out of it.<br><br>Also a decision: V
+ 1 of APOE will only have support for Tokamak and Newton, but it will 
+gain more as time goes on. I will also add a feature in the prefs menu 
+so that you could tell APOE about a physics engine you want it to 
+support, which would basically involving choosing which features it 
+supports, writing out functions and required variables, and then APOE 
+would determine a system for itself to work with to write the proper 
+scripts.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Feature list</td><td align="right"><font class="tiny">(Posted 2004-07-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here is a feature list to show what is to come. Lots of these features 
+are not yet in (or even started) but they will be done. I will continue 
+updating this as more things come up.<br><br>(Done) Support for all Tokamak geometries, including Convex hulls.<br><br>Ragdoll editor<br>(Done) Object geometry editor (rigid bodies and animated bodies). <br>Object group editor for easy object grouping.<br>Joints can be created in scene mode and the group editor.<br><br>(Done)
+ Entity Attributes Window. [I have virtually no clue how I will in fact 
+do this, but I realize that it is necessary so that people can load in 
+particular special object behaviours of their own.]<br><br>Automatic rope creation (should work everywhere)<br>This, as well as joint placements can be done in many different editing modes.<br><br>Cloth creation<br><br>Water with buoyancy effects and adjustable pressure.<br><br>Advanced "Ragdoll animation" editor, which is explained later.<br><br>(Done) Material creation (I call them surfaces because it is a more realistic name)<br><br>Collision group setup<br><br>Scene editor can act as a simple level builder.<br><br>Saving methods, wizard scripts, and specs for different physics engines can all be added by some method.<br><br>Generally
+ saves as a file which is loaded with a loader function. This also 
+contains an update function which updates the physics and other special 
+sections like cloths.<br>The saving is like this so that people can have
+ this working with many different programming languages and physics 
+engines, in any way they want.<br><br>If all goes well, the ragdoll editor should be able to work automatically in some cases, if the model has bones set up.<br><br>Integration with Spine (ooh, the mystery begins!!).<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Big update</td><td align="right"><font class="tiny">(Posted 2004-06-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Convex hulls are in, and the UI looks nicer, and the scene editor and 
+object editor are succesfully seperated into different sections. I will 
+next be adding an object library, and then some new features that give 
+the ability to merge a jointed body cloth physics sim into a rigid body 
+object using ropes (something that would be extremely complicated to do 
+with code). Later along the lines is a faked buoyancy setup (okay, I'm 
+jealous of Havok), tools for creating object templates, a simple way to 
+write exporters, and then the wonderful busy work like an undo button, a
+ file format, and the well loved repairing of glitches.<br><br>But for now, here's what I have:<br><img src="7206&amp;log=1272_files/Progress_June_21_2004.jpg"><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New stuff</td><td align="right"><font class="tiny">(Posted 2004-05-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, it's been a while, and I just restarted yesterday, but here's the
+ new program. I have started using blitz UI to handle everything and it 
+works great. The interface is almost all done, and I've got a good idea 
+of how everything is going to work. Tokamatizer has always been a 
+working title, and that was for sure when I decided to eventually 
+support many physics engines, so the new name is APOE (I was aiming for 
+APE but I think it's taken by some species of primates...). That stands 
+for Automated Physics Object Editor.<br>Currently, the only real stuff that's in yet is box creation, but the rest is on its way.<br><img src="7206&amp;log=1272_files/Progress_May_23_2004.jpg"><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A change in plans</td><td align="right"><font class="tiny">(Posted 2004-04-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This won't cause me too much trouble, but I've decided, after seeing 
+Newton Game Dynamics, that I will create this program with all kinds of 
+different physics library's in mind. I am now planning to set up a 
+system that allows for downloadable patches that enable export to a 
+diferent physics library. This way, the same file that exports as a 
+tokamak .bb file can also export as an Newton Game Dynamics .bb file and
+ anything else that may come up later on. This will definietly allow for
+ this program to live for a long while.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress</td><td align="right"><font class="tiny">(Posted 2004-04-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Even I am surprised by the latest progress! I have just finished the 
+box adding script, and it is even better than I'd thought! Below is two 
+pictures demonstrating the precision that this software will allow for 
+you to make your tokamak objects.<br><br><img src="7206&amp;log=1272_files/Progress_April_11_2004.JPG"><br><br>It took one minute to draw boxes around the entire ship! (I'm not done the functions for anything else)<br><br><img src="7206&amp;log=1272_files/Progress2_April_11_2004.JPG"><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Starting.</td><td align="right"><font class="tiny">(Posted 2004-03-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have started today, and I'm currently using the blitzsys DLL for file
+ loading. It is quite a handy dll, especially considering it is free! As
+ I have mentioned in my description, it is my first large project in 
+blitz 3d and I hope for the best. <br>  The purpose of Tokamatizer is to
+ be able to generate a tokamak rigid body for a 3d model almost 
+perfectly, by simply selecting faces (actually vertices, but the user 
+would probably prefer to select faces) on a 3d model. Tokamatizer will 
+then figure out the rotations and sizing of the new block. It will also 
+have some other handy details, like being able to name objects.<br>  I am currently just setting up the tool box and box selecting functions. Having trouble with the tool box for some reason.<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

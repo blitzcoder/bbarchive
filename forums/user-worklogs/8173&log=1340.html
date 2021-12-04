@@ -1,0 +1,296 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for splinux</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Latest version now available</td><td align="right"><font class="tiny">(Posted 2006-07-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Download it at <a href="http://stefano.spigler.net/files/iso.engine.rar" target="_blank">http://stefano.spigler.net/files/iso.engine.rar</a> ; it contains: isometric engine source code, a simple test source code, the test executable. <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-06-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I recently added multiple layers to the iso map code. After fixing some bugs, I will release it here. <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Source</td><td align="right"><font class="tiny">(Posted 2006-06-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This is the bitmap font class i used:<br><pre class="code">Type TFont
+	' Characters' images
+	Field chars:TImage[]
+	' Average width of characters
+	Field avgWidth:Double
+	' Height of characters
+	Field height:Int
+	' First and last characters' ASCII code
+	Field init:Int, finish:Int
+	' I think these functions require no explaination
+	Function create:TFont(src:String, init:Int = 32, finish:Int = 127)
+		Local path:String = ExtractDir(src)
+		src = StripDir(src)
+		Local i:Int, avgW:Double, f:TFont = New TFont
+		If finish &gt; 256 Or finish &lt; init Or init &lt; 0 Return Null
+		src = StripSlash(src)
+		f.chars = f.chars[..finish + 1]
+		For i = init To finish
+			If LoadImage("incbin::" + path + "/" + src + "/" + src + "." + i + ".png") f.chars[i] = LoadImage("incbin::" + path  + "/" + src + "/" + src + "." + i + ".png")
+		Next
+		f.init = init
+		f.finish = finish
+		f.height = ImageHeight(f.chars[init])
+		For i = init To finish
+			If avgW = 0 avgW = ImageWidth(f.chars[i]) Else avgW = (avgW + ImageWidth(f.chars[i]))/2
+		Next
+		f.avgWidth = avgW
+		Return f
+	EndFunction
+	Function free:Int(f:TFont)
+		f = Null
+		Return True
+	EndFunction
+	Method getWidth:Int(txt:String)
+		Local i:Int, width:Int
+		Local char:Int, lenght:Int = txt.Length
+		For i = 1 To lenght
+			char = Asc(Mid(txt, i, 1))
+			width = width + ImageWidth(Self.chars[char])
+		Next
+		Return width
+	EndMethod
+	Method draw:Int(x:Int, y:Int, txt:String, cx:Int = 0, cy:Int = 0)
+		Local width = Self.getWidth(txt)
+		If cx x = x - Int(width/2)
+		If cy y = y - Int(Self.height/2)
+		Local i:Int, image:TImage, lenght:Int = txt.Length
+		For i = 1 To lenght
+			image = Self.chars[Asc(Mid(txt, i, 1))]
+			DrawImage(image, x, y)
+			x = x + ImageWidth(image)
+		Next
+		Return width
+	EndMethod
+EndType
+</pre><br><br>This is the player's class i used in the example code:<br><pre class="code">Type TPlayer
+	' Health points
+	Field hpts:Int
+	' Points, money
+	Field pts:Int
+	' Shield
+	Field shield:Int
+	Field wpn:TWeapon
+	Field obj:TList
+	Field name:String
+	Field img:TImage
+	Field frm:Int
+	Field frames:Int
+	Field _tmr:Double
+	Field _dtime:Double
+	Function create:TPlayer(nm:String, image:TImage, frms:Int, health:Int, shd:Int, points:Int)
+		Local p:TPlayer = New TPlayer
+		p.hpts = health
+		p.pts = points
+		p.shield = shd
+		p.name = nm
+		p.img = image
+		p.frm = 0
+		p.frames = frms
+		p.obj = New TList
+		p._tmr = MilliSecs()
+		p._dtime = 200
+		Return p
+	EndFunction
+	Function free:Int(p:TPlayer)
+		p = Null
+		Return True
+	EndFunction
+	Method update:Int(cur_x Var, cur_y Var)
+		RunHooks(HOOK_WITH, cur_tile)
+		If KeyHit(KEY_ENTER) Or KeyHit(KEY_SPACE) RunHooks(HOOK_CLICK, cur_tile)
+		If (KeyDown(KEY_UP) And (Self._tmr &lt; MilliSecs() - Self._dtime))
+			cur_y :- 1
+			If cur_y &lt; 1 cur_y = 1
+			Self._tmr = MilliSecs()
+			RunHooks(HOOK_LEAVE, cur_tile)
+			RunHooks(HOOK_ENTER, gMap.getTile(cur_x, cur_y))
+		ElseIf (KeyDown(KEY_RIGHT) And (Self._tmr &lt; MilliSecs() - Self._dtime))
+			cur_x :+ 1
+			If cur_x &gt; gMap.cols cur_x = gMap.cols
+			Self._tmr = MilliSecs()
+			RunHooks(HOOK_LEAVE, cur_tile)
+			RunHooks(HOOK_ENTER, gMap.getTile(cur_x, cur_y))
+		ElseIf (KeyDown(KEY_DOWN) And (Self._tmr &lt; MilliSecs() - Self._dtime))
+			cur_y :+ 1
+			If cur_y &gt; gMap.rows cur_y = gMap.rows
+			Self._tmr = MilliSecs()
+			RunHooks(HOOK_LEAVE, cur_tile)
+			RunHooks(HOOK_ENTER, gMap.getTile(cur_x, cur_y))
+		ElseIf (KeyDown(KEY_LEFT) And (Self._tmr &lt; MilliSecs() - Self._dtime))
+			cur_x :- 1
+			If cur_x &lt; 1 cur_x = 1
+			Self._tmr = MilliSecs()
+			RunHooks(HOOK_LEAVE, cur_tile)
+			RunHooks(HOOK_ENTER, gMap.getTile(cur_x, cur_y))
+		EndIf
+	EndMethod
+EndType
+</pre><br><br>Finally, the map and the tiles' classes:<br><pre class="code">Type TMap
+	' The tiles
+	Field tiles:TTile[]
+	Field cols:Int, rows:Int
+	' Animated tiles timer and its increment
+	Field _tmr:Double
+	Field _dtime:Double
+	Function  load:TMap(source:String)
+		Local path:String = ExtractDir(source)
+		Local m:TMap = New TMap
+		Local file:TStream = OpenFile(source)
+		Local line:String
+		Local close_bracket:Int, semicolon:Int, t:TTile, space:Int, cmd:String, first:String, arg0:String, arg1:String, arg2:String, rest:String, into:Int, as:Int, load_id:Int
+		Local tile_img:TImage[0], tile_img_info:String[0, 4]
+		m._dtime = 180
+		' Now, I parse the map file and execute its directives
+		Repeat
+			line = Lower(Trim(ReadLine(file)))
+			first = line[0..1]
+			If first = "$"
+				space = line.Find(" ")
+				cmd = Trim(line[1..space])
+				If cmd = "tiles"
+					rest = Trim(line[space + 1..])					
+					semicolon = rest.Find(";")
+					arg0 = Trim(rest[0..semicolon])
+					tile_img = New TImage[Int(arg0)]
+					tile_img_info = New String[Int(arg0), 4]
+				ElseIf cmd = "load"
+					If tile_img.length = 0 RuntimeError("Directive `$tiles` not before tile loading!~n")
+					rest = Trim(line[space + 1..])
+					into = rest.Find(" into ")
+					as = rest.Find(" as ")
+					semicolon = rest.Find(";")
+					arg0 = Trim(rest[0..into])
+					arg1 = Trim(rest[into + 6..as])
+					arg2 = Trim(rest[as + 4..semicolon])
+					If arg0.Contains("::")
+						Local dCol0:Int = arg0.Find("::")
+						Local dCol1:Int = arg0.Find("::", dCol0 + 1)
+						Local dCol2:Int = arg0.Find("::", dCol1 + 1)
+						Local temp_fn:String = Trim(arg0[..dCol0])
+						Local temp_f:String = Trim(arg0[dCol0 + 2..dCol1])
+						Local temp_w:String = Trim(arg0[dCol1 + 2..dCol2])
+						Local temp_h:String = Trim(arg0[dCol2 + 2..])
+						If Not LoadAnimImage("incbin::" + path + "/" + temp_fn, Int(temp_w), Int(temp_h), 0, Int(temp_f)) RuntimeError("Tile animated image `" + temp_fn + "` Not found!~n")
+						tile_img[load_id] = LoadAnimImage("incbin::" + path + "/" + temp_fn, Int(temp_w), Int(temp_h), 0, Int(temp_f))
+						tile_img_info[load_id, 2] = "1"
+						tile_img_info[load_id, 3] = temp_f
+					Else
+						If Not LoadImage("incbin::" + path + "/" + arg0) RuntimeError("Tile image `" + arg1 + "` Not found!~n")
+						tile_img[load_id] = LoadImage("incbin::" + path + "/" + arg0)
+					EndIf
+					tile_img_info[load_id, 0] = arg1
+					tile_img_info[load_id, 1] = arg2
+					load_id :+ 1
+				ElseIf cmd = "mapx"
+					rest = Trim(line[space + 1..])					
+					semicolon = rest.Find(";")
+					arg0 = Trim(rest[0..semicolon])
+					m.cols = Int(arg0)
+					m.tiles = m.tiles[..(m.rows + 1)*(m.cols + 1)]
+					'Print "$maxp " + arg0 + ";"
+				ElseIf cmd = "mapy"
+					rest = Trim(line[space + 1..])					
+					semicolon = rest.Find(";")
+					arg0 = Trim(rest[0..semicolon])
+					m.rows = Int(arg0)
+					m.tiles = m.tiles[..(m.rows + 1)*(m.cols + 1)]
+				EndIf
+			ElseIf first = "["
+				t = New TTile
+				close_bracket = line.Find("]")
+				rest = Trim(line[1..close_bracket])
+				semicolon = rest.Find(";")
+				arg0 = Trim(rest[0..semicolon])
+				arg1 = Trim(rest[semicolon + 1..])
+				t.x = Int(arg0)
+				t.y = Int(arg1)
+				semicolon = line.Find(";", close_bracket + 1)
+				arg2 = Trim(line[close_bracket + 1..semicolon])
+				t.tileName = arg2
+				For Local i:Int = 0 To tile_img_info.length/tile_img_info.dimensions()[1] - 1
+					If tile_img_info[i, 0] = arg2
+						t.tileType = tile_img_info[i, 1]
+						t.anim = Int(tile_img_info[i, 2])
+						t.frm = 0
+						t.frames = Int(tile_img_info[i, 3])
+						If t.frames = 0 t.frames = 1
+						t.img = tile_img[i]
+					EndIf
+				Next
+				m.tiles[m.cols*(t.y - 1) + t.x] = t
+			EndIf
+			If Eof(file) Exit
+		Forever
+		CloseFile(file)
+		Return m
+	EndFunction
+	' Draw tiles
+	Method refresh:Int(center_x:Int = 1, center_y:Int = 1, center_z = 0)
+		Local t:TTile
+		For Local i:Int = 1 To Self.cols
+			For Local j:Int = 1 To Self.rows
+				t = Self.getTile(i, j)
+				If t = Null Exit
+				If t = Self.getTile(center_x, center_y)
+					SetColor 250, 75, 150
+				Else
+					SetColor 255, 255, 255
+				EndIf
+				Local use_x:Int = (t.y - t.x + center_y - center_x)*CONST_TILES_HW + GraphicsWidth()/2 - CONST_TILES_HW
+				Local use_y:Int = (t.y + t.x - center_y - center_x)*CONST_TILES_HW/2 - ImageHeight(t.img) + GraphicsHeight()/2 - CONST_TILES_HW/2 + center_z
+				If t.anim
+					DrawImage(t.img, use_x, use_y, t.frm)
+					If Self._tmr + Self._dtime &lt; MilliSecs() t.frm :+ 1
+					If t.frm &gt;= t.frames t.frm = 0
+				Else
+					DrawImage(t.img, use_x, use_y)
+				EndIf
+			Next
+		Next
+		If Self._tmr + Self._dtime &lt; MilliSecs() Self._tmr = MilliSecs()
+		Return True
+	EndMethod
+	' Returns a specified tile
+	Method getTile:TTile(gx:Int, gy:Int)
+		Return Self.tiles[Self.rows*(gx - 1) + gy]
+	EndMethod
+EndType
+
+Type TTile
+	Field x:Int, y:Int
+	Field img:TImage
+	' The tile image file name
+	Field tileName:String
+	' This tell me if the player can walk/jump/swim or not on this tile
+	Field tileType:String
+	' Current frame
+	Field frm:Int
+	' Number of frames
+	Field frames:Int
+	' Is it animated?
+	Field anim:Int
+EndType
+</pre><br><br>If you want to better understand the code, please contact 
+me at kledge.sp @ gmail . com. you can download the complete source code
+ + all images <a href="http://stefano.spigler.net/files/iso.source.rar" target="_blank">here</a>. <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Here an example</td><td align="right"><font class="tiny">(Posted 2006-06-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://kledge.uni.cc/files/iso.rar" target="_blank">Here</a> you can download an example of my work: it's a map of 10x10 tiles, you can move around using arrow keys.<br><br>I also implemented hooks as:<br>- functions with hook id HOOK_WITH, these ones are called when the player is on a specific tile;<br>-
+ functions with hook is HOOK_CLICK, these ones are called when the 
+player is on a specific tile and press &lt;ENTER&gt; or &lt;SPACE&gt;;<br>- functions with hook id HOOK_ENTER/LEAVE, these ones are called just on entering/leaving a specific tile;<br><br>In
+ this little demo you can test events on tile 2,3 (with event), on tile 
+4,7 (enter event), on tile 5,8 (click event) and on tile 6,9 (leave 
+event).<br><br>I will put the source code online soon.<br><br>If you're interested in the project, send an email at stefano @t spigler d.t net.<br><br>PS: There was an error - problem solved ;P <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>v1.9</td><td align="right"><font class="tiny">(Posted 2006-02-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Version 1.9 released.<br>Fixed minor bug for webcam selection.<br><br><a href="http://irc.maxkelley.com/~splinux/maxlinuxwebcam.zip" target="_blank">http://irc.maxkelley.com/~splinux/maxlinuxwebcam.zip</a><br><br>The link is the same. <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Example</td><td align="right"><font class="tiny">(Posted 2006-02-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Pre-compiled lib example using MaxGui, for those who would like to try without compiling it.<br><br>Download it at: <a href="http://irc.maxkelley.com/~splinux/BMax" target="_blank">http://irc.maxkelley.com/~splinux/BMax</a> Linux Webcam example bin.zip<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>v1.5</td><td align="right"><font class="tiny">(Posted 2006-02-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> New version 1.5 released with resolution switching allowed and better pointer passing for image acquisition.<br><br>To download go: <a href="http://irc.maxkelley.com/~splinux/maxlinuxwebcam.zip" target="_blank">http://irc.maxkelley.com/~splinux/maxlinuxwebcam.zip</a><br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-02-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A few minutes after the v1.0 release i resolved the 640x480 resolution problem!!!<br><br>Soon i'll make avaiable the update throught the same link as the previous one.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>1st release</td><td align="right"><font class="tiny">(Posted 2006-02-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I'm happy to say that the first version of the BlitzMax Linux Webcam Module is released.<br><br>You  can download it from: <a href="http://irc.maxkelley.com/~splinux/maxlinuxwebcam.zip" target="_blank">http://irc.maxkelley.com/~splinux/maxlinuxwebcam.zip</a><br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The best resolution for a webcam(in computer vision apps, where the 
+computing speed of the frames is very important) is 320x240, and for 
+that resolution the module is good enough, but i think the users would 
+like to select the resolution they want to have, so i'll try to solve 
+that problem.<br><br>However, i think i'll not release it this evening, 
+i'll release it tomorrow(this is the last problem i have to resolve 
+before distribute the module).<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> My webcam supports 320x240 and 640x480, so i can test different resolutions.<br><br>I've implemented resolution selection, but it actually only works with 320x240.<br><br>I
+ mean: with 320x240 there is only the famous line on the top, while with
+ 640x480 there is that line too, but images are mosly as they were in 
+BGR format, and sometimes they go back to RGB, so i can't just switch 
+them.<br>The problem is similar to one of the firsts i got, but 
+resolving it in the same way i did make terribly slow the program, and 
+with 320x240 there are problems, so i've discarded that solution.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> As said, the secondary problems and functions are very easy to program.<br><br>Keep ready, because i think this evening or maybe tomorrow i'll release it(if i don't find other problems).<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Now the code is cleaner and the lib is based on a type, the TWebCam.<br><br><br>I only have to program some simple secondary options and i'll release the first version of it.<br><br>I think i'll try to resolve the "raw pixels line" later, for the next versions.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have a c file, imported by the library.<br>If the library is included into another file, it gives me error because imports have to go on the top of the file.<br><br><br>The final decision is this:<br>if anyone will want to use this library, he will have to write his code within the template file(which is the library file).<br>I suggest making backups of the template file, for further usage.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Due to some limitations to modules, my lib won't be a BMax module.<br><br>However it will be includable into BMax programs.<br><br><br>I'm
+ thinking about programming a camera type, to make an abstraction of the
+ device, which would work with all Video4Linux compatible webcam 
+drivers.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Now the only real problem is the line of raw pixels on the top.<br><br>I have to transform it into a module too, and to make the change resolution function.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The blue screens are solved, but there still are some lines of pizels on the top sometimes.<br><br><br>To resolve it i would slow down the module. I have to find a better solution.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Ok.<br><br>Now it seems to be very fast. :)<br><br>The
+ only problem is that to do this i've needed to leave some syncs, and so
+ some frames every tot. have blue instead of red and there is a bad line
+ on the top of the images.<br><br>I need to solve it, and i have some ideas. Maybe using the image display time to sync with camera.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've just programmed the update function.<br><br>Now it's possible to view from the camera continuosly, only with a problem: it's too slow!.<br><br>I need to improve the update function, so to fast up the acquiring process.<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-01-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Actually there are only a c file and bmax file, and they aren't programmed as bmax modules.<br><br>However
+ some minutes ago i've programmed another part of the module: is now 
+possible to acquire an image, save it into a pixmap and display it.<br><br>I'll program "set resolution", "update picture", "set hue, color and brightness" later.<br><br>Maybe in a few days it could be completed!<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Work start</td><td align="right"><font class="tiny">(Posted 2006-01-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Today i've decided to start this BMax's module.<br>With the Stuart Morgan's help i've resolved many problems.<br><br>Now the module is almost ready to be published.<br><br>Into a few days i'll make it usable.<br><br>I'm plannning to add windows support too to this module, and maybe Mac OS too.<br><br>To do this i'll maybe use previously maden code readapting it to my module to be multi-platform.<br><br>PS: before use other people's code i'll send emails to the owners.<br>I won't "stole" it. :)<br> <br><br> <a href="http://spigler.net/" target="_blank"><img src="8173&amp;log=1340_files/sign.html"></a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

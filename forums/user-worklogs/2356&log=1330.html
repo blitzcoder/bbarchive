@@ -1,0 +1,163 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for (tu) sinu</h1><h1>3d platformer engine</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>latest</td><td align="right"><font class="tiny">(Posted 2007-09-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ ive still been working on this every now and then, just don't get much 
+real time. Glad that i still know what im doing though as i haven't 
+checked the code for a while.<br><br>I need to start doing a quest 
+system, dialogue system etc for this to be a capable game editor/engine,
+ think thats what is planned next. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Doing tools etc</td><td align="right"><font class="tiny">(Posted 2006-11-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Im starting/doing some tools for interaction with game objects which 
+make it easier for setting up player to active object interaction.<br>These
+ let me work out where the player can/should be around a chest for 
+example to activate it and then move to the correct position and then 
+kick of the chest open animation and based on the type of chest, the 
+players chest open animation.<br>This is allowing me to have proper 
+interaction with all active game objects ie doors, chest, levers etc 
+where the player will actually open/close them, or pull switches like in
+ games such as zelda. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>huge leaps...</td><td align="right"><font class="tiny">(Posted 2006-08-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I woke up the other day from a heavy drunken night out and i had an awesome brain wave!!<br><br>For
+ the next 3 days i rewrote everything, from the entity systems, to the 
+scrpting functions to how the engine and game worked and i now have a 
+thing of beauty in front of me.<br>Thats about 40hrs of coding!!<br>I'll show it off soon :) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>animations</td><td align="right"><font class="tiny">(Posted 2006-08-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Have got animated entities saved now, you can now just save the whole 
+3d scene and reload it exactly where it left off. I still need to add 
+support for the reloading of ping-pong animations. Should be easy 
+though. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>added save/loading</td><td align="right"><font class="tiny">(Posted 2006-08-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Been fixing up the save/load system and adding it to the engine, you 
+can now have an animating entity and when you load a save the anim will 
+be playing from the exact same position you left of allowing to save 
+exactly how you left off! <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>copyentity</td><td align="right"><font class="tiny">(Posted 2006-08-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ phew, just got this done, was a pain to copy a entity and all 
+userdefined children eg entityparent sword,hand. then save it  and 
+reload it but now i got it working.<br><br>You can also do a  recursive entitycolor/entityalpha/scaleentity now so all userdefined children will be affected or not. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>almost done entity part..</td><td align="right"><font class="tiny">(Posted 2006-08-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have nearly wrapped all blitz3d's entity functions so you can now 
+create entities, scale, rotate, color, alpha etc, save them to file and 
+then restore the 3d world to where it was before.<br><br>Works with cameras, lights, pivots and all mesh types so far, need to add sprites and some libraries ie single surface etc.<br><br>Also done the scale/alpha etc for children and finished the reloading of hierachies the user creates.<br><br>id say i was about 75% done. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>seperating game from engine..</td><td align="right"><font class="tiny">(Posted 2006-08-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After a lot of reading and more learning, im understanding alot of 
+wrong things i had done by having game relevant stuff in the engine.<br>I
+ have now totally removed it all now so it is like a basic game engine 
+with nothing else, you have to do everything gameplay related in the 
+scripting.<br><br>This allows a ton of freedom and ease of use.<br>All 
+stuff like collisions and response is still engine specific as it avoids
+ the user having to mess with all the hard stuff ie creating a character
+ and getting world responses, with user tweaking still an option.<br><br>Now i can create scripts for things ie 3rd person cameras etc and allow them to be used without having to hardcode them. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>day 1</td><td align="right"><font class="tiny">(Posted 2006-07-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Started work on a new 3d tile engine which will allow upto 500*500 
+grids of 3d tiles each  1 unit width/depth, u can have 1000*1000 at good
+ fps but takes forever to load and unload and memory usage is 
+monsterous!<br><br>It'll work  like any 2d map editor except it will be fully 3d.<br>You setup the map size then paint down textures onto tiles, raise/lower them or just raise edges/corners to give more variety.<br><br>So far it's pretty basic but im working on it and am gonna use it for my game engine now. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>early progress..</td><td align="right"><font class="tiny">(Posted 2006-07-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ One thing that alot of new users have trouble with is a save/load 
+system for their games, so i decided to code a system that will save out
+ all blitz entities and restore them exactly how they were on saving ie 
+colors, alpha, hidden etc.<br>The system builds on blitzs and allows 
+creation of new entities and loading and unloading them along with 
+deleting and hiding them.<br><br>The system is rapidly growing and although has many bugs works pretty well.<br><br>Im
+ just trying to implement restoring of an animated mesh with the correct
+ animation and frame and running of exactly from the last frame it was 
+saved at. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Revamp..</td><td align="right"><font class="tiny">(Posted 2006-06-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Done some more reading up on oop and obp.<br>I've been concenrating on get my code neater and more efficient and have given everything a major revamp.<br><br>All entities in the engine are used in a object-based style and now it has made everything simple.<br><br>Im using a blitz style entity system but have expanded on it.<br>You
+ can create lights, cameras and pivots similar to blitz but now have new
+ types such as characters, doors, houses/buildings, placeables have been
+ added.<br>This allows proper freedom from the restrictive way i had before.<br><br>The benifit is you can create a character entity as part of your own type group instead of being limited.<br><br><pre class="code">;a user created type
+;which allows what you want
+Type TMonster
+ field name$
+ field age%
+ ;the 3d entity for your monster
+ field model.TEntity
+end type
+
+Then you would do this
+
+ThisMonster.TMonster = new TMonster
+ThisMonster\name$ = "warlock"
+ThisMonster\age% = 192
+ThisMonster\model = NewEntity_Character.TEntity("warlock");sets up a default character TEntity
+Load_Entity(ThisMonster\model);load the entities 3d stuff
+Scale_Entity(ThisMonster\model,1,1,1)
+Rotate_Entity(ThisMonster\model,0,90,0)
+</pre><br><br>Now, why is this so great? Well, all you need to do for a 
+character in your game is that, no messing about setting up collisions, 
+animations, children etc<br>You have a predefined n/pc, now give it some ai/input and of you go.<br>You can also load/unload each entity at will <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>another break through</td><td align="right"><font class="tiny">(Posted 2006-05-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> After hours of headaches i finally made another break through.<br>I
+ already had edge climbing in but it was hacked because of how 
+animations work in blitz where if you translate the entities origin in 
+the 3d app it would always snap back to the original position at the end
+ of the frame to the start frames origin.<br>Now it works great, if you grab an edge you climb it ala zelda/mario and position perfectly at the top of the edge! <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Just changed the collision setup</td><td align="right"><font class="tiny">(Posted 2006-05-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Previously you had to name each part of the level as ground, wall etc 
+and assign it a collision group but now you can just create one mesh for
+ the level and all collisions and responses will work thanks to some 
+clever work arounds and checks.<br><br>Any surface that has a walkable norm value will auto become ground, any surface that has a wall angle norm will become a wall.<br><br>This new way has also allowed my edge grabbing engine to work much better, any edge that looks grabbable can be automatically! <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>collision responses</td><td align="right"><font class="tiny">(Posted 2006-05-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've implemented a great collision system, i think everyone will be 
+impressed with how it reacts, from my character grabbing onto ledges to 
+falling of a wall correctly. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>progress report</td><td align="right"><font class="tiny">(Posted 2006-05-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well i have made alot of progress to the base engine, i've recoded stuff, changed stuff and added stuff.<br>I've
+ revamped the character engine part and made it even simpler to use. You
+ can change alot of the way a character feels and moves ie you can 
+create a little nimble dude like mario or a big slow beast like bowser, 
+it's simple!!<br><br>Been working more on parts of the editor too and have the framework complete, now im adding stuff for character creation.<br><br>The
+ actual way you create a character will be the same for both a pc and 
+npc, it allows you to test how the npc/monster may move and what 
+advantages/disadvantages it may gain ie give a small enemy fast accel 
+but not too fast a top speed.<br><br>Anyway all i can say is im making 
+something here i always dreamed of when i first played mario64 and it's 
+actually coming together piece by piece :) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>update</td><td align="right"><font class="tiny">(Posted 2006-05-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've fully intergrated the game engine into the editor which now allows you to run a level from within the editor.<br>You
+ just select run level and all entities come to life, hopefully 
+following scripts how you want. You can even attach control to any npc 
+and give him a run around.<br><br>Im having second thoughts on how 
+levels are done as i want to make it a simple as possible to create 
+levels and am going to do a lot of research and coding trying to make a 
+3d tile editor(building on my old 3d tile engine) which i can stick into
+ the editor but also still allow loading of created meshes. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>progress</td><td align="right"><font class="tiny">(Posted 2006-05-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The editor is coming along great. I created the framework for it and 
+adding stuff is now very simple, im onto the character part so far, 
+loading, saving and creating actors and maps is in thus far.<br><br>Im not planning on allowing level/map creation, just loading of precreated ones made with your own apps.<br>You just need to stick to naming standards ie walkable surfaces as "TYPE_GROUND" etc<br><br>The
+ reason for this is because i can't do anything better than what is 
+already out and don't want to, although i did create a basic 3d tile 
+engine with raising/lowering, painting of paths etc. The problem is it 
+all looked to square/generic and adding tiles was tedious.<br><br>More soon... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>busy busy</td><td align="right"><font class="tiny">(Posted 2006-04-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Had a free day today so i've been hard at work coding.<br><br>I've sorted many classes out for game objects, so far i have:<br><br>Characters - these can be pc, npc/monsters etc<br><br>Active placeables - these can be anything really like chests, trees, tables, chairs etc<br><br>Static
+ placeables - these are exactly that, the same as active except they 
+don't do anything, no animation, scripts etc. Can be used for trees etc 
+and help performance.<br><br>Buildings - these have door elements where 
+you can attach doors and a trigger returning when you enter/leave. I am 
+still unsure how i'm gonna do these - <br>A) Went you enter the house you load the interior/map<br>B)The house has all interior elements loaded and obscuring walls/roofs just alpha out to allow you to see in.<br><br>Although i could just leave this open with both choices!<br><br>Doors - These are attached to buildings and can be opened/closed, locked, attacked, destroyed.<br>They can also be attached to other objects which possess a door element ie part of a cage or fence<br><br>Item - Basically an item, which has a name, world mesh and a icon. The rest is upto the scripter e.g<br><br>used in OnUsed scripts of items:<br><br>If GetItemUsed$() = "HealthPotion"<br> SetStatistic(user,"health",GetStatistic(user,"health")+10)<br> sprite = Copy_3DSprite(Sprite_HealthUp);a preloaded sprite<br> Set_Velocity_3DSprite sprite,0,.1,0;set its movement rate<br> Set_AlphaMod_3DSprite sprite,-.01;set how fast it fadesout<br> Set_Mode_3DSprite sprite,MODE_FADEOUT<br> position_3DSprite,x#,y#,z#;position of user<br>endif<br><br>You
+ can also add statistics to the item such as "Health" and a value and it
+ will automatically increase any stats which match on the user instead 
+of having to script it eg<br><br>First you would give actors a new stat eg<br><br>AddStat_Character(ThisActor.TActor,"HP",desc$="",value_Int%=0,value_float#=0.0,value_string$="")<br><br>Then add the same stat to an item eg<br><br>AddStat_Item(ThisItem.TItem,"HP",desc$="",10,value_float#=0.0,value_string$="")<br><br>now
+ when ever the item is used it will look for the stat on the user and 
+increase/decrease the values . Will also add divide/multiply/percent.<br><br>Actors, items, equipment, well anything not static can have unlimited user created stats!! <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>progress</td><td align="right"><font class="tiny">(Posted 2006-04-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've been playing around alot with scripting lately and games that implement scripting ie nwn, morrowind.<br>Having
+ it simple and fun to use was important and having just one main script 
+or includes for scripts for each entity seemed painful(u still can of 
+course)<br><br>I've decided to run individual scripts based on 
+events/actions in game for each entity, meaning? Each entity has its own
+ set of scripts for each event:-<br><br>OnHeartBeat; This script will 
+run continously(unless it bogs performance) for all loaded and active 
+entities ie npcs, placeables, maps.<br><br>OnConversation: Whenever this npc is put into conversation, wether they initiated it or not, the script will run<br><br>OnActivate:
+ This can be used when the activate key is selected near the entity, 
+uses could be to open a chest, check an npc characters stats, attempt a 
+pickpocket etc<br><br>OnPerception: This script is run for the npc when the npc sees you. May add if they hear you to :)<br>You can have an enemy run at you and attack you.<br><br>OnDamaged: Runs when the entity takes damage<br><br>OnDeath: is run when the entity is killeddestroyed. Allows you to leave an item behind or a corpse etc<br><br>OnExitMap: This script will run whenever the npc leaves a map.<br><br>In the script you would do:<br><br>select MapExited(self)<br><br>case "home village"<br><br>dostuff()<br><br>case "city"<br><br>dostuff2()<br><br>end select<br><br>OnEnterMap: see OnExitMap<br><br>Their will be more scripts for lots of other events.<br>Some are still attached on entities and others global such as camera control.<br><br>I still have alot of planning to do and decide what is hardcoded and what isn't.<br>Their
+ are many different versions on my comp with different approaches which i
+ keep going back to and improving and seeing if they are better or 
+worse. Hopefully i will come to a definite list which i can then start 
+working on 100%<br><br>p.s. I'm not trying to make a gamemaker with total freedom but a 3d platformer gamemaker with rpg elements. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>info</td><td align="right"><font class="tiny">(Posted 2006-04-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Im a big fan of nintendo games ie zelda, mario and rpg games and always
+ wished someone would mix the 2 ie a deep rpg with the controls of a 3d 
+platformer.<br>Games like morrowind left me feeling dissappointed cos 
+the character control sucked and stuff like nwn was really point and 
+click.<br><br>I've been working on many demos over the years to get my 
+skills up to create my vision and things are finally falling into place 
+thanks to blitz.<br><br>The engine will allow me to make a game similar 
+to mario64/zelda64(i class this as a action-adventure) ie the controls 
+and worlds but within a rpg style game ie towns and interactive npcs, 
+stats, a deep story where you do quests, collect items and powerup.<br>The whole system ie controls, camera, ai, etc is all run through scripts and can easily be modified.<br><br>All
+ entities in the engine are actors which have their own class ie pc,npc,
+ container/chest, door, house, startpoint, checkpoint, leveljump so can 
+almost have the same functions applied to them ie like blitz entities.<br><br>The
+ pc and npc class both can be given the same instructions ie walk, run, 
+jump, climb, attack, open a door/chest, initiate dialogue which makes 
+them feel real instead of their for show and can have inventories, use 
+items and interact with the world.<br><br>The engine has shadows from 
+sswift, uses nuclear glory collisions with many a hack to allow some 
+cools features in my engine, my own single surface system, bvm for 
+scripting, my own pathfinding system based of djekstra, plus some other 
+stuff i forget.<br><br>Im hoping to get something made with it as it's taken along time to get it to where it is now.<br><br>My
+ rig, athlon 1600+, gf4200ti and 512mb ram, allows me to have 25 npcs 
+with ai and collisions, run around at 60fps in a basic level all boned 
+and highish poly 700-3000.<br>Obviously it will be a lot less within a fully running level. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

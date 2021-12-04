@@ -1,0 +1,359 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Sarge</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tiny Example</td><td align="right"><font class="tiny">(Posted 2005-10-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This is a very basic example.<br><pre class="code">Framework Pub.PureMax
+
+window = createWindow("Button's Example", 100, 100, 400, 200 )
+
+button = createButton( "Click here 1", 10, 10, 200, 20, window )
+list = createListBox( 120, 40, 100, 100 ,window )
+test = createEditBox( "TestBox", 10, 40, 100, 100 ,window )
+
+Timer( window, 1000 ) '1 Second Timer
+
+Repeat
+
+	ID = WaitAction()
+
+	Select ID
+		
+		Case UI_ACTION
+			AddControlItem( list, "Control: "+ ActionSource() )
+			
+		Case UI_SIZING
+			AddControlItem( list, "Size: "+ ActionX() + "," + ActionY() )
+			
+		Case UI_TIMER
+			AddControlItem( list, "Timer: "+ ActionData() )
+			
+		Case UI_CLOSE
+			End
+			
+	End Select
+
+Forever
+</pre><br> <br><br> LamasuCreations@...<br>P4 3Ghz, 2GB Ram, Geforce 
+6800 Ultra, 200GB Sata Drive, Philips 190S5 LCD 19inch, Microsoft Elite 
+Keyboard / Mouse, WinXP / SP2, DX9c </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Action System</td><td align="right"><font class="tiny">(Posted 2005-10-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have been working on the actions today and its almost finished. I 
+just need to add the rest of the control actions, the rest of the 
+messages are completed and it works 100 percent like blitzplus.<br><br><pre class="code">Action			ActionID
+-----------------------------------------------------
+
+Window Activated:	UI_Activeated = 1
+
+Window Deactivated:	UI_Deactivated = 2
+
+Control Action:		UI_Action = 20
+
+Windows Sizing:		UI_Sizing = 30
+
+Window Moving:		UI_Moving = 31
+
+MouseMove: 		UI_MouseMove = 40
+
+MouseDown: 		UI_MouseDown = 41
+
+MouseUp: 		UI_MouseUp = 42
+
+MouseWheel: 		UI_MouseWheel = 43
+
+KeyDown: 		UI_KeyDown = 50
+
+KeyUp: 			UI_KeyUp = 51
+
+Timer: 			UI_Timer = 60
+
+Window Closing:		UI_Close = 100
+</pre><br><pre class="code">Function ActionSource() = "ActionSource"
+Function ActionData() = "ActionData"
+Function ActionID() = "ActionID"
+Function ActionX() = "ActionX"
+Function ActionY() = "ActionY"
+Function WaitAction() = "WaitAction"
+</pre><br>ActionX, ActionY, ActionID and ActionSource are completed.<br> <br><br> LamasuCreations@...<br>P4
+ 3Ghz, 2GB Ram, Geforce 6800 Ultra, 200GB Sata Drive, Philips 190S5 LCD 
+19inch, Microsoft Elite Keyboard / Mouse, WinXP / SP2, DX9c </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Taking longer than i though.</td><td align="right"><font class="tiny">(Posted 2005-10-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well here i am again going at it day and night, there's are the current commands.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Extern "Win32"
+
+	'	Controls
+	Function createWindow:Int( Text$z, X:Int, Y:Int, Width:Int, Height:Int ) = "createWindow"
+	Function createButton( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createButton"
+	Function createCheckBox( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createCheckBox"
+	Function createRadioButton( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createRadioButton"
+	Function createGroupBox( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createGroupBox"
+	Function createLabel( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createLabel"
+	Function createTextBox( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createTextBox"
+	Function createEditBox( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createEditBox"
+	Function createComboBox( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createComboBox"
+	Function createProgressBar( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createProgressBar"
+	Function createRichEdit( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createRichEdit"
+	Function createListBox( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createListBox"
+	Function createTabControl( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createTabControl"
+	Function createUpDown( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createUpDown"
+	Function createPanel( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int ) = "createPanel"
+	Function createStatusBar( hwnd:Int ) = "createStatusBar"
+	Function createMenu( hwnd:Int ) = "createMenu"
+	Function createToolBar( hwnd:Int ) = "createToolBar"
+	Function Timer( Value:Int ) = "Timer"
+	Function GetTimer:Int() = "GetTimer"
+	
+
+	'	Properties -&gt; Default
+	Function MoveControlToTop( hwnd:Int ) = "MoveControlToTop"
+	Function MoveControlToBottom( hwnd:Int ) = "MoveControlToBottom"
+	Function UpdateControl( hwnd:Int ) = "UpdateControl"
+	Function FreeControl( hwnd:Int ) = "FreeControl"
+	Function SetControlEnabled( hwnd:Int, Value:Int ) = "SetControlEnabled"
+	Function SetControlVisible( hwnd:Int, Value:Int ) = "SetControlVisible"
+	Function SetControlPosition( hwnd:Int, X:Int, Y:Int ) = "SetControlPosition"
+	Function SetControlSize( hwnd:Int, Width:Int, Height:Int ) = "SetControlSize"
+	Function SetControlActive( hwnd:Int ) = "SetControlActive"
+	Function SetControlParent( hwnd:Int ) = "SetControlParent"
+	Function SetControlText( hwnd:Int, Text$z ) = "SetControlText"
+	Function SetControlShape( hwnd:Int, X:Int, Y:Int, Width:Int, Height:Int ) = "SetControlShape"
+	Function SetControlImage( hwnd:Int, Image$z ) = "SetControlImage"
+	Function SetControlFont( hwnd:Int, Name$, Size:Int, Bold:Int, Italic:Int, Underline:Int ) = "SetControlFont"
+	
+	Function GetActiveControl:Int() = "GetActiveControl"
+	Function GetControlX( hwnd:Int ) = "GetControlX"
+	Function GetControlY( hwnd:Int ) = "GetControlY"
+	Function GetControlWidth( hwnd:Int ) = "GetControlWidth"
+	Function GetControlHeight( hwnd:Int ) = "GetControlHeight"
+	Function GetControlParent( hwnd:Int ) = "GetControlParent"
+	Function GetControlText$z( hwnd:Int ) = "GetControlText"
+	Function GetControlVisible( hwnd:Int ) = "GetControlVisible"
+	Function GetControlEnabled( hwnd:Int ) = "GetControlEnabled"
+	Function GetControlName$z( hwnd:Int ) = "GetControlName"
+	Function GetClientWidth( hwnd:Int ) = "GetClientWidth"
+	Function GetClientHeight( hwnd:Int ) = "GetClientHeight"
+	Function GetParentControl( hwnd:Int ) = "GetParentControl"
+	
+	'	Properties -&gt; Window
+	Function GetCursorX() = "GetCursorX"
+	Function GetCursorY() = "GetCursorY"
+	Function MaximizeWindow( hwnd:Int ) = "MaximizeWindow"
+	Function MinimizeWindow( hwnd:Int ) = "MinimizeWindow"
+	Function RestoreWindow( hwnd:Int ) = "RestoreWindow"
+	Function IsWindowMaximized( hwnd:Int ) = "IsWindowMaximized"
+	Function IsWindowMinimized( hwnd:Int ) = "IsWindowMinimized"
+	Function SetWindowIcon( hwnd:Int, Image$z ) = "SetWindowIcon"
+	Function SetWindowMinSize( hwnd:Int, MinW:Int, MinH:Int ) = "SetWindowMinSize"
+	Function GetDesktopHandle() = "GetDesktopHandle"
+	
+	'	Properties -&gt; Button
+	Function GetButtonState( hwnd:Int ) = "GetButtonState"
+	Function SetButtonState( hwnd:Int, State:Int ) = "SetButtonState"
+	
+	'	Properties -&gt; ListBox / ComboBox / TabControl
+	Function AddControlItem( hwnd:Int, item$z ) = "AddControlItem"
+	Function InsertControlItem( hwnd:Int, index:Int, item$z ) = "InsertControlItem"
+	Function ModifyControlItem( hwnd:Int, index:Int, item$z ) = "ModifyControlItem"
+	Function SelectControlItem( hwnd:Int, index:Int ) = "SelectControlItem"
+	Function SelectedControlItem( hwnd:Int ) = "SelectedControlItem"
+	Function CountControlItems( hwnd:Int ) = "CountControlItems"
+	Function RemoveControlItem( hwnd:Int, index:Int ) = "RemoveControlItem"
+	Function ClearControlItems( hwnd:Int ) = "ClearControlItems"
+	
+	'	Properties -&gt; StatusBar
+	Function SetStatusText( hwnd:Int, Text$z ) = "SetStatusText"
+	
+	'	Properties -&gt; Menu
+	Function MenuTitle( Menu:Int, Text$z ) = "MenuTitle"
+	Function SubMenu( Menu:Int, Text$z ) = "SubMenu"
+	Function MenuItem( Menu:Int, ID:Int, Text$z ) = "MenuItem"
+	Function MenuBreak( Menu:Int ) = "MenuBreak"
+	
+	'	Properties -&gt; TextBox / EditBox / RichEdit	
+	Function TextCountLines( hwnd:Int ) = "TextCountLine"
+	Function TextPasswordChar( hwnd:Int, pswd$z ) = "TextPasswordChar"
+	Function TextGetLength( hwnd:Int ) = "TextGetLength"
+	Function TextGetLine( hwnd:Int ) = "TextGetLine"
+	Function TextMaxLength( hwnd:Int, length:Int ) = "TextMaxLength"
+	Function TextReadOnly( hwnd:Int, value:Int ) = "TextReadOnly"
+	Function TextUndo( hwnd:Int ) = "TextUndo"
+	Function TextRedo( hwnd:Int ) = "TextRedo"
+	Function TextCut( hwnd:Int ) = "TextCopy"
+	Function TextCopy( hwnd:Int ) = "TextCopy"
+	Function TextPaste( hwnd:Int ) = "TextPaste"
+	Function TextClear( hwnd:Int ) = "TextClear"
+	
+	'	Properties -&gt; UpDown
+	Function SetUpDownRange( hwnd:Int, MinPos:Int, MaxPos:Int ) = "SetUpDownRange"
+	Function SetUpDownValue( hwnd:Int, Value:Int ) = "SetUpDownValue"
+	Function SetUpDownParent( hwnd:Int, Parent:Int ) = "SetUpDownParent"
+	
+	'	Properties -&gt; ProgressBar
+	Function SetProgressRange( hwnd:Int, MinPos:Int, MaxPos:Int ) = "SetProgressRange"
+	Function UpdateProgress( hwnd:Int, Value:Int ) = "UpdateProgress"
+	
+	'	Properties -&gt; Messages
+	Function ActionID() = "ActionID"
+	Function ActionX() = "ActionX"
+	Function ActionY() = "ActionY"
+	Function WaitAction() = "WaitAction"
+
+End Extern
+</textarea><br> <br><br> LamasuCreations@...<br>P4 3Ghz, 2GB Ram, 
+Geforce 6800 Ultra, 200GB Sata Drive, Philips 190S5 LCD 19inch, 
+Microsoft Elite Keyboard / Mouse, WinXP / SP2, DX9c </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Im back.</td><td align="right"><font class="tiny">(Posted 2005-09-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Its been hard coding this because of work, i was about to get fired for
+ coming in late everyday. So i needed to cut down on the coding and get 
+my sleep for work.<br><br>So here are some of the new commands,<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">'	Windows -&gt; Create
+createWindow( Text$z, X:Int, Y:Int, Width:Int, Height:Int )
+createButton( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createCheckBox( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createRadioButton( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createGroupBox( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createLabel( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createTextBox( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createEditBox( Text$z, X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createComboBox( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createProgressBar( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createRichEdit( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createListBox( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+createTabControl( X:Int, Y:Int, Width:Int, Height:Int, Parent:Int )
+	
+'	Properties -&gt; Default
+MoveControlToTop( hwnd:Int )
+MoveControlToBottom( hwnd:Int )
+UpdateControl( hwnd:Int )
+FreeControl( hwnd:Int )
+SetControlEnabled( hwnd:Int, Value:Int )
+SetControlVisible( hwnd:Int, Value:Int )
+SetControlPosition( hwnd:Int, X:Int, Y:Int )
+SetControlSize( hwnd:Int, Width:Int, Height:Int )
+SetControlActive( hwnd:Int )
+SetControlParent( hwnd:Int )
+SetControlText( hwnd:Int, Text$z )
+SetControlShape( hwnd:Int, X:Int, Y:Int, Width:Int, Height:Int )
+GetActiveControl:Int()
+GetControlX( hwnd:Int )
+GetControlY( hwnd:Int )
+GetControlWidth( hwnd:Int )
+GetControlHeight( hwnd:Int )
+GetControlParent( hwnd:Int )
+GetControlText( hwnd:Int )
+GetControlVisible( hwnd:Int )
+GetControlEnabled( hwnd:Int )
+GetControlRealName( hwnd:Int )
+	
+'	Properties -&gt; Window
+GetCursorX()
+GetCursorY()
+MaximizeWindow( hwnd:Int )
+MinimizeWindow( hwnd:Int )
+RestoreWindow( hwnd:Int )
+IsWindowMaximized( hwnd:Int )
+IsWindowMinimized( hwnd:Int )
+	
+'	Properties -&gt; Button
+GetButtonState( hwnd:Int )
+SetButtonState( hwnd:Int, State:Int )
+	
+'	Properties -&gt; ListBox / ComboBox / TabControl
+AddControlItem( hwnd:Int, item$z )
+InsertControlItem( hwnd:Int, index:Int, item$z )
+ModifyControlItem( hwnd:Int, index:Int, item$z )
+SelectControlItem( hwnd:Int, index:Int )
+SelectedControlItem( hwnd:Int )
+CountControlItems( hwnd:Int )
+RemoveControlItem( hwnd:Int, index:Int )
+ClearControlItems( hwnd:Int )
+	
+'	Properties -&gt; TextBox / EditBox / RichEdit	
+TextCountLines( hwnd:Int )
+TextPasswordChar( hwnd:Int, pswd$z )
+TextGetLength( hwnd:Int )
+TextGetLine( hwnd:Int )
+TextMaxLength( hwnd:Int, length:Int )
+TextReadOnly( hwnd:Int, value:Int )
+TextUndo( hwnd:Int )
+	
+'	Properties -&gt; ProgressBar
+SetProgressRange( hwnd:Int, MinPos:Int, MaxPos:Int )
+SetProgressStepValue( hwnd:Int, Value:Int )
+SetProgressValue( hwnd:Int, Value:Int )
+</textarea><br> <br><br> LamasuCreations@...<br>P4 3Ghz, 2GB Ram, 
+Geforce 6800 Ultra, 200GB Sata Drive, Philips 190S5 LCD 19inch, 
+Microsoft Elite Keyboard / Mouse, WinXP / SP2, DX9c </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The 5th day.</td><td align="right"><font class="tiny">(Posted 2005-09-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Im not doing bad for the 5th day, this is the updated command list.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">createWindow( Text, X, Y, Width, Height )
+createButton( Text, X, Y, Width, Height, Parent )
+createCheckBox( Text, X, Y, Width, Height, Parent )
+createRadioButton( Text, X, Y, Width, Height, Parent )
+createGroupBox( Text, X, Y, Width, Height, Parent )
+createLabel( Text, X, Y, Width, Height, Parent )
+createTextBox( Text, X, Y, Width, Height, Parent )
+createComboBox( X, Y, Width, Height, Parent )
+createProgressBar( X, Y, Width, Height, Parent )
+createRichEdit( X, Y, Width, Height, Parent )
+
+GetButtonState( hwnd )
+SetButtonState( hwnd, State )
+
+SetControlEnabled( hwnd, Value )
+SetControlVisible( hwnd, Value )
+SetControlPosition( hwnd, X, Y )
+SetControlSize( hwnd, Width, Height )
+SetControlActive( hwnd )
+SetControlParent( hwnd )
+SetControlText( hwnd, Text )
+SetControlShape( hwnd, X, Y, Width, Height )
+
+GetActiveControl()
+GetControlX( hwnd )
+GetControlY( hwnd )
+GetControlWidth( hwnd )
+GetControlHeight( hwnd )
+GetControlParent( hwnd )
+GetControlText( hwnd )
+GetControlVisible( hwnd )
+GetControlEnabled( hwnd )
+
+AddControlItem( hwnd, item$z )
+MoveControlToTop( hwnd )
+MoveControlToBottom( hwnd )
+UpdateControl( hwnd )
+FreeControl( hwnd )
+</textarea><br> <br><br> LamasuCreations@...<br>P4 3Ghz, 2GB Ram, 
+Geforce 6800 Ultra, 200GB Sata Drive, Philips 190S5 LCD 19inch, 
+Microsoft Elite Keyboard / Mouse, WinXP / SP2, DX9c </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>To BlitzMax</td><td align="right"><font class="tiny">(Posted 2005-09-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well i was thinking if i was going to create a dll why not create a 
+BlitzMax module out of it too, so thats what i done and it works pretty 
+good.<br> <br><br> LamasuCreations@...<br>P4 3Ghz, 2GB Ram, Geforce 6800
+ Ultra, 200GB Sata Drive, Philips 190S5 LCD 19inch, Microsoft Elite 
+Keyboard / Mouse, WinXP / SP2, DX9c </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The 3rd day.</td><td align="right"><font class="tiny">(Posted 2005-09-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ While im waiting for the 3D Module to be released i have taken the time
+ to learn c++. It wasnt as bad as i though, so i have been learning it 
+for the last three days and have successfully been able to create a 
+windows gui wrapper dll which i am still currenly working on and testing
+ through BlitzMax. The following commands listed below are done so far 
+but i will have alot more by next week.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">createWindow
+createButton
+createTextBox
+createComboBox
+createListBox
+
+SetControlParent
+SetControlText
+SetControlPosition
+SetControlSize
+SetControlShape
+SetButtonState
+SetControlEnabled
+SetControlVisible
+SetControlActive
+GetControlParent
+GetControlHandle
+GetActiveControl
+GetButtonState
+GetControlX
+GetControlY
+GetControlWidth
+GetControlHeight
+GetControlParent
+MoveControlToTop
+MoveControlToBottom
+FreeControl
+</textarea><br> <br><br> LamasuCreations@...<br>P4 3Ghz, 2GB Ram, 
+Geforce 6800 Ultra, 200GB Sata Drive, Philips 190S5 LCD 19inch, 
+Microsoft Elite Keyboard / Mouse, WinXP / SP2, DX9c </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

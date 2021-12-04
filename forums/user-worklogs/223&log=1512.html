@@ -1,0 +1,53 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Techlord</h1><h1>HYPERPONG</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Code:HP_ServerRun</td><td align="right"><font class="tiny">(Posted 2007-09-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">;HYPER-PONG v 1.2 SERVER RUN
+
+Include "HPv1.2.bb"
+
+AppTitle(HP_GAME_NAME$+"...Initializing")
+ 
+Graphics 300,200,32,2
+Repeat
+
+	Cls()
+	Locate(0,0)
+	HPServerCheck=HPServerCheck+1
+	Print(HP_GAME_NAME$+"...Checking["+HPServerCheck+"]")
+
+	If Not GNET_Exec("list","") 
+		AppTitle(HP_GAME_NAME$+"...No Servers")
+	EndIf
+
+	CountHostIPs(GetEnv("localhost"))
+	MyIP$=DottedIP(HostIP(1))
+	
+	
+	For GNET_Server.GNET_Server=Each GNET_Server
+		If Instr(GNET_Server\game$,HP_GAME_NAME$)
+			Print("["+GNET_Server\ID+"]"+GNET_Server\game$)
+			If GNET_Server\IP$=MyIP$ HPServerIsRunning=True
+		EndIf	
+	Next
+	
+	If Not HPServerIsRunning
+		AppTitle(HP_GAME_NAME$+"...Launch") 
+		ExecFile(Chr$(34)+"C:\Program Files\Blitz3D\myprojects\HPv1.2\HPServerKill.bat"+Chr$(34))
+		Delay 10000
+		ExecFile(Chr$(34)+"C:\Program Files\Blitz3D\myprojects\HPv1.2\HPServer.exe"+Chr$(34))
+		HPServerCheck=0
+	Else
+		Print("Server is in Use.")
+	EndIf
+	
+	Delay 30000
+
+	HPServerIsRunning = False
+	
+	For GNET_Server.GNET_Server	 = Each GNET_Server
+		Delete GNET_Server
+	Next	
+	
+Until KeyDown(1)
+</pre> <br><br> <a href="http://www.blitzbasic.com/Community/posts.php?topic=94621" target="_blank">DarkTokens: Coin-Op (MicroTransaction) API</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,81 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for simonh</h1><h1>MiniB3D</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Next version</td><td align="right"><font class="tiny">(Posted 2007-10-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The next version of MiniB3D will be quite a bit faster in two areas - 
+skinned animations, and collisions. These two areas are probably the 
+slowest aspect of MiniB3D in the current version, and so I've been 
+working hard on making them as fast as possible. This has involved 
+mainly rewriting the various routines to cut down on the amount of 
+garbage created and also adding bits of C code.<br><br>Collisions are 
+something that I've been bogged down with for quite a while now. They 
+have been the last remaining sticking point of my game conversion - 
+quite simply, with a few collision objects in a scene my game was 
+running too slow. Collisions are now running at a much better speed, 
+although there's still some work to do.<br><br>As for skinned 
+animations, after a major rewrite of the bones system, you can now have 
+many more animated meshes in a scene without things slowing down. On my 
+fairly ancient setup, a scene with 100 animated birds that are all in 
+view runs at 60fps, faster than Blitz3D.<br><br>I've also added VBO 
+support in the next release, something which has been in klepto's 
+version for a while and provides much faster rendering of large meshes.<br><br>I'll
+ be glad when this update is done, as I want to concentrate more on the 
+graphics side again. I'm getting increasingly enticed into the world of 
+shader programming, but trying to resist for now... <br><br> Si. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>V0.42</td><td align="right"><font class="tiny">(Posted 2007-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> V0.42 includes several fixes, nothing major though. I'll hopefully release it within the next three weeks.<br><br>I'm
+ at something of a crossroads with MiniB3D, wondering what to do next. 
+One area of disappointment expressed by users about MiniB3D is the speed
+ of the collision and picking routines. This is mainly due to the 
+over-reliance by MiniB3D on the vector type in the various maths 
+routines - i.e. lots of small objects for the GC to deal with - which 
+isn't BlitzMax's strong point. I can perform certain optimisations which
+ I will do but I'm not sure I can get much more speed out of BMax alone.<br><br>So
+ now I'm thinking about rewriting certain parts in C, this is slightly 
+against my original mission (Max code only), although I'm sure it's OK 
+for little bits here and there...<br><br>Finally, I've also been unsure 
+whether to incorporate bits of the Blitz3D source code into MiniB3D. It 
+was amazingly generous of Mark to make the B3D code available, but I 
+feel a little hesitent about converting chunks of B3D to MiniB3D - maybe
+ because that would take the skill/fun out of writing MiniB3D!<br><br>However
+ I do appreciate the fact that converting parts of B3D to MiniB3D would 
+make MiniB3D a more accurate conversion of B3D, which *is* the original 
+point of the thing, so I'll probably end up nicking parts of it afterall
+ (i.e. the difficult bits)!<br><br>So as you can see I've had several 
+on-going dilemmas with where to take MiniB3D, which has halted progress 
+somewhat. But hopefully things will start picking up again soon. <br><br> Si. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Octrees</td><td align="right"><font class="tiny">(Posted 2006-12-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The biggest addition to V0.4 is collisions. Collisions have been up and
+ running for a while now but sphere -&gt; poly collision were a little 
+too slow to be useable with large levels, as every triangle had to be 
+checked.<br><br>After experimenting with BSPs for a while I eventually 
+settled upon octrees as a way of reducing the triangle checks. Octrees 
+are basically a way of partioning space, and in this instance the mesh 
+(or rather a list of triangles representing the mesh) is split up into 
+eight cubes, then each cube is split into eight more cubes and so on 
+until each cube consists of a handful of triangles. If a collision check
+ is made with a cube and returns false, then you don't need to check any
+ sub cubes. This significantly reduces the no. of checks you need to 
+make.<br><br>Finally you make checks with the triangles. To split a mesh
+ into cubes you just need to clip the polys against a plane several 
+times over.<br><br>I've just got octrees working with the picking 
+commands and the performance increase is quite dramatic. Picking speed 
+is now &lt;1ms for this teapot, whereas it was over 25 before. As you 
+can see, the shaded regions indicate the different octree 'cubes'.<br><br><img src="6&amp;log=1369_files/octree_teapot.html"><br><br>Next
+ up is to integrate octrees with sliding collisions. This is a little 
+tricky as I need to add a swept-sphere-&gt;box collision check, but I 
+don't anticipate it being a huge problem.<br><br>Octrees really are a 
+very useful tool for game engines, not terribly difficult to use either,
+ and I can think of a few more ways they can be used in MiniB3D. That 
+will have to wait until after I've released 0.4 though as it's taking me
+ far too long to finish this version as it is. <br><br> Si. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2006-03-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well this is taking a little longer to complete than I would have hoped for but things are starting to come together now.<br><br>Currently
+ working on textures, brushes, blending and all that stuff, and while 
+programming (copying) this stuff I've really come to appreciate just how
+ well thought out B3D is. Here's hoping BMax's 3D module is the same.<br><br>Decided to add functions as well as methods to enable proper B3D-style programming.<br><br>Here's a list of all the functions so far:<br><br>Edit - out-of-date list removed. <br><br> Si. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Animation</td><td align="right"><font class="tiny">(Posted 2006-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="6&amp;log=1369_files/anim.html"><br><br>Animation
+ is up and running. Works pretty well but there is still quite a bit to 
+do in terms of tidying it up, supporting all the animation commands and 
+optimising things so that it runs as fast as possible.<br><br>I'm hoping that will all be straightforward though and that the hard parts are now out the way. <br><br> Si. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>MiniB3D</td><td align="right"><font class="tiny">(Posted 2006-02-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ MiniB3D is just something I'm quickly knocking together as I wish to 
+port my game to the Mac and I can't really wait much longer for the 
+official mod.<br><br>I started work at the start of the month and so far
+ progress has been good, a full entity hierarchy system is in there, as 
+is .b3d loading with multi-texturing. My aim is to replicate B3D's 
+behaviour exactly in all areas, as this will make porting easier.<br><br>Next up is animation. <br><br> Si. </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

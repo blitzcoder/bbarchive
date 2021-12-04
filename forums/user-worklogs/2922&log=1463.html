@@ -1,0 +1,674 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Gabriel</h1><h1>My Next Game</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Interaction</td><td align="right"><font class="tiny">(Posted 2008-03-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ As predicted, I did indeed go ahead and work on making everything more 
+interactive next. I've completely reworked the way levels are scripted 
+as the first step in this process. They are now handled in exactly the 
+same way as GUI layouts. That is to say the engine loads a level and 
+then looks for attached script files. It then parses the script files 
+line by line, looking for functions which relate to specific game 
+objects. As it finds them, the scripts are attached to the relevant 
+objects, and they can then be triggered as and when required.<br><br>Objects
+ can have behaviours, attached by a script controller. Behaviours can be
+ anything I choose to implement, but are generally triggered with a time
+ value which specifies how long it should take to happen ( assuming that
+ it doesn't happen instantly. ) I've only got simple things like moving 
+and rotating in so far, as well as most of the functions that object 
+have naturally, of course. Even simple behaviours like move and rotate 
+are very handy for things like doors, elevators, etc though. Twelve 
+kinds of interpolation are supported ( twenty-four if you include 
+orientations which have spherical interpolation implemented, but in 
+combination with the standard twelve interpolation types.<br><br>I've 
+also signed my first license for the game engine. The contract was for 
+the grand value of absolutely nothing. Essentially, I'm licensing the 
+engine to a friend in return for testing and feature requests. His ideas
+ are so different from mine that I don't see any competition in it, and I
+ really need someone I can trust testing it. He's provided me with a 
+couple of test levels, which I used to get fully interactive doors 
+working. I had to add dynamic pathfinding for the doors, as you can 
+obviously walk through them when they're open but not when they're 
+closed. However, they open, they need a way to know where you can and 
+can't walk, and this was surprisingly simple to implement into the 
+engine. A couple of bugs cropped up, but those were quickly solved.<br><br>Speaking
+ of bugs, my friend also helped me find a whole raft of bugs in other 
+areas, all of which ( unless he's found any more, I haven't signed into 
+Messenger yet today :p ) have been fixed, and I've improved inventory 
+handling and the handling of dynamic objects as a result of them too.<br><br>I've
+ also added the ability for an object to contain other objects. So 
+cupboards, treasure chests, footlockers, anything like that, can now be 
+created. It took a lot of integrating as it actually affects a lot of 
+things, and it also brought up the question of how one identifies the 
+correct place to stand in order to interact with an object. For example,
+ I would stand in front of a locker to open it, but how does the game 
+know what part of the locker is in front? Fortunately, I came across a 
+very simple solution while playing a Sudoku puzzle online ( odd, but 
+true ) and it was very effective. I also came up with a system to 
+automate the procedure, which also works well, but it lacks a little 
+flexibility, and I eventually decided that the flexibility was more 
+important than a tiny amount of time setting it up manually.<br><br>Adding
+ the ability to set interaction points also brought about the creation 
+of trigger items. These would be things like buttons, consoles, 
+switches, levers, etc. They can do anything the script engine can do, 
+because they simply trigger one of the automatically parsed and loaded 
+scripts.<br><br>I've probably had more fun working the past two weeks 
+than at any time in the past two years. I've loved seeing the scripting 
+system, the behaviours, the "inventories for objects" system, the 
+interaction points, triggers etc all coming together. It's going to be 
+great coming up with interesting combinations of these things too. The 
+whole thing is already pretty flexible, so it will be fun to see what I 
+can come up with. It would be eye opening to see what other people came 
+up with, but sadly that won't be possible. Two years plus to make a game
+ engine and then giving it away to the public wouldn't make much sense. 
+I'll have to settle for my own ideas for now.<br><br>Although having 
+said that, I do have it in mind to make the game extremely moddable. 
+Players will be able to mod just about everything. Indeed, they could 
+probably even create their own levels with enough ingenuity and a little
+ reverse engineering of file formats I'm not permitted to make public.<br><br>I
+ still get days when I'm frustrated by the lack of progress, and when 
+I'm intimidated by the things that I still have to do, but it's really 
+amazing how far it's come. Considering I started with nothing but a 3D 
+engine which you couldn't possibly use in BlitzMax, I sometimes find it 
+hard to believe that I've done all this by myself. Let's hope I keep 
+managing to solve the problems that keep getting in my way. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>WXWidgets, Editors and Shaders</td><td align="right"><font class="tiny">(Posted 2008-03-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Much has been done since I last wrote one of these, so I'm probably going to forget a lot of it.<br><br>Firstly,
+ I completely rewrote all the editors to use wxWidgets instead of 
+MaxGUI. This means I can use the excellent wxPropGrid in the actual 
+level editor, which makes editing much more fun. In the process, a 
+number of editor bugs were fixed and several new features were added. 
+Actors can now be instantly snapped to the nearest path node, which is 
+what will happen in-game anyway. Lots of little technical details can 
+now be edited in the editors, including things like events triggered 
+during animation sequences. Also anything you're editing in the level 
+editor can be exported to disk, and then loaded back into another 
+editor. So if you happen to put in a lot of work editing an entity in 
+the level editor and only then realize that you'll want to have more 
+entities the same, you can just export it and import it  back into the 
+entity library, and bingo, now you can add it into any level at the 
+click of a button.<br><br>I've got a nice animation sharing system 
+going, and also I've added a nice little feature to the actor editor to 
+automatically find animations by action. For example, when it wants the 
+animation for walking forward with a melee weapon in hand, it looks 
+through the animations and finds the correct animation automatically. 
+Saves a lot of time when attaching a huge wad of animations to a new 
+character. Speaking of animations and wads, I've completed a set of over
+ 200 animations for the game. A few may need tweaking later, but that's a
+ full set of animations now.<br><br>Now I'm seriously considering going 
+back to tweak my environment shaders again. I know, I know, I promised I
+ was done with those, but I keep learning new things about shaders and 
+then I want to put them in practice. My latest idea is a way to get any 
+two of specular maps, parallax maps and lightmaps added to normal map, 
+diffuse map and two light sources, plus a dynamic shadowmap, at very 
+little cost. I'm not sure at this point which two I most want. Parallax 
+maps are a very cool effect, but specular maps are useful because 
+they're all about bringing subtlety to bumpy shiny surfaces. Being able 
+to integrate static lightmaps with the dynamic shadowmaps would also be 
+damd cool, particularly since I spent a week writing a lightmapper. At 
+the moment, they're only used for pre-shader hardware and machines which
+ struggle on the higher settings. I'll have to mull this over some more,
+ and see which two of the three I want, and then I'll have to test out 
+my theory and see if I really can get these extra features at minimal 
+cost.<br><br>My next target is to get more interactions happening. 
+Particularly, I want to get actors reacting to being attacked and events
+ around them. I'll probably keep fiddling with the level editor and add a
+ few more features to that first though. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Art Week</td><td align="right"><font class="tiny">(Posted 2008-01-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This week I got a piece of final art delivered, the inventory panel for
+ the game interface. It looks fantastic, with lots of detail and really 
+suits the game.<br><br>I also found a concept artist to create a 
+character concept piece for me. He delivered three preliminary sketches 
+last night, and I selected the one I wanted him to develop. When the 
+final concept piece is done, I'll be looking for a good character artist
+ to turn the concept painting into a 3d model.<br><br>Over the past 
+couple of days, I tidied up some shaders, added a second directional 
+light to all existing shaders and now anything which glows no longer 
+uses inbuilt TV shaders, it's all my custom shaders. Each existing 
+shader has a glow technique and a noglow technique, so when you render 
+the glow pass, objects which are supposed to glow activate their glow 
+technique and objects which are not supposed to glow ( but must be 
+rendered, remember, because otherwise obscured glowing objects will glow
+ right through the obscuring geometry ) activate their noglow technique.
+ Then the glow render pass is done, before the objects restore the 
+technique they were using beforehand ready for the next true render 
+pass.<br><br>That all seems to work very nicely.<br><br>I've tweaked the
+ level editor a little bit, and now I have to tweak my 
+gizmos/widgets/call them what you will. They work well, but could be 
+better, so I'll take care of that now hopefully. A couple of kind people
+ have given me their source so that I can take a look and see if they're
+ doing anything I'm not or I'm doing anything they're not. Hopefully 
+these can be perfect before I start making any real use of the level 
+editor. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I Love My GUI Editor</td><td align="right"><font class="tiny">(Posted 2008-01-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I knew time invested in a complex GUI and a GUI editor would be time 
+well spent, but every time I start creating new interfaces or further 
+developing old ones, I'm still a little surprised at just how much 
+easier GUI development is with a good GUI library and a good editor.<br><br>Yesterday,
+ for example, I wanted to add a few horizontal bars, a radial bar and 
+some invisible tooltips. The horizontal bars were easy to create, color,
+ edit and position with the editor, and the same goes for the radial bar
+ ( although I did spot a bug which was drawing them out of position when
+ the interface they are on is disabled which was quickly fixed. )<br><br>The
+ invisible tooltip was a bit trickier. What I wanted was to designate an
+ area of the screen to indicate something to the player. The thing is, I
+ wanted the areas to be circular and no image drawn. So I extended my 
+circularbutton gadget class ( which uses circular zones for mouse events
+ ) and overrode the render method so that it does no rendering.<br><br>Invisible
+ gadgets are a teeny bit tricky to place in the editor, so I just got it
+ roughly in place and then tweaked the XML output from the GUI editor to
+ get it exactly right. Fortunately, XML formats make it easy to tweak 
+manually.<br><br>And so, lo and behold, the GUI is now much improved. I 
+also found out that the font editor is working nicely because some of 
+the labels I added to the GUI panels are really very nice, and very 
+readable despite their small size. ( Probably best not to play this in 
+640x480 though :P ) <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>2D Tweening, Localization</td><td align="right"><font class="tiny">(Posted 2008-01-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I wrote a simple localization module this weekend which essentially 
+abstracts the use of text within the game. All in-game text is stored in
+ an XML file and this file is then used by the localization manager to 
+retrieve all text. All you do is select the language you want ( using 
+the name of the language as a string ) and it looks for a translation. 
+If it finds one, it uses it, and if it doesn't, it uses the untranslated
+ phrase instead. So translation of any game using my game engine into 
+any European language is now possible without recompiling a single line 
+of code. Foreign languages which use an extended character set are not 
+possible without recompilation because the game uses precompiled texture
+ fonts. It just isn't practical to bundle textures for a complete 
+unicode character set with the game.<br><br>I had a bit of a panic last 
+night when I realized that render tweening was not being applied to 2D 
+elements. Up until now this had not been an issue as there were no 
+moving , rotating or scaling 2D elements in the game, but yesterday I 
+wanted to add some and I realized that they would not tween because 
+render tweening uses quaternions and matrices, which do not apply to 2D.<br><br>So
+ last night I wrote a secondary render tweening module which handles 2D 
+elements. It tweens position, scale and rotation at the moment, although
+ other things could be tweened if it became useful. It also enabled me 
+to confirm that tweening works properly, as I watched a simple vertical 
+credits scroller go from a bit jerky without tweening to silky smooth 
+with tweening. How it copes when it all slows down to a crawl, I don't 
+know, but it's smooth, it's consistent across all framerates, and it 
+allows a fixed timestep  for the physics; I think it's as much as I can 
+hope for.<br><br>I haven't had any inspiration about what I should work 
+on next, so I'll probably go ahead and just add in some unit stat 
+displays and that sort of thing for now. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Scripting Change</td><td align="right"><font class="tiny">(Posted 2008-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've completely reworked the scripting engine so that it now 
+automatically parses important objects like interface layouts, gadgets 
+and level objects, attaches event scripts to them automatically and 
+stores them in tables indexed by name for quick and easy retrieval in 
+any lua scripts. This removes the need for manually creating global 
+variables or looking objects up in BMax tMaps every time, and it also 
+means that the GUI is much better integrated between layout and 
+scripting. I'm in the process of converting all the existing scripts, 
+and then the game will be much more mod-friendly.<br><br>On a slight 
+side note, I'm really starting to like Lua. It's got a nice syntax and 
+it's very readable too. Things like nested tables - which I thought 
+might be messy and unreadable - are in fact better and more readable 
+than they would be in C++ or BlitzMax. +1 for Lua!<br><br>Much of the 
+core gameplay code was rewritten over Christmas, with an emphasis on 
+cutting out unnecessary code. The more code you have, the more potential
+ for errors, and I can't afford more errors than absolutely essential. A
+ lot of times, I'll be lazy and create a new state or a new function 
+when an existing one could be modified to handle more than one 
+situation. Generally, I do this to avoid breaking existing 
+functionality, but it can be a shortsighted economy. I was able to cut 
+out a lot of unneeded code and while a lot of things were broken, I 
+think I've found and fixed all of them, so i'm in much better standing 
+for the future.<br><br>All entities which are controlled by the physics 
+engine have now been integrated with the projectile weapon system. In 
+short, if you shoot a weapon at an object which is physics controlled, 
+it behaves like it got hit. It's pretty basic for now, but I'll probably
+ add some kind of distance-based force damping so that shooting 
+something close up has more of an effect than shooting things far away. 
+I'm not going to calculate projectile velocities and air resistance 
+based on bullet profile, but a simple distance based falloff on 
+projectile collision force should be fine, and is worth adding.<br><br>I've
+ improved the user interface a good bit too. Not the appearance, but the
+ functionality. There are now multiple ways to do some things, more 
+things are done automatically if they are required ( and only if they 
+are required ) and some "shortcuts" were added which really do make the 
+game less of a fiddle. Good stuff.<br><br>I've wrapped a 3d sound 
+library, with support for streaming and EAX effects, and that will 
+eventually be built into the game engine. At the moment, it's linked but
+ not actually being used. I need to test it properly before committing 
+to it. At the moment, I could always rip it out and replace it with 
+IrrKlang or something else. Not that I'd want to because IrrKlang has a 
+butt-ugly API, but at least it's an option.<br><br>There are a few 
+things I've forgotten again, I think. I'm sure I left a lot of things 
+out of my last worklog too, but I just can't put my finger on them right
+ now. Ah well, next time. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Big Update</td><td align="right"><font class="tiny">(Posted 2007-12-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Hmm, well it's sure been a while since I last posted. Quite a lot has 
+happened since the last update, and I'm sure I'll forget some of it, but
+ I'll try to cover the important parts.<br><br>Stencil shadows have now 
+been completely removed from the engine. Dynamic shadows are now done 
+with SM2.0 shadowmapping shaders. On the downside, this means that there
+ won't be any shadows for videocards which are below SM 2.0. Of course, 
+stencil shadows on the CPU are pretty bloody slow, so that's probably no
+ great loss. On the plus side, all the bugs and glitches with shadows 
+are no more. Shadowmapping will probably be faster on most hardware, and
+ should be pretty stable too. At the moment, I don't filter them and 
+they have no perspective, but that's to make them fast and stable. It's 
+possible I may add filtering and perspective later. Stability is the key
+ after all the problems I had with stencils.<br><br>Per-Object glow is 
+now working properly, and much faster too. I've rewritten all the 
+non-Fixed function stuff that wasn't using custom shaders to use custom 
+shaders, and each custom shader has a special technique to render it 
+during the glow render pass, which makes it much quicker to render glow 
+effects. Glow effects are also properly occluded which can be a problem.<br><br>I've
+ written a nice AI framework, which allows the entire AI to be scripted.
+ Internally, the AI has a state machine, and can use fuzzy logic for 
+decision making, but the actual behaviour is entirely scripted using a 
+set of scripts, one for each state. It actually feels really comfortable
+ and should be easy to code for.<br><br>I've started to break my Dev 
+application up into separate programs now. So there's a brush editor and
+ a level editor, and possibly more to come. This is just something I've 
+done in case I ever want to release the editors with the game. The game 
+is extremely moddable ( if you're comfortable with Lua and XML, you 
+could literally write a new game from scratch. Not that you could 
+distribute it, but for your own purposes, fun, fun, fun. I figured 
+people might well want to play with the level editor, and now I at least
+ have the option of giving it away if I want.<br><br>There's a basic 
+occlusion system in place now. It's very lightweight and takes very 
+little processing time, but it can quickly occlude large chunks of the 
+map, so it's going to be very useful as the test maps get bigger. It 
+makes a lot of assumptions specific to the type of game the engine is 
+designed for, so it can do things much better than any generic BSP or 
+portal occlusion system. Also, you don't need to model with brushes like
+ with BSP, nor do you need to manually place portals like with.. well.. 
+portals, obviously, so you can just make your level and go.<br><br>Occlusion,
+ of course, doesn't actually just apply to the visuals. Nope, I've 
+abstracted mouse picks into controllers now which are managed by a 
+manager object. Occluded controllers are not checked or triggered, so 
+there's a little boost there too. <br><br>A simple visibility system is 
+done, so all actors know which other actors they can and can't see. This
+ is obviously going to be vital for AI. I've also done the early stages 
+of a trigger system for the AI. Basically anything which might be seen 
+as a trigger for the AI's is set up in a big managed queue of events. 
+Then the actors can query the queue to see which events apply to them 
+and to what priority. For example, a footstep behind you 10 metres away 
+will apply to you, but it will not have the same priority as a huge 
+explosion right in front of you. So it will be easy for the AI scripts 
+to find the "triggers" it most needs to respond to.<br><br>Loading and 
+saving games is now implemented and working quite nicely. I'm sure it's 
+not perfect, but it does load and save a basic game properly, so that's a
+ good start. All the usual gubbins like date and time of save, a mini 
+screenshot image preview, etc are all done. The screenshot previews were
+ actually really fiddly and a pain in the ass ( I cache textures in 
+memory so I had to write a system to forceably reload textures in order 
+to update the preview images without making you restart the game ) but 
+they're so cool, aren't they? I had to have them. A definite case of 
+feature creep, but you have to relent occasionally.<br><br>Speaking of 
+which, I had to make some low level changes to allow bigger actors. 
+Originally there was a maximum size ( not literally, of course, but for 
+practical reasons it was impossible to have really large actors. Now 
+it's not like I'm going to have big-ass dragons flying around, I know, 
+but you never know if I might want something a bit special in there, so 
+it was nice to have the option. It affected visuals, pathfinding, lots 
+of stuff, but it was surprisingly easy to implement in the end. Well, it
+ appears to have been. Hopefully it won't come back to bite me in the 
+ass later. Like I say, definitely shouldn't give in to feature creep, 
+but the odd very cool feature just has to come in every now and then, 
+doesn't it?<br><br>I've finalized the render path too. What you 
+basically have is two options. Shader Model 2 and fixed function. If you
+ have a card below Shader Model 2 but better than just FFP, then I'm 
+sorry, but anything below SM 2.0 is just a huge pain in the ass. There's
+ actually a compelling case for SM3.0 as it allows a lot of 
+improvements. Hardware instancing, anyone? Nice! But that's too much. SM
+ 2.0 is good enough for most effects and a decent speed. If you don't 
+qualify, you'll just have to put up with static lightmaps, no glow 
+effects, and no normal mapping. It's still going to look pretty damn 
+good because my lightmapper is decent, and animations are going to be 
+identical across the board. And frankly, with some static lightmaps and 
+good animations, I think a game can look pretty good. I'm not going to 
+go all B3D on it and try and fake all the special effects on the CPU 
+because it's slow and it's not all that pretty. It's just dragging the 
+visuals down to try and make fixed function do things it wasn't supposed
+ to. Have you seen normal mapping on FFP? It's butt-ugly, and anyone who
+ convinces themselves that it's as good may be kidding themselves, but 
+not me.<br><br>I've probably left out some things, but that's all I can 
+think of for now. It's probably time I just tidied and juggled things 
+around a bit to make the code more manageable, so I think I'll work on 
+that for a couple of weeks before deciding where to go next. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Rewrite Complete</td><td align="right"><font class="tiny">(Posted 2007-09-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've completed the rewrite of the underlying engine, and TV3D is now 
+"permanently" embedded into the game engine. I have TV objects floating 
+around in my game engine, which makes things a lot easier, a bit quicker
+ and although I still think the original way was cleaner, and more 
+elegant, I can't deny that the speed boost was significant. A 500-600FPS
+ scene is now going at 600-900FPS, and that's a pretty huge speed boost 
+when we're already talking about very large FPS values. The EXE size 
+hasn't really gone down, but it will do when I track down some of the 
+unneeded resources I'm attaching into the binary.<br><br>I'm extremely 
+relieved to have completed the entire rewrite without appearing to have 
+broken anything major. Both my editor suite and the game itself are 
+running much as they did before the rewrite, apart from the speed boost,
+ and I even found a couple of nasty bugs along the way. One of these 
+bugs was a serious render tweening bug which meant that only renderable 
+entities were being tweened. This, of course, is wrong - lights and 
+cameras should be tweened too, even though they're not strictly 
+renderable. Lights only really need to be tweened if they move or 
+rotate, but cameras need to be tweened either way, and they weren't 
+being.<br><br>Last night I finally got back into adding new features, 
+and I decided to add particle effects to entities. Originally I had 
+created prefabs to address precisely this issue of putting objects 
+together, but when you do this, you have to trigger items via scripts 
+because objects within a prefab are not aware of each other. On 
+reflection, it felt wrong to me that scripts should be required for 
+default behaviour. For example: If you destroy the turbine generator for
+ the dam, that might well trigger a script which tells the game that you
+ completed the mission ( assuming that the mission was to destroy the 
+turbine generator for the dam. ) However, every single TNT barrel is 
+going to explode when it's destroyed by bullets, and it seems wrong to 
+require a script for that behaviour, because it's inherent to the barrel
+ of TNT.<br><br>So the solution was to add some Event-based particle 
+effects systems to entities. So far they have two such event-based 
+systems, one for standard destruction and one for weapon-based 
+destruction. The particle effect system is loaded when the entity is 
+loaded, and instantiated when the entity is instantiated, but it is 
+immediately paused ( as all particle effects are! ) at this point. When 
+the event occurs, the particle system is resumed, displaying the effect,
+ and then the particle system itself detects when the effect is over and
+ destroys itself automatically. This seems to be working very neatly now
+ and is completely self-contained, so there's no ugly hackish code ( 
+apart from the code to detect when a particle system is finished but I 
+can't help that, TV offers no mechanism for this so I have to wrap my 
+own handling around it. It works fine though.<br><br>At this point, I 
+have absolutely no idea what I'm going to work on next, but it's nearly 
+4pm and I haven't eaten yet today, so I have plenty of time to mull that
+ over while I make something to eat. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Need For Speed</td><td align="right"><font class="tiny">(Posted 2007-09-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After wrapping up might lightmapper, I've made a very nice start on 
+integrating rigid body dynamics into the engine. I have a nice materials
+ system which is based on Newton's "Material Pairs" system. Each 
+material ( eg: wood, metal, plastic, soil, grass ) stores it's 
+properties ( elasticity, hardness, etc ) only in relation to other 
+materials. For example, soil and metal might have a very different 
+relationship to soil and wood. One of the best things about this 
+material system is that you can have completely unrealistic material 
+effects. You could, for example, have a substance which is very, very 
+soft when it connects with wood and very very hard when it connects with
+ metal. In reality, this is improbable at best, but in games, you never 
+know when it might be useful to have objects behave in a very unexpected
+ and unrealistic way, and this gives me a lot of possibilites.<br><br>Basic
+ rigid body dynamics have now been properly integrated so simple objects
+ like crates and barrels can ( and do ) move around on their own.<br><br>It
+ was partly when I was doing a lot of vector math with the dynamics 
+sytem that I realized how important speed was to the game engine. I 
+thought I had plenty of speed in the bag, but lately, I've noticed the 
+FPS dipping down to about 600 in a pretty modest scene on a pretty 
+powerful machine. Now I know 500 FPS is good, but I think it could be 
+better.<br><br>So I've decided to rip out all superfluous code and 
+optimize the structure of the engine completely. Now is a very good time
+ to do that because I know exactly where the bottlenecks must be. I 
+don't know how much more speed there is, but I know what I Need to 
+rewrite. It could take a long time, as it's a very big, lumbering game 
+engine now ( soon to be come a lot less so when I've pruned while 
+optimizing! ) but I think it's a necessary step. I know I'm going to 
+commit to TV3D with this game now, so a lot of things I abstracted in 
+order to make things future proof no longer need to be abstract.<br><br>Frames
+ Per Second are, of course, not linear, so I'm not expecting a massive 
+speed boost with such a high FPS value already, but I won't be surprised
+ if I can get another 5-10% out of it. I can probably trim 1/2 meg of 
+the size of the exe and a few seconds off of a full compile ( with quick
+ build disabled ) to boot.<br><br>And no, I'm not planning to rip off a popular EA driving game franchise :P <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tough Weeks</td><td align="right"><font class="tiny">(Posted 2007-08-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well the past four weeks have been really tough. First of all I decided
+ to move to a completely 3d map system, which of course means a 
+completely 3d pathfinding system. It also means much, much more than 
+that as I soon realized. It means that some parts of the map are 
+accessible in some stances and not in other stances. It means that 
+anything which hugs the ground needs a very complex algorithm to allow 
+it to stay flat on the terrain, never clip the ground and still appear 
+undistorted from any angle. Then there's the issue of crawling. When you
+ crawl, your body tilts with the shape of the ground, but not so when 
+you crouch or stand, so that brings a whole new layer of complexity. I 
+set myself an artificial deadline of ten days to get it done or the 
+entire project would go in the bin. I completed it with hours to spare, 
+so I guess it was good motivation.<br><br>This week I decided that 
+lightmapping in 3dsMax and Gile[s], as beautiful as the results are, was
+ not acceptable, so I went about implementing lightmapping in my level 
+editor. Now TV3D comes with a lightmapping function, so that was easy. 
+Oh wait, the TV3D lightmapper ( which was supposedly undergoing rigorous
+ testing to make sure it was perfect two years ago ) is horribly broken.
+ Even if they eventually fix it, it only does self-shadowing which is 
+completely useless unless you can make an entire level out of one mesh. 
+And who can do that?<br><br>So I had to write my own lightmapper. Hang 
+on a minute, Gile[s] is still being developed and improved now, and 
+that's been going for 2 or 3 years. So this lightmapping lark is a bit 
+difficult, no? Well yes, and no. Because it's for a very particular 
+game, I can make a lot of assumptions Fredborg can't make for Gile[s] 
+and cut a lot of corners he can't cut. I've been working on this for 
+five days so far and it's basically functional and producing passable 
+results for the most part. The image quality is not Gile[s] standard, 
+and the render times are significantly slower than Gile[s] but it's not 
+bad for something I hacked together in a week. It needs some 
+improvements to eliminate ( or at least reduce ) texture bleeding, but 
+that should be easy. It definitely needs some improvements to allow 
+smoothing groups to be used, and if there's some way of making it a hell
+ of lot faster, that wouldn't hurt either, but I think it's just TV 
+being a bit slow at raycasting, because I can't see any performance 
+bottlenecks in my code. I precalculate and store as much as possible so 
+that everything that might be calculated more than once is - in fact - 
+only ever calculated once. It could really use a nice post processing  
+intelligent blur to the final texture too, but that's not too difficult 
+to add.<br><br>I'm definitely not happy with the speed or the image 
+quality yet, but considering it's only five days work, I'm pretty 
+pleased ( and surprised ) to have got so far so soon. I don't mind 
+giving it a few more days now that I know I can do it.<br><br>Also in 
+the past month I have made a few changes and additions to the particle 
+effect classes and the particle editor. There were a few lingering 
+problems which I should have tackled before but most of those are sorted
+ now and I can now load, save, create and edit particle effects.<br><br>So
+ yeah, it's been one hell of a long, painful, tiring month, but as 
+August draws to a close, I can feel satisfied that I've written a 
+lightmapper, completely overhauled the map, pathfinding, etc and made 
+some much needed changes and improvements to the particle effects 
+system.<br><br>I'm happy. For now. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Falling Back..</td><td align="right"><font class="tiny">(Posted 2007-07-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I finished up fixing all the bugs found in beta testing and then went about creating some new ones.<br><br>No
+ seriously, I decided the brush system needed something of an overhaul, 
+and the main thing it needed was fallback brushes ( or fallback 
+materials as I've actually decided to call them.) Fallback materials are
+ secondary brushes which are stored for all objects, and can be applied 
+to the object they belong to at any time. So each object now has one ( 
+or more ) best brush and one ( or more ) fallback brushes. The brushes 
+need not directly equate. <br><br>This was my first major decision. 
+Should I implement fallback brushes as properties of brushes or objects.
+ The advantage of implementing them as brush properties is that it's 
+very easy, and it's completely seamless. The disadvantage is that it's 
+not very customizable. You may not necessarily want the same brush as a 
+fallback brush for every object. So per-object it became. Also, since 
+you need versatility, I soon decided that you could paint objects groups
+ individually with both best and fallback brushes. You could apply a 
+best brush to every group in an object, but apply different fallback 
+brushes to several groups. That's absolutely fine.<br><br>What this 
+means ( now that I've written up a nice little in-game menu system ) is 
+that you can switch back and forth between best and fallback materials 
+at a click of the mouse. It's completely seamless as any resources 
+required by the fallback materials are loaded when the level is loaded, 
+even if the fallback materials will not ( initially ) be used to paint 
+the object(s).<br><br>The main reason for fallback materials is to have a
+ customizable, versatile way of deciding how objects look if shaders are
+ not available, but also to permit users who have shader-capable but 
+weak videocards to turn the advanced effects off to get more 
+performance.<br><br>It was absolutely vital to me that this be possible 
+in-game at the click of the mouse. One thing I hate is having to quite, 
+try new settings, start again, rinse and repeat, until you find the 
+settings that look good enough or perform well enough or some 
+combination thereof. In my game, everything can be changed on the fly. 
+Don't like the resolution? Change it! Prefer to have it in a Window? 
+Certainly, sir. Disable dynamic lighting and enable dynamic shadows? 
+Before your very eyes!<br><br>Onward and upward.. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Alpha Testing Results - Big Shocks!</td><td align="right"><font class="tiny">(Posted 2007-07-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well the alpha testing over the weekend has been completed, and the 
+results are in. There were a few shocks along the way, some bigger than 
+others.<br><br>Most notable among the shocks were results like: <br><br>1)
+ No textures displaying on actors. This was resolved with no small 
+amount of embarrassment on my part when I realized I'd left a few 
+absolute paths in where relative paths should have been. Evidently there
+ are a few places where I'm not calling "RelativePathFromAbsolute()" 
+That was easily fixed with a 24kb patch which took me about 2 minutes in
+ notepad. Got to love forward thinking in datafile formats XD<br><br>2) 
+150FPS on a laptop with onboard video and no shader support whatsoever, 
+and that includes specular lighting and stencil shadows. Gotta love 
+TV3D! I was planning on no support for videocards under Shader Model 2.0
+ but after this, I've already begun work on adding options to make 
+dynamic lighting optional and fallback materials for custom shaders so 
+that I can offer full support for older videocards.<br><br>3) My 
+universal monitor support wasn't terribly universal. It had some issues 
+with some obscure widescreen resolutions that laptops do. This was 
+quickly attributed to a calculation order error which was easily fixed, 
+and I can now confirm that universal monitor support is perfect across 
+every resolution we could find on every desktop and laptop in sight.<br><br>4)
+ My game timing is pretty damn smooth on all setups we could test with, 
+even when vertical sync is forceably disabled in video drivers. I was 
+expecting some glitches as it's my first time writing a complete 
+render-tweening system from scratch, but there were no issues visible so
+ far. It's hard to say if this will come back to bite me in the ass 
+later, but at the moment, it's looking good. Unfortunately, I couldn't 
+get my hands on a machine slow enough to drop under 150FPS with 
+everything on Max ( well it's only a demo, it needs room to scale! ) so 
+no testing was done with it not reaching desired frame rate, but we'll 
+have to cross that bridge when we burn it.<br><br>I've already fixed all
+ but one of the bugs which arose during testing, and I have one more bug
+ of my own which no one else found which needs to be fixed too. So those
+ are going to keep me busy for the next little while. After that, i'm 
+not really sure what I'll do next. I'll see what I feel like doing. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 0.1 Alpha Completed</td><td align="right"><font class="tiny">(Posted 2007-07-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well today I reached a milestone. I've finally written enough that I've
+ got something to test. It's hardly what you'd call a game, although 
+technically I suppose it just about fits the term "playable" in that you
+ can play it. What it is, is an engine test. At this point, I'm really 
+not bothered about performance, but I do want to make sure that it 
+happily picks up all available video modes, that it detects the aspect 
+ratios, that it switches happily between all these video modes without 
+any errors, and that it adjusts the viewport and projection matrix on 
+non-4:3 aspect ratios to ensure that the display is 100% consistent 
+between aspect ratios and resolutions of all manner.<br><br>I also want 
+to make sure that the resolution independent GUI system looks good at 
+all resolutions. So far I know it looks great at 1024x768 ( the native 
+resolution of the GUI ) and that it looks tolerable at 1280x1024, 
+800x600 and 640x480, although it is kinda hard to read small text at 
+640x480 fullscreen. Unfortunately, I can't really help that as I have to
+ disable bilinear filtering to stop bleeding. I can't  see many people 
+wanting to use 640x480 these days anyway, so it's only there for kicks.<br><br>It's
+ really only built for Shader Model 2 and up, so I'll have to work on a 
+modified version for additional testing before long. Assuming all goes 
+well, I can start integrating more of the animation system soon. Player 
+movement is already integrated, along with animation blending, and it's 
+looking very nice. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Artwork Integration</td><td align="right"><font class="tiny">(Posted 2007-07-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well I'm back up and running after a lighting strike slipped past the 
+surge protector and killed my PC. No data was lost, because I'm 
+fanatical about backups and all my most vital software seems to be quite
+ happy running in Vista, so all is well with the world.<br><br>I've got a
+ huge chunk of my artwork now and the two most recent arrivals, 
+animations and interface graphics, are top of my list to integrate. I'm 
+at the stage now where I could start coding the animation system, which 
+should be flexible and customizable to a great degree. Characters will 
+have behaviours, and those behaviours may be linked to any animation ( 
+or animations ) so the engine must be able to cope with this. It will 
+also need to handle animation blending between each of the "behaviours" 
+so this is one of the top priorities.<br><br>I also have a great looking
+ 2D Interface/GUI Panel now, and I would like to see how that looks 
+in-engine too. The only slight technical hitch with that is that I don't
+ currently have any way to use alpha channels with custom images in my 
+GUI module, so I'm going to have to add that or I won't get those nice 
+soft drop shadows the artist has painstakingly drawn.<br><br>I have to 
+say that both the animations and the GUI art are looking great, and I 
+can't wait to get everything joined up and working together. I imagine 
+that will be a few weeks away, as I have a lot to catch up on after the 
+computer failure. More news when I have it. And maybe a screenshot.<br><br>Or maybe not. Depends what mood I'm in when I write next. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Perfect Pathfinding</td><td align="right"><font class="tiny">(Posted 2007-07-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been reading various general attitudes to pathfinding and many 
+people seem to think that completely automated pathfinding is the Holy 
+Grail. Just make your maps, let the editor generate your paths 
+automatically and you're done. Well if it's the Holy Grail, I figured it
+ had to be hard, but on the contrary, it's not been too bad so far. I've
+ been working on it for two days and I already have a functional 
+pathfinding system.<br><br>When a level is loaded, the level geometry is
+ analyzed and path nodes are created automatically. Then I use a custom 
+pathfinding algorithm to negotiate the nodes. I say a custom pathfinding
+ algorithm, but it's probably a modified version of a well-known 
+pathfinding algorithm. I just chose not to read up on the algorithms, so
+ I have no idea what it's called. It seems like everyone and his dog 
+uses A* and A* is really useless for lots of games, so I didn't want 
+that. I did briefly toy with a three-tiered A* system to make the speed 
+somewhat useable, but it didn't even give me the extra features I 
+wanted. Being able to judge paths from pathfinding is cool, but path 
+predictions and being able to spot reachable areas for every character 
+is just to cool to miss out on, so I wrote my own, and it seems plenty 
+fast enough from first impressions. I doubt I've invented anything new 
+here, but because I came up with it by myself,   I was able to 
+understand it, implement it and reap the benefits from it much quicker 
+than if I'd had to struggle through someone else's theory and a source 
+code example.<br><br>Only time will tell if it needs some optimization, 
+but I doubt it, as the speed should be virtually independent of the map 
+size and complexity. Well the autogeneration will take longer with a 
+larger map of course, but that's done only once when you load the level.
+ The actual pathfinding should be almost entirely size-independent. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Universal Monitor Support</td><td align="right"><font class="tiny">(Posted 2007-06-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The shader and associated class are still waiting because I spent today
+ fixing up my UMS, or Universal Monitor Support. Essentially, this 
+little module attempts to make the game look exactly the same regardless
+ of the resolution you're running it. Through clever manipulation of 
+mouse coordinates, 2d drawing, viewports and judicious use of the 
+Projection Matrix, you can run the game at any kind of aspect ratio ( 
+4:3, 5:4, 16:9, 16:10, etc ) and it will automagically adjust itself so 
+that everyone sees exactly the same thing, nothing is incorrectly 
+aligned and nothing is disproportionately stretched. Of course 
+proportional stretching is unavoidable if you want everything identical 
+at all resolutions, otherwise you have to accept that all 2d stuff will 
+be smaller at higher resolutions, but that's not something I'm prepared 
+to accept. Proportional stretching looks decent, variable size 2d 
+elements don't. I wouldn't recommend playing at 640x480 because all the 
+2d elements have been designed for 1024x768 and won't scale down all 
+that nicely when you run them at barely half of that. But the bottom 
+line is that it will be playable at 640x480 and it damn sure wouldn't be
+ with variable size 2d elements because the 2d stuff would be so big in 
+640x480 you wouldn't see the game for the HUD :P<br><br>All seems to be functioning correctly, so it's time to revise some of the Lua integration. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Getting Complex</td><td align="right"><font class="tiny">(Posted 2007-06-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Ok, well I couldn't resist getting complex after all. I went back and 
+made the particle editor work as I originally envisioned with a timeline
+ and keyframes and everything. It's probably overkill, but it only took a
+ few days, and it is very nice to work with. It does everything 
+automatically wherever possible, so it will just let you play around and
+ if it sees you change something you cannot change without creating a 
+new keyframe, it silently creates one for you, interpolating all values 
+you don't set yourself to keep in track with other keyframes. If you 
+don't need to create a keyframe to change what you change, then of 
+course, it doesn't create one.<br><br>Today, I thought I'd write a 
+little resource management class to make loading and management of 
+resources more straightforward and much more optimized. Now whenever you
+ want to load a mesh or an actor, the engine looks to see if you 
+previously loaded the resource. If you did, it duplicates the resource, 
+referencing the old object to save memory wastage and returns that. If 
+not, it looks into any attached pack files ( which can be attached at 
+will and contain any number of files and folders in any complex 
+structure you choose ) and if the resource is in one of those, it loads 
+it from there. If the resource does not exist in memory and does not 
+exist in the pack, then and only then, the engine will attempt to load 
+it from disk. Resources are internally reference counted so that the 
+engine knows when to destroy meshes and actors which are no longer being
+ used. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Particle System</td><td align="right"><font class="tiny">(Posted 2007-06-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ What came next was a particle system. I have now got a more or less 
+functional editor up. It loads, but doesn't save yet, as I want to make 
+some more tweaks and tests first, but it's looking pretty good. It 
+basically sticks with TV's particlesystem paradigm, Which is something 
+like this :<br><br>System -&gt; Emitter -&gt; Keyframes<br>System -&gt; Emitter -&gt; Particles -&gt; Keyframes<br>System -&gt; Attractors<br><br>Attractors
+ are really neat and let me do a lot of cool stuff you can't do with 
+emitters alone, but Keyframes are the coolest part. Had I the 
+inclination, I could write a full-on particle editor with a 3dsMax-style
+ timeline, where you could drag and drop, copy and paste, etc keyframes.
+ As it stands, that's probably more than I need, and a simple Listbox 
+with keyframes in, and a panel beneath to edit keyframe properties is 
+probably more than enough. Still, it's nice to have the option if I want
+ to get all fancy pants.<br><br>Now would probably be a good time to get
+ some particle images and see what sort of effects I can achieve with my
+ particle system. If I need anything else added to the system, now would
+ be a good time to add it, while this rather complex system is all fresh
+ in my mind.<br><br>After that I have another shader I'd like to work on
+ and an associated game class to integrate it properly with my game 
+engine and editor. This is likely to take a long time to get right, so I
+ don't plan on any more updates any time soon. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>XML</td><td align="right"><font class="tiny">(Posted 2007-05-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It has become apparent that binary datafiles are going to present 
+problems, so I've rewritten all file operations ( excluding .ini files 
+and other formatted data ) to use XML datafiles instead. Compromising a 
+little on datasize and parsing speed is well worth the increased 
+flexibility of XML files for everything. I guess one downside might be 
+that people can change the game by fiddling with the XML files, but you 
+never know, I might actually find that desirable at some point. Perhaps 
+people will make some interesting mods.<br><br>I've converted all 
+existing data ( which essentially means brushes and GUI layouts, because
+ that's all the final data I have to date ) so that they now load in 
+XML, and both the game and the editor seem able to load and save without
+ problems, so that was pretty quick.<br><br>My ToDo List and my Bug List
+ are now both empty, so now seems like a good time to finish up the 3D 
+GameStudio Shader Pack, finish up a couple of small contract jobs for 
+tomorrow and then tomorrow I can start working on adding something new 
+to the game engine. Quite what will come next will depend what kind of 
+mood I'm in tomorrow. <br><br> <a href="http://starsentineltactics.com/" target="_blank">Star Sentinel Tactics</a><br><a href="http://www.imagineergames.com/" target="_blank">Shades of Violet</a><br><a href="http://www.blitzbasic.com/Community/posts.php?topic=82432" target="_blank">TV3D Module</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

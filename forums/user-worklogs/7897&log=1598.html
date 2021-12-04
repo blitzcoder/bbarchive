@@ -1,0 +1,585 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Kalisme</h1><h1>2.5D map viewer</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Newer version</td><td align="right"><font class="tiny">(Posted 2008-05-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://www.uploading.com/files/OL8312WW/3.zip.html" target="_blank">http://www.uploading.com/files/OL8312WW/3.zip.html</a><br><br>^this version has floor tiles &amp; a sky.<br>Sorta nifty... Comes with code, executable &amp; images.<br><br>goto: <a href="http://www.blitzbasic.co.nz/Community/posts.php?topic=78182" target="_blank">http://www.blitzbasic.co.nz/Community/posts.php?topic=78182</a> for the topic on this.<br><br>Here's a quick update with shading (well.. black fogging)<br>I'd advise editing the "sky.jpg" to make it mainly black... stars maybe?<br>(I used the RGB conversion code from the archive)<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;//attempt at textured 2.5D map viewer (1.95)
+;//
+;//+a much better attempt at texture projection, but still a lazy attempt.
+;//+primitive sprites
+;//+floor tiles
+;//+clunky collision code
+;//+black fogging (shading?)
+Global xsiz=320
+Global ysiz=200
+Global wh#=15 ;//wall height
+Graphics xsiz,ysiz,16
+SetBuffer BackBuffer()
+Type vect
+	Field x#,y#,id
+End Type
+
+Type sprite
+	Field x#,y#
+End Type
+
+Type wall
+	Field id1,id2,tex
+End Type
+
+Dim zbuff#(xsiz,ysiz)
+Dim d_tex(2,64,64,4)
+Dim sprite_t(40,64,4)
+cam_x# = xsiz/2
+cam_y# = ysiz/2
+cam_a#=0
+Global zoom#=180
+tex1 = LoadImage("tex.bmp")
+tex2 = LoadImage("tex2.bmp")
+sprit = LoadImage("tree.bmp")
+sky=LoadImage("sky.jpg")
+
+DrawImage tex1,1,1
+For b = 1 To 64
+	For a = 1 To 64
+		d_tex(1,a,b,1) = ReadPixel(a,b)
+		d_tex(1,a,b,2) = RColor%(d_tex(1,a,b,1),"red")
+		d_tex(1,a,b,3) = RColor%(d_tex(1,a,b,1),"green")
+		d_tex(1,a,b,4) = RColor%(d_tex(1,a,b,1),"blue")
+		
+	Next
+Next
+Cls
+DrawImage tex2,1,1
+For b = 1 To 64
+	For a = 1 To 64
+		d_tex(2,a,b,1) = ReadPixel(a,b)
+		d_tex(2,a,b,2) = RColor%(d_tex(2,a,b,1),"red")
+		d_tex(2,a,b,3) = RColor%(d_tex(2,a,b,1),"green")
+		d_tex(2,a,b,4) = RColor%(d_tex(2,a,b,1),"blue")
+	Next
+Next
+
+Cls
+DrawImage sprit,1,1
+cullc = ReadPixel(2,2)
+For b = 1 To 64
+	For a = 1 To 40
+		If ReadPixel (a,b) &lt;&gt; cullc
+			sprite_t(a,b,1) = ReadPixel(a,b)
+			sprite_t(a,b,2) = RColor%(sprite_t(a,b,1),"red")
+			sprite_t(a,b,3) = RColor%(sprite_t(a,b,1),"green")
+			sprite_t(a,b,4) = RColor%(sprite_t(a,b,1),"blue")
+		Else 
+			sprite_t(a,b,1) = 12345678
+		EndIf
+	Next
+Next
+
+
+Const fps = 30
+
+Function add_vector(x#,y#,id)
+	a.vect = New vect
+	a\x#=x#
+	a\y#=y#
+	a\id=id
+End Function
+
+Function make_wall(id1,id2,tex)
+	a.wall = New wall
+	a\id1 = id1
+	a\id2 = id2
+	a\tex = tex
+End Function
+
+Function draw_map(cx#,cy#,ca#)
+	For a.wall = Each wall
+		For b.vect = Each vect
+			If a\id1=b\id Then x1#=b\x#: y1#=b\y#
+			If a\id2=b\id Then x2#=b\x#: y2#=b\y#
+		Next
+		Color 255,255,255
+		Line x1#,y1#,x2#,y2#
+		
+	Next
+	Color 0,255,0
+	Oval cx#-5,cy#-5,10,10
+	Line cx#,cy#,cx#+Cos(ca#)*10,cy#+Sin(ca#)*10
+End Function
+
+Function draw_vectors()
+	For b.vect = Each vect
+		Color 0,0,255
+		Line b\x#-2,b\y#-2,b\x#+2,b\y#+2
+		Line b\x#+2,b\y#-2,b\x#-2,b\y#+2
+	Next
+End Function
+
+Function render_map(cx#,cy#,ca#)
+	ca#=ca#+90
+	For a =  1 To xsiz
+		For b = 1 To ysiz
+			zbuff#(a,b)=0
+		Next
+	Next
+	For w.wall = Each wall
+		For v.vect = Each vect
+			If v\id = w\id1 Then o_x1# = v\x#: o_y1# = v\y#
+			If v\id = w\id2 Then o_x2# = v\x#: o_y2# = v\y#
+		Next
+		c_x1# = o_x1# - cx#
+		c_y1# = o_y1# - cy#
+		c_x2# = o_x2# - cx#
+		c_y2# = o_y2# - cy#
+		
+		t_x1# = (Cos(ca#) * c_x1#) + (Sin(ca#) * c_y1#)
+		t_y1# = (-Sin(ca#) * c_x1#) + (Cos(ca#) * c_y1#)
+		
+		t_x2# = (Cos(ca#) * c_x2#) + (Sin(ca#) * c_y2#)
+		t_y2# = (-Sin(ca#) * c_x2#) + (Cos(ca#) * c_y2#)
+		
+		c_x1# = t_x1#
+		c_y1# = t_y1#
+		c_x2# = t_x2#
+		c_y2# = t_y2#
+		
+		a_p1#=0
+		a_p2#=0
+		
+		If c_y1# &lt; -1 Or c_y2# &lt; -1
+			If c_y1# &gt; -1
+				grad# = Float(c_x2#-c_x1#) / Float (c_y2#-c_y1#)
+				a_p1#=Sqr((((c_x1# + grad#*(-1-c_y1#))-c_x1#)^2)+((-1-c_y1#)^2))
+				c_x1# = c_x1# + grad#*(-1-c_y1#)
+				c_y1# = -1
+				
+			EndIf
+			
+			If c_y2# &gt; -1
+				grad# = Float(c_x2#-c_x1#) / Float (c_y2#-c_y1#)
+				a_p2#=Sqr((((c_x2# + grad#*(-1-c_y2#))-c_x2#)^2)+((-1-c_y2#)^2))
+				c_x2# = c_x1# + grad#*(-1-c_y1#)
+				c_y2# = -1
+			EndIf
+			
+			t_x1# = (Cos(-ca#) * c_x1#) + (Sin(-ca#) * c_y1#)
+			t_y1# = (-Sin(-ca#) * c_x1#) + (Cos(-ca#) * c_y1#)
+			
+			t_x2# = (Cos(-ca#) * c_x2#) + (Sin(-ca#) * c_y2#)
+			t_y2# = (-Sin(-ca#) * c_x2#) + (Cos(-ca#) * c_y2#)
+			t_x1# = t_x1#+cx#
+			t_y1# = t_y1#+cy#
+			t_x2# = t_x2#+cx#
+			t_y2# = t_y2#+cy#
+			
+			c_x1# = t_x1#
+			c_y1# = t_y1#
+			c_x2# = t_x2#
+			c_y2# = t_y2#
+			
+			If c_x2# &lt; c_x1# 
+				t_x#=c_x2#
+				t_y#=c_y2#
+				t_p2#=a_p2#
+				c_x2#=c_x1#
+				c_y2#=c_y1#
+				a_p2#=a_p1#
+				c_x1#=t_x#
+				c_y1#=t_y#
+				a_p1#=t_p2#
+			EndIf
+			
+			dis# = Sqr(((c_x2#-c_x1#)^2)+((c_y2#-c_y1#)^2))
+			ang# = ATan2((c_y2#-c_y1#),(c_x2#-c_x1#))
+			For ra# = 0 To dis#
+				If ra# + 1 &gt; dis#
+					ex#=dis#-ra#
+				Else 
+					ex#=1
+				EndIf
+				
+				grad# = Float(c_y2#-c_y1#)/Float(c_x2#-c_x1#)
+				
+				x1# = c_x1#+Cos(ang#)*ra#
+				x2# = c_x1#+Cos(ang#)*(ra#+ex#)
+				
+				y1# = c_y1#+Sin(ang#)*ra#
+				y2# = c_y1#+Sin(ang#)*(ra#+ex#)
+				
+				tex_c=Sqr(((x1#-c_x1#)^2)+((y1#-c_y1#)^2))+a_p1#
+				
+				r_x1# = x1#-cx#
+				r_y1# = y1#-cy#
+				r_x2# = x2#-cx#
+				r_y2# = y2#-cy#
+				t_x1# = (Cos(ca#) * r_x1#) + (Sin(ca#) * r_y1#)
+				t_y1# = (-Sin(ca#) * r_x1#) + (Cos(ca#) * r_y1#)
+				t_x2# = (Cos(ca#) * r_x2#) + (Sin(ca#) * r_y2#)
+				t_y2# = (-Sin(ca#) * r_x2#) + (Cos(ca#) * r_y2#)
+				r_x1# = t_x1#
+				r_y1# = t_y1#
+				r_x2# = t_x2#
+				r_y2# = t_y2#
+				
+				dx1# = r_x1# * zoom# * (1/Abs(r_y1#)) + (xsiz/2)
+				sc1#= wh# * zoom# * (1/Abs(r_y1#))
+				
+				dx2# = r_x2# * zoom# * (1/Abs(r_y2#)) + (xsiz/2)
+				sc2#= wh# * zoom# * (1/Abs(r_y2#))
+				
+				If dx2# &lt; dx1# 
+					t_x#=dx2#
+					t_y#=sc2#
+					dx2#=dx1#
+					sc2#=sc1#
+					dx1#=t_x#
+					sc1#=t_y#
+				EndIf
+				
+				;If ra# Mod 2 = 1
+				grad# = Float(sc2#-sc1#)/Float(dx2#-dx1#)
+				For d = dx1# To dx2#
+					oy# = (sc1#+grad# * Float(d-dx1# ))
+					If d &gt; 0 Then If d &lt; xsiz 
+						If zbuff#(d,(ysiz/2)) &lt; oy#
+							;zbuff(d)=oy#
+							For e = (ysiz/2)-oy# To (ysiz/2)+oy#
+								If e &gt; 0 Then If e &lt; ysiz
+									tb= Abs(64/((((ysiz/2)+oy#)-((ysiz/2)-oy#))/(((ysiz/2)+oy#)-((ysiz/2)-oy#)-(e-((ysiz/2)-oy#)))))
+									If tb &gt; 64 Then tb = 64
+									If tb &lt; 1 Then tb = 1
+									If w\tex=1
+										OR_R=Abs(d_tex(1,(tex_c) Mod 63+1,tb,2))
+										OR_G=Abs(d_tex(1,(tex_c) Mod 63+1,tb,3))
+										OR_B=Abs(d_tex(1,(tex_c) Mod 63+1,tb,4))
+										
+										R_R=(d_tex(1,(tex_c) Mod 63+1,tb,2))*(oy#/100)
+										R_G=(d_tex(1,(tex_c) Mod 63+1,tb,3))*(oy#/100)
+										R_B=(d_tex(1,(tex_c) Mod 63+1,tb,4))*(oy#/100)
+										
+										If R_R &gt; OR_R Then R_R = OR_R
+										If R_G &gt; OR_G Then R_G = OR_G
+										If R_B &gt; OR_B Then R_B = OR_B
+										
+										
+										
+										WritePixelFast d, e,24 Or R_R Shl 16 Or R_G Shl 8 Or R_B Shl 0; d_tex(1,(tex_c) Mod 63+1,tb)
+									EndIf
+									If w\tex=2
+										OR_R=Abs(d_tex(2,(tex_c) Mod 63+1,tb,2))
+										OR_G=Abs(d_tex(2,(tex_c) Mod 63+1,tb,3))
+										OR_B=Abs(d_tex(2,(tex_c) Mod 63+1,tb,4))
+										
+										R_R=(d_tex(2,(tex_c) Mod 63+1,tb,2))*(oy#/100)
+										R_G=(d_tex(2,(tex_c) Mod 63+1,tb,3))*(oy#/100)
+										R_B=(d_tex(2,(tex_c) Mod 63+1,tb,4))*(oy#/100)
+										
+										If R_R &gt; OR_R Then R_R = OR_R
+										If R_G &gt; OR_G Then R_G = OR_G
+										If R_B &gt; OR_B Then R_B = OR_B
+										
+										
+										
+										WritePixelFast d, e,24 Or R_R Shl 16 Or R_G Shl 8 Or R_B Shl 0; d_tex(1,(tex_c) Mod 63+1,tb)
+									EndIf
+									
+									zbuff#(d,e)=oy#
+									
+								EndIf
+							Next
+						EndIf
+					EndIf
+				Next
+				;EndIf
+			Next
+			
+			
+		EndIf
+		
+	Next
+	
+End Function
+	
+Function add_sprite(x#,y#)
+	a.sprite = New sprite
+	a\x#=x#
+	a\y#=y#
+End Function
+
+Function draw_sprites()
+	For b.sprite = Each sprite
+		Color 255,0,255
+		Line b\x#-2,b\y#-2,b\x#+2,b\y#+2
+		Line b\x#+2,b\y#-2,b\x#-2,b\y#+2
+	Next
+End Function
+
+Function render_sprites(cx#,cy#,ca#)
+	ca#=ca#+90
+	For a.sprite = Each sprite
+		x#=a\x#-cx#
+		y#=a\y#-cy#
+		tx#=(Cos(ca#)*x#)+(Sin(ca#)*y#)
+		ty#=(-Sin(ca#)*x#)+(Cos(ca#)*y#)
+		x#=tx#
+		y#=ty#
+		If y# &lt; -5
+			rx# = x# * zoom# * (Abs(1/y#)) + (xsiz/2)
+			ry# = wh# * zoom# * (Abs(1/y#))
+			Color 255,255,255
+			If rx# + ry# &gt; 0 Then If rx#-ry# &lt; xsiz
+				For br = 1 To ry#*2
+					For ba = 1 To ry#*1.6
+						py= Abs(64/((ry#*2)/((ry#*2)-br)))+1
+						px= Abs(40/((ry#*1.6)/((ry#*1.6)-ba)))+1
+						plox=rx#-ry#+ba
+						ploy=(ysiz/2)+ry#-br
+						If plox &gt; 0 Then If plox &lt; xsiz Then If ploy &gt; 0 Then If ploy &lt; ysiz
+							If ry# &gt; zbuff#(plox,ploy) 
+								If sprite_t((px Mod 39)+1,(py Mod 63)+1,1) &lt;&gt; 12345678 
+									OR_R=Abs(sprite_t((px Mod 39)+1,(py Mod 63)+1,2))
+									OR_G=Abs(sprite_t((px Mod 39)+1,(py Mod 63)+1,3))
+									OR_B=Abs(sprite_t((px Mod 39)+1,(py Mod 63)+1,4))
+									
+									R_R=(sprite_t((px Mod 39)+1,(py Mod 63)+1,2))*(ry#/100)
+									R_G=(sprite_t((px Mod 39)+1,(py Mod 63)+1,3))*(ry#/100)
+									R_B=(sprite_t((px Mod 39)+1,(py Mod 63)+1,4))*(ry#/100)
+									
+									If R_R &gt; OR_R Then R_R = OR_R
+									If R_G &gt; OR_G Then R_G = OR_G
+									If R_B &gt; OR_B Then R_B = OR_B
+									
+									
+									
+									
+									WritePixelFast plox, ploy,24 Or R_R Shl 16 Or R_G Shl 8 Or R_B Shl 0
+									zbuff#(plox,ploy) = ry#
+								EndIf
+							EndIf
+							
+						EndIf
+					Next
+				Next
+			EndIf
+		EndIf
+	Next
+End Function
+
+Function render_floor(cx#,cy#,ca#)
+	ca#=ca#+90
+	For b = 1 To ysiz/2
+		For a = 1 To xsiz
+		br=b+(ysiz/2)
+			;rx# = x# * zoom# * (Abs(1/y#)) + 320
+			;ry# = 10 * zoom# * (Abs(1/y#))
+ry#=(wh#*zoom#)/b
+rx#=(a-(xsiz/2))/(1/ry#)/zoom#
+	
+	nx# = (rx#*Cos(ca#)) + (ry#*Sin(ca#))
+	ny# = (rx#*Sin(ca#)) - (ry#*Cos(ca#))	
+	nx#=nx#+cx#
+	ny#=ny#+cy#	
+			If zbuff#(a,br) = 0
+				xr=0
+				fnd=0 
+				;While xr &lt; 40
+		
+	
+			If nx#&gt;0 Then If nx# &lt; xsiz Then If ny# &gt; 0 Then If ny# &lt; ysiz
+				If a&gt;0 Then If a &lt; xsiz Then If br &gt; 0 Then If br &lt; ysiz
+				;	WritePixelFast nx#,ny#,400
+					OR_R=Abs(d_tex(1,nx# Mod 63+1,ny# Mod 63+1,2)) 
+					OR_G=Abs(d_tex(1,nx# Mod 63+1,ny# Mod 63+1,3)) 
+					OR_B=Abs(d_tex(1,nx# Mod 63+1,ny# Mod 63+1,4)) 
+					
+					R_R=Abs(d_tex(1,nx# Mod 63+1,ny# Mod 63+1,4))/Abs(ry#/20)
+					R_G=Abs(d_tex(1,nx# Mod 63+1,ny# Mod 63+1,4))/Abs(ry#/20)
+					R_B=Abs(d_tex(1,nx# Mod 63+1,ny# Mod 63+1,4))/Abs(ry#/20)
+					
+					If R_R &gt; OR_R Then R_R = OR_R 
+					If R_G &gt; OR_G Then R_G = OR_G 
+					If R_B &gt; OR_B Then R_B = OR_B 
+					
+					
+					
+					WritePixelFast a, br,24 Or R_R Shl 16 Or R_G Shl 8 Or R_B Shl 0 
+				EndIf
+			EndIf
+		
+			EndIf
+		Next
+	Next
+End Function
+	
+Function line_int(f_x1%,f_y1%,f_x2%,f_y2%, s_x1%,s_y1%,s_x2%,s_y2%)
+	na# = (s_x2 - s_x1) * (f_y1 - s_y1) - (s_y2 - s_y1) * (f_x1 - s_x1)
+	nb# = (f_x2 - f_x1) * (f_y1 - s_y1) - (f_y2 - f_y1) * (f_x1 - s_x1)
+	
+	den = (s_y2 - s_y1) * (f_x2 - f_x1) - (s_x2 - s_x1) * (f_y2 - f_y1)
+	
+	If den = 0.0
+		Return False
+	Else
+		
+		ua# = na/den
+		ub# = nb/den
+		
+		range1% = ua &gt;= 0.0 And ua &lt;= 1.0
+		range2% = ub &gt;= 0.0 And ub &lt;=1.0
+		
+		If range1 And range2 Then
+			intx% = Floor(f_x1+ua*(f_x2-f_x1) + .5)
+			inty% = Floor(f_y1+ua*(f_y2-f_y1) + .5)
+			Return True
+		Else
+			Return False
+		EndIf
+	EndIf
+End Function
+
+Function collision_check(cx#,cy#)
+	col = 0
+	For w.wall = Each wall
+		For v.vect = Each vect
+			If v\id = w\id1 Then o_x1# = v\x#: o_y1# = v\y#
+			If v\id = w\id2 Then o_x2# = v\x#: o_y2# = v\y#
+		Next
+		;//top check
+		If line_int(cx#-5,cy#-5,cx#+5,cy#-5, o_x1#,o_y1#,o_x2#,o_y2#) = True Then col=1
+		;//botom check
+		If line_int(cx#-5,cy#+5,cx#+5,cy#+5, o_x1#,o_y1#,o_x2#,o_y2#) = True Then col=1
+		;//left check
+		If line_int(cx#-5,cy#-5,cx#-5,cy#+5, o_x1#,o_y1#,o_x2#,o_y2#) = True Then col=1
+		;//Right check
+		If line_int(cx#+5,cy#-5,cx#+5,cy#+5, o_x1#,o_y1#,o_x2#,o_y2#) = True Then col=1
+	Next
+	
+	For b.sprite = Each sprite
+		If Sqr(((b\x#-cx#)^2) + ((b\y#-cy#)^2)) &lt; 8 Then col = 1
+	Next
+	
+	If col = 1
+		Return True
+	Else
+		Return False
+	EndIf
+	
+End Function
+
+Function RColor%(c%,col$)
+	If col$ = "red" Then d% = 16
+	If col$ = "green" Then d% = 8
+	If col$ = "blue" Then d% = 0
+	
+	Return c Shr d And 255 Shl 0
+End Function
+
+period = 1000/fps
+time = MilliSecs()-period
+c_tex=1
+;//main
+While KeyHit(1)=0
+	Cls
+	mx=MouseX()
+	my=MouseY()
+	Repeat
+		elapsed = MilliSecs()-time
+	Until elapsed
+	ticks = elapsed/period
+	For k = 1 To ticks
+		time = time+period
+		If KeyDown(200) 
+			If collision_check( cam_x# + Cos(cam_a#)*2, cam_y# ) = False
+				cam_x# = cam_x# + Cos(cam_a#)*2
+			EndIf
+			
+			If collision_check( cam_x# , cam_y# + Sin(cam_a#)*2) = False
+				cam_y# = cam_y# + Sin(cam_a#)*2
+			EndIf
+		EndIf
+		
+		
+		If KeyDown(208) 
+			If collision_check( cam_x# + Cos(cam_a#)*-2, cam_y# ) = False
+				cam_x# = cam_x# + Cos(cam_a#)*-2
+			EndIf
+			
+			If collision_check( cam_x# , cam_y# + Sin(cam_a#)*-2) = False
+				cam_y# = cam_y# + Sin(cam_a#)*-2
+			EndIf
+		EndIf
+		If KeyDown(203) Then cam_a# = cam_a#-5
+		If KeyDown(205) Then cam_a# = cam_a#+5
+		If MouseHit(2) Then c_id=c_id+1:add_vector(mx,my,c_id)
+		If KeyHit(31) Then add_sprite(mx,my)
+		If KeyHit(2) Then c_tex=1
+		If KeyHit(3) Then c_tex=2
+		If MouseHit(1)
+			snap = 0
+			For g.vect = Each vect
+				If g\x# &gt; mx - 5 Then If g\x# &lt; mx + 5 Then If g\y# &gt; my - 5 Then If g\y# &lt; my + 5
+					make_wall(g\id,c_id,c_tex)
+					snap = 1
+				EndIf
+			Next
+			If snap = 0 Then c_id=c_id+1:add_vector(mx,my,c_id):make_wall(c_id-1,c_id,c_tex)
+		EndIf
+		
+	Next
+	
+	If KeyHit(57)
+		If switch &lt;&gt; 1 
+			switch = 1
+		Else
+			switch = 0
+		EndIf
+	EndIf
+		
+	If  switch = 1
+		TileBlock sky,Int(-(2*(cam_a#)Mod 360) * (360/(Float(250)))),20
+		
+		
+		LockBuffer BackBuffer()
+		render_map(cam_x#,cam_y#,cam_a#)
+		render_sprites(cam_x#,cam_y#,cam_a#)
+		render_floor(cam_x#,cam_y#,cam_a#)
+		UnlockBuffer BackBuffer()
+		
+			Color 0,0,0
+			Line 0,0,0,ysiz
+	Color 255,255,100
+		Text 10,10,"2.5D mode"
+		
+	Else
+	draw_map(cam_x#,cam_y#,cam_a#)
+	draw_vectors()
+	draw_sprites()
+	If c_tex=1 Then DrawImage tex1,5,5
+	If c_tex=2 Then DrawImage tex2,5,5
+	Color 255,255,100
+	Text 10,400,"2D mode"
+	Text 10,410,"Arrow keys for movement"
+	Text 10,420,"LMB = make wall  RMB = make new vector"
+	Text 10,430,"'s' to place sprite"
+	Text 10,440,"hit space to switch view modes"
+	
+	
+EndIf
+
+	Color 255,120,255
+	Line mx-5,my,mx+5,my
+	Line mx,my-5,mx,my+5
+	Flip
+		
+Wend
+End
+</textarea> <br><br> ---------------------<br>my current projects:<br><br>...*shrugs*<br>Learning SDL via DevC++ </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>first entry.</td><td align="right"><font class="tiny">(Posted 2008-04-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I posted the first version of this a while ago in the blitzbasic forums, see it here:<br><a href="http://www.blitzbasic.co.nz/Community/posts.php?topic=77449" target="_blank">http://www.blitzbasic.co.nz/Community/posts.php?topic=77449</a><br><br>And the second one (that I just posted)here:<br><a href="http://www.blitzbasic.co.nz/Community/posts.php?topic=77699" target="_blank">http://www.blitzbasic.co.nz/Community/posts.php?topic=77699</a><br><br>it's not really that complex or hard...<br>I'm going to presume you know of vectors...<br>Well, you set up a type for vectors, holding the fields:<br>x#,y#
+ &amp; id. The X&amp;y represent location... the id represents the ID 
+number of the vector... The camera has it's own x &amp; y location as 
+well as a view angle.<br>Loop through the vectors subtract the camera vector...<br>Then
+ add 90 degrees to the cameras view angle then times the vertex vector 
+by the camera matrix. That rotates everything infront of the camera 
+above the clip plane. Remove everything underneith the clip plane...<br>...<br>Well,
+ actually I don't even know if anyone will be reading this... erm.... 
+Well, I found it pretty interesting... it's all in the code. But if 
+anyone wants it explained, just get in contact:<br>kalisme@... <br><br> ---------------------<br>my current projects:<br><br>...*shrugs*<br>Learning SDL via DevC++ </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

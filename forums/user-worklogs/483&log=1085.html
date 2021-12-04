@@ -1,0 +1,54 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=Shift_JIS"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for SurreaL</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>So..very..close!</td><td align="right"><font class="tiny">(Posted 2002-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, after a full day dedicated to hunting down the bugs that have 
+popped up with this quirky little library, I seem to have actually 
+squashed them all..*knocks on wood*<br><br>This of course can't be true, but at least all the major ones that I can see so far :)<br>So!
+ Only one thing seems to remain to be implemented, and thats the 
+reliability sends of UDP messages. Its in there half-assed, with ACKs 
+and so forth, but there is no actual re-sending if an ACK is not 
+received. I wanted to base the 'timeout' period of waiting for the ACK 
+on the ping of the player, so I'll hold off on working on that until 
+tommorow.. its late and I'm *very* pleased with what I've pulled off 
+today anyhow. I'll offically release it soon hopefully, I didn't think 
+it'd take this long but I wasn't really eager to work on it after all 
+the bugs I was running into.<br><br>Network coding can be a bitch ;)<br><br>If
+ anyone is actually reading this and would like to see something else 
+added besides the functions I had listed in my previous worklog entry, 
+don't hesitate to send me a mail at surreal9@.... I'm sure I'll be 
+pleased enough that someone saw this that I might even try to work on 
+your request!<br>Until next time..<br> <br><br> ----------------------<br>|--=ｻｧ賴ｮ鱧(_ｫ=--|<br>Email: blitzplay@...<br><a href="http://www.blitzcoder.com/blitzplay" target="_blank">BlitzPlay</a> - online gaming made easy! (<a href="http://blitzplay.proboards29.com/index.cgi" target="_blank">forums</a> now online!) </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Network Functions Library v1.0</td><td align="right"><font class="tiny">(Posted 2001-12-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> oi. Its so very annoying when you start writing something on a webpage and then IE crashes.. *sigh* anyhow.<br><br>So
+ as I was saying, I'm continuing work on the networking library that I 
+started on a week or so ago, and its coming along nicely. Basically I'm 
+just trying to whip up a set of functions that will be useful for any 
+sort of online/multiplayer game that you'd want to make. So far I have 
+it possible to host a session, and have up to 254 people join. Every 
+person is added to a Type list (nInfo.NetInfo) containing their IP, UDP 
+Port, the TCP Stream handle (only for the host), their Name, and a 
+net_id which is what can seperate people if they have similar names/ip's
+ and so on.. They connect with a TCP stream as well as opening a UDP 
+port for udp communications. You will have functions, specifically 
+UDPMessage and TCPMessage which will send each type of message. Here is a
+ list of the functions that are currently implemented:<br><br>Networking Functions and their Required Variables/Parameters<br>------------------------------------------------------------<br>Function HostSession (HostName$)<br>	requires: My_UDP_Port, My_TCP_Port<br>	returns: True/False on success<br>Function JoinSession (PName$)<br>	requires: My_UDP_Port, My_TCP_Port, Host_UDP_Port, Host_TCP_Port, Host_IP<br>	returns: True/False on success<br>Function EndSession ()<br>Function CheckForMessages ()<br>Function UDPMessage (msgTarget%, msgType%, msgData$, reliable%)<br>Function TCPMessage (msgTarget%, msgType%, msgData$)<br>Function IntToStr$(num%, strlen% = 4)<br>	returns: string containing compressed integer, strlen bytes long<br>Function StrToInt%(st$)<br>	returns: integer calculated from string<br>Function ConvertIp% (IP$)<br>	returns: integer IP converted from the "x.x.x.x" format.<br>Function Find_ID.NetInfo (ID)<br>	returns: nInfo.NetInfo that matches the ID<br><br>-CheckForMessages()
+ handles messages a little differently than the recvmsg functions that 
+are currently in place for UDP/TCP or Dplay messages. Basically I set up
+ another Type list (with fields msgData$, msgType%, msgFrom%, msgTo%) 
+and whenever a message is received its added to the type list, with all 
+the data in the appropriate fields. Messages are pretty much handled the
+ same as DP's method, with the msgType field since I thought that worked
+ well.<br>-TCP and UDP broadcasts are handled the same, with a target of "0" meaning a broadcast.<br>-IntToStr
+ and StrToInt are handy little functions for compressing integers to be 
+sent..you can specify how many bytes you want to compress it down to so 
+if your only using a # that will be between 0-255 then calling IntToStr 
+(string$, 1) for example would save you from the extra 3 bytes of wasted
+ space. The function defaults to 4 bytes for 32 bit integers but you can
+ specify otherwise..<br><br>Right now I'm trying to work out this stupid
+ bug which only seems to happen if you choose to use port 3333 for your 
+UDP port.. its such a weird bug that I'm having a hard time figuring out
+ why it'd screw up but ah well, I guess most bugs are like that ;)<br><br>I'm
+ tentatively calling it BlitzPlay for now.. I'm hoping to have a fully 
+working version ready within a few days.. I'll probably whip up a little
+ webpage with this and maybe some other stuff I have.. I'll post a link 
+to it on the forum if/when I do get that up. Ah well, cheers for now ;)<br> <br><br> ----------------------<br>|--=ｻｧ賴ｮ鱧(_ｫ=--|<br>Email: blitzplay@...<br><a href="http://www.blitzcoder.com/blitzplay" target="_blank">BlitzPlay</a> - online gaming made easy! (<a href="http://blitzplay.proboards29.com/index.cgi" target="_blank">forums</a> now online!) </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

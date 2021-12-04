@@ -1,0 +1,24 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for stanrol</h1><h1>a spinning clock</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>tank game</td><td align="right"><font class="tiny">(Posted 2010-07-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> code hat draws a scorched earth like scene.<br><br><pre class="code">Graphics 555,555,0,2
+Color 0,255,0
+For i = 1 To GraphicsWidth()
+Line i,Sin(i)*55+155,i,GraphicsHeight()
+Next
+WaitKey
+</pre> <br><br> <a href="http://www.rolandszi.com/shout/" target="_blank">http://www.rolandszi.com/shout/</a><br><a href="http://www.rolandszi.com/main/" target="_blank">http://www.rolandszi.com/main/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>code, yay!</td><td align="right"><font class="tiny">(Posted 2010-07-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">Graphics 666,666,0,2
+i=0
+SetBuffer BackBuffer()
+While Not KeyHit(1)
+Cls
+For m=1 To 12
+Text Cos(359.0/Float(m))*(GraphicsWidth()/2)+(GraphicsWidth()/2),Sin(359.0/Float(m))*(GraphicsHeight()/2)+(GraphicsHeight()/2),Str$(m),1,1
+Next
+Line GraphicsWidth()/2,GraphicsHeight()/2,(Cos(i Mod 359)*(GraphicsWidth()/2))+(GraphicsWidth()/2),(-(Sin(i Mod 359)*(GraphicsHeight()/2)))+(GraphicsHeight()/2)
+i=i+1
+Flip
+VWait
+Wend
+</pre> <br><br> <a href="http://www.rolandszi.com/shout/" target="_blank">http://www.rolandszi.com/shout/</a><br><a href="http://www.rolandszi.com/main/" target="_blank">http://www.rolandszi.com/main/</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

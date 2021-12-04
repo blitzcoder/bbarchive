@@ -1,0 +1,164 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Blueapples</h1><h1>Cobalt</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A bit of a restart</td><td align="right"><font class="tiny">(Posted 2008-09-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have started working on what was originally called "Cobalt" again, or
+ anyway I've realized that I am working on something so similar they 
+might as well be the same thing. This time around it is called 
+IntersticeMud and I have some really specific goals as far as 
+functionality and interface go that I didn't have before, hopefully 
+those will help drive me towards actually getting this thing working. <br><br>To
+ increase accessibility of the project, the language I'm using for 
+scripts is a bit more mainstream and no longer LISP based (although I 
+still like the idea of "no syntax", but that's for a different 
+discussion, I realize most people don't "get it"). So anyway, right now 
+I'm working with a module I've used in the past, MicroC, which has 
+worked very well for me so far.<br><br>I have got the database up and 
+running, using SQLite for now, but it's all based on brucey's DB modules
+ so if I need to switch to MySQL, etc. it's simply a matter of changing 
+the driver string and fixing up the SQL statements (all in a block of 
+constants at the top, thank you). The client obviously needs a cache 
+database, and that will probably always be SQLite even if the server 
+needs to change at some point.<br><br>Right now I am looking at the 
+networking code. At first I wanted to use something like GNet just to 
+keep my own work to a minimum, but I realized I was fighting the rest of
+ the design I already had in place - if I have objects that know how to 
+serialize themselves to a database and get themselves back out, they 
+should just know how to send themselves across the wire too. So, I'm 
+working on a basic message-level protocol, something very simple, and 
+will use that to enable the objects to send messages to their clones on 
+other nodes. Should work pretty well and with a lot *less* code oddly 
+enough than if I was trying to use GNet objects to shoehorn the data in 
+there. Also, only 32 slots? Really? That just doesn't seem like enough 
+for what I'm doing.<br><br>So there you have it. I wonder if I'll even actually put up a screen shot or demo of the stuff I work on here... we'll see... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>7/7</td><td align="right"><font class="tiny">(Posted 2008-07-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Okay so this is what I've been working on - a Visual Basic clone for 
+BlitzMax. I know, I know, it's crazy, but I really miss the days of 
+simple VB6 and it's IDE that just did two things  - provide a GUI editor
+ and a way to edit code.<br><br>Basically I have a component framework 
+that currently uses MaxGUI but has the option to be ripped out and 
+replaced with wxMax without any changes needed to application code 
+written to use the components. Form descriptions are stored in FRM files
+ that are compatible with VB6's output format (for the most part), with 
+code provided in bmx files with matching names. For instance, say you 
+have a form called frmMain with a button called cmdSayHello. To get the 
+obligatory hello message to pop up, all you would need to write in the 
+code is this (the incbin and type declaration will actually be generated
+ automatically):<br><br><b>frmMain.bmx</b><br><pre class="code">Incbin "frmMain.frm"
+
+Type TfrmMain Extends VMForm
+
+  Method cmdSayHello_Click(Event:TEvent)
+    Notify "Hello world!"
+  EndMethod
+
+EndType
+</pre><br><br>Everything else - creation of the window, event handling, 
+everything is taken care of for you. The FRM file itself might look like
+ this, but remember in the final system you'll be using a GUI editor to 
+create windows:<br><br><b>frmMain.frm</b><br><pre class="code">VERSION 5.00
+Begin VMForm frmMain
+  Caption = "Hello"
+  ClientHeight = 150
+  ClientWidth = 20
+  ClientTop = 100
+  ClientLeft = 100
+  Begin VMCommandButton cmdSayHello
+    Left = 10
+    Top = 10
+    Width = 100
+    Height = 30
+    Caption = "Say Hello"
+  End
+End
+</pre><br><br>Finally a project file tells the framework to load this 
+form automatically (again this file is generated for you when you create
+ a new project):<br><br><b>hello.vmp</b><br><pre class="code">Type=exe
+Form=frmMain.frm
+Startup="frmMain"
+Name = "Hello World"
+</pre><br><br>All of this is currently working, what is left to me now 
+is to port my form editor over to BlitzMax and create the project 
+management functions. Then I'll have something to show!<br><br><b>Edit:</b><br>Ah
+ I forgot to mention originally that this will be all integrated into 
+Cobalt. You will optionally be able to provide functionality in the form
+ of Cobalt scripts instead of BlitzMax code. I should also clarify that 
+when you do use BlitzMax code to create the app logic and compile it - <b>all</b>
+ extra files are Incbin'd (including binary packages for images, etc.) 
+so that there is still a single EXE / .app for the entire application. 
+If you use Cobalt there will be a mess of files, probably packaged in a 
+ZIP so you will have two files (a stub EXE file and a ZIP of the Cobalt 
+code / FRM resources). <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>6/26</td><td align="right"><font class="tiny">(Posted 2007-06-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Got a bit more done on the console control. I think I'm spending too 
+much time on it, but it's the easiest way to add a GUI to Cobalt at the 
+moment without having to hook up events, etc. The GUI system I have in 
+place is a bit complicated, but it has to be in order to support the 
+kind of networked stuff I'm trying to do.<br><br>It'd be easier if I 
+could just use Print/Input, but those would obviously block network I/O.
+ Can't have that. It'd be very nice if BMax supported threading, but 
+that isn't a discussion I want to get into right now.<br><br>It's slow 
+going but I think I'm starting to get there. I wish I'd had more time in
+ the past few weeks to work on it, but you can only do so much. 
+Hopefully I can get a working example put together in a little while. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Mac</td><td align="right"><font class="tiny">(Posted 2007-06-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I recently purchased a MacBook, so I'll be evaluating if I want to go 
+cross platform with this code base. I actually was pretty sure I wanted 
+to transition this project to a different language, but on further 
+reflection that seems like a bit of a waste.<br><br>I will start looking
+ at it for Mac this evening and in the next few weeks. It would be 
+really cool to get this stuff running so I have something to show off, 
+and to help prove that BMax isn't just for games. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>GUI/interpreter/DB partly hooked up</td><td align="right"><font class="tiny">(Posted 2007-06-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I finally got a bit more time to work on Cobalt last night. <br><br>I
+ decided to use Brucy's SQLite database module, the interpreter is my 
+own LISP-like creation, and the GUI is based on Noel's OO GUI wrapper 
+for MaxGUI: <a href="http://blitzmax.com/codearcs/codearcs.php?code=1653" target="_blank">http://blitzmax.com/codearcs/codearcs.php?code=1653</a><br><br>The
+ GUI and interpreter are now partly connected to each other. That is, I 
+can now create and save lists to the database through the GUI by 
+entering commands, then get them back out of the DB file after 
+restarting the system.<br><br>In the previously cited thread I have a 
+bit of code for a nicer console than what I was using (an output 
+TextArea with a separate TextField for input). I really like this, but 
+it does need a bit more work. <a href="http://blitzmax.com/Community/posts.php?topic=68928" target="_blank">http://blitzmax.com/Community/posts.php?topic=68928</a><br><br>I
+ have a peer network based on BNetEx running, however it doesn't have 
+any actual synchronization stuff in it yet. It's basically just a 
+peer-to-peer message passing library at the moment, I'll be layering the
+ DB synchronization on top of this as a next step. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Things to work on</td><td align="right"><font class="tiny">(Posted 2007-04-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A few things I want to work on:<br><br>Create an ActiveVB API Viewer plugin for BlitzMax: <a href="http://blitzmax.com/Community/posts.php?topic=68929" target="_blank">http://blitzmax.com/Community/posts.php?topic=68929</a><br><br>Look in to creating a console widget for BlitzMax: <a href="http://blitzmax.com/Community/posts.php?topic=68928" target="_blank">http://blitzmax.com/Community/posts.php?topic=68928</a><br><br>A
+ console widget would be really cool. I really like how they use this 
+kind of widget in some Linux tools, sometimes it's just the best (or 
+easiest) way to do interaction.<br><br>I've got an idea for a writer's 
+program; two main parts: journaling help a writer do the "300 words a 
+day" thing, and versioned story editing.<br><br>Also this interactive 
+programming thing. I've been playing with SecondLife lately, it's 
+inspired me and at the same time maybe toned me down. I mean, they 
+already did it right? The difference is in the storage system, language 
+syntax, platform, and focus. So what I'm doing is totally different, but
+ at the same time in sort of the same spirit as their LSL stuff. I 
+really dislike a few of their decisions (it's a procedural language in a
+ 3D world, what?), but it seems like a good system. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Database</td><td align="right"><font class="tiny">(Posted 2007-04-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ If I do the integrated database stuff in any aspect, it probably won't 
+be through Cheetah after all. I like the look of Brucey's modules so I 
+think I will use that, probably with the SQLite engine. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Interpreter only maybe?</td><td align="right"><font class="tiny">(Posted 2007-04-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Okay, on further reflection, I'm not sure that this is how I'm going to
+ do this. I am still working on the interpreter stuff, but otherwise, 
+I'm just not sure. The idea of actually using a unified development 
+environment is nice but I'm not sure if I would really use it.<br><br>I 
+think the problem is that I just need to actually come up with a use for
+ this idea. Then I'd have the inspiration to actually create it.<br><br>Anyway, as far as the interpreter goes, I've got this working:<br><pre class="code">(bind 'Name' (input 'Enter your name:'))
+(if Name
+  (print 'Hello, ' Name))
+</pre><br>Really not too hard. Hopefully it will be useful at some point. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A bit about this</td><td align="right"><font class="tiny">(Posted 2007-04-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Basically Cobalt is a work environment that uses game based technology to sync objects to and from a home machine.<br><br>This
+ project is meant to satisfy or at least research the many frustrations I
+ have with current work models that  force a user to come up with a 
+third party solution or, worse, manually sync work between multiple 
+workstations (multiple desktops, laptop, pdas, etc).<br><br>The goal of 
+this stuff I'm doing is to make an environment where the changes you 
+make are just there on the other machine by the time you get back to it.
+ If you have an internet connection, all changes are streamed to the 
+remote machine while you work. If you're offline while working, the 
+changes are streamed to the remote machine when a connection is 
+available.<br><br>The first part of this is a database system. I'm using a simple model based on <a href="http://web.archive.org/codearcs/codearcs.php?code=1981">Cheetah DB</a> for now that stores:<br><br>ObjectID - C,5<br>Data - M<br><br>The ObjectID is used to refer to this object, Data contains a compact binary representation of the data for the object.<br><br>To
+ sync objects together, I am planning on using GNet by extending it's 
+TGNetObject and TGNetHost classes. My extended TGNetHost will recover an
+ object from the database if it already exists, and save objects back to
+ the database periodically to save user's work.<br><br>I'm leaving out a lot of the details because I haven't finished designing the whole thing yet.<br><br>One
+ huge part of it will be a dynamic scripting language that runs on top 
+of all this to make it all transparent to the user. I'll get into that 
+later. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

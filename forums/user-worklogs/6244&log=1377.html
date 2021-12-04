@@ -1,0 +1,205 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Glenny-boy</h1><h1>Fleet</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Scripting in Space! Part II</td><td align="right"><font class="tiny">(Posted 2006-12-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> So, I got the scripting working, much to my shock and amazement. It even worked first time, as well.<br><br>During
+ the course of implementing it, I tweaked the system a little bit. When 
+referring to an actor id or group id, I simplified thing substantially. 
+Actor ids now start at 100. Anything below that is considered a group 
+id. There's now no need to specify what type of id you are using, the 
+value will speak for itself.<br><br>Other than that, it seems to work as
+ advertised. I need to do a few more tests on the nesting, but I'm 
+pretty happy with how it's turned out.<br><br>It needs more work to add 
+in the various functions that the script can call, but that's basically 
+grunt work. And, since it's not really needed at this stage, I'm going 
+to move onto the final "big" part: the front-end. I want the player to 
+be able to choose a mission, choose ships to bring, set a starting 
+formation and click "go".<br><br>I'll take it in small steps.<br><br>And hopefully there'll be some screenshots for you next time! <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Scripting in Space!</td><td align="right"><font class="tiny">(Posted 2006-11-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Been a bit quiet lately, because I've been thinking about how to script the levels.<br><br>I've eventually settled on an XML solution (oh, Glenn, what a surprise!). Seriously, there are good reasons.<br><br>I
+ considered using LUA, but the only available Blitz implementation 
+doesn't seem to be feature-complete. I'd like to learn LUA, but I think 
+I'll wait until I can use it properly.<br><br>Since I'm already using 
+XML, I decided to see what I could do with that. It's looking promising,
+ and streets ahead of what I had on Drop Fighter.<br><br>Here's an example of the script code.<br><br><pre class="code">&lt;if tag="close_to_actor" args="id,2,id,1" fire_limit="1"&gt;
+	&lt;event tag="kill" args="groupid,2"&gt;&lt;/event&gt;
+&lt;/if&gt;
+</pre><br>It's pretty simple, the &lt;if&gt; tag has some attributes 
+that describe what kind of condition is being tested. In this case, it's
+ checking if the actor with id 2 is within 100 units of the actor with 
+id 1. If this is true, then the event is triggered.<br><br>The event will kill all the ships in group 2.<br><br>The
+ "fire_limit" attribute in the &lt;if&gt; tag is a way of setting how 
+many times a condition should "fire", in this case, just once is 
+necessary.<br><br>The really fun part about all this is that I can have multiple events in each condition.<br><br>The
+ really, really fun part is that I can have multiple nested &lt;if&gt; 
+tags. So I can evaulate an &lt;if&gt; statement, and it it's true, and 
+can carry out an event, and then evaluate a nested &lt;if&gt; statement.
+ The second will only be considered if the first is true. You know all 
+that, it's basic programming stuff, but it's really cool for me to be 
+able to effectively have it interpreted like this, and seperate from the
+ main executable.<br><br>I'm officially in the "boring" stage of this 
+game now, where I actually need to add gameplay features that, in 
+programming terms, aren't much of a big deal. I start these projects 
+with certain lofty (for me) goals, and then as soon as I achieve them, I
+ drag my feet on the "easy" stuff. The scripting was the last "big idea"
+ I wanted to get in.<br><br>I now have to make the tough design 
+decisions that I'm historically not very good at. I think I'm more a 
+programmer than a games designer. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Editing in Space!</td><td align="right"><font class="tiny">(Posted 2006-10-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <b>The Editor</b><br><img src="6244&amp;log=1377_files/fleet10.html"><br><br>I
+ started work on the editor a couple of days ago, and thanks to my 
+cunning encapsulation of the actor code, this wasn't too hard.<br><br>It
+ also wasn't too easy, when I realised just how deeply the actor code 
+had it's claws in the main program. I had to really think hard about 
+what code "counted" as part of the actor class, and what was seperate 
+management code required purely for the game. I eventually managed it, 
+and got some pretty cool results.<br><br>Firstly, the code carried over 
+so well into the editor that the ships quite literally came alive when 
+they were placed. For example, if two ships were placed very close to 
+each other, they would actually start to move themselves around in the 
+editor to make space! The AI was working perfectly, since ships try to 
+avoid each other in the main game too. On a similar note, when deleting 
+an actor from the editor, it would explode, just as if it had been 
+destroyed in the main game.<br><br>Cool though this was, I had to add an
+ "active" field to the actor type, so it could be easily disabled by the
+ editor, and not take any action. Now I think about it, I should have 
+held off on that until I had added the capability to choose the side for
+ ships being added to the editor. Would have been fun to watch ships 
+duke it out, while spontaneously adding new ones. And, for that matter, 
+this could make an excellent testbed for ship designs. Perhaps I will 
+include an "activate AI" option, so that artists can try out ships 
+immediately.<br><br><b>Graphics</b><br>My obsession with explosions 
+continues. A few more minor tweaks this time, so rather than chat about 
+it I'll just show you a screenshot.<br><br><img src="6244&amp;log=1377_files/fleet6.html"><br><br>Also,
+ here is an example of the Normal Mapping in action. The texture has 
+since been improved, but you can get an idea of how it's useful for 
+increasing the visual impact of an object without adding more geometry.<br><br><img src="6244&amp;log=1377_files/fleet5.html"><br><br>That's all for now, see you next time. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Interface in your face</td><td align="right"><font class="tiny">(Posted 2006-10-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I couldn't think of a good title, so that's what you've got.<br><br>I
+ spent some time going over the engine a bit more and pulled out a few 
+bugs. For example, friendly ships that were flying close to each other 
+wouldn't try to avoid enemy ships until they were far too close.<br><br>I'll
+ just mention something about that, actually. The engine is written with
+ zero collision detection between ships. All the collision detection is 
+weapon -&gt; ship.<br><br>Why? Well, for one thing, it saves a lot of 
+collision checking. Since the ships are only given orders by the player,
+ rather than directly controlled, I can have the program take over and 
+ensure that collisions are avoided in good time, before a ship resumes 
+it's course. So far the system works pretty well. My AI code isn't 
+awesome, but this game isn't made for swarms of ships. I'm hoping for no
+ more than sixteen ships total in an engagement. With the number of 
+shots I'm throwing around in tests, that's going to be more than enough.<br><br><b>Performance</b><br>Actually,
+ the projectile weapons tend to make my Athlon 3000+ XP chug a little, 
+because there's so many shots in the air. I'm not particularly 
+interested in reigning in the carnage though, at this stage. This isn't 
+really a game I'm making with the intention of selling, so I'm not 
+targetting it at a range of platforms. I just want to make something 
+cool, for myself more than anything, although if it's good and playable 
+I'll certainly make sure it's distributed in some form.<br><br>Also, I 
+realised recently that I've been labouring under the misconception that 
+my Athlon 3000+ CPU is still a modern and up-to-date processor. It 
+really isn't. Three-and-a-half years old.<br><br><b>Interface</b><br>The
+ first tentative steps at an interface have been laid. I have written an
+ under-featured GUI routine for the buttons. This will be extended. I've
+ also made the pointer context-sensitive, so that when friendly ships 
+are selected, the "attack" cursor will appear over enemies and the 
+"guard" cursor will appear over friendlies. And yes, the ships will do 
+as they're told (which is actually the biggest and most significant 
+achievement in this paragraph).<br><br><b>Graphics</b><br>I cam up with a
+ few improvements to make the effects a little more interesting. These 
+changes are all very minor and unimportant to the gameplay, but I wanted
+ to make the engine more, you know, cool.<br><br>So, I juiced up the 
+explosions while simultaneously making them less processor intensive. 
+Firstly, there's a 10% chance that, when a projectile shot lands on 
+something, it will make a bigger bang than normal. This gives the 
+impression of the shot hitting something critical on the ship's hull 
+every now and again. It's a purely visual effect, but it breaks up the 
+effects a little so they look less samey.<br><br>Secondly, capital ship 
+explosions now produce some cool little rays from the centre, just some 
+basic polygons with an alpha-gradiant texture. There's also some pieces 
+of debris, which I'm going to make look a bit better.<br><br><b>Code</b><br>I've
+ come up against one or two coding challenges, and now that I'm down 
+with Object Oriented concepts, I can definitely see the shortcomings of 
+BASIC. However, I'm trying to incorporate OO principles into the way my 
+code is structured in order to overcome certain issues. Here's an 
+example of one.<br><br>I've been considering having modules that can be 
+attached to ships that apply certain "buffs" to the stats. For example, 
+increased firepower, increased speed, etc. I have a problem, though.<br><br>Each
+ ship that is created is given a few individual characteristics, such as
+ position, orientation, which side it's on, what it's supposed to be 
+doing, etc. It also get's a link to the ship database, where the rest of
+ the stats for that type of ship are stored. This means that I can have 
+seven Knight class ships, each with their own individual jobs and 
+positions. However, information that is the same for all Knight class 
+ships, such as the maximum hull strength, can be pulled from the ship 
+database entry for "Knight".<br><br>In English, each ship has it's own 
+information about where it is and what it does, and each ship class has 
+information about what turrets it has, how fast it goes, and how tough 
+it is. So seven Knights get information about the Knight Class from the 
+same place in the ship database.<br><br>I thought this was pretty neat. 
+It cuts down on data duplication, so that every ship isn't carrying 
+every single piece of data about it's class, when most of it's the same.<br><br>But
+ what about buffs? If a ship requests to know it's maximum hull 
+strength, how can I get a value back from the generic database that has a
+ buff attached to it for this specific ship? I could add a condition 
+every time the value is requested throughout the code, where the buff is
+ added if it is present on that particular ship.<br><br>Or I could do it the encapsulated way, like with OO languages.<br><br>Don't worry, this is <i>very</i> easy.<br><br>I simply write a function as follows:<br><br><pre class="code">Function get_maxhull%(check.actor)
+checkdata.actordata=getactordata.actordata(check\breed$)
+Return checkdata\maxhull%
+End Function
+</pre><br><br>Just to clarify: actor is my ship type. It's called 
+"actor" because everything that lives in the game goes here, not just 
+ships. Missiles, projectiles, lasers are all actors. This does mean I 
+have a fairly large Type, and not all entries are used, but after my 
+experience with Drop Fighter, I realised it made much more sense.<br><br>getactordata returns a pointer to the relevant data for that breed of actor (eg "Knight").<br><br>Then, the return statement simply sends it back.<br><br>Big deal, it does exactly the same as if it had been accessed directly from the code, without going out to a function.<br><br>That's
+ because I've not actually implemented buffs yet in the game, but now I 
+have control over the value of maxhull that goes back out. In that 
+routine, I can alter the Return statement to:<br><pre class="code">Return checkdata\maxhull%*check\buff_maxhull#
+</pre><br><br>Where check\buff_maxhull# is '1' if there is no buff, or, 
+say, '1.25' if there is a buff. I can just recalculate buffs whenever I 
+need.<br><br>Currently, the plan is to have players choose modules 
+(like, say, "Armour Plates") for each ship. Depending what is chosen, 
+buffs will then be calculated before the game starts, and the correct 
+amounts put in the buff_xxx fields.<br><br>All I need to do is makes 
+sure I use get_maxhull(current.actor) instead of referencing the 
+database entry directly. Search and replace time... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A Minor Victory</td><td align="right"><font class="tiny">(Posted 2006-10-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I put my turret aiming code to the test and updated the program to 
+allow weapons to target projectiles like missiles. I was pleasantly 
+surprised, after half an hour of banging my head on the table, to see 
+that they did a great job!<br><br>No screenshots unfortunately, because this isn't really something you can get across in a screenshot, it happens so fast.<br><br>This
+ does mean, though, that now we can have dedicated screening units in 
+the game. Screening units are ships who have the job of protecting the 
+bigger ships from missile fire. So the enemy will need to either use 
+some serious missile spam, or send in ships to take out the screening 
+units.<br><br>Hooray, actual tactics!<br><br>Enough procrastination, I need to get on with making the interface. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I just had to... (also, all about missiles)</td><td align="right"><font class="tiny">(Posted 2006-10-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I spent an hour and a half doing something completely pointless:<br><br><img src="6244&amp;log=1377_files/fleet4.html"><br><br>Well, I just wanted to see how it would look in there. Pretty cool, as it happens.<br><br>Actually,
+ it wasn't entirely pointless. I wanted to throw a ship in there that 
+had an arbitrary shape. A shape that I basically wasn't expecting. I've 
+been trying to avoid building the AI in such a way that it needs that 
+ships to meet specific guidelines, unlike the situation with Drop 
+Fighter.<br><br>This time around, I was pleased to see that I was able 
+to incorporate the Enterprise without much difficulty. I had to make a 
+few minor tweaks and add a couple of rules. For example, fixed 
+launchers, like the Enterprise's torpedo launcher, will no longer check 
+if the line-of-sight between them and the enemy is clear of the ship's 
+structure. Why? Well, normally, this check is performed to stop lasers 
+trying to fire through their own ship if the turret is placed with a 
+partly obscured line-of-fire. With fixed turrets, it's assumed that they
+ will already be placed facing an non-dangerous direction. ie A fixed 
+missile launcher won't be looking onto another part of the ship's 
+structure, the space ahead of it will be unobstructed.<br><br>So, 
+leaving out this line-of-sight check means that the missile will still 
+fire even if the target is obscured, fly in the direction it's launcher 
+is facing, and then curve around towards the target.<br><br>In order to 
+incorporate the Enterprise, I had to do one other minor tweak: a 
+half-second grace period before a missile starts homing, to ensure it 
+doesn't suddenly turn into the ship. Normally, this wouldn't be an 
+issue, but the missiles were tending to curve up and slam into the 
+Enterprise's own saucer.<br><br>If I were to ever have a ship with fixed
+ launchers halfway along it's structure, facing forward, this could 
+arise again: missiles could weave sideways chasing their target and hit 
+their own ship. Hopefully adding that half-second will keep them going 
+straight for long enough. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Initial thoughts</td><td align="right"><font class="tiny">(Posted 2006-10-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've realised recently that I enjoy trying out ideas more than anything
+ else. I've got three or four things sitting on my hard drive that work 
+very well in their own right, but function only as AI-powered demos for 
+ideas I wanted to trial.<br><br>This may turn out to be another, but here goes.<br><br>I've
+ always wanted to make a 3d space-fleet game, sort of like Homeworld, 
+but with far fewer ships, and more options for each ship. And no 
+resource management. I guess it leans towards Star Trek: Deep Space 
+Nine: Dominion Wars in that respect.<br><br>My main goals for this project were:<br>-Get accurate turret targetting<br>-Include a variety of weapons: plasma bolts, lasers, missiles<br>-Allow ships to pick targets and attack them without user intervention<br>-Use an XML format to store data about ships and turrets, to make modifications easier<br><br>I've
+ already achieved all these goals, but I'm so proud of how it all looks 
+that I want to carry on. My next goals are as follows:<br><br>1) Include a basic orders system. "Attack that" "Stop"<br>2) Include a basic movement orders system. Not quite sure how this is going to work in 3d just yet.<br><br>Here's a few screenshots of the project so far.<br><br><img src="6244&amp;log=1377_files/fleet1.html"><br><img src="6244&amp;log=1377_files/fleet2.html"><br><img src="6244&amp;log=1377_files/fleet3.html"> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

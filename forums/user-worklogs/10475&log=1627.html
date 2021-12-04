@@ -1,0 +1,61 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Drak</h1><h1>Food chain simulation</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress</td><td align="right"><font class="tiny">(Posted 2008-09-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ 1. I've got some important things implemented into my new "tribal 
+simulation" as I'm calling it.  I've got my food gathering system pretty
+ much worked out.  Food is stored at the central hut.  When anyone in 
+the tribe gets hungry, they go and take however much food it takes to 
+fill them up.  When food stores get below a certain level, based on 
+population, males go out and gather food.  In my studies I've learned 
+that what hunter-gatherer groups eat is roughly 20% hunted, and 80% 
+gathered.  So, when a tribesman decides to get food, he rolls a die and 
+quite simply has a 20% chance to go hunting and an 80% chance to gather 
+plants and berries.  Simple to implement.  If food stores get 
+dangerously low, women will to go out and gather, but only fruits and 
+vegetables.  The women do not have the option to hunt.  If game numbers 
+are very low, an intelligence check is performed to see if the hunter 
+will still hunt, or know enough not to kill animals with such a low 
+population, which may cause extinction in the area.<br><br>2. I've also 
+created a naming system which produces some funny names for my little 
+simtribesmen.  When they are created(in startup) or born(in-game) each 
+picks a random name from about 30 first names and roughly 40 last names.
+ <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Building blocks</td><td align="right"><font class="tiny">(Posted 2008-09-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm using this food chain simulation as a building block for my next 
+project, which is still in it's infancy.  I want to take this project to
+ the next level: human interaction with it's environment. Much of the ai
+ programming I've implemented in this simple program can be used in my 
+next project.  Things such as each creature's "wants" and now genetics 
+will carry over nicely.  <br><br>I want to simulate a paleolithic 
+hunter-gatherer society next.  It's relatively straightforward when you 
+look at it plainly.  I simply put myself in their shoes and ask: "What 
+would I do?"  Is there food to eat right now?  If there is, do something
+ else.  Is there food to eat tomorrow?  If not, I better get some food 
+today, so I can eat tomorrow!  Does it make sense to walk 1/2 a mile to 
+get nutrient-rich food or do I eat low-nutrient food that is 1/10th a 
+mile away?  There is enough food for my me, but what about the children 
+in the tribe?  Do they have enough food?  Naturally the need for food is
+ at the top of the list, superceding the need for shelter, or the need 
+to make another basket, or whatever.  Food in hunter-gatherer tribes is 
+usually only stored for a few days at most, so there will always be a 
+need for the gathering of food.  Another interesting point I want to 
+implement is that while hunter-gatherer groups usually only supported 
+10-30 individuals, each hunter or gatherer only spent about 15 hours per
+ week actually collecting food.  These societies have rich social lives 
+because 15 hours per week is only about 9% of the time, each week.  This
+ leaves a great deal of time for thinking, playing, socializing, 
+storytelling, teaching, etc, and from what I've learned led to the 
+revolutions in science at the time.  So with that, I'll also have to 
+implement some sort of social society.  <br><br>But first things first, I have to get some 3d "tribesman" out searching for food. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Updates</td><td align="right"><font class="tiny">(Posted 2008-09-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Edited 12/26/08<br>I don't think I ever posted a link to the new, updated file, so here is a link to it.<br><a href="http://www.mediafire.com/?ohlxn2yhnh4" target="_blank">http://www.mediafire.com/?ohlxn2yhnh4</a><br>Updated 9/4/08<br><br>1.
+ The simulation will now restart if all creatures have died out.  Each 
+time the program restarts, it will be noted as a "generation". How many 
+generations have passed will now be read out at the top of the screen.<br><br>2.
+ Mammals now have the ability and the desire to eat plants as well.  
+They will no longer just eat insects.  They do however, prefer insects.<br><br>3.
+ The insect birth rate has been reduced by approximately .02%.  While 
+this seems very low, it is the chance that a well-fed insect that is 
+currently looking for a mate, will mate and have offspring.  A .02 
+chance, multiplied by, for instance, 200 insects, is 4.  So in this 
+case, the possibility of insect birth each cycle has been reduced by 4%.
+ <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

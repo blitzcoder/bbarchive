@@ -1,0 +1,432 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for AntMan - Banned in the line of duty.</h1><h1>CodeMonkey - Making a monkey out of you.</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>From Idea To Ide</td><td align="right"><font class="tiny">(Posted 2006-12-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The code compilation is in somewhat and will be just awesome.<br><br>what
+ i do is, cos as i said, every single time you change a character in the
+ source, a background thread is spawned that compiles the source, now 
+that's modified to TAG the token and ParseNode that reside at the active
+ cursor.<br><br>so through this i can back travel through the tree and 
+perfectly determine what tokens and variables are valid for code 
+compilation.<br><br>I dare say it'll end up being better than VC#.<br><br>All this in a week...MaxIDe sucks because? :) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Nothing rythmes with IDE</td><td align="right"><font class="tiny">(Posted 2006-12-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Automatic formatting sound good to you? It should.<br><br>Totally
+ overhauled the internals and now it's all threaded. i.e whenever you 
+compile or execute, it's done on a unique thread. and since the compiler
+ is a object this means you can compile for example 80 programs at once,
+ all on their own thread.<br>This also takes advantage of multiple 
+cores. so you shoul see some really nice compile times on high end 
+systems with multiple cores on multi-file projects.<br><br>Why did I do 
+this though? For that VC# effect of course. every time you change a 
+single character a background thread is spawned that recompiles the 
+newly edited source and with this it can create detailed visual aids, 
+classw/var lists and more, all AS YOU WRITE not WHILE YOU EXECUTE<br><br>so right now i'm about to add automatic formatting that will use the RDP tree to construct the precise formatting of the code. <br><br><br>so you could type, <br><br>class program<br>{<br>static int main(string[] args)<br>{<br>}<br>}<br><br>with no formatting, and the split second it becomes compilable code, it will automatically format and ident the source code.<br><br>remember
+ ALL done in background threads, so there is no pause as you edit. if 
+you type typing half way through the compile, it simplys aborts the in 
+process threads and spawns new ones.<br><br>The entire engine will be 
+scripted. you will be able to spawn real hardware threads for your 
+functions and thread-safetly is inherently built in, meaning you just 
+will need to do,<br><br>static threadsafe int x,y<br><br>and the engine will lock and release mutexes on those variables for you.<br><br>threadsafe will be usable on any variable type.<br><br>I'm
+ also going to add a revolutionary feature, called Automatic 
+Asynconorous functions. which has one stipulation. all contents are 
+thread safe by default. it allows you to build a totally multi-core 
+centric program without having to spawn threads yourself.<br><br>what 
+does it mean in layman terms? Any function you call, user wrote or 
+system thread is executed in a new thread and the call returns 
+imediately before it's even executed. BUT the object/value it returns IS
+ returned in a container, that has a 'IsReady' property<br><br>so, a real world example for say a streaming gtaIII world would be,<br><br>;def<br><br>static async Texture(string path);<br><br>the async keyword. even on a constructor.<br><br>Texture myTex = new Texture("Player.jpg")<br><br>returns imediately and returns a valid texture object but it is not ready until you call<br><br>myTex.IsReady<br><br>and it returns true, then you can use it's contents.<br><br>Same goes for any datatype even ints and strings.<br><br><br>So
+ with just a bid of a adapating your programs will be fully future 
+proof, and remember all this is done on REAL hardware threads, not 
+simulated or scripted threads. <br><br>You will also be able to give dynamic prorities to async functions<br><br>static async Texture(string path) &gt; Slow<br><br><br>would result in a low prority.<br><br>static async Texture(string path) &gt; Fastest<br><br>would be the higest prority. allow you to very easily ditact cpuload to the most crucial methods.<br><br><br>I'm looking forward to writing the debugger that has to handle a 100 active threads intelligently... wait, maybe i'm not. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Visual Monkey IDE - IDE and integrated step debugger</td><td align="right"><font class="tiny">(Posted 2006-12-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've been working on the ide for the past couple of days, and it is shaping up very nicely.<br><br>The syntax highlighting works perfectly, both on whole files, and in real time as you code.<br><br>i.e the second you type class it will turn red.(Colors will be optional)<br><br>Using the latest .Net controls such as toolstrip containers etc the gui is fully customizable.<br><br>Their is a console output window in the view tab at the bottom.<br><br>Plugins
+ will use code monkey it's self for the plugin so for the first time in 
+the history of a ide i think, you can code plugins and test them in real
+ time.<br><br>I May do a blitzmax plugin as well, as it's about time it got a really good editor.<br><br>The burning questions. is it going to be as good as  maxide? The answer? Nah. Even better. :)<br><br><br><br>I
+ will post an alpha of codemonkey ide/compiler shortly. 2 people already
+ have the first beta, and despite a few bugs which were quckly squished 
+no major problems were found.<br>So it's just a case of adding a few more features, polishing the ide and finally the debugger.<br><br>The
+ debugger will feature all the standard controls, and there will be a C#
+ like locals window with all local variables etc with their values so 
+you can browse.<br><br>The ide and debugger are being modeled after 
+Visual C#'s ide, not maxide, so don't expect a familar debugger. expect a
+ much better one.(Don't get me wrong, MaxIde and Debugger were 
+acceptable for a new product but two years later and not a single 
+meanigful update?  Not acceptable.) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Switch (or select in blitzterms) is in</td><td align="right"><font class="tiny">(Posted 2006-12-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Very powerful switch construct added,<br><br>Check this,<br><br><pre class="code">string name = "Antony"
+
+switch(name)
+{
+      case "antony","Antony"
+            System.Print("Welcome master!")
+      case "ant"+"ony",25+70
+            System.Print("Full expressions of any type!")
+}
+</pre><br><br><br>which makes it obvious codemonkey features intelligent
+ and automatic casting between all supported types, even strings, and 
+switch case expressions can be both multiple and complex instead of 
+simple constant values. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Price of Fame.</td><td align="right"><font class="tiny">(Posted 2006-12-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> There will be Three editions of CodeMonkey as a script language, and one edition of code monkey as a language.<br><br>1. CodeMonkey .Net Script Community Edition - Price - Free - Reduced Feature set.<br><br>2.
+ CodeMonkey .Net Script Ultimate Edition - Price - 100Dollars - Full 
+feature set, several libraries including 2d and 3d libraries and 
+networking, neural networks the works. Most of which are wrote in C# and
+ hooked into the code system for maximum speed.<br><br>3.CodeMonkey Lite - Price 50Dollars - Full feature set, no companion libraries.<br><br>And
+ finally, the grand daddy, the ultimate the all conquering, CodeAura C -
+ The virtual machine/ide combination including a full set of libs for 
+2d/3d/networking/audio/image processing/neural networks/image 
+recognition/web camera drivers/joypad support and more.<br><br>It is being targeted to replace all known game orientated languages as the #1 language.<br><br>A
+ lofty goal...But a realistic one. Given the current state of the 
+compiler and how dead simple it is to extend any language feature i 
+want, and very little speed cost. (Speed remains constant. i.e if were 
+to add one hundred new language features, a while loop would still 
+operate at 99.95% of the speed. (A minimal incursion is err..incurred as
+ the complexity of the consttuct switching is invoked.)<br><br>CodeAura's
+ runtime core will be rewrote in BlitzMax for speed as bmax is almost as
+ fast as c++ (And where it isn't i'll just code a C++ lib and jack it 
+into blitz)<br><br>It's wierd. Blitzmax will be used to code it's successor. (I kid! put down the rilfe mark!) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>This is one small step for man, one giant leap for codemokey.</td><td align="right"><font class="tiny">(Posted 2006-12-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Strings are in within expressions.<br><br>Whenever a string is involved in a expression, the runtime engine uses a different expression evaluator.<br><br>Also added a 2d library finally using SDL NET and OpenGL.<br><br>Here's
+ the latest example file, notice i added true TRUETYPE font support to 
+the 2d engine too. (Hardware accelerated rendering too)<br><br><pre class="code">
+class Program 
+{
+
+	static int Main(int args)
+	{
+		System.LoadFont('FreeSans.ttf',18)
+		int ms,ls,fps,frames
+		int x,y
+		System.CreateDisplay( 512,512,1 )
+		while(1&gt;0)
+		{
+			System.PollEvents()
+			System.Cls()
+			
+			x = x + 5
+			if(x&gt;512)
+			{
+				x = 0
+				y = y + 5
+				if(y&gt;512)
+				{
+					y = 0
+				}
+			}
+			ms = System.GetTick()
+			if(ms&gt;ls)
+			{
+				ls = ms+1000
+				fps = frames 
+				frames = 0
+			}
+			frames = frames + 1
+			System.DrawRect(x,y,20,20)	
+			string first,second
+			first = 'antony'
+			second = ' wells'
+			
+			System.DrawText(5,20,first+second+' is the king of all stoners who smoke '+(10+10)+' joints a day')
+			System.DrawText(5,5,fps)
+			System.Flip()
+		}
+	}
+
+}	
+</pre><br>notice how you can still do numeric expressions within an 
+string expression by encapsulating it within ( ).  Just as you'd expect.
+ <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Asm coder requied for Win &amp; PS3 (Yellow Dog Linux) asm back end</td><td align="right"><font class="tiny">(Posted 2006-12-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I'm looking for a coder with intel x86 and linux asm experience to help me write a asm code backend.<br>I'll be getting a ps3 in a matter of weeks, and a copy of yellow dog linux.<br><br>I'm
+ looking for TWO people, one a windows asm coder and one a ps3. Becuase 
+there probably won't be many with a ps3 atm so i thought it best to 
+split the task up.<br><br>I will be helping you code it, and remember the compiler is already wrote and working bug free.<br><br>Basically
+ the way it is now, rdp-treed programs dlls are in a perfect state for 
+producing output to ANY platform with a little asm knowledge. <br><br>Anyone
+ who joins will be considered a partner in the venture, and will recieve
+ 50%/33% of all profits. i.e not a penny less than me.<br><br>E-mail me at antonycoder@... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New Ground - Yes, A star trek reference</td><td align="right"><font class="tiny">(Posted 2006-12-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Haven't worked on it in a day or so, but last time I did, I finally added the new operator.<br><br>I did so within the expression parser.<br><br>so you can do things like this,<br><br>MyClass test = new MyClass("Yes it supports constructors too!",new OtherClass("And is very sexy!"))<br><br>I.e new can be used in any expression.<br><br>Method
+ overloading, and constructor overloading is a given. It's actually 
+easier than it sounds, you just need to create a CRC for the function 
+name, then a further CRC for the function singnature.<br><br>the sig can be constructed anyway you like. Personally I create a string of the following form "(int,string,float)"<br>run it through my crc generator and of course, this is then passed into a binary search tree for ultra fast search capabilities.<br><br><br>It's so easy, I often wonder why Mark refuses to add such things to blitzmax. Design choice? Wierd choice if so. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Use the For luke</td><td align="right"><font class="tiny">(Posted 2006-11-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> here's the C# code for the for execution.<br><br>Notice
+ that it is just as powerful as C++/C#/Maxs standard for loop, with 
+identical syntax almost to C# except it uses , not ; to split it up.<br><br>Result? FAAAAAAAAAAAASSSSSsssss.....As hell<br><br><pre class="code">public void ExecuteFor(ParseNode op)
+        {
+            ParseNode init = op[0];
+            switch (init.Type)
+            {
+                case NodeType.Assignment:
+                    ExecuteAssignment(op);
+                    break;
+                case NodeType.VarList:
+                    WinConsole.WriteLine("not yet supported.");
+                    Exiter.Exit(-1);
+                    break;
+
+            }
+            ParseNode exp = op[1];
+            ParseNode code = op[3];
+            ParseNode inc = op[2];
+            while (true)
+            {
+                ExecuteBlock(code);
+                if (JustBreaked)
+                {
+                    break;
+                }
+                if (ExecuteExpression(exp).IntValue() == 1)
+                {
+                    break;
+                }
+                ExecuteAssignment(inc);
+            }
+            
+        }
+</pre><br><br>Lua is now the most well known, well used script language in the world.  But I don't care about now. Tomorrow is CodeMonkey's. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>If you could only stay a while.</td><td align="right"><font class="tiny">(Posted 2006-11-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> If and While are in, amoung numerous other enhancements.<br><br>Here's a sample,<br><br><pre class="code">class Program 
+{
+	static int a,b
+	static int Main(int args)
+	{
+		While(b&lt;100)
+		{
+			
+			b = b + 1
+			if(b&gt;25)
+			{
+				break
+			}elseif(2&gt;3){
+                                System.Print(System.AddIntegers(5,10)*2)
+                           }
+			System.Print(25*35/24+52*20)
+		}		
+	}
+
+}
+</pre><br><br>Notice it has the usual Break get out of jail free card which works exactly as you'd expect.<br><br>And
+ even nicer, all constructs operate within their own context. Meaning an
+ if statement has it's own local variable stack. so you can safely do,<br><br><pre class="code">int ant = 5
+if(ant = 5)
+{
+     int ant = 7
+    System.Print(ant)
+}
+System.Print(Ant)
+</pre><br><br>and it will print, 7, followed by 5.<br><br>So far the 
+virtual machine is very very fast, thanks to the deterministic nature of
+ the RDP-Tree it uses to execute code blocks from. There's no need to 
+assertain things at runtime. <br><br>And another feature not yet 
+mentioned is the use of Binary Search Trees filled with name CRCs for 
+all look ups involving anything from variable name to class name to 
+method and even method signature. So if you have a thoushand variables 
+you'd generally only need to search for about 20-30 to find your one 
+variable.<br><br>I could optimize it further by pre-lutting variable look ups but that would be a tad restrictive for what I want to do.<br>Basically the language will feature runtime refactoring, and code manipulation.<br><br>Soon, you'll be able to do something like this,<br><br>Two methods will be avaliable. (Probably more)<br><pre class="code">  
+
+Class Program
+{
+      static int Main(string[] args)
+      {
+                
+                //Hard coded method 
+                Pointer cls = DeclareClass "Utility"
+                DeclareMethod cls,Print(string txt)
+                {
+                      System.Print(txt)
+                 }
+                //Soft coded method 
+                Pointer  cls = DeclareClass "Utility"
+                Pointer meth,DecareMethodSoft cls,Print(String txt)
+                string code = "System.Print(txt)"
+                InjectCode meth,code
+                InjectCode meth,"System.Print("This is better than the matrix!")"
+                
+           // And to use them
+              Utility.Print("Just like a normal class!")
+
+       }
+
+}
+
+</pre><br><br><br>The only downside is that code inject softcore has to 
+be compiled at runtime UNLESS it's a string constant. constants will be 
+compiled at compile time.<br><br>But that said the compiler/tokenizer is very fast, so you could probably very easily having soft code runnig in your mainloop.<br><br>A beta shall be released next week. It will rock. :) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Would you like to try a sample?</td><td align="right"><font class="tiny">(Posted 2006-11-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here's an idea of how cool RDP's are. And also a solid if not 
+spectacular indication why you should buy CodeMonkey. It'll make a 
+monkey out of you afterall. and who doesn't want to be a monkey? <br><br><pre class="code">public int ParseExpression(int pc, bool CloseOnClosure)
+        {
+            WinConsole.WriteLine("Parsing Expression.");
+            bool nc = false;
+            if(gt(pc).Toke == Tokens.LeftClosure)
+            {
+                nc = true;
+            }
+            bool op,num,str;
+            ParseNode lval = null;
+            op = num = str = false;
+            int uc = 0;
+            bool lop = false;
+            for (int i = pc; i &lt; len; i++)
+            {
+                Token t = gt(i);
+                switch (t.Toke)
+                {
+                    case Tokens.Identifier:
+                        PredictResult st = PredictSegment(i);
+                        num = true;
+                        lop = false;
+                        op = false;
+                        switch (st)
+                        {
+                            case PredictResult.Statement:
+                                ParseNode stm = new ParseNode(NodeType.Statement);
+                                i = stm.ParseStatement(i);
+                                AddChild(stm);
+                                break;
+                            case PredictResult.Variable:
+                                ParseNode vob = new ParseNode(NodeType.Var);
+                                i = vob.ParseExpVar(i);
+                                AddChild(vob);
+                                break;
+                            default:
+                                Error("Ambigious Code Strand in expression.", i);
+                                break;
+                        }
+                        break;
+                    case Tokens.IntConstant:
+                        if (num)
+                        {
+                            Error("Expecting Operator.", i);
+                        }
+                        ParseNode intn= new ParseNode(NodeType.Value);
+                        intn.AToke = t;
+                        AddChild(intn);
+                        lval = intn;
+                        num = true;
+                        op = false;
+                        uc = 0;
+                        lop = false;
+                        break;
+                    case Tokens.Minus:
+                        
+                        ParseNode opn = new ParseNode(NodeType.Operator);
+                        opn.AToke = t;
+                        AddChild(opn);
+                        num = false;
+                        op = true;
+                        uc++;
+                        if (uc &gt; 2)
+                        {
+                            Error("Expecting value", i);
+                        }
+                        lop = true;
+                        break;
+                    case Tokens.Plus:
+                        
+                    case Tokens.Multiply:
+                    case Tokens.Divide:
+                        lop = true;
+                        uc = 0;
+                        if (op)
+                        {
+                            Error("Expecting Value.", i);
+                            
+                        }
+                        if (!num)
+                        {
+                            Error("Expecting Value.", i);
+                        }
+                        ParseNode opn2 = new ParseNode(NodeType.Operator);
+                        opn2.AToke = t;
+                        AddChild(opn2);
+                        num = false;
+                        op = true;
+                        break;
+                
+                    case Tokens.RightClosure:
+                        if (lop)
+                        {
+                            Error("Expression can not end on a operator", i-1);
+                        }
+                        if ((nc) || (CloseOnClosure))
+                        {
+                            return i;
+                        }
+                        Error("Unexpected '}'. Are you missing a preceding '('?",pc);
+                        
+                        break;
+                    case Tokens.LeftClosure:
+                        if (uc &gt; 1)
+                        {
+                            Error("Expecting value", i);
+                        }
+                        ParseNode nexp = new ParseNode(NodeType.Expression);
+                        i = nexp.ParseExpression(i,false);
+                        uc = 0;
+                        break;
+                    case Tokens.Seperate:
+                        if (lop)
+                        {
+                            Error("Expression can not end on a operator", i-1);
+                        }
+                        if (nc)
+                        {
+                            Error("Expecting ')'");
+                        }
+                        return i;
+                        break;
+                    case Tokens.NewLine:
+                        if (op)
+                        {
+                            Error("Unexpected end of line.", i);
+                        }
+                        return i;
+                    default:
+                        Error("Unexpected expression segment.", i);
+                        break;
+                }
+            }
+            Error("Unexpected end of program.");
+            return -1;
+        }
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hello OOP World</td><td align="right"><font class="tiny">(Posted 2006-11-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Great progress has been made so far, on what is to be the most advanced language in the world.<br><br>Here
+ is a simple app, note that print and addinteger methods are added in 
+code and wrote in pure C#. it uses delegates to hook functions in.<br><br><pre class="code">class Program 
+{
+	static int a = 25*4,b,c
+	static int Main(int args)
+	{
+
+		System.Print(a)
+		a = System.AddIntegers( 25,5 )+System.AddIntegers(10,10)
+		System.Print(System.AddIntegers(5,5)+a)
+
+	}
+
+}
+</pre><br><br>Notice it is a fully OOP language. The above sample works 
+perfecty, and is not an hack. The compiler uses a predictive recursive 
+decent parser I wrote myself, that has very strong error checking. Not 
+only will it pick up practically any error possible, it would highlight 
+the token that caused the error, and it will also SPEAK using xps sound 
+lib a verbal star trek esque warning.<br><br>Where does max come in? Why max will be one of the many front ends for the runtime system of course.<br><br>C# was perfect for the compiler it's self, but for actually running the code Bmax will be used for the standalone version.<br><br>There
+ will(And only is at the moment) be a full C# run time engine too, which
+ allows you to use codemonkey as the most advance script system for C# 
+today.(Not including C# it's self of course. But that's not a true 
+script system.)<br><br>How it works is,<br><br>1. Parse Into tokens.<br>2. Parse into RDP Tree - (90% of the error checking is done here)<br>3. Further parse rdp tree (Third pass) to produce and ensure variable/class names are valid etc etc<br>4. Create virtual machine.<br>5.run program.<br><br><br>for example, here's the little C# app to run the above script, including the two custom functions.<br><br><pre class="code">  public partial class Form1 : Form
+    {
+        public Variable Print(Parameters pars)
+        {
+           // Exiter.Exit(-1);
+            WinConsole.Write("Print&gt;");
+            WinConsole.WriteLine(pars[0].ToString());
+            return null;
+        }
+        public Variable AddIntegers(Parameters pars)
+        {
+            //Exiter.Exit(-1);
+            return new Variable(pars[0].IntValue() + pars[1].IntValue());
+        }
+        public Form1()
+        {
+            InitializeComponent();
+            WinUtil.WinConsole.Initialize();
+            Compiler ce = new Compiler();
+            Source prog = ce.LoadProgram("C:\\CodeMonkey\\test.cm");
+            Assembly asm = ce.CompileProgram(prog, "Console Application");
+            VirtualMachine vmu = new VirtualMachine();
+            asm.AddMethod(new Method.ReaLFunc(Print),"print");
+            asm.AddMethod(new Method.ReaLFunc(AddIntegers), "addintegers");
+            vmu.SetAssembly(asm);
+            vmu.Execute("Testing!");    
+
+        }
+      
+    }
+</pre> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for jhocking</h1><h1>Gyroman</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>coming together</td><td align="right"><font class="tiny">(Posted 2006-06-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Okay, so I've been implementing a lot of little things since the last 
+update.  The idea is to get all the major game mechanics (eg. devices 
+that you operate) in place and then I'll develop a sample level for each
+ of the 5 main areas of the game.<br><br>This screenshot shows off a number of new developments:<br><img src="3087&amp;log=1335_files/gyroman_work_04.jpg"><br><br>Note
+ for example that the flying gremlin is in the game and attacks you.  
+I've also created actual graphics for all the standins, like the locked 
+gates.  I've also implemented a simple damage model where if you get hit
+ you start to emit smoke, and if you get hit again your gyrocopter 
+explodes.  Oh, and at the top you can just see a shot from an automatic 
+cannon; I've implemented a few traps like that.<br><br>Just a couple 
+more devices to implement and then I'll do additional levels: 
+grasslands, rivers winding through canyons, jungle, barren rocky desert 
+(I actually already have this, but I'll make a new one,) and volcanic 
+mountaintop.  I know, I know, cliche areas.  Hey, this is a simple 
+shooter!<br><br>Once that's done I'll release the game's first demo. <br><br> -Joe Hocking<br><a href="http://www.newarteest.com/" target="_blank">http://www.newarteest.com</a> | Interactive Art and Experimental Game Design </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>grrr...</td><td align="right"><font class="tiny">(Posted 2006-05-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I love how the dates that I'm posting these has almost nothing to do with when the work was actually done. :P<br><br>Anyway, here's the flying gremlin I created:<br><img src="3087&amp;log=1335_files/fl_gremlin.jpg"><br><br>Putting
+ him into the game of course involved a lot of code work for handling 
+the animation and attacking and whatnot.  Now I'm mostly working on a 
+lot of unglamorous (is that a word?) programming gruntwork, like 
+building the UI system for the game (start menu, in-game HUD, that sort 
+of thing.) <br><br> -Joe Hocking<br><a href="http://www.newarteest.com/" target="_blank">http://www.newarteest.com</a> | Interactive Art and Experimental Game Design </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>makeup!</td><td align="right"><font class="tiny">(Posted 2006-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Now that I know the gameplay works, I wanted to turn my attention to 
+the aesthetics of the game.  The first task there was texturing the test
+ level:<br><img src="3087&amp;log=1335_files/gyroman_work_03.jpg"><br><br>In
+ this screenshot you can also see a locked gate.  Well, a couple of 
+blocks representing a gate anyway.  While I have other gameplay ideas to
+ implement later, for now it is enough to have the find-keys/open-doors 
+basics in place.<br><br>I think I'll model an enemy next.  I want to 
+have a finished level to play in, so as menacing as they are, spheres 
+aren't going to cut it. <br><br> -Joe Hocking<br><a href="http://www.newarteest.com/" target="_blank">http://www.newarteest.com</a> | Interactive Art and Experimental Game Design </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>really starting</td><td align="right"><font class="tiny">(Posted 2006-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Fast forward to last fall: While tossing around ideas for my next 
+project, I came back to Gyroman.  I realized there's real potential 
+here, and effort-wise it would be a good ratcheting-up from my last 
+game; a little more complex, but still simple enough to be manageable.<br><br>I
+ got to work on the game's design.  I thought up a storyline, enemies, 
+and world structure.  Before investing time designing levels, however, I
+ wanted to implement a test-bed of actual gameplay, with enemies to 
+fight and gates to unlock.  In particular, I was concerned about the 
+handling of enemies, so I wanted to start prototyping ideas.  I roughed 
+out a little maze:<br><img src="3087&amp;log=1335_files/gyroman_work_02.jpg"><br><br>Creating
+ this test proved to be extremely productive.  I quickly devised a 
+clever system for spawning enemies offscreen at a good pace, with 
+enemies placed well for gameplay.  It's an actual game now, and even 
+though it's all untextured primitives, it's already fun! <br><br> -Joe Hocking<br><a href="http://www.newarteest.com/" target="_blank">http://www.newarteest.com</a> | Interactive Art and Experimental Game Design </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>in the beginning</td><td align="right"><font class="tiny">(Posted 2006-01-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Alrighty, it's been a little while since I wrapped <a href="http://www.blitzbasic.com/gallery/view_pic.php?id=57" target="_blank">my last project</a>, so I'm getting to work on my next game.  Inspired by <a href="http://www.blitzbasic.com/logs/userlog.php?user=6&amp;log=212" target="_blank">the worklog for Super Gerball</a>, I am going to be keeping a journal of my progress.  Hopefully I'll end up with as spiffy of a development diary.<br><br>A
+ while ago (a looong while; a few years) I was working on a short-lived 
+project in which, before things fell apart, we devised a clever gimmick 
+for the player's control scheme.  I decided to take that interface idea 
+and apply it to a new game design.  Because the controls enable the 
+player to move and shoot in any direction independently of each other, 
+resulting in some cool strafing action, I decided the character will be 
+flying.  After a little brainstorming, I came up with Gyroman, a guy 
+with a helicopter-backpack.  The character design was an homage to 
+old-time radio shows about rocket-pack wearing pilots.<br><br>So, I 
+modeled the character, and coded a little demo of moving around and 
+shooting, in a landscape barren except for a couple primitives for 
+obstacles:<br><img src="3087&amp;log=1335_files/gyroman_work_01.jpg"><br><br>Then, having implemented my little idea, I set this demo aside while I pursued other projects. <br><br> -Joe Hocking<br><a href="http://www.newarteest.com/" target="_blank">http://www.newarteest.com</a> | Interactive Art and Experimental Game Design </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

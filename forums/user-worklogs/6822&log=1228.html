@@ -1,0 +1,1923 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for puki</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Mesh builder</td><td align="right"><font class="tiny">(Posted 2004-10-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I needed a way to construct meshes quicker and with control, so I knocked this up:<br><pre class="code">; mesh builder by "puki" - 24/10/04
+
+Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-5
+
+WireFrame 1
+
+mesh = CreateMesh()
+surface=CreateSurface(mesh)
+
+; here we set the size of the mesh (in squares)
+; both values must each be at least 1 - they do not have to be matching values
+mwidth=8
+mheight=6
+
+; there will only be 4 vertices per square - 0 to 3
+; we re-use the array cells repeatedly to save memory
+Dim vert_no(3)
+
+; the following code draws each section of the mesh from left to right
+; then it starts a new row below the first and again works along left to right
+For height=1 To mheight
+	For width=1 To mwidth
+		For addvert=0 To 3
+			vert_no(0)=AddVertex(surface,curx,cury-1,curz)
+			vert_no(1)=AddVertex(surface,curx,cury,curz)
+			vert_no(2)=AddVertex(surface,curx+1,cury,curz)
+			vert_no(3)=AddVertex(surface,curx+1,cury-1,curz)
+			tri1=AddTriangle(surface,vert_no(0),vert_no(1),vert_no(2))
+			tri2=AddTriangle(surface,vert_no(0),vert_no(2),vert_no(3))
+		Next
+	curx=curx+1
+	Next
+curx=0
+cury=cury-1
+Next
+
+UpdateNormals mesh
+PositionMesh mesh,-4,3,0
+
+While Not KeyHit(1)
+RenderWorld
+Flip 
+Wend
+End
+</pre><br><br><b>THE ABOVE LOOKED OKAY BUT WAS FLAWED - CREATING FAR TOO
+ MANY VERTICES - CORRECTED VERSION IS BELOW (I THINK THAT ONE IS OKAY) -
+ ACTUALLY, THE FOLLOWING IS STILL FLAWED - BUT MUCH BETTER</b><br><br><pre class="code">; mesh builder by "puki" - 24/10/04
+
+Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-5
+
+
+WireFrame 1
+
+mesh = CreateMesh()
+surface=CreateSurface(mesh)
+
+; here we set the size of the mesh (in squares)
+; both values must each be at least 1 - they do not have to be matching values
+mwidth=8
+mheight=6
+
+; there will only be 4 vertices per square - 0 to 3
+; we re-use the array cells repeatedly to save memory
+Dim vert_no(3)
+
+; the following code draws each section of the mesh from left to right
+; then it starts a new row below the first and again works along left to right
+For height=1 To mheight
+	For width=1 To mwidth
+			vert_no(0)=AddVertex(surface,curx,cury-1,curz)
+			vert_no(1)=AddVertex(surface,curx,cury,curz)
+			vert_no(2)=AddVertex(surface,curx+1,cury,curz)
+			vert_no(3)=AddVertex(surface,curx+1,cury-1,curz)
+		
+			tri1=AddTriangle(surface,vert_no(0),vert_no(1),vert_no(2))
+			tri2=AddTriangle(surface,vert_no(0),vert_no(2),vert_no(3))
+			curx=curx+1
+	Next
+	curx=0
+	cury=cury-1
+Next
+
+UpdateNormals mesh
+PositionMesh mesh,-4,3,0
+
+While Not KeyHit(1)
+RenderWorld
+Flip 
+Wend
+End
+</pre><br>After playing with the code, I realise now that it can only be
+ done with an array or, perhaps, types.  I partly resolved the vertice 
+number count with the following code:<br><pre class="code">; mesh builder by "puki" - 24/10/04
+
+Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-5
+
+WireFrame 1
+
+mesh = CreateMesh()
+surface=CreateSurface(mesh)
+
+; here we set the size of the mesh (in squares)
+; both values must each be at least 1 - they do not have to be matching values
+mwidth=2
+mheight=2
+
+; there will only be 4 vertices per square - 0 to 3
+; we re-use the array cells repeatedly to save memory
+Dim vert_no(3)
+
+; the following code draws each section of the mesh from left to right
+; then it starts a new row below the first and again works along left to right
+For height=1 To mheight
+	For width=1 To mwidth
+		If curx=0
+			vert_no(0)=AddVertex(surface,curx,cury-1,curz)
+			vert_no(1)=AddVertex(surface,curx,cury,curz)
+			vert_no(2)=AddVertex(surface,curx+1,cury,curz)
+			vert_no(3)=AddVertex(surface,curx+1,cury-1,curz)
+		
+			tri1=AddTriangle(surface,vert_no(0),vert_no(1),vert_no(2))
+			tri2=AddTriangle(surface,vert_no(0),vert_no(2),vert_no(3))
+			curx=curx+1
+			
+				Else
+				
+			vert_no(0)=AddVertex(surface,curx+1,cury,curz)
+			vert_no(1)=AddVertex(surface,curx+1,cury-1,curz)
+			
+			tri1=AddTriangle(surface,vert_no(3),vert_no(2),vert_no(0))
+			tri2=AddTriangle(surface,vert_no(3),vert_no(0),vert_no(1))
+			
+			vert_no(2)=vert_no(0)
+			vert_no(3)=vert_no(1)
+			
+			curx=curx+1
+				
+		EndIf
+		
+	Next
+	curx=0
+	cury=cury-1
+Next
+
+UpdateNormals mesh
+PositionMesh mesh,-4,3,0
+vertices=CountVertices(surface)
+
+While Not KeyHit(1)
+RenderWorld
+Print "Current number of vertices: "+vertices
+WaitKey
+Flip 
+Wend
+End
+</pre><br>However, this works fine for the rows of squares (running left
+ to right), but every time a new row is created below the one above, I 
+cannot easily re-use any vertex data.  Meaning my code is now redundant 
+and I can use 'Mesh Plane' created by "Neo Genesis10": 
+www.blitzbasic.com/codearcs/codearcs.php?code=382 <br><br><pre class="code">Dim vertex(99,99)
+
+Function CreateMeshPlane(width, height, parent=0)
+	width = width - 1
+	height = height - 1
+
+	mesh = CreateMesh()
+	surface = CreateSurface(mesh)
+
+	For x = 0 To width
+		For z = 0 To height
+			vertex(x,z) = AddVertex(surface,x,0,z)
+		Next
+	Next
+	
+	For x = 0 To width
+		For z = 0 To height
+			VertexTexCoords surface, vertex(x,z), 0, 1, 0
+			VertexTexCoords surface, vertex(x,z+1), 0, 0, 0
+			VertexTexCoords surface, vertex(x+1,z), 1, 1, 0
+			VertexTexCoords surface, vertex(x+1,z+1), 1, 0, 0
+			AddTriangle(surface, vertex(x,z), vertex(x,z+1), vertex(x+1,z+1) )
+			AddTriangle(surface, vertex(x+1,z+1), vertex(x+1,z), vertex(x,z) )
+		Next
+	Next
+	
+	EntityParent mesh, parent
+	Return mesh
+	
+End Function
+</pre><br><br>For me to achieve the functuality of his code, my code 
+would grow in size - his is small and compact (like mine started out 
+like).<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Resources</td><td align="right"><font class="tiny">(Posted 2004-10-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Face and Vertex Normal Vectors<br><a href="http://msdn.microsoft.com/archive/default.asp?url=/archive/en-us/directx9_m/directx/direct3d/gettingstarted/3dcoordinatesystems/facevertexnormalvectors.asp" target="_blank">http://msdn.microsoft.com/archive/default.asp?url=/archive/en-us/directx9_m/directx/direct3d/gettingstarted/3dcoordinatesystems/facevertexnormalvectors.asp</a><br><br>Vertex Normals<br><a href="http://www.flipcode.org/articles/article_vertexnormals.shtml" target="_blank">http://www.flipcode.org/articles/article_vertexnormals.shtml</a><br><br>General<br><a href="http://www.fjant.se/3d_faq.htm#vertex" target="_blank">http://www.fjant.se/3d_faq.htm#vertex</a><br><br>Not so normal?<br><a href="http://chuggnut.com/tutorials/meshguide/meshguide.html" target="_blank">http://chuggnut.com/tutorials/meshguide/meshguide.html</a><br><br><br>A normal is the vector perpendicular to the face.<br><br>The
+ Normal of a polygon is a perpendicular vector from the face of the 
+polygon. The direction of this vector is determined by the order in 
+which the vertices were defined.  The vertices have been defined in a 
+clockwise direction. The Normal of a vertex is usually the average of 
+each of the normals of each polygon that shares that vertex.<br><br>A 
+vertex normal is vector (Normaly with a magnitude of 1) that points at a
+ tangent(90 degrees) to the surface. It is primarily used in lighting 
+calulations so that objects surfaces look smooth rather than like lots 
+of flat triangles.<br><br>Imagine a curves surface for a moment. In a 
+perfect world, that curved surface could be made of millions of faces to
+ give a perfectly smooth and accurate representation of the curve. But 
+this is not a perfect world so this is not likely to run at an 
+acceptable rate. Now imgine the same curve, but with 3 or 4 Verticies 
+along the curve. The normal of each verticies will be the tangent to the
+ curve at that vertex position. Now the lighting can be calcuated to 
+better represent the effect of the high detail curve.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Clipping</td><td align="right"><font class="tiny">(Posted 2004-10-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The following code is useless - I have used it to visually 'draw' an 
+example of clipping whereby the red triangle is clipped outside of the 
+viewing area (the grey square) and then a new triangle is created 
+(basically, to tidy up) - the external part of the original triangle is 
+discarded.<br><br>If the red triangle was completely outside of the viewing area then it would be 'culled'.<br><br>I'm
+ not sure if anyone has internally done clipping with Blitz3D 
+surface/vertex commands.  I suppose it is technically possible although,
+ possibly, not much use.<br><br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10
+mesh = CreateMesh()
+surface=CreateSurface(mesh)
+v1=AddVertex(surface,-1,-5,-0)
+v2=AddVertex(surface,-1, 1,-0)
+v3=AddVertex(surface, 5, 1,-0)
+v4=AddVertex(surface, 5,-5,-0)
+tri1=AddTriangle(surface,v1,v2,v3)
+tri2=AddTriangle(surface,v1,v3,v4)
+surf1 = CreateSurface(mesh)
+v0 = AddVertex (surf1,-3,-2,-1)
+v1 = AddVertex (surf1, 2, 0,-1) 
+v2 = AddVertex (surf1, 3,-3,-1) 
+tri = AddTriangle (surf1,v0,v1,v2)
+VertexColor surf1,v0,255,0,0
+VertexColor surf1,v1,255,0,0
+VertexColor surf1,v2,255,0,0
+EntityFX mesh,2 
+UpdateNormals mesh
+RenderWorld
+Color 255,255,255 
+Rect 286,280,4,4,1
+Line 288,280,288,322
+Rect 286,322,4,4,1
+Rect 388,240,4,4,1
+Line 288,322,390,240
+Line 288,281,390,240
+Flip 
+WaitKey
+End
+</pre><br><br><b>In fact, "big10p" has done a clipping demo:</b><br><a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1143" target="_blank">http://www.blitzbasic.com/codearcs/codearcs.php?code=1143</a><br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>VertexColor</td><td align="right"><font class="tiny">(Posted 2004-10-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> 'VertexColor' does not work as one would expect it to:<br><br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-5 
+
+mesh = CreateMesh()
+
+surf1 = CreateSurface(mesh); left-hand triangle of square 
+;                       x  y  z
+v0 = AddVertex (surf1,-2, 2, 0); top left corner
+v1 = AddVertex (surf1, 2, 2, 0); top right corner 
+v2 = AddVertex (surf1,-2,-2, 0); bottom left corner 
+
+
+tri = AddTriangle (surf1,v0,v1,v2); this is the left-hand triangle of our square
+
+UpdateNormals mesh
+
+VertexColor surf1,v0,255,0,0
+VertexColor surf1,v1,255,0,0
+VertexColor surf1,v2,255,0,0
+
+RenderWorld 
+Flip 
+
+WaitKey 
+End 
+</pre><br><br>Produces nothing (in terms of red) - not a sausage.  However, add in  'EntityFX mesh,2' and it works.<br><br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-5 
+
+mesh = CreateMesh()
+EntityFX mesh,2
+
+surf1 = CreateSurface(mesh); left-hand triangle of square 
+;                       x  y  z
+v0 = AddVertex (surf1,-2, 2, 0); top left corner
+v1 = AddVertex (surf1, 2, 2, 0); top right corner 
+v2 = AddVertex (surf1,-2,-2, 0); bottom left corner 
+tri = AddTriangle (surf1,v0,v1,v2); this is the left-hand triangle of our square
+
+UpdateNormals mesh
+
+VertexColor surf1,v0,255,0,0
+VertexColor surf1,v1,255,0,0
+VertexColor surf1,v2,255,0,0
+
+RenderWorld 
+Flip 
+
+WaitKey 
+End 
+</pre><br><br>'EntityFX mesh,2' - the value '2' dictates the use of vertex colors instead of brush color.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Creating a mesh</td><td align="right"><font class="tiny">(Posted 2004-10-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ For this first example, I have gone for the most 'economical' method I 
+could think of.  The physical structure of the mesh (which you will see 
+when you run the code) has 16 vertices, regardless.  The mesh I have 
+created is constructed from defining 16 vertices and linking the mesh 
+with 18 triangles.<br><br>It seems pretty efficient:<br><br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10
+
+mesh = CreateMesh()
+surface=CreateSurface(mesh)
+
+;column 1
+v1=AddVertex(surface,-1,-1,-0)
+v2=AddVertex(surface,-1, 1,-0)
+v3=AddVertex(surface, 1, 1,-0)
+v4=AddVertex(surface, 1,-1,-0)
+tri1=AddTriangle(surface,v1,v2,v3)
+tri2=AddTriangle(surface,v1,v3,v4)
+
+v5=AddVertex(surface,-1,-3,0)
+v6=AddVertex(surface, 1,-3,0)
+tri1=AddTriangle(surface,v5,v1,v4)
+tri2=AddTriangle(surface,v5,v4,v6)
+
+v7=AddVertex(surface,-1,-5,0)
+v8=AddVertex(surface, 1,-5,0)
+tri1=AddTriangle(surface,v7,v5,v6)
+tri2=AddTriangle(surface,v7,v6,v8)
+
+;column 2
+v9=AddVertex(surface,3,1,0)
+v10=AddVertex(surface,3,-1,0)
+tri1=AddTriangle(surface,v4,v3,v9)
+tri1=AddTriangle(surface,v4,v9,v10)
+
+v11=AddVertex(surface,3,-3,0)
+tri1=AddTriangle(surface,v6,v4,v10)
+tri1=AddTriangle(surface,v6,v10,v11)
+
+v12=AddVertex(surface,3,-5,0)
+tri1=AddTriangle(surface,v8,v6,v11)
+tri1=AddTriangle(surface,v8,v11,v12)
+
+;column 3
+v13=AddVertex(surface,5,1,0)
+v14=AddVertex(surface,5,-1,0)
+tri1=AddTriangle(surface,v10,v9,v13)
+tri1=AddTriangle(surface,v10,v13,v14)
+
+v15=AddVertex(surface,5,-3,0)
+tri1=AddTriangle(surface,v11,v10,v14)
+tri1=AddTriangle(surface,v11,v14,v15)
+
+v16=AddVertex(surface,5,-5,0)
+tri1=AddTriangle(surface,v12,v11,v15)
+tri1=AddTriangle(surface,v12,v15,v16)
+
+UpdateNormals mesh
+
+RenderWorld
+Flip 
+WaitKey
+End
+</pre><br>Basically, I have exploited the fact that we can re-use as many vertices as possible:<br><br>Column 1 has 8 vertices created and 6 triangles.<br>Column 2 has 4 vertices created and 6 triangles.<br>Column 3 has 4 vertices created and 6 triangles.<br><br>Columns 2 and 3 are each re-using vertex data from each previous column.<br><br>Considering
+ the mesh has 9 squares in it, the mesh could have been constructed from
+ 18 unique triangles (2 triangles per square) and contained as many as 
+54 vertices (based on unique triangles).<br><br>I played around a bit and created the following - <b> still needs the 2 missing triangles added back in</b>:<br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10
+
+WireFrame 1
+
+mesh = CreateMesh()
+surface=CreateSurface(mesh)
+
+;column 1
+v1=AddVertex(surface,-1,-1,0)
+v2=AddVertex(surface,-1, 1,0)
+v3=AddVertex(surface, 1, 1,0)
+v4=AddVertex(surface, 1,-1,0)
+tri1=AddTriangle(surface,v1,v2,v3)
+tri2=AddTriangle(surface,v1,v3,v4)
+
+v5=AddVertex(surface,-1,-3,0)
+v6=AddVertex(surface, 1,-3,0)
+tri1=AddTriangle(surface,v5,v1,v4)
+tri2=AddTriangle(surface,v5,v4,v6)
+
+v7=AddVertex(surface,-1,-5,0)
+v8=AddVertex(surface, 1,-5,0)
+tri1=AddTriangle(surface,v7,v5,v6)
+tri2=AddTriangle(surface,v7,v6,v8)
+
+;column 2
+v9=AddVertex(surface,3,1,0)
+v10=AddVertex(surface,3,-1,0)
+tri1=AddTriangle(surface,v4,v3,v9)
+tri1=AddTriangle(surface,v4,v9,v10)
+
+v11=AddVertex(surface,3,-3,0)
+tri1=AddTriangle(surface,v6,v4,v10)
+tri1=AddTriangle(surface,v6,v10,v11)
+
+v12=AddVertex(surface,3,-5,0)
+tri1=AddTriangle(surface,v8,v6,v11)
+tri1=AddTriangle(surface,v8,v11,v12)
+
+;column 3
+v13=AddVertex(surface,5,1,0)
+v14=AddVertex(surface,5,-1,0)
+tri1=AddTriangle(surface,v10,v9,v13)
+tri1=AddTriangle(surface,v10,v13,v14)
+
+v15=AddVertex(surface,5,-3,0)
+tri1=AddTriangle(surface,v11,v10,v14)
+tri1=AddTriangle(surface,v11,v14,v15)
+
+v16=AddVertex(surface,5,-5,0)
+tri1=AddTriangle(surface,v12,v11,v15)
+tri1=AddTriangle(surface,v12,v15,v16)
+
+UpdateNormals mesh
+
+PositionMesh mesh,-1.5,2,0
+
+While Not KeyHit(1)
+
+For a#=0 To 3 Step .1
+		VertexCoords surface,v2,VertexX(surface,v2),VertexY(surface,v2),a
+		VertexCoords surface,v1,VertexX(surface,v1),VertexY(surface,v1),a
+		VertexCoords surface,v5,VertexX(surface,v5),VertexY(surface,v5),a
+		VertexCoords surface,v7,VertexX(surface,v7),VertexY(surface,v7),a
+		
+		VertexCoords surface,v9,VertexX(surface,v9),VertexY(surface,v9),a
+		VertexCoords surface,v10,VertexX(surface,v10),VertexY(surface,v10),a
+		VertexCoords surface,v11,VertexX(surface,v11),VertexY(surface,v11),a
+		VertexCoords surface,v12,VertexX(surface,v12),VertexY(surface,v12),a
+TurnEntity mesh,.1,y,z
+RenderWorld
+Flip 
+Next
+
+For a#=3 To 0 Step-.1 
+		VertexCoords surface,v2,VertexX(surface,v2),VertexY(surface,v2),a
+		VertexCoords surface,v1,VertexX(surface,v1),VertexY(surface,v1),a
+		VertexCoords surface,v5,VertexX(surface,v5),VertexY(surface,v5),a
+		VertexCoords surface,v7,VertexX(surface,v7),VertexY(surface,v7),a
+		
+		VertexCoords surface,v9,VertexX(surface,v9),VertexY(surface,v9),a
+		VertexCoords surface,v10,VertexX(surface,v10),VertexY(surface,v10),a
+		VertexCoords surface,v11,VertexX(surface,v11),VertexY(surface,v11),a
+		VertexCoords surface,v12,VertexX(surface,v12),VertexY(surface,v12),a
+TurnEntity mesh,.1,y,z
+RenderWorld
+Flip 
+Next
+
+Wend
+</pre><br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wireframe mode</td><td align="right"><font class="tiny">(Posted 2004-10-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Whilst doing this worklog - I suddenly remembered Blitz3d has a 'WireFrame' mode.<br><br>You
+ can insert it into any of the demos - for example after the camera has 
+been defined, add in 'WireFrame 1'.  This activates wireframe mode and 
+lets you see the triangles in your mesh.  I'll soon edit the code 
+examples and add the command in so that you can just press the "w" key 
+to flick in and out of wireframe whilst the code is running.<br><br>Note:  Not all graphics cards may support this.<br><br>Here is an example of our pyramid:<br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-12
+
+WireFrame 1
+
+; just a bit of cosmetic lighting
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+; a second bit of cosmetic lighting
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+mesh = CreateMesh() 
+
+surface=CreateSurface(mesh)
+
+; This is the first triangle - the one that intially faces you
+triangle1 = CreateSurface(mesh)
+v1 = AddVertex (triangle1,-2,-2,-2) 
+v2 = AddVertex (triangle1, 0, 2, 0) 
+v3 = AddVertex (triangle1, 2,-2,-2) 
+tri = AddTriangle (triangle1,v1,v2,v3)
+
+; This is the other side of triangle 1
+triangle1b = CreateSurface(mesh)
+v1 = AddVertex (triangle1b,-2,-2,-2) 
+v2 = AddVertex (triangle1b, 0, 2, 0) 
+v3 = AddVertex (triangle1b, 2,-2,-2) 
+tri = AddTriangle (triangle1b,v3,v2,v1)
+
+; This is triangle 2 - the one that intially faces to the left
+triangle2 = CreateSurface(mesh) 
+v1 = AddVertex (triangle2, -2,-2, 2) 
+v2 = AddVertex (triangle2,  0, 2, 0) 
+v3 = AddVertex (triangle2, -2,-2,-2)  
+tri = AddTriangle (triangle2,v1,v2,v3)
+
+; This is the other side of triangle 2
+triangle2b = CreateSurface(mesh) 
+v1 = AddVertex (triangle2b, -2,-2, 2) 
+v2 = AddVertex (triangle2b,  0, 2, 0) 
+v3 = AddVertex (triangle2b, -2,-2,-2)  
+tri = AddTriangle (triangle2b,v3,v2,v1)
+
+; This is triangle 3 - the one that intially faces to the right
+triangle3 = CreateSurface(mesh) 
+v1 = AddVertex (triangle3, 2,-2,-2) 
+v2 = AddVertex (triangle3, 0, 2, 0) 
+v3 = AddVertex (triangle3, 2,-2, 2)  
+tri = AddTriangle (triangle3,v1,v2,v3)
+
+; This is the other side of triangle 3
+triangle3b = CreateSurface(mesh) 
+v1 = AddVertex (triangle3b, 2,-2,-2) 
+v2 = AddVertex (triangle3b, 0, 2, 0) 
+v3 = AddVertex (triangle3b, 2,-2, 2)  
+tri = AddTriangle (triangle3b,v3,v2,v1)
+
+; This is triangle 4 - the that intially faces to the rear
+triangle4 = CreateSurface(mesh) 
+v1 = AddVertex (triangle4, 2,-2, 2) 
+v2 = AddVertex (triangle4, 0, 2, 0) 
+v3 = AddVertex (triangle4,-2,-2, 2)  
+tri = AddTriangle (triangle4,v1,v2,v3)
+
+; This is the other side of triangle 4
+triangle4b = CreateSurface(mesh) 
+v1 = AddVertex (triangle4b, 2,-2, 2) 
+v2 = AddVertex (triangle4b, 0, 2, 0) 
+v3 = AddVertex (triangle4b,-2,-2, 2)  
+tri = AddTriangle (triangle4b,v3,v2,v1)
+
+UpdateNormals mesh; necessary for correct lighting - not required in this example
+
+x#=.5
+y#=.5
+z#=.5 
+While Not KeyHit(1)
+c=c+1
+If c=200
+	y=Rnd(2)/10
+	z=Rnd(2)/10
+	c=0
+EndIf
+TurnEntity mesh,1,y,z
+RenderWorld
+Flip 
+Wend
+</pre><br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>VertexCoords</td><td align="right"><font class="tiny">(Posted 2004-10-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The 'VertexCoords' command allows you to alter the 3D space position 
+(x,y,z) of a triangle's vertice.  This would be used to deform a mesh or
+ perhaps for a water wave/ripple effect.<br><br><pre class="code">Graphics3D 640,480,16,2
+SetBuffer BackBuffer()
+
+cam = CreateCamera()
+MoveEntity cam, 0,0,-12
+
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+mesh = CreateMesh()
+
+triangle1 = CreateSurface(mesh)
+v1 = AddVertex (triangle1,-2,-2,-2)
+v2 = AddVertex (triangle1, 0, 2,-2)
+v3 = AddVertex (triangle1, 2,-2,-2)
+tri = AddTriangle (triangle1,v1,v2,v3)
+
+triangle2 = CreateSurface(mesh)
+v1 = AddVertex (triangle2,-2,-2,-2)
+v2 = AddVertex (triangle2, 0, 2,-2)
+v3 = AddVertex (triangle2, 2,-2,-2)
+
+tri = AddTriangle (triangle2,v3,v2,v1)
+UpdateNormals mesh
+
+c=0
+
+While Not KeyHit(1)
+
+c=c+1
+If c&gt;20; change this to alter speed of transformation
+	cv1=Rnd(5)
+	cv2=Rnd(5)
+	cv3=Rnd(5)
+	VertexCoords triangle1,v2,cv1,cv2,cv3
+	VertexCoords triangle2,v2,cv1,cv2,cv3
+	c=0
+EndIf
+
+TurnEntity mesh,0,1,0
+
+RenderWorld
+Flip
+Wend
+End
+</pre><br><br>One thing to mention is that when using a double-sided 
+surface (as above), you need to also move the relevent vertices for the 
+adjoining side or else the two sides will split open.  Of course you may
+ want to split a double-sided triangle.<br><br>After the 'UpdateNormals' command change the remainder of the code to:<br><pre class="code">TurnEntity mesh,0,90,0
+
+VertexCoords triangle1,v2,5,0,5
+VertexCoords triangle2,v2,-5,0,-5
+
+While Not KeyHit(1)
+TurnEntity mesh,0,0,1
+RenderWorld
+Flip
+Wend
+</pre><br>The the backs of both triangles are not there.  We have 2 
+separate triangles that form a double-sided triangle but, in fact, 
+individually they are single-surface.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Double-sided surfaces</td><td align="right"><font class="tiny">(Posted 2004-10-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> With regard to double sided surfaces:<br><br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-12
+
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+mesh = CreateMesh() 
+
+surface=CreateSurface(mesh)
+
+triangle1 = CreateSurface(mesh)
+v1 = AddVertex (triangle1,-2,-2,-2) 
+v2 = AddVertex (triangle1, 0, 2, -2) 
+v3 = AddVertex (triangle1, 2,-2,-2)
+tri = AddTriangle (triangle1,v1,v2,v3)
+tri = AddTriangle (triangle1,v3,v2,v1)
+
+UpdateNormals mesh
+
+While Not KeyHit(1)
+TurnEntity mesh,0,1,0
+RenderWorld
+Flip 
+Wend
+End
+</pre><br><br>Let’s look at a single-sided triangle – rotating:<br><pre class="code">Graphics3D 640,480,16,2
+SetBuffer BackBuffer()
+
+cam = CreateCamera()
+MoveEntity cam, 0,0,-12
+
+mesh = CreateMesh()
+
+triangle1 = CreateSurface(mesh)
+v1 = AddVertex (triangle1,-2,-2,-2)
+v2 = AddVertex (triangle1, 0, 2, -2)
+v3 = AddVertex (triangle1, 2,-2,-2)
+tri = AddTriangle (triangle1,v1,v2,v3)
+
+UpdateNormals mesh
+
+While Not KeyHit(1)
+TurnEntity mesh,0,1,0
+
+RenderWorld
+Flip
+Wend
+End
+</pre><br>Making the above triangle double-sided is easy – you just add 
+another ‘AddTriangle’ command and then link the vertices in the reverse 
+order.<br><br>After the ‘AddTriangle’ command add a second one as follows:<br><div class="quote"> <br>tri = AddTriangle (triangle1,v3,v2,v1)<br> <br></div>What is happening is we have defined a second side that connects the original vertices in reverse.<br><br>In
+ the first ‘AddTriangle’ command the vertices are connected as v1, v2, 
+v3 – or, bottom left corner, top corner (the peak) and bottom right 
+corner.<br><br>The second side is facing the opposite way so the bottom 
+left corners are switched – the bottom left corner (v1) in triangle one 
+is, in fact, now the bottom right corner on the second triangle (the 
+second side).<br><br>When you run the program, you will note that the triangle doesn’t disappear from view like it previously did.<br><br>So, double-siding a surface is not that hard at all.  Lighting it is not as straightforward.<br><br>Let’s add our two familiar lights into the code:<br><pre class="code">Graphics3D 640,480,16,2
+SetBuffer BackBuffer()
+
+cam = CreateCamera()
+MoveEntity cam, 0,0,-12
+
+light=CreateLight(2) 
+LightColor light,0,0,255 
+MoveEntity light,1000,1000,-1000 
+
+light2=CreateLight(2) 
+LightColor light2,255,0,0 
+MoveEntity light2,-1000,1000,-1000 
+
+mesh = CreateMesh()
+
+triangle1 = CreateSurface(mesh)
+v1 = AddVertex (triangle1,-2,-2,-2)
+v2 = AddVertex (triangle1, 0, 2, -2)
+v3 = AddVertex (triangle1, 2,-2,-2)
+tri = AddTriangle (triangle1,v1,v2,v3)
+tri = AddTriangle (triangle1,v3,v2,v1)
+
+UpdateNormals mesh
+
+While Not KeyHit(1)
+TurnEntity mesh,0,1,0
+
+RenderWorld
+Flip
+Wend
+End
+</pre><br><br>When you run the program, you will see that the triangle is not lit by either light.<br><br>Pick
+ any one of the ‘AddTriangle’ commands and ‘comment’ it out (add ‘;’ to 
+the start of the line).  Re-run the program – notice how the triangle is
+ lit.  Uncomment the ‘AddTriangle’ command and repeat with the other 
+‘AddTriangle’ command.<br><br>The end result is the two triangles will 
+light correctly when on their own, but not when both are on screen at 
+the same time.  The problem is that the triangles are sharing the same 
+vertex data.  When shown together, Blitz cannot light the two sides 
+separately and at once.<br><br>If you edit the code and, after ‘UpdateNormals mesh’, add in the following:<br><div class="quote"> <br>VertexNormal triangle1, v1,0,0,-1<br>VertexNormal triangle1, v2,0,0,-1<br>VertexNormal triangle1, v3,0,0,-1<br> <br></div>This
+ looks a bit more like what we want, however, both triangles are lit 
+using the first triangle's normals  - this is because they share the 
+same vertex data (both triangles are formed from the values of v1, v2 
+and v3).  One thing to note, and you will see this when the triangle 
+rotates, the light shining on one side is also lighting the opposite 
+side – i.e., the triangle will be lit while facing the red light and the
+ second triangle, which is facing the blue light, will be lit by the red
+ light.  This is the same when being lit by the blue light.<br><br>In some circumstances this may not be a problem.<br><br>To independently light the 2 sides, we need to create 2 sides:<br><pre class="code">Graphics3D 640,480,16,2
+SetBuffer BackBuffer()
+
+cam = CreateCamera()
+MoveEntity cam, 0,0,-12
+
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+mesh = CreateMesh()
+
+triangle1 = CreateSurface(mesh)
+
+v1 = AddVertex (triangle1,-2,-2,-2)
+v2 = AddVertex (triangle1, 0, 2,-2)
+v3 = AddVertex (triangle1, 2,-2,-2)
+tri = AddTriangle (triangle1,v1,v2,v3)
+
+triangle2 = CreateSurface(mesh)
+v1 = AddVertex (triangle2,-2,-2,-2)
+v2 = AddVertex (triangle2, 0, 2,-2)
+v3 = AddVertex (triangle2, 2,-2,-2)
+
+tri = AddTriangle (triangle2,v3,v2,v1)
+
+UpdateNormals mesh
+
+While Not KeyHit(1)
+TurnEntity mesh,0,1,0
+RenderWorld
+Flip
+Wend
+End  
+</pre><br>This works very nicely – pay attention to the individual sides, in relation to the lights, as they rotate – looks good.<br><br>However,
+ let’s prove the lighting works with a new program.  We are going to set
+ the triangle so that it faces the red and blue light – it will be side 
+on.  Instead of rotating the triangle, we will rotate the camera, so you
+ will see the lighting on both sides of the triangle.  In a nutshell, we
+ want one side to be red and the other to be blue – let’s take a look:<br><pre class="code">Graphics3D 640,480,16,2
+SetBuffer BackBuffer()
+
+c_pivot=CreatePivot()
+cam = CreateCamera(c_pivot)
+MoveEntity cam, 0,0,-12
+
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+mesh = CreateMesh()
+
+triangle1 = CreateSurface(mesh)
+v1 = AddVertex (triangle1,-2,-2,-2)
+v2 = AddVertex (triangle1, 0, 2,-2)
+v3 = AddVertex (triangle1, 2,-2,-2)
+tri = AddTriangle (triangle1,v1,v2,v3)
+
+triangle2 = CreateSurface(mesh)
+v1 = AddVertex (triangle2,-2,-2,-2)
+v2 = AddVertex (triangle2, 0, 2,-2)
+v3 = AddVertex (triangle2, 2,-2,-2)
+tri = AddTriangle (triangle2,v3,v2,v1)
+
+UpdateNormals mesh
+
+; this would normally be at 90 degrees (0,90,0) but our triangle's centre
+; point is slightly off - we have to set the triangle to be side on
+TurnEntity mesh, 0,80,0
+
+While Not KeyHit(1)
+
+	If KeyDown(203) Then TurnEntity c_pivot,0,1,0
+	If KeyDown(205) Then TurnEntity c_pivot,0,-1,0
+
+RenderWorld
+Flip
+Wend
+End
+</pre><br>Use the left and right cursor keys to orbit the triangle – the
+ triangle does not move – the camera orbits on a pivot.  You will see 
+that the lighting works – one side is red and the other side is blue.<br><br>Let's have a look at a pyramid/cone version:<br><br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-12
+
+; just a bit of cosmetic lighting
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+; a second bit of cosmetic lighting
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+mesh = CreateMesh() 
+
+surface=CreateSurface(mesh)
+
+; This is the first triangle - the one that intially faces you
+triangle1 = CreateSurface(mesh)
+v1 = AddVertex (triangle1,-2,-2,-2) 
+v2 = AddVertex (triangle1, 0, 2, 0) 
+v3 = AddVertex (triangle1, 2,-2,-2) 
+tri = AddTriangle (triangle1,v1,v2,v3)
+
+; This is the other side of triangle 1
+triangle1b = CreateSurface(mesh)
+v1 = AddVertex (triangle1b,-2,-2,-2) 
+v2 = AddVertex (triangle1b, 0, 2, 0) 
+v3 = AddVertex (triangle1b, 2,-2,-2) 
+tri = AddTriangle (triangle1b,v3,v2,v1)
+
+; This is triangle 2 - the one that intially faces to the left
+triangle2 = CreateSurface(mesh) 
+v1 = AddVertex (triangle2, -2,-2, 2) 
+v2 = AddVertex (triangle2,  0, 2, 0) 
+v3 = AddVertex (triangle2, -2,-2,-2)  
+tri = AddTriangle (triangle2,v1,v2,v3)
+
+; This is the other side of triangle 2
+triangle2b = CreateSurface(mesh) 
+v1 = AddVertex (triangle2b, -2,-2, 2) 
+v2 = AddVertex (triangle2b,  0, 2, 0) 
+v3 = AddVertex (triangle2b, -2,-2,-2)  
+tri = AddTriangle (triangle2b,v3,v2,v1)
+
+; This is triangle 3 - the one that intially faces to the right
+triangle3 = CreateSurface(mesh) 
+v1 = AddVertex (triangle3, 2,-2,-2) 
+v2 = AddVertex (triangle3, 0, 2, 0) 
+v3 = AddVertex (triangle3, 2,-2, 2)  
+tri = AddTriangle (triangle3,v1,v2,v3)
+
+; This is the other side of triangle 3
+triangle3b = CreateSurface(mesh) 
+v1 = AddVertex (triangle3b, 2,-2,-2) 
+v2 = AddVertex (triangle3b, 0, 2, 0) 
+v3 = AddVertex (triangle3b, 2,-2, 2)  
+tri = AddTriangle (triangle3b,v3,v2,v1)
+
+; This is triangle 4 - the that intially faces to the rear
+triangle4 = CreateSurface(mesh) 
+v1 = AddVertex (triangle4, 2,-2, 2) 
+v2 = AddVertex (triangle4, 0, 2, 0) 
+v3 = AddVertex (triangle4,-2,-2, 2)  
+tri = AddTriangle (triangle4,v1,v2,v3)
+
+; This is the other side of triangle 4
+triangle4b = CreateSurface(mesh) 
+v1 = AddVertex (triangle4b, 2,-2, 2) 
+v2 = AddVertex (triangle4b, 0, 2, 0) 
+v3 = AddVertex (triangle4b,-2,-2, 2)  
+tri = AddTriangle (triangle4b,v3,v2,v1)
+
+UpdateNormals mesh; necessary for correct lighting - not required in this example
+
+x#=.5
+y#=.5
+z#=.5 
+While Not KeyHit(1)
+c=c+1
+If c=200
+	y=Rnd(2)/10
+	z=Rnd(2)/10
+	c=0
+EndIf
+TurnEntity mesh,1,y,z
+RenderWorld
+Flip 
+Wend
+</pre><br><br>To better see the double-sided lit effect, edit the end of the code (after 'UpdateNormals mesh') to:<br><pre class="code">TurnEntity mesh,45,0,0
+
+While Not KeyHit(1)
+TurnEntity mesh,0,1,0
+RenderWorld
+Flip 
+Wend
+</pre><br><br><br><b>Thanks to "Goober" and "big10p" for giving me code to look at with regard to double-sided surfaces.</b><br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The cone - second version - 4 sides</td><td align="right"><font class="tiny">(Posted 2004-10-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here is our cone again - this time with 4, not 3, sides (it's now more of a pyramid):<br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-12
+
+; just a bit of cosmetic lighting
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+; a second bit of cosmetic lighting
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+mesh = CreateMesh() 
+
+surface=CreateSurface(mesh)
+
+; This is the first triangle - the one that intially faces you
+triangle1 = CreateSurface(mesh)
+v1 = AddVertex (triangle1,-2,-2,-2) 
+v2 = AddVertex (triangle1, 0, 2, 0) 
+v3 = AddVertex (triangle1, 2,-2,-2) 
+tri = AddTriangle (triangle1,v1,v2,v3)
+
+; This is triangle 2 - the one that intially faces to the left
+triangle2 = CreateSurface(mesh) 
+v1 = AddVertex (triangle2, -2,-2, 2) 
+v2 = AddVertex (triangle2,  0, 2, 0) 
+v3 = AddVertex (triangle2, -2,-2,-2)  
+tri = AddTriangle (triangle2,v1,v2,v3)
+
+; This is triangle 3 - the one that intially faces to the right
+triangle3 = CreateSurface(mesh) 
+v1 = AddVertex (triangle3, 2,-2,-2) 
+v2 = AddVertex (triangle3, 0, 2, 0) 
+v3 = AddVertex (triangle3, 2,-2, 2)  
+tri = AddTriangle (triangle3,v1,v2,v3)
+
+; This is triangle 4 - the that intially faces to the rear
+triangle4 = CreateSurface(mesh) 
+v1 = AddVertex (triangle4, 2,-2, 2) 
+v2 = AddVertex (triangle4, 0, 2, 0) 
+v3 = AddVertex (triangle4,-2,-2, 2)  
+tri = AddTriangle (triangle4,v1,v2,v3)
+
+UpdateNormals mesh; necessary for correct lighting - not required in this example
+
+x#=.5
+y#=.5
+z#=.5 
+While Not KeyHit(1)
+c=c+1
+If c=200
+	x=Rnd(5)/10
+	y=Rnd(5)/10
+	z=Rnd(5)/10
+	c=0
+EndIf
+TurnEntity mesh,x,y,z
+RenderWorld
+Flip 
+Wend
+</pre><br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The cube - second version</td><td align="right"><font class="tiny">(Posted 2004-10-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ With 'The cube - the long way', we created a cube whereby each one of 
+the six faces of the cube had 6 vertices (3 per triangle - 2 triangles).
+  Our new cube is going to be constructed out of 4 vertices per side, 
+but still using 2 triangles per face.  So, instead of the 36 vertices of
+ the original, we will have 24 vertices (a saving of 12 vertices).<br><br>Let's look at the first surface:<br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10
+
+mesh = CreateMesh() 
+
+surface=CreateSurface(mesh)
+
+v1=AddVertex(surface,-2,-2,-2); bottom left corner
+v2=AddVertex(surface,-2, 2,-2); top left corner
+v3=AddVertex(surface, 2, 2,-2); top right corner
+v4=AddVertex(surface, 2,-2,-2); bottom right corner
+
+tri1=AddTriangle(surface,v1,v2,v3); the left triangle
+tri2=AddTriangle(surface,v1,v3,v4); the right triangle
+
+UpdateNormals mesh; necessary for correct lighting - not required in this example
+
+RenderWorld
+Flip 
+WaitKey
+End
+</pre><br><br>Let's compare it to the original:<br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10
+
+mesh = CreateMesh()
+
+surface=CreateSurface(mesh)
+
+; This is the left-hand first triangle - the one that intially faces you
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,-2); bottom left corner
+v1 = AddVertex (triangle1,-2, 2,-2); top left corner
+v2 = AddVertex (triangle1, 2, 2,-2); top right corner
+
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the right-hand first triangle - the one that intially faces you
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,-2); bottom left corner - this is now the correct comment
+v1 = AddVertex (triangle1, 2, 2,-2); top right corner - this is now the correct comment
+v2 = AddVertex (triangle1, 2,-2,-2); bottom right corner - this is now the correct comment
+
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+UpdateNormals mesh; necessary for correct lighting - not required in this example
+
+RenderWorld
+Flip 
+WaitKey
+End
+</pre><br>In the new code, I cannot really use 'AddVertex (triangle1, 
+etc)' as there now isn't a triangle defined by the vertices - it is a 
+square.  So, I have used 'AddVertex(surface,etc)'.<br><br>The other main
+ difference is that we are now using two 'AddTriangle' commands straight
+ after we set up the 4 vertices, rather than one per triangle defined.<br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-12
+
+; just a bit of cosmetic lighting
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+; a second bit of cosmetic lighting
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+mesh = CreateMesh() 
+
+surface=CreateSurface(mesh)
+
+; this is the front face of the cube - the one initially facing you
+v1=AddVertex(surface,-2,-2,-2); bottom left corner
+v2=AddVertex(surface,-2, 2,-2); top left corner
+v3=AddVertex(surface, 2, 2,-2); top right corner
+v4=AddVertex(surface, 2,-2,-2); bottom right corner
+
+tri1=AddTriangle(surface,v1,v2,v3); the left triangle
+tri2=AddTriangle(surface,v1,v3,v4); the right triangle
+
+; this is the left face of the cube - the one initially facing left
+v1=AddVertex(surface,-2,-2, 2); bottom left corner
+v2=AddVertex(surface,-2, 2, 2); top left corner
+v3=AddVertex(surface,-2, 2,-2); top right corner
+v4=AddVertex(surface,-2,-2,-2); bottom right corner
+
+tri1=AddTriangle(surface,v1,v2,v3); the left triangle
+tri2=AddTriangle(surface,v1,v3,v4); the right triangle
+
+; this is the right face of the cube - the one initially facing right
+v1=AddVertex(surface, 2,-2,-2); bottom left corner
+v2=AddVertex(surface, 2, 2,-2); top left corner
+v3=AddVertex(surface, 2, 2, 2); top right corner
+v4=AddVertex(surface, 2,-2, 2); bottom right corner
+
+tri1=AddTriangle(surface,v1,v2,v3); the left triangle
+tri2=AddTriangle(surface,v1,v3,v4); the right triangle
+
+; this is the rear face of the cube - the one initially facing the rear
+v1=AddVertex(surface, 2,-2, 2); bottom left corner
+v2=AddVertex(surface, 2, 2, 2); top left corner
+v3=AddVertex(surface,-2, 2, 2); top right corner
+v4=AddVertex(surface,-2,-2, 2); bottom right corner
+
+tri1=AddTriangle(surface,v1,v2,v3); the left triangle
+tri2=AddTriangle(surface,v1,v3,v4); the right triangle
+
+; this is the top face of the cube - the one initially facing the up
+v1=AddVertex(surface,-2, 2,-2); bottom left corner
+v2=AddVertex(surface,-2, 2, 2); top left corner
+v3=AddVertex(surface, 2, 2, 2); top right corner
+v4=AddVertex(surface, 2, 2,-2); bottom right corner
+
+tri1=AddTriangle(surface,v1,v2,v3); the left triangle
+tri2=AddTriangle(surface,v1,v3,v4); the right triangle
+
+; this is the bottom face of the cube - the one initially facing the down
+v1=AddVertex(surface,-2,-2, 2); bottom left corner
+v2=AddVertex(surface,-2,-2,-2); top left corner
+v3=AddVertex(surface, 2,-2,-2); top right corner
+v4=AddVertex(surface, 2,-2, 2); bottom right corner
+
+tri1=AddTriangle(surface,v1,v2,v3); the left triangle
+tri2=AddTriangle(surface,v1,v3,v4); the right triangle
+
+UpdateNormals mesh; necessary for correct lighting - not required in this example
+
+x#=.5
+y#=.5
+z#=.5 
+While Not KeyHit(1)
+c=c+1
+If c=200
+	x=Rnd(5)/10
+	y=Rnd(5)/10
+	z=Rnd(5)/10
+	c=0
+EndIf
+TurnEntity mesh,x,y,z
+RenderWorld
+Flip 
+Wend
+End
+</pre><br><br><br><b>Thanks to "Cygnus" and "TomToad" for persevering 
+and answering questions, and also supplying code, to my intial questions
+ regarding Blitz3D's capability to use 4 vertices at once.</b><br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The cube - the long way</td><td align="right"><font class="tiny">(Posted 2004-10-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here is the cube - done the long way - also while doing this, I spotted
+ that the 'surface' name ('triangle1') is re-usable.  I hadn't meant to 
+do that - I will re-write them to be more specific.  However, at least 
+we now know you can call every surface the same.<br><br>Again, when running the code, you have to press a key to 'unpause' it.<br><br><b>Need
+ to correct the comments in the code to show the correct corners - 
+serves me right for pasting and then editing the values but not the 
+comments.</b><br><br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+
+; just a bit of cosmetic lighting
+light=CreateLight(2)
+LightColor light,0,0,255
+MoveEntity light,1000,1000,-1000
+
+; a second bit of cosmetic lighting
+light2=CreateLight(2)
+LightColor light2,255,0,0
+MoveEntity light2,-1000,1000,-1000
+
+; I prefer having the camera initiated at the top of the code
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10
+
+mesh = CreateMesh() 
+
+; This is the left-hand first triangle - the one that intially faces you
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,-2); botom left corner
+v1 = AddVertex (triangle1,-2, 2,-2); top left corner
+v2 = AddVertex (triangle1, 2, 2,-2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the right-hand first triangle - the one that intially faces you
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,-2); botom left corner
+v1 = AddVertex (triangle1, 2, 2,-2); top left corner
+v2 = AddVertex (triangle1, 2,-2,-2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the left-hand second triangle - the one that intially faces left
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2, 2); botom left corner
+v1 = AddVertex (triangle1,-2, 2, 2); top left corner
+v2 = AddVertex (triangle1,-2, 2,-2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the right-hand second triangle - the one that intially faces left
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2, 2); botom left corner
+v1 = AddVertex (triangle1,-2, 2,-2); top left corner
+v2 = AddVertex (triangle1,-2,-2,-2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the left-hand third triangle - the one that intially faces right
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1, 2,-2,-2); botom left corner
+v1 = AddVertex (triangle1, 2, 2,-2); top left corner
+v2 = AddVertex (triangle1, 2, 2, 2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the right-hand third triangle - the one that intially faces right
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1, 2,-2,-2); botom left corner
+v1 = AddVertex (triangle1, 2, 2, 2); top left corner
+v2 = AddVertex (triangle1, 2,-2, 2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the left-hand fourth triangle - the one that intially faces the rear
+; the left-hand triangle is the left one as you face the *visible* surface
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1, 2,-2, 2); botom left corner
+v1 = AddVertex (triangle1, 2, 2, 2); top left corner
+v2 = AddVertex (triangle1,-2, 2, 2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the right-hand fourth triangle - the one that intially faces the rear
+; the right-hand triangle is the right one as you face the *visible* surface
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1, 2,-2, 2); botom left corner
+v1 = AddVertex (triangle1,-2, 2, 2); top left corner
+v2 = AddVertex (triangle1,-2,-2, 2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the left-hand fifth triangle - the one that intially faces up
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2, 2,-2); botom left corner
+v1 = AddVertex (triangle1,-2, 2, 2); top left corner
+v2 = AddVertex (triangle1, 2, 2, 2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the right-hand fifth triangle - the one that intially faces up
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2, 2,-2); botom left corner
+v1 = AddVertex (triangle1, 2, 2, 2); top left corner
+v2 = AddVertex (triangle1, 2, 2,-2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the left-hand sixth triangle - the one that intially faces down
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2, 2); botom left corner
+v1 = AddVertex (triangle1,-2,-2,-2); top left corner
+v2 = AddVertex (triangle1, 2,-2,-2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+; This is the right-hand sixth triangle - the one that intially faces down
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2, 2); botom left corner
+v1 = AddVertex (triangle1, 2,-2,-2); top left corner
+v2 = AddVertex (triangle1, 2,-2, 2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+
+UpdateNormals mesh; necessary for correct lighting
+
+RenderWorld
+Flip
+WaitKey
+ 
+While Not KeyHit(1)
+TurnEntity mesh,.5,.5,.5
+RenderWorld
+Flip 
+Wend</pre><br><br>The cube was easy - once I had worked out the first 
+face (the front one), I did the others virtually in my head.  I got 
+stuck with the final (downards facing one) and had to work it out on 
+paper.<br><br>The single-sided basis of our cube is great for this 
+example as you never see the inside of it (or at least not intentially).
+  Ever noticed in a FPS game that when you cheat and deactivate clipping
+ (ghost mode) you can walk inside a building, etc. and it appears 
+transparent?  Same thing, you were not meant to be in there (or at least
+ not while in 'ghost' mode) - it is single-sided.<br><br>The reason why 
+the cube was easy is because it only has 8 unique vertices.  I speeded 
+up design by drawing a 3D cube on a piece of paper - starting with a 
+square, then making it a 3D cube.  I then marked the coordinates in 3D 
+space of each of the 8 corners - each corner is used 3 times by 3 
+different triangles which are on 3 different faces of the cube.  Having 
+drawn the 3D cube on paper and pre-calculated the 8 corners, it was 
+easy.<br><br>Each left-hand triangle drawn is from the relevent bottom 
+left corner, straight up to the next corner, straight along to the right
+ corner and then diagonally down and to the left (back to the start 
+point) - example below:<br><br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10
+mesh = CreateMesh() 
+; This is the left-hand first triangle
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,-2); bottom left corner
+v1 = AddVertex (triangle1,-2, 2,-2); top left corner
+v2 = AddVertex (triangle1, 2, 2,-2); top right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+RenderWorld
+Flip
+WaitKey
+End</pre><br><br>The right-hand triangles are drawn from the relevent 
+bottom left corner (as with the left-hand version), diagonally up and to
+ the right corner, then straight down to the bottom left corner and then
+ straight left to the starting point - example below:<br><pre class="code">Graphics3D 640,480,16,2 
+SetBuffer BackBuffer() 
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10
+mesh = CreateMesh() 
+; This is the left-hand first triangle
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,-2); bottom left corner
+v1 = AddVertex (triangle1, 2, 2,-2); top right corner
+v2 = AddVertex (triangle1, 2,-2,-2); bottom right corner
+tri = AddTriangle (triangle1,v0,v1,v2)
+RenderWorld
+Flip
+WaitKey
+End</pre><br>To give a bit more variety to the rotations amend the final
+ block of code (after 'UpdateNormals mesh; necessary for correct 
+lighting') to:<br><pre class="code">x#=.5
+y#=.5
+z#=.5 
+While Not KeyHit(1)
+c=c+1
+If c=200
+	x=Rnd(5)/10
+	y=Rnd(5)/10
+	z=Rnd(5)/10
+	c=0
+EndIf
+TurnEntity mesh,x,y,z
+RenderWorld
+Flip 
+Wend
+End</pre><br>Conclusion:  Our cube looks good, but it is not as 
+efficiently constructed as it could be - too much re-using vertices.  
+There are always going to be 12 triangles (6 sides having 2 each), but 
+they can be formed more efficiently.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Centering the cone</td><td align="right"><font class="tiny">(Posted 2004-10-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ We know the cone was rotating oddly because, of the way I had plotted 
+the cone's vertices which meant the centre point (0,0,0 in 3D space) was
+ not the centre of the cone.  Blitz3D was rotating around what it saw as
+ the centre of the cone.<br><br>The following code shows the new cone - centred in 3D space.  Note the slight changes in the vertices:<br><br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+
+; just a bit of cosmetic lighting
+light=CreateLight()
+MoveEntity light,0,0,-50
+
+; I prefer having the camera initiated at the top of the code
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-10; I have moved the camera in a bit
+
+mesh = CreateMesh() 
+
+; This is the first triangle - the one that initially faces you
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,-2) 
+v1 = AddVertex (triangle1, 2,-2,-2) 
+v2 = AddVertex (triangle1, 0, 2, 0) 
+tri = AddTriangle (triangle1,v0,v2,v1)
+
+UpdateNormals mesh; necessary for correct lighting
+
+; This is triangle 2 - the one on the left of the first triangle and the one that faces to the left
+triangle2 = CreateSurface(mesh) 
+v0 = AddVertex (triangle2,  0,-2, 2) ;*********
+v1 = AddVertex (triangle2, -2,-2,-2) 
+v2 = AddVertex (triangle2,  0, 2, 0)  
+tri = AddTriangle (triangle2,v0,v2,v1)
+
+UpdateNormals mesh; necessary for correct lighting
+
+; This is triangle 3 - the one on the right of the first triangle and the one that faces to the right
+triangle3 = CreateSurface(mesh) 
+v0 = AddVertex (triangle3, 2,-2,-2) 
+v1 = AddVertex (triangle3, 0,-2, 2) ;*********
+v2 = AddVertex (triangle3, 0, 2, 0)  
+tri = AddTriangle (triangle3,v0,v2,v1)
+
+UpdateNormals mesh; necessary for correct lighting
+
+RenderWorld
+Flip
+WaitKey
+ 
+While Not KeyHit(1)
+TurnEntity mesh,0,.5,0
+
+
+RenderWorld
+Flip 
+Wend
+End</pre><br><br>When running this code - take a good look at the 
+triangle on screen - then press a key - notice how something does not 
+appear right - the cone is sort of leaning.<br><br>The problem is with 
+'v1' of triangle 3 (the right-hand one) and 'v0' of the triangle 2 (the 
+left-hand one).  Technically, the values might seem logical but, if you 
+were to plot the points on graph paper (in plan view - looking down from
+ above) and measure the distance of 'v0' and 'v1' of triangle 1 and then
+ compare the measurement of 'v0' and 'v1' of triangles 2 and 3, you'll 
+spot a slight difference in length.<br><br>It is possible to correct 
+this - the reason why this happened is because we are using 3 surfaces. 
+ You could design the cone out of 4 triangles and not have to worry 
+about this sort of thing.  To test that - draw a square on a piece of 
+paper now diagonally connect the corners - you have an 'x' inside a 
+square - or, a plan view from above the peak of a pyramid/cone.<br><br>The
+ 4 sided pyramid/cone is obviously going to be easier to design, but the
+ trade off here is that you are creating a fourth triangle to make it 
+easier.<br><br>Let's just take a quick look at the 'UpdateNormals mesh' 
+that I added in 3 times in the above code.  Comment out the last 2 - add
+ a ';' to the start of the lines.  The only active 'UpdateNormals mesh' 
+should be the one after Triangle 1.  Now re-run the program.<br><br>Notice
+ how only the first triangle is lit.  Right, let's make the second 
+'UpdateNormals mesh' active and then re-run the program. <br><br>Notice 
+not only are both lit, but you can also clearly see the light shading as
+ the mesh rotates.  The third triangle is neither lit nor shaded.<br><br>You
+ can now comment out or remove the fist two 'UpdateNormals mesh' and 
+just leave the final one active.  A quick check of the Blitz3D docs for 
+'UpdateNormals' will reveal:<br><br><div class="quote"> Recalculates all
+ normals in a mesh. This is necessary for correct lighting if you have 
+not set surface normals using 'VertexNormals' commands. <br></div><br>Forget about 'VertexNormals' for now.<br><br>Okay, let's change the lighting:<br><br><div class="quote"> ; just a bit of cosmetic lighting<br>light=CreateLight(2)<br>MoveEntity light,10,0,0<br> <br></div>We
+ have changed the light from the default directional light to point 
+lighting.  Plus, we have moved the light source to the right of the 
+cone.  You'll note the lighting here is a bit too aggressively applied 
+to the entire surface of each triangle.<br><br>Let's add a second light - a red light - and position that to the left of the cone:<br><div class="quote"> <br>; just a bit of cosmetic lighting<br>light=CreateLight(2)<br>MoveEntity light,10,0,0<br><br>; a second bit of cosmetic lighting<br>light2=CreateLight(2)<br>LightColor light2,255,0,0<br>MoveEntity light2,-10,0,0<br> <br></div>Now we are seeing the lighting becoming 'confused'.<br><br><b>Note:</b>
+ Just in case you are not seeing it clearly, or want to see it clearer 
+then you can change the speed of rotation whenever you feel like it by 
+altering 'TurnEntity mesh,0,.5,0' to whatever values you want.<br><br>The
+ main issue we have here is the surfaces are being lit equally by the 
+light across the entire surface of each triangle instead of being more 
+subtly shaded.<br><br>Let's now look at something weird - really weird.  Change both lights back to the default directional light:<br><div class="quote"> <br>; just a bit of cosmetic lighting<br>light=CreateLight(1)<br>MoveEntity light,10,0,0<br><br>; a second bit of cosmetic lighting<br>light2=CreateLight(1)<br>LightColor light2,255,0,0<br>MoveEntity light2,-10,0,0<br> <br></div>Can you spot the weird thing?  Remember, the red light source is on the left of the cone.<br><br>Also, the red light is very light in colour (almost pink) - the white light is more dominant.<br><br>Alright then, let's make the first light blue instead of the default white.  Amend the first light to:<br><div class="quote"> <br>; just a bit of cosmetic lighting<br>light=CreateLight(1)<br>LightColor light,0,0,255<br>MoveEntity light,10,0,0<br> <br></div>When you run the program you now see a pink cone.<br><br>If you comment out (by adding ';') to the block of second light code, you'll see that the light is actually blue.<br><br>Maybe another light - a third light - is interfering with our cone?  But, we only have two lights in the code.<br><br>The third light is ambient light - this one can drastically effect the results.  After the blocks of lighting add in:<br><div class="quote"> <br>AmbientLight 0,0,0<br> <br></div>Run the program - alter ambient light to various levels (100,100,1000 and 200,200,200) to see the difference.<br><br>If
+ you, as well as changing ambient light, also change the types of light 
+1, 2 or 3 - you'll see differing effects created by various lights with 
+ambient light.<br><br>Back to the original - the problem is our light source(s) are too near - change the lighting block of code to:<br><div class="quote"> <br>; just a bit of cosmetic lighting<br>light=CreateLight(2)<br>LightColor light,0,0,255<br>MoveEntity light,1000,1000,-1000<br><br>; a second bit of cosmetic lighting<br>light2=CreateLight(2)<br>LightColor light2,255,0,0<br>MoveEntity light2,-1000,1000,-1000<br><br>AmbientLight 0,0,0<br> <br></div>That's more like it, now our cone is rotating and the light is nicely shading subtly across the surface of each triangle.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The cube - probably the final version</td><td align="right"><font class="tiny">(Posted 2004-10-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The base cube has 6 faces (sides) and, potentially, 24 vertices.  However, a cube can be defined by 8 points.<br><br>With 24 vertices, each point is being defined three times - 3 x 8 = 24.<br><br><br><br>Vertices 8 - polys 6<br><br>-2,  2,  2<br>-2,  2, -2<br> 2,  2, -2<br> 2,  2,  2<br>-2, -2,  2<br> 2, -2,  2<br> 2, -2, -2<br>-2, -2, -2<br><br><i>Dreamora	(Posted 2004-10-14 18:41:02)<br>I would not use 6 surfaces normally.<br><br>6
+ indipendent quads ( 24 vertices ) are enough as the texturing problem 
+only happens if the cube is created out of 8 vertices in which case 1 UV
+ should hold for 3 different quads which is impossible.</i><br><br><br>Can get a pyramid from vertex data with index<br><br> 0,  4,  0<br> 6, -2,  6<br> 6, -2, -6<br>-6, -2, -6<br>-6, -2,  6<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>To do</td><td align="right"><font class="tiny">(Posted 2004-10-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <b>THIS
+ WORKLOG IS IN REVERSE - YOU HAVE TO READ FROM THE BOTTOM UP - sniff.  
+EVEN WORSE, I AM NOW DOING IT IN NO PARTICULAR ORDER - I MIGHT JUMP FROM
+ TOPIC TO TOPIC OVER TIME OR CREATE NEW ONES BEFORE I FINISH OTHERS</b><br><br>Re-introduce the square as a 4 vertice, 2 triangle example.<br><br>Use
+ the original Blitz Research triangle x3 to cone - introduce rotation 
+and colour shade the 3 - the fact that this will be hollow will nicely 
+introduce double-siding.<br><br>Do a cube - again, with various vertex structures - lift a lid - colour shade and re-cover double-siding.<br><br>Vertex Piglet<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The cone</td><td align="right"><font class="tiny">(Posted 2004-10-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Right, let’s use Blitz3D’s built-in example and resize the triangle – just paste in the following as a new program:<br><br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+mesh = CreateMesh() 
+surf = CreateSurface(mesh) 
+
+v0 = AddVertex (surf,-2,-2,0) 
+v1 = AddVertex (surf, 2,-2,0) 
+v2 = AddVertex (surf, 0, 2,0) 
+
+tri = AddTriangle (surf,v0,v2,v1) 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-7 
+
+RenderWorld 
+Flip 
+
+WaitKey 
+End</pre><br><br>What we want to do is create another two of the 
+triangles and position them to make a pyramid.  However, because there 
+will be no base to the pyramid, we’ll actually end up with a cone.  
+Again, we are going to do this the long way (not the most efficient way)
+ – i.e. create an additional 2 triangles in the same way the first one 
+has been created.<br><br>This is going to introduce all 3 planes (x,y,z)
+ – modelling in 3D is more difficult and, as of yet, I have no clear way
+ of guiding you – still use graph paper as much as possible though.<br><br>The
+ initial triangle in the above program is fine where it is.  However, 
+the top of it will have to lean into the screen, when the two other 
+triangles are added they will also lean – all three will meet each other
+ and form a cone.<br><br>The easiest way of creating the second triangle
+ will be by adding it in with the first triangle, rather than creating 
+it separately – this way you can work out where to position it.  For the
+ time being we will not make any of the triangles lean – let’s just add 
+them one at a time into their correct positions for their base, then 
+lean them into their final positions.<br><br>From the code that you have on the screen (the above program listing), highlight and copy the following section:<br><div class="quote"> <br>surf = CreateSurface(mesh) <br><br>v0 = AddVertex (surf,-2,-2,0) <br>v1 = AddVertex (surf, 2,-2,0) <br>v2 = AddVertex (surf, 0, 2,0) <br><br>tri = AddTriangle (surf,v0,v2,v1) <br></div><br><br>Paste the copy below ‘tri = AddTriangle (surf,v0,v2,v1)’.  You should now have the following on screen:<br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+mesh = CreateMesh() 
+surf = CreateSurface(mesh) 
+
+v0 = AddVertex (surf,-2,-2,0) 
+v1 = AddVertex (surf, 2,-2,0) 
+v2 = AddVertex (surf, 0, 2,0) 
+
+tri = AddTriangle (surf,v0,v2,v1)
+
+surf = CreateSurface(mesh) 
+
+v0 = AddVertex (surf,-2,-2,0) 
+v1 = AddVertex (surf, 2,-2,0) 
+v2 = AddVertex (surf, 0, 2,0) 
+
+tri = AddTriangle (surf,v0,v2,v1) 
+ 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-7 
+
+RenderWorld 
+Flip 
+
+WaitKey 
+End</pre><br><br>Now amend the block that you just pasted in to:<br><div class="quote"> <br>Surf2 = CreateSurface(mesh) <br><br>v0 = AddVertex (surf2,-2,-2,0) <br>v1 = AddVertex (surf2, 2,-2,0) <br>v2 = AddVertex (surf2, 0, 2,0) <br><br>tri = AddTriangle (surf2,v0,v2,v1) <br></div><br><br>Basically, we just changed ‘Surf’ to ‘Surf2’ for the second block of ‘AddVertex’ (including ‘AddTriangle’).<br><br>Perchance
+ you run the program, you will see one triangle (as before) – this is 
+because the new triangle is being displayed in the same 3 dimensional 
+place as the first triangle.<br><br>Moving the second triangle into 
+place is very fiddly and (for a beginner) is initially going to be a lot
+ of trial and error and messing about.<br><br>The second triangle will 
+be placed on the left-hand side of the first one – if you imagine the 
+one on your screen currently (the first one) as facing south (towards 
+you), then the second one is going to be facing west (facing to the 
+left) – so, it will be virtually invisible as it will be completely 
+side-on to your view of it.<br><br>The second triangle is going to make 
+extensive use of the ‘z’ (depth) plane.  It is the same size and shape 
+as the first triangle and the vertices are exactly the same scale and 
+distance as regard the first triangle.<br><br>Let’s take a look at the first triangle’s vertices again:<br><div class="quote"> <br>v0 = AddVertex (surf,-2,-2,0) <br>v1 = AddVertex (surf, 2,-2,0) <br>v2 = AddVertex (surf, 0, 2,0) <br></div><br><br>Notice
+ how the third parameter (‘z’) are all set to 0 – well they won’t be in 
+the second triangle.  The ‘x’ values move left/right on your screen – 
+remember your second triangle is going to be side-on so its width is 
+going to be in the 'z' (depth) plane - in/out of the screen.<br><div class="quote"> <br>v0 = AddVertex (surf2, -2,-2,4)<br>v1 = AddVertex (surf2, -2,-2,0)<br>v2 = AddVertex (surf2, -2, 2,2) <br></div><br><br>If
+ you edit your second block with the new values and run the program, you
+ will still only see the initial triangle – that is because the second 
+triangle is side-on to your viewpoint – it is there, but not visible – 
+yet.<br><br>Right, let’s create a new program – it is the same as the 
+one you have created – I just modified it and added in a cheap rotation 
+to show you the second triangle (in motion):<br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+; I prefer having the camera initiated at the top of the code
+c_pivot=CreatePivot()
+cam = CreateCamera(c_pivot) 
+MoveEntity cam, 0,0,-10; I have moved the camera out a bit
+
+mesh = CreateMesh() 
+
+; This is the first triangle - the one that initially faces you
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,0) 
+v1 = AddVertex (triangle1, 2,-2,0) 
+v2 = AddVertex (triangle1, 0, 2,0) 
+tri = AddTriangle (triangle1,v0,v2,v1)
+
+; This is triangle 2 - the one on the left of the first triangle and the one that faces to the left
+triangle2 = CreateSurface(mesh) 
+v0 = AddVertex (triangle2, -2,-2,4) 
+v1 = AddVertex (triangle2, -2,-2,0) 
+v2 = AddVertex (triangle2, -2, 2,2)  
+tri = AddTriangle (triangle2,v0,v2,v1) 
+ 
+While Not KeyHit(1)
+TurnEntity c_pivot,0,.5,0; technically this is a cheap rotation
+RenderWorld 
+Flip 
+Wend
+End</pre><br><br>When you run this, you will see the first triangle 
+rotate out of view – you’ll have to wait for the second triangle to 
+rotate into view – this is because the triangles are all single-sided – 
+so you cannot see the back of them when they rotate.  Once you have 
+watched the rotation a few times, you’ll see this factor.<br><br>We now 
+need to look at how the second triangle was positioned.  Well, one clue 
+is the right hand corner of the second triangle would have had to touch 
+the left-hand corner of the first triangle – this means ‘v0’ of the 
+first triangle and ‘v1’ of the second triangle will have the same values
+ – because they are in the same position in 3D space.<br><br>Take a 
+piece of paper – cut out a square – cut the square diagonally – you now 
+have two triangles – you can now position the paper versions where you 
+want.  How about on a piece of graph paper?  Have the graph paper 
+horizontal (like a mouse mat) and stand the two triangles upright on it -
+ you are now positioning them in the ‘x’ and ‘z’ planes.<br><br>Let's 
+move onto the third triangle.  This one is a bit easier to position on 
+the basis that we have positioned the second triangle - it's just the 
+third triangle is a little further along the 'x' plane:<br><div class="quote"> <br>; This is triangle 3 - the one on the right of the first triangle and the one that faces to the right<br>triangle3 = CreateSurface(mesh) <br>v0 = AddVertex (triangle3,  2,-2,0) <br>v1 = AddVertex (triangle3,  2,-2,4) <br>v2 = AddVertex (triangle3,  2, 2,2)  <br>tri = AddTriangle (triangle3,v0,v2,v1) <br></div><br>This
+ one was a doddle (having already done the second triangle).  This time 
+‘v1’ of the first triangle and ‘v0’ of the third triangle have the same 
+values.<br><br>Getting them to lean so that their 'peaks' meet is now 
+easy - in each case only 'v2' (the peak) for each triangle needs 
+altering:<br><div class="quote"> <br>v2 = AddVertex (triangle1, 0, 2,2)<br>v2 = AddVertex (triangle2, 0, 2,2)<br>v2 = AddVertex (triangle3, 0, 2,2)<br> <br></div><br>We
+ now know that 'v0' of triangle 2 (the left one) and 'v1' of triangle 3 
+(the right one) have to be the same (touching).  It's just a case of 
+moving them by 2 units along their 'x' plane towards each other (to 
+meet).  Each one has to move the same distance along the 'x' plane.<br><div class="quote"> <br>v0 = AddVertex (triangle2,  0,-2,4)<br>v1 = AddVertex (triangle3, 0,-2,4)<br> <br></div><br>If
+ you cut out a second paper triangle, you can position them on your 
+graph paper and see their positions in the 'x' and 'z' planes.<br><br>The cone is now complete:<br><pre class="code">; This is the first triangle - the one that initially faces you
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,0) 
+v1 = AddVertex (triangle1, 2,-2,0) 
+v2 = AddVertex (triangle1, 0, 2,2) 
+tri = AddTriangle (triangle1,v0,v2,v1)
+
+; This is triangle 2 - the one on the left of the first triangle and the one that faces to the left
+triangle2 = CreateSurface(mesh) 
+v0 = AddVertex (triangle2,  0,-2,4) 
+v1 = AddVertex (triangle2, -2,-2,0) 
+v2 = AddVertex (triangle2,  0, 2,2)  
+tri = AddTriangle (triangle2,v0,v2,v1)
+
+; This is triangle 3 - the one on the right of the first triangle and the one that faces to the right
+triangle3 = CreateSurface(mesh) 
+v0 = AddVertex (triangle3, 2,-2,0) 
+v1 = AddVertex (triangle3, 0,-2,4) 
+v2 = AddVertex (triangle3, 0, 2,2)  
+tri = AddTriangle (triangle3,v0,v2,v1)
+</pre><br><br>Right, let's now take a look at the fact that our cone is 
+hollow (it is basically a pyramid with no base) and also taking into 
+account that the surfaces are single-sided (you can only see them from 
+one side):<br><br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+; just a bit of cosmetic lighting
+light=CreateLight()
+MoveEntity light,0,0,-50
+
+; I prefer having the camera initiated at the top of the code
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-20; I have moved the camera out a bit
+
+mesh = CreateMesh() 
+
+; This is the first triangle - the one that initially faces you
+triangle1 = CreateSurface(mesh)
+v0 = AddVertex (triangle1,-2,-2,0) 
+v1 = AddVertex (triangle1, 2,-2,0) 
+v2 = AddVertex (triangle1, 0, 2,2) 
+tri = AddTriangle (triangle1,v0,v2,v1)
+
+UpdateNormals mesh; necessary for correct lighting
+
+; This is triangle 2 - the one on the left of the first triangle and the one that faces to the left
+triangle2 = CreateSurface(mesh) 
+v0 = AddVertex (triangle2,  0,-2,4) 
+v1 = AddVertex (triangle2, -2,-2,0) 
+v2 = AddVertex (triangle2,  0, 2,2)  
+tri = AddTriangle (triangle2,v0,v2,v1)
+
+UpdateNormals mesh; necessary for correct lighting
+
+; This is triangle 3 - the one on the right of the first triangle and the one that faces to the right
+triangle3 = CreateSurface(mesh) 
+v0 = AddVertex (triangle3, 2,-2,0) 
+v1 = AddVertex (triangle3, 0,-2,4) 
+v2 = AddVertex (triangle3, 0, 2,2)  
+tri = AddTriangle (triangle3,v0,v2,v1)
+
+UpdateNormals mesh; necessary for correct lighting
+ 
+While Not KeyHit(1)
+TurnEntity mesh,.5,0,0; this different rotation - we are now turning the mesh, not the camera
+
+RenderWorld
+Flip 
+Wend
+End</pre><br><br>You'll note that this code is modified and has had lighting added.<br><br><br><b>The
+ perspective is a bit weird, but that is probably the camera - the 
+positioning of the triangles is correct.  In fact, it is because of the 
+centre point of our newly created mesh - technically, this can be fixed 
+on-the-fly, but I will re-design the cone instead.  It will probably be 
+good practice to always consider and plan the centre point of any mesh 
+as you created it.<br><br>I don't like Blitz's built-in example which utilises 'tri = AddTriangle (surf,v0,v2,v1)'.  A beginner would expect v0,v1,v2.</b><br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Part one</td><td align="right"><font class="tiny">(Posted 2004-10-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <i>THIS
+ DRAFT (Part one) is not complete and I may start on a new section prior
+ to completing it - I am making it up as I go and may drift all over the
+ place.</i><br><br>Part one is aimed to discuss 'AddVertex' and 
+'AddTriangle' - these two commands form the basis of actually creating 
+something interesting.<br><br>Designing vertex stuff is initially very 
+fiddly and time consuming (especially for a beginner – like me).  
+Ideally, plot you vertices on graph-type paper - or just draw horizontal
+ and vertical lines on a piece of paper - this is mainly of use if you 
+are working with only 2 dimensions.  The values in the AddVertex command
+ are purely points in 3D space in the same way you would position an 
+entity in x,y,z.  Remember that the x, y and z values can be positive 
+and negative.  Initially, it is probably best to just work in x and y 
+coordinates – save z (depth) to later.<br><br>Using graph paper 
+certainly seems to be beneficial for me to work out where I want to 
+place the vertex coordinates.  You can also use this method to ‘decode’ 
+other peoples vertex coordinates.<br><br>Also, remember you can copy and paste – no need to type stuff in – you can just copy and paste<br><br>Also, to help you learn the coordinates of the vertices, you can strip out the use of the 'u' and 'v' parameters:<br><div class="quote"> <br>--------------------------X..Y..Z..U..V<br>v0 = AddVertex (surf,-5,-5, 0, 0  , 0) <br>v1 = AddVertex (surf, 5,-5, 0, 1  , 0) <br>v2 = AddVertex (surf, 0, 5, 0, 0.5, 1) <br> <br></div>Becomes:<br><div class="quote"> <br>--------------------------X..Y..Z<br>v0 = AddVertex (surf,-5,-5, 0) <br>v1 = AddVertex (surf, 5,-5, 0) <br>v2 = AddVertex (surf, 0, 5, 0) <br> <br></div><br>The
+ above is initially easier to read as you are now just seeing your 
+familiar x,y,z values.  Until you start texturing you don't need to 
+worry too much about the 'u' and 'v' texture coordinates of the vertex.<br><br>To
+ get quick access to the built-in example in Blitz3D, start Blitz3D and 
+create a new program - type 'AddVertex', select it with the mouse 
+(left-click on it), then press 'F1' twice. To run the built-in Blitz3D 
+example program, left-click on the word  ‘Example’ (the one in yellow 
+coloured text).<br><br>One thing I would advise when using the built-in 
+Blitz3D example code is that you can accidentally overwrite the example 
+code – this is not a huge problem as you can re-copy the hard-code from 
+the help screen and paste it back.  So, to avoid accidents, when you go 
+to the help screen, instead of clicking on the word ‘Example’ just copy 
+the code example from the current screen (the code block that appears 
+under the word ‘Example’ and then paste it in as new program code.<br><br>The
+ built-in Blitz3D example draws a simple triangle on the screen.  Let’s 
+suppose we want a square - two triangles make a square - but the one on 
+your screen is the wrong shape.  So, we need to create a new triangle:<br><br>Instead of:<br><div class="quote"> <br>v0 = AddVertex (surf, -5,-5,0, 0 ,0) <br>v1 = AddVertex (surf, 5,-5,0, 1 ,0) <br>v2 = AddVertex (surf, 0, 5,0, 0.5,1) <br> <br></div><br>Take
+ note that the built-in Blitz3D example is a bit scruffily typed - it's 
+best to space your values so that you can clearly see them in columns 
+(as below):<br><br>We want:<br><div class="quote"> <br>v0 = AddVertex (surf2,-5,-5, 0) <br>v1 = AddVertex (surf2, 5,-5, 0)<br>v2 = AddVertex (surf2, 0, 5, 0) <br> <br></div>You'll note that the triangle is a bit large, so let's scale it down – just amend all of the values of 5 to 2:<br><div class="quote"> <br>v0 = AddVertex (surf1,-2, 2, 0); top left corner<br>v1 = AddVertex (surf1, 2, 2, 0); top right corner <br>v2 = AddVertex (surf1,-2,-2, 0); bottom left corner<br> <br></div>Floating point values (not whole numbers) are perfectly legal:<br><div class="quote"> <br>v0# = AddVertex (surf1,-2.5, 2.5, 0); top left corner<br>v1# = AddVertex (surf1, 2.5, 2.5, 0); top right corner <br>v2# = AddVertex (surf1,-2.5,-2.5, 0); bottom left corner <br> <br></div>Let's look at something interesting:<br><div class="quote"> <br>v0# = AddVertex (surf1,-0.5, 0.5, 0); top left corner<br>v1# = AddVertex (surf1, 0.5, 0.5, 0); top right corner <br>v2# = AddVertex (surf1,-0.5,-0.5, 0); bottom left corner <br> <br></div>Change the 'x' parameter of 'v0' to '1.5'<br><br><div class="quote"> ....................................***<br>v0# = AddVertex (surf1,-1.5, 0.5, 0); top left corner<br>....................................***  <br>v1# = AddVertex (surf1, 0.5, 0.5, 0); top right corner <br>v2# = AddVertex (surf1,-0.5,-0.5, 0); bottom left corner <br> <br></div><br>You
+ should see another triangle - the new triangle is NOT a rotation, it is
+ a completely different triangle that was created by altering just one 
+value.<br><br>Anyway, back to our square - we already have the left side of the square:<br><div class="quote"> <br>v0 = AddVertex (surf2,-5,-5, 0); top left corner<br>v1 = AddVertex (surf2, 5,-5, 0); top right corner<br>v2 = AddVertex (surf2, 0, 5, 0); bottom left corner<br><br>tri = AddTriangle (surf1,v0,v1,v2); this is the left-hand triangle of our square<br> <br></div><br>Let's now add in the right side of the square.<br><br>Note:  this is not the most efficient way, but it is a logical way for a beginner:<br><br>Draw
+ a square on a piece of paper - put a little circle around each corner -
+ draw a diagonal line from any one corner to another – you now have a 
+square made of two triangles and 4 circled corners (vertices).  However,
+ let's suppose that the 2 triangles can come apart - you'd now have 6 
+vertices (3 on each triangle).<br><br>Let’s create a second triangle:<br><div class="quote"> <br>v0 = AddVertex (surf2, 2, 2, 0); top right corner <br>v1 = AddVertex (surf2, 2,-2, 0); bottom right corner<br>v2 = AddVertex (surf2,-2,-2, 0); bottom left corner <br><br>tri = AddTriangle (surf2,v0,v1,v2)<br> <br></div><br>The complete code to show them both on screen together is:<br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-5 
+
+
+mesh = CreateMesh()
+ 
+surf1 = CreateSurface(mesh); left-hand triangle of square 
+;                       x  y  z
+v0# = AddVertex (surf1,-2, 2, 0); top left corner
+v1# = AddVertex (surf1, 2, 2, 0); top right corner 
+v2# = AddVertex (surf1,-2,-2, 0); bottom left corner 
+tri = AddTriangle (surf1,v0,v1,v2); this is the left-hand triangle of our square
+
+surf2 = CreateSurface(mesh); right-hand triangle of square 
+;                      x, y, z
+v0 = AddVertex (surf2, 2, 2, 0); top right corner 
+v1 = AddVertex (surf2, 2,-2, 0); bottom right corner
+v2 = AddVertex (surf2,-2,-2, 0); bottom left corner 
+tri = AddTriangle (surf2,v0,v1,v2) 
+
+RenderWorld 
+Flip 
+
+WaitKey 
+End 
+</pre><br>Before proceeding - let's take a look at 'AddTriangle':<br><br>Reset your program to:<br><pre class="code">Graphics3D 640,480 
+SetBuffer BackBuffer() 
+
+cam = CreateCamera() 
+MoveEntity cam, 0,0,-5 
+
+mesh = CreateMesh()
+ 
+surf1 = CreateSurface(mesh); left-hand triangle of square 
+;                       x  y  z
+v0# = AddVertex (surf1,-2, 2, 0); top left corner
+v1# = AddVertex (surf1, 2, 2, 0); top right corner 
+v2# = AddVertex (surf1,-2,-2, 0); bottom left corner 
+tri = AddTriangle (surf1,v0,v1,v2); this is the left-hand triangle of our square
+
+RenderWorld 
+Flip 
+
+WaitKey 
+End 
+</pre><br>The 'AddTriangle' command does not technically have to be in the order shown (tri = AddTriangle  <br>(surf1,v0,v1,v2))<br><br>You can copy and paste the following in to take a look at the results:<br><div class="quote"> <br>tri = AddTriangle (surf1,v1,v2,v0)<br>tri = AddTriangle (surf1,v2,v1,v0)<br>tri = AddTriangle (surf1,v1,v0,v2)<br>tri = AddTriangle (surf1,v2,v0,v1)<br>tri = AddTriangle (surf1,v0,v2,v1)<br> <br></div><br>Just to save you the time:<br><br>These three (including the original) show the triangle (the same triangle)<br><div class="quote"> <br>tri = AddTriangle (surf1,v0,v1,v2)<br>tri = AddTriangle (surf1,v1,v2,v0)<br>tri = AddTriangle (surf1,v2,v0,v1)<br> <br></div><br>These three do not produce a visible result - you get a blank, black, screen:<br><div class="quote"> <br>tri = AddTriangle (surf1,v2,v1,v0)<br>tri = AddTriangle (surf1,v1,v0,v2)<br>tri = AddTriangle (surf1,v0,v2,v1)<br> <br></div><br>Right, let's study this:<br><br>v0# is the top left corner<br>v1# is the top right corner <br>v2# is the bottom left corner<br><br>On
+ paper, draw a line to the right, now draw a diagonal line down towards 
+the left and then draw a line straight up to meet the start - this is 
+the triangle and those corners apply when you use 'AddTriangle'.<br><br>v0,v1,v2 connects the triangle's vertices the way you just did on paper.<br><br>On
+ paper, draw a diagonal line down towards the left and then draw a line 
+straight up (to the same level), now draw a line to the right to meet 
+the start.<br><br>v1,v2,v0 connects the triangle's vertices the way you just did on paper.<br><br>As for v2,v0,v1, I think you can guess the answer to that.<br><br>Basically,
+ all three versions draw the same triangle but starting and finishing at
+ a different corner - but all move CLOCKWISE through the triangle.<br><br>Right, let's take a look at the 3 that didn't work:<br><br>v2,v1,v0 is basically the first example in reverse - ANTICLOCKWISE<br><br>In
+ fact, the remaining two (v1,v0,v2 and v0,v2,v1) are both going from a 
+different corner (vertice) to a different corner (vertice) in an 
+ANTICLOCKWISE route.<br><br>The triangle created with the above three 
+examples is actually there - after the 'AddTriangle' command - add in on
+ a new line 'FlipMesh mesh'.  Make sure you are using one of the 
+ANTICLOCKWISE 'AddTriangle' versions.<br><br>Your triangle is back and it is in the same position and rotation (it's identical to the original)<br><br>So, in general you will probably want to connect your vertices in a CLOCKWISE fashion.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>INTRODUCTION</td><td align="right"><font class="tiny">(Posted 2004-10-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> 'Surface' stuff - by "puki"<br><br>I have only ever seen one tutorial related to the 'Surface' commands of Blitz3D:<br><br><a href="http://www.blitzcoder.com/cgi-bin/articles/show_article2.pl?f=gamearray12142001.html" target="_blank">http://www.blitzcoder.com/cgi-bin/articles/show_article2.pl?f=gamearray12142001.html</a><br><br>Credit to "Storm" for this.  Read his tutorial first as it is a complete tutorial.<br><br><b>Baring
+ in mind Blitz3D actually does come with a built-in vertices tutorial - 
+on the start-up screen - click on '3D Tutorials' - scroll to the bottom 
+of the page and select 'Vertexes'</b>.  I have both this and the printed
+ manual and forgot they were there (although, I didn't know about the 
+built-in one). I noticed this after I started. Still, I will continue my
+ little project.<br><br>Personally, I think Blitz3D is lacking in this 
+area - not in programming, but in tutorials and clarity.  The 'Surface' 
+commands in Blitz3D are the holy-grail to some of the eye-candy you see 
+in commercial games (particle effects, realistic water, real-time cloth 
+effects, terrain deformation, shadow effects, etc, etc).  However, my 
+intended tutorial is not going to go down those routes as other Blitzers
+ have already gone down those roads and produced code archives.  My aim 
+is to cover the basics better than the Blitz3D manual so that you can 
+hopefully understand their code better because you will have a 
+background knowledge of all those ‘AddVertex’ and ‘AddTriangle’ commands
+ that litter their code.<br><br>What I am intending to do is to plod 
+along and eventually create a tutorial for the 'Surface' commands 
+designed for a beginner/novice.  I am doing this for people who have 
+never used the 'Surface' commands, those who want to and those who have 
+tried and given up.  The idea is to hopefully avoid a situation whereby 
+someone skips these commands because they look a bit complicated.<br><br>The
+ surface commands are very, very powerful and I think they really should
+ be promoted more by Blitz Research - I think the way to do this is with
+ some kind of clear, easy to follow, examples/tutorials.  <b> BAD "puki", THERE IS A BUILT-IN DEMO - OPEN YOUR EYES YOU IDIOT!</b><br><br>THE
+ FOLLOWING (which is currently above) IS *NOT* MY TUTORIAL - IT IS THE 
+WORK-IN-PROGRESS OF MY TUTORIAL.  When I decided to do a basic tutorial 
+for beginners I realised this was going to take a long time - I have 
+been using Blitz3D since 2001 and never bothered using the 'Surface' 
+commands.  What changed my mind was when I was recently looking at 
+several particle engines and thought ‘I really ought to take the bull by
+ the horns and finally use and understand the ‘Surface’ stuff'.<br><br>Rather
+ then take a couple of months and then  produce a tutorial for the 
+'Tutorials' section, I thought 'Why not do it as a work-log then people 
+can see it as it is created?'.  The advantage here is there might be 
+people who are already itching to get their hands dirty with this stuff.<br><br>What
+ I would say is the content of this work-log may contain errors - it is 
+purely my draft of the intended tutorial that I am typing - it may 
+change slightly - it will grow over time - there may be periods of time 
+whereby nothing new is added.  Also, the content in this work-log may 
+not be typed in the eventual order – currently, I am just making it up 
+as I go.<br><br>I have to stress though that it has to be accepted that 
+the content may not be always correct or factual - I too am learning as I
+ go.  Prior to finalising the tutorial, it is my intention that it will 
+be checked and corrected where necessary.  So, this tutorial is not 
+deemed complete until it eventually finds its way into the correct 
+Tutorials section of the site.<br><br>The official Blitz3D 'Surface' commands documentation can be found here:<br><a href="http://www.blitzbasic.com/b3ddocs/command_list_3d_cat.php?show=Surface" target="_blank">http://www.blitzbasic.com/b3ddocs/command_list_3d_cat.php?show=Surface</a><br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tweaking team creation</td><td align="right"><font class="tiny">(Posted 2004-06-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Although the players are make-believe, randomally generated ones, the 
+teams are based on real Premiership teams.  I have started tweaking the 
+game to generate players realistically in relation to the teams.  All of
+ the teams are graded - this affects the size and quality of their 
+squads - currently set to generate between 20 and 40 players per team 
+(baring in mind I am not faffing about with reserve and youth teams, 
+although reserve teams will be sort of accounted for, you won't pick 
+squads or play matches as such with them - it will just be a background 
+thing)<br><br>I still need to finish the various screens before trying to advance further.<br><br>Still, got off to a good start, baring in mind I have applied very little time to it.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Interface working and database coming along</td><td align="right"><font class="tiny">(Posted 2004-06-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I decided to knock up a quick interface - works well.  It is purely a 
+highlight box that you can move around with the cursor/arrow keys.  I 
+assume this sort of system is used with console football managment 
+games.  Will worry about mouse support much further down the line.<br><br>The
+ database is working well.  When accessing a club screen to see the list
+ of players (as per Championship Manager), initially I thought I'd have 
+to create arrays for each club - not so.  I just create an array to hold
+ the global position of the player - simple as that.  The array is 
+re-used each time you click on a club, so there is no wastage - and the 
+array is unique (don't have to have one per club, just one unique one).<br><br>To explain the above:<br><br>There
+ are currently 1,000 players (for development) - numbered 1 - 1000 
+(obviously).  So when you click on a club, say 'Man Utd' - a loop goes 
+through all the players in the database and shunts the global index of a
+ player, who's current team is equal to the club, into a 'squad array'. 
+ Once in that array, all the stats of that player never need to be 
+searched.<br><br>It's a smart system - it is easy on resources as I 
+don't need to create arrays for clubs, therefore wasting memory by 
+duplicating it.  To test it, I increased the database to 100,000 players
+ (baring in mind I can create them-on-the fly).<br><br>Hope the above makes sense.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress</td><td align="right"><font class="tiny">(Posted 2004-06-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Setting up the players, stats and teams seems to be easy enough (but then it was going to be).<br><br>Not going to bother with the hyperlinking interface yet - too much else to do.<br><br>Going
+ to concentrate on setting up the screens (player profile/club 
+screens/league table/player search, etc., etc.).  Actually, this will be
+ probably be a fair amount of work in itself.<br><br>Also, going to find
+ something on the internet that shows the top UK first names and 
+surnames so that I can increase the occurances of certain names, rather 
+than just simply randomly creating them.  Probably by entering a certain
+ first name or surname into the data more than once.<br><br>All-in-all, 
+this first Worklog project of mine is going okay.  Maybe it will become a
+ serious project.  I'm using my some of my adventure game programming 
+skills within this project - mainly 'string' stuff, to achieve what I 
+want simply and efficiently.<br><br>However, there is a long, lonely, 
+road ahead before this is even remotely worth looking at.  Euro 2004 
+isn't helping development.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The plan:</td><td align="right"><font class="tiny">(Posted 2004-06-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This is my first worklog and it isn't really a serious project - it's just something to do until I get run-over or something.<br><br>'Blitz Football Manager' is just a title off the top of my head so it isn't a problem if it clashes with anything else.<br><br>I've
+ not done any serious programming for many years.  I've never done a 
+football managment type game - haven't got a clue - so I am just going 
+to make it up as I go along - in fact, I've not done anything in PC 
+Blitz - in fact, I am going to have to learn the language as I go along.<br><br>I
+ think this type of game will be in part easy, yet also very 
+challenging.  I think the challenge will be in creating the AI for the 
+computer controlled managers - I've a feeling that will not be easy, or 
+at least will be difficult to vary it realistically.<br><br>Initially, 
+to get the ball rolling a bit quicker, I am only going to create a 
+Premiership league with no cup competitions.  Not going to bother with 
+reserve or youth teams.<br><br>I'm going to cut down on the number of 
+individual player stats that Championship manager uses and work on the 
+basis that I can calculate stats off each other for example an 
+'Experience' stat for a player will be a smart move for calculating many
+ things in the game (on and off the pitch).  I want to visually display 
+stats in terms of (awful/poor/average/good/very good/excellent/world 
+class), as I think this is more realistic than a numerical figure 
+between 1 and 20 that Championship Manager uses.  I think Championship 
+Manager would look more realistic if they did this:<br><br>1-5 = awful<br>6-9 = poor<br>10-13 = average<br>14-15 = good<br>16-17 = very good<br>18-19 = excellent<br>20 = world class<br><br>Instead
+ of displaying numerical stats, I will display the corresponding word - 
+to me it seems more realistic than numeric or 'star' systems.<br><br>I'm not going to faff around with real players - so the first bit is easy:<br><br><br><br>Task 1 (in no particular logical order - I just thought of it first)<br><br>Store
+ a load of first names and surnames then randomally call them to create 
+my player database whilst assigning random stats (such as age, etc.) and
+ assigning them into teams - all on the fly.  Should be easy enough - 
+but I'm watching the football so I'll do it later.<br><br><br><br>Task 2:<br><br>Design an interface (for clicking on players/viewing stats/histories, etc.)<br><br>Not
+ actually sure how I am going to do this - I want it to work like 
+Championship Manager's hyperlinked-type text.  As I think about it, this
+ might be my first challenge.  Anyway, I can initially kludge it by 
+zoning the screen display and arraying, on the fly, the contents of the 
+zones as they appear - then I can know what has been clicked (i.e. in a 
+transfer list screen whether it is a player's name, or a club's name and
+ which particular item was clicked - in fact, this system would detect 
+the item prior to a click - might be handy as I could highlight the item
+ which Championship Manager doesn't do - this could be handy especially 
+when you consider some of the problems with CM's finger pointer).  This 
+system is workable, but might end up being cumbersome - there is only 
+one way I will know and that is to try it.<br><br>I have a feeling Task 2
+ is probably going to take me ages to get right - but there is more than
+ one option to try.  I'm starting to think I should have just done an 
+adventure game.  Anyway, I can always do it the 8-bit way (typing a 
+value in) if it starts becoming a pain to do.<br> <br><br> <img src="6822&amp;log=1228_files/b3dp.html"> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

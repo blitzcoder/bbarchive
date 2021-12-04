@@ -1,0 +1,31 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Baystep Productions</h1><h1>Project Viral</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Procedural Generation</td><td align="right"><font class="tiny">(Posted 2011-07-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I started with the Procedural Generation of the levels. I'm starting 
+out simple right now so here's the outline of my current algorithm (its 
+really simple right now)...<br><br>-Start by filling the grid with grass tiles.<br>-Create up to 200 tiles of "dirt" tiles at random locations.<br>-Iterate the map 3 tiles and "grow" these dirt tiles by using random switches.. ie: <br>    If Rand(0,1)=True And x&gt;0 Then Layer0[x-1,y].frame = 6<br>This creates randomly shaped pools of "dirt"<br>-Iterate it again to fill in any patches by the rule if more then 2 sides are dirt, fill it in with dirt.<br>-Finally iterate one last time to create the "borders" and transitional frames between dirt and grass.<br><br>Then I move on to the resources or units. In almost the same fashion as before.<br>- Create 100 "tree" tiles at random locations that are above "grass" tiles.<br>- Iterate this 2 times just like the "dirt" grow method but again only if its on "grass" tiles.<br>Repeat the above for "rock" tiles but only on "dirt" tiles.<br><br>This
+ method works. Its probably not the most efficiant but considering I 
+only generate the map at game start, 500ms to 1000ms isn't too bad 
+right? Plus I'm too lazy to make tilesets for more detailed maps right 
+now. (I'm on a laptop so drawing is a choir.<br><br>In future versions I
+ have a possibly realistic approach? Which is to hold a heightmap array 
+with values between 0 and 8 (integers). Probably by using a sort of 
+diamond-square algorithm. And set all tiles at 0 to water. Then use the 
+height for the density of certain tile types to render. Then probably 
+use an almost "lifecycle" type growth generation to grow these patches 
+based on their height and surrounding. IE: grass is less likely to grow 
+in lower altitudes while grass is. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Intro</td><td align="right"><font class="tiny">(Posted 2011-07-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm creating this work log not only to document the progression of the 
+game but also to kinda hold the idea and rights of the game as well.<br><br>So
+ to start out, the game is a top-down tile based game. It's really got 
+multiple genre style fused together. For instance, your personal 
+character plays out almost RPG style. While your influence on the world 
+around you acts in an RTS style. (same goes for the community). The 
+enemy AI is very Shoot 'em up as they really only one goal and that is 
+to get together and destroy whatever it is your doing.<br><br>Right now,
+ I'm developing the "single player quick game" mode for it to kind of 
+get the mechanics working. Then I'll move on to Single Player Campaign. 
+And finally introduce the MMO into it with a hopefully massive 
+multiplayer section. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

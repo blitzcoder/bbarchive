@@ -1,0 +1,63 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Chroma</h1><h1>Ghost Rocket Flight Engine</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress</td><td align="right"><font class="tiny">(Posted 2009-07-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I purchased Particle Candy about a week ago and now I've god some nice 
+smoke and fire effects.  It's also working well for flak bursts.  I've 
+tweaked the lens flare a bit but still need to make proper flare 
+textures.  I've only got about 4-5 things left before I can do a 
+multiplayer alpha test.<br><br>-choose a network module<br>-get the landing gear physics worked out<br>-bullet and damage code<br>-make a decent desert area for combat <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress</td><td align="right"><font class="tiny">(Posted 2009-07-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Last night I got a couple of things done.  I snagged Rob's Fast Hud 
+routine from the archives.  It works great and is pixel perfect (as far 
+as I can tell).  I also utilized his lens flare code from the archives 
+too.  It works a treat when combined with his hud routines.<br><br>Getting
+ the hud working inspired me to create an altitude gauge.  I thought 
+inkscape would be limiting but I'm finding it's on par with PSP9 and 
+actually allows me to create things incredibly faster.  You might think 
+vector art isn't a good match for a flight sim but there's a Blur 
+attribute for each vector piece so you can smooth out the straight 
+edges.  Give Inkscape a try, you might be surprised.<br><br>What I 
+really need to do is get a world creation pipeline finalized.  Right now
+ I'm taking real geographic elevation data and converting it into 
+terrain (thanks to all Krischan's hard work on BlitzTiles).  Which will 
+work really well if I wanted to map out a real battle that took place in
+ for instance, Metz, Belgium.  That would also allow me to recreate 
+actual combat missions straight out of history (which would also be a 
+good selling point).<br><br>As for the effects, I'm looking into all 
+kinds of solutions. I've been watching old WWII air combat videos on 
+youtube and studing how the bullets tracers look.  I really want to 
+capture realistic gun firing visuals.  And explosions.  I've also been 
+thinking about actually deforming the terrain when a bomb is dropped.  
+That way you can crater out the enemies airfield and it will stay like 
+that.  That'd make defending the base even more important (AA guns).  
+Speaking of AA guns, like how the shell explodes and the smoke expands. 
+ Things like that that will really put a sense of danger in the game.<br><br>As
+ for the terrain, the game will be played on one 10K x 10K meter 
+terrain.  I'm leaving the terrain_quality setting on 32 for right now 
+(which is very low poly).  I still haven't incorporated the scenegraph 
+stuff but will hopfully get to it next week or so.<br><br>So much to do.
+  For now I'm just working on the hud and lens flare.  The lens flare 
+will meld NICELY with Krischan's sky in BlitzTiles.<br><br>Until next time.<br><br>Chroma <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>GNet for BMax</td><td align="right"><font class="tiny">(Posted 2009-07-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well I finished the Server side of GNet for BMax.  When you start the 
+dedicated server, it adds your server to the blitzbasic.com BlitzNet 
+page.<br><br>Now to just write the client portion where you perform a 
+server query and retrieve the list of servers.  Gonna have to do that 
+tomorrow as I'm beat.<br><br>Oh, I put the GNet thing in the code archives.<br><br>Next
+ on the list.  Incorporate the scenegraph stuff into blitztiles and also
+ use it to limit collision checking.  I only need to check collision on 
+the segment of ground that the jet is directly over.  And since the 
+terrain is split into segments and each of those meshes is stored in a 2
+ dimensional array...I just get my x,z position and store it...and then 
+do a one time check to either enable collision.  THen if the segment i'm
+ on changes then I do another switcheroo with collision. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Server Experiments with MaxGUI</td><td align="right"><font class="tiny">(Posted 2009-07-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm using MaxGUI as the vessel to make this happen.  If you do a simple
+ loop and use PollEvent(), the framerate is outrageous.  To the point to
+ where trying to use delta time is nuts cuz the frames are so fast.<br><br>This
+ is gonna work well and provide a nice sleek interface and also 
+lightning speed.  The speed was never really a problem though because 
+each client will spawn their own thread upon connection.  Hopefully I'll
+ have something in the next couple of days.  I'm dying to get a 
+multiplayer version of the flight engine up and running.<br><br>I've 
+also reworked Mark's GNET sample code to work with bmax.  So the flight 
+engine server will be available from the blitzbasic site. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

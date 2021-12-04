@@ -1,0 +1,118 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Rhodan</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz!Krieg redesign</td><td align="right"><font class="tiny">(Posted 2002-05-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have a basic multiplayer game working and I've had a lot of fun 
+getting there. I've learned a LOT about writing multi-user games - 99% 
+of the credit goes to fellow Blitzers who post suggestions and 
+critiques!<br><br>There are still a number of things I need to learn how
+ to do properly. I'm going to write some small proggies to test/develop 
+concepts. I still have to try and figure out pathfinding for AIs. I have
+ the old A* Blitz Library but I'm thinking its overkill for what I 
+expect of AI troops. I think I just need to do obstacle avoidance 
+(troops only defend a single fort and there's no other objects or 
+landscape features that would be in thier way..)<br><br>Heh, at the rate I'm going I won't be starting the re-write until after BlitzMax! is available...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz!Kreig - network, visual range and stuff</td><td align="right"><font class="tiny">(Posted 2002-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I haven't progressed much in the way of features to the tank game. I've
+ been implimenting radars and discovering just how complicated my 
+"cheatproof" methodology is going to be.<br><br>I've already spent two 
+days just sorting out how to handle enemies/friendlies going out of 
+radar range and coming back. Since the client doesn't know where the 
+out-of-range vehicle is, I had to figure out how to tell it to start 
+showing the vehicle again when it comes back into range. It wasn't as 
+easy as you might think since it had to be a function of the client, not
+ the server. The solution was simple, just not easy to figure out!<br><br>I
+ have the main portions of radar working the way I want now, but a major
+ part still remains. One of the perks to upper ranks is the ability to 
+see all "known" enemies on a world map. Any enemy tank that appears on 
+an allied tank's radar will also be visible on the worldmap to a 
+"command" ranked player. I'm planning on having an array on the server 
+player type that records the time of last sighting by apposing forces. 
+Whenever they're visible to an enemy, the appropriate "seenby" element 
+is set to the current milliseconds. As long as that time is within one 
+second of the current milliseconds, the information will be sent to the 
+appropriate commanders.<br><br>It also occured to me that it would be 
+useful to commanders to see last known enemy positions on the map. I 
+won't just make the dots disappear when they are no longer in range. 
+Instead, I'll let the commanders choose how long to keep displaying lost
+ contacts. I'll probably try and show how "old" a contact is as well, 
+though I don't want to completely clutter up the worldmap and end up 
+hiding "live" contacts.<br><br>I'm also agonizing over how to handle 
+shooting! Yes, the most basic function of a tank game =) I have 
+rudimentary physics implimented and I'm happy enough with the travel of 
+shells. Range is a poser - I want people to have decent engagement 
+ranges but I also want to keep the world feeling "large". Right now I'm 
+aiming at (no pun - really!) long-range being 400-500 grid units. 
+Problem is that my shell arc is gigantic at this range and the shell 
+takes forever to get there. I'll definately flatten out the trajectory 
+and speed up the shell, but then where's the "reality" in not letting 
+people sit on top of a mountain and shoot folks 2000 grid units away? 
+I'd actually like to let people do that but it would up my bandwidth 
+requirements a LOT... Right now any tank not within visual range 
+requires only a fraction of the data a visible tank needs. To let people
+ shoot tanks 2000 units away, I have to up the visual range...<br><br>Heh,
+ believe it or not I still haven't done anything for damage. Shells hit 
+and explode but don't actually do anything =) There isn't one bit of 
+damage code in the game yet!<br><br> I'm also still waffling over a 
+firing interface. Right now I just have a camera view that sits slightly
+ above the barrel and it pitches along with the barrel (though not as 
+much). The shells are given the same world yaw/pitch/roll as the barrel 
+and fire out from there. I have the mouse set up so that holding the 
+right mouse button and moving the pointer off center will rotate/elevate
+ in that direction. I don't like the feel of it though. I made a "dead 
+zone" but it has to be fairly small. I find it difficult not to drift 
+off target. The yaw control is pretty good, but elevation has to change.
+ I'm going to try "seeking the pointer" instead. You move the pointer up
+ and the barrel will elevate, but at the same time I'll move the pointer
+ (by code) back toward center. When the two meet the barrel stops 
+elevating.<br><br>I dug out my old tank games (iM1A1, TP2, and Armored 
+Fist 3) and realized that I really hated all three aiming mechanisms. 
+I'm pretty sure they implimented TC positions simply because manual 
+shooting was such a pain!<br><br>Another poser. While making the shell 
+leave the barrel in a "realistic" way is err, realistic... It makes 
+actually hitting things quite difficult! Yaw and pitch are great but, 
+roll really screws it up. If I roll the camera with the barrel and the 
+tank is on a slope, it looks like the shell is disobeying physics. 
+There's no decent visual cues to let you know you're on a slope. If I 
+remove roll from the camera, the shells fire off to the side. I think 
+I'm going to break with reality in the gunner's view. Camera and shell 
+will have zero roll so your shot goes out from the center of your screen
+ and having the camera upright removes the "water flowing uphill" 
+illusion. Not realistic I know, but more playable. No, I'm not going to 
+include laser rangefinding - all firing will be manual.<br><br>Enough rambling for now.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First Internet test complete</td><td align="right"><font class="tiny">(Posted 2002-02-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Had four people in. A server tank (for us to shoot), two people from 
+the LAN and one external. Fixed a couple bugs and its working well... 
+except for the 1.72 sound crashing! Waaah =(<br><br>I should have kept a backup of 1.71...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz!-Kreig</td><td align="right"><font class="tiny">(Posted 2002-02-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been working on a 3D multiplayer tank battle game for a few weeks 
+now. It uses a dedicated server (no renderworlds, no meshes, just 
+pivots!). I'm designing this so the server does all the critical work 
+(VIS, collisions etc) and tells the clients what to do. You can speed 
+your computer up and the server won't care. You can't move any faster 
+than the server tells you to. Figure out a cheat to move your tank 
+around? Won't matter, you will only see what the server's representation
+ of your tank can see. I'm aiming for 100% cheat protection here. It 
+means higher bandwidth/lower max players - but I'd rather have fewer 
+honest players than more dishonest players =)<br><br>So far I have working:<br><br>Terrain looks nice - takes about 2 hours to cross in a tank.<br>Tank movement hull, turret and barrel rotations from the server<br>Shooting - from the server again<br>Hitting
+ things - both server and client do this independantly. Client 
+collisions are aesthetic only and just there to cut down network 
+traffic. Server tells the client the starting x,y,z,pitch,yaw for the 
+shell then the client takes over. Actual hits etc are handled by the 
+server. I don't actually do anything with "hits" yet. Client just makes a
+ different sound.<br><br>Delayed sounds - Fire a shell WAAAY over -&gt; 
+there, you'll see the explosion then a little while later you'll hear 
+the explosion. Same goes if someone far away fires at you, you'll see 
+the shell fly past you before you hear him shoot.<br><br>Radar - have a 
+half-arsed World map radar working. Needs lots of work. Also have a HUD 
+radar for tanks that is working fine. Just have to overlay hull/turret 
+images so you can tell where everything is pointing. Not sure if I want 
+the radar dots to be in relation to your hull facing or to compass 
+directions... Have to see.<br><br>I'm just tightening up the network 
+messages. Changing from floats to ints whereever possible and 
+eliminating some messages where I can let the client handle things 
+without fear of cheats (like hull pitch/roll).<br><br>Should be ready 
+for external network testing tonight or tomorrow. Works fine with four 
+players on my LAN so far, P3-866 uses 3ms to generate a frame with all 
+four tanks in visual range. I have a frame every 33 milliseconds. Leaves
+ me 30ms free so far! Not sure how many players that allows as the radar
+ routines get exponentially larger (3 iterations per player with 3 
+players, 10 iterations per player with 10 players etc).<br><br>Still to go:<br><br>Multiple vehicle types - Scouts, artillery, aircraft - need models though<br>Grouping system - Platoons<br>Regiment system (guilds)<br>Ranking system - Higher ranks gain abilities<br>Fort placements - for refuel/repair/LR Radar<br>Alliances - not sure if I'll make countries or just allow Regiments to ally/war on one another.<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

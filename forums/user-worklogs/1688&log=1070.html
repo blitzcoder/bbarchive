@@ -1,0 +1,72 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for mrtricks</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TOTAL TERRAIN - build 20</td><td align="right"><font class="tiny">(Posted 2002-02-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ A lot of progress. When editing anything over 128x128, you can either 
+edit a 128x128 section of the terrain, or a scaled down version of the 
+whole terrain if you want to make broad strokes. This is because Blitz 
+struggles to deform terrains in real time if they are larger than that.<br><br>The
+ important thing is, that if you create some fine detail in the zoom 
+mode, then zoom out and decide to raise the whole plateau by a metre, 
+you won't lose that fine detail when you zoom back in.<br><br>Also, 
+textures now display in both zoomed out and zoomed in mode, keeping 
+correct scales, positions and rotations (that one was pretty difficult!)<br><br>It's nearly ready.<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TOTAL TERRAIN - build 14</td><td align="right"><font class="tiny">(Posted 2002-02-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Now you can edit any size of terrain from 8x8 to 2048x2048, and change 
+the size while editing. At the moment you can only edit a 128x128 
+section of the terrain (if it's 128 or below, you can edit the whole 
+terrain). Next step is to allow editing of a scaled down version of the 
+whole terrain, then interpolate the data back into the main whole bitmap
+ without erasing fine details.<br><br>For instance, if you've got an 
+island, with a craggy surface, then you want to just raise the island a 
+bit without losing the crags - this isn't just a case of scaling up the 
+scaled down version.<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TOTAL TERRAIN - build 13</td><td align="right"><font class="tiny">(Posted 2002-02-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The terrain is now 1024x1024, and you work on a 128x128 section of it 
+at a time. You can zoom in on any 128x128 section you like to edit it.<br><br>The
+ next step is to enable any size of terrain, enable changing size while 
+editing, and zooming out to edit the whole terrain - trickier than it 
+sounds. I've given the last item a lot of thought and I think some 
+complicated functions will be needed. I also need to alter the texturing
+ function to match the zoomed in section.<br><br>Getting there...<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TOTAL TERRAIN - build 11</td><td align="right"><font class="tiny">(Posted 2002-02-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Up to EIGHT textures can now be applied instead of four, and they can now all be scaled and scrolled.<br><br>Visit the website (click the eye) to get the demo.<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TOTAL TERRAIN - build 09</td><td align="right"><font class="tiny">(Posted 2002-01-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ You can now rescale the terrain as you wish, and load up to four 
+textures. Next step is to facilitate scaling, scrolling, rotating and 
+blending the textures.<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ATTACK OF THE BADDIES - bug fix</td><td align="right"><font class="tiny">(Posted 2002-01-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Sorted out the illegal memory address error - now you can fire rockets to your heart's content!<br><br>Click <a href="http://www.btinternet.com/~mrtricks/baddies27.zip" target="_blank">here</a> to download the updated build 27. (1.63Mb)<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ATTACK OF THE BADDIES - build 27</td><td align="right"><font class="tiny">(Posted 2002-01-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Haven't worked on this for a little while, but since no one has seen 
+the new explosion and smoke effects in action yet, you may want to have a
+ peek.<br><br>Click <a href="http://www.btinternet.com/~mrtricks/baddies27.zip" target="_blank">here</a> to download. (1.63Mb)<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TOTAL TERRAIN - formerly Terrain Tools - build 07</td><td align="right"><font class="tiny">(Posted 2002-01-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, a week of not being able to use my PC, followed by an afternoon of reinstalling Windows, later...<br><br>The
+ file selector is now fully functional for loading terrains and you can 
+load any bmp, jpg or png as a terrain (currently resizes to 128x128). 
+The file selector is looking very nice, sorts into files/folders, has 
+dinky little icons for folders (and terrain bitmaps with .tt data files 
+associated, but we'll get into what these do later).<br><br>Click <a href="http://www.btinternet.com/~mrtricks/tt07.zip" target="_blank">here</a> to download. (468Kb)<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TERRAIN TOOLS - build 06</td><td align="right"><font class="tiny">(Posted 2002-01-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been working on the file system. There is now a working file 
+selector window, which sorts into alphabetical order (it doesn't yet 
+sort folders from files or filter out unnecessary files, but it will), 
+has a working scrollbar and double-click mechanism. You can navigate 
+through the C: drive, and load a .bmp to work on. If it is not 128x128, a
+ scaled copy of the bitmap is saved in the same folder.<br><br>As for 
+the tools, you can now edit directly into the bitmap, which is a lot 
+better for the PATH and CRAG tools as it prevents the mouse cursor 
+slipping down the slope as it falls or rises.<br><br>Click <a href="http://www.btinternet.com/~mrtricks/tt06.zip" target="_blank">here</a> to download. (464Kb)<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TERRAIN TOOLS - build 04</td><td align="right"><font class="tiny">(Posted 2002-01-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Working menu bar is in place, and four terrain sculpting tools are 
+fully functional: raise/lower terrain, drag hill/hole, draw path and 
+draw crags.<br><br>You can now see the heightfield bitmap being altered 
+in real time, and there is now context-sensitive pop-up help text for 
+all the tools.<br><br>Also, I have turned on terrain shading, which looks nicer and gives more sense of the contours as you draw them.<br><br>Click <a href="http://www.btinternet.com/~mrtricks/tt04.zip" target="_blank">here</a> to download. (459Kb)<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TERRAIN TOOLS - first build</td><td align="right"><font class="tiny">(Posted 2001-12-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Heightfield / terrain editor. In this early demo you can raise and lower the terrain in smooth, rolling contours.<br><br>Click <a href="http://www.btinternet.com/~mrtricks/tt02.zip" target="_blank">here</a> to download. (448Kb)<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ATTACK OF THE BADDIES - new visual effects</td><td align="right"><font class="tiny">(Posted 2001-11-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Having studied the explosions in Comanche 4, I set to work seeing if I 
+could emulate them. A lot of tweaking and tea later, I've got some 
+effects I'm really proud of. Setting off a lot of explosions is now 
+really pyrotechnic! And I've randomised the smoke trails a bit, making 
+them look much better.<br><br>I also found a much more efficient and 
+smoother way of steering the rockets, by giving them a child pivot which
+ always points to the target.<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ATTACK OF THE BADDIES demo 1c</td><td align="right"><font class="tiny">(Posted 2001-11-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Started working outwards from the plane demo to start learning Blitz, 
+and have currently (just over a week later) got to a point where my work
+ can be viewed.<br><br>It's an outdoors FPS with floating enemy craft 
+which can be shot down with your machinegun or rockets, both straight 
+and targetted. The gun has a screen attached which serves as a rocketcam
+ and a screen-in-screen zoom.<br><br>First demos posted this week. Got some really helpful feedback from a lot of people and increased the frame rate no end.<br><br>Most
+ of the media is nicked as I've concentrated on game mechanics first. 
+Next step is to consolidate the frame rate bolstering, then design some 
+of my own gun models and hopefully add some driveable vehicles. After 
+that comes buildings.<br><br>Click on the logo to visit the site.<br> <br><br> ________<br><b><a href="http://www.robinking.com/" target="_blank"> Robin King</a></b> <i>Macbook Pro 15.4" - 2.33ghz Intel Core 2 Duo - 2GB RAM</i> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

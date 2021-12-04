@@ -1,0 +1,43 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for kronholm</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A bit further</td><td align="right"><font class="tiny">(Posted 2006-05-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well had some more time to work on the game the last two weeks or so.<br><br>See below for screenshots.<br><br>* Reworked the controls and added gravity to the balls<br><br>*
+ Widget classes with buttons and input fields, complete with coll. 
+detection for when you click the mouse on/in them, and start typing<br><br>* New collisions, pixel perfect this time around. Can have about 18k balls moving before slowdown below 60fps<br><br>* Added new brick types<br><br>*
+ Added color sliders for various colored bricks in the editor. Also 
+added move-snapping, duplication, copy to clipboard/paste to clipboard.<br><br>* Made a better menu system + highscores<br><br>*
+ Started messing around with network. The plan is to have a server 
+running, which accepts connections from the game for uploading 
+highscores and replays. Server has been written and successful encrypted
+ connections done from the game, working beautifully. Now it's just a 
+matter of making the sql, which is dead easy.<br><br>* Scratched the 
+surface on replays and had some play back. Plan is for people to upload 
+their replays alongside with their highscores. Initial testing showed 
+replay of 2 minutes being about 100kb(unpacked).<br><br><br>A few old 
+screenshots (although they don't show much, the graphics are just really
+ quickly made placeholders. Once the mechanics are all set, I will take 
+necessary time to make way better graphics)<br><br><img src="9341&amp;log=1321_files/ark4.jpg"><br><br><br><img src="9341&amp;log=1321_files/ark3.jpg"> <br><br> -----------<br>Workstation: Win7 x64. Custom i7 860 2.8GHz, 8GB RAM, Ati HD5770.<br>Laptop: Win7 x64. Dell XPS m1710 laptop, Core2Duo T7600G @3.16GHz, 4GB RAM, GeForce Go 7950 GTX.<br>Happy licensee of BLIde. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First steps :9</td><td align="right"><font class="tiny">(Posted 2006-03-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well I'm sure most people here are uninterested in my ramblings, but I thought it could help other beginners in some weird way.<br><br>Anyway,
+ I've been working on and off on this arkanoid/breakout clone for a 
+while now, about 40 hours tops. Keep in mind that I'm very inexperienced
+ in the world of programming and such :)<br><br>Summary of what I've made so far:<br>* Collisions, pretty simple stuff mostly, but it works.<br>* Startup logo and gameover screen.<br>*
+ Various powerups and a powerup-handling system. Made about 10 powerups 
+so far. Speed up, speed down, ball size up, ball size down, 
+multi/extraballs +3,+5,+9,+15.. multiply balls x2 and x3.. paddle 
+stretch, paddle narrow, etc.<br>* Powerup handling system spawns all 
+powerups and hides them "inside" of bricks when level is loaded. Also 
+possibility to have them generated randomly, or user defined in the 
+level<br>* Made some cheezy particle effects and explosions when bricks 
+are killed. These will be improved mucho once I get to the polishing 
+stage and actually focus on graphics :)<br>* Made a kind of sound 
+system, to keep track of all channels playing and close them down 
+automatically if they're not playing anything.<br>* Matrix mode when pushing RMB, causing everything to slow down to 1/10th speed, including music and sound<br>*
+ Currently working on the editor, which is currently brought up by 
+pressing 'e'. You can now drag bricks around, duplicate them by holding 
+shift and dragging. Lots of work to be done here though, but it's fun :)<br><br>Future stuff I must do:<br>*
+ More powerups; ball cannon, laser cannon, no-clipping balls, ball on 
+fire causing bricks to detonate etc., lifesaver makes a boundary below 
+the paddle which breaks on ball impact, extraball<br>* More 
+"bummer"-ups. Reverse of powerups, stuff people don't want to pickup. 
+Mirrormode, spawns an exact paddle copy, only it's mirrored.. mirrormode
+ also for balls, should get confusing :) <br>* Small minigames such as a brick coming into the screen, and you have x seconds to hit it, granting a reward.<br>* Random powerups, akin to shuffling powerups from the SNES mariokart. <br><br> -----------<br>Workstation: Win7 x64. Custom i7 860 2.8GHz, 8GB RAM, Ati HD5770.<br>Laptop: Win7 x64. Dell XPS m1710 laptop, Core2Duo T7600G @3.16GHz, 4GB RAM, GeForce Go 7950 GTX.<br>Happy licensee of BLIde. </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

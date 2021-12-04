@@ -1,0 +1,60 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Pete Rigz</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>PVS Update</td><td align="right"><font class="tiny">(Posted 2004-08-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Quick update. The PVS system I had was a little out dated since I made 
+some changes to the way meshes are organised and triangulated, so I got 
+it up to speed again.<br><br>I also fixed some niggly little bugs with 
+it and added a decent new feature. Before, it would work so that each 
+time you stepped onto a new terrain mesh, it would hide and show 
+whatever tiles could or could not be seen from anywhere inside that mesh
+ tile. Now though, you can increase the resolution of the PVS data, so 
+that a 'PVS tile' is actually a 1/4 or 1/8 the size of a mesh therefore 
+increasing the efficiency of the visibilty system.<br><br>For example, 
+say that in one half of a mesh a hill in the distance was being excluded
+ by a load of terrain, but in the other half it wasn't. The old way I 
+did it would have had to render that hill in the half where it was 
+occluded, but now with a smaller resolution it can be hidden. At the end
+ of the day polys rendered can be saved at the cost of a little more 
+memory.<br><br>Heres some screen shots of the pvs working:<br><img src="2762&amp;log=1220_files/Worklog5.html"><br>in wireframe without PVS switched on you can see lots of terrain behind the rocky hill<br><img src="2762&amp;log=1220_files/Worklog7.html"><br>and with it on most of this terrain behind is hidden. In this particular scene about 30k polys are saved.<br><img src="2762&amp;log=1220_files/Worklog6.html"><br><br>Next
+ thing I want to try is re-implement real time LOD that I had right at 
+the start of the project. It will be tricky given that there are 
+multiple surfaces for each tile depending on the textures, but I have 
+some ideas :)<br> <br><br> --------------------------------------<br><a href="http://www.rigzsoft.co.uk/" target="_blank">TimelineFX - Particle Effects for Blitzmax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>What there is so far</td><td align="right"><font class="tiny">(Posted 2004-08-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've been working on this terrain engine since the start of the year with a few breaks here and there because of other work.<br><br>Basically it's a tile based terrain engine with a number of different features. This is what's implemented so far:<br><br>- Mesh auto generated from heightmap<br><br>-
+ LOD algorithm to apply more detail to areas that need it and less where
+ it doesn't saving on tris rendered. Cracks are also fixed between 
+tiles.<br><br>- Possible Visible Sets so areas of terrain hidden from view are not rendered.<br><br>- Advanced colour map generation with a number of steps -<br>&gt;Lightmap (Thanks to Flynns Lightmapper)<br>&gt;Colour
+ map based on terrain slope (using textures or just a colour) - Again 
+uses the normal map created from Flynns Lightmapper, -thanks!<br>&gt;Separate Colour map based on terrain height<br>&gt;Flooding to give the effect for submerged under water<br>These steps have an alpha value to dictate how much they effect the final colour map.<br><br>-Terrain
+ textured using vertex alpha to blend textures together. For the 
+immediate area of the terrain under the camera another mesh is overlayed
+ showing an even higher detailed texture.<br><br>-Colour map control, 
+meaning you can generate a 2048x2048 colour map for a 512x512 map. This 
+colour map is also automatically sliced into your size of choice 
+segments, eg 512x512. For vertex alpha texturing, this is unecessary, 
+however if you need it to run on lower end PCs you can generate the map 
+without vertex alhpa texturing and just rely on the colour map and the 
+close-up detail for texturing.<br><br>-Uses linear interpolation to get the terrain height at any point fast.<br><br>-Lots
+ of control over how many surfaces the map will use. The terrain is 
+organised so you have terrain tiles with differing levels of LOD and 
+then you have an area size which says how many of these tiles apply to 
+one mesh. So you could have a patch size of 17*17 (vertices) and an area
+ size of 4 (4x4 tiles per mesh) which will give greater control over the
+ lod of the map. However the larger the area size the less effect PSV 
+has as there would be less terrain mesh tiles to hide. But these options
+ atleast give you a decent degree of control to get teh best speed out 
+of a map.<br><br>-Plenty of optimisations. Theres allsorts, mainly for 
+the triangulation of the map, vertices won't be created if they're not 
+needed, same goes for the triangles.<br><br>-Efficient data storage. 
+Most of the map data is stored in banks to save memory as much as 
+possible. a 512x512 map with very high detail uses about 58mb, with 
+lower detail just 35mb. The PVS data for example, needing only to store 
+either true or false, uses every bit of the bytes to store the data.<br><br>They're
+ the main features. At moment it simply creates terrains from 
+heightmaps, but really it's crying out for an editor. I'll be releasing 
+it as open source so maybe someone can make one. I might do one myself, 
+not sure yet.<br><br>At the moment I am optimising more and ironing out any bugs. I also want to document it a bit better aswell.<br><br>Heres a few screenshots:<br><img src="2762&amp;log=1220_files/Worklog1.html"><br>Heres a shot of how the map can look up close with the overlayed detail mesh.<br><img src="2762&amp;log=1220_files/Worklog2.html"><br>A colour map:<br><img src="2762&amp;log=1220_files/Worklog3.html"><br>A
+ segmant of a 2048x2048 colour map. You'd use this kind of colour map if
+ you weren't using vertex alpha texturing and just relying on a detail 
+map, and the up-close texturing.<br><img src="2762&amp;log=1220_files/Worklog4.html"><br> <br><br> --------------------------------------<br><a href="http://www.rigzsoft.co.uk/" target="_blank">TimelineFX - Particle Effects for Blitzmax</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

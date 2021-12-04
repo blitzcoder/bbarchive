@@ -1,0 +1,330 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for BlackJumper</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fri 5th Aug 05</td><td align="right"><font class="tiny">(Posted 2005-08-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have returned to coding my 3D Minesweeper. Hoorah !<br><br>Spent the last couple of days tidying up the code. A few things I have managed to achieve...<br><br>(1) I fixed the camera offset issue (main problem was using TranslateEntity where I should have been using MoveEntity)<br>(2) the new CameraOffset routine now knackered up the camera picking routines, so I hacked in a fix for this new bug too<br>(3) got the grid to accept non-cubic parameters, so now it can have cuboids from 1-9 in X, Y, Z directions<br>(4) fixed grid-drawing code that was knackered by a reliance on all axes being same dimensions<br>(5) shifted and tidied up a lot of code to allow for smoothe restart on change of dimensions<br>(6) fixed axes drawing routine to redraw from scratch if new dimensions are smaller than old ones<br>(7) added some key combinations to change the grid size and restart<br><br>One of the main lessons to be learned from this was that there are times when you really <b>should</b>
+ junk your buggy code and re-write it from scratch rather than trying to
+ monkey with what is already there. This was a much easier decision to 
+make after a couple of months away than it would be if coming at it the 
+next day. <b>The decision is likely to be the correct one - regardless of the intervening timescale !!!</b><br><br>TODO<br>====<br>(1) Comprehensive tweaking of startZoom, MaxZoom and XOffset for each set of X,Y,Z sizes<br>(2) Logic code to determine if game has been won or lost<br>(3) Powerup features<br>(4) Menu mode to allow changing of game settings<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Mar - July 05</td><td align="right"><font class="tiny">(Posted 2005-08-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ On the 20th March I created a dll that allowed 
+StickyKeys/FilterKeys/ToggleKeys to be disabled. This has been placed in
+ the Code Arcs. Find it under the label <a href="http://www.blitzbasic.com/codearcs/codearcs.php?code=1334" target="_blank"> Block Intrusive keys - StickyKey_dll</a><br><br>I
+ then had an extended hiatus due to pressures at work. I returned to 
+coding StickyKeys to produce Version2 that also deals with ALT+TAB, WIN 
+key, CTRL+ESC, etc. The discussion that prompted this update can be 
+found <a href="http://www.blitzbasic.com/Community/posts.php?topic=49055" target="_blank">here</a>.<br><br>The
+ code for this was relatively easy to cobble together after an 
+exhaustive search of related material on the Internet.... However, 
+getting the dll to compile in Borland C++ Builder 5.0 (which lacks a 
+data_seg() directive) was a major challenge. There are a couple of 
+examples of emulating this on the net - both contradictory and 
+apparently designed for CB4.0<br><br>I eventually managed to get the 
+'shared memory' thing working, but achieved this through a process of 
+brutal trial and error on the positioning of includes, header files and 
+compiler pragmas. I really should document this while it's still fresh, 
+but the thought leaves me gibbering.<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fri 11th Mar 05</td><td align="right"><font class="tiny">(Posted 2005-03-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I managed to commit a classic schoolboy error tonight...<br><br>I
+ spent a fair bit of time on re-jigging my UI and thought I had hit on a
+ good keyboard layout by supplementing the cursor keys with the choice 
+of the SHIFT key. Cue messing around with graphics, coding around the 
+use of this key and much fiddling with placement of UI elements to 
+incorporate the new scheme...<br><br>And of course the first time I 
+tried it out I got bumped out of the game by WinXP's sticky keys option 
+that lurks below the surface waiting for 5 rapid SHIFTs in a row !!<br><br>Arse!<br><br>So I guess it's back to the drawing board next session.<br><br>I also need to think about the 'X-ray mode' part of the program now that I spent about an hour on creating a 50 pixel icon :-(<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wed 9th Mar 05</td><td align="right"><font class="tiny">(Posted 2005-03-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Based on a chance encounter with a <i>WolRon</i> comment about <i>Gosse</i>'s nSprite library, I have ripped out my AlphaBlitting code and replaced it with nSprite routines. <br><br>This
+ tooke quite a while, due to lack of familiarity with nSprite routines 
+and the need to use some workarounds to go with a pixel-perfect 
+collision testing environment using multiple sprites, rather than a 
+coordinate-based system that uses rollovers blitted to the screen.<br><br>I
+ also spent a fair amount of time on the Input sections of the program, 
+getting the different methods (mouse, keyboard, onscreen spinners) to 
+co-exist with each other. I am using a HandleHUD() routine to decide 
+what the input states are, then using these states in a HandleInput() 
+routine to determine whether there is keyboard or mouse input and take 
+the appropriate action.<br><br>I have also changed the UI a bit - not 
+necessarily for the better. In response to a query about posting to the 
+Gallery, I tried uploading a <a href="http://www.blitzbasic.com/gallery/view_pic.php?id=884&amp;gallery=&amp;page=1" target="_blank">screenshot</a>... I was surprised to find it got 13 ratings in the first day for an average of 3.8<br><br>I
+ will need to re-do the off-centre stuff for the grid. This might need 
+an additional pivot that tracks the camera position, but from 90 degrees
+ around the other side of the grid.<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fri 4th Mar 05</td><td align="right"><font class="tiny">(Posted 2005-03-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Not had much time for this recently as I have been re-coding a website 
+and ran into a problem with Macromedia Contribute repeating regions not 
+working... took a long time to figure out [the site 'root' and the 
+Contribute 'root' were different, so templates got screwed.]<br><br>Tidied
+ up a few bits and pieces tonight, including fixing axes and testing the
+ axis-offset for different sized fields. May need a bit of work on this 
+for very small field sizes.<br><br>Frame render times can get really 
+ropey if there is a lot going on, so I might have to ditch the current 
+alpha-to-screen approach and invest in some alpha-textured quads. Should
+ probably also make whole chunks more modular in the process, especially
+ to support load/save routines later down the line.<br><br>I seem to be 
+losing momentum on this - could just be the huge amount of work I have 
+to do IRL. I may have to grit my teeth and just finish it... too many 
+unfinished projects exist now and it's about time one went all the way 
+to completion :-)<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wed 23rd Feb 05</td><td align="right"><font class="tiny">(Posted 2005-02-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Managed to code up an alpha'ed timer and also some GUI spinners for the
+ XYZ-ordinates. Had to do a fair bit of hacking around to get the input 
+with set coords (rather than mousepicked) choosing of targets working...
+ wouldn't have been a problem if it was properly planned from the start 
+rather than growing organically !!<br><br>As a result of lots of new HUD
+ elements eating into the screen (about 1/4 of the left side) I 
+experimented with shifting the actual grid off-centre... with mixed 
+success. A brief foray into CameraViewport() showed that it wasn't 
+really what I was looking for - currently the HUD is alpha'ed over the 
+grid, but viewport would clip the rendering. Eventually settled for a 
+temporary shift of the camera before rendering, although this makes the 
+grid display off-axis, so trying to rotate around the centre leads to 
+some eccentricity {the camera travels round the grid, PointEntity'ing at
+ the centre}. I added in a compensating factor after I realised I didn't
+ really know what I was doing (or even trying to do !) with TFormPoint 
+and TFormVector. I may revisit this with a fresher mind in future.<br><br>Also
+ got the counting of flags working (easy) including removing flags when 
+shapes explode or no-neighbour cubes disappear (more hacking!)<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wed 16th Feb 05</td><td align="right"><font class="tiny">(Posted 2005-02-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I got a solution from <i>Perturbatio</i> on the toggle sensitivity question... MouseHit() rather than MouseDown() is our friend in these situations.<br><br>Fixed
+ rogue axes and opted for an AlphaBlitting routine (modified version of 
+WebDext's from the codearcs for the moment.) It seems to be quite slow, 
+so I may change this if profiling later shows it to be a serious 
+bottleneck. At one point all alpha stopped working (aaargh!) but it 
+turned out to be the result of me actually saving the wrong version of 
+the graphic file.<br><br>I also decided to change my 1-neighbour spheres
+ from a coloured gradient to a bitmapped texture. At this stage the 
+exploding meshes stopped working for the spheres - white copies only. 
+Spent a couple of hours trying to track down what i thought would be an 
+EntityFX problem. Eventually went back to <i>Big10p's</i> code from the 
+codearcs and realised that he was manually texturing the copies after 
+creation. Added a suggested tweak to the codearcs to automatically copy 
+the texture when creating the new mesh.<br><br>Added target shape 
+highlighting (green cube atm) to show user what they are clicking on. 
+The HUD is currently pickable to prevent accidental clicking on targets 
+beyond it - but this is EntityRadius stuff due to using a Sprite. This 
+means that there is a non-clickable regiaon around the HUD that obscures
+ targets that look pickable. May have to deal with this in future.<br><br>Isolate
+ axes is now in place, and I have made the amount of influence on a 
+shape dependent on whether the neighbouring mine is one of the Cardinal 
+neighbours (strong effect), an Axial neighbour (medium effect) or a 
+Corner neighbour (small effect.) The game is now a lot more playable as a
+ result.<br><br>Next up: A timer (for highscores, bonuses, etc.)<br>         Some GUI spinners to manually set x, y, z coords of picked target (for maths teaching stuff)<br>         Counting of flags used and keys available<br>         Introduce keys and other powerups<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tue 15th Feb 05</td><td align="right"><font class="tiny">(Posted 2005-02-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Worked on the HUD today, including a lot of time messing around in 
+Photoshop (then Freehand, then Illustrator) trying to get a simple 
+'arrows wrapped around a sphere' effect.<br><br>Discovered as a 
+byproduct that my axes have long thin cylinders in one direction, but 
+massively squashed 'ellipsoid' cylinders for the other axes as i scaled 
+them but didn't rotate the non-default ones (oops!) Something to fix 
+another day.<br><br>I had hoped to be able to use a masking sprite in 
+front of the HUD to show when a control was active by turning on 
+fullbright for just that part of the control. It is not looking as 
+simple as I had hoped... Looks like I will have to faff around with a 
+pixel perfect greyscale mask OR complicate the code by having to write 
+alpha values for the seethrough parts of a coloured mask. Still, should 
+be a learning experience !!<br><br>The 'isolate axis' powerup will 
+probably also spawn another game feature... catching keys to 'lock' an 
+axis when you explode a spinning shape.<br><br>Another item on the TODO list is how to control the sensitivity of a toggle like this...<br><pre class="code">If MouseDown(1) Then
+		gridvisible = 1 - gridvisible
+		If gridvisible Then
+			ShowEntity gridmesh
+		Else
+			HideEntity gridmesh
+		EndIf
+EndIf
+</pre><br>Current thinking is to only flip for +10 or -10 (tweakable) so
+ that the mouse needs to be down for a reasonable amount of time, rather
+ than oscillating between on/off every input cycle.<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Mon 14th Feb 05</td><td align="right"><font class="tiny">(Posted 2005-02-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I finally twigged to the fact that I had created a grid of cubes laid 
+out from the centre (using + and - octants) which was what was causing 
+the endcaps placement problem. In hindsight, this was a design flaw... 
+especially as there were inconsistencies with odd and even numbered 
+grids. (e.g.  a 3x3x3 grid had a cube dead centre, a 4x4x4 would have a 
+gap at the centre, but cell spacing was not uniform)<br>Decided to throw
+ out the old code and redo using an empty mesh and adding all guidelines
+ as scaled down meshes based on the gridscale variable. At the end of 
+adding guidelines together the whole mesh is then scaled up at once.<br><br>Also added some stripey axes (for later when coordinates are introduced)<br><br>Coded
+ in the spin=hint code, but haven't properly tested it yet. It will need
+ some tweaking of spin multiples to get it right. I might alos implement
+ an 'isolate axis' powerup so that a player can constrain spinning 
+shapes to hint in only one direction for a short time.<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Sun 13th Feb 05</td><td align="right"><font class="tiny">(Posted 2005-02-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Resolving the hard disk problem took almost exactly three weeks, but I 
+mananged to recover most of my important files. Finally got back to 
+looking at the code for Minesweeper 3D tonight...<br><br>I decided it 
+was time to integrate all the little test apps I had been playing with 
+and see how the program would hang together. My BurningCubes demo 
+slotted in fairly easily so that any zero-neighbour cubes would be razed
+ rather than just disappear. I had to rejig the timing of the animation 
+to have a constant framerate by adding<br><pre class="code">Function UpdateBurningCube()
+  If MilliSecs() - Burntime &gt; (1000/BurnFrameRate) Then	
+	For acube.BurningCube = Each BurningCube
+
+        ... do animation stuff
+
+	Next
+	Burntime = MilliSecs()
+  EndIf ; timer
+End Function
+</pre><br>... and that worked quite well, so a possible technique to use for integrating mini-apps in future.<br><br>Also
+ realised that there was a 'perceptual problem' due to the recursive 
+order in which cubes are searched. From the players point of view there 
+was no 'chain reaction' going on as the Reveal routine could easily work
+ its way all the way to the bottom + back before checking cells right 
+next to the one they clicked. Solved this by assigning a BurnDelay based
+ on the 3D distance from the clicked cube.<br><br><br>Also integrated the ExplodingShapes code, which caused a few headaches in getting the following states to co-exist<br>(1) An unclicked cube<br>(2) A cleared zero-neighbour cube<br>(3) A burning cube (animating)<br>(4) A some-neighbours replacement shape<br>(5) Exploding shapes<br><br>It
+ had been so long since I worked on the code that I ended up 'hacking' 
+rather than 'coding' to resolve the issue of some-neighbour shapes 
+instantly starting to explode versus MAVs when changing the order of 
+replacing clicked cubes with shapes. New mantra might include something 
+about documenting code or some such nonsense.<br><br>Tried to play the 
+game and it wasn't as much fun as I had hoped... 3D is just too damn 
+difficult to figure out without more clues. Thankfully I think I have a 
+strategy for some 'hinting' to the player that may help - using spin to 
+suggest the direction of nearby mines.<br><br>I decided to implement a 
+box grid to help the player as it is also awkward to tell which shapes 
+are actual neighbours at some angles. This proved to be more challenging
+ than first expected. Using AddMesh caused real issues due to 
+PositionEntity screwing it up, which I didn't initially realise because I
+ wasn't freeing the temporary meshes, so everything looked good on 
+screen :-(<br><br>I have now got the grid mostly working, but need to 
+find an efficient way to add the 'endcaps' as it is currently open at 
+the top ends. {each cell is constructed as a mini xyz axis and then 
+AddMesh-ed to the origin}<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fri 21st Jan 05</td><td align="right"><font class="tiny">(Posted 2005-01-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> New mantra ... "Pratice what you preach!"<br><br>I had a hard disk failure over a week ago. And of course I had failed to do a backup during the festive season.<br><br>The disk was still spinning, but a head crash or similar had damaged Windows {XP}, preventing booting.<br><br>In
+ trying to fix this by using Recovery mode I realised that I have no 
+idea what the Administrator password is on the laptop. I tried a nifty 
+little linux-based proggy to reset this, but it refused to write the 
+data, so I was still stuck. Eventually decided to reinstall windows. Big
+ mistake !!!<br>The installer got as far as deleting most of the useful 
+boot files before reporting a damaged CD and bombing out. Now I had no 
+way of getting back in to Windows without reformatting the drive.<br><br>Tried
+ to save the situation by using Norton Ghost2003 to backup HD contents, 
+but it wasn't happy about the damaged partition and refused to play 
+ball. Downgraded to an earlier version of Ghost that would copy the 60 
+Gb disk to DVD-Rs, but GhostExplorer then refused to read the archive. 
+Time spent on writing disks ~ 20 hours. Time spent on copying the lot to
+ a spare laptop ~ 3 hours. Time spent swearing at computer ~ infinity.<br><br>I
+ am now in the process of offloading the surviving files to an external 
+drive via a command line. Time spent so far ~ 30 hours. Time remaining ~
+ 60 hours ??<br><br>Moral: "Do the damn backups - the alternatie just isn't worth the hassle."<br><br>Looking forward to getting back to some coding when the monster rises from the deeps.<br><br>Don'cha just love computers ?<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Thurs 23rd Dec 04</td><td align="right"><font class="tiny">(Posted 2004-12-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have had a bit of a go at extending Big10p's exploding mesh code to 
+accept more information from the source mesh. One critical addition was 
+to get vertex colour information working... the code as supplied does 
+not work and I have posted a comment to the Code Archive to show how to 
+fix this {it was the same EntityFX problem mentioned in an earlier 
+worklog entry.}<br><br>I have also worked out a way to pass original 
+rotation data from the source mesh. This could not be encapsulated 
+completely, as the copied mesh is actually a 'snapshot' of the source as
+ it exists at the time of the copy. Although you can read pitch,yaw,roll
+ for that instant, you cannot infer what they will be next gameloop 
+unless you are storing the intended rotation values somewhere else.<br><br>I
+ also cleared up some MAVs by removing all pivots and building meshes to
+ be self-centering {I had been positioning some of them relative to a 
+pivot.}<br><br>Have also been thinking about the maths behind the game 
+and considering turning it into a jumping off point for some maths 
+investigation work. Possible topics to branch into include...<br> * 3D coordinates (obviously)<br> * Polyhedra - regular and alternate topologies<br> * Nets of polyhedra<br> * Golden ratio for most aesthetically pleasing polyhedra<br> * Area of shapes (possible leading to integration)<br> * Surds + Pythagoras for length calculations<br> * Sin / Cos / Tan values for cardinal angles<br> * Regular Polygons --&gt; Circle<br> * Space diagonals (surds again)<br> * 4 colour map theorem (face painting)<br> * Tesselation and packing<br>...<br><br>The
+ question is... how much work is there in pulling all of that together -
+ and is it worth the time to spend, given that this was just a 'shake of
+ the rust' project to get me back into programming ???<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tue 21st Dec 04</td><td align="right"><font class="tiny">(Posted 2004-12-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ OK I did some more messing with the polygon stuff. I spent a lot of 
+time convincing myself that I couldn't flat-shade the faces of a 
+tetrahedron created using the CreateCone(3) function. Only after 
+exhaustive testing did I realise that <b>of course</b> it would use two surfaces ... one for the cone part and one for the base <i>DOH!</i><br><br>Played
+ for a little while with trying to create a primary colours texture in 
+code and texturing different faces with this, but I obviously need more 
+work with u,v coordinates of textures before I can conquer that problem.<br><br>I
+ decided to go instead with building the faces of polygons from sets of 
+unwelded verts and using VertexColors to flat shade each face 
+individually. Sat fiddling with some 3D trig on the backs of envelopes 
+(literally) to get the positions for tetrahedron (=4 sides), octrahedron
+ (=8 sides) and nonahedron (= 9 sides). Most other shapes can be made 
+from B3D primitives and I can access sets of vertices to flat shade each
+ face.<br><br>I also had a play with Big10P's exploding meshes demo and 
+stripped out the relevant code to get it working with the shapes i had 
+made. There is still a problem with the Copy_Exploding_Mesh() function 
+creating a copy of the original mesh, even though I have scaled it to 
+solve..... Hmmmm! As i type this I think I may have used ScaleEntity() 
+rather than ScaleMesh() so I will try that as a fix. I still need to 
+contact <i>Mr. Chadwick</i> to see if he is happy with me hijacking this code for use in this game.<br><br>[update]<br>Yeah!
+ ScaleMesh did the trick, so I am now just about in the position to 
+integrate the shape-making/exploding bits into the main game code. Just 
+need to code a decahedron shape {probably a pentagonal diprism in case 
+yer wondering} from a raw mesh and I think I am good to go. I have 
+decided to stop at 10 sided shapes because (1) My max game grid is 
+10x10x10 and (2) I couldn't find any example diagrams for a 
+unadecahedron (11 sided shape). Tellingly the Mathworld site has 
+diagrams for sides n = 4 to about twenty, but NO LINK for the 11-sider.<br><br>As
+ an aside, today was the shortest day (Western hemisphere) so I don't 
+feel so bad about it now being 4:50 a.m. It is also my last wedding 
+anniversary (7th of seven)as even I should be able to sort out a divorce
+ before a whole year rolls around :-(<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wed 15th Dec 04</td><td align="right"><font class="tiny">(Posted 2004-12-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Coded the recursive routine that checks for 'empty' mines and clears 
+all the neighbouring empties until it meets one with a mine in a 
+neighbouring box.<br><br>All seemed to be going well, but the testing 
+kept throwing up some intermittent glitches... the box clicked on was 
+not always the box being 'checked' and I just couldn't pin it down.<br><br>Finally
+ got it by accessing the coords directly from the type rather than 
+converting to a local variable for use. When i posted the code on the 
+Beginner's Section <i>DJWoodgate</i> pinpointed the problem... a typical Copy/Paste error where I had<br><pre class="code">LocalX = type\x
+LocalY = type\y
+LocalZ = type\x &lt;---- wrong ordinate</pre><br>... its amazing how difficult it is to spot stuff like that, even when you <b>know</b> where the error is ocurring. A 'z' and an 'x' are just too similar on hi-res screen !!<br><br>So the pathclearing was working visually, and it was time to move on to the cosmetic stuff.<br><br>Started to work on the 3D meshes that represent number of neighbouring mines.<br><br>First ever playing with creating meshes from vertices. Had to plunder <i>Puki's</i>
+ worklog for some help on using VertexColor command... the trick is to 
+use EntityFX mesh, 2 to get vertex colouring working (and UpdateNormals)
+ for lighting to be effective.<br><br>Played around with GetSurface and 
+GetChild on the internally generated CreateCube(), CreateCone() and 
+CreateCylinder() commands. It seems to be more complex than I can fathom
+ at the moment... I can colour a single vertex on these meshes, but 
+don't seem to be able to move beyond that single point. Looks like work 
+for another day (or bite the bullet and build all meshes {including 
+cylinders} for myself)<br><br>[update]<br>Was about to go to bed, then had a mild brainwave... that resulted in the following:<br><pre class="code">shape = CreateCylinder(20)
+ScaleEntity shape, 1, 0.3, 1
+;DebugLog "Cylinder has surfaces... " + CountSurfaces(shape)
+EntityFX shape, 2
+
+For n = 1 To CountSurfaces(shape)
+surf = GetSurface(shape, n)
+;DebugLog n + "    number vertices = " + CountVertices(surf)
+verts = CountVertices(surf)
+
+	For v = 1 To CountVertices(surf)
+		VertexColor surf, v, 255-(255.0/verts)*v,Abs((255.0/verts)*v-128),(255.0/verts)*v
+	Next
+Next
+				
+UpdateNormals shape
+</pre><br><br>So it wasn't surfaces or childern that was the problem, but the vertices of the single surface<br>[/update]<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Thurs 10th Dec</td><td align="right"><font class="tiny">(Posted 2004-12-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I started by tweaking the camera system... I had to swap the y and z 
+axes to get things working with the ascending grid coordinates from the 
+array.<br><br>I also decided to redo the location of objects, having the
+ grid placed symmetrically about the origin rather than start with the 
+first cube on the origin - I think i needed to do that just to figure 
+out the 3D array to 3D screen mapping.<br><br>I then dug around on my 
+hard drive to locate (what turned out to be) Birdie's Fast Type Picking 
+example {forums still down; boy was I glad of all that saving of code I 
+had done years back !!}<br><br>Since the max grid size is 10x10x10 at 
+present I wasn't too worried about using a slow picking method, but the 
+whole EntityPick thing was new to me, so it was nice to have a good 
+example while BB syntax is still a bit rusty for me.<br><br>Soon had the ability to 'choose' or 'flag' a cube using the mouse.<br><br>Moved
+ on to working out the count of neighbour cubes to any given mine. This 
+can all be pre-calculated, as the minefield doesn't change during a 
+single game.<br><br>My plan to code this recursively fell by the wayside
+ as I realised that the exception coding would be too much effort. I 
+started just by considering the cardinal neighbours (directly 
+above/below, front/back, left/right) but ran into a really annoying 
+problem... Every time I ran the setup routine it would count the 
+neighbours of only a <b>single</b> mine... and would never count above '1' even if it was touching several.<br><br>Stumped for a good while !!!!<br><br>Finally
+ realised that I had changed from treating the hasmine field as boolean 
+to using it as a counter for the minenumber (back when I was outputting 
+text to files)<br><br>Doh!<br><br>The line <pre class="code">if check\hasmine = TRUE</pre> was only ever working for mine #1 {i.e. TRUE = 1}<br><br>changed all neighbour checking to <pre class="code">if check\hasmine &gt; 0</pre> and everything started coming up roses.<br><br>added
+ the additional checks for all 26 positions around a target cell {red 
+hot on the Copy/Paste keys and mega-concentration on customising each 
+new check}<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wed 9th Dec</td><td align="right"><font class="tiny">(Posted 2004-12-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have been away from B3D for a long while and have pretty much ditched
+ my previous project. I decided to create a 3D vesion of minesweeper as a
+ way of getting back into programming again.<br><br>I had been thinking 
+about the interface for a few days before I found some time to start on 
+the actual programming. [Thanks to BlitzMax release taking the website 
+down that evening I couldn't 'waste' time on catching up with community 
+news]<br><br>I started with the idea of using a 3D array to store the 
+data and use this to query for mines, neighbours and empty cells. The 
+idea was to use a recursive routine to check for clear paths when you 
+click on a box with no neighbours.<br><br>In implementation I actually built a GRIDPOSITION type and populated it via 3 nested loops (for x, y, z axes)<br><br>Initially
+ I put nothing on screen - outputting the contents of the type to a file
+ using Str (typeinstance) {very handy that !!} This let me sort out 
+issues related to array indices, etc. and check that my mine-planting 
+routine was working OK.<br><br>When I was happy with that I moved to 3D 
+graphics and put a grid of cubes on screen, with a bit of spin on 
+'mines' to help me see what was happening behind the scenes. I also 
+added some camera control to be able to orbit the grid, tilt it a little
+ and zoom in and out.<br> <br><br> =======================================<br>musn't grumble ! </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

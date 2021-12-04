@@ -1,0 +1,38 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Nebula</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blue - Day 2</td><td align="right"><font class="tiny">(Posted 2004-03-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="81&amp;log=1195_files/blue_im1t.jpg"><br><br>Blitzshowcase Link : <a href="http://www.blitzcoder.com/cgi-bin/showcase/showcase_showentry.pl?id=nebula03092004060732&amp;comments=no" target="_blank">http://www.blitzcoder.com/cgi-bin/showcase/showcase_showentry.pl?id=nebula03092004060732&amp;comments=no</a><br><br>Its
+ taken years of anoyance for me to take the dive into raw editor coding.
+ Every time I code I think hey if I can do this then it can safe me 
+precious time. Like when editing blocks of code would it not be useful 
+to have a selection method where one can select just that block of code 
+or a part of it in a vertical selection. And when using language 
+specific value like True would a simple icon next to it not be a useful 
+way of switching to false.<br><br>Project goal :<br>Atm I plan to taylor
+ it for code editing in Blitz+. Config/ini files should make it good for
+ freeform editing. Emulating rtf files I have considered <br>but it would be a little to hard without the specs.<br><br>Status :<br>The
+ initial code I had yesterday was a mess but its getting more 
+modularized. I plan to create a core set of functions for adjusting the 
+internal mechanics and a top user level where it will be safe to work 
+with for regular users.<br><br>Atm I have no idea how the editor part can be integrated into a regular application. It should be easy enough(I hope)<br><br>Problems :<br>Data
+ corruptions. Having text get corrupted is my main concern. No save and 
+enter atm until I figure out a fast waterproof method of doing this.<br><br>Tech talk :<br>The
+ editor itself is located on a canvas in a window. This window is then 
+parented to the host window and this is parented to the desktop. This 
+should make having multiple edit windows simple.<br>The array that holds
+ all the lines and its data still is being expanded. A group of 
+constants point to the data so its easy to shrink and expand it.<br><br>For
+ line splitting (enter) I still need to think of a good and easy method 
+of moving text. A single enter in the beginning of a 3 mb file with 
+crappy code would be a huge time loss. Atm I am thinking of creating a 
+pointer system but it would be messy I believe. I have though of adding a
+ poor mans threading method that would sort the data for x millisecs in 
+the main loop but I am not sure if this would work. Another method I 
+have been considering is sorting the data on forehand and updating this 
+with changes.<br><br>Multi line tabbing for huge blocks of text is also 
+slow when updated directly. Yet again still looking for the most simple 
+solution.<br><br>Fun stuff :<br>Have you ever blasted your code into 
+pieces? Today I got the idea of creating a tiling map of the text 
+characters and having a sprite visit on those 'bored now' times. Blast 
+away your bugs without having to worry that your code gets destroyed.<br><br>Planned Additions :<br><br>; Special Edit (vertical Selection)<br>; Shift + Tab<br>; Internal Tab handling<br>; Multiple Line Select<br>; Tab Multiple Lines<br>; Shift + Tab multiple Lines + optimalization<br>; Ctrl + C (Multi line)<br>; Ctrl + V (Multi line)<br>; Ctrl + X (Single Line/Multi line)<br>; Italic/Bold/Underline<br>; Enter + Splitline<br>; Mouse to Character collision<br>; Mouse Selection Automation (double click ect)<br>; Text Folding<br>; Folding interface + Hotkeys<br>; Colored Text<br>; Inline Icons<br>; Popup menu<br>; Auto Completion (list or shaded preview - double click ctrl)<br>; Current Line expand to Visual console (inscreen visual menu)<br>; Optional Horizontal and Vertical Scrollbars<br>; Data structure optimalization<br>; Config file based Parsing system<br>; Save Text<br>; Sorting routines<br>; Find/Replace core routines<br>; Double click keys (Ctrl/shift/Alt)<br>; Font support<br>; Dynamic multiple font support<br>; Inline Images or Ontop Images<br>; Edit Statistics<br>; Text Statistics<br>; Image Buffering<br><br>Nebula<br><br>All typing errors reserved<br> <br><br> ---------<br>Desktop : AMD Athlon 64 3400Ghz 200GB HD 1GB DDR ATI RADEON X300SE HM 256MB Win XP MCE2005 Spyc@m M300 Voice<br>Notepad : Celeron M 410 1.46Ghz 533 Mhz Fsb Mobile Intel 940Gml Express 60GB <br>HDD 512MB DDR2 / www.cromdesign.nl </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,113 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style></head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Leon Drake</h1><h1>JavaB3d</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Textures</td><td align="right"><font class="tiny">(Posted 2011-09-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Got basic textures in via brushes, i'll have to make a few functions so
+ you can just add a texture to an entity without using a brush.<br><br><pre class="code">package javab3d.examples;
+
+import javab3d.JavaB3DApplet;
+import javab3d.brush.JBrush;
+import javab3d.brush.JTexture;
+import javab3d.entity.JEntity;
+
+
+public class Hello3DWorld extends JavaB3DApplet {
+
+	public Hello3DWorld() 
+	{
+
+		JTexture tex = LoadTexture("C:\\Program Files\\Blitz3D\\samples\\mak\\flag\\b3dlogo.jpg",0);
+		
+		
+		JEntity j = CreateCube(null);
+		RotateEntity(j,0.6,0.6,0.6);
+		PositionEntity(j,0.5,0.1,-0.6);
+	
+		JEntity l = CreateLight(1,null);
+		PositionEntity(l,-0.5,-0.1,0.6);
+		
+		JEntity s = CreateSphere(8,null);
+		
+		JBrush b = CreateBrush(1.0f,0.0f,0.0f);
+		JBrush b2 = CreateBrush(0.0f,1.0f,0.0f);
+		JBrush b3 = CreateBrush(0.0f,1.0f,1.0f);
+		BrushTexture(b,tex,0,0);
+		PaintEntity(s,b);
+		PaintEntity(j,b2);
+		
+		JEntity c = CreateCone(8,null);
+		RotateEntity(c,0.3,0.3,0.3);
+		PositionEntity(c,-0.5,-0.1,-0.6);
+		
+
+		
+		PaintEntity(c,b3);
+	}
+
+ 
+
+}
+</pre><br><br><img src="9295&amp;log=1831_files/javab3dtexture.jpg"> <br><br> <a href="http://www.endsoflegend.com/" target="_blank">http://www.endsoflegend.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>We have Brushes</td><td align="right"><font class="tiny">(Posted 2011-09-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Alright got brushes implemented so far, at least for setting diffuse 
+colors, going to add texture and the various other colors you can set 
+ambient, specular etc etc..<br><br>code example 2:<br><br><pre class="code">package javab3d.examples;
+
+import javab3d.JavaB3DApplet;
+import javab3d.brush.JBrush;
+import javab3d.entity.JEntity;
+
+
+public class Hello3DWorld extends JavaB3DApplet {
+
+	public Hello3DWorld() 
+	{
+
+		JEntity j = CreateCube(null);
+		RotateEntity(j,0.6,0.6,0.6);
+		PositionEntity(j,0.5,0.1,-0.6);
+	
+		JEntity l = CreateLight(1,null);
+		PositionEntity(l,-0.5,-0.1,0.6);
+		
+		JEntity s = CreateSphere(8,null);
+		
+		JBrush b = CreateBrush(1.0f,0.0f,0.0f);
+		
+		PaintEntity(s,b);
+		
+		
+		
+	}
+
+ 
+
+}
+</pre><br><br>we now have a red ball!<br><br><img src="9295&amp;log=1831_files/javab3dbrush.jpg"> <br><br> <a href="http://www.endsoflegend.com/" target="_blank">http://www.endsoflegend.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A new hope...</td><td align="right"><font class="tiny">(Posted 2011-09-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Decided to take the Java3d library and write some wrappers to make coding a 3d applet more like Blitz3d.<br><br>currently this is what i have implemented<br><br><pre class="code">package javab3d.examples;
+
+import javab3d.JavaB3DApplet;
+import javab3d.entity.JEntity;
+
+
+public class Hello3DWorld extends JavaB3DApplet {
+
+	public Hello3DWorld() 
+	{
+
+		JEntity j = CreateCube(null);
+		RotateEntity(j,0.6,0.6,0.6);
+		PositionEntity(j,0.5,0.1,-0.6);
+	
+		JEntity l = CreateLight(1,null);
+		PositionEntity(l,-0.5,-0.1,0.6);
+		
+		JEntity s = CreateSphere(8,null);
+		
+		
+		
+	}
+
+ 
+
+}
+</pre><br><br>which creates this<br><br><img src="9295&amp;log=1831_files/javab3d.jpg"> <br><br> <a href="http://www.endsoflegend.com/" target="_blank">http://www.endsoflegend.com</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

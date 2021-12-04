@@ -1,0 +1,66 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Phish</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Unity Screenshot</td><td align="right"><font class="tiny">(Posted 2002-02-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Thought it was about time I showed a screenshot! :-)<br><br><img src="1364&amp;log=1044_files/screenshot7.html"><br> <br><br> --Phish<br><a href="http://www.josephcreates.com/" target="_blank">Joseph Humfrey Online Portfolio</a>, <a href="http://www.dcs.warwick.ac.uk/~phish/elizabeth/" target="_blank">Elizabeth Goddard</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Unity Update</td><td align="right"><font class="tiny">(Posted 2002-01-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> It's been quite a while since I last posted an update, so here goes.<br><br>Neil
+ and I have been working on our scripting system (for missions) - 
+although we haven't actually got any code written up, we have been 
+designing the syntax. We want this to be as easy to learn and to read. I
+ have written a sample script, using the convensions we designed. Some 
+time we will have to write the scripting system itself, but I have a 
+feeling it may not be until we have nearly finished the game - it is 
+easier to write the scripting system if you have something to script :)<br><br>So,
+ I have started on the movement system. We both wrote a few test 
+versions before I started writing this version. I wanted to get a head 
+start on him, because I had this way of coding which I wanted to prove 
+to him :) Now I have a nice movement system, in which I can put a load 
+of ships, each with their own speeds etc. I have a nice system so that 
+for example, if you have a ship: s.ships = new ships, you can assign it 
+as the player's by simply saying "player = s" and the camera will be 
+updated and everythin', but your old ship will continue to move at its 
+own speed. To think that Neil wanted to use global variables such as 
+"playerXSpeed" :) (sorry neil :D )<br><br>The next step I believe will 
+be the particle system which I will integrate into the movement system 
+from stage 1. The question is, will I use different systems for the 
+projectile/particle systems? Particle system are for things like smoke 
+effects etc, and projectile system are for things like weapon fire, and 
+flying pieces of destroyed ships. Once that is done, then I can work on 
+things such as damage and collision. What happens after that? Well, I 
+could start on AI :)<br><br>--Phish<br> <br><br> --Phish<br><a href="http://www.josephcreates.com/" target="_blank">Joseph Humfrey Online Portfolio</a>, <a href="http://www.dcs.warwick.ac.uk/~phish/elizabeth/" target="_blank">Elizabeth Goddard</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Improved Galaxies</td><td align="right"><font class="tiny">(Posted 2001-11-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, I have continued to work hard on my galaxy generator, which 
+displays a randomly generated galaxy in full 3D. In the game, it will be
+ used as the 3D map, so that you can move between stars.<br><br>I have 
+fully implemented mouse movement with the right button and scroll wheel 
+(for zoom). It is completely smoothly with acceleration values rather 
+than just velocities. Also, I cut out a large segment of stars from the 
+center of the galaxy which were slowing down the program enormously. Now
+ there is a pretty glowing ball there to represent the dense mass of 
+stars. In fact, I think I prefer this faster method to the slower, more 
+complex method, so all in all, it is pretty damn gorgeous, though I say 
+so myself :-)<br><br>Also, Neil and I have been working on the PCS or 
+"public content system". Perhaps this name is becoming outdated, but at 
+the same time, it is sticking, so probably won't change. We are working 
+out the directories within the content directory of the game, and from 
+there we can work out the data structures (types). It'll be pretty 
+important, because as soon as the game hierarchies are worked out, we 
+can code anything which relies on game content without worries, as well 
+as create the content itself!<br><br>Ship design and modelling 
+continues... I have been asking for advice from friends as to what kinds
+ of designs there should be. I want the ships to be innovative, but more
+ importantly, very cool looking. :-)<br> <br><br> --Phish<br><a href="http://www.josephcreates.com/" target="_blank">Joseph Humfrey Online Portfolio</a>, <a href="http://www.dcs.warwick.ac.uk/~phish/elizabeth/" target="_blank">Elizabeth Goddard</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First Entry!</td><td align="right"><font class="tiny">(Posted 2001-11-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, I've decided to use this system on BlitzBasic.com - I thought it 
+seemed like a nice idea, and useful for keeping track of my work. I'm 
+going to use it to keep track of my part in the development of a game, 
+which is being developed by me and a friend from school. It is basically
+ a 3D space exploration/trading/action game.<br><br>Here is what I have accomplished up to this point:<br><br>* Most aspects of the game have been designed, if not on paper, then in my head :-)<br>*
+ I got a landscape trial to work - I decided to use it for the 
+background when landing on a planet. It's going to be used for little 
+more than eyecandy, and to give the whole landing lark an aesthetically 
+pleasing taste... or something.<br>* I have been working on my nice 
+dynamic 3D GUI system. Neil and I have been trying to work out how to 
+make it so that you can click on buttons. The windows are all 3D 
+sprites, so it will be quite complicated to work out.<br>* I made a 
+galaxy generator, and now it has been fully implemented into 3D, 
+including nice clouds of stars. However, it runs quite slowly with any 
+more than 2000 stars, and below that threshold, the whole thing looks 
+crappy, and to be blunt, not worth while.<br>* I have modelled quite a few of the ships already! Woohoo!<br> <br><br> --Phish<br><a href="http://www.josephcreates.com/" target="_blank">Joseph Humfrey Online Portfolio</a>, <a href="http://www.dcs.warwick.ac.uk/~phish/elizabeth/" target="_blank">Elizabeth Goddard</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,916 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for ImaginaryHuman</h1><h1>New Game Engine</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Back to the short term</td><td align="right"><font class="tiny">(Posted 2010-03-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I am going to start creating small games.<br><br>There, I said it.<br><br>You
+ have no idea how long it has taken me to get to this decision. The 
+process of me arriving at this decision has gone through several stages,
+ roughly as follows...<br><br>1) Consider making small hardcoded 
+specifically-written games, not much code reusability, quick and dirty. 
+Seems like a good idea, but the idea of having to start from scratch 
+each time is off-putting.<br><br>2) Consider writing a game engine first
+ which will let you create games later. There will be lots of code-reuse
+ and everything can be very modular and expandable. The problem is, you 
+have to then consider every game you want to make up-front and you don't
+ get any gratification until way down the road. Seems like a lot of 
+work, but maybe it would be worth it in the long term to eventually 
+create games much more efficiently. If only it wouldn't take so long to 
+make it.<br><br>3) Expand on this idea and why not go whole hog and 
+create a cool new game development platform with lots of WYSIWYG editors
+ and an amazing engine that takes the state of the art to a whole new 
+level. Yeah, this would let us create really amazing games ... 
+eventually. Oh yeah, that's going to take a really, really long time to 
+create. So I can probably maybe never hope to make a game with it. Hmm.<br><br>4)
+ Maybe I should ditch games then and just focus on making a game 
+platform. I'll let other people create the games with it, yah, that 
+sounds noble. Then I can focus on making it a cool editor and it'll be 
+so much fun. Except, there isn't such a market for an editor except 
+among developers, who are far fewer than people playing and paying for 
+games. Darn it. That won't work. And it's still going to take a long 
+time to create it, I just don't have the time to do all that hard work 
+and not get anything back for a few years.<br><br>5) Scrap it all. I 
+can't do a big project. I need some gratification NOW. I haven't 
+programmed anything in weeks because I'm paralyzed by the immensity of 
+the project. All those great ideas are just going to take too long. I 
+need to get down to basics. I still want to make games but I want them 
+to be finished sooner, but in some way I still want to work toward a 
+game editor/graphics application thing in the long term.<br><br>6) Okay 
+so I can make games and I can gradually develop a reusable engine over 
+the course of time, rather than try to make the engine first, but what 
+about all the pressure to be financially independent, successful, 
+renowned, and competitive with all the demands that other companies are 
+placing on each other. I can't stand all this competition and 
+requirement to be super amazing just to be slightly better than the 
+`best so far`, and only temporarily. All this compliance is dull and 
+boring. I just want to do my own thing.<br><br>So that's about where I 
+stand right now. I will focus on making small games, and by small I mean
+ like a month or two to complete all by myself. I will have lots of 
+short term goals, by the week mainly. I won't allow each game to be too 
+big or the scope too large. Each game will contribute some small part to
+ an overall game editor/engine which will develop over the very long 
+term as a *second priority*. Gradually each game will help future games 
+to be developed more quickly and to re-use some parts. Between games I 
+will integrate code from the previous game into the overall `engine`. 
+Gradually I will build one small part of the editor at a time, not all 
+at once. The small games won't require me to have fancy editors anyway.<br><br>This
+ will allow me to explore the many many ideas that I have, to try out 
+new things, to experiment, to go off on a truly `indie developer` 
+tangent of taking big risks, doing something very unique, innovative and
+ different, and rebelling against the mainstream. I will be able to be 
+*true to myself*. I will be able to explore creative possibilities more 
+freely and won't have to worry foremost about it being profitable or 
+even that many other people would like it. Then we'll see where we go 
+from there.<br><br>This new direction is in part also inspired by a 
+couple of other things. It occured to me that the BlitzMax community 
+game framework competitions, in which I have participated twice, have 
+been much more productive than anything I've tried to do outside of it. 
+Focussing on small games and short deadlines has forced me to make 
+progress, to learn more about game design, and to learn from my mistakes
+ much more quickly. And yet the community framework continues to evolve 
+and develop *in the long term* as a result of contributions from these 
+small games. I feel this is a practical and achievable approach. It 
+doesn't get ahead of itself and it doesn't expect us to come up with 
+super amazing engines up-front. The development of the small projects is
+ interesting and fun and allows for creative experimentation and quick 
+results. It's a model I feel drawn to mirror. Yes it would be *so nice* 
+to have an amazing game editor up-front to develop all my games in, but 
+that just isn't going to happen.<br><br>Also an idea that I had recently
+ which I posted about on the forums was to put together a website to 
+sell small games or games from other developers, as a kind of game 
+`portal`, which would dedicate some or all of its proceeds towards the 
+development of an Arm-CPU-supporting version of BlitzMax, and/or 
+iPhone/iPod/iPad support. This sort of transformed into the idea of just
+ using existing games to support `the cause` rather than expect new 
+people to come up with new projects. But even then the idea has fizzled 
+out into another good idea that isn't going to be practically 
+implemented. The will to do it and the time to achieve it are just not 
+there. Ring any bells?<br><br>But the one good part of the idea, which I
+ liked and will carry forward, is to have a website where small games 
+are sold. It's just that, at least for now, they'll be only the small 
+games that I create. I hope to build up a fairly large catalog of small 
+games and sell them for some low price using some kind of 
+forward-thinking business model. If this at all has anything to do with 
+contributing toward future Blitz developments, remains to be seen, and 
+is too much for me to take on by myself. But overall I like the idea of a
+ portal for small low-cost games.<br><br>So this is where things are 
+heading now. And the first game I want to make is something that I came 
+up with by myself that has pretty much nothing to do with trying to 
+match up to what is popular or what is already out there. It's going off
+ on a tangent of creative experimentation. And that's what feels 
+satisfying.<br><br>Also I am going to put less emphasis on game 
+development being `the only thing I do`, to free up time to do other 
+artistic things, which I think for me will be more satisfying. I'd like 
+to get into music more, singing, graphics, my programming book, and also
+ other artistic outlets.<br><br>Stay tuned for game #1 coming to a theater near you very soon. <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Programming a Language</td><td align="right"><font class="tiny">(Posted 2010-01-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My recent efforts have been mostly toward designing a new programming 
+language system. I have come to realize that trying to write the kind of
+ games I want to make entirely in BlitzMax code is too time consuming, 
+boring and tedious. My ideas for games are just too time-consuming to 
+practically implement. Trying to test new ideas or just play with 
+adjustments is much too long-winded to do in an 'edit-the-code, 
+re-compile-the-code, start-executing-from-the-beginning, 
+get-to-where-you-might-see-the-new-idea, repeat' kind of approach. So I 
+have been thinking a lot about the future of programming and what would 
+be a more efficient system. NO programming would be a start ;-)<br><br>I
+ am now focussing on the development and refinement of a multi-level 
+programming language system. The system will run on my `virtual machine`
+ which a multithreaded script execution system. It differs from other 
+approaches in some significant ways.<br><br>Most if not all programming 
+languages have you write the program at a higher level and then convert 
+the program into machine code, or something interpretable, which is 
+often very difficult and time consuming. I propose to do things the 
+other way around. Let's start with the machine code.<br><br>All programs
+ are always stored in, created in, edited in and kept executable in a 
+low-level machine-code-like format which runs directly on the virtual 
+machine without any further modification. The machine code format I've 
+chosen is similar to the machine codes running on CPU's, ie a simple 
+sequence of `opcode, data`. The opcodes can do really simple things, e.g
+ add two numbers together, move some data to memory, etc, OR it could be
+ a really high-level library of functionality for a game engine, GUI 
+system, or whatever. The important thing is that the virtual machine can
+ directly run the `program` without having to do any interpretation or 
+compilation - not even needing to interpret what the opcode means. I 
+have this part working already, albeit needing to flesh out the 
+language/libraries a bit more.<br><br>Then there begins a process of 
+deliberately doing what we'd call `reverse engineering`. Usually in 
+reverse engineering it is difficult to result in a program  that 
+directly matches the original sourcecode, for many reasons. Among them 
+are a) there were optimization steps which intermixed and rearranged and
+ re-coded various instructions, b) things like label names, function 
+names, variable names etc may not be a part of the final program, c) 
+there could have been significant steps necessary to convert the 
+sourcecode into a program and the program might not contain the original
+ structural representation of the original.<br><br>All of these 
+obstacles can be completely overcome by not losing all of this 
+information in the first place. On top of the `virtual machine code` I 
+will implement a language somewhat similar to assembly language. Many of
+ you know that there is usually very little that gets lost in the 
+conversion from assembler to machine code - it's pretty much a 1-for-1 
+instruction mapping. Apart from any optimizations that might be applied 
+at assembly-time, you could mostly reverse engineer from machine-code to
+ assembler and it would look quite similar to the original, except 
+perhaps for label names and any references to macros.<br><br>So what I 
+plan to do is have an exact 100% 1-for-1 mapping between the machine 
+language and the assembly language. In effect, the assembly language is 
+then simply a `visualization of` the machine code. ie opcode/data xyz 
+turns into a a specific instruction with specific parameters. At this 
+level there isn't going to be any fancy structure. I might add variable 
+names and labels and store them somewhere in the machine code, I'm not 
+sure yet.<br><br>Also stored will be any information about the use of 
+macros. Macros in a language like assembly (or any language) are really 
+nice. Basically you define a piece of code which will be inserted in 
+place of a reference to that piece of code. Usually the replacement is 
+made by inserting the full code in place of the reference at assembly 
+time. What I'll do is make the macro a simple `gosub`-style subroutine 
+call. It will be possible to mix high-level and low-level commands 
+together in macros or any part of the program, creating any amount of 
+hierarchical structure. Higher-level vs lower-level commands then 
+basically flattens out into a single level, where the high/low 
+complexity is left up to the virtual machine to perform either simple or
+ complicated operations behind the scenes.<br><br>Whereas higher level 
+commands can accomplish more processing with less overhead, I plan also 
+to have multiple `levels` to the language. Let's say, the assembly 
+level, and maybe 2 or more levels above that, like having multiple 
+languages on top of each other. The important thing will be that 
+commands at a higher level can `break down` into macros comprising 
+lower-level commands. The higher level commands therefore are either 
+macro references or references to a single machine-level command, which 
+either can execute a single piece of code as one command or which can 
+`decompose` into a lower-level representation of the same functionality -
+ which is editable per instance. In a sense, you can then `customize` 
+the functionality. So if you want to start out on a higher level with a 
+command like `open a screen`, you could say ok, I want to customize what
+ that does, so it breaks down into an `open a screen` macro written at a
+ lower level.<br><br>The important part of all this is that every 
+command and every level always maintains/stores all of the information 
+it needs to *simultaneously* keep the code of every level plus the 
+machine code representation, all hard-wired together. As you add a 
+higher level command, the lower levels are automatically programmed and 
+the appropriate machine code commands are automatically inserted into 
+the machine code. It's like self-modifying code `as you type`. Therefore
+ the code can be executed immediately, and therefore it leads to the 
+highly desirable scenario of editing `live` programs as they run. This 
+completely removes the separation between `development` and `use`, which
+ I believe is a much more productive and natural solution.<br><br>Compilation
+ and interpretation are never needed because the machine code is being 
+written at the same time as the higher level structure. There is never 
+any `optimization` at any level because this would rearrange the direct 
+mapping of commands, and most true optimization will be performed behind
+ the scenes in the virtual machine's code. There is never an intermixing
+ of lower level commands derived from higher ones. The whole multi-level
+ structure is kept constantly intact at all times, including all of the 
+macro layering. In the end, higher level programs are then simply direct
+ `visualizations of` machine code programs. The machine-code program can
+ then be distributed/sent over a network and reconstructed into exactly 
+the same higher-level representations on the other end. We start with 
+machine code and reverse-engineer it to represent it as a higher 
+language. This is the complete opposite of the `write the higher level 
+then convert it to machine code` paradigm.<br><br>Multiple visualizers 
+are also possible, since you can represent the lower level in whatever 
+high-level way you like. Also I believe that the IDE itself has to be `a
+ part of the language`, because everything is really One unified system.
+ The IDE has to provide language structuring functionality in order to 
+`manage` the reverse translation/mapping from machine code. So if you 
+wanted to start representing machine code instruction sequences as 
+something high-level-ish like `if x=y and z=p+1 then r=12+(18-y)`, the 
+IDE itself would be responsible for managing the structural mapping that
+ allows this to directly map to machine code. The code is then just a 
+way to `display` what the machine code is doing. This might lead to some
+ small limitations in the syntax rules allowed at higher levels, but 
+nothing too major.<br><br>Since I want to get this `game/graphics 
+editor` up and running as soon as possible, I am now putting a hold on 
+adding library functionality, and am focussing instead on solidifying 
+the `level 1` assembly language instructions. Once that's in place I 
+will either start on a simple program editor/IDE or start working on a 
+`level 2` language. Ultimately I do believe that a programming language 
+is just another aspect of `getting the computer to do stuff`, just as is
+ operating a GUI or using a game interface. So eventually the expression
+ of a machine code program would be representable as all of these 
+things, just as is usually the case with traditional software.<br><br>On
+ a totally different note, I am also slightly distracted right now with 
+some fresh ideas about lossless compression. One feature I want in my 
+editor is a home-grown lossless video/animation compression format, also
+ for images and maybe other data. Compression is one of my side 
+interests that I've dabbled in before with reasonable but not 
+groundbreaking results. But I've got the `compression bug` again so I'm 
+dabbling with that right now.<br><br>Sorry about the length of this post, writing it out helps me to solidify the ideas. :-) <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Future Programming</td><td align="right"><font class="tiny">(Posted 2010-01-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Ok so now I am thinking about making a simple IDE to start with for the
+ handling of a simple script language. This would be the next step for 
+the project. So today I have been researching languages, particularly 
+script languages, including ARexx. I also looked into visual programming
+ interfaces.<br><br>There is something about current visual programming 
+that turns me off and I don't seem to be the only person who feels that 
+way. Looking at a `program` which presents its syntax visually with 
+boxes and interconnecting wires, makes no sense at all. What does it 
+mean? It's more like an attempt to make a program look like a bunch of 
+hardware with cables plugged in all over the place. Why on earth would 
+taking software back towards the hardware help us?<br><br>I have to say 
+honestly I have been dumbfounded looking at these things trying to 
+understand even the most basic idea of what it means or how it works. I 
+look and I read little words or `ports` attached to these boxes with 
+wires going all over the place and it just looks like a big horrible 
+mess. That it requires some kind of explaination makes it terrible for 
+learning or for beginners, or indeed for non-programmers whom it's 
+supposed to help in the first place.<br><br>After some further reading I
+ can get a better sense of the concept of `data flow programming` and 
+`visual instruments` etc but it's just too cryptic at first. And once 
+you start to get bigger structures with things feeding back into other 
+things it's really hard to understand what the flow is going to be like 
+or what's going to happen in different circumstances. Argh!<br><br>That's
+ not to say visual programming is totally a bad idea, but I'm not sure 
+it's been done right yet. But one thing I do know is that entirely 
+text-based programming is not right either. All the little rules that 
+require you to get the syntax right and do stuff which the IDE should be
+ doing automatically makes it a long and arduous process. Honestly, big 
+coding projects are a turn-off. A better IDE helps of course, but an 
+entirely `type the program yourself` approach is too longwinded.<br><br>So
+ I'm looking into an alternative approach, some kind of hybrid of text 
+and visuals perhaps. But moreso, I think that `script programming` 
+should be more integrated into the application environment, whereby 
+creating stuff is more of an experience and less of a separate task. It 
+should all just flow along as you need it, and the computer should be 
+generating the algorithms for you. There is a lot that we can get the 
+computer to do which would make the whole experience much less painful.<br><br>I
+ think overall I have to think of `programming` as just an aspect of a 
+single unified experience rather than something that leads to the 
+experience. I still have quite a bit of work to do on this before the 
+concept will solidify enough to make some code, but it's getting there. I
+ would like for the computer to do more of the work, to speak my own 
+language, rather than me having to conform to its picky little fancies.<br><br>Ok, so enough ranting for now, back to it. <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Pixels</td><td align="right"><font class="tiny">(Posted 2010-01-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hey. So it's 2010.<br><br>Last
+ year I learned a lot about game development, particularly by 
+participating in the Blitz community framework competition twice. 
+Working on a small short-term project really helps you to focus on a 
+goal. It really helps to learn how to say NO to the 15 million ideas and
+ distractions that pop up.<br><br>Projects NEVER get finished unless 
+they have limits placed on them. Being finished means the project comes 
+to a boundary and stops. But stopping is unnatural and hinders 
+creativity! But if you don't apply limits, you'll be swimming in an 
+endless ocean of possibilities forever. Argh!<br><br>But it's fun to do 
+so, for a while, and sometimes you MUST to do in order to be open enough
+ to receive new inspiration. Too much time spent being `open` does not 
+get a project finished, but too much time spent being `closed` makes a 
+project lifeless. It's one of those balancing acts. With that in mind, I
+ am setting forth in 2010 with renewed `efficiency of vision`, focus and
+ determination.<br><br>I now have a clearer vision of what I am aiming 
+for, which really is a merger of all the things I've been working on. I 
+want to focus more time on the application-development side of things, 
+to create an environment in which to work and to only later use that 
+environment to create games or whatever.<br><br>I realized that writing 
+even a small game from scratch can be quite a chore. Having to do 
+everything in what is essentially a text editor is totally impractical 
+for any larger project. And then having to recompile and start execution
+ from the beginning to get to where you want, just to be able to test 
+it, is just no fun. I NEED the system I'm creating in order to create 
+that system.<br><br>What this means is getting out of the `I'll write 
+more back-end functionality that I'll pull together later` mode, and 
+into the `get the system working asap` mode. Once the system is working 
+and I can work `in` the system to start doing stuff, I can be much more 
+productive, and probably feel more satisfied that I'm getting results.<br><br>I'm
+ pretty happy with my multithreaded script execution system. It probably
+ needs some rounding out and a bit more testing but it works - it's 
+quite a complicated piece of code so I don't really want to mess with it
+ any more. I need to now flesh out some more useful `language` 
+functionality and think about how to create a basic `script editor` that
+ runs within the system.<br><br>This probably depends on a couple of 
+other things which need to be in place to some degree. The first of 
+those is a funky spacial partitioning/organizing system which will be 
+used to organize most of the system objects and resources as well help 
+with collision detection and stuff - a kind of scene graph sorta thing. I
+ have a clear design now for how it will work. The other thing is some 
+kind of graphical output needed in order to display the components of a 
+script editor.<br><br>Making a system which runs from a script engine is
+ kind of like setting up an operating system in a way. You start out 
+with this basic little `dos` interface/shell/command-line thingy just 
+barely able to create a really basic script editor/compiler, and then 
+you build upon it, and gradually amazing things take shape.<br><br>The 
+nice thing will be that almost all of the rest of the system (other than
+ back-end functionality/language libraries) can be written in the script
+ language itself. That should save a huge amount of time because the 
+language will be quite high-level, requiring not very many instructions 
+to do useful things. And then my escape from lower-level programming 
+will be a step closer. :-)<br><br>During a phase of re-clarification 
+recently I have been drifting around a bit, slightly caught in that 
+phase of `coming up with a name for it`. I figured I'd check out 
+possible future domain names. Finding something that sounds good and 
+that is available is VERY difficult. It's nuts, in fact.<br><br>Some of 
+the sites you find hidden behind otherwise highly-interesting domain 
+names are such a waste and makes the search only more frustrating as I'm
+ sure some of you know. But I have come up with a few possibilities. For
+ now I am going with a secret working title just to get out of the 
+infinite loop of exploration and will decide on a name much later down 
+the line.<br><br>I'm quite excited now to continue with this project and
+ to take it to the next level. I have a tonne of cool ideas that I want 
+to get to. Stay tuned. <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>2D Effects</td><td align="right"><font class="tiny">(Posted 2009-11-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Okay so the past couple of weeks have taken me off on a different 
+tangent. I find for some reason that after I finish a certain milestone,
+ ie get something working at the current level, then I need time to step
+ away from it and get ready for the next stage. Once I got the compound 
+vector shapes working (yay) I found myself stepping back to change 
+direction again - to reevaluate where things stand given recent 
+progress.<br><br>Although on the one hand it would be quite impressive 
+to be able to stick to a single project or to have it all planned out 
+and foreseen right from the start,  I just find that things kind of take
+ on a life of their own and `the unexpected` comes along to say hey, did
+ you consider this? And then based on this new possibility you find 
+yourself going off in a direction you never thought of before. Which can
+ be a very good thing, and indeed although it might not be rational or 
+expected, it can be a very intuitive process of discovery.<br><br>Justifications
+ aside, I've been dabbling with ideas surrounding a 2D destructible 
+landscape game. I think I've talked about this kind of game before. It's
+ where you view a slice of ground from the side and can manipulate it by
+ adding, removing and altering individual `land pixels`. Some people 
+call that `destructible`, as opposed to not being able to change the 
+environment, and works on a per-pixel level rather than per-tile.<br><br>This
+ kind of engine brings with it a number of unique problems, the main 
+ones being how to generate interesting landscapes, how to store 
+multi-screen environments and draw them efficiently, and how to deal 
+with things like falling particles and physics. It's not your typical 
+tilemap engine. I've been giving all this a lot of thought.<br><br>I've 
+played the demo version of Atomic Cannon quite a bit, and I would say 
+it's probably the forerunner of these kind of game engines (not that I'm
+ making another tank game). It supports any resolution you throw at it 
+and runs at a reasonable (but not fast) speed. I played it on my HDTV at
+ 1920x1080 and it looks pretty nice. It's not really designed for such 
+high resolutions but it does work, and suggests to me that a really 
+high-res game would look gorgeous if designed with that in mind from the
+ start.<br><br>So I dabbled with a quick adjustment to my earlier 
+landscape scrolling system just to see how much graphics can be thrown 
+around at 1080p, and it performed better than expected - and much better
+ than Atomic Cannon. I was surprised to be able to draw about 5 or 6 
+full-screen scrolling landscapes  at 60hz on my lowly ATI X1600 (about 2
+ billion texels/second). This means a) lots of parallax is very 
+feasible, and b) lots of graphic effects are possible.<br><br>So this 
+got me thinking a lot about the rendering of the environment, given 
+present day technologies. HDTV's and big-screen monitors are more 
+popular than ever, which really calls for a very high-resolution game - 
+which immediately increases the impact of all of the other issues. High 
+resolution means more memory requirements, more rendering speed, and the
+ need for a trans-resolution environment generator. All of this is 
+doable. Given the availability of usually 1-2 gigabytes of main memory 
+on most modern computers, a reasonably large environment is possible.<br><br>I've
+ also been trying to find ways to do things like more advanced lighting,
+ shadows, bumpmaps, reflections/refractions, heat distortion, screen 
+warping, 2d radiosity, and other cool effects in realtime - but without 
+shaders. Although I have a nice thick book about GLSL shaders and it's 
+all very modern and cool, some part of me still likes to find ways to do
+ things within the confines of older technologies - simpler methods that
+ work on a wider range of computers. I don't want the game to be 
+something you can only play if you have a top of the line PC, or that 
+only shows its full features on such a machine. Indeed, OpenGL 1.3 seems
+ to have most if not all of the features I would need to pull this off, 
+and I could probably do some fallbacks to 1.1.<br><br>So, the 
+game/engine is aiming toward being quite flexible, scriptable, and to 
+include in-game editor(s). With the major absence of multi-player 
+options for people using the same computer, it will include a wealth of 
+multi-player capabilities both local and networked. It will support 
+realtime play and fast-paced action. I don't want to give too much away 
+about the game itself because I think it's going to  be quite unique and
+ something that hasn't been seen before. <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Quick update</td><td align="right"><font class="tiny">(Posted 2009-11-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hi folks. Just a quick update.<br><br>Am
+ still delving into procedural generation and also design of my new 
+procedural puzzle game. Meanwhile on the coding front I have been 
+integrating some vectorgraphics routines and higher-level compound 
+objects into my game engine. Here is a quick shot of a single object 
+composed from 10 cubic bezier curves, calculated and rendered in 
+realtime with antialiasing and transparency. There's a few minor little 
+details to sort out with the antialiasing but it looks pretty decent for
+ motion game graphics.<br><br><img src="8053&amp;log=1685_files/Curves.webp"><br>The
+ colored square is just there as part of my aspect-ratio correction 
+system which I used to test for correct proportions and positioning, 
+etc. My game world is centered at 0,0 in the middle of the screen so it 
+just helps me to see where I am (it's not a vector object).<br><br>As 
+you can see any overlapping parts of the vector object are inverted to 
+produce holes - fairly normal inversion behavior for now. I might figure
+ out how to make the holes solid in future when I delve into 
+constructive solid geometry operations.<br><br>This shot is just to show
+ that I now have a working system of single vector objects which can be 
+composed from multiple individual straight lines, large batches of 
+precalculated points, and various orders of bezier curve (up to 65536 
+points per curve - although anything more than like 10 or 20 control 
+points per bezier is more cpu intensive and not very useful - except 
+maybe for easy spirals). These three vertex generators combine to create
+ a contour of renderable triangles. After a little bit of stencil buffer
+ magic, hey presto, a rendered vector object in a single function call. 
+:-)<br><br>Now to build upon this, add things like gradients and texture
+ coordinate generators, and then to build an `editor` of some kind so 
+that I can actually start creating some game content :-D <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Procedural Generation</td><td align="right"><font class="tiny">(Posted 2009-10-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Almost 3 months since my last post here! You might be interested in my other blog: <a href="http://gurumeditations.wordpress.com/" target="_blank">http://gurumeditations.wordpress.com/</a> where I've posted a couple of things more recently.<br><br>Here
+ I thought I'd talk about procedural content generation. But first, news
+ that I'm working on a puzzle game right now. It's one of several games 
+that are kind of on the go in parallel. It's mostly a time-management 
+game with lots of multitasking and a somewhat urgent `action-puzzle' 
+theme. Something loosely along the lines of casual games like Cake 
+Mania, Airport Mania and the many other time management games, but 
+approached in quite a different way. And by that I absolutely do not 
+mean `with a twist`. ;-) I think it will be very different.<br><br>My 
+goal initially was to design a bunch of levels and objects but then I 
+started thinking about user-generated content. See the post on my 
+wordpress blog <a href="http://gurumeditations.wordpress.com/" target="_blank">http://gurumeditations.wordpress.com/</a>
+ about creativity in games. Although I have spiritual/philosophical 
+aspirations behind my reasoning, there is something to be said for make a
+ game bigger by getting the user involved in creating it, as an ongoing 
+process, and where creating stuff IS the game. So I figured I would do a
+ game featuring user-generated content.<br><br>Then it also occurred to 
+me that it would still require quite a lot of time and effort on my part
+ to create useful content to begin with, to have something to base the 
+game on. So then I started thinking about procedurally generated 
+content, or user-mediated content ie where the user makes very 
+easy/simple decisions from a variety of `procedural` possibilities. 
+Games like Spore do this by letting you easily create stuff 
+(user-created) but also combined with procedural (computer-generated) 
+content handled behind the scenes.<br><br>So now it's turning into a 
+procedurally-generated, user-customized action puzzle game. I have been 
+having trouble getting my head around how this will work exactly, and 
+still have some designing to do to anchor the ideas into a practical and
+ workable solution.<br><br>I can see how procedurally generating stuff 
+will initially be quite difficult - so much to consider in terms of all 
+the possible things it could potentially generate, some of which may not
+ be desirable or playable. But once that is in place, and if I can do it
+ well, it will mean being able to generate game elements, characters, 
+levels, and larger environments very very quickly and with huge variety.
+ I hope also to be able to design it so that I can control the 
+difficulty level using a variety of factors like complexity, 
+time-needed, number of objects involved, ways of solving it, etc. Then 
+eventually the initial game will be just a matter of designing a `graph`
+ of adjustments to these parameters which produces the overall path 
+through the game. Also the cool thing then is you can adjust the graph 
+in-game to change the progression of difficulty, e.g. play lots of easy 
+levels, jump straight to harder levels, etc<br><br>I also hope to 
+combine easy-to-configure-and-use `templates` and level/object-creation 
+tools, which will make it much easier to create `meaningful` content 
+rather than just random stuff. Lots of work still to do in designing the
+ whole system and how it'll work. But I pretty much have a good idea so 
+far of how the puzzle aspect and main gameplay will work. Leaving the 
+door open for future unexpected ideas and changes, though ;-)<br><br>I'm
+ also shooting initially for setting the game in the future, and being 
+very comedy focussed/light-hearted/exaggerated. There is a reason why 
+`funny` contains the word `fun`. :-D <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Anti-Aliased Bezier Shapes</td><td align="right"><font class="tiny">(Posted 2009-07-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been working on creating filled bezier curves. It's a three-step 
+process - calculate points along the beziers, convert the beziers into 
+triangles, and render.<br><br>There are some good references on the web 
+about this kind of thing, some quite technical, but I did manage to 
+implement a technique that I am very pleased with.<br><br>Hey presto - 
+filled, transparent, fully antialiased (and soon to be filled with 
+textures and real-time gradients) cubic bezier objects (Note, this is 
+not a scaled-down image, this is the original output):<br><br><img src="8053&amp;log=1685_files/filled.webp"><br><br>Running
+ on a single CPU core at 2GHz (e.g. Intel Core 2 Duo single-threaded - 
+will run in multiple threads via my scripting system), the calculation 
+of the curves takes about 1 millisecond for around 400 curves. Each 
+curve in this test is made of 50 triangles. That turns into about 20,000
+ triangles per frame, or 1.2 million per second.<br><br>The curves are 
+calculated entirely in real-time and can be constantly animated. 
+Calculation of their positions and shape is not very intensive, in fact I
+ can calculate about 50-60,000 curves per frame at 60fps - about 3 
+million per second - around 75 million bezier calculations per second. 
+Not bad :-)<br><br>Rendering is done with OpenGL 1.1 (and no extensions)
+ in BlitzMax, and is therefore hardware accelerated. I tested on a 
+fairly average mid-range ATI X1600, and on an ATI Radeon 2400 Pro - both
+ around the 2 billion texels/second range - nowhere near the 80+billion 
+of the high end cards. It runs about the same speed on both. Rendering 
+the image takes about 15 times as long as calculating the curves, so 
+it's quite dependent on video card performance and fill-rate.<br><br>In 
+terms of antialiasing, every object is fully antialiased in realtime. 
+There are different types of antialiasing out there. For example, full 
+screen antialiasing would work, and comes in a few flavors based on the 
+number of levels of color gradient that can be used to smooth edges. 
+e.g. 2xFSAA gives you only one other in-between color with which to 
+smooth the edge. 4x gives you 4, 8x gives you 8, 16x gives you 16. So 
+the 16xFSAA really is only like using a 4-bit color palette to 
+antialiase the edges. You'd need 256xFSAA for 24-bit color, which would 
+mean 65536 samples per pixel!<br><br>Then there is also supersampling. 
+You could draw the image very very large, like 4 times larger, and then 
+grab it, and then draw it scaled down with texture filtering. This would
+ to some degree smooth the edges, but at 4-times larger that translates 
+to only 4 possible shades with which to represent an edge, plus needing 
+lots of rendering throughput.<br><br>There are some other funky methods 
+like using the accumulation buffer, whereby you move the camera by a 
+sub-pixel amount several times, each time rendering and accumulating the
+ entire buffer. Kinda slow. You could also grab the rendered backbuffer 
+and draw it 4 times at half-pixel offsets in a 2x2 grid with alpha 
+blending set to 25%. That would work, but again requires extra grabbing 
+and rendering.<br><br>One of the problems with some of these methods is 
+also that if you jitter an existing image to antialiase it, you can only
+ go based off the previously rendered pixels, with no real knowledge of 
+sub-pixel accuracy, so it ends up not really looking as smooth as it 
+should.<br><br>The method I settled on is object-based antialiasing, or 
+simply, the line and polygon antialiasing built into OpenGL, which is 
+based entirely on pixel coverage at sub-pixel accuracy. This sub-pixel 
+accuracy translates to floating-point levels of coverage - ie `this 
+polygon covers this pixel by 0.523423%`, which in turn becomes full 
+24-bit-color antialiased edge pixels. And it looks great! And it's fast!<br><br>Here is a magnified shot with no anti-aliasing at all:<br><br><img src="8053&amp;log=1685_files/filled2.webp"><br><br>And here is much the same shot with perfect antialiasing:<br><br><img src="8053&amp;log=1685_files/filled3.webp"><br><br>And
+ here you can see how it deals effortlessly with sub-pixel accuracy. You
+ can draw your bezier shapes to any float/double coordinates and it'll 
+represent correctly in terms of antialiased edges and corners. Here is a
+ real close-up of the antialiasing of a shape, showing how even very 
+slight curvature can translate into many many pixels of antialiasing, 
+not just a limited range:<br><br><img src="8053&amp;log=1685_files/Antialiased.webp"><br><br>There is a slight issue right now of the corner pixels sometimes going black, as you can see above, but it's an easy fix.<br><br>And, finally, a smaller bezier object up-close, so you can see that the antialiasing works fine with overlapping objects.<br><br><img src="8053&amp;log=1685_files/Closeup.webp"><br><br>My
+ next step is to turn this into more library functions for my engine, to
+ get texturing up and running, to implement a variety of realtime 
+gradients, to figure out how to do other blend modes besides 
+alpha-blending at the same time as antialiasing, and to start putting 
+together an editor :-) - then.... to build a game :-D <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2009-07-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have been recently doing a lot of work in the area of curves - 
+generating them and drawing them. It's an interesting area and not one 
+that I've explored much before - partly because I sort of had a thing 
+against vector graphics as being limiting and not very hands-on. But I'm
+ changing my mind. I can see that they are very useful in the area of 
+resolution independence, being able to create very high resolution 
+graphics based on the same data used to scale down to lower-res screens.
+ In this era of very large displays, vector graphics are a good option 
+for overcoming the challenge of `how to draw high-res graphics and not 
+take forever doing it`.<br><br>I came up with an algorithm based on the 
+one first published by De Casteljau, as demonstrated in animated fashion
+ at the wikipedia page on bezier curves. I modified the basic 
+implementation a bit to keep track of the absolute coordinates more 
+efficiently (since it uses a lot of relative distances), and this led to
+ a much simpler-looking approach.<br><br>This in turn made it more 
+obvious how I could code a generic routine, able to handle any number of
+ control points in a single curve. So I got that up and running - it 
+works well, about 1.4 times slower than a hard-coded routine for cubic 
+beziers, for example, but it can handle any number of control points. I 
+tested it with 50 - interesting, but a LOT more computation required. I 
+am not sure really what the benefits are of having lots of control 
+points for a single curve section - maybe to more easily create spirals 
+or loops, but for most things cubic beziers are plenty good enough and 
+much faster to calculate (although half as fast as quadratic beziers). 
+Despite  being able to hard-code 5 or 6 control point beziers, which I 
+have, I don't think I'm going to bother going beyond 4-point cubic 
+beziers.<br><br>I've also been led to question whether to use 
+double-precision floating point.  I know that I'd like to be able to 
+really zoom into vector art deeply and still see good precision in tiny 
+graphical details, which I think will be a problem for single-precision 
+floats. In the tests I've done so far, doubles seem to be in most cases 
+exactly the same speed to use as floats - at least as far as calculating
+ beziers and drawing them with vertex arrays is concerned. That's 
+promising! I also put together a fixed-point version, using unsigned 
+integers with 16:16 precision - about a 16% speedup. Whether that's 
+really worth pursuing is questionable.<br><br>What I will be doing in 
+the days to come is writing additional versions of all of my OpenGL 
+`basic drawing` functions, to use Doubles and Fixed Point as well as the
+ standard float versions. It's a fairly simple task but a bit laborious 
+since it means also updating my script system's library of 
+functionality. I also probably will add extra vertex array support for 
+triangle strips/quad strips - I'll need them to implement proper 
+antialiasing and things like thicker lines, stroking of lines, and 
+wrapping text to curves etc.<br><br>I think I'm probably going to have 
+to put together a simple vectorgraphics editor. Inkscape is my 
+inspiration - it's a pretty nice program, fairly well laid out. I don't 
+think I'll have as many features or as fancy a GUI but just something 
+that works well enough to use. Then I'll use it to generate graphics for
+ my game.<br><br>I'm looking to create a short-term christmas theme'd 
+game which would include a basic game engine and fun graphics. Then 
+later on I would expand on the game engine and create new graphics with a
+ whole different theme. This way I can use the christmas game as a 
+test-bed for getting the basic stuff up and running, and also provide 
+opportunity to test the game dynamics. It doesn't matter if it doesn't 
+sell that great to begin with but I am hoping it'll lead to something 
+more popular.<br><br>Back to the coding side of things, I also have to 
+figure out how to draw smoother sharp-angled curves, without just piling
+ on lots more segments across the whole line. There are algorithms for 
+dynamic segment adjustment, based on the angle between each section of 
+the curve, and the potential length of that section. Basically as the 
+curve gets tighter or takes a sharper bend it should be generated with 
+more short segments, while more gradual curves should use fewer, longer 
+segments.<br><br>One of the approaches I'm thinking to take in general, 
+is to calculate an array of curve-segment coordinates, and then pass 
+that array to glDrawArrays to draw all of the segments at once. I also 
+am looking to store such geometry into display lists. I have found a way
+ to turn bezier shapes into solid filled shapes on the fly using the 
+stencil buffer, which is great. But it doesn't store the triangle data -
+ it just draws it. One thing I need to figure out still is how to 
+tesselate a filled bezier shape and store the triangle data in memory 
+for later use.<br><br>One thing I plan to do to maximize use of curve 
+data, is to be able to calculate it and draw in separate or combined 
+stages. So you'll be able to just  calculate curve points, calculate and
+ draw, calculate and store for later drawing, and draw from stored 
+calculations. Plus somewhere in there will be the tesselating and 
+storing triangles for later rendering. Then beyond that I have to plan 
+out how to either draw on top of graphics or draw to graphics buffers, 
+later to use compositing (drawing of textures) to render them. Filled 
+bezier shapes will be fillable with anything from other bezier curves to
+ other bezier shapes, textures, gradients, even whole games, etc. Lots 
+to do. <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Camera's at the ready</td><td align="right"><font class="tiny">(Posted 2009-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been putting together a camera object this past week and it's 
+pretty much done now and integrated into the script language. Resolution
+ independence is in there, as is adjustment based on a `design-time` 
+resolution/aspect, and configurable physical screen measurement aspect. 
+So aspect ratio correction is in place to deal with non-proportional 
+screen modes, proportional ones, and the difference between the mode 
+that the graphics were designed in and the mode being used. This lets me
+ design graphics in a resolution independent from how they will be 
+displayed, so that I can be sure of consistency. I can control the size 
+on-screen and perhaps even keep the graphics at a fixed physical size 
+regardless of monitor size or resolution.<br><br>In order to be 
+resolution independent, or at least as part of the sytem (because it 
+really permeates through a lot of the graphics stuff), I use a 
+coordinate system that isn't based on pixels. You can decide whether the
+ width or height will be locked to a total of 1.0 units, and then the 
+other dimension is adjusted when doing aspect correction etc. So the 
+coordinates by default have the camera centered at 0,0 in the middle of 
+the screen, top and bottom for example might be -0.5 and +0.5, then the 
+left and right would be whatever to keep proportion (that is if the 
+viewport/camera covers the whole screen). I suppose the center could be 
+in the top or bottom left corner if that is more intuitive - I will have
+ to implement an `origin`. I was thinking of going with percentages and 
+having the screen be `100% height`, and then defining graphics positions
+ as percentages, but I think the 0..1 range is okay, keeps it simple and
+ uses more of the floating point accuracy. I don't want the float 
+numbers to get too big that they lose their accuracy on `large` levels. I
+ am keeping in  mind, however, super-large levels based on local 
+coordinate systems inside bounding volumes.<br><br>Later, a part of 
+resolution independence will pertain to how to generate graphics. Making
+ stuff look good at any resolution is tricky. Instead of pre drawing or 
+pre rendering graphics at a specific resolution, there are a couple of 
+solutions - either render them at a very high resolution and scale them 
+down in the game, or build the objects as vectorgraphics and either 
+scale in realtime or generate a set of graphics based on the run-time 
+resolution. This at least may let the edges of parts of objects remain 
+accurate and pixel-smooth, leaving only the textures with a scaling 
+problem. I will probably go with the latter as it offers more 
+possibilities. Any kind of texture or pre-drawn pattern is always an 
+issue with resolution independence so I suppose I will just use high 
+resolution textures and scale as needed. I also plan to use lots of 
+splines based on my original subdivision cubic beziers, which are able 
+to emulate various other types of splines.<br><br>Resolution 
+independence lets you run in ANY screen mode from something small like 
+640x480 up to massive like 8192x4096 or whatever, which is cool. With so
+ many people now owning big screens it calls for a change in game design
+ - instead of just scaling everything up to fit the screen, I will offer
+ a mode of play where you get a bigger play area and the game objects 
+remain at a given `actual` size - like dots per inch or something. The 
+game objects only need to be big enough to be a good visible size, so 
+why not have a really huge play area visible? :-) A game character 
+doesn't need to be 10 inches tall if 2 inches is enough. Of course, this
+ also supports all widescreens and all aspect ratios  ... so that calls 
+for designing the kind of games which can adapt their play area size 
+dynamically. I think this will lend itself well to fast moving games 
+where you need to be aware of the nearby environment as soon as 
+possible.<br><br>I am also planning to do display orientation, whereby 
+you can rotate the screen by 90/180/270 degrees. The entire game will 
+then play as normal but just at a different angle - so you'd turn your 
+widescreen monitor on its side to get a `tall screen` display, great for
+ certian types of games such as vertical shootemups. I realized the 
+rotation can easily and more reliably be achieved by simply rotating the
+ modelview matrix rather than messing up the frustum settings for the 
+projection matrix. So it should be easy to both implement and to animate
+ transitions between orientations. I'm not sure if my first game will 
+use this feature, though because it's meant to be a sideways shootemup. 
+Maybe a bonus level? Or a different mode of play? :-D Or maybe this 
+feature will wait for a future game.<br><br>Just a few final things to 
+tweak about the camera and then onto the next part. I have started to 
+see the need for developing the script language further, which means 
+figuring out how I'm going to store and access `variables`, and also how
+ to set a real Global from inside the scope of the script - some kind of
+ doorway to the outside. I also need to sort out returned values - when a
+ function comes back with a returned value it stores it in an empty 
+parameter slot after the opcode instruction. The question now is how to 
+move that value to some other location, to store it in a variable, etc. 
+And then I also need to do language stuff like loops and ifs etc.<br><br>Finally,
+ I sometimes have a dream at night where I see a game. There are usually
+ some aspects of it that go back and forth between looking like it's on a
+ screen and looking like it's a real 3D environment. Last night I had 
+one of these, showing a very simple game quite similar to missile 
+command. Some of the features I saw, which I was apparently studying 
+during the dream, have both parallels and new inspiration for my 
+shootemup. So much so in fact that I may possibly put together the exact
+ game that I saw as an early `test` game for my engine. The graphics 
+were extremely minimal - only 2 colors, only dots and lines, but it 
+showed the gameplay in a good light. It gave me some new ideas for my 
+game's animation, since it was doing things I've never seen before :-D 
+Ahhh dreams. <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Full steam ahead</td><td align="right"><font class="tiny">(Posted 2009-06-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Having recently got the thread pool working again, and now having 
+fleshed it out a bit with some useful commands, I'm about at the point 
+where I can add a new timing system. Probably some variation of fixed 
+rate logic as mentioned before.<br><br>However, before I do that, the 
+exciting thing now is that I integrated the main thread into the thread 
+pool. This means that now the main thread is executing a script program 
+just like all the other threads, and successfuly can now run a program 
+to open an OpenGL display and use it :-) And what that in turn means is,
+ the whole `main program` is now script based from this point onwards!<br><br>Of
+ course there is still much to write in terms of the script language, 
+function libraries, etc, but the main flexible core of the system - the 
+program that pulls it all together and `uses` the engine, is now in 
+script form. Developing a `game` from this point on means expanding the 
+main script and other scripts to make use of new libraries of 
+functionality.<br><br>I'm debating what to do next. I have to get the 
+Camera system working, to support all the cool display features, but it 
+depends partly on the graphics system which still needs a revision. Also
+ the fixed rate logic system and other timing stuff - timing of script 
+execution etc, needs to be done but again is partly dependent on the 
+graphics system. So I think I'm going to have to start working on the 
+graphics part of the engine again, including the camera.<br><br>I don't 
+think the camera part will take too long, I have some older code I can 
+modify and add some features to. I then have a library of 
+general-purpose drawing functions using OpenGL, I'm guessing I will make
+ that fully available in scripts but I also have a bunch of features 
+that need t be added. Did I mention there is already full support in 
+scripts for the full OpenGL 1.1 API, and later versions to come? :-D<br><br>Beside
+ the engine I got a bit distracted yesterday researching about the Sonic
+ The Hedgehog games, which were very cool in their day and still are (at
+ least the original 1,2,3 and the CD one - all the 2D ones). Seeing it 
+in action again on youtube and in a tech demo of a high-resolution 
+remake that's underway, I'm inspired to want to make a really fast 2D 
+platformer. But for now I am focussing on the task at hand - to get the 
+engine developed and to get a good shootemup game under my belt. <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Executing, again</td><td align="right"><font class="tiny">(Posted 2009-06-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ In the past few days I threw together a re-written thread-pool script 
+execution engine, and it is now working. :-) Of course I could re-use 
+much of the code from the old system so I didn't have to write too much.
+ I kept the script programs the same and just changed the thread pool 
+and execution system.<br><br>It seems I could do about 460 threads on 
+Windows Vista, not that I'd want to. I probably won't need more than 
+like 16 or something. Basically right now I create all the threads and 
+they immediately execute a little program which puts the thread in a 
+waiting state until signalled to continue. So then the `scheduler`, 
+whatever that will be, will come along and insert the appropriate 
+program to be executed, and trigger the thread to resume. Programs are 
+always ended with the same `done` instruction which puts the thread on 
+dormant again and frees it up for new work.<br><br>One program per 
+thread. No multiplexing. No trying to juggle timeslices or process 
+priorities. Nice and simple and much much cleaner than the old system, 
+and no sign of any crashing, which is always a good thing. I still have 
+to pass an object into each function so that it can properly increment 
+the program counters and access instruction parameters, which I was 
+hoping to avoid, but no problem - I was able to make the calling of 
+instructions faster due to not being tied into the mess of virtual 
+processes. So I think it's faster overall. Haven't tested it yet.<br><br>What
+ I have to do now is figure out how I'm going to do the game timing. 
+There have been lots of good discussions about fixed rate logic and all 
+that so I will review those and choose a suitable system. Essentially 
+what I'm thinking of, is a fixed-rate timing system that kind of acts as
+ a simple task scheduler, where instead of directly calling a piece of 
+logic code to be executed it will pass it to the threadpool to work on. 
+So I have to consider how to tell if the thread is finished and get 
+things synchronized.<br><br>I have thought before about how to do 
+timing, in various ways, and different approaches have their benefits. 
+As usual there is no perfect system. Lots of things to consider - cpu 
+speed, gpu performance, time taken to flip the display, user input 
+responsiveness, animation, physics stability/determinism, networking, 
+different refresh rates, tweening or delta, etc. But I gotta remind 
+myself - all together now ... "keep it simple"! :-) <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Focus</td><td align="right"><font class="tiny">(Posted 2009-06-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hey folks.<br><br>For
+ a while I was getting into writing a programming book. It's coming 
+along and will continue into the future. There are still lots of parts 
+to write, but right now it's temporarily on hold. Not like `officially` 
+on hold, just that I'm doing other things. I need the variety.<br><br>I 
+recently switched gears to participate in the first BlitzMax community 
+framework competition. I spent about 3 weeks in a time-crunch mode 
+trying to get code written and working. I was trying to achieve a very 
+large fractally-generated destructible landscape, spooled from main 
+memory, with scorched-tanks-like gameplay. Well, the generating worked 
+but the scrolling and spooling system was a bit tricky to get working 
+right. Eventually my super-efficient technique did not work 100% right 
+all of the time, so I had to opt for a more brute-force method 
+eventually to make it not have visual errors, as a quick bandaid. It's 
+something for me to come back to and fix at a later date. It's along the
+ lines of some of the kind of games I want to create.<br><br>I managed 
+to get four different types of landscape to generate - flatlands, 
+foothills, mountains and cliffs, with three different rendering modes - 
+flat shades, gradient-filled and textured. Also four layers of parallax,
+ all custom generated (except sky), and two of which are dynamically 
+spooled landscapes. Sorry about the totally crap last-second title 
+screen and name, but here's a shot showing almost everything that was 
+implemented in the 3-week time frame (minus 2 tanks and naff shot 
+firing):<br><br><img src="8053&amp;log=1685_files/Screenshot.webp"><br><br>So
+ anyway, eventually it looked like it might've been heading towards 
+being a fun game, but the `game` part of it didn't quite emerge. In fact
+ it was not really playable at all. But it did serve as an interesting 
+experiment and a cool landscape generator. And I won third prize in 
+spite of there being no real `game` to play! ;-)<br><br>But what was 
+really important for me was the effect that this timecrunch had on how I
+ look at game development. I will go on record now to state that time 
+limits, short and long term goals, and the simplification that these can
+ instill, can be very valuable. I really don't like time limits at all, 
+but when you are `forced` to really examine what is important, what has 
+to get chopped, what can be added in future as an expansion, and how to 
+*get results* sooner, it really can speed along progress in `actually 
+creating a game`. This is all part of learning to be a better game 
+developer. With the competition I surprised myself with how much I could
+ get done on a more specific project, and inspired me with what I am 
+capable of doing.<br><br>As prior readership of my other worklogs will 
+tell you, I can get into a lot of detail and some very abstract ideas 
+and philosophies. These are great, and there is a place for them in the 
+creative design aspects of a game. But this alone isn't enough to get 
+results. At some point it has to be condensed into a solidified form.<br><br>I
+ can come up with SO many ideas that to implement them would take a very
+ long time. And yet that is what I was essentially trying to do - 
+developing a game engine, where I am trying to think about all the 
+possible games you would want to create with it, and all the possible 
+other uses of it, and all the things you'd want to know about being able
+ to do ahead of time. That can really end up being a pile of abstract 
+concepts with not much to show for it.<br><br>What the competition 
+taught me is that these ideas are great but at some point you have to 
+`get real`, in the sense of being practical, bringing the ideas into a 
+physical form, prioritizing what you can `actually do` in a given 
+timeframe, and looking at feasibility of what can be achieved or what is
+ necessary. This is a good thing. The `pressure` of making a short term 
+goal, like `I will try to get the display system written before the end 
+of the week` has a lot of beneficial influence in shaping what you 
+actually create and the choices you make. Of course, you don't want so 
+much pressure that you chop out too much :-)<br><br>So, recently I've 
+been working on coding again, towards a simpler, sleeker engine, which 
+will really be targetted only at games to begin with. I won't be 
+thinking too much about the kind of features you'd see in a graphics 
+application, or multimedia stuff, or advanced networking, or a big-time 
+graphics engine. Instead I am focussing on producing a simpler engine 
+with a good solid core of features, with readiness to be expanded in 
+future as other games unfold from it, and as needed, rather than `just 
+in case`. There is a LOT to be said for writing code which is more 
+specific than generic, although neither approach is the best and both 
+need to balance each other. I figure that future games will dictate 
+which features need to be added along the way, to expand and `grow` the 
+engine over time rather than to do it all up-front. Turning it into a 
+generic `creative environment` or `operating environment` or `graphics 
+application` will come much later on the roadmap.<br><br>I've rewritten 
+my display system and just have to redo the camera part of it now. I am 
+making sure the major and minor features are all in place on this part 
+because I can't easily change it later. Features include dealing with 
+the projection matrix, handling *full* resolution independence, aspect 
+ratio correction/adjustment, screen orientation, zooming, flipping, 
+rotating, stretching, panning, positioning/aiming, animation and 3D 
+stuff etc.<br><br>I also just realized, with a little help, that my 
+`VirtualCPU` virtual machine script multitasking engine is going to need
+ a bit of a rewrite. It was written before BlitzMax had real threads, 
+and although I've now made it work with threads the architecture doesn't
+ make as much sense. I am going to get rid of much of the scheduler and 
+replace it with a simpler fixe-rate-logic timing system. I will get 
+entirely rid of virtual `processes` and will find other ways to do 
+multiple copies of programs. I won't be doing any multiplexing, and 
+instead will focus on a one-script-per-thread model using a simpler 
+thread pool. It will also allow me to dynamically allocate extra threads
+ to running short tasks in parallel, where a single program can issue a 
+section of code to be run by many threads at once and then come back to a
+ single thread of execution. Sort of like virtual threads I guess, but 
+optimized towards many thread splits/joins happening frequently as 
+needed. So like if a piece of code suddenly needs to do a little loop in
+ parallel it can quickly get other threads to work on it.<br><br>It will
+ be much simpler, faster, less complicated and more reliable, and 
+actually more capable in some areas. I've already designed the new 
+architecture, now I just have to code it. Again it will be more aimed 
+initially towards `games only` rather than a miriad of other 
+possibilities. Part of the reason for this portion being rewritten is 
+also because the current system is a bit crash-prone at times and I'm 
+not sure why - it's gotten too complicated to manage or to trust. 
+Lessons learned. The new system will be more solid and easier to expand 
+later.<br><br>If there's one thing I can say now from experience, it's 
+that you can't just dream about ideas and possibilities and designs. It 
+REALLY helps to attach your ideas to a single limited project, with an 
+achievable goal, and confine the code to only what is needed by that 
+project, leaving extra bells and whistles for later implementation as 
+needed. It just doesn't pay to spent a lot of time fleshing out an 
+engine with stuff that would be nice for some people to maybe use but 
+maybe not. Unless you are writing a game engine that you plan for other 
+people to actually use to write their own games, it really isn't worth 
+making it so all-inclusive. You can still have all-inclusive ideals and 
+inspirations and designs in terms of media and game content and style 
+etc, but program code really is just program code - just sit down and 
+write what needs to be written rather than what you think you should 
+write. You can let it be `limited` while still leaving room for future 
+expansion. For example, I am writing a bitmap system based on separate 
+channels instead of interleaved RGBA data. But I am not writing every 
+piece of channel-processing code right now, I am just putting the basic 
+framework of channels in place and only the code I need for this one 
+game right now. This lets me expand in future if it's called for. My 
+focus now is on seeing results sooner and with less effort.<br><br>So, 
+you can hope to see a faster rate of progress from me over the coming 
+months. My first major goal is to create a side-scrolling shootemup. My 
+main focus is going to be on having fun, and narrowing my focus to 
+concentrate on this game. It will be inspired from the likes of 
+Defender, Datastorm, Deluxe Galaga, and some others, but with a quite 
+original take on the environments, enemies, structure and story. <br><br> <img src="8053&amp;log=1685_files/HandLogo04.webp"> Check out my <a href="http://gurumeditations.wordpress.com/" target="_blank">Game Development Blog</a> -ImaginaryHuman- </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

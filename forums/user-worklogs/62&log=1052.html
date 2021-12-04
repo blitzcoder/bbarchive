@@ -1,0 +1,55 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for markrosten</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Racing Destruction Set - progress @ 1st September 2002</td><td align="right"><font class="tiny">(Posted 2002-09-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> - RDS remake progress update.<br><br>Hey folks. Time for a quick progress update on my remake of RDS.<br><br>I've
+ been busy working on the menu system for several weeks now. Instead of 
+using simple 2d menus (like I did in my Bruce Lee remake) I opted for a 
+fully 3d approach. All of the menu items displayed are 3d objects 
+(quads, cubes, spheres, etc.) so I can use all the lovely alpha 
+transparency effects like fading options in and out. This has meant that
+ it's taking much longer than usual to code the different options 
+screens required, but it'll be worth it in the end.<br><br>I'm just 
+about to start work on the vehicle selection screen. Once that is done I
+ can leave the menu system for now (only a couple of disabled options 
+are left to do) so I can get back to work on the game engine again.<br><br>I'm
+ intending to rip out the physics and car control code I'm currently 
+using and start from scratch. I bought a nice (and in-depth) game 
+physics development book a few weeks ago so that should hopefully give 
+me what I need to make the cars crashing and bouncing around like crazy 
+:). This phsyics and control code is the most important as far as I am 
+concerned as I want the game to play similar to the original, enhancing 
+it where I can.<br><br>I've added some pictures to show you some of the latest screenshots added to my website.<br><br>To view more screenshots and be kept more up to date on my progress, go the my RDS remake website here:<br><a href="http://www.planetflibble.com/rds" target="_blank">http://www.planetflibble.com/rds</a><br><br>Regards,<br>Mark<br><br>- The track selection screen with the playlist controls visible<br><img src="62&amp;log=1052_files/screen22.html"><br><br>- The track selection screen with the 3d track preview visible<br><img src="62&amp;log=1052_files/screen21.html"><br><br>- A more up to date screenshot of the track designer in action<br><img src="62&amp;log=1052_files/screen23.html"><br> <br><br> <a href="http://blitz.planetflibble.com/" target="_blank">Bruce Lee - a remake for the PC (finished)</a><br><a href="http://rds.planetflibble.com/" target="_blank">Racing Destruction Set - a remake for the PC (work in progress)</a><br><img src="62&amp;log=1052_files/tiny1.html">  <img src="62&amp;log=1052_files/tiny2.html">  <img src="62&amp;log=1052_files/tiny3.html">  <img src="62&amp;log=1052_files/tiny4.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Racing Destruction Set - progress @ 5th July 2002</td><td align="right"><font class="tiny">(Posted 2002-07-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Just a brief progress update on my Racing Destruction Set remake... <br><br>First, a couple of screenshots:<br><br>- Both player cars finishing a jump<br><img src="62&amp;log=1052_files/screen15.html"><br><br>- a shot of the Track Designer<br><img src="62&amp;log=1052_files/screen17.html"><br><br>Coding
+ has been going on now, slowly but surely, for 2 months now. I'm pretty 
+happy with my progress so far mainly as I don't get as much time as I'd 
+like to work on this (Real Life (tm) including working full time get in 
+the way ). <br><br><br>What's done: <br><br>Track Designer.<br>---------------<br>I'm
+ very happy with the designer. It has the same feel of the original but 
+with some more added functionality to make life easier. The track 
+validation is much better and it tells you exactly what type of problem 
+there might be as well as showing you where the problem lies. The track 
+piece display in 3d works well and I've just added a 3d preview to show 
+the full track, allbeit from above view at the moment. <br><br>Basic vehicle movement and collisions. <br>--------------------------------------<br>Both
+ player cars move around the track, jumping with gravity and without 
+falling off the track. The track has a hidden collision wall all around 
+the designed track which stops the player from leaving the track. The 
+basic collision between player and track and hidden walls works well, so
+ far. <br><br>Simulated 'track lanes' (or slots).<br>-----------------------------------<br>I
+ am using a hidden waypoint system which is calcuated for the track 
+depending on which way around the track the players can go. Each track 
+piece's waypoints are divided into 3 'lanes' allowing me to work out the
+ closest waypoint to the player and the closest waypoint in front of the
+ player. I use this information to subtly 'steer' the player toward the 
+closest lane. How much this steers needs tweaking but the basic system 
+works nicely. <br><br>That's about it for now. If you want up-to-date 
+information, including development screenshots and news, go my RDS 
+website here: <br><a href="http://www.planetflibble.com/rds" target="_blank">Racing Destruction Set - a remake for the PC</a><br><br>Regards, <br>Mark Rosten<br> <br><br> <a href="http://blitz.planetflibble.com/" target="_blank">Bruce Lee - a remake for the PC (finished)</a><br><a href="http://rds.planetflibble.com/" target="_blank">Racing Destruction Set - a remake for the PC (work in progress)</a><br><img src="62&amp;log=1052_files/tiny1.html">  <img src="62&amp;log=1052_files/tiny2.html">  <img src="62&amp;log=1052_files/tiny3.html">  <img src="62&amp;log=1052_files/tiny4.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Racing Destruction Set</td><td align="right"><font class="tiny">(Posted 2002-06-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've recently started work on a Blitz 3d remake of the classic Commodore 64 game 'Racing Destruction Set'.<br><br>My
+ version should contain at least ALL the features of the original game. 
+I'm not sure on additions to the game yet, I have some ideas but I don't
+ want to change the gameplay from the original too much.<br><br>For more up-to-date information you can visit my RDS website here:<br><a href="http://www.planetflibble.com/rds" target="_blank">Racing Destruction Set - a remake for the PC</a><br><br>Regards,<br>Mark<br> <br><br> <a href="http://blitz.planetflibble.com/" target="_blank">Bruce Lee - a remake for the PC (finished)</a><br><a href="http://rds.planetflibble.com/" target="_blank">Racing Destruction Set - a remake for the PC (work in progress)</a><br><img src="62&amp;log=1052_files/tiny1.html">  <img src="62&amp;log=1052_files/tiny2.html">  <img src="62&amp;log=1052_files/tiny3.html">  <img src="62&amp;log=1052_files/tiny4.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The future of Bruce Lee</td><td align="right"><font class="tiny">(Posted 2001-11-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hi folks.<br><br>Thought I'd an an entry to this great little system Mark has set up :)<br><br>I haven't been Blitz'ing much recently (been busy playing Dark Age of Camelot), but I still read and post on the boards.<br><br>I
+ was going to create a new level editor for Bruce Lee so you could make 
+brand new levels, but I'm going to have to scrap that for the time 
+being.<br><br>I'm afraid the small time I am getting using my computer 
+at the moment is taken up playing Dark Age of Camelot (damned addictive 
+game!) so any Blitz work is on the back burner until I can get motivated
+ again.<br><br>So the future of my Bruce Lee remake is on hold, for now.<br><br>Regards,<br>Mark Rosten<br> <br><br> <a href="http://blitz.planetflibble.com/" target="_blank">Bruce Lee - a remake for the PC (finished)</a><br><a href="http://rds.planetflibble.com/" target="_blank">Racing Destruction Set - a remake for the PC (work in progress)</a><br><img src="62&amp;log=1052_files/tiny1.html">  <img src="62&amp;log=1052_files/tiny2.html">  <img src="62&amp;log=1052_files/tiny3.html">  <img src="62&amp;log=1052_files/tiny4.html"> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,309 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Baystep Productions</h1><h1>Workings of deranged programmer</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>PsyScr3</td><td align="right"><font class="tiny">(Posted 2008-11-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Functions are now working. Single parameter only due to my laziness. 
+Adding those in tomorrow. But you can now right your own functions with 
+parameters and it all works. Since the functions variables and 
+parameters are renamed to prevent memory leaking and doubling, theres no
+ worry of having global variables with the same name as function 
+parameters. Functions will have a neat new function of hierachy scope. 
+Universal, Global, and Local are the scopes along with Public and 
+Private. They effect the overwriting feature with built-in functions and
+ defaults. Speed is still the same. Surprisingly saving each function as
+ its own class didn't slow things down. 0ms execution for calling a 
+custom function. So I hit the 1.6k lines-of-code mark and 38k 
+characters. HURRAY! I'm gonna party once I hit 2k. I expect that to be 
+just after class-object creation. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>PsyScr3</td><td align="right"><font class="tiny">(Posted 2008-11-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> InstrWord<br>ReplaceWord<br><br>Both work.<br><br>I
+ added commenting. Why I didn't earlier I don't know. So comments are in
+ C style. "//" is the key. I also added block commenting by using 
+"comment" and "endcomment". But there was a change to the compiler. And 
+that was, I added a PreCompile function that will take up cleaning out 
+the source code on memory. It will pick-out the comments and blank lines
+ as well as moving the function declerations to a new type class 
+PSFunction. The PSFunction class will handle the parameters, returns, 
+execution, and actually holding the codeing to be executed with the 
+function. I chose to do it this way so that functions could be created 
+at the bottom and still be usable in the top parts of the script that 
+will be executed first. The interpretation is looking to be too slow for
+ active runtime. Unless it's only being called once. But for contant 
+loop, no promises. Thats why byte-code compiling is for! If it only 
+takes 2ms to break down and compile a script I'm sure it should surfice 
+for intital loading. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>PsyScr3</td><td align="right"><font class="tiny">(Posted 2008-11-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Everyday updates now.<br><br>Select/Case/Default/EndSelect where added to the engine. Now work is being done on Functions.<br><br>So functions are gonna be a project in their own.<br><br>Function parameters are treated as variables and are there-for created variables that have localized names. IE:<br>Decleration: Function Test(inp$,inp2$)<br>Creates the variables: __Test_inp and __Test_inp2<br><br>They
+ will also support default values, and all data types. The only problem I
+ came across was using Instr to find and replace variables names/values.
+ So I created 2 new functions from scratch InstrWord and ReplaceWord. 
+They search the string for whole words and return/replace the matches. 
+Examples:<br><br>ReplaceWord("Hello World","World","Blitz") would replace world with blitz. Nothing to amazing<br>ReplaceWord("Into
+ Integers","Int","BANNANA") would replace nothing. Because there are no 
+whole words named "Int". The function isn't case-sensitive either. I 
+will be replacing the variable replacement algorithms with this new 
+function. Which will remove the previous bug of variable.<br><br>The bug mixed up the variable names as in:<br><pre class="code">var weight# = 180.5
+var moonWeight# = weight*10
+print(moonWeight#)
+</pre><br>print would then print "moon180.5" because there is already a 
+variable that contains the word "weight". The new function only searches
+ characters between symbols as to get the "whole word". Expect those 
+functions to be posted here later.<br><br>Example of a working script. This script tests everything and works flawlessly in 3ms.<br><pre class="code">var name$ = ""
+name = "Chris"
+var age% = 19
+var height% = 6
+var weight# = 145.76
+var hexID&amp; = FFA016
+
+var bottles% = 0
+for bottles = 100 to 0
+   print(bottles+" bottles of beer on the wall.")
+next
+repeat
+   bottles+=1
+   print("Added another bottle of beer to the wall, now we have "+bottles)
+until bottles&gt;=100
+while bottles&gt;0
+   print(bottles+" bottles of beer on the wall.")
+endwhile
+if age&lt;18
+   print("You can't vote yet!")
+elseif age&lt;21
+   print("At least you can vote!")
+else
+   print("You can drink now too!")
+endif
+select height
+   case 4
+      print("Legally a midget!")
+   case 5
+      print("Short but average")
+   default
+      print("Pretty tall!")
+endselect
+</pre><br>[/code] <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More Updates - PsyScr3</td><td align="right"><font class="tiny">(Posted 2008-11-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ So is ziggy giving me some competition? Lol. Just kidding, maybe he can
+ join me. Unfortunatly this isn't really a small-scripting language. 
+It's turning into a full fledge engine and language in it's own. 
+Considering it can be interpreted, short-code compiled, and byte-code 
+compiled with Assembly output and linking with other languages for 
+stand-alone executables. Dare I say watch out Lua? I mean luas amazing, 
+but doesn't it not have active class/object creation. With hierarchy 
+style over-writing? It's like a mini-C+ within BlitzMax. But yeah, 
+virtual/interpreted/compiled. Thats the idea here.<br><br>More statistics:<br>Source
+ code size is over 1.6K lines, and over 26.7k characters. The source and
+ engine is all from scratch, and referenced code-snipts where re-typed 
+by hand, by me.<br><br>Helpful Hands:<br>If anybody has a better way to 
+calculate string formulas fast and accurate I'm open to it. It needs to 
+support all the data types. :( That means int, long, float, double, hex,
+ and string. Don't worry about object. :) <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update - PsychoScript 3</td><td align="right"><font class="tiny">(Posted 2008-11-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Ok. Now I have all the loops working. for/next currently only accepts 
+integers for the steps and all, unfortunatly its tempromental. If the 
+incretments don't add up exact then the loop will get thrown into inf 
+repeat.<br><br>Some statistics!<br><br>100 lines of script is interpreted and executed in 2.7251 milliseconds. Which is over 36000 lines of code per 1 second.<br><br>Expect more speed cause the engine will run in 3 stages.<br>First is interpretation and optional execution.<br>Second is interpretation and compiling to short-code (human readable).<br>Third is short-code to truely compiled (non-human readable).<br><br>Note:
+ The engines short-code will be like x86 Assembler so expect it to be 
+able to convert TO assembly and link as a stand-alone executable. Making
+ this script language and actual language. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update - PsychoScript 3</td><td align="right"><font class="tiny">(Posted 2008-10-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> More work was done on the scripting. Completed parts...<br><br>Varialbes...<br>Accepted data types are integer, long-int, float, double, string, and hex. Will be adding byte, short, arrays, and object.<br><br>If/ElseIf/Else
+ statements where also completed with working expressions. Loops include
+ the keywords repeat/until/forever and while. Soon to come is For/Next.<br><br>The
+ math system is working a bit crappy. It seems to only like to compute 
+formulas with less then or equal to 1 parenthasis section. I also added 
+the ability to use "-=/+=" for easy adding values to variables. As soon 
+as those are cleaned up work will start on functions, and then... DUN 
+DUN DUN! CLASSES AND OBJECTS. Along with hierarchy, over-writing, 
+priority, global vs. local and yadadadada. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More updates</td><td align="right"><font class="tiny">(Posted 2008-10-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Um. So the work is slow. I know the scripting engine is gonna feature a
+ event based system for linking into the game. Allowing hooking and 
+unhooking to call-back functions. This will empower the user with the 
+ultimate in modifications. I'm a bit weary cause this will allow virus 
+and cheat creations on whim. But thats fun and I like it when people 
+actually take the time to make the game theirs. The whole virus thing 
+really struck my fancy though. Cause I can add that as a feature to the 
+game. Sickness to the player. Not the virus you where probably thinking 
+of but yeah, that works to. A virus would be a script containing the 
+class to an object/item/weapon/etc and have a link from onUse or onEquip
+ to the virus's object creation. The viruses object would immediatly 
+call an infect method which would add a event hook to whatever it 
+wanted. The event system would automaticly call the virus's supplied 
+call-back and the damage is done. A cure would be a simple call of 
+unhookEvent()<br><br>So right now I'm thinking it will get played out like this...<br><pre class="code">hookEvent(EVENT_ID%,OBJECT_REFERENCED,CALL_BACK_FUNCTION)
+</pre><br>...and the same for unhookEvent()<br><br>Ahh this is gonna be 
+hard. BUT FUN! Oh btw. This development on the scripting language is all
+ gonna be bundled into a library for distrabution. PscychoScript3 (wip) 
+Any interests in this please email. It's a BMX Module.<br><br>OH! AND ANY IDEAS/SUGGESTIONS/PARTNERSHIPS PLEASE EMAIL ME AT CHRISPIKUL510@...<br><br>Thanks! <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Universal's the theme!</td><td align="right"><font class="tiny">(Posted 2008-10-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Internets down, and no money to pay the bill. So commendeering this 
+here laptop I shall update you on my biggest project so far. THE 
+BIGGEST. Ever.<br><br>I'm expecting months of coding, partnerships, 
+hardware upgrading, software upgrading, the whole shabang. I'm going at 
+this project a bit (a lot) differently then anything I've done before.<br><br><b>Controllers</b><br>Not
+ input controllers but library controllers. A new technique I came up 
+with on the fly and I hope it works well. This technique infuses 
+BlitzMax with an OOP writing technique but writing the different 
+segments of application control in their own indevidual Type classes. So
+ the sound engine is one class, graphics another, input another, 
+networking, scripting/configuration, logic/AI, and a new one I call 
+CGame. A CGame type controlls the game itself and basicly contains 
+everything that makes the coding "original". The reason for me coding 
+this way is that in the event I switch to 3D, I just change out one 
+source file. No coding to switch around or anything. Cause the Graphics 
+controller is coded universally. So the type class "CGraphics" will have
+ the same name and functions. So calling gfx.Render will be the same for
+ Max2D, OpenGL, DirectX3D, etc. etc. Other hierarchy examples include 
+update input, networking, actual game logic, changing scripting, you get
+ the idea. I anticipate it might be SLIGHTLY harsher on the CPU being 
+that the code control will constantly be jumping through different 
+classes, but very minor. I wanted to use this system so that I can 
+develop the game in 2D now and "easily" port to 3D when I obtain an 
+awesome graphics engine (and DX10 card).<br><br><b>The Mash-up</b><br>So
+ many ideas and library's and all have been filling my head for this 
+project. So I'm gonna try and keep writing things down so I don't 
+forget. First off, continuing with OOP, is my next idea of Entities. Not
+ original I know, BUT just wait. Like 3D entity's of B3D in being that 
+everything is an entity I will do for this project. Even if it's 2D. But
+ I want to expand it for more UNIVERSAL application. As in the entity 
+class is universal, the parent coding won't care what type of entity, 
+what it is, what it's for, nothing. All it will know is that it's some 
+sort of game object or useful in some way. The entity class it's self 
+will decifer what IT is, what actions should be taken based on that, and
+ control other things. It's control should include what to do with Input
+ values, when to play sounds, physics, logics, etc. <br><br>This project
+ is also going to use all my other librarys and uutilities. Including 
+PsychoScript3 (in development, it's amazing), ResGUI, InterDb, 
+MicroPatch (in development), PsychoNet2 (in development), and a couple 
+others.<br><br><b>The Game</b><br>Finally to what this is all about. To 
+bad I can't tell you (I could die). Haha. Kidding, but for now it's 
+secret. It's WIP Name is "Imperealize". And it involves being a 
+community, raising stats, customization at it's fullest and having 
+nearly full control in the games development and progress. Yes, 
+development. This will be restricted to online only, but hey, so is 
+steam. I'm gonna need servers and hosting and web domains and all. But 
+that's what work is for.<br><br>I'll keep you all posted as soon as I can. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ResGUI - Update</td><td align="right"><font class="tiny">(Posted 2008-09-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The module is coming along well. Three types have been created... 
+TResourceHandler, TResource, and TDialog. And you only have to use the 
+first one to create and control all the others.<br><br>100% of the MSDN 
+declaired control types have been supported. Plus some extra lucky 
+hidden ones (i.e. "msctls_updown32"). I'm adding custom-class support 
+too. So<br>those lazy or hand-scripters who don't remember how to add a 
+spinner (MSDN forgot to describe those...) they can just created the GUI
+ element with the class MAXGUI_SPINNER. This way stuff that maxgui can 
+do that editors don't can most likely be used anyways.<br><br>So far my example program to launch looks like this...<br><pre class="code">Global res:TResourceHandler = New TResourceHandler.Create("TempExample.brc")
+res.BuildAll()
+While True
+   WaitEvent
+Wend
+End
+</pre><br>And that code creates and automatically contols all gadgets. <br><br>Heres a look at the resource script to see what this module is parsing and handling...<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">MAINMENU
+ MENUEX
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+{
+POPUP "&amp;File", 100, MFT_STRING, MFS_ENABLED, 0
+{
+	MENUITEM "&amp;New\tCtrl+N", 101, MFT_STRING, MFS_ENABLED
+	MENUITEM "&amp;Open\tCtrl+O", 102, MFT_STRING, MFS_ENABLED
+	MENUITEM "&amp;Save\tCtrl+S", 103, MFT_STRING, MFS_ENABLED
+	MENUITEM "", 0, MFT_STRING, MFS_ENABLED
+	MENUITEM "E&amp;xit\tCtrl+Q", 0, MFT_STRING, MFS_ENABLED
+}
+POPUP "&amp;Edit", 200, MFT_STRING, MFS_ENABLED, 0
+{
+	MENUITEM "Cut\tCtrl+X", 201, MFT_STRING, MFS_ENABLED
+	MENUITEM "&amp;Copy\tCtrl+C", 202, MFT_STRING, MFS_ENABLED
+	MENUITEM "Paste\tCtrl+V", 203, MFT_STRING, MFS_ENABLED
+}
+POPUP "&amp;View", 300, MFT_STRING, MFS_ENABLED, 0
+{
+	MENUITEM "&amp;Minimize\tCtrl+M", 301, MFT_STRING, MFS_ENABLED
+}
+POPUP "&amp;Help", 400, MFT_STRING, MFS_ENABLED, 0
+{
+	MENUITEM "&amp;About", 401, MFT_STRING, MFS_ENABLED
+}
+}
+MAIN DIALOGEX 0, 0, 395, 262
+STYLE WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_VISIBLE | WS_CAPTION | 
+WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_DLGMODALFRAME
+CAPTION "Example"
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+FONT 8, "MS SHELL DLG"
+{
+   CONTROL "Toolbar", 1, "ToolbarWindow32", 0x50800000, 0, 0, 397, 20 
+   CONTROL "Ready", 2, "msctls_statusbar32", SBARS_SIZEGRIP | WS_CHILD |
+ WS_VISIBLE, 0, 248, 394, 15 
+   CONTROL "This window was generated with ResHack", 3, STATIC, 
+SS_CENTER | SS_CENTERIMAGE | WS_CHILD | WS_VISIBLE | WS_GROUP, 2, 20, 
+141, 12 
+   CONTROL "", 4, "SysTreeView32", TVS_HASLINES | WS_CHILD | WS_VISIBLE |
+ WS_BORDER | WS_TABSTOP, 2, 34, 100, 152 
+   CONTROL "", 5, "msctls_trackbar32", TBS_HORZ | WS_CHILD | WS_VISIBLE |
+ WS_TABSTOP, 2, 190, 100, 18 
+   CONTROL "Global", 6, BUTTON, BS_CHECKBOX | WS_CHILD | WS_VISIBLE | 
+WS_TABSTOP, 2, 210, 40, 14 
+   CONTROL "ADD OBJECT", 7, BUTTON, BS_DEFPUSHBUTTON | WS_CHILD | 
+WS_VISIBLE | WS_TABSTOP, 42, 210, 60, 14 
+   CONTROL "PRESETS", 8, COMBOBOX, CBS_DROPDOWN | WS_CHILD | WS_VISIBLE |
+ WS_TABSTOP, 2, 230, 100, 14 
+   CONTROL "Large sized textarea (RICHEDIT)", 9, "RICHEDIT", ES_LEFT | 
+ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_CHILD | WS_VISIBLE |
+ WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP, 106, 34, 285, 210 , 
+0x00000200
+}
+
+ABOUT DIALOG 0, 0, 200, 150
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_DLGMODALFRAME | WS_EX_WINDOWEDGE
+CAPTION "About"
+MENU 401
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+FONT 8, "MS Shell Dlg"
+{
+   CONTROL "About Program:", 1, STATIC, SS_LEFT | WS_CHILD | WS_VISIBLE |
+ WS_GROUP, 5, 5, 60, 16 , 0x00000004
+   CONTROL "This program was made as an example!", 2, STATIC, SS_CENTER |
+ SS_CENTERIMAGE | WS_CHILD | WS_VISIBLE | WS_GROUP, 32, 19, 141, 16 , 
+0x00000004
+   CONTROL "Ok", 3, BUTTON, BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | 
+WS_TABSTOP, 79, 33, 50, 16 , 0x00000004
+}
+
+1 ICON "Icon_1.ico"
+
+
+1 VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x0
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "000004E4"
+	{
+		VALUE "Company Name", "Psycho Cat Designs Ltd."
+		VALUE "Build Date", "9/16/08"
+		VALUE "Copyright", "Psycho Cat Designs Ltd. 2008, All Rights 
+Reserved."
+	}
+}
+
+MAINTOOLBAR 241 "Data_1.bin"
+</textarea><br><br>Now I move onto cleaning some of it up, fixing the 
+creation and handling of menus, status bar, and tool-bars (pretty 
+important stuff). Later on is memory-management. The program shows up at
+ around 3-4,000k on the task manager. So it's still none-invasive but 
+some GC could be nice I'm sure.<br><br>Well thats all for tonight! Some 3 hours of work huh?<br><br>-------------------------------------------------<br><u><b>ANYONE INTERESTED IN THESE PROJECTS CAN EMAIL ME!</b></u> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ResGUI</td><td align="right"><font class="tiny">(Posted 2008-09-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Oh jeese. This ones becoming quite the project. It started as a simple tool...<br><br>The
+ simple tool allowed you to drag *.rc Resource script files onto it and 
+it would compile it down to a new easier-to-program version I called 
+*.brc ([B]litz [R]esour[c]e).<br><br>Then it moved on to a full-fledged 
+module that allows you to easily read *.brc (or even interpret *.rc 
+files) and automatically generate and handle MaxGUI elements based of 
+the given information. Useful cause it means you can use a resource 
+editor (like ResHack or even MSVC) to generate the script files in a 
+WYSIWYG fasion and directly port them over to BMAX.<br><br>I currently 
+have the interpreter and compiler finished now I'm working on the module
+ TResourceHandler and TResource to load and generate the TGadget objects
+ in a kind of "template" enviroment. I'm currently adding functions to 
+compile the WinAPI style codes into MaxGUI style codes so I can continue
+ with the first object... DIALOGS!<br><br>I've decided to branch it a 
+bit more and enable it so that when you design (as a resource) a dialog,
+ if it is named/id'd with "MAIN" it will be treated as the template for 
+the programs main window. Since MSVC+ doesn't inherently create the main
+ window template it seems, this motive was chosen instead. So now 
+windows are dialogs and dialogs are windows! CHEERS! <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

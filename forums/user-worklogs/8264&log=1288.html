@@ -1,0 +1,1314 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Leiden</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Upload</td><td align="right"><font class="tiny">(Posted 2005-11-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Decided to upload what I did have in case someone finds the code useful:<br><br><a href="http://i2.net.nz/leiden/junk/engine.zip" target="_blank">http://i2.net.nz/leiden/junk/engine.zip</a><br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Not Further I shall Go :(</td><td align="right"><font class="tiny">(Posted 2005-11-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been having more problems than its worth with BlitzMax.  Things 
+like not being able to define Types variables in Methods Constructors 
+because they are not constant then not being able to define them as 
+constant Is probably one of em. Not being able to have multiple Methods 
+with the same Name but takes different parameters is a seccond. Not 
+being able to use any mathematical operations on a type against another 
+type is a seccond. <br><br>BlitzMax is a good language, but I'm sticking
+ with C++. If you find a use for any of the code below by all means use 
+it. Public Domain it is.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Making Progress</td><td align="right"><font class="tiny">(Posted 2005-11-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Been working all morning on the engine. Now I'm totally exhausted :/ 
+Time for some Battlefield 2 and pretending I'm really kicking ass in 
+Iraq.<br><br><pre class="code">Type TMaterial
+	Field ZWriteEnable:Int
+	Field Lighting:Int
+	Field MaterialType:Int
+	Field MaterialTypeParam:Float
+	
+	Field AmbientColor:TColor
+	Field SpecularColor:TColor
+	Field DiffuseColor:TColor
+	Field EmissiveColor:TColor
+	Field Shininess:Float
+	
+	Field Texture:TTexture[2]
+	Field BilinearFilter:Int
+	Field TrilinearFilter:Int
+	Field BackFaceCulling:Int
+	Field FogEnable:Int
+	Field NormalizeNormals:Int
+	Field GouraudShading:Int
+	Field Wireframe:Int
+	Field ZBuffer:Int 
+End Type
+</pre><br><br><pre class="code">'nclude "Material.bmx"
+Include "Driver.bmx"
+
+Type TMaterialRenderer
+	Field Driver:TDriver
+End Type
+
+Type TMaterialRendererSolid Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+		glActiveTextureARB(GL_TEXTURE1_ARB)
+		glDisable(GL_TEXTURE_2D)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+		glActiveTextureARB(GL_TEXTURE0_ARB)
+		
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+		glDisable(GL_BLEND)
+		glDisable(GL_ALPHA_TEST)
+		
+		Services.SetBasicRenderState(Material, LastMaterial, ResetRenderStates)
+	End Method
+End Type
+
+Type TMaterialRendererSolid2 Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+		glActiveTextureARB(GL_TEXTURE1_ARB)
+		glDisable(GL_TEXTURE_2D)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+		glActiveTextureARB(GL_TEXTURE0_ARB)
+		
+		glDisable(GL_BLEND)
+		glDisable(GL_ALPHA_TEST)
+		
+		Services.SetBasicRenderState(Material, LastMaterial, ResetRenderStates)
+	End Method
+End Type
+
+Type TMaterialRendererTransparentAddColor Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+		glDisable(GL_ALPHA_TEST)
+		Driver.SetTexture(1, 0)
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+		glEnable(GL_BLEND)
+		
+		Material.ZWriteEnable = False
+		Services.SetBasicRenderState(Material, LastMaterial, ResetRenderStates)
+	End Method
+	
+	Method IsTransparent()
+		Return True
+	End Method
+End Type
+
+Type TMaterialRendererTransparentVertexAlpha Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+		glDisable(GL_ALPHA_TEST)
+		Driver.SetTexture(1, 0)
+		
+		glActiveTextureARB(GL_TEXTURE0_ARB)
+		glDisable(GL_ALPHA_TEST)
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_EXT)
+		glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, GL_REPLACE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, GL_PRIMARY_COLOR_EXT )
+		glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT, GL_MODULATE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT, GL_PRIMARY_COLOR_EXT )
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT, GL_TEXTURE)
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+		glEnable(GL_BLEND)
+		
+		Material.ZWriteEnable = False
+		Services.SetBasicRenderState(Material, LastMaterial, ResetRenderStates)
+	End Method
+	
+	Method UnsetMaterial()
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_EXT)
+		glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, GL_MODULATE )
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, GL_TEXTURE )
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA_EXT, GL_PREVIOUS_EXT )
+		glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT, GL_MODULATE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT, GL_TEXTURE )
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT, GL_PREVIOUS_EXT)
+
+		glDisable(GL_BLEND)
+	End Method
+	
+	Method IsTransparent()
+		Return True
+	End Method
+End Type
+
+Type TMaterialRendererTransparentAlphaChannel Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+		glActiveTextureARB(GL_TEXTURE0_ARB)
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_EXT)
+		glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT, GL_MODULATE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT, GL_TEXTURE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT, GL_PREVIOUS_EXT)
+		glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, GL_REPLACE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, GL_TEXTURE)
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+		glEnable(GL_BLEND)
+		glEnable(GL_ALPHA_TEST)
+		refValue:Float = Material.MaterialTypeParam
+		If refValue = 0 refValue = 0.5
+		glAlphaFunc(GL_GREATER, refValue)
+		
+		Services.SetBasicRenderState(Material, LastMaterial, ResetRenderStates)
+	End Method
+	
+	Method UnsetMaterial()
+		glDisable(GL_ALPHA_TEST)
+	End Method
+	
+	Method IsTransparent()
+		Return True
+	End Method
+End Type
+
+Type TMaterialRendererTransparentAlphaChannelRef Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+		glEnable(GL_ALPHA_TEST)
+		glDisable(GL_BLEND)
+		glAlphaFunc(GL_GREATER, 0.5)
+		glActiveTextureARB(GL_TEXTURE0_ARB)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE)
+		
+		Services.SetBasicRenderState(Material, LastMaterial, ResetRenderStates)
+	End Method
+	
+	Method UnsetMaterial()
+		glDisable(GL_ALPHA_TEST)
+	End Method
+	
+	Method IsTransparent()
+		Return False
+	End Method
+End Type
+
+Type TMaterialRendererLightmap Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+		glDisable(GL_BLEND)
+		glDisable(GL_ALPHA_TEST)
+		
+		glActiveTextureARB(GL_TEXTURE0_ARB)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_EXT)
+		glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT, GL_REPLACE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT, GL_TEXTURE )
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT, GL_PREVIOUS_EXT)
+		
+		glActiveTextureARB(GL_TEXTURE1_ARB)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_EXT)
+		glTexEnvf(GL_TEXTURE_ENV, GL_COMBINE_ALPHA_EXT, GL_MODULATE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, GL_TEXTURE)
+		glTexEnvf(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_EXT, GL_TEXTURE)
+		If Material.MaterialType = EMT_LIGHTMAP_ADD
+			glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT, GL_ADD)
+		Else
+			glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT, GL_MODULATE)
+		EndIf
+		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB_EXT, GL_PREVIOUS_EXT)
+		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB_EXT, GL_SRC_COLOR)
+		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB_EXT, GL_TEXTURE)
+		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB_EXT, GL_SRC_COLOR)
+		If Material.MaterialType = EMT_LIGHTMAP_M4
+			glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT, 4.0)
+		ElseIf Material.MaterialType = EMT_LIGHTMAP_M2
+			glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT, 2.0)
+		Else
+			glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_EXT, 1.0)
+		EndIf
+		
+		Services.SetBasicRenderState(Material, LastMaterial, ResetRenderStates)
+	End Method
+End Type
+
+Type TMaterialRendererDetailMap Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+		glDisable(GL_BLEND)
+		glDisable(GL_ALPHA_TEST)
+		glActiveTextureARB(GL_TEXTURE0_ARB)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_EXT)
+		glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT, GL_REPLACE)
+		
+		glActiveTextureARB(GL_TEXTURE1_ARB)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_EXT)
+		glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB_EXT, GL_ADD_SIGNED_EXT)
+		glTexEnvi(GL_TEXTURE_ENV,GL_SOURCE0_RGB_EXT,GL_PREVIOUS_EXT)
+		glTexEnvi(GL_TEXTURE_ENV,GL_OPERAND0_RGB_EXT,GL_SRC_COLOR)
+		glTexEnvi(GL_TEXTURE_ENV,GL_SOURCE1_RGB_EXT, GL_TEXTURE)
+		glTexEnvi(GL_TEXTURE_ENV,GL_OPERAND1_RGB_EXT,GL_SRC_COLOR)
+		
+		Services.SetBasicRenderState(Material, LastMaterial, ResetRenderStates)
+	End Method
+End Type
+
+Type TMaterialRendererSphereMap Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+	End Method
+End Type
+
+Type TMaterialRendererReflection2 Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+	End Method
+End Type
+
+Type TMaterialRendererTransparentReflection2 Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TDriver)
+	End Method
+End Type
+</pre><br><br><pre class="code">Include "Color.bmx"
+Include "Material.bmx"
+Include "Texture.bmx"
+Include "Position2.bmx"
+
+Type TDriver
+	Method BeginScene(ClearBackBuffer:Int, ClearZBuffer:Int, Color:TColor)
+		Mask:Int = 0
+		
+		If ClearBackBuffer
+			glClearColor(Color.R, Color.G, Color.B, Color.A)
+			mask :| GL_COLOR_BUFFER_BIT
+		EndIf
+		
+		If ClearZBuffer
+			glDepthMask(GL_TRUE)
+			Mask :| GL_COLOR_BUFFER_BIT
+		EndIf
+		
+		glClear(Mask)
+		Return True
+	End Method
+	
+	Method EndScene()
+		Flip False
+	End Method
+	
+	Method SetMaterial(Material:TMaterial)
+	End Method
+	
+	Method SetTexture(Stage:Int, Texture:TTexture)
+		If Stage &gt; 1 Return
+		If Texture = Null
+			glDisable(GL_TEXTURE_2D)
+		Else
+			glEnable(GL_TEXTURE_2D)
+			glBindTexture(GL_TEXTURE_2D, Texture.TextureID)
+		EndIf
+	End Method
+	
+	Method DrawLine(Start:TPosition2, Finish:TPosition2, Color:TColor)
+	End Method
+	
+	Method SetBasicRenderState(Material:TMaterial, LastMaterial:TMaterial, ResetAllRenderStates:Int)
+		If ResetAllRenderStates And LastMaterial.AmbientColor.R &lt;&gt; Material.AmbientColor.R ..
+                                 And LastMaterial.AmbientColor.G &lt;&gt; Material.AmbientColor.G ..
+							 And LastMaterial.AmbientColor.B &lt;&gt; Material.AmbientColor.B ..
+							 And LastMaterial.AmbientColor.A &lt;&gt; Material.AmbientColor.A ..
+							 And LastMaterial.SpecularColor.R &lt;&gt; Material.SpecularColor.R ..
+							 And LastMaterial.SpecularColor.G &lt;&gt; Material.SpecularColor.G ..		
+							 And LastMaterial.SpecularColor.B &lt;&gt; Material.SpecularColor.B ..
+							 And LastMaterial.SpecularColor.A &lt;&gt; Material.SpecularColor.A ..
+							 And LastMaterial.EmissiveColor.R &lt;&gt; Material.EmissiveColor.R ..
+							 And LastMaterial.EmissiveColor.G &lt;&gt; Material.EmissiveColor.G ..
+							 And LastMaterial.EmissiveColor.B &lt;&gt; Material.EmissiveColor.B ..
+							 And LastMaterial.EmissiveColor.A &lt;&gt; Material.EmissiveColor.A ..
+							 And LastMaterial.DiffuseColor.R &lt;&gt; Material.DiffuseColor.R ..
+							 And LastMaterial.DiffuseColor.G &lt;&gt; Material.DiffuseColor.G ..
+							 And LastMaterial.DiffuseColor.B &lt;&gt; Material.DiffuseColor.B ..
+							 And LastMaterial.DiffuseColor.A &lt;&gt; Material.DiffuseColor.A ..
+							 And LastMaterial.Shininess &lt;&gt; Material.Shininess
+			Local Color:Float[4]
+			Color[0] = Material.AmbientColor.R
+			Color[1] = Material.AmbientColor.G
+			Color[2] = Material.AmbientColor.B
+			Color[3] = Material.AmbientColor.A
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Color)
+			
+			color[0] = Material.DiffuseColor.R
+			color[1] = Material.DiffuseColor.G
+			color[2] = Material.DiffuseColor.B
+			color[3] = Material.DiffuseColor.A
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Color)
+			
+			color[0] = Material.SpecularColor.R
+			color[1] = Material.SpecularColor.G
+			color[2] = Material.SpecularColor.B
+			color[3] = Material.SpecularColor.A
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Color)
+			
+			color[0] = Material.EmissiveColor.R
+			color[1] = Material.EmissiveColor.G
+			color[2] = Material.EmissiveColor.B
+			color[3] = Material.EmissiveColor.A
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, Color)
+			
+			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, Material.Shininess)
+		EndIf
+		
+		If ResetAllRenderStates And LastMaterial.BilinearFilter &lt;&gt; Material.BilinearFilter
+			If Material.BilinearFilter = True Material.BilinearFilter = GL_LINEAR Else Material.BilinearFilter = GL_NEAREST
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Material.BilinearFilter)
+		EndIf
+		
+		If ResetAllRenderStates And LastMaterial.Wireframe &lt;&gt; Material.Wireframe
+			If Material.Wireframe = True Material.Wireframe = GL_LINE Else Material.Wireframe = GL_FILL
+			glPolygonMode(GL_FRONT_AND_BACK, Material.Wireframe)
+		EndIf
+		
+		If ResetAllRenderStates And LastMaterial.Lighting &lt;&gt; Material.Lighting
+			If Material.Lighting
+				glEnable(GL_LIGHTING)
+			Else
+				glDisable(GL_LIGHTING)
+			EndIf
+		EndIf
+		
+		If ResetAllRenderStates And LastMaterial.ZWriteEnable &lt;&gt; Material.ZWriteEnable
+			If Material.ZWriteEnable = True Material.ZWriteEnable = GL_TRUE Else Material.ZWriteEnable = GL_FALSE
+			glDepthMask(Material.ZWriteEnable)
+		EndIf
+		
+		If ResetAllRenderStates And LastMaterial.BackfaceCulling &lt;&gt; Material.BackfaceCulling
+			If Material.BackfaceCulling
+				glEnable(GL_CULL_FACE)
+			Else
+				glDisable(GL_CULL_FACE)
+			EndIf
+		EndIf
+		
+		If ResetAllRenderStates And LastMaterial.FogEnable &lt;&gt; Material.FogEnable
+			If Material.FogEnable
+				glEnable(GL_FOG)
+			Else
+				glDisable(GL_FOG)
+			EndIf
+		EndIf
+		
+		If ResetAllRenderStates And LastMaterial.NormalizeNormals &lt;&gt; Material.NormalizeNormals
+			If Material.NormalizeNormals
+				glEnable(GL_NORMALIZE)
+			Else
+				glDisable(GL_NORMALIZE)
+			EndIf
+		EndIf
+		
+	End Method
+	
+End Type
+</pre><br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Beginning of My Hell</td><td align="right"><font class="tiny">(Posted 2005-11-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've started working on TDriver and TMaterialRenderer. 
+TMaterialRenderer is starting to really take shape, authough its 
+slightly more complex than I had expected, it *should* make things a 
+little less confusing later on when making changes to certain parts of 
+the engine. TMaterial will just basically be a collection of values such
+ as Specular, Emissive etc. TMaterialRenderer will actually do all the 
+work. When using the engine you shouldn't need to have anything to do 
+with TMaterialRenderer. TDriver is the interface to TMaterialRenderer. 
+You will be able to use TMaterial though, <br><br><pre class="code">Include "Material.bmx"
+
+Type TMaterialRenderServices
+
+End Type
+
+Type TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererSolid Extends TMaterialRenderer
+	Method SetMaterial(Material:TMaterial, LastMaterial:TMaterial, ResetRenderStates:Int, Services:TMaterialRenderServices)
+		glActiveTextureARB(GL_TEXTURE1_ARB)
+		glDisable(GL_TEXTURE_2D)
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+		glActiveTextureARB(GL_TEXTURE0_ARB)
+		
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+		glDisable(GL_BLEND)
+		glDisable(GL_ALPHA_TEST)
+		
+		Services.SetBasicRenderStates(Material, LastMaterial, ResetRenderStates)
+	End Method
+End Type
+
+Type TMaterialRendererSolid2 Extends TMaterialRenderer
+	Method SetMaterial()
+	End Method
+End Type
+
+Type TMaterialRendererTransparentAddColor Extends TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererTransparentVertexAlpha Extends TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererTransparentAlphaChannel Extends TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererTransparentAlphaChannelRef Extends TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererLightmap Extends TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererDetailMap Extends TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererSphereMap Extends TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererReflection2 Extends TMaterialRenderer
+
+End Type
+
+Type TMaterialRendererTransparentReflection2 Extends TMaterialRenderer
+
+End Type
+</pre><br><br><pre class="code">Include "Color.bmx"
+Include "Material.bmx"
+Include "Texture.bmx"
+Include "Position2.bmx"
+
+Type TDriver
+	Method BeginScene(ClearBackBuffer:Int, ClearZBuffer:Int, Color:TColor)
+		Mask:Int = 0
+		
+		If ClearBackBuffer
+			glClearColor(Color.R, Color.G, Color.B, Color.A)
+			mask :| GL_COLOR_BUFFER_BIT
+		EndIf
+		
+		If ClearZBuffer
+			glDepthMask(GL_TRUE)
+			Mask :| GL_COLOR_BUFFER_BIT
+		EndIf
+		
+		glClear(Mask)
+		Return True
+	End Method
+	
+	Method EndScene()
+		Flip False
+	End Method
+	
+	Method SetMaterial(Material:TMaterial)
+	End Method
+	
+	Method SetTexture(Stage:Int, Texture:TTexture)
+		If Stage &gt; 1 Return
+		If Texture = Null
+			glDisable(GL_TEXTURE_2D)
+		Else
+			glEnable(GL_TEXTURE_2D)
+			glBindTexture(GL_TEXTURE_2D, Texture.TextureID)
+		EndIf
+	End Method
+	
+	Method DrawLine(Start:TPosition2, Finish:TPosition2, Color:TColor)
+	End Method
+	
+End Type
+</pre><br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TVector3 with some additions</td><td align="right"><font class="tiny">(Posted 2005-11-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Added a few Methods to TVector3 and finished a few of the uncompleted ones. <br><br><pre class="code">Type TVector3
+	Field X:Float, Y:Float, Z:Float
+	
+	Method Normalize()
+		Inv:Float = 1.0 / Self.GetLength()
+		X = X * Inv
+		Y = Y * Inv
+		Z = Z * Inv
+	End Method
+	
+	Method Equals(Vector:TVector3)
+		If X = Vector.X And Y = Vector.Y And Z = Vector.Z
+			Return True
+		Else
+			Return False
+		EndIf
+	End Method
+	
+	Method GetLength:Float()
+		Return Sqr(X * X + Y * Y + Z * Z)
+	End Method
+	
+	Method GetLengthSquared:Float()
+		Return X * X + Y * Y + Z * Z
+	End Method
+	
+	Method GetDotProduct:Float(Vector:TVector3)
+		Return X * Vector.X + Y * Vector.Y + Z * Vector.Z
+	End Method
+	
+	Method GetDistance:Float(Vector:TVector3)
+		VX:Float = X - Vector.X
+		VY:Float = Y - Vector.Y
+		VZ:Float = Z - Vector.Z
+		Return Sqr(VX * VX + VY * VY + VZ * VZ)
+	End Method
+	
+	Method GetDistanceSquared:Float(Vector:TVector3)
+		VX:Float = X - Vector.X
+		VY:Float = Y - Vector.Y
+		VZ:Float = Z - Vector.Z
+		Return (VX * VX + VY * VY + VZ * VZ)
+	End Method
+	
+	Method GetCrossProduct:TVector3(Vector:TVector3)
+		Vector2:TVector3 = New TVector3
+		Vector2.X = Y * Vector.Z - Z * Vector.Y
+		Vector2.Y = Z * Vector.X - X * Vector.Z
+		Vector2.Z = X * Vector.Y - Y * Vector.X
+		Return Vector2
+	End Method
+	
+	Method SetLength(Length:Float)
+		Self.Normalize()
+		X = X * Length
+		Y = Y * Length
+		Z = Z * Length
+	End Method
+	
+	Method Invert()
+		X = X * -1.0
+		Y = Y * -1.0
+		Z = Z * -1.0
+	End Method
+	
+	Method RotateByXZ(Degrees:Float, Center:TVector3)
+		Degrees = Degrees * 180 / 3.1415926535897932384626433832795
+		cs:Float = Cos(Degrees)
+		sn:Float = Sin(Degrees)
+		X = X - Center.X
+		Z = Z - Center.Z
+		X = X * cs - Z * sn
+		Z = X * sn + Z * cs
+		X = X + Center.X
+		Z = Z + Center.Z
+	End Method
+	
+	Method RotateByXY(Degrees:Float, Center:TVector3)
+		Degrees = Degrees * 180 / 3.1415926535897932384626433832795
+		cs:Float = Cos(Degrees)
+		sn:Float = Sin(Degrees)
+		X = X - Center.X
+		Y = Y - Center.Y
+		X = X * cs - Y * sn
+		Y = X * sn - Y * cs
+		X = X + Center.X
+		Y = Y + Center.Y
+	End Method
+	
+	Method RotateByYZ(Degrees:Float, Center:TVector3)
+		Degrees = Degrees * 180 / 3.1415926535897932384626433832795
+		cs:Float = Cos(Degrees)
+		sn:Float = Sin(Degrees)
+		Y = Y - Center.Y
+		Z = Z - Center.Z
+		Y = Y * cs - Z * sn
+		Z = Y * sn - Z * cs
+		Y = Y + Center.Y
+		Z = Z + Center.Z
+	End Method
+	
+	Method GetInterpolated:TVector3(Vector:TVector3, d:Float)
+		Inv:Float = 1.0 - d
+		Vector2:TVector3 = New TVector3
+		Vector2.X = Vector.X * Inv + X * d
+		Vector2.Y = Vector.Y * Inv + Y * d
+		Vector2.Z = Vector.Z * Inv + Z * d
+		Return Vector2
+	End Method
+	
+	Method GetHorizontalAngle:TVector3()
+		Vector:TVector3 = New TVector3
+		Vector.Y = ATan2(X, Z)
+		Vector.Y = Vector.Y * 3.1415926535897932384626433832795 / 180
+		If Vector.Y &lt; 0.0 Vector.Y = Vector.Y + 360.0
+		If Vector.Y &gt;= 360.0 Vector.Y = Vector.Y - 360.0
+		z1:Float = Sqr(X * X + Z * Z)
+		Vector.X = ATan2(z1, Y)
+		Vector.X = Vector.X * 3.1415926535897932384626433832795 / 180
+		Vector.X = Vector.X - 90.0
+		If Vector.X &lt; 0.0 Vector.X = Vector.X + 360.0
+		If Vector.X &gt;= 360.0 Vector.X = Vector.X - 360.0
+		Return Vector
+	End Method
+	
+End Type
+</pre><br><br>Next up should be either TTexture or TMaterial. Otherwise 
+I'll probably work on some more of the Math based classes while I pump a
+ little more GL knowledge into my cranium.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TVertex</td><td align="right"><font class="tiny">(Posted 2005-11-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here's TVertex. Theres nothing really spectacular about it, rather its 
+just there to be a storage type just to make things easier later on.<br><br><pre class="code">Include "Vector3.bmx"
+Include "Vector2.bmx"
+Include "Color.bmx"
+
+Type TVertex
+	Field Position:TVector3
+	Field Normal:TVector3
+	Field Color:TColor
+	Field TCoords:TVector2
+	
+	Method Set(nPosition:TVector3, nNormal:TVector3, nColor:TColor, nTCoords:TVector2)
+		Position = Position
+		Normal = Normal
+		Color = Color
+		TCoords = TCoords
+	End Method
+	
+	Method Get(nPosition:TVector3 Var, nNormal:TVector3 Var, nColor:TColor Var, nTCoords:TVector2)
+		nPosition = Position
+		nNormal = Normal
+		nColor = Color
+		nTCoords = TCoords
+	End Method
+End Type</pre><br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TVector2</td><td align="right"><font class="tiny">(Posted 2005-11-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Finished TVector2. Basically its the same as TVector3 but without the 
+third parameter. I can imagine it will come in handy for texture UV's 
+etc.<br><br><pre class="code">Type TVector2
+	Field X:Float, Y:Float
+	
+	Method Set(nX:Float, nY:Float)
+		X = nX
+		Y = nY
+	End Method
+	
+	Method GetLength:Float()
+		Return Sqr(X * X + Y * Y)
+	End Method
+	
+	Method GetLengthSquared:Float()
+		Return X * X + Y * Y
+	End Method
+	
+	Method GetDotProduct:Float(Vector:TVector2)
+		Return X * Vector.X + Y * Vector.Y
+	End Method
+	
+	Method GetDistanceFrom:Float(Vector:TVector2)
+		vx:Float = X - Vector.X
+		vy:Float = Y - Vector.Y
+		Return Sqr(vx * vx + vy * vy)
+	End Method
+	
+	Method GetDistanceFromSquared:Float(Vector:TVector2)
+		vx:Float = X - Vector.X
+		vy:Float = Y - Vector.Y
+		Return vx * vx + vy * vy
+	End Method
+	
+	Method Normalize()
+		Inv:Float = 1.0 / GetLength()
+		X = X * Inv
+		Y = Y * Inv
+	End Method
+	
+	Method SetLength(Length:Float)
+		Normalize()
+		X = X * Length
+		Y = Y * Length
+	End Method
+	
+	Method Invert()
+		X = X * -1.0
+		Y = Y * -1.0
+	End Method
+	
+End Type</pre><br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TLine</td><td align="right"><font class="tiny">(Posted 2005-11-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> New Type TLine. Probably useful for intersection type [stuff]. <br><br><pre class="code">Include "Vector3.bmx"
+
+Type TLine
+	Field Start:TVector3
+	Field Finish:TVector3
+	
+	Method Set(nStart:TVector3, nFinish:TVector3)
+		Start = nStart
+		Finish = nFinish
+	End Method
+
+	Method GetLength:Float()
+		Return Start.GetDistance(Finish)
+	End Method
+	
+	Method GetLengthSquared:Float()
+		Return Start.GetDistanceSquared(Finish)
+	End Method
+	
+	Method GetMiddle:TVector3()
+		Vector:TVector3 = New TVector3
+		Vector.X = (Start.X + Finish.X) / 0.5
+		Vector.Y = (Start.Y + Finish.Y) / 0.5
+		Vector.Z = (Start.Z + Finish.Z) / 0.5
+		Return Vector
+	End Method
+	
+	Method GetVector:TVector3()
+		Vector:TVector3 = New TVector3
+		Vector.X = Finish.X - Start.X
+		Vector.Y = Finish.Y - Start.Y
+		Vector.Z = Finish.Z - Start.Z
+		Return Vector
+	End Method
+	
+	Method GetClosestPoint:TVector3(Point:TVector3)
+		c:TVector3 = New TVector3
+		v:TVector3 = New TVector3
+		c.X = Point.X - Start.X
+		c.Y = Point.Y - Start.Y
+		c.Z = Point.Z - Start.Z
+		v.X = Finish.X - Start.X
+		v.Y = Finish.Y - Start.Y
+		v.Z = Finish.Z - Start.Z
+		d:Float = v.GetLength()
+		v.X = v.X / d
+		v.Y = v.Y / d
+		v.Z = v.Z / d
+		t:Float = v.GetDotProduct(c)
+		If t &lt; 0.0 Return Start
+		If t &gt; d Return Finish
+		v.X = v.X * t
+		v.Y = v.Y * t
+		v.Z = v.Z * t
+		Start.X = Start.X + v.X
+		Start.Y = Start.Y + v.Y
+		Start.Z = Start.Z + v.Z
+		Return Start
+	End Method
+	
+	Method GetIntersectSphere(Origin:TVector3, SRadius:Float, OutDistance:Float Var)
+		q:TVector3 = New TVector3
+		q.X = Origin.X - Start.X
+		q.Y = Origin.Y - Start.Y
+		q.Z = Origin.Z - Start.Z
+		c:Float = q.GetLength()
+		vv:TVector3 = New TVector3
+		vv = GetVector()
+		vv.Normalize()
+		v:Float = q.GetDotProduct(vv)
+		d:Double = SRadius * SRadius - (c * c - v * v)
+		If(d &lt; 0.0) Return False
+		OutDistance = v - Sqr(d)
+	End Method
+	
+End Type
+</pre><br><br>Code is fairly messy. I'm pretty tired at the moment so I blame that as the reason :)<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Lack of a suitable title :/</td><td align="right"><font class="tiny">(Posted 2005-11-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have decided to start again. My Vector code below wasn't as well 
+structured out as it could have been. I am trying to keep my code as 
+consistent as possible, anything returning a value will be preceded by 
+Get and anything setting a value will be preceded by Set. This should 
+help users understand the usage of each function. There will be *some* 
+cases where there will be no preceding Set or Get but such functions 
+probably wont be used that often by the end user. I have finished up two
+ types with the new structure. They are TMatrix and TVector3. The reason
+ for the 3 on the end of TVector is that there will be two types of 
+Vectors. One containing two members, and another containing 3 members. 
+This should make it more structurally consistent.<br><br>Here are the finished Types:<br><br><pre class="code">Type TVector3
+	Field X:Float, Y:Float, Z:Float
+	
+	Method Normalize()
+		Inv:Float = 1.0 / Self.GetLength()
+		X = X * Inv
+		Y = Y * Inv
+		Z = Z * Inv
+	End Method
+	
+	Method GetLength:Float()
+		Return Sqr(X * X + Y * Y + Z * Z)
+	End Method
+	
+	Method GetLengthSquared:Float()
+		Return X * X + Y * Y + Z * Z
+	End Method
+	
+	Method GetDotProduct:Float(Vector:TVector3)
+		Return X * Vector.X + Y * Vector.Y + Z * Vector.Z
+	End Method
+	
+	Method GetDistance:Float(Vector:TVector3)
+		VX:Float = X - Vector.X
+		VY:Float = Y - Vector.Y
+		VZ:Float = Z - Vector.Z
+		Return Sqr(VX * VX + VY * VY + VZ * VZ)
+	End Method
+	
+	Method GetDistanceSquared:Float(Vector:TVector3)
+		VX:Float = X - Vector.X
+		VY:Float = Y - Vector.Y
+		VZ:Float = Z - Vector.Z
+		Return (VX * VX + VY * VY + VZ * VZ)
+	End Method
+	
+	Method GetCrossProduct:TVector3(Vector:TVector3)
+		Vector2:TVector3 = New TVector3
+		Vector2.X = Y * Vector.Z - Z * Vector.Y
+		Vector2.Y = Z * Vector.X - X * Vector.Z
+		Vector2.Z = X * Vector.Y - Y * Vector.X
+		Return Vector2
+	End Method
+	
+	Method SetLength(Length:Float)
+		Self.Normalize()
+		X = X * Length
+		Y = Y * Length
+		Z = Z * Length
+	End Method
+	
+	Method Invert()
+		X = X * -1.0
+		Y = Y * -1.0
+		Z = Z * -1.0
+	End Method
+	
+	Method RotateByXZ(Degrees:Float, Center:TVector3)
+	
+	End Method
+	
+	Method RotateByXY(Degrees:Float, Center:TVector3)
+	
+	End Method
+	
+	Method RotateByYZ(Degrees:Float, Center:TVector3)
+	
+	End Method
+	
+	Method GetInterpolated:TVector3(Vector:TVector3, d:Float)
+		Inv:Float = 1.0 - d
+		Vector2:TVector3 = New TVector3
+		Vector2.X = Vector.X * Inv + X * d
+		Vector2.Y = Vector.Y * Inv + Y * d
+		Vector2.Z = Vector.Z * Inv + Z * d
+		Return Vector2
+	End Method
+	
+End Type
+</pre><br><br><pre class="code">Include "Vector.bmx"
+
+Type TMatrix
+	Field Members:Float[16]
+	
+	Method New()
+		Self.SetIdentity()
+	End Method
+	
+	Method SetIdentity()
+		For A = 0 To 15
+			Members[A] = 0.0
+		Next
+		Members[0] = Members[5] = Members[10] = Members[15] = 1;
+	End Method
+	
+	Method Multiply:TMatrix(Matrix:TMatrix)
+		Tmp:TMatrix = New TMatrix
+		Tmp.Members[0] = Members[0] * Matrix.Members[0] + Members[4] * Matrix.Members[1] + Members[8] * Matrix.Members[2] + Members[12] * Matrix.Members[3]
+		Tmp.Members[1] = Members[1] * Matrix.Members[0] + Members[5] * Matrix.Members[1] + Members[9] * Matrix.Members[2] + Members[13] * Matrix.Members[3]
+		Tmp.Members[2] = Members[2] * Matrix.Members[0] + Members[6] * Matrix.Members[1] + Members[10] * Matrix.Members[2] + Members[14] * Matrix.Members[3]
+		Tmp.Members[3] = Members[3] * Matrix.Members[0] + Members[7] * Matrix.Members[1] + Members[11] * Matrix.Members[2] + Members[15] * Matrix.Members[3]
+		
+		Tmp.Members[4] = Members[0] * Matrix.Members[4] + Members[4] * Matrix.Members[5] + Members[8] * Matrix.Members[6] + Members[12] * Matrix.Members[7]
+		Tmp.Members[5] = Members[1] * Matrix.Members[4] + Members[5] * Matrix.Members[5] + Members[9] * Matrix.Members[6] + Members[13] * Matrix.Members[7]
+		Tmp.Members[6] = Members[2] * Matrix.Members[4] + Members[6] * Matrix.Members[5] + Members[10] * Matrix.Members[6] + Members[14] * Matrix.Members[7]
+		Tmp.Members[7] = Members[3] * Matrix.Members[4] + Members[7] * Matrix.Members[5] + Members[11] * Matrix.Members[6] + Members[15] * Matrix.Members[7]
+				
+		Tmp.Members[8] = Members[0] * Matrix.Members[8] + Members[4] * Matrix.Members[9] + Members[8] * Matrix.Members[10] + Members[12] * Matrix.Members[11]
+		Tmp.Members[9] = Members[1] * Matrix.Members[8] + Members[5] * Matrix.Members[9] + Members[9] * Matrix.Members[10] + Members[13] * Matrix.Members[11]
+		Tmp.Members[10] = Members[2] * Matrix.Members[8] + Members[6] * Matrix.Members[9] + Members[10] * Matrix.Members[10] + Members[14] * Matrix.Members[11]
+		Tmp.Members[11] = Members[3] * Matrix.Members[8] + Members[7] * Matrix.Members[9] + Members[11] * Matrix.Members[10] + Members[15] * Matrix.Members[11]
+				
+		Tmp.Members[12] = Members[0] * Matrix.Members[12] + Members[4] * Matrix.Members[13] + Members[8] * Matrix.Members[14] + Members[12] * Matrix.Members[15]
+		Tmp.Members[13] = Members[1] * Matrix.Members[12] + Members[5] * Matrix.Members[13] + Members[9] * Matrix.Members[14] + Members[13] * Matrix.Members[15]
+		Tmp.Members[14] = Members[2] * Matrix.Members[12] + Members[6] * Matrix.Members[13] + Members[10] * Matrix.Members[14] + Members[14] * Matrix.Members[15]
+		Tmp.Members[15] = Members[3] * Matrix.Members[12] + Members[7] * Matrix.Members[13] + Members[11] * Matrix.Members[14] + Members[15] * Matrix.Members[15]
+		Return Tmp		
+	End Method
+	
+	Method SetTranslation(Vector:TVector3)
+		Members[12] = Vector.X
+		Members[13] = Vector.Y
+		Members[14] = Vector.Z
+	End Method
+	
+	Method GetTranslation:TVector3()
+		Vector:TVector3 = New TVector3
+		Vector.X = Members[12]
+		Vector.Y = Members[13]
+		Vector.Z = Members[14]
+		Return Vector
+	End Method
+	
+	Method SetInverseTranslation(Vector:TVector3)
+		Members[12] = -Vector.X
+		Members[13] = -Vector.Y
+		Members[14] = -Vector.Z
+	End Method
+	
+	Method SetRotationRadians(Rotation:TVector3)
+		cr:Double = Cos(Rotation.X)
+		sr:Double = Sin(Rotation.X)
+		cp:Double = Cos(Rotation.Y)
+		sp:Double = Sin(Rotation.Y)
+		cy:Double = Cos(Rotation.Z)
+		sy:Double = Sin(Rotation.Z)
+		
+		Members[0] = cp * cy
+		Members[1] = cp * sy
+		Members[2] = -sp
+		
+		srsp:Double = sr * sp
+		crsp:Double = cr * sp
+		
+		Members[4] = srsp * cy - cr * sy
+		Members[5] = srsp * sy + cr * cy
+		Members[6] = sr * cp
+		
+		Members[8] = crsp * cy + sr * sy
+		Members[9] = crsp * sy - sr * cy
+		Members[10] = cr * cp
+	End Method
+	
+	Method SetRotationDegrees(Rotation:TVector3)
+		DegToRad:Float = 3.1415926535897932384626433832795 / 180.0
+		Rotation.X = Rotation.X * DegToRad
+		Rotation.Y = Rotation.Y * DegToRad
+		Rotation.Z = Rotation.Z * DegToRad
+		Self.SetRotationRadians(Rotation)
+	End Method
+	
+	Method GetRotationDegrees:TVector3()
+		Vector:TVector3 = New TVector3
+		Matrix:TMatrix = New TMatrix
+		Matrix = Self
+		Y:Double = -ASin(Matrix.GetMember(2, 0))
+		D:Double = Y
+		C:Double = Cos(Y)
+		Y = Y * 180.0 / 3.1415926535897932384626433832795
+		RotX:Double = 0
+		RotY:Double = 0
+		X:Double = 0
+		Z:Double = 0
+		If(C &gt; 0.0005)
+			RotX = Matrix.GetMember(2, 2) / C
+			RotY = Matrix.GetMember(2, 1) / C
+			X = ATan2(RotY, RotX) * 180.0 / 3.1415926535897932384626433832795
+			RotX = Matrix.GetMember(0, 0) / C
+			RotY = Matrix.GetMember(1, 0) / C
+			Z = ATan2(RotY, RotX) * 180.0 / 3.1415926535897932384626433832795
+		Else
+			X = 0.0
+			RotX = Matrix.GetMember(1, 1)
+			RotY = -Matrix.GetMember(0, 1)
+			Z = ATan2(RotY, RotX) * 180.0 / 3.1415926535897932384626433832795
+		EndIf
+		If X &lt; 0.00 X = X + 360.00
+		If Y &lt; 0.00 Y = Y + 360.00
+		If Z &lt; 0.00 Z = Z + 360.00
+		Vector.X = X
+		Vector.Y = Y
+		Vector.Z = Z
+		Return Vector
+	End Method
+	
+	Method SetScale(Scale:TVector3)
+		Members[0] = Scale.X
+		Members[5] = Scale.Y
+		Members[10] = Scale.Z
+	End Method
+	
+	Method TransformVector(Vector:TVector3 Var)
+		Local Vec:Float[3]
+		Vec[0] = Vector.X * Members[0] + Vector.Y * Members[4] + Vector.Z * Members[8] + Members[12]
+		Vec[1] = Vector.X * Members[1] + Vector.Y * Members[5] + Vector.Z * Members[9] + Members[13]
+		Vec[2] = Vector.X * Members[2] + Vector.Y * Members[6] + Vector.Z * Members[10] + Members[14]
+		Vector.X = Vec[0]
+		Vector.Y = Vec[1]
+		Vector.Z = Vec[2]
+	End Method
+	
+	Method TransformVector2(Vector:TVector3, Vector2:TVector3 Var)
+		Vector2.X = Vector.X * Members[0] + Vector.Y * Members[4] + Vector.Z * Members[8] + Members[12]
+		Vector2.Y = Vector.X * Members[1] + Vector.Y * Members[5] + Vector.Z * Members[9] + Members[13]
+		Vector2.Z = Vector.X * Members[2] + Vector.Y * Members[6] + Vector.Z * Members[10] + Members[14]
+	End Method
+	
+	Method MakeInverse()
+		GetInverse()
+	End Method
+	
+	Method GetInverse:TMatrix()
+		Matrix:TMatrix = New TMatrix
+		d:Float = (GetMember(0, 0) * GetMember(1, 1) - GetMember(1, 0) * GetMember(0, 1)) * (GetMember(2, 2) * GetMember(3, 3) - GetMember(3, 2) * GetMember(2, 3))	- (GetMember(0, 0) * GetMember(2, 1) - GetMember(2, 0) * GetMember(0, 1)) * (GetMember(1, 2) * GetMember(3, 3) - GetMember(3, 2) * GetMember(1, 3)) ..
+				+ (GetMember(0, 0) * GetMember(3, 1) - GetMember(3, 0) * GetMember(0, 1)) * (GetMember(1, 2) * GetMember(2, 3) - GetMember(2, 2) * GetMember(1, 3))	+ (GetMember(1, 0) * GetMember(2, 1) - GetMember(2, 0) * GetMember(1, 1)) * (GetMember(0, 2) * GetMember(3, 3) - GetMember(3, 2) * GetMember(0, 3)) ..
+				- (GetMember(1, 0) * GetMember(3, 1) - GetMember(3, 0) * GetMember(1, 1)) * (GetMember(0, 2) * GetMember(2, 3) - GetMember(2, 2) * GetMember(0, 3))	+ (GetMember(2, 0) * GetMember(3, 1) - GetMember(3, 0) * GetMember(2, 1)) * (GetMember(0, 2) * GetMember(1, 3) - GetMember(1, 2) * GetMember(0, 3))
+		d = 1 / d
+		Matrix.SetMember(0, 0, d * (GetMember(1, 1) * (GetMember(2, 2) * GetMember(3, 3) - GetMember(3, 2) * GetMember(2, 3)) + GetMember(2, 1) * (GetMember(3, 2) * GetMember(1, 3) - GetMember(1, 2) * GetMember(3, 3)) + GetMember(3, 1) * (GetMember(1, 2) * GetMember(2, 3) - GetMember(2, 2) * GetMember(1, 3))))
+		Matrix.SetMember(1, 0, d * (GetMember(1, 2) * (GetMember(2, 0) * GetMember(3, 3) - GetMember(3, 0) * GetMember(2, 3)) + GetMember(2, 2) * (GetMember(3, 0) * GetMember(1, 3) - GetMember(1, 0) * GetMember(3, 3)) + GetMember(3, 2) * (GetMember(1, 0) * GetMember(2, 3) - GetMember(2, 0) * GetMember(1, 3))))
+		Matrix.SetMember(2, 0, d * (GetMember(1, 3) * (GetMember(2, 0) * GetMember(3, 1) - GetMember(3, 0) * GetMember(2, 1)) + GetMember(2, 3) * (GetMember(3, 0) * GetMember(1, 1) - GetMember(1, 0) * GetMember(3, 1)) + GetMember(3, 3) * (GetMember(1, 0) * GetMember(2, 1) - GetMember(2, 0) * GetMember(1, 1))))
+		Matrix.SetMember(3, 0, d * (GetMember(1, 0) * (GetMember(3, 1) * GetMember(2, 2) - GetMember(2, 1) * GetMember(3, 2)) + GetMember(2, 0) * (GetMember(1, 1) * GetMember(3, 2) - GetMember(3, 1) * GetMember(1, 2)) + GetMember(3, 0) * (GetMember(2, 1) * GetMember(1, 2) - GetMember(1, 1) * GetMember(2, 2))))
+		Matrix.SetMember(0, 1, d * (GetMember(2, 1) * (GetMember(0, 2) * GetMember(3, 3) - GetMember(3, 2) * GetMember(0, 3)) + GetMember(3, 1) * (GetMember(2, 2) * GetMember(0, 3) - GetMember(0, 2) * GetMember(2, 3)) + GetMember(0, 1) * (GetMember(3, 2) * GetMember(2, 3) - GetMember(2, 2) * GetMember(3, 3))))
+		Matrix.SetMember(1, 1, d * (GetMember(2, 2) * (GetMember(0, 0) * GetMember(3, 3) - GetMember(3, 0) * GetMember(0, 3)) + GetMember(3, 2) * (GetMember(2, 0) * GetMember(0, 3) - GetMember(0, 0) * GetMember(2, 3)) + GetMember(0, 2) * (GetMember(3, 0) * GetMember(2, 3) - GetMember(2, 0) * GetMember(3, 3))))
+		Matrix.SetMember(2, 1, d * (GetMember(2, 3) * (GetMember(0, 0) * GetMember(3, 1) - GetMember(3, 0) * GetMember(0, 1)) + GetMember(3, 3) * (GetMember(2, 0) * GetMember(0, 1) - GetMember(0, 0) * GetMember(2, 1)) + GetMember(0, 3) * (GetMember(3, 0) * GetMember(2, 1) - GetMember(2, 0) * GetMember(3, 1))))
+		Matrix.SetMember(3, 1, d * (GetMember(2, 0) * (GetMember(3, 1) * GetMember(0, 2) - GetMember(0, 1) * GetMember(3, 2)) + GetMember(3, 0) * (GetMember(0, 1) * GetMember(2, 2) - GetMember(2, 1) * GetMember(0, 2)) + GetMember(0, 0) * (GetMember(2, 1) * GetMember(3, 2) - GetMember(3, 1) * GetMember(2, 2))))
+		Matrix.SetMember(0, 2, d * (GetMember(3, 1) * (GetMember(0, 2) * GetMember(1, 3) - GetMember(1, 2) * GetMember(0, 3)) + GetMember(0, 1) * (GetMember(1, 2) * GetMember(3, 3) - GetMember(3, 2) * GetMember(1, 3)) + GetMember(1, 1) * (GetMember(3, 2) * GetMember(0, 3) - GetMember(0, 2) * GetMember(3, 3))))
+		Matrix.SetMember(1, 2, d * (GetMember(3, 2) * (GetMember(0, 0) * GetMember(1, 3) - GetMember(1, 0) * GetMember(0, 3)) + GetMember(0, 2) * (GetMember(1, 0) * GetMember(3, 3) - GetMember(3, 0) * GetMember(1, 3)) + GetMember(1, 2) * (GetMember(3, 0) * GetMember(0, 3) - GetMember(0, 0) * GetMember(3, 3))))
+		Matrix.SetMember(2, 2, d * (GetMember(3, 3) * (GetMember(0, 0) * GetMember(1, 1) - GetMember(1, 0) * GetMember(0, 1)) + GetMember(0, 3) * (GetMember(1, 0) * GetMember(3, 1) - GetMember(3, 0) * GetMember(1, 1)) + GetMember(1, 3) * (GetMember(3, 0) * GetMember(0, 1) - GetMember(0, 0) * GetMember(3, 1))))
+		Matrix.SetMember(3, 2, d * (GetMember(3, 0) * (GetMember(1, 1) * GetMember(0, 2) - GetMember(0, 1) * GetMember(1, 2)) + GetMember(0, 0) * (GetMember(3, 1) * GetMember(1, 2) - GetMember(1, 1) * GetMember(3, 2)) + GetMember(1, 0) * (GetMember(0, 1) * GetMember(3, 2) - GetMember(3, 1) * GetMember(0, 2))))
+		Matrix.SetMember(0, 3, d * (GetMember(0, 1) * (GetMember(2, 2) * GetMember(1, 3) - GetMember(1, 2) * GetMember(2, 3)) + GetMember(1, 1) * (GetMember(0, 2) * GetMember(2, 3) - GetMember(2, 2) * GetMember(0, 3)) + GetMember(2, 1) * (GetMember(1, 2) * GetMember(0, 3) - GetMember(0, 2) * GetMember(1, 3))))
+		Matrix.SetMember(1, 3, d * (GetMember(0, 2) * (GetMember(2, 0) * GetMember(1, 3) - GetMember(1, 0) * GetMember(2, 3)) + GetMember(1, 2) * (GetMember(0, 0) * GetMember(2, 3) - GetMember(2, 0) * GetMember(0, 3)) + GetMember(2, 2) * (GetMember(1, 0) * GetMember(0, 3) - GetMember(0, 0) * GetMember(1, 3))))
+		Matrix.SetMember(2, 3, d * (GetMember(0, 3) * (GetMember(2, 0) * GetMember(1, 1) - GetMember(1, 0) * GetMember(2, 1)) + GetMember(1, 3) * (GetMember(0, 0) * GetMember(2, 1) - GetMember(2, 0) * GetMember(0, 1)) + GetMember(2, 3) * (GetMember(1, 0) * GetMember(0, 1) - GetMember(0, 0) * GetMember(1, 1))))
+		Matrix.SetMember(3, 3, d * (GetMember(0, 0) * (GetMember(1, 1) * GetMember(2, 2) - GetMember(2, 1) * GetMember(1, 2)) + GetMember(1, 0) * (GetMember(2, 1) * GetMember(0, 2) - GetMember(0, 1) * GetMember(2, 2)) + GetMember(2, 0) * (GetMember(0, 1) * GetMember(1, 2) - GetMember(1, 1) * GetMember(0, 2))))
+		Return Matrix
+	End Method
+	
+	Method BuildProjectionMatrixFov(FieldofViewRadians:Float, AspectRatio:Float, ZNear:Float, ZFar:Float)
+		h:Float = Cos(FieldOfViewRadians / 2) / Sin(FieldofViewRadians / 2)
+		w:Float = h / AspectRatio
+		SetMember(0,0,2 * ZNear / w)
+		SetMember(1,0,0)
+		SetMember(2,0,0)
+		SetMember(3,0,0)
+		SetMember(0,1,0)
+		SetMember(1,1,2 * ZNear / h)
+		SetMember(2,1,0)
+		SetMember(3,1,0)
+		SetMember(0,2,0)
+		SetMember(1,2,0)
+		SetMember(2,2,ZFar / (ZFar - ZNear))
+		SetMember(3,2,-1)
+		SetMember(0,3,0)
+		SetMember(1,3,0)
+		SetMember(2,3,ZNear * ZFar / (ZNear - ZFar))
+		SetMember(3,3,0)
+	End Method
+	
+	Method BuildProjectionMatrix(WidthOfViewVolume:Float, HeightOfViewVolume:Float, ZNear:Float, ZFar:Float)
+		SetMember(0,0,2 * WNear / WidthOfViewVolume)
+		SetMember(1,0,0)
+		SetMember(2,0,0)
+		SetMember(3,0,0)
+		SetMember(0,1,0)
+		SetMember(1,1,2 * ZNear / HeightOfViewVolume)
+		SetMember(2,1,0)
+		SetMember(3,1,0)
+		SetMember(0,2,0)
+		SetMember(1,2,0)
+		SetMember(2,2, ZFar / (ZNear - ZFar))
+		SetMember(3,2,-1)
+		SetMember(0,3,0)
+		SetMember(1,3,0)
+		SetMember(2,3, ZNear * ZFar / (ZNear - ZFar))
+		SetMember(3,3,0)
+	End Method
+	
+	Method BuildCameraLookAtMatrix(Position:TVector3, Target:TVector3, upVector:TVector3)
+		ZAxis:TVector3 = New TVector3
+		ZAxis.X = Position.X - Target.X
+		ZAxis.Y = Position.Y - Target.Y
+		ZAxis.Z = Position.Z - Target.Z
+		ZAxis.Normalize()
+
+		XAxis:TVector3 = New TVector3
+		XAxis = upVector.GetCrossProduct(ZAxis)
+		XAxis.Normalize()
+
+		YAxis:TVector3 = New TVector3
+		YAxis = ZAxis.GetCrossProduct(XAxis)
+
+		SetMember(0, 0, XAxis.X)
+		SetMember(1, 0, YAxis.X)
+		SetMember(2, 0, ZAxis.X)
+		SetMember(3, 0, 0)
+
+		SetMember(0, 1, XAxis.Y)
+		SetMember(1, 1, YAxis.Y)
+		SetMember(2, 1, ZAxis.Y)
+		SetMember(3, 1, 0)
+
+		SetMember(0, 2, XAxis.Z)
+		SetMember(1, 2, YAxis.Z)
+		SetMember(2, 2, ZAxis.Z)
+		SetMember(3, 2, 0)
+
+		SetMember(0, 3, -XAxis.GetDotProduct(Position))
+		SetMember(1, 3, -YAxis.GetDotProduct(Position))
+		SetMember(2, 3, -ZAxis.GetDotProduct(Position))
+		SetMember(3, 3, 1.0)
+	End Method
+	
+	Method TranslateVector(Translation:TVector3 Var)
+		Translation.X = Translation.X + Members[12]
+		Translation.Y = Translation.Y + Members[13]
+		Translation.Z = Translation.Z + Members[14]
+	End Method
+	
+	Method GetMember:Float(Row:Int, Column:Int)
+		Return Members[Column * 4 + Row]
+	End Method
+	
+	Method SetMember(Row:Int, Column:Int, Value:Float)
+		Members[Column * 4 + Row] = Value
+	End Method
+End Type
+</pre><br><br>Feel free to look at the code, use it however you wish for now. If you find any bugs/problems feel free to email me about it!<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Planning and Early Creation</td><td align="right"><font class="tiny">(Posted 2005-11-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is my seccond attempt at a Blitzmax 3D engine using the OpenGL 
+Graphics API. Its been some time since my last attempt Vis3D - which 
+wasnt completed, and was poorly structured from the word 'Go'. This 
+time, after extensive planning, I think I'm ready to give it another 
+try. <br><br>So far I've been working on the Math Types, namely, 
+TQuaternion and TVector which will be some of the building blocks for 
+the more extensive stuff later. TVector from what I can see if pretty 
+much completed, I am working on TQuaternion at the moment.<br><br>While 
+it is in the building stage I will try to post frequent code snippets of
+ the Types I am working on. Here's TVector for starters:<br><br><pre class="code">Type TVector
+	
+	Field X:Float, Y:Float, Z:Float
+
+	Method New()
+		Self.X = 0
+		Self.Y = 0
+		Self.Z = 0
+	End Method
+	
+	Method GetX:Float()
+		Return Self.X
+	End Method
+	
+	Method GetY:Float()
+		Return Self.Y
+	End Method
+	
+	Method GetZ:Float()
+		Return Self.Z
+	End Method
+	
+	Method Set(X:Float, Y:Float, Z:Float)
+		Self.X = X
+		Self.Y = Y
+		Self.Z = Z
+	End Method
+	
+	Method Clone:TVector()
+		Vector:TVector = New TVector
+		Vector.Set(Self.X, Self.Y, Self.Z)
+		Return Vector
+	End Method
+	
+	Method GetMagnitude:Float()
+		Return Sqr(Self.X * Self.X + Self.Y * Self.Y + Self.Z * Self.Z)
+	End Method
+	
+	Method GetMagnitudeSquared:Float()
+		Return Self.X * Self.X + Self.Y * Self.Y + Self.Z * Self.Z
+	End Method
+	
+	Method Normalize()
+		Magnitude:Float = GetMagnitude()
+		If Magnitude = 0 Then Throw "Can not normalize a vector when it's magnitude is zero!"
+		Inv:Float = 1 / Magnitude
+		Self.X = Self.X * Inv
+		Self.Y = Self.Y * Inv
+		Self.Z = Self.Z * Inv
+	End Method
+	
+	Method Invert()
+		Self.X = -Self.X
+		Self.Y = -Self.Y
+		Self.Z = -Self.Z
+	End Method
+	
+	Method Multiply(Scale:Float)
+		Self.X = Self.X * Scale
+		Self.Y = Self.Y * Scale
+		Self.Z = Self.Z * Scale
+	End Method
+	
+	Method Divide(Divisor:Float)
+		If Divisor = 0 Then Throw "Can not divide by zero!"
+		Inv:Float = 1 / Divisor
+		Self.X = Self.X * Inv
+		Self.Y = Self.Y * Inv
+		Self.Z = Self.Z * Inv
+	End Method
+	
+	Method Add(Vector:TVector)
+		Self.X = Self.X + Vector.GetX()
+		Self.Y = Self.Y + Vector.GetY()
+		Self.Z = Self.Z + Vector.GetZ()
+	End Method 
+	
+	Method Subtract(Vector:TVector)
+		Self.X = Self.X - Vector.GetX()
+		Self.Y = Self.Y - Vector.GetY()
+		Self.Z = Self.Z - Vector.GetZ()
+	End Method
+	
+	Method Distance:Float(Vector:TVector)
+		DX:Float = Self.X - Vector.GetX()
+		DY:Float = Self.Y - Vector.GetY()
+		DZ:Float = Self.Z - Vector.GetZ()
+		
+		Return Sqr(DX * DX + DY * DY + DZ * DZ)
+	End Method
+	
+	Method DistanceSquared:Float(Vector:TVector)
+		DX:Float = Self.X - Vector.GetX()
+		DY:Float = Self.Y - Vector.GetY()
+		DZ:Float = Self.Z - Vector.GetZ()
+		
+		Return DX * DX + DY * DY + DZ * DZ
+	End Method
+	
+	Method DotProduct:Float(Vector:TVector)
+		Return Self.X * Vector.GetX() + Self.Y * Vector.GetY() + Self.Z * Vector.GetZ()
+	End Method
+	
+	Method CrossProduct:Float(Vector:TVector)
+		Result:TVector = New TVector
+		Result.Set(Self.Y * Vector.GetZ() - Self.Z * Vector.GetY(), Self.Z * Vector.GetX() - Self.X * Vector.GetZ(), Self.X * Vector.GetY() - Self.Y * Vector.GetX())
+	End Method
+	
+	Method Zero()
+		Self.X = 0
+		Self.Y = 0
+		Self.Z = 0
+	End Method
+	
+End Type
+</pre><br><br>Enjoy.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The End</td><td align="right"><font class="tiny">(Posted 2005-09-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Unfortunately this has been a fun learning experience but I will stop 
+the development of this engine due to personal reasons. This is not 
+something against BRL or any of the members here at BB. <br><br>I have released this Public Domain to anyone who is interested in working on 3D stuff.<br><br><a href="http://blitzbasic.com/Community/posts.php?topic=51554" target="_blank">http://blitzbasic.com/Community/posts.php?topic=51554</a><br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 8:03pm 29th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Fixed some errors in TTexture, I was Enabling GL_TEXTURE2D instead of 
+GL_TEXTURE_2D which was probably the reason texturing didnt work in my 
+initial tests. <br><br>I have also decided on a name for this engine. It will be called Vis3D.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 6:52pm 29th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Finished a basic implementation of a TLight class. In its current state
+ it only supports the one initial light, but you can use commands such 
+as SetAmbientColor, SetDiffuseColor, etc on it.<br><br>Fixed a few bugs in TLight when setting variables for lights, it wasnt being applied to the right light handle.<br><br>Fixed
+ a few more bugs in TMesh, namely the normals were screwed up caus I 
+forgot to uncomment some stuff when I was debuggin the initial realease.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 3:08pm 29th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Changed how the engine renders stuff. For instance, before you needed 
+to call MyEntity.Render for each entity you created in the main loop, 
+this was rather messy. I have created a RenderList in the TEngine class 
+which will store all entity's that need to be rendered. So now all you 
+need to do is MyEngine.AddEntity(MyEntity) when you create the MyEntity 
+and the Engine will do the rest for you :)<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changed - 2:08am 29th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Been working on the engine for the last few hours. Its progressing 
+really nicely and I'm enjoying most of what I've had to work out to get 
+this far. Some changes include:<br><br>Made some changes to TEngine. You
+ now create the Engine using MyEngine:TEngine = 
+TEngine.Graphics3D(width, height, depth...etc) then everything else 
+relating to the TEngine will be accessable through MyEngine.<br><br>Added
+ Delta-Timing to the TEngine class. To use Delta-Timing all you need to 
+do is add MyDelta:Double = MyEngine.GetDeltaTime() in the main loop then
+ Multiply movement variables by MyDelta.<br><br>I'm now working on 
+Integrating Newton Game Dynamics for the collisions/physics system 
+instead of rudimentary Blitz3D based collisions. If I dont get far with 
+Newton then I will probably consider using ODE.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 12:49am 29th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Fixed around 10 different bugs in the code. Most serious were the tiny problems in the TTexture and TVertex Render Method.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 10:59pm 28th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Did a TOTAL rewrite of the MoveEntity Method, seems I must have been 
+out of my mind when I originally wrote it. It looked horrible, and prone
+ to not working.<br><br>Did a test of the MoveEntity and TurnEntity command in unison and it seems to work!<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 10:48pm 28th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Serious Bug discovered, TranslateEntity and MoveEntity dont seem to be working.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 10:36pm 28th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Added a TLight class for setting up and using Lights in an application.<br>	<br>Spent
+ around 2 - 3 hrs overlooking code trying to find reason why 
+Ambientlight, DiffuseLight, etc Didnt work, Turns out you need to enable
+ GL_LIGHT and GL_LIGHTING for it to work.<br><br>3DFont class is coming along nicely, should have an example up and running soon.<br><br>Working
+ on automatically adding newly created entity's to a Renderlist so use 
+doesn't have to do it. Should make things a little simpler.<br><br>Fixed
+ a few little nags here and there, in once case a Method was referring 
+to the wrong Field when it was being called from another piece of code.<br><br>Working on a Timing class, I might just implement it into TEngine and rename TEngine to TCore.<br><br>Methods are being renamed to be as consistent as possible, Might take a while.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 1:34am 27th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Initial Test didnt work<br><br>Spent
+ from 11:35pm to 1:34am searching code, turns out there was a problem 
+with TEntity and TMesh rendering stuff. TEntity was not calling TMesh's 
+render function therefore rendering nothing. <br>	<br>Retested and engine worked, but there was a major memory leek consuming around 3mb per seccond.<br>	<br>Memory
+ leek turned out to be an old piece of code I wrote trying to convert 
+the EntityList into a String which obviously didnt work by the amount of
+ memory it consumed.<br><br>Fixed Memory leek and now it runs perfectly!<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 11:35pm 27th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Combined TSurface.AddSurface and TSurface.NewSurface into AddSurface.<br><br>Leak free. Ready for simple rendering test.<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 11:28pm 27th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Added some new functions to TMatrix<br><br>Added some new functions to TEntity<br><br>Added and changed some functions in TMesh<br><br>Fixed some bugs in TEntity.TranslateEntity and TMesh.MoveMesh<br><br>Fixed annoying memory leak when creating a new Entity<br><br>Other undocumentated changes here and there<br><br>Engine is almost ready for simple rendering test!<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 10:11pm 27th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Created TEngine Type<br><br>New Methods for TEntity (PositionEntity, RotateEntity, TurnEntity, and TranslateEntity)<br><br>Created so far not working TFog Type<br><br>Created so far not working TCamera Type<br><br>Few changes to TMatrix, TVector, TSurface, and TMesh (nothing serious)<br><br>Engine now Creates Context and Runs until Quit. Nothing will render or display as of yet!<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 8:18am 27th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Fixed some errors in code syntax<br><br>Type creation functions relate to their Purpose, (i.e. instead of TMatrix.Create its now TMatrix.CreateMatrix)<br><br>Removed some pretty useless code<br><br>Test.bmx now compiles OK (code is now error free)<br><br>Additional Methods added<br><br>Additional Functions added<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 11:05pm 26th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Birth of Engine<br><br>Nothing that great thus far!<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Changes - 4:36pm 25th September 2005</td><td align="right"><font class="tiny">(Posted 2005-09-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Gathered source code and documentation<br><br>Looked over source code, methods, how to do stuff etc.<br><br>Made basic plan for engine<br> <br><br> [ AMD64-4000 | NV6600GT | 1.5GB DDR | 200GB HDD | AC97-8CH ]<br><br><img src="8264&amp;log=1288_files/LeidenK.html"> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

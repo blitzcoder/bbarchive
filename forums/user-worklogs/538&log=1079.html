@@ -1,0 +1,195 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Chroma</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Secret</td><td align="right"><font class="tiny">(Posted 2006-07-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My next project for my new game is to get a very realistic and low 
+overhead lens flare up and running.  That's my project over the next 
+week, along with getting a basic level loader working.  I'm keeping my 
+load light atm while the main character for my game is being finished 
+up.<br><br>My demo level is going to be a wooded area up in Alaska.  So I
+ have to do some research about the foilage and wildlife maybe up in 
+Kenai.  Google Earth should come in handy also for the basic map design.<br><br>Sorry for being so vague but I'm keeping this under wraps for another month or so. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Environment</td><td align="right"><font class="tiny">(Posted 2006-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I started a new project a few days ago.  Been working on the environment basics over the past few days.<br><br>  I downloaded Terragen and made a new skybox.  I'm going for the most realistic look possible.  Terragen just rocks imo.<br><br>As
+ for water, I stumbled across a way to make a ordinary plane look like 
+it has light bouncing off the tops of waves.  The built in mipmapping 
+really enhances this by only letting the whitecaps be shown as you 
+approach.  Therefore the whitecaps disappear as you get farther away.  
+It's very convincing.<br><br>Next on my list is terrain.  I see all 
+these stupendous terrain editors but all I really need to do it just 
+figure out how to apply shadow and detail maps to a terrain in the 
+correct manner.  If I can get that done, then I'll post a new pic here 
+maybe today.<br><br>BTW, I am looking for some low poly modelers that 
+would like to showcase their low poly modeling (needs to be realistic 
+looking as possible).  If you have something to contribute plz email me 
+at chroma_72@...<br><br>Models I'm looking for:<br>-tree stumps<br>-rocks<br>-hay bale<br>-dead tree<br>-animals (bear, otter, deer, rat)<br>-barn<br>-power pole/lines (wooden)<br>-grain silo<br>-old tractor<br>-pick-up truck<br>-humanoid model <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>XNet Multiplayer Module</td><td align="right"><font class="tiny">(Posted 2004-12-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I did some preliminary testing today on Blitz's maximum packet speed.  
+Seems about the fastest you can send/receive packets is approximately 
+your monitor's refresh rate based on your cpu speed.  I'll be testing 
+packet speeds between here and Florida later tonight.  It will give me a
+ good idea of the max number of players blitz can handle under normal 
+packet loads.  I don't want to speculate at this point, that's what the 
+testing is for.  I'm sure any difficulties can be overcome with good ol'
+ prediction routines.<br><br>I'm VERY happy with how clean the vector 
+library is at this point.  It will make the physics engine that much 
+easier to get off the ground.  I changed the function names around so 
+now it's much easier to use.<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Back to the GRIND!</td><td align="right"><font class="tiny">(Posted 2004-12-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Hiatus = over.  I stayed up late last night coding a UDP multiplayer 
+library.  Since I'm not able to find the XNet module I was working on 2 
+years ago (which is probably outdated by now along with every other 
+multiplayer code from that era), I'm starting XNet from scratch using 
+the latest techniques and whatnot.  XNet will be available through 
+shareit.com in the very near future for a modest price.  It will embody 
+the latest cutting edge multiplayer techniques coupled with the smallest
+ packets ever.  Say it with me "The fastest Multiplayer library ever!".<br><br>The
+ next library will be a complete physics engine similar to Tokamak or 
+Havok.  Wrappers are great and everthing but there is a need for a 
+native physics engine for blitz and so far no one has stepped up to the 
+challenge.  Plus, I will be needing one for my future games.  This will 
+also be available on shareit.com when completed.<br><br>The third 
+library I'll be coding will be a completely customizable game menu 
+system.  This library will allow you to construct full menu screens with
+ highly advanced features.  <br><br>Libraries under construction:<br>1. Ultra High Speed UDP Multiplayer Library<br>2. Blitz Physics Engine<br>3. Game Menu System<br><br>Each library will be available separately and as a package deal (all 3) for a special bundled price.<br><br>Now as I crank up the coffee pot and pull out the pringles...gimme some room cause I'm a crazy coding obsessed maniac!<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Back in Business</td><td align="right"><font class="tiny">(Posted 2004-08-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm unofficially back to coding after a long break (finishing up 
+college).  So with degree in hand, I'm ready to get back to what I love 
+to do most: program things I don't understand! =D<br><br>I think at this
+ point to say that my flight sim will be based on WWII is a little 
+premature.  How about I get the basica flight physics finished first.  
+I've been modeling an F-100 Super Saber (a favorite of mine).  But since
+ Third Wire released Strike Fighters recently, I'll probably go with the
+ fictional WWII scenario.  <br><br>At this point, the flight engine is 
+in it's infancy.  Gravity is completely done (oh that was a hard one 
+=P).  Lift and Weight calculations are done and the aircraft actually 
+lifts off the ground in a realistic fashion.  Now to tackle rotation 
+forces.  That's what's tripping me up at the moment.  I've just ordered 2
+ new physics books that will hopefully take the mystery out of angular 
+forces, moments, inertia, etc.  It's not like bouncing a cube off a 
+wall...trust me.  It's much harder.<br><br>I figure once i have the 
+basic flight code done, I can have the other aspects completed very 
+quickly.  The terrain system was completed 2 years ago and probably just
+ needs a look over and some tweaking.  Same with the sky/weather system.<br><br>The
+ vector library I posted in the archives helps immensely.  I also have a
+ fully working quaternion and matrix library that I plan to post soon.<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Air War 1946</td><td align="right"><font class="tiny">(Posted 2003-02-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm currently working on the Pilot Manager.  I'm including RPG elements
+ in a sense that a player creates a pilot and assumes his role.  Players
+ are awarded experience per airplane or ground object destroyed based on
+ a number of criteria.  This ensures that a General will get little or 
+no XP for shooting down a 2Lt.  <br>At this moment I'm creating a few 
+different GUI's.  Yeah, I'm on a GUI kick at the moment since I'm just 
+finishing up the launcher too.  I have the LaunchGUI, the 
+GameMenuSystem, and another GUI I'm working on.  I'll probably be 
+updating the Game Menu System that I have on BlitzCoder in the next 
+couple of weeks with some minor upgrades.<br><br>Work on Air War 1946 is
+ steady.  There's just a lot to do.  Some things that I've been working 
+on that look promising are the flak cannon system, a highly optimised 
+particle system, and the Pilot Manager.<br><br>A demo?  hmmm...not till I'm satisfied (as usual). :)<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Terrain System Optimizing</td><td align="right"><font class="tiny">(Posted 2002-11-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have the core terrain system done and I'm very happy with the 
+performance.  Now I'm optimizing it but I'm sure I won't see a speed 
+increase since I have a Geforce 4.  Anyways, I just calculated that in 
+order to make a box spin inside a box you have to reduce the inside box 
+to .69 scale of the original box.  Now I just have to come up with a 
+formula to not show the corner terrains since the inside horizon box can
+ never reach to the terrain corners.  That and scrapping any redundant 
+calculations should be it for the terrain.  Woot!<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Luftwaffe Ace</td><td align="right"><font class="tiny">(Posted 2002-11-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've done some soul searching and came to the conclusion that rendering
+ one HUGE terrain is both assinine and idiotic.  So, I've created a mesh
+ based terrain system that renders the current terrain the player is in 
+plus 8 surrounding terrains.  I've also coupled with this an object 
+system that only shows objects if the terrain they reside on is 
+visible...and to top that off I've added a custom EntityFade system 
+(courtesy of Floyd) that fades in those objects on the specific terrain 
+according to a specified range.  Yes...it needs more work but I'm quite 
+happy with all these new methods.  <br><br>The one huge terrain seemed 
+wasteful and getting good detail was proving very difficult.  Especially
+ when the area of terrain you're trying to display is oh say...500 
+square miles.<br><br>Adios,<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Sound Engine</td><td align="right"><font class="tiny">(Posted 2002-10-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've started preliminary work on the sound engine.  Mostly it's for the
+ radio chatter which can at times, become quite complex.  Especially 
+when you have a bunch of .wavs you need to tie together to make a 
+coherent sentence.  Say for instance you want to call your air control 
+and request the heading for your next waypoint or back to base.  The 
+sound engine will take the input from your request, match up the 
+appropriate .wavs and play them in order....ie...first it would play 
+"Turn to heading"...then play "2"..."0"...4".  Not that complicated but 
+quite interesting to code.<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Gun System Update</td><td align="right"><font class="tiny">(Posted 2002-10-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Started working out a realistic gun management system.  Each gun is 
+created, placed, and "loaded" with a pool of bullets that are destroyed 
+upon impact.  It seems coding the guns to imitate a real life gun works 
+out the best!  No creating or copying bullets as they fire (which does 
+have a hit on frames somewhat).<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Weapon</td><td align="right"><font class="tiny">(Posted 2002-10-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've just created a new weapons system that handles the rockets, 
+missiles, and bombs separately from the cannons and guns.  Rockets, 
+missiles, and bombs are created first by creating a pylon(bomb and 
+missile) or a rack (rockets) and then "loading" the pylon or rack with 
+the weapons.  The info for each weapon is stored in it's pylon or 
+station type.  This makes for maximum versatility and lets the Armament 
+screen load the plane with ease.<br><br>I've also implemented a Fire 
+Mode...as in "do i want to fire the rockets one at a time or fire all 
+24...pickle off one bomb or all.  <br><br>The R4M rockets (unguided) 
+could fit 12 to a rack with a total of 24 rockets (some planes could 
+hold 4 racks for a total of 48 rockets!).  Firing all 24 or 48 at once 
+into a formation of B-17's was almost instant death to the bombers.  I 
+am recreating that effect here.<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Luftwaffe</td><td align="right"><font class="tiny">(Posted 2002-10-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've gone back to redesigning the weapons systems.  They need to be 
+much more dynamic than I had originally envisioned.  Each gun or station
+ will be a separate object that will control itself based on it's 
+"class".  Say you press the trigger on the joystick...all weapons that 
+are class 1 type will fire off.  This means you can LINK guns and 
+cannons to fire simultaneously.  The trigger will natively control guns 
+and button 2 will control the selected weapon which can be cycled 
+between cannons, rockets, missiles(yes, the germans had an air to air 
+missle called the X4 on the drawing board!), and bombs.  Then by 
+pressing a LINK key, it will automatically switch the cannons to class 1
+ (guns are class 1).  Normally, guns are class 1, cannons 2, rockets 3, 
+missiles 4, and bombs 5.<br><br>Aside from working out the new, more 
+complex weapons platforms, I've been modeling new aircraft which will 
+bring the total number of flyable aircraft to 8.  Here's a list of them:<br><br>1. Me-262<br>2. Me-163<br>3. Ta-183<br>4. He-162<br>5. Me-1092/2<br>6. Ho-229<br>7. Ef-128<br>8. Ba-349<br><br>The
+ list may be cut by a few but the main website ( that's being worked on 
+now), will have an aircraft download list so players who make their own 
+planes can upload them (after I inspect them loosely just to ensure 
+compatability).  I'll also be adding more planes for download myself.  
+Those will be more exotic (triebflugel for instance).<br><br>Back to work I go...<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>WarTanks Airstrafing</td><td align="right"><font class="tiny">(Posted 2002-07-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm feeling a bit better and added powerups and a new airstrike 
+powerup.  It's the same as airstrike bombing except the plane strafes 
+with it's guns.  <br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>WarTanks Update</td><td align="right"><font class="tiny">(Posted 2002-07-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Mustang has finished up the JagdPanther and it makes a nice addition to
+ the game.  We also have a Tiger II, Abrams, and FlammPanzer being 
+finished up.  That will bring us up to 7 playable tanks.  The powerups 
+system, airstrikes, and 3d sound have been completed by Jay.  I'm 
+heading up effects and the editor at this point.  Hopefully we have a 
+system that will let players add their own custom tanks.  The only 
+stipulation is that they have to be built a certain way with certain 
+named objects.  Such as barrel, turret, body, ltrack, and rtrack.  In 
+the near future we have to work out the damage system and finish up the 
+huds.  Can't make any promises on an online test because you know how it
+ goes.  Gotta get everything tightened up and don't wanna rush just to 
+get a test out there.  Cheers!<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>WarTanks</td><td align="right"><font class="tiny">(Posted 2002-07-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Just got airstrikes into the game. The handiwork of Jay Mattis.  He's our new team member coder. Looks darn sweet too! :)<br><br>Our
+ completion is around Oct 23rd and it looks very promising.  We also 
+just put up some new screenshots at www.X-FactorStudios.com so head over
+ and check em out.  <br><br>We're may have to push back the online alpha test a bit while we work out a few more things.  Here's to the future!  Cheers!<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>WarTanks Online is taking shape.</td><td align="right"><font class="tiny">(Posted 2002-06-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ We've been working this game daily preparing it for an online test.  
+I'm quite pleased with how it's going at this point.  Tanks hug the 
+terrain without using linepick.  Hopefully if things keep going like 
+they are it won't be too much longer for an alpha.<br><br>This has been the "secret" project.  Big secret huh?  Our goal it to go big and get Blitz some publicity too.<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Secret Blitz3D Project</td><td align="right"><font class="tiny">(Posted 2002-05-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yep.  It's secret and hopefully will help garner blitz it much deserved publicity!<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>X-Factor Studio's Game going well...</td><td align="right"><font class="tiny">(Posted 2002-03-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Our small team working hard on our latest project.  Here's a pic of the
+ editor and an in-game shot.  We're about 5 months from completion and 
+have a couple of publishers interested.  Keep it real!<br><br><img src="538&amp;log=1079_files/Betapic.html"><br><img src="538&amp;log=1079_files/xedit2.html"><br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TCP research....</td><td align="right"><font class="tiny">(Posted 2002-03-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After much mucking about, I've learned that the hangup with TCP is the 
+ReadLine command.  So I'm melding together many different snippets and 
+examples to produce my server/client.  <br><br>I finally have a reason to learn Banks.  Took me about 15 min. <br><br>Anyways...X-Factor Studios is trucking along on the tentatively entitled "Invaders".  To check out the website go here:<br>  <a href="http://www.x-factorstudios.com/" target="_blank">X-Factor Studios</a><br><br>Ogre's
+ Crown is officially shelved until development on "Invaders" is 
+complete.  Morduun, if you're out there...got any new tunes? :)<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Squash that bug!</td><td align="right"><font class="tiny">(Posted 2001-12-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The Ogre's Crown is coming along nicely.  Morduun was nice enough to 
+point out a horrendous bug that lets you duplicate items just like in 
+Diablo.  For the record, that bug is squashed.  So no having 5 Orbs of 
+Burning Hell anymore.  Muhahaha!!<br><br>I've just added 35 different types of weapons, 7 types of armor, gauntlets, 3 types of helms, and 4 types of shields.  <br><br>Next I'll be adding in the 40 or so monsters you get to slay (or be slain by!).  <br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Bit's o' Blood and Lightning Bolts....</td><td align="right"><font class="tiny">(Posted 2001-12-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I started tinkering with a random dungeon generator and had some good 
+results but when I compared them to a hand made dungeon in the 
+editor...let's just say the ones I make are more strategically built.  
+So I'm opting for making each dungeon myself in the editor.  Seems to me
+ that this should make the game more challenging.  I guess we'll find 
+out.<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>T&amp;T: The Ogre's Crown</td><td align="right"><font class="tiny">(Posted 2001-12-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Been working on this one for awhile now.  Movement, combat, monster ai,
+ inventory, and one spell is done.  The level editor is about 80% done. 
+ I just need to add more graphics and content.  Contemplating whether or
+ not to put in multiplayer.  Could be neat since there's a world map 
+where you move long distances to each dungeon or city/town.  <br>I'm not posting screenshots for about another 2 weeks.  I should have a full demo ready by then.<br> <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

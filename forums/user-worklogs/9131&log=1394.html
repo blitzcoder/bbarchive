@@ -1,0 +1,56 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Subirenihil</h1><h1>Planet X</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Title and Basic Plot/Idea</td><td align="right"><font class="tiny">(Posted 2007-08-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <b>Planet X: Adaptation</b><br>Every
+ time you play you'll get a different civilization, whether it be 
+humanoid, insect, alien, robot, giant ameoba, walking plant, ghost, 
+reptile, or something else.  As well as having a random civ, you have a 
+random tech tree, based on the world you encounter.  The point is, you 
+must adapt to your conditions or face extiction.  Different resourses 
+are on different planets, so you have figure out which ones you need and
+ which to avoid.  There are hazardous substances on you planet.  But 
+those materials may be vital to the survival of another race.<br><br>Research
+ is not just "research this tech to upgrade that thing", you spend money
+ on research in various areas, like; how to combine resources, how to 
+improve a specific attribute (damage, hitpoints, stealth, etc.), how to 
+resist damage from something, etc.  You might get lucky and get a result
+ quickly, or you might be less fortunate and spend half the game trying 
+to find a better way to harvest wood.  Of course, the more urgent 
+something is - like say your enemy has guns in the stone age - the 
+better your chances of getting quick results - like you rapidly develop 
+bullet proof leather or something. <br><br> "Blessed are the geeks, for they shall internet the Earth" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>GUI up and running</td><td align="right"><font class="tiny">(Posted 2006-12-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I developed a scalable GUI for Planet X.  It should appear pretty much 
+the same on any screen or resolution.  Mouse functions included like 
+clicking, double clicking, dragging, etc.  Menus and buttons still in 
+progress. <br><br> "Blessed are the geeks, for they shall internet the Earth" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Early work on gameplay basics</td><td align="right"><font class="tiny">(Posted 2006-12-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have written and tested the code for telling a unit where to go.  
+Although I have no pathfinding code yet, I do have the ship accelerate 
+and decelerate properly.  It will even backup and turn around.  I fixed 
+bugs where the ship would fly circles around the destination, where it 
+would avoid the destination when it was pointed the wrong way, where it 
+would fly in reverse, and where it would flip rapidly back and forth for
+ a few seconds once it reached the destination.  But all that is fixed.<br><br>Now for waypoints.<br><br>Then on to the pathfinding routines. <br><br> "Blessed are the geeks, for they shall internet the Earth" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Custom File Formats</td><td align="right"><font class="tiny">(Posted 2006-11-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> For Planet X I'm working on creating my own image format - <u>RGBAP</u> (<b>R</b>ed, <b>G</b>reen, <b>B</b>lue, <b>A</b>lpha, <b>P</b>layer
+ color).  The RGB information is combined with the player color 
+depending on the value of P.  The alpha is clamped onto the resulting 
+RGB to produce the RBGA of each pixel.  Another way of understanding 
+what is going on is to use the P as alpha information, blend the texture
+ with a flat texture of player color, then use the A value as the alpha 
+of the resultant texture.<br>Some sort of compression will be used to store the 40bpp texture and an editor will be included with the custom mapmaker.<br><br>I
+ may or may not make a custom model format.  What I mean is, that I may 
+incorporate a X format mesh into a system where I can have particle 
+emitters, shadows, sprites, and anything else that might be nice - like 
+attachment points for things like weapons, armor, or special effects.<br><br>Further custom file formats - like maps, AI's, etc. may follow. <br><br> "Blessed are the geeks, for they shall internet the Earth" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The beginnings</td><td align="right"><font class="tiny">(Posted 2006-11-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Way back a few years ago when I was using the demo version of BlitzBasic, I began work on a RTS (<b>r</b>eal-<b>t</b>ime <b>s</b>trategy
+ game).  I got far enough into it to have all the objects in there.  I 
+could tell my spaceships where to go.  I could select them in groups.  
+The ships would autofire on enemies within range and mine from planets 
+within range.  Ships could repair themselves and others.  Debry left 
+from ships could be mined for small amounts of cash.<br><br>But, it was 
+way too demanding on the processor.  And loading time was also 
+rediculously long.  So I started over mostly from scratch, improving 
+some of the systems I had developed for the original.  Then I bought 
+Blitz3D.  Now I'm working (slowly) on rewriting an improved, 3D version.<br><br>(Sorry, no screen shots)<br><br>If
+ anybody is interested in the original, poorly made version, email me (I
+ don't check my email very often, so it might be a week or two before I 
+send the code to you).  You may use any of the ideas/graphics contained 
+therein.  Just be aware that not all the code is well-written. <br><br> "Blessed are the geeks, for they shall internet the Earth" </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

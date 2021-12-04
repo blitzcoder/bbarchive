@@ -1,0 +1,213 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Brucey</h1><h1>Cutie</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2007-04-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Finally got back to some Qt hacking.<br><br>It's been a busy old "break" it turns out, but the new modules have added a bit more depth to what's available on the website.<br><br>New in the latest release are Panel Pixmaps and Popup menus, amongst other things.<br>T'was a bit of digging to find out how to disable the default popup menu for text areas, but it's looking okay now.<br><br>:-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>KitKat</td><td align="right"><font class="tiny">(Posted 2007-03-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Having a wee break from it for a bit, after 3 weeks of frantic keyboard tapping.<br><br>Learning
+ a bit of SQL wrapping for now, which is a nice change, although a bit 
+close to what I do for a living - not that I'm averse to taking work 
+home with me from time to time ;-)<br><br>Anyways... no need to put as much time into it now that the core is basically working... (bug-fixes r us) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Or so he thought....</td><td align="right"><font class="tiny">(Posted 2007-02-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ There you are, plodding along thinking how great everything is working,
+ and then you discover to your horror that the Qt/Mac framework has been
+ built using Carbon, rather than Cocoa!!!!<br><br>argh!!!<br><br>I can 
+see how they decided to do it this way. For a start, Carbon is a C++ API
+ and it would have been very easy for their developers to get into it 
+without having to learn Object C from scratch.<br>However, it does make 
+plugging the GL/Canvas stuff onto it a little on the almost impossible 
+side, since the Max code assumes that it's working on a Cocoa widget and
+ not a Carbon one (the two of which are not compatible!)<br><br>I've searched and searched, and can't see a way of getting an NSView onto a HIView... so I'm kind of stuck at the moment.<br>The only option I see is to write a new GLGraphics thingy specifically for Qt/Mac. Not something that thrills me too deeply.<br><br>I'm
+ not going to call it a show-stopper, as for now, everything else on the
+ Mac side is working as well as it does on the other platforms... It 
+just requires a little thought. <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Almost there !</td><td align="right"><font class="tiny">(Posted 2007-02-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, flog me with a cold, wet sponge!  It looks as though it's almost there...<br><br>After
+ a weekend of battling through a large pile of enhancements and fixes 
+(see topic in the Linux section for details) I've almost got a full 
+implementation GUI in Qt.<br><br>I thought the hardest bit would be the 
+Canvas, but on Windows at least it was just a case of getting the 
+"Redrawing" working in the right places. I've no idea if it's only GL or
+ works with DX too, but I'm just passing the window Id for the gadget to
+ the graphics stuff, so whichever one it is using on my win2k, it seems 
+to work ok.<br><br>Hopefully, with it working on one platform it will 
+work on the rest now without change (well, that's how things have 
+generally gone so far).<br><br>Funnily enough, the biggest problem I've had so far is with HIDDEN window creation. It's been a nightmare.<br>And if I remember correctly, windows were (and still are) a problem on GTK.<br>Which reminds me... I need to still look at CLIENTCOORDS...<br><br>Most of the tests work great. I think one of the Seb tests (to do with windows) is still a bit iffy.<br><br>Not too bad for 3 weeks very part-time effort.. ;-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progressing...</td><td align="right"><font class="tiny">(Posted 2007-02-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Into the second iteration of the TextArea code, I finally think I've got it now.<br>On
+ Windows, the speed at loading and syntax-highlighting a large .bmx 
+document in the IDE is faster than the default win32maxgui. Always a 
+good sign, me thinks.<br>I had some trouble with editing, where the 
+cursor was slowing down the further to the end you got. But some tweaks 
+to the line/char counting code fixed that.<br>The only seeming issues 
+left with the TextArea now are some of the key-bindings that are set up 
+on it by default - like Ctrl-Z. Haven't as yet worked out how to disable
+ these so that we can control them ourselves...<br><br>Of course, there's still plenty to do...<br>List
+ and Tree views don't handle keyboard input presently, but this is my 
+own fault. I'll need to redo the handling code for both to use a 
+different mechanism - which doesn't look too difficult.<br><br>The biggest problem I see now, is with the Canvas.<br>I have absolutely no idea how I am going to plug the QGL stuff into Max... at all...<br>But then again, this GL/context stuff is all rather foreign to me anyways...<br><br>The
+ other outstanding issue is with the HTMLView. The URL will need some 
+tweaks to pass "file:///" etc, since currently on Windows, unless it has
+ that, it can't find a file. Then there's the problem of the view only 
+having access to local resources (ie. not web-stuff). Not figured that 
+out yet either, despite trawling google for ideas.<br><br>I've been 
+testing it on both the IDE and my smaller BLFBuilder app (the util that 
+comes with my Localization module) and I'm happy with the way things are
+ headed. In fact, for BLFBuilder there is enough of the GUI module 
+finished for it to be a fully working app. Nice :-)<br><br>I have noticed a distinct lack of feedback on the forum, which doesn't surprise me at all, to be honest... :-p<br><br>At least *I* am having fun :-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The end of week 2</td><td align="right"><font class="tiny">(Posted 2007-02-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Things appear to be generally coming together now.<br><br>In fact... this is what the IDE looks like on KDE as of version 0.93 :<br><img src="8077&amp;log=1420_files/ide_screen_01.png"><br><br>Still a long way to go tho, but a lot of the functionality is there.<br><br>What's still to do?<br>Well, Canvas and Stepper are still needing to be started, and HotKeys (all over) aren't implemented yet.<br>That, and I want to rework the internals of the TreeView and ListBox.<br>Other than that, I'm pretty happy with things.<br><br>Was
+ a long, hard weekend though, and it was bloody hard work to get some of
+ the things working. The worst being that of creating windows which 
+start hidden. But hey, several hours later, and it's mostly working the 
+way I want it to...<br><br>Am still struggling a bit with this C++, when
+ it comes to doing casts, and playing with pointers... but I try to 
+remember that I've only been playing with it for two weeks, so I can't 
+be expected to know everything about it...<br><br>;-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fonts etc.</td><td align="right"><font class="tiny">(Posted 2007-02-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I think I'm finally getting to grips with this C++/class/pointers malarkey.<br><br>So
+ much so that I've got the Font dialog working at last, and as such have
+ applied most of the font stuff to the module, like loading fonts and 
+setting gadgets with fonts. From my tests, it all seems to be working 
+properly, including underlines and strikethrough (or StrikeOut as Qt 
+calls it).<br><br>I've also implemented PANEL_GROUPs, which required a 
+little hack because the client area doesn't take into account the group 
+title text - I imagine it must be a bug with Qt? Anyhoo.. I've hardcoded
+ a 15 pixel offset for now, until I ever come up with a better solution.<br><br>I
+ quickly threw together the RequestDir dialog before bedtime, which 
+seems to be fine. Next up is one for Files, which I think will complete 
+the "system" driver support.<br><br>Still seems like a million and a half things to do though.. <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>About time too...</td><td align="right"><font class="tiny">(Posted 2007-02-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Menus are almost finished now that I know what I'm doing.<br>Seems
+ I had the C++ right all along, just my Max coding let me down somewhat -
+ or rather, the lack of an empty Rethink() method....  sigh...<br>Funny tho, that once I added that, it all began working - as if by magic.<br><br>Still, if it's taught me something, it is not to assume I can't just make it up as I go :-)<br><br>Toolbar
+ icons work great now that I've implemented that idea of mine. I've also
+ had to use a "swap" function which switches red and blue, but I may 
+have to flag that depending on which platform I'm on - maybe. (I'll know
+ when I try the current code on Mac).<br><br>Oh well, I guess it's about time for another release...<br><br>Day 10 ;-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Menus... again</td><td align="right"><font class="tiny">(Posted 2007-02-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Well, I had a go at rewriting the menu stuff last night.<br>The
+ submenus at least appeared this time, but when I closed the 
+application, glib threw an invalid pointer exception and dumped a 
+backtrace on the console...<br>So, I guess I'm back to square one with that.<br><br>My
+ Icon image problem answer dawned on me as I was heading to bed. Turns 
+out that I'll need to cut each section of the big image up and create 
+QImages out of each of those. The problem turning out to be the fact 
+that there is no pitch parameter, so one simply can't do it the way I 
+could with GTK.<br>Hopefully I'll have something going by tonight.. <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Days, 6-9.</td><td align="right"><font class="tiny">(Posted 2007-02-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Not often the SuperBowl kicks off an hour into ones birthday... but it 
+was well worth getting up for and having a Monday off :-)<br><br>Anyways,
+ it's been a fairly productive weekend. This C++ business is coming on, 
+to a point, and it turns out, as Skid predicted, that much of the coding
+ for the wrapping would be done on that side of things. Which is both 
+good and bad.<br>For the good, it makes the Blitz code extremely tidy 
+indeed. One call usually does the job. It also means I get to learn more
+ C++. Fortunately, this class stuff is very much like Java, so that end 
+of it has gone very smoothly - so much so, that if something doesn't 
+work first time I end up wondering why... ;-)<br>On the bad side, it 
+also means that there are things I can't quite get my head around. The 
+MENUs I've all but given up on for now. I simply can't seem to create 
+them without a crash, even though I'm sure that I'm creating everything 
+in exactly the same way as the examples do...<br>I spent a whole evening
+ trying to figure what was seg-faulting, but alas to no success. The 
+only consolation being that it crashed the same on both Linux and Mac - I
+ would have been disappointed had it worked on one and not the other.<br><br>That's
+ one great thing about this Qt, is its consistency across platforms. It 
+ends up working identically on each - or so I've discovered up til now. 
+And, anything that doesn't, it tends to be because I've not done it 
+right to begin with, and have to re-work it til I do.<br><br>Leaving the menu stuff as is (that is, not working), I decided to go on with the rest of the Gadgets.<br>Over
+ the course of the long weekend, I've got ListBox, TreeView and Tabber 
+all working pretty well. ListBox is almost done, apart from icons (of 
+which I haven't started on at all as of yet). Select, Action and Menu 
+events are being raised as expected. The TreeView still has some stuff 
+to sort out, mostly concerning events, but the createtreeview test is 
+running fine barring that.<br>The Tabber is now working really well, but
+ was a big job to sort out. I wanted to use QTabWidget but because it 
+uses pages of widgets it wasn't compatible with the way Max works. I 
+eventually decided to *base* a brand new widget on bits of that one, 
+using a single page widget that would allow the Max gadgets to use as a 
+parent, and let max worry about showing or hiding the gadgets on it. 
+Once I'd written that and enabled the events, the createtabber test 
+worked great!! (heh, at least on Linux... kind of should try it on Mac 
+before I say any more...)<br><br>So, apart from the Menus, I've only the
+ Toolbar and Canvas to do now. I think the Canvas may be a tad out of my
+ league (as the menus appear to be), so I wonder if there are any nice 
+peoples that want to help out... <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day - 5</td><td align="right"><font class="tiny">(Posted 2007-02-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Another reasonably productive day on the module front.<br><br>Got ScrollBar and TrackBar working - with events.<br><br>Tried
+ (in vain) to get the font dialog working without nuking Max. Me thinks 
+it's a user problem - since my C++ experience is only as old as this 
+project...<br>I think, once I release the code, I will ask - very nicely - for someone to have a look at it and see where I went wrong.<br><br>I've
+ also started work on the TextArea gadget. Interestingly enough, most of
+ the code looks like it's going to be on the C++ end of things. Which is
+ fine, as it seems like with C++ I can avoid using pointers most of the 
+time. So far, my TextArea text is at least able to set and add text. But
+ since TextArea is a *big* control as far as access to content goes, it 
+might take a while to get it finished.<br><br>Talking of pointers, I 
+also tried my Linux build of Qt4.2.2 for the first time, having been 
+working mainly on Mac and Windows for the last day or so.<br>Heh.. and wouldn't you know... it didn't bloody work! :-/<br>Kept segfaulting on application initialization.<br>It
+ took me about an hour in all, to work out what was wrong, and how to 
+fix it, using the usual tricks of gdb/strace and my helpful "launch the 
+app in the background and try to attach gdb to it before it crashes" 
+script.<br><br>The problem came down to how I was passing app-arg 
+parameters into the QApplication constructor. You know, the usual argc 
+and argv things.<br>Anyway, here's what I've come up with now :<br><pre class="code">QApplication * qt_init_application() {
+	static int i = 0;
+	static const char *const empty = "";
+	return new QApplication(i, (char **)&amp;empty);
+}
+</pre><br>which seems to do the job - at least on Linux... I've yet to try it on the other platforms... ;-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Really cross-platform!</td><td align="right"><font class="tiny">(Posted 2007-02-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Day 4 - evening.<br><br>After
+ my Qt 3 -&gt; 4 port earlier in the day, I wanted to try it on the Mac,
+ since it was going to be an hour or so to build Qt4 on my usual dev 
+environment on Linux.<br><br>Once I set up the Imports, (requiring my 
+Mac bmk hack (see Module Tweaks) to allow linking to .dylib files), I 
+was amazed to see it build the module with no errors!<br>In fact, I was even more amazed when I ran each of the tests in succession... successfully :-)<br><br>Qt is *very* portable!<br><br>I
+ spent the rest of the evening working through more of the MaxGUI 
+requirements - of which there are a LOT. Your average MaxGUI developer 
+doesn't realize just how much there is to it. Having already made the 
+GTK module, I know that when you think you've covered everything someone
+ will come along and say, such-and-such doesn't work...  because I 
+missed it out.<br><br>Anyhoo, I got Notify, Proceed and Confirm working.
+ The Color dialog thing. Basic Panels implemented - currently 
+supporting, PANEL_BORDER and PANEL_ACTIVE (sending all mouse events).<br>PANEL_GROUP
+ is going to be interesting, as I'll have to use a different Qt Widget 
+for that functionality. I've yet to look at keyboard handling.<br>Oh, and panel background colouring is working too.<br><br>The TODO list looks kinda scary though...<br>ListBox<br>TreeView<br>Canvas<br>ScrollBars<br>Slider<br>Stepper<br>...and lots more.<br><br>Oh,
+ and yeah, to get it working on Windows, requires a fix to BMK on that 
+platform to Link properly (that's link issues on two platforms I've met 
+this month).<br><br>Max rocks ;-) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 4 - Lunchtime</td><td align="right"><font class="tiny">(Posted 2007-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Instead of lunch, I thought I'd see how hard it would be to get the module running on Windows.<br><br>Unfortunately, Qt 4.x is not very compatible with Qt 3.3 (which I've used up til now on Linux).<br><br>Anyhoo... I've rewritten the C++ glue to work with 4.x ...<br><br>...and wouldn't you know... all my tests ran first time :-)<br><br>Cross-platform, anyone? <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wot no callbacks?</td><td align="right"><font class="tiny">(Posted 2007-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Day 3 ;-)<br><br>Good grief !!<br>Qt
+ has this interesting concept concerned with Signals and Slots. GTK uses
+ callbacks, which I guess is the more traditional way to hook into 
+events and suchlike. Callbacks are very easy to work in Max, since you 
+simply declare a function with the appropriate parameters.<br><br>This 
+Signal/Slot malarkey is a tad different. What happens is, a widget can 
+generate a signal for, say, having its text change. If you want to know 
+about it, you need to attach a slot to it, which is effectively just 
+function on a class somewhere. When the signal is raised, all slots 
+attached to it are called.<br><br>Well, after much head-scratching, and 
+several abortive attempts at getting something not to seg-fault, I have 
+(miraculously) come up with a way to work it in Max. In fact, it works 
+fantastically well :-)<br><br>This was looking like it might be a major obstacle in getting the Qt module working properly. So, on with the show ...<br><br>After
+ knocking that wee issue out of the way I beavered on with my 
+"SetPointer" test app (I'm just working through all my GTK tests at the 
+moment). This app presents a ComboBox with a list of pointer styles. You
+ pick one, and the pointer changes.<br><br>I did the pointer (Cursor) stuff first, and then found out how ComboBoxes work.<br>Amazingly,
+ it all worked first time! The ComboBox raised the signal, passed it to 
+my "slot", from which I called back into Max to raise the change event, 
+causing the app to change the pointer :-)<br><br>Discounting the fact that Qt is in C++, it's been very much easier to get working than GTK...<br><br>... so far... <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>And so it begins</td><td align="right"><font class="tiny">(Posted 2007-01-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Just when you thought it was safe to go back into Linux...<br><br>...along
+ comes yet another pet project by that fool who seems to have nothing 
+better to do than generate new max modules for a living. (Which I really
+ need to consider stopping at some point, given the <a href="http://brucey.net/programming/blitz/index.php" target="_blank">sheer number</a> of them that need to be maintained...)<br><br>Anyhoo, back to the module in hand.<br><br>Qt.<br><br>If
+ you don't know already, it's the GUI framework/toolkit by Trolltech 
+that KDE is built on. It is also, apparently, cross-platform.<br>Since I
+ managed to create a (mostly) working GUI module of GTK, I thought I 
+might have a stab (in the dark) at building the "other" one too.<br><br>My
+ main reason for not trying this sooner than now (I've had a look at it 
+before), is that the API is in C++, rather than the C that GTK is built 
+on. Why would this be a problem? Well, given that I know bugger-all 
+about C++ (and not too much in fact about C), it actually scared the 
+bejeebees out of me to think that I could sit down and hack something 
+workable out of it.<br><br>But hey, I like a challenge :-)<br>...added 
+to the fact that since the FLTK GUI is C++ based, I thought I could use 
+that as a reference on how get my Max stuff to communicate with the C++ 
+stuff.<br><br>Now, some people would probably sit down with a C++ book 
+at this point and learn how it works first. But I find that I just 
+*can't* sit and read a reference book, however good it is, without 
+starting to yawn by the end of the first paragraph, and ready for a nap 
+by the bottom of the page. There are two wonderfully new-looking C++ 
+books on my bookshelf that can confirm this.<br>And then there are the people who just dive in, hoping that it'll all eventually make sense somehow. That's me.<br>It's
+ certainly not the most economical method, as it involves a *lot* of 
+trial and error and rewrites. But after all the effort, things kind of 
+come together, and my wee head thinks, "ahhhh, so *that* is how you 
+create a method for a C++ class" :-)<br><br>Then comes the fun part of hooking into the API and having stuff happen.<br>It's
+ a great feeling when you make your first API-driven window pop up on 
+the screen. It's an even better feeling when you have your window pop up
+ on the screen without subsequently seg-faulting ;-)<br><br>The route 
+I've decided to take with this module is to base it on my Type structure
+ for GTK. Why not? It's all there already, so I only have to change the 
+API calls.<br>It certainly makes for some speedy development, especially if you've been there before.<br>By the end of day-1, I had a window raising Max Move, Size and Close events.<br><br>I
+ was going to work on filling out the window with statusbar and the like
+ last night, but I was getting tired of windows, so instead opted for 
+the beginnings of the gadgets...<br><br><img src="8077&amp;log=1420_files/qt_screenshot_01.png"><br><br><img src="8077&amp;log=1420_files/qt_screenshot_02.png"><br><br>:o) <br><br> -+ Brucey +- <br><br>Come to  <a href="http://brucey.net/programming/blitz" target="_blank">Brucey's Modules</a> for useful <b>BlitzMax Modules</b>!! . . . See my <a href="http://web.archive.org/logs/userlog.php?user=8077&amp;log=1434" target="_blank">Modules Worklog</a> - <a href="http://groups.google.com/group/wxmax" target="_blank">wxMax</a> -<br><br>* <a href="http://web.archive.org/Community/posts.php?topic=75695" target="_blank">The Definitive Module List</a> * <a href="https://www.ohloh.net/accounts/22968?ref=Tiny" target="_blank"><img src="8077&amp;log=1420_files/account_tiny.gif"></a> <a href="http://qt-on-blitzmax.blogspot.com/" target="_blank">Qt-On-BlitzMax</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

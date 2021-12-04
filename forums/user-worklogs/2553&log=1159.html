@@ -1,0 +1,77 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Miracle</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>ADD: The Series</td><td align="right"><font class="tiny">(Posted 2003-06-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I'm working on ANOTHER game! Yaay!<br><br>I
+ really thought I had momentum with the block one, and I'll probably 
+come back to it before long, but now I'm working on a simpler, more 
+action-packed title with a sort of 
+3D-Zelda-meets-TFC-only-without-so-many-flags quality. Should be 
+interesting. Let's see how long this one takes to sour on my before I'll
+ go back to the other one ... or start work on a third.<br><br>But hey, at least I'm entertained.<br> <br><br> _________________________<br>I'd like to have Raquel Welch dropped on top of me. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Can't stop the rock</td><td align="right"><font class="tiny">(Posted 2003-06-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="2553&amp;log=1159_files/3dengine1.jpg"><br><br>I
+ just can't stop doing these silly 3D physics demos. Now I've got them 
+bouncing perfectly off terrains using Blitz collisions. Next I'll 
+probably add in cylinder collisions and get myself even MORE off the 
+track. Sigh.<br><br>I'm also sidetracking myself with the possibility of
+ creating a B3D exporter for Hash Animation: Master. At least that will 
+come in handy with the game, since I still have several models to make 
+and I LOVE A:M's modeling and animation tools.<br><br>Meh. Who knows where I'll end up with my next update.<br> <br><br> _________________________<br>I'd like to have Raquel Welch dropped on top of me. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Rattle and roll</td><td align="right"><font class="tiny">(Posted 2003-05-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="2553&amp;log=1159_files/gameengine2.gif"><br><br>Look
+ at those frame rates. 300+ FPS for 50 falling blocks all colliding and 
+stacking and being assimilated into the background when they come to 
+rest. I can't imagine making this engine any faster.<br><br>About time for a map editor now, I think.<br> <br><br> _________________________<br>I'd like to have Raquel Welch dropped on top of me. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Colliding</td><td align="right"><font class="tiny">(Posted 2003-05-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <img src="2553&amp;log=1159_files/gameengine1.gif"><br><br>Got
+ it going now. Above you see 100 falling cubes interacting with about 30
+ stationary ones placed randomly in the level. It's a little crude, 
+perhaps, but by gum it gets the job done.<br><br>For those who may have 
+been following the "Here, have some physics" thread, I got sidetracked 
+turning my game's 2D collision system into a 3D variety and releasing 
+it, code and all. Now as I go back to my original code, it looks awfully
+ kludgey, which slows me down a bit because you know I HAVE to rewrite 
+it. But anyway ...<br><br>Collisions with the background are handled by 
+checking all the points on the map above, below and around where the 
+loose block happens to be. Then I bring in a single "point mass" verlet,
+ place it right on the surface of the stationary cube even with the 
+verlet in question, and check the collision. By the end of the 
+physics-checking phase, that one poor little verlet has traveled to 
+potentially thousands of locations on the map. And let me tell you, the 
+collisions look good. There's a problem with the collision models 
+getting caught on edges, but at least it works 90% of the time.<br><br>I
+ almost wish I could redo my collision models for the flying cubes to 
+use the same system. I can't imagine a way around that without going 
+insane with sines and cosines, but hey, it's a nice idea.<br><br>Incidentally, what you see up there is two surfaces. That's it.<br> <br><br> _________________________<br>I'd like to have Raquel Welch dropped on top of me. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Thud! Crash! Boom!</td><td align="right"><font class="tiny">(Posted 2003-05-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've completely scrapped my original idea for a physics system and 
+tossed in some wifty verlet integration a la Thomas Jacobsen's "Advanced
+ Character Physics" article on Gamasutra. Verlets ROCK HARD. 100 
+bouncing spinning colliding entities at 60 fps? Yes please!<br><br>So 
+I'm back where I was before, with a physics system that works plus a 
+level-building algo that works; I just need to make the two ends meet. 
+My stubborn insistence that all the moving blocks should be rendered as a
+ single surface doesn't help things any. Speed, speed, speed, it's all 
+about the speed.<br><br>On the up side, now that I have the verlet thing
+ working, actual character interaction with the environment will be VERY
+ easy. Yay for modular code!<br> <br><br> _________________________<br>I'd like to have Raquel Welch dropped on top of me. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blocky worky</td><td align="right"><font class="tiny">(Posted 2003-04-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My block-building engine is complete! Since the entire level is made up
+ of blocks, I've thrown together a routine which consolidates all the 
+"stationary" blocks into a single model with only one surface. In so 
+doing, I've learned quite a bit about Blitz3D's surface and texturing 
+commands.<br><br>Consolidating all the blocks (about 300 on screen at 
+once) into one surface, with a TrisRendered hovering near 3,000, changed
+ my FPS from ~100 to over 600 (!). Even if I clear and rebuild the 
+entire level each frame, FPS stays in the high 300's. Wow. The level is 
+even multitextured with two sets of UV coordinates. I do have to run 
+UpdateNormals on the level to make the lighting turn out right, which 
+drops the FPS to around 150 again, but I'm going to try setting normals 
+while I build the level and see if that speeds it up as much as I think 
+it will.<br><br>My initial tests with the physics system are promising. 
+I'm basically rewriting large parts of it while I'm writing the 
+level-building system so everything is "toight as a toiger."<br><br>Next step: running characters around on the blocks, platform stylee. Mario, eat your heart out.<br> <br><br> _________________________<br>I'd like to have Raquel Welch dropped on top of me. </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>And away we go ...</td><td align="right"><font class="tiny">(Posted 2003-04-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I'm finally getting past the technical-proof stage of my game, so I decided it was time to start the hype engine.<br><br>The
+ game is tentatively titled "R0X," and it's a hybrid 
+adventure/action/puzzle game about an astronaut stranded on a planet 
+made entirely of strange cube-shaped rocks. It'll be a 2D-esque 
+sidescroller, but in 3D.<br><br>So far I've created a method to hide 
+blocks if they're in the middle of a larger group, and I'm just about 
+finished with a semi-realistic physics system (blocks that spin! blocks 
+that collide! blocks that bounce!) and an algorithm which lets me 
+consolidate groups of blocks as a single surface for quicker rendering. 
+It's imperative for me to get the block engine as efficient as possible,
+ since I'll eventually add a backdrop and a bunch of animated 
+characters. Yes, there will be aliens. Oh yes. &lt;evil grin&gt;<br><br>More as it goes ...<br> <br><br> _________________________<br>I'd like to have Raquel Welch dropped on top of me. </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

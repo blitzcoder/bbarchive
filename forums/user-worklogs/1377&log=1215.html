@@ -1,0 +1,60 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Mojokool</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update 30.06.04</td><td align="right"><font class="tiny">(Posted 2004-06-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ - Conituing to work on the editor. I have taken old code from some of 
+my previous editors and updated the code so that it works as a plugin 
+with the main interface.<br><br>- The main interface has worked out 
+really nice. So far all it does is process which plugin to execute. 
+Every aspect of Blitz GE, except for the main interface, is run off it's
+ own plugin to allow for user custimization. For example if the user 
+does not like how the viewports or mesh plugins work then they can 
+simply remove those plugins from the code, add their own viewport and 
+mesh plugins, recompile, and now the editor "should" work as normal but 
+with the user's new customizations.<br><br>//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// <br>//////// TODO LIST <br>//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// <br>------------------------------------------------------------ <br>Started - 23.06.04 <br>Completed - 50% <br>Task - Create a main plugin interface <br>------------------------------------------------------------ <br>Started - 24.06.04 <br>Completed - 26.06.04<br>Task - Create a create primitives plugin <br>------------------------------------------------------------ <br>Started - 25.06.04 <br>Completed - 30% <br>Task - Create a editor viewports plugin <br>------------------------------------------------------------ <br>////////////////////////////////////////////////////////////////////////////////////////////////////////////////////<br> <br><br> - Ron A. Bravo<br>Digital Artist<br>Home Page - www.ronbravo.com<br>Project Page - <a href="http://gobotox.ronbravo.com/" target="_blank">http://gobotox.ronbravo.com</a><br>"Never give up, Never surrender" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update - 25.06.04</td><td align="right"><font class="tiny">(Posted 2004-06-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ - I know have a pretty good working interface. So far the design is 
+really simple but a little confusing. I will need to code plugin samples
+ and provide plugin template so that anyone looking to add to the editor
+ will know how to connect to the system. The main interface so far is 
+really just a function that directs and controls which plugin to run. So
+ far I have created only one plugin that creates another window but 
+thats it.<br><br>- I have also modified the Blitz UI code some what. 
+This modified version of Blitz UI will be needed in order to run the 
+Blitz program properly. I plan on making more modifications to the Blitz
+ UI like hopefully adding popup menu support when I get a chance.<br><br>////////////////////////////////////////////////////////////////////////////////////////////////////////////////////<br>////////	 TODO LIST				<br>////////////////////////////////////////////////////////////////////////////////////////////////////////////////////<br>------------------------------------------------------------<br>Started	  	- 23.06.04 <br>Completed 	- 30% <br>Task		- Create a main plugin interface<br>------------------------------------------------------------<br>Started	  	- 24.06.04 <br>Completed 	- 60% <br>Task		- Create a create primitives plugin<br>------------------------------------------------------------<br>Started	  	- 25.06.04 <br>Completed 	- 0% <br>Task		- Create a editor viewports plugin<br>------------------------------------------------------------<br>////////////////////////////////////////////////////////////////////////////////////////////////////////////////////<br> <br><br> - Ron A. Bravo<br>Digital Artist<br>Home Page - www.ronbravo.com<br>Project Page - <a href="http://gobotox.ronbravo.com/" target="_blank">http://gobotox.ronbravo.com</a><br>"Never give up, Never surrender" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update - 23.06.04</td><td align="right"><font class="tiny">(Posted 2004-06-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ - Started coding the main interface for Blitz GE. So far everything 
+seems to be working OK and the interface is very simple. It is very well
+ commented and flows real nice.<br><br>So far these are the features we are looking to get:<br>- FEATURE LIST<br><br>1. Standard core program inteface control and flow <br>2. Blitz GE standard file format <br>3. Creation of primitives/models/lights <br>4. Standard transform tools. eg, move, rotate, scale <br>5. Modification of standard blitz entities lights, camera, and meshes.<br> <br><br> - Ron A. Bravo<br>Digital Artist<br>Home Page - www.ronbravo.com<br>Project Page - <a href="http://gobotox.ronbravo.com/" target="_blank">http://gobotox.ronbravo.com</a><br>"Never give up, Never surrender" </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update -  21.06.04</td><td align="right"><font class="tiny">(Posted 2004-06-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Welcome one and all to the start of Blitz GE. So far nothing is flushed
+ out at the moment so I thought we'd take the oppurtunity to see who 
+would like to join along and where we should be headed with this 
+project. <br><br>The main goal of this project it to provide the Blitz 
+community with a game editor that is able to accomplish the most common 
+tasks involved with game creation, give visual editing capability to 
+blitz data, provide structured and modular code for others to expand 
+it's capapbilities, and be 100% free. <br><br>- GUI<br><br>I think that 
+the GUI that could be used for the interface should be Blitz UI. It 
+nice, simple to use, supports the most common GUI gadget, and free. If 
+anyone thinks we should use something else feel free to post your 
+suggestions and why would should use your alternative GUI.<br><br>- INTERFACE<br><br>As
+ far as the whole flow of the editor I think the best way to keep this 
+as modular as possible is to have the core program which would just 
+process which user function to go to. All the funtions could be kept in a
+ seperate include file which people in the community could add to. 
+Sounds pretty simple but I'll see if I can provide an example in the 
+next couple of weeks to be more clear.<br><br>- DOCUMENTATION<br>I am 
+not too sure how this will work out but I'm open to suggestion. I do 
+know that a set form of code documentation will need to be established 
+early in the project so that the "official" or main people working on 
+this will have a standard to go by when creating code. As far as other 
+people creating adding there own code, all we should ask is that it be 
+properly documented.<br> <br><br>- FEATURE LIST<br><br>I think we should
+ start off with a feature list of things the editor will need. Keep in 
+mind that the list should be really simple with maybe no more than 5 
+suggestion per person that way we can pick the best ones and get those 
+completed before moving on. <br><br>Here is my feature list:<br><br>1. Standard core program inteface control and flow<br>2. Standard Blitz GE file format for loading and saving<br>3. Standard transform tools. eg, move, rotate, scale <br>4. Editing of Blitz light properties<br>5. Editing of Blitz camera properties<br><br>This
+ is just a simple list to start off with. Even though I think it's still
+ pretty simple I imagine it will take some time to even complete this. 
+Please post your feature list, no more than five, and I think we as a 
+community can vote on what to get done.<br> <br><br> - Ron A. Bravo<br>Digital Artist<br>Home Page - www.ronbravo.com<br>Project Page - <a href="http://gobotox.ronbravo.com/" target="_blank">http://gobotox.ronbravo.com</a><br>"Never give up, Never surrender" </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

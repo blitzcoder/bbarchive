@@ -1,0 +1,74 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Zakk</h1><h1>Pocket Functions</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Color Functions Pt. I</td><td align="right"><font class="tiny">(Posted 2009-12-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ HexColor is like SetColor, but takes a single hex value instead of 
+three seperate Int's (this is the sort of thing that would work GREAT 
+with function overloading).<br><br><pre class="code">'=============================
+'HexColor and Color Constants
+'=============================
+Const COL_BLACK:Int = $, COL_WHITE:Int=1
+Const COL_RED:Int = $FF0000, COL_GREEN:Int = $00FF00, COL_BLUE:Int = $0000FF
+Const COL_YELLOW:Int = $FFFF00, COL_MAGENTA:Int = $FF00FF, COL_CYAN:Int = $00FFFF
+'=============================
+Function HexColor(rgb:Int)
+	Local r:Int = (rgb Shr 16) &amp; $FF
+	Local g:Int = (rgb Shr 8 ) &amp; $FF
+	Local b:Int = (rgb       ) &amp; $FF
+	SetColor r, g, b
+End Function
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Boolean Functions</td><td align="right"><font class="tiny">(Posted 2009-12-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Xor is a logic function missing in Bmax.<br><br>TrueFalse() is mostly for debug purposes.<br><br><pre class="code">'=============================
+Function Xor:Int(a:Int, b:Int)
+	Return (a Or b)And Not(a And b)
+End Function
+'=============================
+Function TrueFalse:String(a:Int)
+	If a = True Then Return "True"
+	Return "False"
+End Function
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>MinMax and Swap</td><td align="right"><font class="tiny">(Posted 2009-12-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> These are pretty self-explanatory<br><br><pre class="code">'=============================
+Function MinMax:Float(min_v:Float Var, max_v:Float Var, v1:Float, v2:Float)
+	min_v=Min(v1, v2)
+	max_v=Max(v1, v2)
+End Function
+'=============================
+Function Swap(v1:Float Var, v2:Float Var)
+	Local temp:Float = v1
+	v1 = v1
+	v2 = temp
+End Function
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Multiple Replace</td><td align="right"><font class="tiny">(Posted 2009-12-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This function lets you do multiple Replace()'s with just one function call :)<br><br><pre class="code">'=============================
+'Replace2 - can either replace a set of substrings with the corresponding replacements (if sub.length = with.length)
+'	or can replace a set of substrings with the SAME replacement (if sub.length &lt;&gt; with.length, only with[0] is considered)
+'=============================
+Function Replace2:String(str:String, sub:String[], with:String[] )
+	Local n:Int
+	If sub.length = with.length
+		For n = 0 To sub.length-1
+			str = Replace(str, sub[n], with[n])
+		Next
+	Else
+		For n = 0 To sub.length-1
+			str = Replace(str, sub[n], with[0])
+		Next
+	EndIf
+	Return str
+End Function
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Trig Conversion Functions</td><td align="right"><font class="tiny">(Posted 2009-12-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">'=============================
+'Rad - converts degrees to radians
+'Deg - converts radians to degrees
+'=============================
+Function Rad:Float(degrees:Float)
+	Return degrees*(2*Pi)/360
+End Function
+'=============================
+Function Deg:Float(radians:Float)
+	Return radians*360/(2*Pi)
+End Function
+'=============================
+</pre> <br><br> --------------------<br>&lt;XtiaeN&gt;: i wear my rollerblades while i hack games, for quick getaways </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,2912 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Alaric</h1><h1>Gaea GUI Creation Tool</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Beta Version</td><td align="right"><font class="tiny">(Posted 2006-12-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I added in a delete button and fixed a few errors.  This version has 
+pretty decent saving abilities for the window that you create, but is 
+still missing quite a bit.  I still want to add in the before mention 
+things, but they won't make it into this version.  I have too many other
+ interesting things to pursue.  If you guys find any errors, then please
+ email me.   <br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;##########Headers.bb##########
+Type rgb
+	Field r,g,b
+End Type
+
+Type lock
+	Field l,r,t,b
+End Type
+
+Type norm
+	Field locks.lock
+	Field x,y
+	Field width,height
+	Field group
+	Field rgb.rgb
+	Field style
+	Field enabled
+	Field hidden
+	Field gadget
+	Field name$
+	Field parent
+	Field parentnorm.norm
+	Field gadgettype
+	Field groupx,groupy
+End Type
+
+Type window
+	Field title$
+	Field norm.norm
+	Field windowstatus
+	Field statustext$
+	Field minwidth
+	Field minheight
+	Field menu
+End Type
+
+Type canvas
+	Field norm.norm
+End Type
+
+Type panel
+	Field norm.norm
+	Field image
+End Type
+
+Type slider
+	Field norm.norm
+	Field value#
+	Field visible
+	Field total
+End Type
+
+Type menu
+	Field title$
+	Field id
+	Field parent
+	Field enabled
+	Field checked
+	Field name$
+End Type
+
+Type toolbar
+	Field norm.norm
+	Field image$
+	Field enable
+	Field tips$
+End Type
+
+Type tabber
+	Field norm.norm
+End Type
+
+Type label
+	Field norm.norm
+	Field title$
+	Field hiddenpanel
+End Type
+
+Type button
+	Field norm.norm
+	Field title$
+	Field state
+End Type
+
+Type textfield
+	Field norm.norm
+End Type
+
+Type textarea
+	Field norm.norm
+	Field style
+	Field flags
+	Field font
+	Field tabs
+	Field locked
+End Type
+
+Type listbox
+	Field norm.norm
+End Type
+
+Type combobox
+	Field norm.norm
+End Type
+
+Type node
+	Field node$
+End Type
+
+Type treeview
+	Field norm.norm
+End Type
+
+Type htmlview
+	Field norm.norm
+	Field starturl$
+End Type
+
+Type progbar
+	Field norm.norm
+	Field value#
+End Type
+
+Type Constant
+	Field name$
+	Field value$
+End Type</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;##########Globals##########
+Global xfield
+Global yfield
+Global widthField
+Global heightField
+Global styleField
+Global enableField
+Global hiddenField
+Global nameField
+Global LockPanel
+Global LockTButton
+Global LockLButton
+Global LockRButton
+Global LockBButton
+Global urlfield
+Global flagsField
+Global tabsField
+Global lockedField
+Global textfield
+Global fontbutton
+Global delbutton
+
+Global cury</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;##########Gaea.bb##########
+Include
+ "Headers.bb"
+Include "Globals.bb"
+
+Const debug=False
+
+If debug=True Then Print "Opening Console"
+
+Const ARROWTOOL=0
+Const WINTOOL=1
+Const CANVASTOOL=2
+Const PANELTOOL=3
+Const SLIDERTOOL=4
+Const MENUTOOL=5
+Const TOOLBARTOOL=6
+Const TABBERTOOL=7
+Const LABELTOOL=8
+Const BUTTONTOOL=9
+Const FIELDTOOL=$A
+Const AREATOOL=$B
+Const LISTTOOL=$C
+Const COMBOTOOL=$D
+Const TREETOOL=$E
+Const HTMLTOOL=$F
+Const PROGTOOL=$10
+
+Global nextgadgetid
+Global selectedgadgetnorm.norm
+Global lastfocus
+Global blitzfocus.norm
+Global lastclickhandeled=False
+
+Global mainwin=CreateWindow("Mainwin",0,100,640,480,0,3)
+	main.norm=New norm
+	locks.lock = New lock
+	rgbs.rgb = New rgb
+	main\locks=locks.lock
+	main\rgb=rgbs
+	main\x=0
+	main\y=100
+	main\width=640
+	main\height=480
+	main\gadget=mainwin
+	main\style=3
+	main\gadgettype=WINTOOL
+	main\name="Mainwin"
+	main\enabled=True
+	
+Global winmain.window=New window
+	winmain\title$="Mainwin"
+	winmain\statustext$="Hello"
+	winmain\minwidth=800
+	winmain\minheight=600
+	winmain\menu=True
+	winmain\norm.norm=main.norm
+	
+Global propwin=CreateWindow("Properties",640,0,160,580,mainwin,17)
+
+Global toolwin=CreateWindow("Toolwin",0,0,640,100,mainwin,21)
+	;Menus
+	mainmenu=WindowMenu(toolwin)
+	filemenu=CreateMenu("&amp;File",0,mainmenu)
+		CreateMenu("E&amp;xit",11,filemenu)
+		CreateMenu("&amp;Save",12,filemenu)
+	;Buttons
+	
+lblbutton=CreateButton("Lbl",0,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+panbutton=CreateButton("Sep",ClientHeight(toolwin)/2,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+selbutton=CreateButton("Sel",ClientHeight(toolwin),0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+buttbutton=CreateButton("But",ClientHeight(toolwin)*1.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+areabutton=CreateButton("Area",ClientHeight(toolwin)*2,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+fieldbutton=CreateButton("Fld",ClientHeight(toolwin)*2.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+canvasbutton=CreateButton("Can",ClientHeight(toolwin)*3,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+htmlbutton=CreateButton("Htm",ClientHeight(toolwin)*3.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+progbarbutton=CreateButton("Pgb",ClientHeight(toolwin)*4,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+combobutton=CreateButton("Cmb",ClientHeight(toolwin)*4.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+listbutton=CreateButton("Lst",ClientHeight(toolwin)*5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+
+Global maketool=ARROWTOOL
+
+selgadg(main\x,main\y)
+makepropwin(WINTOOL)
+
+lastfocus=GetFocus()
+blitzfocus.norm=main.norm
+
+Repeat
+	UpdateWindowMenu(toolwin)
+	WaitEvent()
+	lastclickhandled=False
+	Select EventID()
+	Case $401
+		Select GadgetGroup(EventSource())
+		Case toolwin
+			Select EventSource()
+			Case selbutton
+				maketool=ARROWTOOL
+			Case lblbutton
+				maketool=LABELTOOL
+			Case panbutton
+				maketool=PANELTOOL
+			Case buttbutton
+				maketool=BUTTONTOOL
+			Case areabutton
+				maketool=AREATOOL
+			Case fieldbutton
+				maketool=FIELDTOOL
+			Case canvasbutton
+				maketool=CANVASTOOL
+			Case htmlbutton
+				maketool=HTMLTOOL
+			Case progbarbutton
+				maketool=PROGTOOL
+			Case combobutton
+				maketool=COMBOTOOL
+			Case listbutton
+				maketool=LISTTOOL
+			End Select
+		Case mainwin
+			;print "401"
+			
+;blitzfocus=selgadg(MouseX()-GadgetX(mainwin)-5,MouseY()-GadgetY(mainwin)-30)
+
+			;If blitzfocus &lt;&gt; Null Then handleclick(blitzfocus\gadget)
+		Case propwin
+			selectedgadgetnorm\x=Int(TextFieldText(xfield))
+			selectedgadgetnorm\y=Int(TextFieldText(yfield))
+			selectedgadgetnorm\width=Int(TextFieldText(widthfield))
+			selectedgadgetnorm\height=Int(TextFieldText(heightfield))
+			selectedgadgetnorm\style=Int(TextFieldText(stylefield))
+			selectedgadgetnorm\enabled=Int(TextFieldText(enablefield))
+			selectedgadgetnorm\hidden=Int(TextFieldText(hiddenfield))
+			selectedgadgetnorm\name=TextFieldText(namefield)
+			
+SetGadgetShape(selectedgadgetnorm\gadget,selectedgadgetnorm\x,selectedgadgetnorm\y,selectedgadgetnorm\width,selectedgadgetnorm\height)
+
+			If selectedgadgetnorm\enabled And 
+selectedgadgetnorm\gadgettype&lt;&gt;COMBOTOOL
+				EnableGadget(selectedgadgetnorm\gadget)
+			Else
+				DisableGadget(selectedgadgetnorm\gadget)
+			End If
+			If selectedgadgetnorm\hidden
+				HideGadget(selectedgadgetnorm\gadget)
+			Else
+				ShowGadget(selectedgadgetnorm\gadget)
+			End If
+			Select selectedgadgetnorm\gadgettype
+			Case WINTOOL
+				selectedwindow.window=normofwindow(selectedgadgetnorm.norm)
+			Case LABELTOOL
+				selectedlabel.label=normoflabel(selectedgadgetnorm)
+				selectedlabel\title=TextFieldText(textfield)
+				SetGadgetText(selectedlabel\norm\gadget,selectedlabel\title)
+			Case AREATOOL
+				
+selectedarea.textarea=normoftextarea.textarea(selectedgadgetnorm.norm)
+				If selectedarea &lt;&gt; Null
+					selectedarea\style=Int(TextFieldText(styleField))
+					selectedarea\locked=Int(TextFieldText(lockedfield))
+					selectedarea\tabs=Int(TextFieldText(tabsfield))
+					selectedarea\flags=Int(TextFieldText(flagsfield))
+					If selectedarea\locked Then
+						LockTextArea(selectedgadgetnorm\gadget)
+					Else
+						UnlockTextArea(selectedgadgetnorm\gadget)
+					End If
+					If EventSource()=fontbutton Then
+						selectedfont=RequestFont()
+						If selectedfont Then 
+							selectedarea\font=selectedfont
+							SetTextAreaFont(selectedgadgetnorm\gadget,selectedfont)
+						End If
+					End If
+				End If
+			Case BUTTONTOOL
+				selectedbutton.button=normofbutton(selectedgadgetnorm)
+				selectedbutton\title$=TextFieldText(textField)
+				SetGadgetText(selectedgadgetnorm\gadget,selectedbutton\title)
+			Case HTMLVIEWTOOL
+				selectedHTMLVIEW.htmlview=normofhtmlview(selectedgadgetnorm)
+			End Select
+			If EventSource()=delbutton
+				;Stop
+				Select selectedgadgetnorm\gadgettype
+				Case ARROWTOOL
+					Goto loop
+				Case WINTOOL
+					Notify("Cannont delete Main Window!")
+					Goto loop
+				Case CANVASTOOL
+					Delete normofcanvas.canvas(selectedgagdetnorm.norm)
+				Case PANELTOOL
+					Delete normofpanel(selectedgadgetnorm)
+				Case SLIDERTOOL
+					Delete normofpanel(selectedgadgetnorm)
+				Case TOOLBARTOOL
+					Delete normoftoolbar(selectedgadgetnorm)
+				Case TABBERTOOL
+					Delete normoftabber(selectedgadgetnorm)
+				Case LABELTOOL
+					Delete normoflabel(selectedgadgetnorm)
+				Case BUTTONTOOL
+					Delete normofbutton(selectedgadgetnorm)
+				Case FIELDTOOL
+					Delete normoftextfield(selectedgadgetnorm)
+				Case AREATOOL
+					Delete normoftextarea(selectedgadgetnorm)
+				Case LISTTOOL
+					Delete normoflistbox(selectedgadgetnorm)
+				Case COMBOTOOL
+					Delete normofcombobox(selectedgadgetnorm)
+				Case TREETOOL
+					Delete normoftreeview(selectedgadgetnorm)
+				Case HTMLTOOL
+					Delete normofhtmlview(selectedgadgetnorm)
+				Case PROGTOOL
+					Delete normofprogbar(selectedgadgetnorm)
+				End Select
+				;Stop
+				FreeGadget(selectedgadgetnorm\gadget)
+				Delete selectedgadgetnorm.norm
+				selgadg(0,0)
+				maketool=ARROWTOOL
+				makepropwin(WINTOOL)
+			End If
+		Case lockpanel
+			Select EventSource()
+			Case locktbutton
+				selectedgadgetnorm\locks\t = (selectedgadgetnorm\locks\t+1) Mod(2)
+				
+SetGadgetText(locktbutton,returnlockname(selectedgadgetnorm\locks\t))
+			Case lockrbutton
+				selectedgadgetnorm\locks\r = (selectedgadgetnorm\locks\r+1) Mod(2)
+				
+SetGadgetText(lockrbutton,returnlockname(selectedgadgetnorm\locks\r))
+			Case locklbutton
+				selectedgadgetnorm\locks\l = (selectedgadgetnorm\locks\l+1) Mod(2)
+				
+SetGadgetText(locklbutton,returnlockname(selectedgadgetnorm\locks\l))
+			Case lockbbutton
+				selectedgadgetnorm\locks\b = (selectedgadgetnorm\locks\b+1) Mod(2)
+				
+SetGadgetText(lockbbutton,returnlockname(selectedgadgetnorm\locks\b))
+			End Select
+			If selectedgadgetnorm\gadgettype=LABELTOOL
+				layoutlabel.label=normoflabel.label(selectedgadgetnorm)
+				
+SetGadgetLayout(layoutlabel\hiddenpanel,selectedgadgetnorm\locks\l,selectedgadgetnorm\locks\r,selectedgadgetnorm\locks\t,selectedgadgetnorm\locks\b)
+
+			End If
+			
+SetGadgetLayout(selectedgadgetnorm\gadget,selectedgadgetnorm\locks\l,selectedgadgetnorm\locks\r,selectedgadgetnorm\locks\t,selectedgadgetnorm\locks\b)
+
+		End Select
+	Case $201
+		lastgadget.norm=selectedgadgetnorm.norm
+		selgadg(MouseX()-GadgetX(mainwin)-5,MouseY()-GadgetY(mainwin)-30)
+		If selectedgadgetnorm &lt;&gt; lastgadget Or maketool &lt;&gt; 
+ARROWTOOL
+			;print "201"
+			
+blitzfocus=selgadg(MouseX()-GadgetX(mainwin)-5,MouseY()-GadgetY(mainwin)-30)
+
+			If blitzfocus &lt;&gt; Null Then
+				handleclick(blitzfocus\gadget)
+				lastclickwashandled=True
+			Else
+				;print "Blitzfocus was null!"
+			End If
+		Else
+			selectedgadgetnorm=lastgadget
+			;print "MWAHAHAHA"
+		End If
+	Case $1001
+		Select EventData()
+		Case 11
+			End
+		Case 12
+			savewin()
+		End Select
+	Case $801
+		selgadg(0,0)
+		makepropwin(selectedgadgetnorm\gadgettype)
+		main\x=GadgetX(mainwin)
+		main\y=GadgetY(mainwin)
+		SetGadgetText(xfield,main\x)
+		SetGadgetText(yfield,main\y)
+	Case $802
+		selgadg(0,0)
+		makepropwin(selectedgadgetnorm\gadgettype)
+		main\width=GadgetWidth(mainwin)
+		main\height=GadgetHeight(mainwin)
+		SetGadgetText(widthfield,main\width)
+		SetGadgetText(heightfield,main\height)
+	Case $803
+		End
+	End Select
+	If ActiveWindow()=mainwin
+		If lastfocus &lt;&gt; GetFocus()
+			lastfocus=GetFocus()
+			;print "Checking Focus"
+			checknull.norm=findgadgethandle.norm(lastfocus)
+			If checknull.norm &lt;&gt; Null Then
+				blitzfocus=checknull
+				;print "Focus Changed to: " + Hex$(blitzfocus\gadget)
+			End If
+			handleclick(blitzfocus\gadget)
+			FlushEvents()
+		End If
+	End If
+	.loop
+Forever
+
+Function returnlockname$(locknum)
+	If locknum Then Return "L"
+	Return "U"
+End Function
+
+Function Handleclick(sourcegadget)
+	If Not lastclickhanndled
+		If debug=True Then Print "Handleing Click"
+		lastclickhandled=True
+		If (maketool=ARROWTOOL) And MouseX() &gt; GadgetX(mainwin) And 
+MouseY() &gt; GadgetY(mainwin) And MouseX() &lt; GadgetX(mainwin) + 
+GadgetWidth(mainwin) And MouseY() &lt; GadgetY(mainwin) + 
+GadgetHeight(mainwin)
+			varx=(MouseX()-GadgetX(mainwin))-5
+			vary=(MouseY()-GadgetY(mainwin))-30
+			
+			selgadg(varx,vary)
+			If selectedgadgetnorm\gadget
+				selectedgadgetnorm\groupx=findgroupx%(selectedgadgetnorm)
+				selectedgadgetnorm\groupy=findgroupy%(selectedgadgetnorm)
+			End If
+			makepropwin(selectedgadgetnorm\gadgettype)
+			Return
+		Else
+			checkclick()		
+		End If
+		If ActiveWindow()=propwin Or ActiveWindow()=toolwin Then Return
+	Else
+		;print "Click Already Handled!"
+	End If
+End Function
+
+Function findgadgetnorm.norm(gadgethandle)
+	For norm.norm = Each norm
+		If norm\gadget = gadgethandle Then Return norm.norm
+	Next
+	Return Null
+End Function
+
+Function findgadgethandle.norm(hwndhandle)
+	For norm.norm = Each norm
+		If norm\gadget &lt;&gt; 0
+			If QueryObject(norm\gadget,1)=hwndhandle Then
+				selectedgadgetnorm.norm=norm.norm
+				Return norm.norm
+			End If
+		End If
+	Next
+	Return Null
+End Function
+
+Function makegadget(newx,newy,newwidth,newheight)
+	If debug=True Then Print "Making Gadget: " + maketool
+	;print "Making Gadget: " + MAKETOOL
+	parent=checkgroup(newx,newy)
+	
+	If parent &lt;&gt; mainwin
+	;	calcx=newx-GadgetX(parent)
+	;	calcy=newy-GadgetY(parent)
+		parentpannorm.norm=findgadgetnorm(parent)
+		calcx=newx-parentpannorm\groupx-parentpannorm\x
+		calcy=newy-parentpannorm\groupy-parentpannorm\y
+	Else
+		calcx=newx
+		calcy=newy		
+	End If
+	
+	temprgb.rgb=New rgb
+	templock.lock=New lock
+	tempnorm.norm=New norm
+		tempnorm\x=calcx
+		tempnorm\y=calcy
+		tempnorm\width=newwidth
+		tempnorm\height=newheight
+		tempnorm\parent=parent
+		tempnorm\rgb=temprgb
+		tempnorm\locks=templock
+		tempnorm\gadgettype=maketool
+		tempnorm\enabled=True
+		tempnorm\parentnorm=selectedgadgetnorm
+	
+	Select maketool
+	Case ARROWTOOL
+		Return
+	Case WINTOOL
+		Return 
+	Case CANVASTOOL
+		newcanv=CreateCanvas(calcx,calcy,newwidth,newheight,parent)
+		canvas.canvas = New canvas
+		canvas\norm=tempnorm
+		canvas\norm\gadget=newcanv
+		canvas\norm\name="Canvas"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		SetBuffer(CanvasBuffer(newcanv))
+		Cls
+		Line 0,0,ClientWidth(newcanv),ClientHeight(newcanv)
+		Line ClientWidth(newcanv),0,0,ClientHeight(newcanv)
+		FlipCanvas(newcanv)
+	Case PANELTOOL
+		newpanel=CreatePanel(calcx,calcy,newwidth,newheight,parent,True)
+		panel.panel=New panel
+		panel\norm.norm=tempnorm.norm
+		panel\image=0
+		panel\norm\name="Panel"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		panel\norm\style=True
+		panel\norm\gadget=newpanel
+	Case SLIDERTOOL
+	Case MENUTOOL
+	Case TOOLBARTOOL
+	Case TABBERTOOL
+	Case LABELTOOL
+		newlabel=CreateLabel("New 
+Label",calcx,calcy,newwidth,newheight,parent)
+		label.label = New label
+		label\norm.norm=tempnorm.norm
+		label\norm\name="Label"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		label\norm\style=0
+		label\norm\gadget=newlabel
+		label\title="New Label"
+		
+label\hiddenpanel=CreatePanel(label\norm\x,label\norm\y,label\norm\width,label\norm\height,mainwin,False)
+
+	Case BUTTONTOOL
+		newbutton=CreateButton("New 
+Button",calcx,calcy,newwidth,newheight,parent,1)
+		button.button=New button
+		button\norm.norm=tempnorm.norm
+		button\state=False
+		button\title="New Button"
+		button\norm\gadget=newbutton
+		button\norm\name="Button"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		button\norm\style=1
+	Case FIELDTOOL
+		newfield=CreateTextField(calcx,calcy,newwidth,newheight,parent,False)
+		newtextfield.Textfield=New textfield
+		newtextfield\norm.norm=tempnorm.norm
+		newtextfield\norm\gadget=newfield
+		newtextfield\norm\name="Field"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		newtextfield\norm\style=False
+	Case AREATOOL
+		newarea=CreateTextArea(calcx,calcy,newwidth,newheight,parent,True)
+		textarea.textarea=New textarea
+		textarea\norm.norm=tempnorm.norm
+		textarea\font=LoadFont("Arial",14,False,False,False)
+		SetTextAreaFont(newarea,textarea\font)
+		textarea\flags=0
+		textarea\norm\gadget=newarea
+		textarea\norm\name="Area"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		textarea\norm\style=True
+	Case LISTTOOL
+		newlist=CreateListBox(calcx,calcy,newwidth,newheight,parent)
+		list.listbox=New listbox
+		list\norm=tempnorm
+		list\norm\gadget=newlist
+		list\norm\name="List"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+	Case COMBOTOOL
+		newcombo=CreateComboBox(calcx,calcy,newwidth,newheight,parent)
+		DisableGadget(newcombo)
+		combo.combobox = New combobox
+		combo\norm=tempnorm
+		combo\norm\gadget=newcombo
+		combo\norm\name="Combo"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+	Case TREETOOL
+	Case HTMLTOOL
+		newhtmlview=CreateHtmlView(calcx,calcy,newwidth,newheight,parent)
+		htmlview.htmlview=New htmlview
+		htmlview\norm.norm=tempnorm.norm
+		htmlview\starturl="about:blank"
+		htmlview\norm\gadget=newhtmlview
+		HtmlViewGo(newhtmlview,"about:blank")
+		htmlview\norm\style=0
+		htmlview\norm\name="HTMLView"+nextgadgetid
+	Case PROGTOOL
+		newprogbar=CreateProgBar(calcx,calcy,newwidth,newheight,parent)
+		progbar.progbar=New progbar
+		progbar\norm.norm=tempnorm.norm
+		progbar\value=0
+		progbar\norm\gadget=newprogbar
+		progbar\norm\name="Progbar"+nextgadgetid
+	Default
+		Delete temprgb.rgb
+		Delete templock.lock
+		Delete tempnorm.norm
+		Return
+	End Select
+	If GadgetGroup(tempnorm\gadget) Then
+		tempnorm\groupx=findgroupx(tempnorm)
+		tempnorm\groupy=findgroupy(tempnorm)
+	End If
+	;SetGadgetLayout(tempnorm\gadget,0,0,0,0)
+End Function
+		
+Function makepropwin(base)
+	If debug=True Then Print "Making Prop Win"
+	FreeGadget(propwin)
+	propwin=CreateWindow("Properties",640,0,160,580,0,17)
+	lockpanel=CreatePanel(48,5,64,64,propwin,False)
+	
+locktbutton=CreateButton(returnlockname(selectedgadgetnorm\locks\t),20,0,20,20,lockpanel,1)
+
+	
+locklbutton=CreateButton(returnlockname(selectedgadgetnorm\locks\l),0,20,20,20,lockpanel,1)
+
+	
+lockrbutton=CreateButton(returnlockname(selectedgadgetnorm\locks\r),40,20,20,20,lockpanel,1)
+
+	
+lockbbutton=CreateButton(returnlockname(selectedgadgetnorm\locks\b),20,40,20,20,lockpanel,1)
+
+	cury=72
+	CreateLabel("X",5,cury,50,20,propwin)
+	xfield = CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Y",5,cury,50,20,propwin)
+	yfield=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Width",5,cury,50,20,propwin)
+	widthField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Height",5,cury,50,20,propwin)
+	heightField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Style",5,cury,50,20,propwin)
+	styleField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Enable",5,cury,50,20,propwin)
+	enableField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Hidden",5,cury,50,20,propwin)
+	hiddenField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Name",5,cury,50,20,propwin)
+	nameField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	SetGadgetText(xfield,selectedgadgetnorm\x)
+	SetGadgetText(yfield,selectedgadgetnorm\y)
+	SetGadgetText(widthField,selectedgadgetnorm\width)
+	SetGadgetText(heightField,selectedgadgetnorm\height)
+	SetGadgetText(styleField,selectedgadgetnorm\style)
+	SetGadgetText(enableField,selectedgadgetnorm\enabled)
+	SetGadgetText(hiddenField,selectedgadgetnorm\hidden)
+	SetGadgetText(nameField,selectedgadgetnorm\name)
+	Select base
+	Case WINTOOL
+		selectedgadgetwindow.window=normofwindow.window(selectedgadgetnorm)
+		CreateLabel("Title",5,cury,50,20,propwin)
+		titleField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("Status",5,cury,50,20,propwin)
+		statusField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("MinWidth",5,cury,50,20,propwin)
+		minwidthField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("MinHeight",5,cury,50,20,propwin)
+		minheightField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("Has Menu",5,cury,50,20,propwin)
+		menuField=CreateTextField(65,cury,85,20,propwin)
+		SetGadgetText(titleField,selectedgadgetwindow\title)
+		SetGadgetText(statusField,selectedgadgetwindow\statustext)
+		SetGadgetText(minwidthField,selectedgadgetwindow\minwidth)
+		SetGadgetText(minheightField,selectedgadgetwindow\minheight)
+		SetGadgetText(menuField,selectedgadgetwindow\menu)
+	Case CANVASTOOL
+	Case LABELTOOL
+		selectedgadgetlabel.label=normoflabel(selectedgadgetnorm)
+		textfield=addtextfieldline("Text")
+		SetGadgetText(textfield,selectedgadgetlabel\title)
+	Case BUTTONTOOL
+		selectedgadgetbutton.button=normofbutton.button(selectedgadgetnorm)
+		textfield=addtextfieldline("Text")
+		SetGadgetText(textfield,selectedgadgetbutton\title)
+	Case AREATOOL
+		
+selectedgadgettextarea.textarea=normoftextarea.textarea(selectedgadgetnorm)
+
+		stylefield=addtextfieldline("Style")
+		flagsfield=addtextfieldline("Flags")
+		tabsfield=addtextfieldline("Tabs")
+		lockedfield=addtextfieldline("Locked")
+		SetGadgetText(stylefield,selectedgadgettextarea\style)
+		SetGadgetText(flagsField,selectedgadgettextarea\flags)
+		SetGadgetText(tabsField,selectedgadgettextarea\tabs)
+		SetGadgetText(lockedField,selectedgadgettextarea\locked)
+		fontbutton=addbuttonline("Font")
+	Case HTMLVIEWTOOL
+		selectedgadgethtml.htmlview=normofhtmlview(selectedgadgetnorm)
+		urlfield=addtextfieldline("URL")
+		SetGadgetText(urlfield,selectedgadgethtml\starturl)
+	End Select
+	delbutton=addbuttonline("Delete")
+End Function
+
+Function addtextfieldline(textboxlabel$)
+	CreateLabel(textboxlabel,5,cury,50,20,propwin)
+	rettextfield=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	Return rettextfield
+End Function
+
+Function addbuttonline(buttonlabel$)
+	retbutton=CreateButton(buttonlabel,5,cury,145,20,propwin)
+	cury=cury+25
+	Return retbutton
+End Function
+
+Function checkgroup(checkx,checky)
+	closest=mainwin
+	distance#=dist#(0,0,checkx,checky)
+	;Stop
+	For check.panel = Each panel
+		If ((checkx &gt; check\norm\x+check\norm\groupx) And (checkx &lt; 
+(check\norm\x+check\norm\width+check\norm\groupx))) And ((checky &gt; 
+check\norm\y+check\norm\groupy) And (checky &lt; (check\norm\y + 
+check\norm\height+check\norm\groupy)))
+			
+checkdist#=dist#(check\norm\x+check\norm\groupx,check\norm\y+check\norm\groupy,checkx,checky)
+
+			If checkdist# &lt; distance#
+				closest=check\norm\gadget
+				distance#=dist#(check\norm\x,check\norm\y,checkx,checky)
+				selgadg(checkx,checky)
+			End If
+		End If
+	Next
+	Return closest
+End Function
+			
+Function dist#(x1#,y1#,x2#,y2#)
+	Return Sqr((x1-x2)^2+(y1-y2)^2)
+End Function
+
+Function checkclick()
+	If debug=True Then Print "Checking Click"
+	clickonx=(MouseX()-GadgetX(mainwin))-3
+	clickony=(MouseY()-GadgetY(mainwin))-30
+	origx=MouseX()-1
+	origy=MouseY()
+	backimg=CreateImage(GadgetWidth(mainwin),GadgetHeight(mainwin))
+	SetBuffer(DesktopBuffer())
+	Color 0,0,0
+	
+CopyRect(GadgetX(mainwin),GadgetY(mainwin),GadgetWidth(mainwin),GadgetHeight(mainwin),0,0,DesktopBuffer(),ImageBuffer(backimg))
+
+	While MouseDown(1)
+		If origx&lt;MouseX()
+			largerx=MouseX()-1
+			smallerx=origx
+		Else
+			largerx=origx
+			smallerx=MouseX()-1
+		End If
+
+		If origy&lt;MouseY()
+			largery=MouseY()
+			smallery=origy
+		Else
+			largery=origy
+			smallery=MouseY()
+		End If
+		DrawImage(backimg,GadgetX(mainwin),GadgetY(mainwin))
+		If mouseovergadget(mainwin) Then Rect 
+smallerx,smallery,largerx-smallerx,largery-smallery,False
+		Delay(10)
+	Wend
+	DrawImage(backimg,GadgetX(mainwin),GadgetY(mainwin))
+	FreeImage(backimg)
+	clickoffx=(MouseX()-GadgetX(mainwin))-3
+	clickoffy=(MouseY()-GadgetY(mainwin))-30
+	largerx=clickoffx
+	largery=clickoffy
+	smallerx=clickonx
+	smallery=clickony
+	If clickoffx &lt; clickonx
+		largerx=clickonx
+		smallerx=clickoffx
+	End If
+	If clickoffy &lt; clickony
+		largery=clickony
+		smallery=clickoffy
+	End If
+	If maketool Then 
+makegadget(smallerx,smallery,(largerx-smallerx),(largery-smallery))
+End Function
+
+Function getsavefile$()
+	retname$=RequestFile$("Save As...","bb,*",True)
+	Return retname
+End Function
+
+Function mouseovergadget(testgadget)
+	If MouseX() &lt; GadgetX(testgadget) Then Return False
+	If MouseX() &gt; GadgetX(testgadget)+GadgetWidth(testgadget) Then 
+Return False
+	If MouseY() &lt; GadgetY(testgadget) Then Return False
+	If MouseY() &gt; GadgetY(testgadget)+GadgetHeight(testgadget) Then 
+Return False
+	Return True
+End Function
+
+Function savewin()
+	If debug=True Then Print "Saving Window"
+	fileoutloc$=getsavefile()
+	fileout=WriteFile(fileoutloc)
+	If Not fileout Then Return False
+	For win.window = Each window
+		
+WriteLine(fileout,win\norm\name+"=createwindow("+Chr$(34)+win\title$+Chr$(34)+","+win\norm\x+","+win\norm\y+","+win\norm\width+","+win\norm\height+","+"Desktop()"+","+win\norm\style+")")
+
+		If win\norm\locks\l+win\norm\locks\r+win\norm\locks\t+win\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+win\norm\name+","+win\norm\locks\l+","+win\norm\locks\r+","+win\norm\locks\t+","+win\norm\locks\b+")")
+
+		;print win\norm\name
+	Next
+	For panel.panel = Each panel
+		
+WriteLine(fileout,panel\norm\name+"=createpanel("+panel\norm\x+","+panel\norm\y+","+panel\norm\width+","+panel\norm\height+","+panel\norm\parentnorm\name+","+panel\norm\style+")")
+
+		If 
+panel\norm\locks\l+panel\norm\locks\r+panel\norm\locks\t+panel\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+panel\norm\name+","+panel\norm\locks\l+","+panel\norm\locks\r+","+panel\norm\locks\t+","+panel\norm\locks\b+")")
+
+		;print panel\norm\name
+	Next
+	For canvas.canvas = Each canvas
+		
+WriteLine(fileout,canvas\norm\name+"=createcanvas("+canvas\norm\x+","+canvas\norm\y+","+canvas\norm\width+","+canvas\norm\height+","+canvas\norm\parentnorm\name+","+canvas\norm\style+")")
+
+		If 
+canvas\norm\locks\l+canvas\norm\locks\r+canvas\norm\locks\t+canvas\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+canvas\norm\name+","+canvas\norm\locks\l+","+canvas\norm\locks\r+","+canvas\norm\locks\t+","+canvas\norm\locks\b+")")
+
+		;print canvas\norm\name
+	Next
+	For slider.slider = Each slider
+		
+WriteLine(fileout,slider\norm\name+"=createslider("+slider\norm\x+","+slider\norm\y+","+slider\norm\width+","+slider\norm\height+","+slider\norm\parentnorm\name+","+slider\norm\style+")")
+
+		If 
+slider\norm\locks\l+slider\norm\locks\r+slider\norm\locks\t+slider\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+slider\norm\name+","+slider\norm\locks\l+","+slider\norm\locks\r+","+slider\norm\locks\t+","+slider\norm\locks\b+")")
+
+		;print slider\norm\name
+	Next
+	For toolbar.toolbar = Each toolbar
+;		
+WriteLine(fileout,toolbar\norm\name+"=createtoolbar("+toolbar\norm\x+","+toolbar\norm\y+","+toolbar\norm\width+","+toolbar\norm\height+","+toolbar\norm\parentnorm\name+","+toolbar\norm\style+")")
+
+		If 
+toolbar\norm\locks\l+toolbar\norm\locks\r+toolbar\norm\locks\t+toolbar\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+toolbar\norm\name+","+toolbar\norm\locks\l+","+toolbar\norm\locks\r+","+toolbar\norm\locks\t+","+toolbar\norm\locks\b+")")
+
+		;print toolbar\norm\name
+	Next
+	For label.label = Each label
+		
+WriteLine(fileout,label\norm\name+"=CreateLabel("+Chr$(34)+label\title+Chr$(34)+","+label\norm\x+","+label\norm\y+","+label\norm\width+","+label\norm\height+","+label\norm\parentnorm\name+","+label\norm\style+")")
+
+		If 
+label\norm\locks\l+label\norm\locks\r+label\norm\locks\t+label\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+label\norm\name+","+label\norm\locks\l+","+label\norm\locks\r+","+label\norm\locks\t+","+label\norm\locks\b+")")
+
+		;print label\norm\name
+	Next
+	For tabber.tabber = Each tabber
+		
+WriteLine(fileout,tabber\norm\name+"=createtabber("+tabber\norm\x+","+tabber\norm\y+","+tabber\norm\width+","+tabber\norm\height+","+tabber\norm\parentnorm\name+","+tabber\norm\style+")")
+
+		If 
+tabber\norm\locks\l+tabber\norm\locks\r+tabber\norm\locks\t+tabber\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+tabber\norm\name+","+tabber\norm\locks\l+","+tabber\norm\locks\r+","+tabber\norm\locks\t+","+tabber\norm\locks\b+")")
+
+		;print tabber\norm\name
+	Next
+	For button.button = Each button
+		
+WriteLine(fileout,button\norm\name+"=createbutton("+Chr$(34)+button\title+Chr$(34)+","+button\norm\x+","+button\norm\y+","+button\norm\width+","+button\norm\height+","+button\norm\parentnorm\name+","+button\norm\style+")")
+
+		If 
+button\norm\locks\l+button\norm\locks\r+button\norm\locks\t+button\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+button\norm\name+","+button\norm\locks\l+","+button\norm\locks\r+","+button\norm\locks\t+","+button\norm\locks\b+")")
+
+		;print button\norm\name
+	Next
+	For tfield.textfield = Each textfield
+		
+WriteLine(fileout,tfield\norm\name+"=createtextfield("+tfield\norm\x+","+tfield\norm\y+","+tfield\norm\width+","+tfield\norm\height+","+tfield\norm\parentnorm\name+","+tfield\norm\style+")")
+
+		If 
+tfield\norm\locks\l+tfield\norm\locks\r+tfield\norm\locks\t+tfield\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+tfield\norm\name+","+tfield\norm\locks\l+","+tfield\norm\locks\r+","+tfield\norm\locks\t+","+tfield\norm\locks\b+")")
+
+		;print tfield\norm\name
+	Next
+	For textarea.textarea = Each textarea
+		
+WriteLine(fileout,textarea\norm\name+"=createtextarea("+textarea\norm\x+","+textarea\norm\y+","+textarea\norm\width+","+textarea\norm\height+","+textarea\norm\parentnorm\name+","+textarea\norm\style+")")
+
+		If 
+textarea\norm\locks\l+textarea\norm\locks\r+textarea\norm\locks\t+textarea\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+textarea\norm\name+","+textarea\norm\locks\l+","+textarea\norm\locks\r+","+textarea\norm\locks\t+","+textarea\norm\locks\b+")")
+
+		If textarea\font Then 
+			WriteLine(fileout,"tmpfont=LoadFont 
+"+FontName$(textarea\font)+","+FontHeight(textarea\font)
+			WriteLine(fileout,"SetTextAreaFont "+textarea\norm\name+",tmpfont"
+		End If		
+		If selectedarea\locked Then WriteLine(fileout,"LockTextArea 
+"+textarea\norm\name)
+		If selectedarea\tabs Then WriteLine(fileout,"SetTextAreaTabs " + 
+textarea\norm\name+","+textarea\tabs
+		;print textarea\norm\name
+	Next
+	For listbox.listbox = Each listbox
+		
+WriteLine(fileout,listbox\norm\name+"=createlistbox("+listbox\norm\x+","+listbox\norm\y+","+listbox\norm\width+","+listbox\norm\height+","+listbox\norm\parentnorm\name+","+listbox\norm\style+")")
+
+		If 
+listbox\norm\locks\l+listbox\norm\locks\r+listbox\norm\locks\t+listbox\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+listbox\norm\name+","+listbox\norm\locks\l+","+listbox\norm\locks\r+","+listbox\norm\locks\t+","+listbox\norm\locks\b+")")
+
+		;print listbox\norm\name
+	Next
+	For combobox.combobox = Each combobox
+		
+WriteLine(fileout,combobox\norm\name+"=createcombobox("+combobox\norm\x+","+combobox\norm\y+","+combobox\norm\width+","+combobox\norm\height+","+combobox\norm\parentnorm\name+","+combobox\norm\style+")")
+
+		If 
+combobox\norm\locks\l+combobox\norm\locks\r+combobox\norm\locks\t+combobox\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+combobox\norm\name+","+combobox\norm\locks\l+","+combobox\norm\locks\r+","+combobox\norm\locks\t+","+combobox\norm\locks\b+")")
+
+		;print combobox\norm\name
+	Next
+	For treeview.treeview = Each treeview
+		
+WriteLine(fileout,treeview\norm\name+"=createtreeview("+treeview\norm\x+","+treeview\norm\y+","+treeview\norm\width+","+treeview\norm\height+","+treeview\norm\parentnorm\name+","+treeview\norm\style+")")
+
+		If 
+treeview\norm\locks\l+treeview\norm\locks\r+treeview\norm\locks\t+treeview\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+treeview\norm\name+","+treeview\norm\locks\l+","+treeview\norm\locks\r+","+treeview\norm\locks\t+","+treeview\norm\locks\b+")")
+
+		;print treeview\norm\name
+	Next
+	For htmlview.htmlview = Each htmlview
+		
+WriteLine(fileout,htmlview\norm\name+"=createhtmlview("+htmlview\norm\x+","+htmlview\norm\y+","+htmlview\norm\width+","+htmlview\norm\height+","+htmlview\norm\parentnorm\name+","+htmlview\norm\style+")")
+
+		If 
+htmlview\norm\locks\l+htmlview\norm\locks\r+htmlview\norm\locks\t+htmlview\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+htmlview\norm\name+","+htmlview\norm\locks\l+","+htmlview\norm\locks\r+","+htmlview\norm\locks\t+","+htmlview\norm\locks\b+")")
+
+		
+WriteLine(fileout,"HTMLViewGo("+htmlview\norm\name$+","+Chr$(34)+htmlview\starturl+Chr$(34)+")")
+
+	Next
+	For progbar.progbar = Each progbar
+		
+WriteLine(fileout,progbar\norm\name+"=createprogbar("+progbar\norm\x+","+progbar\norm\y+","+progbar\norm\width+","+progbar\norm\height+","+progbar\norm\parentnorm\name+","+progbar\norm\style+")")
+
+		If 
+progbar\norm\locks\l+progbar\norm\locks\r+progbar\norm\locks\t+progbar\norm\locks\b
+ Then 
+WriteLine(fileout,"setgadgetlayout("+progbar\norm\name+","+progbar\norm\locks\l+","+progbar\norm\locks\r+","+progbar\norm\locks\t+","+progbar\norm\locks\b+")")
+
+		;print progbar\norm\name
+	Next
+	For norm.norm = Each norm
+		If Not norm\enabled Then 
+WriteLine(fileout,"Disablegadget("+norm\name+")")
+		If norm\hidden Then WriteLine(fileout,"HideGadget("+norm\name+")")
+		
+	Next
+	WriteLine(fileout,"")
+	WriteLine(fileout,"Repeat")
+	WriteLine(fileout,"Until Waitevent()=$803")
+	CloseFile(fileout)
+	Return True
+End Function
+	
+Function selgadg.norm(checkx,checky)
+	If debug=True Then Print "Selecting Gagdet"
+	Local closest.norm
+	If KeyDown(44) Then Stop
+	For checkgadg.norm = Each norm
+		If ((checkx &gt;= checkgadg\x+checkgadg\groupx) And (checkx &lt;= 
+checkgadg\x+checkgadg\width+checkgadg\groupx) And (checky &gt;= 
+checkgadg\y+checkgadg\groupy) And (checky &lt;= 
+checkgadg\y+checkgadg\height+checkgadg\groupy)) Or checkgadg\gadget = 
+mainwin
+			
+checkdist#=dist#(checkgadg\x+checkgadg\groupx,checkgadg\y+checkgadg\groupy,checkx,checky)
+
+			If (checkdist# &lt; distance#) And checkgadg\gadget &lt;&gt; mainwin
+				closest.norm=checkgadg.norm
+				distance#=checkdist
+			ElseIf distance = 0
+				closest.norm=winmain\norm.norm
+				distance=dist#(0,0,checkx,checky)
+			End If
+		End If
+	Next
+	
+	If closest.norm &lt;&gt; Null
+		selectedgadgetnorm.norm=closest.norm
+		Return closest.norm
+	End If
+	Return Null
+End Function
+
+Function findgroupx%(gadget.norm)
+	group=gadget\parent
+	If group  &lt;&gt; mainwin
+		While group &lt;&gt; mainwin And group &lt;&gt; 0
+			retx=retx+GadgetX(group)
+			group=GadgetGroup(group)
+		Wend
+	End If
+	Return retx
+End Function
+
+Function findgroupy%(gadget.norm)
+	group=gadget\parent
+	If group &lt;&gt; mainwin
+		While group &lt;&gt; mainwin And group &lt;&gt; 0
+			rety=rety+GadgetY(group)
+			group=GadgetGroup(group)
+		Wend
+	End If
+	Return rety
+End Function
+
+Function normofpanel.panel(find.norm)
+	For panel.panel = Each panel
+		If panel\norm = find.norm Then Return panel.panel
+	Next
+	Return Null
+End Function
+
+Function normofwindow.window(find.norm)
+	For window.window=Each window
+		If window\norm=find.norm Then Return window.window
+	Next
+	Return Null
+End Function
+
+Function normofcanvas.canvas(find.norm)
+	For canvas.canvas=Each canvas
+		If canvas\norm=find.norm Then Return canvas.canvas
+	Next
+	Return Null
+End Function
+
+Function normofslider.slider(find.norm)
+	For slider.slider = Each slider
+		If slider\norm.norm=find.norm Then Return slider
+	Next
+	Return Null
+End Function
+
+Function normoftoolbar.toolbar(find.norm)
+	For toolbar.toolbar = Each toolbar
+		If toolbar\norm=find Then Return toolbar
+	Next
+	Return Null
+End Function
+
+Function normoftabber.tabber(find.norm)
+	For tabber.tabber = Each tabber
+		If tabber\norm = find.norm Then Return tabber
+	Next
+	Return Null
+End Function
+
+Function normoflabel.label(find.norm)
+	For label.label=Each label
+		If label\norm=find.norm Then Return label
+	Next
+	Return Null
+End Function
+
+Function normofbutton.button(find.norm)
+	For button.button=Each button
+		If button\norm=find.norm Then Return button.button
+	Next
+	Return Null
+End Function
+
+Function normoftextfield.textfield(find.norm)
+	For tfield.textfield=Each textfield
+		If tfield\norm=find.norm Then Return tfield.textfield
+	Next
+	Return Null
+End Function
+
+Function normoftextarea.textarea(find.norm)
+	For textarea.textarea=Each textarea
+		If textarea\norm=find.norm Then Return textarea.textarea
+	Next
+	Return Null
+End Function
+
+Function normoflistbox.listbox(find.norm)
+	For listbox.listbox=Each listbox
+		If listbox\norm=find.norm Then Return listbox.listbox
+	Next
+	Return Null
+End Function
+
+Function normofcombobox.combobox(find.norm)
+	For combobox.combobox=Each combobox
+		If combobox\norm=find.norm Then Return combobox.combobox
+	Next
+	Return Null
+End Function
+
+Function normoftreeview.treeview(find.norm)
+	For treeview.treeview=Each treeview
+		If treeview\norm=find.norm Then Return treeview.treeview
+	Next
+	Return Null
+End Function
+
+Function normofhtmlview.htmlview(find.norm)
+	For htmlview.htmlview=Each htmlview
+		If htmlview\norm=find.norm Then Return htmlview.htmlview
+	Next
+	Return Null
+End Function
+
+Function normofprogbar.progbar(find.norm)
+	For progbar.progbar=Each progbar
+		If progbar\norm=find.norm Then Return progbar.progbar
+	Next
+	Return Null
+End Function</textarea> <br><br> -----------------<br>25 Bytes of Rose DNA<br>10011111 01111100 10011011 11011100 01110101 10010111 11001111 01100110 <br>10100010 10001110 01000111 11101011 01000011 01011011 10010101 11010101 <br>10100101 10000001 01100101 01110101 01010111 00100100 01100000 11010100 <br>01000100<br><br>00 = adenine, 01=thymine, 10=cytosine, 11=guanine<br><br><br><a href="http://www.blitzbasic.com/logs/userlog.php?user=9280&amp;log=1399" target="_blank">Gaea  GUI creation tool</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 0.666</td><td align="right"><font class="tiny">(Posted 2006-11-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ O.K. I added in the ability to generate gadget creation code, although 
+you still won't be able to do things such as setting the gadget layouts.
+ I also fixed some major group/panel bugs.  I also added in the new 
+gadgets such as the HTML view and progbar.  I still want to add in a 
+menu creator that is in the form of a web, and I'm still looking for a 
+way to edit the styles of gadgets without having to remake them.  Other 
+then that, the major changes I want to make is adding in more editable 
+features for gadgets other then the main window.  Here's the code.  <br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">##########Headers.bb##########
+Type rgb
+	Field r,g,b
+End Type
+
+Type lock
+	Field l,r,t,b
+End Type
+
+Type norm
+	Field locks.lock
+	Field x,y
+	Field width,height
+	Field group
+	Field rgb.rgb
+	Field style
+	Field enabled
+	Field hidden
+	Field gadget
+	Field name$
+	Field parent
+	Field parentnorm.norm
+	Field gadgettype
+	Field groupx,groupy
+End Type
+
+Type window
+	Field title$
+	Field norm.norm
+	Field windowstatus
+	Field statustext$
+	Field minwidth
+	Field minheight
+	Field menu
+End Type
+
+Type canvas
+	Field norm.norm
+End Type
+
+Type panel
+	Field norm.norm
+	Field image
+End Type
+
+Type slider
+	Field norm.norm
+	Field value#
+	Field visible
+	Field total
+End Type
+
+Type menu
+	Field title$
+	Field id
+	Field parent
+	Field enabled
+	Field checked
+	Field name$
+End Type
+
+Type toolbar
+	Field norm.norm
+	Field image$
+	Field enable
+	Field tips$
+End Type
+
+Type tabber
+	Field norm.norm
+End Type
+
+Type label
+	Field norm.norm
+	Field title$
+	Field hiddenpanel
+End Type
+
+Type button
+	Field norm.norm
+	Field title$
+	Field state
+End Type
+
+Type textfield
+	Field norm.norm
+	Field hiddenpanel
+End Type
+
+Type textarea
+	Field norm.norm
+	Field style
+	Field flags
+	Field font
+	Field tabs
+	Field locked
+End Type
+
+Type listbox
+	Field norm.norm
+End Type
+
+Type combobox
+	Field norm.norm
+End Type
+
+Type node
+	Field node$
+End Type
+
+Type treeview
+	Field norm.norm
+End Type
+
+Type htmlview
+	Field norm.norm
+	Field starturl$
+End Type
+
+Type progbar
+	Field norm.norm
+	Field value#
+End Type
+
+Type Constant
+	Field name$
+	Field value$
+End Type
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">##########Globals.bb##########
+Global xfield
+Global yfield
+Global widthField
+Global heightField
+Global styleField
+Global enableField
+Global hiddenField
+Global nameField
+Global LockPanel
+Global LockTButton
+Global LockLButton
+Global LockRButton
+Global LockBButton
+</textarea><br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">##########Gaea.bb
+ (Main)##########
+Include "Headers.bb"
+Include "Globals.bb"
+Print "Opening Console"
+
+Const ARROWTOOL=0
+Const WINTOOL=1
+Const CANVASTOOL=2
+Const PANELTOOL=3
+Const SLIDERTOOL=4
+Const MENUTOOL=5
+Const TOOLBARTOOL=6
+Const TABBERTOOL=7
+Const LABELTOOL=8
+Const BUTTONTOOL=9
+Const FIELDTOOL=$A
+Const AREATOOL=$B
+Const LISTTOOL=$C
+Const COMBOTOOL=$D
+Const TREETOOL=$E
+Const HTMLTOOL=$F
+Const PROGTOOL=$10
+
+Global windowx,windowy
+Global nextgadgetid
+Global selectedgadgetnorm.norm
+Global lastfocus
+Global blitzfocus.norm
+Global lastclickhandeled=False
+Global mainwin=CreateWindow("Mainwin",0,100,640,480,0,3)
+	main.norm=New norm
+	locks.lock = New lock
+	rgbs.rgb = New rgb
+	main\locks=locks.lock
+	main\rgb=rgbs
+	main\x=0
+	main\y=100
+	main\width=640
+	main\height=480
+	main\gadget=mainwin
+	main\style=3
+	main\gadgettype=WINTOOL
+	main\name="Mainwin"
+	main\enabled=True
+Global winmain.window=New window
+	winmain\title$="Mainwin"
+	winmain\statustext$="Hello"
+	winmain\minwidth=800
+	winmain\minheight=600
+	winmain\menu=True
+	winmain\norm.norm=main.norm
+Global propwin=CreateWindow("Properties",640,0,160,580,mainwin,17)
+Global toolwin=CreateWindow("Toolwin",0,0,640,100,mainwin,21)
+	;Menus
+	mainmenu=WindowMenu(toolwin)
+	filemenu=CreateMenu("&amp;File",0,mainmenu)
+		CreateMenu("E&amp;xit",11,filemenu)
+		CreateMenu("&amp;Save",12,filemenu)
+	;Buttons
+	
+lblbutton=CreateButton("Lbl",0,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+panbutton=CreateButton("Sep",ClientHeight(toolwin)/2,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+selbutton=CreateButton("Sel",ClientHeight(toolwin),0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+buttbutton=CreateButton("But",ClientHeight(toolwin)*1.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+areabutton=CreateButton("Area",ClientHeight(toolwin)*2,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+fieldbutton=CreateButton("Fld",ClientHeight(toolwin)*2.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+canvasbutton=CreateButton("Can",ClientHeight(toolwin)*3,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+htmlbutton=CreateButton("HTM",ClientHeight(toolwin)*3.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+progbarbutton=CreateButton("PGB",ClientHeight(toolwin)*4,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+combobutton=CreateButton("CMB",ClientHeight(toolwin)*4.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+listbutton=CreateButton("LST",ClientHeight(toolwin)*5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+
+Global maketool=ARROWTOOL
+
+selgadg(main\x,main\y)
+makepropwin(WINTOOL)
+
+lastfocus=GetFocus()
+blitzfocus.norm=main.norm
+
+Repeat
+	UpdateWindowMenu(toolwin)
+	lastclickhandled=False
+	WaitEvent()
+	windowx=GadgetX(mainwin)
+	windowy=GadgetY(mainwin)
+	lastclickhandled=False
+	Select EventID()
+	Case $401
+		Select GadgetGroup(EventSource())
+		Case toolwin
+			Select EventSource()
+			Case selbutton
+				maketool=ARROWTOOL
+			Case lblbutton
+				maketool=LABELTOOL
+			Case panbutton
+				maketool=PANELTOOL
+			Case buttbutton
+				maketool=BUTTONTOOL
+			Case areabutton
+				maketool=AREATOOL
+			Case fieldbutton
+				maketool=FIELDTOOL
+			Case canvasbutton
+				maketool=CANVASTOOL
+			Case htmlbutton
+				maketool=HTMLTOOL
+			Case progbarbutton
+				maketool=PROGTOOL
+			Case combobutton
+				maketool=COMBOTOOL
+			Case listbutton
+				maketool=LISTTOOL
+			End Select
+		Case mainwin
+			Print "401"
+			blitzfocus=selgadg(MouseX()-windowx-5,MouseY()-windowy-30)
+			If blitzfocus &lt;&gt; Null Then handleclick(blitzfocus\gadget)
+		Case propwin
+			selectedgadgetnorm\x=Int(TextFieldText(xfield))
+			selectedgadgetnorm\y=Int(TextFieldText(yfield))
+			selectedgadgetnorm\width=Int(TextFieldText(widthfield))
+			selectedgadgetnorm\height=Int(TextFieldText(heightfield))
+			selectedgadgetnorm\style=Int(TextFieldText(stylefield))
+			selectedgadgetnorm\enabled=Int(TextFieldText(enablefield))
+			selectedgadgetnorm\hidden=Int(TextFieldText(hiddenfield))
+			selectedgadgetnorm\name=TextFieldText(namefield)
+			
+SetGadgetShape(selectedgadgetnorm\gadget,selectedgadgetnorm\x,selectedgadgetnorm\y,selectedgadgetnorm\width,selectedgadgetnorm\height)
+
+			If selectedgadgetnorm\enabled
+				EnableGadget(selectedgadgetnorm\gadget)
+			Else
+				DisableGadget(selectedgadgetnorm\gadget)
+			End If
+			If selectedgadgetnorm\hidden
+				HideGadget(selectedgadgetnorm\gadget)
+			Else
+				ShowGadget(selectedgadgetnorm\gadget)
+			End If
+			Select selectedgadgetnorm\gadgettype
+			Case WINTOOL
+				selectedwindow.window=normofwindow(selectedgadgetnorm.norm)
+			;	SetStatusText(selectedgadgetnorm\gadget,selectedwindow\statustext$)
+			End Select
+		Case lockpanel
+			Select EventSource()
+			Case locktbutton
+				selectedgadgetnorm\locks\t = (selectedgadgetnorm\locks\t+1) Mod(2)
+				
+SetGadgetText(locktbutton,returnlockname(selectedgadgetnorm\locks\t))
+			Case lockrbutton
+				selectedgadgetnorm\locks\r = (selectedgadgetnorm\locks\r+1) Mod(2)
+				
+SetGadgetText(lockrbutton,returnlockname(selectedgadgetnorm\locks\r))
+			Case locklbutton
+				selectedgadgetnorm\locks\l = (selectedgadgetnorm\locks\l+1) Mod(2)
+				
+SetGadgetText(locklbutton,returnlockname(selectedgadgetnorm\locks\l))
+			Case lockbbutton
+				selectedgadgetnorm\locks\b = (selectedgadgetnorm\locks\b+1) Mod(2)
+				
+SetGadgetText(lockbbutton,returnlockname(selectedgadgetnorm\locks\b))
+			End Select
+			
+SetGadgetLayout(selectedgadgetnorm\gadget,selectedgadgetnorm\locks\l,selectedgadgetnorm\locks\r,selectedgadgetnorm\locks\t,selectedgadgetnorm\locks\b)
+
+		End Select
+	Case $201
+		lastgadget.norm=selectedgadgetnorm.norm
+		selgadg(MouseX()-windowx-5,MouseY()-windowy-30)
+		If selectedgadgetnorm &lt;&gt; lastgadget Or maketool &lt;&gt; 
+ARROWTOOL
+			Print "201"
+			blitzfocus=selgadg(MouseX()-windowx-5,MouseY()-windowy-30)
+			If blitzfocus &lt;&gt; Null Then
+				handleclick(blitzfocus\gadget)
+			Else
+				Print "Blitzfocus was null!"
+			End If
+		Else
+			Print "MWAHAHAHA"
+		End If
+	Case $1001
+		Select EventData()
+		Case 11
+			End
+		Case 12
+			savewin()
+		End Select
+	Case $802
+		selgadg(0,0)
+		main\width=GadgetWidth(mainwin)
+		main\height=GadgetHeight(mainwin)
+		SetGadgetText(widthfield,main\width)
+		SetGadgetText(heightfield,main\height)
+	Case $803
+		End
+	End Select
+	If ActiveWindow()=mainwin
+		If lastfocus &lt;&gt; GetFocus()
+			lastfocus=GetFocus()
+			Print "Checking Focus"
+			checknull.norm=findgadgethandle.norm(lastfocus)
+			If checknull.norm &lt;&gt; Null Then
+				blitzfocus=checknull
+				Print "Focus Changed to: " + Hex$(blitzfocus\gadget)
+			End If
+			handleclick(blitzfocus\gadget)
+			FlushEvents()
+		End If
+	End If
+Forever
+
+Function returnlockname$(locknum)
+	If locknum Then Return "L"
+	Return "U"
+End Function
+
+Function Handleclick(sourcegadget)
+	If Not lastclickhanndled
+		Print "handeling click"
+		lastclickhandled=True
+		If (maketool=ARROWTOOL) And MouseX() &gt; GadgetX(mainwin) And 
+MouseY() &gt; GadgetY(mainwin) And MouseX() &lt; GadgetX(mainwin) + 
+GadgetWidth(mainwin) And MouseY() &lt; GadgetY(mainwin) + 
+GadgetHeight(mainwin)
+			varx=(MouseX()-windowx)-5
+			vary=(MouseY()-windowy)-30
+			
+			selgadg(varx,vary)
+			makepropwin(selectedgadgetnorm\gadgettype)
+			Return
+		Else
+			checkclick()		
+		End If
+		If ActiveWindow()=propwin Or ActiveWindow()=toolwin Then Return
+	Else
+		Print "Click Already handled!"
+	End If
+End Function
+
+Function findgadgetnorm.norm(gadgethandle)
+	For norm.norm = Each norm
+		If norm\gadget = gadgethandle Then Return norm.norm
+	Next
+	Return Null
+End Function
+
+Function findgadgethandle.norm(hwndhandle)
+	For norm.norm = Each norm
+		If norm\gadget &lt;&gt; 0
+			If QueryObject(norm\gadget,1)=hwndhandle Then
+				selectedgadgetnorm.norm=norm.norm
+				Return norm.norm
+			End If
+		End If
+	Next
+	Return Null
+End Function
+
+Function makegadget(newx,newy,newwidth,newheight)
+	Print "Making Gadget: " + MAKETOOL
+	parent=checkgroup(newx,newy)
+	If parent &lt;&gt; mainwin
+	;	calcx=newx-GadgetX(parent)
+	;	calcy=newy-GadgetY(parent)
+		parentpannorm.norm=findgadgetnorm(parent)
+		calcx=newx-parentpannorm\groupx-parentpannorm\x
+		calcy=newy-parentpannorm\groupy-parentpannorm\y
+	Else
+		calcx=newx
+		calcy=newy		
+	End If
+	temprgb.rgb=New rgb
+	templock.lock=New lock
+	tempnorm.norm=New norm
+		tempnorm\x=calcx
+		tempnorm\y=calcy
+		tempnorm\width=newwidth
+		tempnorm\height=newheight
+		tempnorm\parent=parent
+		tempnorm\rgb=temprgb
+		tempnorm\locks=templock
+		tempnorm\gadgettype=maketool
+		tempnorm\enabled=True
+		tempnorm\parentnorm=selectedgadgetnorm
+	If parent  &lt;&gt; mainwin
+		group=parent
+		While group &lt;&gt; mainwin And group &lt;&gt; 0
+			tempnorm\groupx=tempnorm\groupx+GadgetX(group)
+			tempnorm\groupy=tempnorm\groupy+GadgetY(group)
+			group=GadgetGroup(group)
+		Wend
+	End If
+	
+	Select maketool
+	Case ARROWTOOL
+		Return
+	Case WINTOOL
+		Return 
+	Case CANVASTOOL
+		newcanv=CreateCanvas(calcx,calcy,newwidth,newheight,parent)
+		canvas.canvas = New canvas
+		canvas\norm=tempnorm
+		canvas\norm\gadget=newcanv
+		canvas\norm\name="Canvas"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		SetBuffer(CanvasBuffer(newcanv))
+		Cls
+		Line 0,0,ClientWidth(newcanv),ClientHeight(newcanv)
+		Line ClientWidth(newcanv),0,0,ClientHeight(newcanv)
+		FlipCanvas(newcanv)
+	Case PANELTOOL
+		newpanel=CreatePanel(calcx,calcy,newwidth,newheight,parent,True)
+		panel.panel=New panel
+		panel\norm.norm=tempnorm.norm
+		panel\image=0
+		panel\norm\name="Panel"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		panel\norm\style=True
+		panel\norm\gadget=newpanel
+	Case SLIDERTOOL
+	Case MENUTOOL
+	Case TOOLBARTOOL
+	Case TABBERTOOL
+	Case LABELTOOL
+		newlabel=CreateLabel("New 
+Label",calcx,calcy,newwidth,newheight,parent)
+		label.label = New label
+		label\norm.norm=tempnorm.norm
+		label\norm\name="Label"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		label\norm\style=0
+		label\norm\gadget=newlabel
+		label\title="New Label"
+		
+label\hiddenpanel=CreatePanel(label\norm\x,label\norm\y,label\norm\width,label\norm\height,mainwin,False)
+
+	Case BUTTONTOOL
+		newbutton=CreateButton("New 
+Button",calcx,calcy,newwidth,newheight,parent,1)
+		button.button=New button
+		button\norm.norm=tempnorm.norm
+		button\state=False
+		button\title="New Button"
+		button\norm\gadget=newbutton
+		button\norm\name="Button"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		button\norm\style=1
+	Case FIELDTOOL
+		newfield=CreateTextField(calcx,calcy,newwidth,newheight,parent,False)
+		textfield.Textfield=New textfield
+		textfield\norm.norm=tempnorm.norm
+		textfield\norm\gadget=newfield
+		textfield\norm\name="Field"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		textfield\norm\style=False
+	Case AREATOOL
+		newarea=CreateTextArea(calcx,calcy,newwidth,newheight,parent,True)
+		textarea.textarea=New textarea
+		textarea\norm.norm=tempnorm.norm
+		textarea\font=LoadFont("Arial",14,False,False,False)
+		SetTextAreaFont(newarea,textarea\font)
+		textarea\flags=0
+		textarea\norm\gadget=newarea
+		textarea\norm\name="Area"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		textarea\norm\style=True
+	Case LISTTOOL
+		newlist=CreateListBox(calcx,calcy,newwidth,newheight,parent)
+		list.listbox=New listbox
+		list\norm=tempnorm
+		list\norm\gadget=newlist
+		list\norm\name="List"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+	Case COMBOTOOL
+		newcombo=CreateComboBox(calcx,calcy,newwidth,newheight,parent)
+		combo.combobox = New combobox
+		combo\norm=tempnorm
+		combo\norm\gadget=newcombo
+		combo\norm\name="Combo"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+	Case TREETOOL
+	Case HTMLTOOL
+		newhtmlview=CreateHtmlView(calcx,calcy,newwidth,newheight,parent)
+		htmlview.htmlview=New htmlview
+		htmlview\norm.norm=tempnorm.norm
+		htmlview\starturl="about:blank"
+		htmlview\norm\gadget=newhtmlview
+		HtmlViewGo(newhtmlview,"about:blank")
+		htmlview\norm\style=0
+		htmlview\norm\name="HTMLView"+nextgadgetid
+	Case PROGTOOL
+		newprogbar=CreateProgBar(calcx,calcy,newwidth,newheight,parent)
+		progbar.progbar=New progbar
+		progbar\norm.norm=tempnorm.norm
+		progbar\value=0
+		progbar\norm\gadget=newprogbar
+		progbar\norm\name="Progbar"+nextgadgetid
+	Default
+		Delete temprgb.rgb
+		Delete templock.lock
+		Delete tempnorm.norm
+		Return
+	End Select
+	;SetGadgetLayout(tempnorm\gadget,0,0,0,0)
+End Function
+		
+Function makepropwin(base)
+	FreeGadget(propwin)
+	propwin=CreateWindow("Properties",640,0,160,580,0,17)
+	lockpanel=CreatePanel(48,5,64,64,propwin,False)
+	
+locktbutton=CreateButton(returnlockname(selectedgadgetnorm\locks\t),20,0,20,20,lockpanel,1)
+
+	
+locklbutton=CreateButton(returnlockname(selectedgadgetnorm\locks\l),0,20,20,20,lockpanel,1)
+
+	
+lockrbutton=CreateButton(returnlockname(selectedgadgetnorm\locks\r),40,20,20,20,lockpanel,1)
+
+	
+lockbbutton=CreateButton(returnlockname(selectedgadgetnorm\locks\b),20,40,20,20,lockpanel,1)
+
+	cury=72
+	CreateLabel("X",5,cury,50,20,propwin)
+	xfield = CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Y",5,cury,50,20,propwin)
+	yfield=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Width",5,cury,50,20,propwin)
+	widthField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Height",5,cury,50,20,propwin)
+	heightField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Style",5,cury,50,20,propwin)
+	styleField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Enable",5,cury,50,20,propwin)
+	enableField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Hidden",5,cury,50,20,propwin)
+	hiddenField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Name",5,cury,50,20,propwin)
+	nameField=CreateTextField(65,cury,85,20,propwin)
+	SetGadgetText(xfield,selectedgadgetnorm\x)
+	SetGadgetText(yfield,selectedgadgetnorm\y)
+	SetGadgetText(widthField,selectedgadgetnorm\width)
+	SetGadgetText(heightField,selectedgadgetnorm\height)
+	SetGadgetText(styleField,selectedgadgetnorm\style)
+	SetGadgetText(enableField,selectedgadgetnorm\enabled)
+	SetGadgetText(hiddenField,selectedgadgetnorm\hidden)
+	SetGadgetText(nameField,selectedgadgetnorm\name)
+	cury=cury+25
+	Select base
+	Case WINTOOL
+		selectedgadgetwindow.window=normofwindow.window(selectedgadgetnorm)
+		CreateLabel("Title",5,cury,50,20,propwin)
+		titleField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("Status",5,cury,50,20,propwin)
+		statusField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("MinWidth",5,cury,50,20,propwin)
+		minwidthField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("MinHeight",5,cury,50,20,propwin)
+		minheightField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("Has Menu",5,cury,50,20,propwin)
+		menuField=CreateTextField(65,cury,85,20,propwin)
+		SetGadgetText(titleField,selectedgadgetwindow\title)
+		SetGadgetText(statusField,selectedgadgetwindow\statustext)
+		SetGadgetText(minwidthField,selectedgadgetwindow\minwidth)
+		SetGadgetText(minheightField,selectedgadgetwindow\minheight)
+		SetGadgetText(menuField,selectedgadgetwindow\menu)
+	End Select
+End Function
+
+Function checkgroup(checkx,checky)
+	closest=mainwin
+	distance#=dist#(0,0,checkx,checky)
+	;Stop
+	For check.panel = Each panel
+		If ((checkx &gt; check\norm\x+check\norm\groupx) And (checkx &lt; 
+(check\norm\x+check\norm\width+check\norm\groupx))) And ((checky &gt; 
+check\norm\y+check\norm\groupy) And (checky &lt; (check\norm\y + 
+check\norm\height+check\norm\groupy)))
+			
+checkdist#=dist#(check\norm\x+check\norm\groupx,check\norm\y+check\norm\groupy,checkx,checky)
+
+			If checkdist# &lt; distance#
+				closest=check\norm\gadget
+				distance#=dist#(check\norm\x,check\norm\y,checkx,checky)
+				selgadg(checkx,checky)
+			End If
+		End If
+	Next
+	Return closest
+End Function
+			
+Function dist#(x1#,y1#,x2#,y2#)
+	Return Sqr((x1-x2)^2+(y1-y2)^2)
+End Function
+
+Function checkclick()
+	clickonx=(MouseX()-windowx)-5
+	clickony=(MouseY()-windowy)-30
+	While MouseDown(1):Wend
+	clickoffx=(MouseX()-windowx)-5
+	clickoffy=(MouseY()-windowy)-30
+	largerx=clickoffx
+	largery=clickoffy
+	smallerx=clickonx
+	smallery=clickony
+	If clickoffx &lt; clickonx
+		largerx=clickonx
+		smallerx=clickoffx
+	End If
+	If clickoffy &lt; clickony
+		largery=clickony
+		smallery=clickoffy
+	End If
+	If maketool Then 
+makegadget(smallerx,smallery,(largerx-smallerx),(largery-smallery))
+End Function
+
+Function getsavefile$()
+	retname$=RequestFile$("Save As...","bb,*",True)
+	Return retname
+End Function
+
+Function savewin()
+	fileoutloc$=getsavefile()
+	fileout=WriteFile(fileoutloc)
+	If Not fileout Then Return False
+	For win.window = Each window
+		
+WriteLine(fileout,win\norm\name+"=createwindow("+Chr$(34)+win\title$+Chr$(34)+","+win\norm\x+","+win\norm\y+","+win\norm\width+","+win\norm\height+","+"Desktop()"+","+win\norm\style+")")
+
+		Print win\norm\name
+	Next
+	For panel.panel = Each panel
+		
+WriteLine(fileout,panel\norm\name+"=createpanel("+panel\norm\x+","+panel\norm\y+","+panel\norm\width+","+panel\norm\height+","+panel\norm\parentnorm\name+","+panel\norm\style+")")
+
+		Print panel\norm\name
+	Next
+	For canvas.canvas = Each canvas
+		
+WriteLine(fileout,canvas\norm\name+"=createcanvas("+canvas\norm\x+","+canvas\norm\y+","+canvas\norm\width+","+canvas\norm\height+","+canvas\norm\parentnorm\name+","+canvas\norm\style+")")
+
+		Print canvas\norm\name
+	Next
+	For slider.slider = Each slider
+		
+WriteLine(fileout,slider\norm\name+"=createslider("+slider\norm\x+","+slider\norm\y+","+slider\norm\width+","+slider\norm\height+","+slider\norm\parentnorm\name+","+slider\norm\style+")")
+
+		Print slider\norm\name
+	Next
+	For toolbar.toolbar = Each toolbar
+;		
+WriteLine(fileout,toolbar\norm\name+"=createtoolbar("+toolbar\norm\x+","+toolbar\norm\y+","+toolbar\norm\width+","+toolbar\norm\height+","+toolbar\norm\parentnorm\name+","+toolbar\norm\style+")")
+
+		Print toolbar\norm\name
+	Next
+	For label.label = Each label
+		
+WriteLine(fileout,label\norm\name+"=CreateLabel("+Chr$(34)+label\title+Chr$(34)+","+label\norm\x+","+label\norm\y+","+label\norm\width+","+label\norm\height+","+label\norm\parentnorm\name+","+label\norm\style+")")
+
+		Print label\norm\name
+	Next
+	For tabber.tabber = Each tabber
+		
+WriteLine(fileout,tabber\norm\name+"=createtabber("+tabber\norm\x+","+tabber\norm\y+","+tabber\norm\width+","+tabber\norm\height+","+tabber\norm\parentnorm\name+","+tabber\norm\style+")")
+
+		Print tabber\norm\name
+	Next
+	For button.button = Each button
+		
+WriteLine(fileout,button\norm\name+"=createbutton("+Chr$(34)+button\title+Chr$(34)+","+button\norm\x+","+button\norm\y+","+button\norm\width+","+button\norm\height+","+button\norm\parentnorm\name+","+button\norm\style+")")
+
+		Print button\norm\name
+	Next
+	For textfield.textfield = Each textfield
+		
+WriteLine(fileout,textfield\norm\name+"=createtextfield("+textfield\norm\x+","+textfield\norm\y+","+textfield\norm\width+","+textfield\norm\height+","+textfield\norm\parentnorm\name+","+textfield\norm\style+")")
+
+		Print textfield\norm\name
+	Next
+	For textarea.textarea = Each textarea
+		
+WriteLine(fileout,textarea\norm\name+"=createtextarea("+textarea\norm\x+","+textarea\norm\y+","+textarea\norm\width+","+textarea\norm\height+","+textarea\norm\parentnorm\name+","+textarea\norm\style+")")
+
+		Print textarea\norm\name
+	Next
+	For listbox.listbox = Each listbox
+		
+WriteLine(fileout,listbox\norm\name+"=createlistbox("+listbox\norm\x+","+listbox\norm\y+","+listbox\norm\width+","+listbox\norm\height+","+listbox\norm\parentnorm\name+","+listbox\norm\style+")")
+
+		Print listbox\norm\name
+	Next
+	For combobox.combobox = Each combobox
+		
+WriteLine(fileout,combobox\norm\name+"=createcombobox("+combobox\norm\x+","+combobox\norm\y+","+combobox\norm\width+","+combobox\norm\height+","+combobox\norm\parentnorm\name+","+combobox\norm\style+")")
+
+		Print combobox\norm\name
+	Next
+	For treeview.treeview = Each treeview
+		
+WriteLine(fileout,treeview\norm\name+"=createtreeview("+treeview\norm\x+","+treeview\norm\y+","+treeview\norm\width+","+treeview\norm\height+","+treeview\norm\parentnorm\name+","+treeview\norm\style+")")
+
+		Print treeview\norm\name
+	Next
+	For htmlview.htmlview = Each htmlview
+		Print htmlview\norm\name
+		
+WriteLine(fileout,htmlview\norm\name+"=createhtmlview("+htmlview\norm\x+","+htmlview\norm\y+","+htmlview\norm\width+","+htmlview\norm\height+","+htmlview\norm\parentnorm\name+","+htmlview\norm\style+")")
+
+	Next
+	For progbar.progbar = Each progbar
+		
+WriteLine(fileout,progbar\norm\name+"=createprogbar("+progbar\norm\x+","+progbar\norm\y+","+progbar\norm\width+","+progbar\norm\height+","+progbar\norm\parentnorm\name+","+progbar\norm\style+")")
+
+		Print progbar\norm\name
+	Next
+	WriteLine(fileout,"")
+	WriteLine(fileout,"Repeat")
+	WriteLine(fileout,"Until waitevent()=$803")
+	CloseFile(fileout)
+	Return True
+End Function
+	
+Function selgadg.norm(checkx,checky)
+	Local closest.norm
+	If KeyDown(44) Then Stop
+	For checkgadg.norm = Each norm
+		If ((checkx &gt;= checkgadg\x+checkgadg\groupx) And (checkx &lt;= 
+checkgadg\x+checkgadg\width+checkgadg\groupx) And (checky &gt;= 
+checkgadg\y+checkgadg\groupy) And (checky &lt;= 
+checkgadg\y+checkgadg\height+checkgadg\groupy)) Or checkgadg\gadget = 
+mainwin
+			
+checkdist#=dist#(checkgadg\x+checkgadg\groupx,checkgadg\y+checkgadg\groupy,checkx,checky)
+
+			If (checkdist# &lt; distance#) And checkgadg\gadget &lt;&gt; mainwin
+				closest.norm=checkgadg.norm
+				distance#=checkdist
+			ElseIf distance = 0
+				closest.norm=winmain\norm.norm
+				distance=dist#(0,0,checkx,checky)
+			End If
+		End If
+	Next
+	
+	If closest.norm &lt;&gt; Null
+		selectedgadgetnorm.norm=closest.norm
+		Return closest.norm
+	End If
+	Return Null
+End Function
+
+Function normofpanel.panel(find.norm)
+	For panel.panel = Each panel
+		If panel\norm = find.norm Then Return panel.panel
+	Next
+	Return Null
+End Function
+
+Function normofwindow.window(find.norm)
+	For window.window=Each window
+		If window\norm=find.norm Then Return window.window
+	Next
+	Return Null
+End Function
+
+Function normofcanvas.canvas(find.norm)
+	For canvas.canvas=Each canvas
+		If canvas\norm=find.norm Then Return canvas.canvas
+	Next
+	Return Null
+End Function
+
+Function normofslider.slider(find.norm)
+	For slider.slider = Each slider
+		If slider\norm.norm=find.norm Then Return slider
+	Next
+	Return Null
+End Function
+
+Function normoftoolbar.toolbar(find.norm)
+	For toolbar.toolbar = Each toolbar
+		If toolbar\norm=find Then Return toolbar
+	Next
+	Return Null
+End Function
+
+Function normoftabber.tabber(find.norm)
+	For tabber.tabber = Each tabber
+		If tabber\norm = find.norm Then Return tabber
+	Next
+	Return Null
+End Function
+
+Function normoflabel.label(find.norm)
+	For label.label=Each label
+		If label\norm=find.norm Then Return label
+	Next
+	Return Null
+End Function
+
+Function normofbutton.button(find.norm)
+	For button.button=Each button
+		If button\norm=find.norm Then Return button.button
+	Next
+	Return Null
+End Function
+
+Function normoftextfield.textfield(find.norm)
+	For textfield.textfield=Each textfield
+		If textfield\norm=find.norm Then Return textfield.textfield
+	Next
+	Return Null
+End Function
+
+Function normoftextarea.textarea(find.norm)
+	For textarea.textarea=Each textarea
+		If textarea\norm=find.norm Then Return textarea.textarea
+	Next
+	Return Null
+End Function
+
+Function normoflistbox.listbox(find.norm)
+	For listbox.listbox=Each listbox
+		If listbox\norm=find.norm Then Return listbox.listbox
+	Next
+	Return Null
+End Function
+
+Function normofcombobox.combobox(find.norm)
+	For combobox.combobox=Each combobox
+		If combobox\norm=find.norm Then Return combobox.combobox
+	Next
+	Return Null
+End Function
+
+Function normoftreeview.treeview(find.norm)
+	For treeview.treeview=Each treeview
+		If treeview\norm=find.norm Then Return treeview.treeview
+	Next
+	Return Null
+End Function
+
+Function normofhtmlview.htmlview(find.norm)
+	For htmlview.htmlview=Each htmlview
+		If htmlview\norm=find.norm Then Return htmlview.htmlview
+	Next
+	Return Null
+End Function
+
+Function normofprogbar.progbar(find.norm)
+	For progbar.progbar=Each progbar
+		If progbar\norm=find.norm Then Return progbar.progbar
+	Next
+	Return Null
+End Function
+</textarea> <br><br> -----------------<br>25 Bytes of Rose DNA<br>10011111 01111100 10011011 11011100 01110101 10010111 11001111 01100110 <br>10100010 10001110 01000111 11101011 01000011 01011011 10010101 11010101 <br>10100101 10000001 01100101 01110101 01010111 00100100 01100000 11010100 <br>01000100<br><br>00 = adenine, 01=thymine, 10=cytosine, 11=guanine<br><br><br><a href="http://www.blitzbasic.com/logs/userlog.php?user=9280&amp;log=1399" target="_blank">Gaea  GUI creation tool</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Version 0.333</td><td align="right"><font class="tiny">(Posted 2006-11-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My vision For this project is an open B+ source GUI creation tool.  
+Besides just creating simple B+ code For windows gadgets, I want To add 
+many nonstandard gadgets Not found in B+.  The main improvements I am 
+working on at the moment are adding more editable fields for gadgets.  
+Heres the code so far.  Feel free To make comments on improvements, but 
+remember, this is only a VERY rough version... which means you cannot 
+generate any code yet.  <br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">################Headers.bb#################
+Type
+ rgb
+	Field r,g,b
+End Type
+
+Type lock
+	Field l,r,t,b
+End Type
+
+Type norm
+	Field locks.lock
+	Field x,y
+	Field width,height
+	Field group
+	Field rgb.rgb
+	Field style
+	Field enabled
+	Field hidden
+	Field gadget
+	Field name$
+	Field parent
+	Field gadgettype
+	Field groupx,groupy
+End Type
+
+Type window
+	Field title$
+	Field norm.norm
+	Field windowstatus
+	Field statustext$
+	Field minwidth
+	Field minheight
+	Field menu
+End Type
+
+Type canvas
+	Field norm.norm
+End Type
+
+Type panel
+	Field norm.norm
+	Field image
+End Type
+
+Type slider
+	Field norm.norm
+	Field value#
+	Field visible
+	Field total
+End Type
+
+Type menu
+	Field title$
+	Field id
+	Field parent
+	Field enabled
+	Field checked
+	Field name$
+End Type
+
+Type toolbar
+	Field norm.norm
+	Field image$
+	Field enable
+	Field tips$
+End Type
+
+Type tabber
+	Field norm.norm
+End Type
+
+Type label
+	Field norm.norm
+	Field title$
+	Field hiddenpanel
+End Type
+
+Type button
+	Field norm.norm
+	Field title$
+	Field state
+End Type
+
+Type textfield
+	Field norm.norm
+	Field hiddenpanel
+End Type
+
+Type textarea
+	Field norm.norm
+	Field style
+	Field flags
+	Field font
+	Field tabs
+	Field locked
+End Type
+
+Type listbox
+	Field norm.norm
+End Type
+
+Type combobox
+	Field norm.norm
+End Type
+
+Type node
+	Field node$
+End Type
+
+Type treeview
+	Field norm.norm
+End Type
+
+Type htmlview
+	Field norm.norm
+	Field starturl$
+End Type
+
+Type progbar
+	Field norm.norm
+End Type
+
+Type Constant
+	Field name$
+	Field value$
+End Type
+
+##############Globals.bb###############
+Global xfield
+Global yfield
+Global widthField
+Global heightField
+Global styleField
+Global enableField
+Global hiddenField
+Global nameField
+
+################Gaea.bb###############
+Include "Headers.bb"
+Include "Globals.bb"
+Print "Opening Console"
+
+Const ARROWTOOL=0
+Const WINTOOL=1
+Const CANVASTOOL=2
+Const PANELTOOL=3
+Const SLIDERTOOL=4
+Const MENUTOOL=5
+Const TOOLBARTOOL=6
+Const TABBERTOOL=7
+Const LABELTOOL=8
+Const BUTTONTOOL=9
+Const FIELDTOOL=$A
+Const AREATOOL=$B
+Const LISTTOOL=$C
+Const COMBOTOOL=$D
+Const TREETOOL=$E
+Const HTMLTOOL=$F
+Const PROGTOOL=$10
+
+Global windowx,windowy
+Global nextgadgetid
+Global selectedgadgetnorm.norm
+Global lastfocus
+Global blitzfocus.norm
+Global lastclickhandeled=False
+Global mainwin=CreateWindow("Mainwin",0,100,640,480,0,3)
+	main.norm=New norm
+	locks.lock = New lock
+	rgbs.rgb = New rgb
+	main\locks=locks.lock
+	main\rgb=rgbs
+	main\x=0
+	main\y=100
+	main\width=640
+	main\height=480
+	main\gadget=mainwin
+	main\style=3
+	main\gadgettype=WINTOOL
+	main\name="Mainwin"
+	main\enabled=True
+Global winmain.window=New window
+	winmain\title$="Mainwin"
+	winmain\statustext$="Hello"
+	winmain\minwidth=800
+	winmain\minheight=600
+	winmain\menu=True
+	winmain\norm.norm=main.norm
+Global propwin=CreateWindow("Properties",640,0,160,580,mainwin,17)
+Global toolwin=CreateWindow("Toolwin",0,0,640,100,mainwin,21)
+	;Menus
+	mainmenu=WindowMenu(toolwin)
+	filemenu=CreateMenu("&amp;File",0,mainmenu)
+		CreateMenu("E&amp;xit",11,filemenu)
+	;Buttons
+	
+lblbutton=CreateButton("Lbl",0,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+panbutton=CreateButton("Sep",ClientHeight(toolwin)/2,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+selbutton=CreateButton("Sel",ClientHeight(toolwin),0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+buttbutton=CreateButton("But",ClientHeight(toolwin)*1.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+areabutton=CreateButton("Area",ClientHeight(toolwin)*2,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+fieldbutton=CreateButton("Fld",ClientHeight(toolwin)*2.5,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+	
+canvasbutton=CreateButton("Can",ClientHeight(toolwin)*3,0,ClientHeight(toolwin)/2,ClientHeight(toolwin)/2,toolwin,1)
+
+Global
+ maketool=ARROWTOOL
+
+selgadg(main\x,main\y)
+makepropwin(WINTOOL)
+
+lastfocus=GetFocus()
+blitzfocus.norm=main.norm
+
+Repeat
+	UpdateWindowMenu(toolwin)
+	lastclickhandled=False
+	WaitEvent()
+	windowx=GadgetX(mainwin)
+	windowy=GadgetY(mainwin)
+	lastclickhandled=False
+	Select EventID()
+	Case $401
+		Select GadgetGroup(EventSource())
+		Case toolwin
+			Select EventSource()
+			Case selbutton
+				maketool=ARROWTOOL
+			Case lblbutton
+				maketool=LABELTOOL
+			Case panbutton
+				maketool=PANELTOOL
+			Case buttbutton
+				maketool=BUTTONTOOL
+			Case areabutton
+				maketool=AREATOOL
+			Case fieldbutton
+				maketool=FIELDTOOL
+			Case canvasbutton
+				maketool=CANVASTOOL
+			End Select
+		Case mainwin
+			Print "401"
+			blitzfocus=selgadg(MouseX()-windowx-5,MouseY()-windowy-30)
+			If blitzfocus &lt;&gt; Null Then handleclick(blitzfocus\gadget)
+		Case propwin
+			selectedgadgetnorm\x=Int(TextFieldText(xfield))
+			selectedgadgetnorm\y=Int(TextFieldText(yfield))
+			selectedgadgetnorm\width=Int(TextFieldText(widthfield))
+			selectedgadgetnorm\height=Int(TextFieldText(heightfield))
+			selectedgadgetnorm\style=Int(TextFieldText(stylefield))
+			selectedgadgetnorm\enabled=Int(TextFieldText(enablefield))
+			selectedgadgetnorm\hidden=Int(TextFieldText(hiddenfield))
+			selectedgadgetnorm\name=TextFieldText(namefield)
+			
+SetGadgetShape(selectedgadgetnorm\gadget,selectedgadgetnorm\x,selectedgadgetnorm\y,selectedgadgetnorm\width,selectedgadgetnorm\height)
+
+			If selectedgadgetnorm\enabled
+				EnableGadget(selectedgadgetnorm\gadget)
+			Else
+				DisableGadget(selectedgadgetnorm\gadget)
+			End If
+			If selectedgadgetnorm\hidden
+				HideGadget(selectedgadgetnorm\gadget)
+			Else
+				ShowGadget(selectedgadgetnorm\gadget)
+			End If
+			Select selectedgadgetnorm\gadgettype
+			Case WINTOOL
+				selectedwindow.window=normofwindow(selectedgadgetnorm.norm)
+			;	SetStatusText(selectedgadgetnorm\gadget,selectedwindow\statustext$)
+			End Select
+		End Select
+	Case $201
+		lastgadget.norm=selectedgadgetnorm.norm
+		selgadg(MouseX()-windowx-5,MouseY()-windowy-30)
+		If selectedgadgetnorm &lt;&gt; lastgadget Or maketool &lt;&gt; 
+ARROWTOOL
+			Print "201"
+			blitzfocus=selgadg(MouseX()-windowx-5,MouseY()-windowy-30)
+			If blitzfocus &lt;&gt; Null Then
+				handleclick(blitzfocus\gadget)
+			Else
+				Print "Blitzfocus was null!"
+			End If
+		Else
+			Print "MWAHAHAHA"
+		End If
+	Case $1001
+		Select EventData()
+		Case 11
+			End
+		End Select
+	Case $803
+		End
+	End Select
+	If ActiveWindow()=mainwin
+		If lastfocus &lt;&gt; GetFocus()
+			lastfocus=GetFocus()
+			Print "Checking Focus"
+			checknull.norm=findgadget.norm(lastfocus)
+			If checknull.norm &lt;&gt; Null Then
+				blitzfocus=checknull
+				Print "Focus Changed to: " + Hex$(blitzfocus\gadget)
+			End If
+			handleclick(blitzfocus\gadget)
+			FlushEvents()
+		End If
+	End If
+Forever
+
+Function Handleclick(sourcegadget)
+	If Not lastclickhanndled
+		Print "handeling click"
+		lastclickhandled=True
+		If (maketool=ARROWTOOL) And MouseX() &gt; GadgetX(mainwin) And 
+MouseY() &gt; GadgetY(mainwin) And MouseX() &lt; GadgetX(mainwin) + 
+GadgetWidth(mainwin) And MouseY() &lt; GadgetY(mainwin) + 
+GadgetHeight(mainwin)
+			varx=(MouseX()-windowx)-5
+			vary=(MouseY()-windowy)-30
+			
+			selgadg(varx,vary)
+			makepropwin(selectedgadgetnorm\gadgettype)
+			Return
+		Else
+			checkclick()		
+		End If
+		If ActiveWindow()=propwin Or ActiveWindow()=toolwin Then Return
+	Else
+		Print "Click Already handled!"
+	End If
+End Function
+
+Function findgadget.norm(hwndhandle)
+	For norm.norm = Each norm
+		If norm\gadget &lt;&gt; 0
+			If QueryObject(norm\gadget,1)=hwndhandle Then
+				selectedgadgetnorm.norm=norm.norm
+				Return norm.norm
+			End If
+		End If
+	Next
+	Return Null
+End Function
+
+Function makegadget(newx,newy,newwidth,newheight)
+	Print "Making Gadget: " + MAKETOOL
+	parent=checkgroup(newx,newy)
+	If parent &lt;&gt; mainwin
+		calcx=newx-GadgetX(parent)
+		calcy=newy-GadgetY(parent)
+	Else
+		calcx=newx
+		calcy=newy		
+	End If
+	temprgb.rgb=New rgb
+	templock.lock=New lock
+	tempnorm.norm=New norm
+		tempnorm\x=calcx
+		tempnorm\y=calcy
+		tempnorm\width=newwidth
+		tempnorm\height=newheight
+		tempnorm\parent=parent
+		tempnorm\rgb=temprgb
+		tempnorm\locks=templock
+		tempnorm\gadgettype=maketool
+		tempnorm\enabled=True
+	If parent  &lt;&gt; mainwin
+		group=parent
+		While group &lt;&gt; mainwin And group &lt;&gt; 0
+			tempnorm\groupx=tempnorm\groupx+GadgetX(group)
+			tempnorm\groupy=tempnorm\groupy+GadgetY(group)
+			group=GadgetGroup(group)
+		Wend
+	End If
+;	tempnorm\groupx=tempnorm\groupx+GadgetX(mainwin)
+;	tempnorm\groupy=tempnorm\groupy+GadgetY(mainwin)
+	Select maketool
+	Case ARROWTOOL
+		Return
+	Case WINTOOL
+		Return 
+	Case CANVASTOOL
+		newcanv=CreateCanvas(calcx,calcy,newwidth,newheight,parent)
+		canvas.canvas = New canvas
+		canvas\norm=tempnorm
+		canvas\norm\gadget=newcanv
+		canvas\norm\name="Canvas"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+	Case PANELTOOL
+		newpanel=CreatePanel(calcx,calcy,newwidth,newheight,parent,True)
+		panel.panel=New panel
+		panel\norm.norm=tempnorm.norm
+		panel\image=0
+		panel\norm\name="Panel"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		panel\norm\style=True
+		panel\norm\gadget=newpanel
+	Case SLIDERTOOL
+	Case MENUTOOL
+	Case TOOLBARTOOL
+	Case TABBERTOOL
+	Case LABELTOOL
+		newlabel=CreateLabel("New 
+Label",calcx,calcy,newwidth,newheight,parent)
+		label.label = New label
+		label\norm.norm=tempnorm.norm
+		label\norm\name="Label"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		label\norm\style=0
+		label\norm\gadget=newlabel
+		label\title="New Label"
+		
+label\hiddenpanel=CreatePanel(label\norm\x,label\norm\y,label\norm\width,label\norm\height,mainwin,False)
+
+	Case BUTTONTOOL
+		newbutton=CreateButton("New 
+Button",calcx,calcy,newwidth,newheight,parent,1)
+		button.button=New button
+		button\norm.norm=tempnorm.norm
+		button\state=False
+		button\title="New Button"
+		button\norm\gadget=newbutton
+		button\norm\name="Button"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		button\norm\style=1
+	Case FIELDTOOL
+		newfield=CreateTextField(calcx,calcy,newwidth,newheight,parent,False)
+		textfield.Textfield=New textfield
+		textfield\norm.norm=tempnorm.norm
+		textfield\norm\gadget=newfield
+		textfield\norm\name="Field"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		textfield\norm\style=False
+	Case AREATOOL
+		newarea=CreateTextArea(calcx,calcy,newwidth,newheight,parent,True)
+		textarea.textarea=New textarea
+		textarea\norm.norm=tempnorm.norm
+		textarea\font=LoadFont("Arial",14,False,False,False)
+		SetTextAreaFont(newarea,textarea\font)
+		textarea\flags=0
+		textarea\norm\gadget=newarea
+		textarea\norm\name="Area"+nextgadgetid
+		nextgadgetid=nextgadgetid+1
+		textarea\norm\style=True
+	Case LISTTOOL
+	Case COMBOTOOL
+	Case TREETOOL
+	Case HTMLTOOL
+	Case PROGTOOL
+	Default
+		Delete temprgb.rgb
+		Delete templock.lock
+		Delete tempnorm.norm
+		Return
+	End Select
+End Function
+		
+Function makepropwin(base)
+	FreeGadget(propwin)
+	propwin=CreateWindow("Properties",640,0,160,580,0,17)
+	cury=5
+	CreateLabel("X",5,cury,50,20,propwin)
+	xfield = CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Y",5,cury,50,20,propwin)
+	yfield=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Width",5,cury,50,20,propwin)
+	widthField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Height",5,cury,50,20,propwin)
+	heightField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Style",5,cury,50,20,propwin)
+	styleField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Enable",5,cury,50,20,propwin)
+	enableField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Hidden",5,cury,50,20,propwin)
+	hiddenField=CreateTextField(65,cury,85,20,propwin)
+	cury=cury+25
+	CreateLabel("Name",5,cury,50,20,propwin)
+	nameField=CreateTextField(65,cury,85,20,propwin)
+	SetGadgetText(xfield,selectedgadgetnorm\x)
+	SetGadgetText(yfield,selectedgadgetnorm\y)
+	SetGadgetText(widthField,selectedgadgetnorm\width)
+	SetGadgetText(heightField,selectedgadgetnorm\height)
+	SetGadgetText(styleField,selectedgadgetnorm\style)
+	SetGadgetText(enableField,selectedgadgetnorm\enabled)
+	SetGadgetText(hiddenField,selectedgadgetnorm\hidden)
+	SetGadgetText(nameField,selectedgadgetnorm\name)
+	cury=cury+25
+	Select base
+	Case WINTOOL
+		selectedgadgetwindow.window=normofwindow.window(selectedgadgetnorm)
+		CreateLabel("Title",5,cury,50,20,propwin)
+		titleField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("Status",5,cury,50,20,propwin)
+		statusField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("MinWidth",5,cury,50,20,propwin)
+		minwidthField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("MinHeight",5,cury,50,20,propwin)
+		minheightField=CreateTextField(65,cury,85,20,propwin)
+		cury=cury+25
+		CreateLabel("Has Menu",5,cury,50,20,propwin)
+		menuField=CreateTextField(65,cury,85,20,propwin)
+		SetGadgetText(titleField,selectedgadgetwindow\title)
+		SetGadgetText(statusField,selectedgadgetwindow\statustext)
+		SetGadgetText(minwidthField,selectedgadgetwindow\minwidth)
+		SetGadgetText(minheightField,selectedgadgetwindow\minheight)
+		SetGadgetText(menuField,selectedgadgetwindow\menu)
+	End Select
+End Function
+
+Function checkgroup(checkx,checky)
+	closest=mainwin
+	distance#=dist#(0,0,checkx,checky)
+	;Stop
+	For check.panel = Each panel
+		If ((checkx &gt; check\norm\x) And (checkx &lt; 
+check\norm\x+check\norm\width)) And ((checky &gt; check\norm\y) And 
+(checky &lt; check\norm\y + check\norm\height))
+			checkdist#=dist#(check\norm\x,check\norm\y,checkx,checky)
+			If checkdist# &lt; distance#
+				closest=check\norm\gadget
+				distance#=dist#(check\norm\x,check\norm\y,checkx,checky)
+			End If
+		End If
+	Next
+	Return closest
+End Function
+			
+Function dist#(x1#,y1#,x2#,y2#)
+	Return Sqr((x1-x2)^2+(y1-y2)^2)
+End Function
+
+Function checkclick()
+	clickonx=(MouseX()-windowx)-5
+	clickony=(MouseY()-windowy)-30
+	While MouseDown(1):Wend
+	clickoffx=(MouseX()-windowx)-5
+	clickoffy=(MouseY()-windowy)-30
+	largerx=clickoffx
+	largery=clickoffy
+	smallerx=clickonx
+	smallery=clickony
+	If clickoffx &lt; clickonx
+		largerx=clickonx
+		smallerx=clickoffx
+	End If
+	If clickoffy &lt; clickony
+		largery=clickony
+		smallery=clickoffy
+	End If
+	If maketool Then 
+makegadget(smallerx,smallery,(largerx-smallerx),(largery-smallery))
+End Function
+
+Function selgadg.norm(checkx,checky)
+	Local closest.norm
+	If KeyDown(44) Then Stop
+	For checkgadg.norm = Each norm
+		If ((checkx &gt;= checkgadg\x+checkgadg\groupx) And (checkx &lt;= 
+checkgadg\x+checkgadg\width+checkgadg\groupx) And (checky &gt;= 
+checkgadg\y+checkgadg\groupy) And (checky &lt;= 
+checkgadg\y+checkgadg\height+checkgadg\groupy)) Or checkgadg\gadget = 
+mainwin
+			
+checkdist#=dist#(checkgadg\x+checkgadg\groupx,checkgadg\y+checkgadg\groupy,checkx,checky)
+
+			If (checkdist# &lt; distance#) And checkgadg\gadget &lt;&gt; mainwin
+				closest.norm=checkgadg.norm
+				distance#=checkdist
+			ElseIf distance = 0
+				closest.norm=winmain\norm.norm
+				distance=dist#(0,0,checkx,checky)
+			End If
+		End If
+	Next
+	
+	If closest.norm &lt;&gt; Null
+		selectedgadgetnorm.norm=closest.norm
+		Return closest.norm
+	End If
+	Return Null
+End Function
+
+Function normofpanel.panel(find.norm)
+	For panel.panel = Each panel
+		If panel\norm = find.norm Then Return panel.panel
+	Next
+	Return Null
+End Function
+
+Function normofwindow.window(find.norm)
+	For window.window=Each window
+		If window\norm=find.norm Then Return window.window
+	Next
+	Return Null
+End Function
+
+Function normofcanvas.canvas(find.norm)
+	For canvas.canvas=Each canvas
+		If canvas\norm=find.norm Then Return canvas.canvas
+	Next
+	Return Null
+End Function
+
+Function normofslider.slider(find.norm)
+	For slider.slider = Each slider
+		If slider\norm.norm=find.norm Then Return slider
+	Next
+	Return Null
+End Function
+
+Function normoftoolbar.toolbar(find.norm)
+	For toolbar.toolbar = Each toolbar
+		If toolbar\norm=find Then Return toolbar
+	Next
+	Return Null
+End Function
+
+Function normoftabber.tabber(find.norm)
+	For tabber.tabber = Each tabber
+		If tabber\norm = find.norm Then Return tabber
+	Next
+	Return Null
+End Function
+
+Function normoflabel.label(find.norm)
+	For label.label=Each label
+		If label\norm=find.norm Then Return label
+	Next
+	Return Null
+End Function
+
+Function normofbutton.button(find.norm)
+	For button.button=Each button
+		If button\norm=find.norm Then Return button.button
+	Next
+	Return Null
+End Function
+
+Function normoftextfield.textfield(find.norm)
+	For textfield.textfield=Each textfield
+		If textfield\norm=find.norm Then Return textfield.textfield
+	Next
+	Return Null
+End Function
+
+Function normoftextarea.textarea(find.norm)
+	For textarea.textarea=Each textarea
+		If textarea\norm=find.norm Then Return textarea.textarea
+	Next
+	Return Null
+End Function
+
+Function normoflistbox.listbox(find.norm)
+	For listbox.listbox=Each listbox
+		If listbox\norm=find.norm Then Return listbox.listbox
+	Next
+	Return Null
+End Function
+
+Function normofcombobox.combobox(find.norm)
+	For combobox.combobox=Each combobox
+		If combobox\norm=find.norm Then Return combobox.combobox
+	Next
+	Return Null
+End Function
+
+Function normoftreeview.treeview(find.norm)
+	For treeview.treeview=Each treeview
+		If treeview\norm=find.norm Then Return treeview.treeview
+	Next
+	Return Null
+End Function
+
+Function normofhtmlview.htmlview(find.norm)
+	For htmlview.htmlview=Each htmlview
+		If htmlview\norm=find.norm Then Return htmlview.htmlview
+	Next
+	Return Null
+End Function
+
+Function normofprogbar.progbar(find.norm)
+	For progbar.progbar=Each progbar
+		If progbar\norm=find.norm Then Return progbar.progbar
+	Next
+	Return Null
+End Function
+</textarea> <br><br> -----------------<br>25 Bytes of Rose DNA<br>10011111 01111100 10011011 11011100 01110101 10010111 11001111 01100110 <br>10100010 10001110 01000111 11101011 01000011 01011011 10010101 11010101 <br>10100101 10000001 01100101 01110101 01010111 00100100 01100000 11010100 <br>01000100<br><br>00 = adenine, 01=thymine, 10=cytosine, 11=guanine<br><br><br><a href="http://www.blitzbasic.com/logs/userlog.php?user=9280&amp;log=1399" target="_blank">Gaea  GUI creation tool</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

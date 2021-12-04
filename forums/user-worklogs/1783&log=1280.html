@@ -1,0 +1,138 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Craig Kiesau</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Testing</td><td align="right"><font class="tiny">(Posted 2005-09-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Unfortunately I can't vouch for the ongoing status of the ALSA 
+extensions.  I've made them available to BRL for inclusion, so I guess 
+we'll wait for a Syncmods to see if they make it in there.<br><br>The 
+response for testing has been disappointing to say the least.  While 
+nobody complained of it not working, nobody complained of it not working
+ either :P  Basically not enough of you guys tested it out for me.<br><br>As
+ for packaging, I have a .spec file to build an RPM, and Debs are 
+relatively easy to make too.  The problem however is that BlitzMax 
+requires the user to have permissions to be able to update modules, etc.
+ which they won't do for something that generally must be installed as 
+root.  <br><br>While I can include scripts to modify permissions so 
+everyone can access BlitzMax's folders, this isn't exactly in the spirit
+ of Linux permissions and directories.  Generally stuff within the /usr 
+or /opt folders shouldn't be changed by a regular user.  All the stuff 
+like compiling modules should happen in the user's home, possibly in a 
+nice .BlitzMax folder.<br><br>I'm waiting on the release of the source 
+to the Blitz IDE and compilation tools to see whether this is a viable 
+option - theoretically it's just a matter of pointing everything in the 
+right locations...<br><br>This won't affect packaging for your games of 
+course.  You can still write packages for games, just make sure that any
+ editable files are written to your user's home directory.<br><br>For now though I'm going to concentrate on actually writing a game in BlitzMax.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Freeaudio ALSA and OSS</td><td align="right"><font class="tiny">(Posted 2005-08-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This weekend I intend to finish up the Freeaudio code modifications for ALSA and OSS.<br><br>I
+ actually wrote some code to support aRts while helping out with the 
+Linspire issues, but after the hassles to get it to compile 
+(library/include issues) I'd rather leave the other sound systems out 
+for now.<br><br>I believe that with ALSA I have all the latency issues 
+sorted out - if there are any latency problems these are due to your own
+ ALSA settings - because OSS goes through ALSA now, they will also most 
+likely affect OSS.  You should check your frame count settings as the 
+ALSA libraries will try to use the lowest frame count available.<br><br>My intention is to check for ALSA, and if ALSA cannot be initialised, try OSS.<br><br>I
+ also have the basic .spec file for a BlitzMax RPM.  Once finished, 
+Blitz Research should simply be able to rpmbuild on the .spec file and 
+provide an RPM with only minor modifications.  The RPM should also be 
+cross-distro compatible.<br><br>I am probably going to work with Dan on the Deb files too.<br><br>Once
+ these things are finished I'll be continuing to work on improving the 
+Linux port of Max and probably improving general BlitzMax Audio.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Beautiful music</td><td align="right"><font class="tiny">(Posted 2005-08-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Surprisingly it didn't take that long to get ALSA playing the same as 
+OSS.  It just required some tweaking of the buffers and frames/periods.<br><br>Everything seems to work perfectly too, although I'm a little concerned with latency.<br><br>I think at this stage there might be a slight bit more latency with ALSA than with OSS, but I can't tell for sure.<br><br>I
+ really need people to test it out, so I've created a compiled version 
+of Rockout and tarred it up, which you can download here: <a href="http://www.teamted.net/rockout.tar.gz" target="_blank">http://www.teamted.net/rockout.tar.gz</a>  You'll need to extract it to your BlitzMax samples/hitoro folder as I've not included the media.<br><br>Please email me with any questions or issues.  If it runs OK, make sure to compare it with the OSS executables for latency.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First steps with ALSA</td><td align="right"><font class="tiny">(Posted 2005-08-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've taken the existing freeaudio.cpp file from the Pub mods, and 
+modified the Linux code in there now (using OSS) to use ALSA's PCM 
+support instead. <br><br>It was a pretty rough job, essentially just 
+replacing the ioctl, open and write calls with their ALSA equivalents.  I
+ haven't really looked into how the buffers/frames and threading are 
+working, which is already causing some issues.<br><br>At this stage it 
+does a pretty bad job of playing back audio - you can hear the sounds 
+but they're playing at the wrong speed and a bit distorted.  The actual 
+code itself is stable however - no weird crashes or memory leaks are 
+apparent.<br><br>Obviously the first thing I will be trying to do is fix
+ the actual playback, so we get something that sounds the same and has 
+similar or better latency to the OSS code.  Otherwise I'd like to find a
+ way for it to co-exist with the OSS code, so using ALSA or OSS is at 
+least a matter of preference.<br><br>Once this is done I will be asking for as many people as possible to help test the code.<br><br>Apart
+ from hopefully getting ALSA support into the Freeaudio mod I may try to
+ write another module which adds some additional sound features to the 
+Linux port, such as sound capture.  Hopefully this will encourage some 
+other people to spend some time on expanding audio support for the other
+ platforms too.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz Z-Machine port (Infocom Intepreter)</td><td align="right"><font class="tiny">(Posted 2002-09-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Sorry, been a bit sluggish with the link, I've actually had it ready for about a week.<br><br>So without any further ado, here's the <a href="http://members.xoom.virgilio.it/uncleted/" target="_blank">download page</a>.<br><br>I should perhaps also point out that it DOES include the full source code.<br><br>Enjoy.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz Z-Machine port (Infocom Intepreter)</td><td align="right"><font class="tiny">(Posted 2002-08-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After spending about 10 hours walking through Inform assembly listings 
+(and considering ditching the whole thing), I finally squashed a few 
+bugs, including one very annoying off-by-one bug, which I blame the docs
+ for :P  Now we're getting somewhere.  I've actually had input going for
+ the last day or so, but bugs made it pretty useless... not anymore.<br><br>I
+ can interact with Zork I, ie. look at the mailbox, open it, read the 
+leaflet, go north, etc. and I've got a playable amount of the op-codes 
+supported and tested.  <br><br>There are still a few things to go for 
+getting Z-Code versions 1 through 3 (majority of Infocom games are 
+version 3 apparently) fully supported, saving and loading games and undo
+ support, and then there's the whole interface/text handling/layout 
+stuff.  Not to mention the whole load of bugs I've probably still yet to
+ squash.<br><br>Anyway, I must admit to being pretty pleased with 
+progress so far.  Hopefully I'll have a cleaned up test version with a 
+download available soon...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz Z-Machine port (Infocom Intepreter)</td><td align="right"><font class="tiny">(Posted 2002-08-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The missus slept in for a bit, so I fixed up a few things, resulting in this:<br><br><pre class="code">PRINT :ZORK: The Great Underground Empire - Part I
+Copyright (c) 1980 by Infocom, Inc. All rights reserved.
+ZORK is a trademark of Infocom, Inc.
+Release 
+</pre><br>Seems in my laziness I had left out such important things as abbreviation tables.<br><br>I've
+ also squashed a few more bugs caused by being lazy, and unfortunately 
+created some new bugs too :P  It's chugging along slowly though, adding 
+more op-codes, up to a nice 59k now, with 35 op-codes completed...<br><br>I can see the input handlers just on the horizon.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz Z-Machine port (Infocom Intepreter)</td><td align="right"><font class="tiny">(Posted 2002-08-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Success!  Sort-of...<br><br>Well
+ in the last worklog entry, I promised to get it to the initial Zork 
+text display (ie. ZORK: The Great Underground Empire - Part I) and not 
+to disappoint, I've done almost exactly that :P  Unfortunately my 
+ZString translation function is pretty lazy, so it looks a little dodgy,
+ but here, in amazing cut and paste text glory, is part of the debug 
+dump:<br><br><pre class="code">STOREW 6 (2) Next: 18633
+STORE 16 (35) Next: 18636
+STORE 39 (199) Next: 18639
+STORE 45 (0) Next: 18642
+BRANCHTEST: No Branch
+CALL 25438 - (18650) (18650) (18650)
+PRINT :ZOrkx great underground empire w part iBcopyright ycz dlkc by 6;focomn incm .9l rights reserved
+mbzork A Arademark dinfocomN incmbrElease 
+</pre><br>OK, so you can gather my ZString/ZChar conversion isn't 
+working right, but that should be enough to show some of the progress so
+ far with actually running the ZMachine and interpreting OP-Codes, shown
+ here as Inform(-ish) Assembly language.<br><br>I can tell you that the 
+source code base has grown since the last update, from 6k up to around 
+43k at this point.  The addition comes from implementing and handling 
+some Op-Codes (21 of about 120), and much of the Object handling code, 
+which is probably the nastiest part of the ZMachine.  I've also done my 
+best to support all versions of Z-Machine (1-8) available according to 
+the Standard 1.0 document, which fattens the code up a bit in places.<br><br>At
+ this stage, there are maybe two bugs I'm aware of that need to be 
+sorted out, one is the ZString handling, and the other is possibly 
+byte-array address translation, which as far as I can tell is causing 
+some Ops to write illegal ZMachine addresses.<br><br>Other than those, 
+the major thing remaining for Zork I to run nicely is primarily Input 
+Op-Codes, which I haven't even looked at yet.  Hopefully, other than 
+that, it's not too difficult from here on.<br><br>I'll be pretty busy for a few days, so the next update might take a bit longer.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Blitz Z-Machine port</td><td align="right"><font class="tiny">(Posted 2002-08-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Encouraged by some recent posts on the forums, I'm putting aside my 3D 
+Adventure/RPG engine for the moment to figure out some Z-Machine 
+emulation stuff under Blitz.  Don't go getting any hopes up yet, it's 
+not an altogether straightforward thing, even with some of the 
+documentation I have; which feels like it has been translated from 
+English to Japanese and back again, although I suspect that's something 
+to do with my feeble mind.<br><br>At any rate I have some stuff going at
+ the moment, I'm parsing through the header files, I've figured out 
+Z-strings, using banks for memory emulation, decoded the dictionary, and
+ I've just about got the routine/op-code calling stuff.  There are quite
+ a number of different op-codes to be implemented, thankfully the 
+documentation seems pretty thorough in this respect.<br><br>The main 
+intention here is to get at least Zork I (Infocom Version 2) working, 
+and then maybe look into later releases if I feel inclined.  It's 
+primarily an academic experiment, as such I will probably be making the 
+source available to share my confusion with you all.<br><br>Actually 
+reading up on the Z-Machine has left me pretty impressed with the whole 
+thing, specced out over 20 years ago, with some very clever tricks to 
+work within the limitations of computers at the time, as well as remain 
+portable to the number of systems available back then (as opposed to the
+ almost PC/Windows only world we live in now.)<br><br>Anyway, the next 
+step is to hopefully get enough op-codes working to get the initial Zork
+ text up on screen, at which point I'll probably post another log here.<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

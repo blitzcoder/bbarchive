@@ -1,0 +1,105 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Sweenie</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>OgreRally</td><td align="right"><font class="tiny">(Posted 2005-10-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Since I done a rally-sim in Tokamak and ODE, I felt I had to do it in Newton as well :o)<br><br><img src="285&amp;log=1264_files/ogrescr.html"><br><br><a href="http://www.svenberra.net/OgreDemo.zip" target="_blank">http://www.svenberra.net/OgreDemo.zip</a><br><br> --- Controls ---<br><br> Arrow-keys to accelerate, reverse and steer.<br> Space to flip car(hit space several times)<br> C to toggle skybox<br> S to toggle shadows<br> D to toggle drivetype (RWD, FWD &amp; AWD)<br><br> As usual the friction-handling sucks and this is because<br> of me being a lazy coder and not because of Newton.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Ogre is fun</td><td align="right"><font class="tiny">(Posted 2005-07-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Been playing with Ogre the last days.<br>It's pretty powerful.<br><br>Here are some screenies...<br><br><a href="http://www.svenberra.net/ogre/bsp_b.jpg" target="_blank"><img src="285&amp;log=1264_files/bsp_s.html"></a><a href="http://www.svenberra.net/ogre/terr_b.jpg" target="_blank"><img src="285&amp;log=1264_files/terr_s.html"></a><br><br><a href="http://www.svenberra.net/ogre/cmap_b.jpg" target="_blank"><img src="285&amp;log=1264_files/cmap_s.html"></a><a href="http://www.svenberra.net/ogre/bump_b.jpg" target="_blank"><img src="285&amp;log=1264_files/bump_s.html"></a><br><br><a href="http://www.svenberra.net/ogre/OgreDemo.zip" target="_blank">Download Demos</a> (4.5 Mb)<br>(!!! Exit the demos by pressing Escape, DON'T close the window yourself)<br>The
+ Bumpmap &amp; Terraindemo requires Shadersupport, though the 
+Terraindemo can be modified to work without shaders(See terrain.cfg)<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Ogre, what a beast</td><td align="right"><font class="tiny">(Posted 2005-07-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ While fighting my way through the inner workings of DirectX I managed 
+to gain quite alot of experience to advance a couple of levels.<br>With 
+strengthen confidence and several potions of coffee I decided to once 
+again tackle the beast that has defeated me so many times before.<br>This time I defeated the Ogre and tamed it.<br>(Been playing alot of RPGs lately *grin* )<br><br>Anyway, I wanted to try a different wrapping approach this time.<br>Wrapping
+ an api or something like that is very easy, but what I find most 
+troublesome is all the API-declarations that has to be made to make the 
+wrapped functions available to another language.<br><br>Wrapping 
+everything in Ogre3D would take a lifetime(at least for me) and by the 
+time the wrapper is in a somewhat usable state, man would probably have 
+moved to mars.<br><br>Currently I have wrapped enough in Ogre to create 
+Entities(Models), Cameras, Lights(with shadows),SceneNodes,terrains, 
+paged terrains, BSP-levels and Overlays(HUDs, text and such).<br><br>That took me about 5 hours.<br>To
+ get it working in Blitz3D, Bmax, Visual Basic 6, VB.Net or any other 
+language that supports API-declarations I only need to declare 7 
+API-functions.<br><br>DoCommand(Function$)<br>SetIntParam(Index,Value)<br>SetFloatParam(Index,Value)<br>SetPtrParam(Index,Value)<br>GetIntParam(Index)<br>GetFloatParam(Index)<br>GetPtrParam(Index)<br><br>The application and the DLL shares a buffer of parameters.<br>Before the application tell the DLL to execute a function, the application fills in the necessary parameters in the buffer.<br>The DLL executes the function and return the results(if any) in the buffer.<br><br>This
+ method introduces some overhead, but i've done some tests and the speed
+ difference isn't that much and the ease of wrapping makes it worth it.<br><br>Some sample code...<br><pre class="code">
+SetIntParam(0,ST_INTERIOR)
+SetIntParam(1,True)
+SetPtrParam(0,Null)
+Command("Ogre_Init")
+
+'This will Initialize Ogre.
+'The first parameter tells it to use the BSP SceneManager
+'The second parameter tells it to show the Configuration Dialog at startup
+'The third parameter is a pointer to a window handle.
+'If you supply a handle, Ogre will render into that window instead of creating it's own window.
+
+</pre><br><br>To simplify the above, you can make a function like this.<br><br><pre class="code">Function Ogre_Init(SceneType,ShowDialog,ExtWin:Byte Ptr)
+ SetIntParam(0,SceneType)
+ SetIntParam(1,ShowDialog)
+ SetPtrParam(0,ExtWin)
+ Command("Ogre_Init")
+End Function
+</pre><br><br>Well, I'm gonna get back to work now...<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>DirectX 9 Renderer</td><td align="right"><font class="tiny">(Posted 2005-06-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I finally managed to get skinned meshes working.<br><br><img src="285&amp;log=1264_files/tiny.html"><br><br>Demo -&gt; <a href="http://www.svenberra.net/skinmeshtest.zip" target="_blank">http://www.svenberra.net/skinmeshtest.zip</a><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>DirectX 9 Renderer</td><td align="right"><font class="tiny">(Posted 2005-06-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> It now handles loading of x files.<br>Psionic's dwarf has been equipped with a sword using 3 different materials which are attached to the left hand as a child.<br><img src="285&amp;log=1264_files/Dwarf2.html"><br><br>If you load 50 copies of the dwarf, the same texture will be used but there will be 50 unique meshes.<br>But if you clone the model the cloned models will share the same mesh.<br><br>Like this...<br><pre class="code">Local Dwarf:ModelEntity = ModelEntity.Load("Dwarf.x")
+
+Local DwarfClone:ModelEntity = ModelEntity.Clone(Dwarf)
+</pre><br><br><br>Next step is to support animations and skinmeshes.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>DirectX 9 Renderer</td><td align="right"><font class="tiny">(Posted 2005-06-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Been struggling with a texturemanager which will keep track of all used(and unused) textures.<br>Everything will be handled by managers eventually.<br><br>Here is a demo of it in action...(very simple demo)<br><br><a href="http://www.svenberra.net/DxTest.zip" target="_blank">http://www.svenberra.net/DxTest.zip</a><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Shader is in...</td><td align="right"><font class="tiny">(Posted 2005-05-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Doesn't look like much and needs more work to be easy to use, but at least it's working...<br><img src="285&amp;log=1264_files/Cup.html"><br>(Lighting is done by a shader)<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>DirectX 9 Renderer</td><td align="right"><font class="tiny">(Posted 2005-05-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Since gman has done such an excellent work with his wrapper of Irrlicht I decided to drop my wrapper.<br><br>While
+ waiting for his wrapper I have fiddled with a rendering-engine of my 
+own using DirectX 9 only(Sorry, Mac &amp; Linux owners)<br><br>So far it has worked out pretty well.<br>The engine currently supports...<br><br>* Vertex &amp; Indexbuffers (Using a meshbuilder to simplify the creation of meshes)<br>* Texturesupport (wow!)<br>* Materialsupport<br>* Textrendering(using any windowsfont)<br>* Sprite/2D-rendering support with alpha-blending.<br>* Parent-Child hierarchy of rendered meshes using a Matrixstack.<br><br>To be done(shortly)...<br>* Lights<br>* Shaders(probably HLSL)<br><br>To be done(later on)...<br>* Not decided yet. :)<br><br>Screenshot:<br><img src="285&amp;log=1264_files/BmaxRndr.html"><br><br>Sample sourcecode:<br><pre class="code">Strict
+Import "dxengine.lib"
+Include "DxInclude.bmx"
+
+Graphics 640,480,0
+Local Hwnd:Int = GetActiveWindow()
+
+InitEngine(Hwnd,640,480,0,False,True,True) 'Fullscreen(False), Vertical Sync(True), Hardware(True)
+
+Local Cube:BaseMesh = MeshBuilder.CreateCube(1.0,1.0,1.0,1,1) 
+
+Local BmaxLogo = LoadTexture("B-max.png")
+Local WoodTex = LoadTexture("wood.jpg")
+
+Local Sprite = CreateSprite()
+Local AlphaEnabled = True
+
+Local Font = CreateTextFont(24,"Arial")
+
+SetupCamera(-1,-1,-5,-1,-1,1)
+
+While Not KeyDown(KEY_ESCAPE)
+
+ If KeyHit(KEY_A) Then AlphaEnabled = Not AlphaEnabled
+
+ Clear(0,0,200)
+ BeginScene()
+
+  Cube.TurnLocal(0.01,0.01,0.01)
+  SetTexture(0,WoodTex)
+  Cube.Render()
+
+  SpriteBegin(Sprite,AlphaEnabled)
+   SpriteDraw(Sprite,BmaxLogo,0,0,0,0,MouseX()-225,MouseY()-225,$FFFFFFFF)
+  SpriteEnd(Sprite)
+
+  RenderText(Font,"Press 'A' to toggle Sprite Alphablending",5,5,1.0,1.0,1.0,1.0)
+
+ EndScene()
+
+ FlushMem()
+Wend
+
+ShutdownEngine()
+
+</pre><br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tokamak</td><td align="right"><font class="tiny">(Posted 2004-01-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Don't you just hate when you make a typo somewhere and you can't see it.<br>I was working on the jointlimits last night and couldn't get them to work.<br>Even set them up like in one of the Tokamakdemos and they still wouldn't work.<br>I checked the wrappersource carefully to spot any mistakes but everything was correct.<br><br>I was about to give up when I remebered the DECLS file.<br>It turned out that I had swapped the function declarations and after a quick correction everything worked as it should.<br><br>So when something doesn't work and your about to give up,<br>doublecheck, character by character.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tokamak</td><td align="right"><font class="tiny">(Posted 2004-01-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Currently I'm changing the function names so that it groups them more to it's own class.<br>like, TOKSIM_, TOKRB_, TOKAB_, TOKJOINT_ and TOKGEOM_<br><br>So a simple setyp will look like this...<br><br>TOKSIM_CreateSimulator(1,0,0,-10,0)<br><br>; The Body<br>Rbody1 = TOKRB_Create()<br>TOKRB_AddBox(Rbody1,2.0,2.0,2.0)<br>TOKRB_SetMass(Rbody1,3.0)<br>TOKRB_SetBoxInertiaTensor(Rbody1,2.0,2.0,2.0,3.0)<br>TOKRB_SetPosition(RBody1,0.0,5.0,0.0)<br><br>;The Joint<br><br>Joint1 = TOKJOINT_Create(1,Rbody1,0)<br><br>;The first parameter takes the connection type which is one of...<br>; 1 = RigidBody To World<br>; 2 = RigidBody To RigidBody<br>; 3 = RigidBody To AnimatedBody<br>;The third parameter takes a RigidBody or AnimatedBody<br>; Leave it at 0 if the first connectiontype is used.<br><br>[Edit]<br>Oops! Forgot the jointtype. :-)<br><br>TOKJOINT_SetType(Joint1,1)<br>;The second parameter takes the jointtype<br>;which can be one of...<br>;1 = Ball&amp;Socket<br>;2 = Ball&amp;Socket2(Don't know if working)<br>;3 = Hinge<br>;4 = Slide(Don't know if working either)<br><br>TOKJOINT_SetPositionWorld(Joint1,1.0,1.0,1.0)<br>;Note that it called SetPositionWorld now instead of<br>;SetPositionGlobal<br><br>TOKJOINT_Enable(True)<br>; You can now enable or disable the joint, it's disabled by default.<br><br><br>Things left to do:<br><br>* Position and orientation of Geometry(about the bodies)<br>* Breakage (which makes geometry break loose from the body on impact and become it's own body)<br>* Collisionresponse &amp; Collisioninfo<br>* Collision with arbitrary mesh.(MemoryLeaks has been spotted but the Tokamakguys are on it) <br>* Jointlimits<br>* Materialdefinition and assigning materials to geometry(which handles friction and restitution)<br>* Particles<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tokamak wrapper (part 2)</td><td align="right"><font class="tiny">(Posted 2004-01-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Gaahhh!, I wrote the whole worklog a couple of minutes ago but forgot to set the title so I lost everything I wrote.<br><br>Ok, second attempt.<br><br>--------------------<br><br>The joints should have been done by now, but unfortunately they aren't.<br>I was hoping to have some qualitytime with Blitz and Tokamak during my christmas vacation but it didn't turn out that way.<br><br>I
+ also had some problems with the GetPitch, Yaw and Roll functions. I 
+couldn't get the Quaternion to Euler conversion working correctly. 
+Sudden spins and jerks could appear.<br>However, I got another conversionfunction from Josh Klint and with some slight modifications it's finally working.<br>Thanks Josh!.<br><br>Now the joints.<br><br>There are two types of joints in Tokamak.<br>Balljoints and Hingejoints.<br><br>To
+ simulate a balljoint with your hands, put two fingertips together and 
+keep the fingers straight. Now rotate them but never let the fingertips 
+disconnect.<br>That should give you an idea how balljoints work.<br><br>The hingejoint works just like a hinge.<br><br>But you could also create a hinge by using two balljoints.<br>Again use your fingertips, but this time use two fingers from each hand.<br><br>You can even create a rotor/wheel joint with two balljoints.<br>Take an object that has the shape of a wheel or something.<br>Put
+ a fingertip on each side of the object in the center and now the object
+ is constrained to only rotate around the axis that the fingers lies on.<br>Though I haven't tested this yet, It should work.<br>I've successfully tried it in other physicsengines.<br><br>The next time I should have implemented the joints.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tokamak wrapper</td><td align="right"><font class="tiny">(Posted 2003-12-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Most of the functions for creating rigid &amp; animated bodies are finished.<br>By the way,<br>In
+ Tokamak Rigid Bodies are the bodies that move around, affected either 
+by gravital forces or external forces caused by collision or the user.<br>Animated bodies are static bodies that can only be positioned and rotated by the user.<br><br>I have thought of different ways to handle the objects in Blitz, but have decided to let the users handle this themselves.<br>When calling the function that creates the RB, it simply returns a handle/pointer to the RB.<br>When you want to retrieve info from the RB, just pass this handle to the function of your choice.<br><br>For every collision between two bodies a callback is made with collisioninfo such as...<br>* Pointers to the two bodies that collided<br>* Point of collision, both local and world coordinates<br>* Which geometries that was involved(bodies are made up of one or several primitives called Geometry)<br>* CollisionNormal<br>* Velocity<br>* MaterialIndex of geometry involved<br><br>These values will be put in a list that can be traversed to get the collisionstates.<br>That
+ is, after an update( done using a function called Advance ), these 
+values will be available. Before Tokamak updates again, this list will 
+be cleared.<br><br>Setting up a simple simulation of one Rigid Body and one Animated Body could look like this.<br><br>CreateSimulator(1,1,0.0,-9.8,0.0)<br>;Parameters are:<br>;Nr of RB's, Nr of AB's, Gravity X,Y &amp; Z<br><br>RB = CreateRigidBody()<br>AddRBGeomBox(RB,2.0,2.0,2.0,1.0)<br>;RB, Width, Height, Depth, Mass<br><br>SetRBPosition(RB,0.0,10.0,0.0)<br> Cube = CreateCube()<br><br>AB = CreateAnimatedBody()<br>AddABGeomBox(AB,10.0,2.0,10.0)<br>;AB, Width, Height, Depth<br>SetABPosition(AB,0.0,-5.0,0.0)<br> Floor = CreateCube()<br> ScaleEntity Floor,5,1,5<br> PositionEntity Floor,0,-5,0<br><br>While Not KeyHit(1)<br><br>CurrentTime = MilliSecs()<br>Elapsed# = (CurrentTime-LastTime)/1000.0<br>LastTime = CurrentTime<br><br>Advance(Elapsed#)<br>;Elapsed time in seconds<br><br>PositionEntity Cube,GetRBX#(RB),GetRBY#(RB),GetRBZ#(RB)<br>RotateEntity Cube,GetRBPitch#(RB),GetRBYaw#(RB),GetRBRoll#(RB)<br><br>RenderWorld<br>Flip False<br><br>Wend<br>DestroySimulator()<br>;Notice that I don't need much code to clean up after myself.<br>;Just a single call to DestroySimulator and Tokamak will take care of this. :)<br><br><br>One thing that can feel a little bothersome is the fact<br>that the simulator needs to know how many bodies that will exist before it's created.<br>But remember that this is the maximum nr of bodies you define.<br>If you know that there will only be a maximum of 5 rigid bodies then you just set this value to 5.<br>If you know that there will be a nr of 1 to 300 bodies, then you set the value to 300.<br>Settings this value higher than it needs to be will only waste your memory.<br>You can't change this value while the simulator is running.<br>If you want to do this, you'll have to destroy the simulator and recreate and reposition all the bodies again.<br><br>When destroying(freeing) the simulator, all bodies and joints created will automatically be destroyed by Tokamak.<br>Likewise if you destroy a rigidbody, every object created by this body will be destroyed.<br><br>You can also use Tokamak to handle particles. Nice :)<br><br>Next time I will report the progress of the joints.<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

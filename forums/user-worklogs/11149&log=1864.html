@@ -1,0 +1,813 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>        <script type="text/javascript" async="" src="11149&amp;log=1864_files/ga.js"></script><script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34362789-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        </script></head><body>
+			
+			<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Aussie</h1><h1>3D Snake</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 6 &amp; 7, Project finished</td><td align="right"><font class="tiny">(Posted 2012-12-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Found a font i was happy with.<br><br>Decided to go with a scoreboard type setup for displaying the score &amp; high score.<br><img src="11149&amp;log=1864_files/Scoreboards_zps80873ab1.webp"><br><br>Made some images for the title screen &amp; displaying information.<br><br>Decided not to add any sound fx &amp; music to this version of the game, it would take up way to much time for this version.<br><br>This version was about me finishing a project by doing something i could get done in a relatively short period of time.<br><br>The next version will be more complected &amp; have a different spin on the game.<br><br>I will have to create a simple world editor first so that will be the next project i work on when i get the chance. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 5</td><td align="right"><font class="tiny">(Posted 2012-12-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Made some small ferns.<br><br>Made some rocks.<br><br>Finished the arena.<br><br>Made a model for the snake &amp; textures.<br><br>Made a new pickup.<br><br>Decided to go with a nighttime feel.<br><br><img src="11149&amp;log=1864_files/Snake_v1.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Day 4</td><td align="right"><font class="tiny">(Posted 2012-12-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I managed to get back into it again &amp; thought I would make an
+ Arena for the play area. I decided to go with a forest theme &amp; make
+ the boundaries of the play area fallen trees. The outsides of the play 
+area will be tree ferns, small ferns, rocks &amp; moss.<br><br>So far I have managed to make some low poly tree ferns &amp; the arena. I am pretty happy with the way they have turned out.<br><br>All models have been made with Blender.<br><br>Tree fern<br><img src="11149&amp;log=1864_files/Treefern_Blender.webp"><br><br>The Arena<br>[IMG <img src="11149&amp;log=1864_files/Arena.webp"><br>]<br>Aena with tree ferns added<br><img src="11149&amp;log=1864_files/Arena_Blender.webp"><br><br>Arena in Blitz3d<br><img src="11149&amp;log=1864_files/snake1.webp"> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>End of day 3</td><td align="right"><font class="tiny">(Posted 2012-11-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Think i am done for the day.<br><br>Added a simple high score recording system.<br><br>Added a start screen with a simple menu.<br><br>Added a fade out fade, fade in effect between the start screen &amp; the game.<br><br>Changed the colour of the pickups.<br><br>Changed the arena floor &amp; colour.<br><br>Changed the colour of the snake &amp; changed the head segment of the snake.<br><br>Removed
+ the collisions from the first segment of the snake, had a couple of 
+problems with it. It's not needed with the first few body parts anyway.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics3D 800,600,0,2
+
+SetBuffer BackBuffer()
+
+
+Global H_Snake.Snake
+Global Snake.Snake
+Global a.arena
+Global Player_col = 1
+Global Arena_col = 2
+Global Body_col = 3
+Global X% = 11
+Global seg% = 0
+Global pickup_avalable = 0
+Global gamestate% = 0
+Global speed# = .2
+Global Turnspeed# = 5
+Global Score% = 0
+Global Highscore%
+Global File_Hscore
+Global Fade_Obj
+Global Alpha# = 0
+Global Fade = 0
+
+
+Global Camera_piv
+Global camera
+
+
+
+
+Collisions Player_col,Arena_col,2,1
+Collisions Player_Col,Body_col,1,1
+
+;Load high score
+
+If ReadFile("Hscore.dat") = 0 Then
+	HighScore% = 100
+	Else File_Hscore = ReadFile("Hscore.dat")
+	HighScore = ReadInt(File_Hscore)
+End If
+
+
+Light= CreateLight()
+	RotateEntity light,90,0,0
+;camera = CreateCamera()
+	;PositionEntity camera,25,20,-25
+	;RotateEntity camera,45,45,0
+plane = CreateCube()
+	ScaleEntity plane,25,1,25
+	EntityColor plane,100,100,100
+	PositionEntity plane,0,-2.5,0
+
+
+Camera_piv = CreatePivot()
+	
+camera = CreateCamera(Camera_piv)
+	PositionEntity Camera_piv,0,0,0
+	RotateEntity camera,45,45,0
+	PositionEntity camera,25,20,-25
+	
+Fade_Obj = CreateSphere(20,camera)
+	;PositionEntity Fade_Obj,EntityX(camera,True),EntityZ(camera,True),EntityZ(camera,True)
+	ScaleEntity Fade_Obj,2,2,2
+	EntityColor Fade_obj,0,0,0
+	FlipMesh Fade_obj
+	EntityAlpha Fade_Obj,Alpha
+	
+		
+
+Create_arean()
+
+Start_Screen()
+
+
+Create_player()
+	
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;main loop;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+While Not KeyDown (1)
+
+Alpha = Alpha - .025
+EntityAlpha Fade_Obj,Alpha
+If Alpha &lt;= 0 Then alpha = 0
+
+
+	Update_player()
+	Update_pickup()
+	
+	
+	LimitFrameRate(60)
+	
+
+	
+	UpdateWorld
+	RenderWorld
+	
+
+	Update_Scores()
+	
+	
+
+	Flip
+	
+Wend
+
+End
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;End main loop;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type Snake 
+	;Field xpos# 
+	;Field zpos#
+	Field Entity
+	Field Bodytype
+	Field posx#,posy#,posz#
+	Field Waycount%
+	Field WayX#[11],WayZ#[11],WayR#[11]
+End Type
+
+
+Function Create_player()
+	
+	;the first entity is GLOBAL, because we will need it again individual:
+	H_Snake.Snake = New Snake
+		H_Snake\Entity = CreateSphere(20)
+		ScaleEntity H_Snake\Entity,1,1,2
+		EntityType H_Snake\Entity,1
+		EntityColor H_Snake\Entity,150,255,0
+		;PositionEntity H_Snake\Entity,0,0,-15
+		
+		For i%=0 To seg% 
+			Snake.Snake = New Snake
+			Snake\Bodytype = 2
+			Snake\Entity = CreateSphere()
+			EntityColor Snake\Entity,150,255,0
+			PositionEntity Snake\Entity,0,0,0
+			;EntityRadius Snake\Entity,1
+			;EntityType Snake\Entity,3
+		Next
+		For i%=seg% + 1 To seg% + 1
+			Snake.Snake = New Snake
+			Snake\Bodytype = 3
+			Snake\Entity = CreateCone()
+			RotateMesh Snake\Entity,-90,0,0
+			EntityColor Snake\Entity,150,255,0
+			EntityRadius Snake\Entity,.5
+			EntityType Snake\Entity,3
+		Next
+
+End Function
+
+
+Function Update_player()
+	Local locX#,locZ#, locRot#
+
+		MoveEntity H_Snake\Entity,0,0,Speed
+		If KeyDown(203) Then
+			TurnEntity H_Snake\Entity,0,Turnspeed,0
+	
+		ElseIf KeyDown(205) Then
+			TurnEntity H_Snake\Entity,0,-Turnspeed,0
+		EndIf
+		
+		If EntityCollided(H_Snake\Entity,Arena_col) Then
+			Game_over()
+		End If                            
+	
+		
+		If EntityCollided(H_Snake\Entity,Body_col) Then
+			Game_over()
+		End If
+				
+		
+		
+	For Snake.Snake = Each Snake
+		;this is important: A FIFO-stack 
+		;new waypoint will "sink down" during 10 Updates
+		
+		
+		Snake\Waycount% = x%
+		For i% = Snake\Waycount% To 1 Step -1
+			Snake\WayZ[i]=Snake\WayZ[i-1]
+			Snake\WayX[i]=Snake\WayX[i-1]
+			Snake\WayR[i]=Snake\WayR[i-1]
+		Next
+
+		; following segments will get there values from the segment before:
+		If Snake&lt;&gt;H_Snake	
+			PositionEntity Snake\Entity,locX,0,locZ
+			RotateEntity Snake\Entity,0,locRot,0
+		EndIf
+
+		;new position will become new waypoint on top:
+		Snake\WayZ[0]=EntityZ(Snake\Entity,True)
+		Snake\WayX[0]=EntityX(Snake\Entity,True)
+		Snake\WayR[0]=EntityYaw(Snake\Entity,True)
+
+		; keep oldest waypoint of this segment for the next segments
+		locZ=Snake\WayZ[Snake\Waycount%]
+		locX=Snake\WayX[Snake\Waycount%]
+		locRot=Snake\WayR[Snake\Waycount%]
+					
+	Next
+	
+	
+End Function
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type pickup
+	Field P_mesh
+	Field x#
+	Field z#
+	Field y#
+End Type
+
+
+
+;creates the pickup witin a playing area
+	
+Function Create_pickup()
+
+	p.pickup = New pickup
+	p\P_mesh = CreateSphere()
+		EntityColor p\P_mesh,0,255,255
+		;ScaleEntity p\P_mesh,1,.5,.5
+	SeedRnd MilliSecs()
+	p\x = Rnd(-22,22)
+	p\z = Rnd(-22,22)
+	p\y = 0
+		
+	PositionEntity p\P_mesh,p\x,p\y,p\z
+	
+	pickup_avalable = 1
+	
+End Function
+
+
+
+
+;checks to see if a pickup has been colected &amp; adds a new segment to the snake body
+		
+Function Update_pickup()
+
+	If pickup_avalable = 0 Then
+	Create_pickup()
+	End If
+	For p.pickup = Each pickup
+		If EntityDistance (p\P_mesh,H_Snake\Entity) &lt; 1.5 Then
+		FreeEntity p\P_mesh
+		Delete p
+		pickup_avalable = 0
+		
+		Score = Score + 10
+		seg = seg + 1
+				
+;this deletes the old tail and replaces it then moves the new body part to the old tails location 	
+		For Snake.Snake = Each Snake
+		
+			Local nx#,ny#,nz#
+				
+			If Snake\Bodytype = 3
+				FreeEntity Snake\Entity
+				Snake\Entity = CreateSphere()
+				EntityColor Snake\Entity,150,255,0
+				PositionEntity Snake\Entity ,posx#,-10,posz#
+				Snake\Bodytype = 2
+				EntityRadius Snake\Entity,1
+				EntityType Snake\Entity,3
+			EndIf
+			
+		Next
+				
+		For i%=seg To seg 
+			Snake.Snake = New Snake
+			Snake\Entity = CreateCone()
+			Snake\Bodytype = 3
+			RotateMesh Snake\Entity,-90,0,0
+			PositionEntity Snake\Entity ,0,-10,0
+			EntityColor Snake\Entity,150,255,0
+			EntityRadius Snake\Entity,.5
+			EntityType Snake\Entity,3
+
+			Next
+		End If
+	Next
+	
+End Function
+	
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;	
+Type arena
+	Field mesh
+End Type
+
+; creating the play area
+Function Create_arean()
+	
+	a.arena = New arena
+		a\mesh = CreateCube()
+		ScaleEntity a\mesh,25,5,1
+		EntityColor a\mesh,255,0,0
+		PositionEntity a\mesh,0,0,25
+		EntityType a\mesh,2
+		
+	a.arena = New arena
+		a\mesh = CreateCube()
+		ScaleEntity a\mesh,25,5,1
+		EntityColor a\mesh,255,0,0
+		PositionEntity a\mesh,0,0,-25
+		EntityType a\mesh,2
+		
+	a.arena = New arena
+		a\mesh = CreateCube()
+		ScaleEntity a\mesh,1,5,26
+		EntityColor a\mesh,255,0,0
+		PositionEntity a\mesh,25,0,0
+		EntityType a\mesh,2
+		
+	a.arena = New arena
+		a\mesh = CreateCube()
+		ScaleEntity a\mesh,1,5,26
+		EntityColor a\mesh,255,0,0
+		PositionEntity a\mesh,-25,0,0
+		EntityType a\mesh,2
+		
+End Function
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;Limits the framerate;;;;;;;;;;;;;;
+Function LimitFrameRate(FPS = 65)
+
+	If FrameTime = 0 Then
+		Period = 1000 / FPS
+		FrameTime = MilliSecs()
+	EndIf
+
+	While (FrameTime + Period) &gt; MilliSecs()
+			Delay 1
+	Wend
+	FrameTime = MilliSecs()
+	
+End Function
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;Game over display then exits the game;;;;;;;;;;;;;;;;;;;;;
+Function Game_over()
+	FlushKeys()
+		File_Hscore = WriteFile("Hscore.dat")
+		WriteInt(File_Hscore,HighScore)
+		CloseFile File_Hscore
+	Repeat 
+		Text 380,280,"GAME OVER!"
+		Text 340,300,"Press any key to exit"
+	Flip
+	
+		Until WaitKey()
+	End
+	
+End Function
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Scoring &amp; High Score;;;;;;;;;;;;;;;;;;;;;;;
+Function Update_Scores()
+
+	If Score &gt; HighScore Then 
+		HighScore = Score
+	EndIf 
+
+	Text 10,10,"High Score: " + HighScore	
+	Text 10,25,"     Score: " + Score%
+
+End Function
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Start game menu;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;simple menu. Checks state for display, alpha &amp; start the game
+
+Function Start_Screen()
+
+State% = 0
+Start% = 0
+
+
+	Repeat
+	
+		
+		If KeyHit(23) Then
+			State = 1
+			FlushKeys()
+		End If
+		
+		If State = 0 Then
+			If KeyHit(1) End
+			If KeyHit(57) Then Fade = 1
+			FlushKeys()
+		End If 
+		 	 
+		
+		If State = 1 Then
+			If KeyHit(1) State = 0
+			FlushKeys()
+		
+		End If
+		
+		TurnEntity Camera_piv,0,.5,0
+		If fade = 1 Then
+			Alpha = alpha + .025
+			If alpha =&gt; 1 alpha = 1
+				EntityAlpha Fade_Obj,Alpha
+			If alpha = 1 Then Start = 1
+		End If 
+				
+	LimitFrameRate(60)
+	
+	UpdateWorld
+	RenderWorld
+	
+	If State = 0 Then
+	 	Text 400,140,"Press (I) for instructions.",True
+		Text 400,200,"Press Spacebar to start game.",True
+		Text 400,260,"Press Escape to quit.",True
+	End If
+	
+		
+	If State = 1 Then
+		Text 400,140,"Use the Left &amp; Right arrow keys to turn.",True
+		Text 400,152,"Colect as many pieces of food as you can.",True
+		Text 400,164,"If you hit a wall or yourself the game is over.",True
+		Text 400,176,"Try to beat your best top score.",True
+		Text 400,236,"The current high score is: " + Highscore,True
+		Text 400,296,"Press Escape to go back to main menu.",True
+
+	End If 
+	
+	Text 10,10,"State = " + State
+	Text 10,20,"Fade = " + Fade
+	Text 10,30,"Alpha = " + Alpha
+	
+	Flip
+	
+	
+	Until Start = 1
+
+	EntityParent camera,0
+	PositionEntity camera,25,20,-25
+	RotateEntity camera,45,45,0
+	
+End Function
+	
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Intro &amp; 3rd day</td><td align="right"><font class="tiny">(Posted 2012-11-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have been using Blitz3d now for 4 years &amp; this will be my second 
+full finished project when it is done. Due to work &amp; life I don’t 
+get much of a chance to get stuck right in &amp; code often. The problem
+ with that for me is that it becomes a very slow learning process from 
+having to go back over what I have been doing in the past &amp; trying 
+to figure out what I did to get something to work. The other problem I 
+find is that I will start making headway with something then not get 
+back to it sometimes for 6 months, can’t figure out what I have done 
+(because I haven’t commented my code) &amp; put it in the to hard 
+basket.<br><br>I had the thought the other day at just trying a 3d 
+version of the old Snake game, something small, then adding my own spin 
+on it when I get the simple part of it working nicely.<br><br>I will 
+keep posting up the code until the simple part is done then upload some 
+images as it progresses. Hope others get something out of the code. :) <br><br>Here it is as it stands.<br>I
+ have the snake movement to where I am happy with it &amp; the segments 
+being added correctly with the tail being added to the end of the body. 
+Thanks to Midimaster &amp; gradualcheetah.<br>I have a scoring system, pickups &amp; an arena with collisions working correctly.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics3D 800,600,0,2
+
+SetBuffer BackBuffer()
+
+
+Global H_Snake.Snake
+Global Snake.Snake
+Global a.arena
+Global Player_col = 1
+Global Arena_col = 2
+Global Body_col = 3
+Global X% = 10
+Global seg% = 0
+Global pickup_avalable = 0
+Global gamestate% = 0
+Global speed# = .2
+Global Turnspeed# = 5
+Global Score% = 0
+
+
+
+
+Collisions Player_col,Arena_col,2,1
+Collisions Player_Col,Body_col,1,1
+
+
+
+
+Light= CreateLight()
+	RotateEntity light,90,0,0
+camera = CreateCamera()
+	PositionEntity camera,25,20,-25
+	RotateEntity camera,45,45,0
+plane = CreatePlane()
+	EntityColor plane,0,0,255
+	PositionEntity plane,0,-1,0
+		
+
+
+
+Create_player()
+Create_arean()
+	
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;main loop;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
+While Not KeyDown (1)
+
+If KeyHit(57) gamestate = 1
+
+	Update_player()
+	Update_pickup()
+	
+	
+	LimitFrameRate(60)
+	UpdateWorld
+	RenderWorld
+	
+	
+Text 10,10,"Score: = " + Score%
+
+
+	Flip
+	
+Wend
+
+End
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Type Snake 
+	Field xpos# 
+	Field zpos#
+	Field Entity
+	Field Bodytype
+	Field posx#,posy#,posz#
+	Field Waycount%
+	Field WayX#[10],WayZ#[10],WayR#[10]
+End Type
+
+
+Function Create_player()
+	
+	;the first entity is GLOBAL, because we will need it again individual:
+	H_Snake.Snake = New Snake
+		H_Snake\Entity = CreateCube()
+		EntityType H_Snake\Entity,1
+		EntityColor H_Snake\Entity,0,255,0
+		
+		For i%=0 To seg% 
+			Snake.Snake = New Snake
+			Snake\Bodytype = 2
+			Snake\Entity = CreateSphere()
+			EntityRadius Snake\Entity,1
+			EntityType Snake\Entity,3
+		Next
+		For i%=seg% + 1 To seg% + 1
+			Snake.Snake = New Snake
+			Snake\Bodytype = 3
+			Snake\Entity = CreateCone()
+			RotateMesh Snake\Entity,-90,0,0
+			EntityColor Snake\Entity,255,0,0
+			EntityRadius Snake\Entity,.5
+			EntityType Snake\Entity,3
+		Next
+
+End Function
+
+
+Function Update_player()
+	Local locX#,locZ#, locRot#
+
+		MoveEntity H_Snake\Entity,0,0,Speed
+		If KeyDown(203) Then
+			TurnEntity H_Snake\Entity,0,Turnspeed,0
+	
+		ElseIf KeyDown(205) Then
+			TurnEntity H_Snake\Entity,0,-Turnspeed,0
+		EndIf
+		
+		If EntityCollided(H_Snake\Entity,Arena_col) Then
+			Game_over()
+		End If                            
+	
+		
+		If EntityCollided(H_Snake\Entity,Body_col) Then
+			Game_over()
+		End If
+				
+		
+		
+	For Snake.Snake = Each Snake
+		;this is important: A FIFO-stack 
+		;new waypoint will "sink down" during 10 Updates
+		
+		
+		Snake\Waycount% = x%
+		For i% = Snake\Waycount% To 1 Step -1
+			Snake\WayZ[i]=Snake\WayZ[i-1]
+			Snake\WayX[i]=Snake\WayX[i-1]
+			Snake\WayR[i]=Snake\WayR[i-1]
+		Next
+
+		; following segments will get there values from the segment before:
+		If Snake&lt;&gt;H_Snake	
+			PositionEntity Snake\Entity,locX,0,locZ
+			RotateEntity Snake\Entity,0,locRot,0
+		EndIf
+
+		;new position will become new waypoint on top:
+		Snake\WayZ[0]=EntityZ(Snake\Entity,True)
+		Snake\WayX[0]=EntityX(Snake\Entity,True)
+		Snake\WayR[0]=EntityYaw(Snake\Entity,True)
+
+		; keep oldest waypoint of this segment for the next segments
+		locZ=Snake\WayZ[Snake\Waycount%]
+		locX=Snake\WayX[Snake\Waycount%]
+		locRot=Snake\WayR[Snake\Waycount%]
+					
+	Next
+	
+	
+End Function
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type pickup
+	Field P_mesh
+	Field x#
+	Field z#
+	Field y#
+End Type
+
+
+
+;creates the pickup witin a playing area
+	
+Function Create_pickup()
+
+	p.pickup = New pickup
+	p\P_mesh = CreateSphere()
+		EntityColor p\P_mesh,0,255,0
+	p\x = Rnd(-22,22)
+	p\z = Rnd(-22,22)
+	p\y = 0
+		
+	PositionEntity p\P_mesh,p\x,p\y,p\z
+	
+	pickup_avalable = 1
+	
+End Function
+
+
+
+
+;checks to see if a pickup has been colected &amp; adds a new segment to the snake body
+		
+Function Update_pickup()
+
+	If pickup_avalable = 0 Then
+	Create_pickup()
+	End If
+	For p.pickup = Each pickup
+		If EntityDistance (p\P_mesh,H_Snake\Entity) &lt; 1.5 Then
+		FreeEntity p\P_mesh
+		Delete p
+		pickup_avalable = 0
+		
+		Score = Score + 10
+		seg = seg + 1
+				
+;this deletes the old tail and replaces it then moves the new body part to the old tails location 	
+		For Snake.Snake = Each Snake
+		
+			Local nx#,ny#,nz#
+				
+			If Snake\Bodytype = 3
+				FreeEntity Snake\Entity
+				Snake\Entity = CreateSphere()
+				PositionEntity Snake\Entity ,posx#,-10,posz#
+				Snake\Bodytype = 2
+				EntityRadius Snake\Entity,1
+				EntityType Snake\Entity,3
+			EndIf
+			
+		Next
+				
+		For i%=seg To seg 
+			Snake.Snake = New Snake
+			Snake\Entity = CreateCone()
+			Snake\Bodytype = 3
+			RotateMesh Snake\Entity,-90,0,0
+			PositionEntity Snake\Entity ,0,-10,0
+			EntityColor Snake\Entity,255,0,0
+			EntityRadius Snake\Entity,.5
+			EntityType Snake\Entity,3
+
+			Next
+		End If
+	Next
+	
+End Function
+	
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;	
+Type arena
+	Field mesh
+End Type
+
+; creating the play area
+Function Create_arean()
+	
+	a.arena = New arena
+		a\mesh = CreateCube()
+		ScaleEntity a\mesh,25,5,1
+		EntityColor a\mesh,255,0,0
+		PositionEntity a\mesh,0,0,25
+		EntityType a\mesh,2
+		
+	a.arena = New arena
+		a\mesh = CreateCube()
+		ScaleEntity a\mesh,25,5,1
+		EntityColor a\mesh,255,0,0
+		PositionEntity a\mesh,0,0,-25
+		EntityType a\mesh,2
+		
+	a.arena = New arena
+		a\mesh = CreateCube()
+		ScaleEntity a\mesh,1,5,26
+		EntityColor a\mesh,255,0,0
+		PositionEntity a\mesh,25,0,0
+		EntityType a\mesh,2
+		
+	a.arena = New arena
+		a\mesh = CreateCube()
+		ScaleEntity a\mesh,1,5,26
+		EntityColor a\mesh,255,0,0
+		PositionEntity a\mesh,-25,0,0
+		EntityType a\mesh,2
+		
+End Function
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;Limits the framerate;;;;;;;;;;;;;;
+Function LimitFrameRate(FPS = 65)
+	If FrameTime = 0 Then
+		Period = 1000 / FPS
+		FrameTime = MilliSecs()
+	EndIf
+
+	While (FrameTime + Period) &gt; MilliSecs()
+			Delay 1
+	Wend
+	FrameTime = MilliSecs()
+End Function
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;Game over display then exits the game;;;;;;;;;;;;;;;;;;;;;
+Function Game_over()
+	FlushKeys()
+	Repeat 
+		Text 380,280,"GAME OVER!"
+		Text 340,300,"Press any key to exit"
+	Flip
+	
+		Until WaitKey()
+	End
+End Function
+</textarea> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

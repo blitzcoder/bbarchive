@@ -1,0 +1,38 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>        <script type="text/javascript" async="" src="9555&amp;log=1867_files/ga.js"></script><script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34362789-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        </script></head><body>
+			
+			<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for KronosUK</h1><h1>SimpleWorld development</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>shader hell</td><td align="right"><font class="tiny">(Posted 2013-01-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> My exploration of shaders this weekend did not go well so I probably won't be using them anytime soon. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Texture Splatting</td><td align="right"><font class="tiny">(Posted 2013-01-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Did some experiments over the weekend with mixed results. Overall 
+having different textures on the the terrain surface looks better than 
+current.<br><br>1. Using 4 meshes and masked textures. Nice but had some
+ small problems which I couldn't figure out how to resolve in some of 
+the corners where 3 different textures meet.<br>2. Building meshes from 
+squares. The different mesh layers have different textures. Absolutely 
+hated the square look . It really destroys organic feel of the terrain. 
+(even though its flat!)<br><br>This has caused me to think about moving 
+over to the openb3d wrapper for further development as this will give me
+ access to shaders. However I need to confirm whether all my existing 
+code will work as expected with openb3d first.<br><br>I want to learn a bit more about glsl so hopefully this will help. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Grass!</td><td align="right"><font class="tiny">(Posted 2013-01-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Added some swaying grass.<br><br>Also vaguely thinking about adding some texture splatting on the terrain surface. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Latest Additions</td><td align="right"><font class="tiny">(Posted 2013-01-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Have taken a slightly different tack from my original vision of the 
+game I wanted to make in order to try and keep things simple. Still 
+can't decide whether to go stylized or have realistic graphics or a mix.<br><br>Anyway I am primarily using Blitzmax and Blitz3dsdk for this at the moment.<br><br>I
+ have recently added some environmental effects including shadows, 
+undulating sea and swaying foliage. I want to add some clouds eventually
+ once the particle system is cleaned up.<br><br><iframe src="http://www.youtube.com/embed/mAmGkU6z0W0?rel=0" allowfullscreen="" width="560" height="345" frameborder="0"></iframe><br><br>Vehicle creation and waypointing is in place. I want to put in physics even though world is mostly flat but this may change.<br><br>Its
+ all a bit ragged at the moment and needs alot of finessing but main 
+elements are in place and I am ready to tackle battle AI.<br><br><iframe src="http://www.youtube.com/embed/ldia8Wrq2rI?rel=0" allowfullscreen="" width="560" height="345" frameborder="0"></iframe><br><br>Here's
+ another vid with better looking water. I used my wrapper for the 
+OpenB3D engine for this. Trying to match this effect in B3D. <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

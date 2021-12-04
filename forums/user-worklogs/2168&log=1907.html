@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="2168&amp;log=1907_files/analytics.js" type="text/javascript"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app13.us.archive.org';v.server_ms=592;archive_analytics.send_pageview({});});</script>
+<script type="text/javascript" src="2168&amp;log=1907_files/bundle-playback.js" charset="utf-8"></script>
+<script type="text/javascript" src="2168&amp;log=1907_files/wombat.js" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("http://web.archive.org/web");
+  __wm.wombat("http://www.mojolabs.nz/userlog.php?user=2168&amp;log=1907","20180122152722","http://web.archive.org/","web","/_static/",
+	      "1516634842");
+</script>
+<link rel="stylesheet" type="text/css" href="2168&amp;log=1907_files/banner-styles.css">
+<link rel="stylesheet" type="text/css" href="2168&amp;log=1907_files/iconochive.css">
+<!-- End Wayback Rewrite JS Include -->
+<title>FBEpyon Worklog</title><meta name="viewport" content="width=device-width, initial-scale=0.66"><meta name="description" content="worklog:true"><meta name="author" content="FBEpyon"><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style></head><body>
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for FBEpyon</h1><h1>RPG Game</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Test</td><td align="right"><font class="tiny">2016-06-29</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <pre class="code">Global _Zone:TMap = CreateMap()
+Global _ZoneManager:TZoneManager = TZoneManager.Create()
+Global _Player:TPlayer = TPlayer.Create(0,0)
+Global _Camera:TCamera = TCamera.Create(0,0)
+
+Type TZone
+
+	Field _data:Int[,]
+	Field _offsetx:Int
+	Field _offsety:Int
+
+	Function Create:TZone(width:Int = 32, height:Int = 32)
+		Local zone:TZone = New TZone
+		zone._width = width
+		zone._height = height
+		zone._data = New Int[width * height]
+		Return zone
+	End Function
+
+	Method Init()
+		For Local i:Int = 0 Until _width
+		For Local j:Int = 0 Until _height
+			_data[i,j] = 0
+		Next
+		Next
+	End
+
+	Method Draw:Int(camera:TCamera)
+		Local IsAlive:Int = False
+		For Local i:Int = 0 To _width - 1
+		For Local j:Int = 0 To _height - 1
+			If _data[i,j] &gt; 0
+				Local x:Int = (i+_offsetx) * 16 - _Camera.GetX()
+				Local y:Int = (j+_offsety) * 16 - _Camera.GetY()
+				If _Camera.CheckBounds(x, y)
+					IsAlive = True
+					DrawRect x, y, 16, 16
+				EndIf
+			EndIf
+		Next
+		Next
+		Return IsAlive
+	End Method
+
+	Method SetOffset(x:Int, y:Int)
+		_offsetx = x
+		_offsety = y
+	end Method
+
+	Method GetOffsetX:Int()
+		Return _offsetx
+	End Method
+
+	Method GetOffsetY:Int()
+		Return _offsety
+	End Method
+
+End Type
+
+Type TZoneManager
+
+	Field _curzone:TZone
+
+	Function Create:TZoneManager()
+		Return New TZoneManager
+	End Function
+
+	Method Init()
+		For Local i:Int = 0 To 7
+		For Local j:Int = 0 To 7
+			MapInsert(_Zone, hex(i+j*8), TZone.Create())
+		Next
+		Next
+		 // Store first zone into _curzone variable
+		If MapContains(_Zone, hex(0))
+			_curzone = TZone(MapValueForKey(_Zone, hex(0))
+		EndIf
+	End Method
+
+	Method Update()
+		
+	End Method
+
+	Method Draw(camera:TCamera)
+		If _curzone.Draw(camera) = False
+			SetCurrent(((_Player.GetX()/16)/32), ((_Player.GetY()/16)/32))
+		EndIf
+	End Method
+
+	Method SetCurrent(x:Int, y:Int)
+		If MapContains(_Zone, hex(x + y * 8))
+			_curzone = TZone(MapValueForKey(_Zone, hex(x + y * 8))
+		EndIf
+	End Method
+
+	Method GetCurrent:TZone()
+		Return _curzone
+	End Method
+
+End Type
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td align="right"><a href="http://monkeycoder.co.nz/" target="_blank"><img src="2168&amp;log=1907_files/monkey2.svg"></a> <a href="https://github.com/blitz-research" target="_blank"><img src="2168&amp;log=1907_files/github.svg"></a> <a href="https://discord.gg/qJccbSp" target="_blank"><img src="2168&amp;log=1907_files/discord.svg"></a></td></tr></tbody></table><br></div><br><table width="100%"><tbody><tr><td><!--
+     FILE ARCHIVED ON 15:27:22 Jan 22, 2018 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 00:11:53 Oct 17, 2021.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  CDXLines.iter: 23.01 (3)
+  esindex: 0.014
+  captures_list: 503.427
+  exclusion.robots: 0.359
+  cdx.remote: 0.115
+  exclusion.robots.policy: 0.346
+  PetaboxLoader3.datanode: 278.394 (4)
+  LoadShardBlock: 461.828 (3)
+  PetaboxLoader3.resolve: 49.98
+  load_resource: 81.705
+--></td></tr></tbody></table></body></html>

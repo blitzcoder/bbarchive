@@ -1,0 +1,1180 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>
+        <!-- Google Analytics -->
+        <script async="" src="13255&amp;log=1897_files/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-34362789-1', 'auto');  // Replace with your property ID.
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+</head><body>
+	
+	<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Ploppy</h1><h1>Blitz Hardwired</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Positional channel functions</td><td align="right"><font class="tiny">(Posted 2016-02-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have added some new functions to Hybid concerning the playback position in a sound channel...<br><br>SoundLength#(sound%) - Returns the length, in seconds of a previously loaded sound<br>ChannelSeek channel%,seconds# - Immediately sets the playback position in a previously created shound channel, given in seconds<br>ChannelPos# (channel%) - Returns the current playback position of a sound channel, given in seconds<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>3d sound</td><td align="right"><font class="tiny">(Posted 2016-02-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here a few more sound related commands, this time related to 3d sound...<br><br>Load3dSound%(filename$$) - Loads a sound just like the LoadSound command and returns a channel handle<br><br>CreateListener%(parent_entity%,rolloff_factor#,doppler_scale#,distance_scale#)
+ - Creates a listener,  generally linked to the rendered camera, see b3d
+  <a href="http://www.blitzbasic.com/b3ddocs/command_list_3d_cat.php?show=Listener/Audio" target="_blank">manual</a> for more details<br><br>EmitSound%(sound%,entity%) - Link a sound to an entity for 3d spacial calulations<br><br>A small test demo has been added to the hybrid/samples folder, the name 3d_sound_test.hb....<br><br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hybrid sound module</td><td align="right"><font class="tiny">(Posted 2016-02-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have now added some simple sound related commands to Hybrid, the following commands now work as in blitz3d...<br><br><br><br>LoadSound%
+ file$ - Loads a sound sample into memory from a file in it's entirety 
+(ie not streamed).  For the moment, only .wav files can be loaded, but I
+ plan on increasing the number of different audio filetypes parsed.<br><br>FreeSound sound - Does what it says...<br><br>PlaySound% sound - Just like the b3d command, this will play a previously loaded sound and return a new channel handle<br><br>ChannelPan channel%,pan# - Set the pan for a channel, values are from -1 (left) passing through 0 (center) to 1 (right)<br><br>ChannelPitch channel%,pitch% - Set the playback frequency for a channel, values are in hertz<br><br>ChannelVolume
+ channel%,volume# - Set the volume for a channel, valid values range 
+from 0 to 1, however you can set to above 1 for amplified volumes<br><br>ChannelPlaying%(channel%) - Returns true if the channel given in the parameter is playing, otherwize false.<br><br>PauseChannel channel% - Pauses a channel<br><br>ResumeChannel channel% - Unpauses a channel<br><br>StopChannel channel% - Stops playback for a channel<br><br>LoopSound sound% - Sets a sound to playback subsequent channels in a loop<br><br>SoundPitch sound%,pitch# - Sets a default playack rate for a sound, value is given is hertz<br><br>SoundVolume
+ sound%,volume# - Sets a default playback volume for a sound, valid 
+values range from 0 to 1, however you can set to above 1 for amplified 
+volumes<br><br>SoundPan sample%,pan# -Sets a default playback pan value for a sound, valid settings range from -1 to 1...<br><br>Please
+ note that for the creation of Hybrid, it was not possible to compile in
+ the same way as Blitz3d for the sound module.  This is because of 
+license restrictions.  Blitz3d/+ used fmod, a professional sound api, 
+and these routines were inserted into blitz; this was part of the 
+license Blitz Research had bought from fmod and legal to do this way.  
+However, for the open source release, it was not possible to issue this 
+version of fmod without breaching the license conditions.  So, although 
+using fmod was still possible using the open source version of blitz, it
+ was only legally possible by accessing an exterior fmod dll.  This was 
+ok, but did not correspond to my goal of creating an all in one sound 
+module.  Hybrid therefore does not use fmod, after a LOT of research and
+ testing I have decided to opt for the <a href="http://sol.gfxile.net/soloud/index.html" target="_blank">SoLoud</a>
+ sound library, which is now part of Hybrid and a good substitute for 
+fmod.  SoLoud has a very flexible license that provides me with exactly 
+what I need, and I will be building upon this base to add other sound 
+commands.  I also plan to reintegrate streaming commands, audio cd 
+access,3d spatial sound, and microphone access.  I wish to add .flac 
+file compatibility, but I do not think there will be .mp3 compatibility 
+(although I would like to), this is due to the .mp3 licence 
+restrictions.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Ftp functions</td><td align="right"><font class="tiny">(Posted 2015-10-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have made a little modification to the CamToTexture commands.  The revised syntax is the following<br><br><b>CamToTexture(capture_device%,texture%,offset_x%=0,offset_y%=0)</b>
+ - This command will copy the pixel data from the internal buffer to a 
+pre-created texture at coordinates (offset_x,offset_y).  I recommend you
+ only use this command after a new frame, if you copy a buffer 
+unnessarily you will encounter a drop in frame rate.<br><br><u>New Ftp Functions</u> - Example found in the sample file ftp_access.hb<br><b>ReadFTPFolder%(url$$,user_name$$,password$$,port%)</b>
+ - This will read a ftp folder and return a download handle.  Reading 
+will commence instantly, if of course the url, user name and passwords 
+are valid.  One the folder has been successfully read, a all ok state 
+will be given to the download (see explaination in previous worklog), 
+and DownloadDone will return true.<br><br><b>FtpFileCount%(download_handle%)</b> - Once a ftp folder has been read, you can retrieve the number of files/folders by using this command.<br><br><b>FtpFileName$$(download_handle%,file_index%)</b>
+ - This function will return the file name of the entry given in the 
+parameter file_index (ranges from 1 to the number of entries).<br><br><b>FtpFileSize%%(download_handle%,file_index%)</b> - Same as above, but will return file size.<br><br><b>FtpFileAttribs%(download_handle%,file_index%)</b> - This will return the file's attributes.  The following attributes are possible....<br><br>1 - Read only<br>2 - Hidden<br>4 - System file<br>16 - File is a directory<br>32 - Archived<br>64 - Device<br>128 - Normal<br>256 - Temporary<br>512 - Sparse file<br>1024 - Reparse point<br>2048 - Compressed<br>4096 - Offline<br>8192 - Not content indexed<br>16384 - Encrypted<br>32768 - Stream<br>65536 - Virtual<br>131072 - No scrub data<br><br>More details about these flags can be found <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/gg258117(v=vs.85).aspx" target="_blank">here</a><br><br><br><b>FtpFileDate%(download_handle%,file_index%,date_type%)</b>
+ - This function will return the date of the file given in file_index.  
+Three date types are available, and is given in the third parameter...<br><br>1=Get
+ the file creation date - please note that on certain Ftp servers, this 
+date type is not used.  If this is the case, the date 1/1/1601 is 
+returned for date/month/year.<br>2=Get the last access date<br>3=Get the last date the file was written/modified<br><br><b>FtpFileMonth(download_handle%,file_index%,date_type%)</b> - Returns the month of the file<br><br><b>FtpFileYear(download_handle%,file_index%,date_type%)</b> - Returns the year of the file<br><br><b>FtpFileHour(download_handle%,file_index%,date_type%)</b> - Returns the hour of the file<br><br><b>FtpFileMinute(download_handle%,file_index%,date_type%)</b> - Returns the minute of the file<br><br><b>FtpFileSecond(download_handle%,file_index%,date_type%)</b> - Returns the second of the file<br><br><b>FtpFileMillisec(download_handle%,file_index%,date_type%)</b> - Returns the millisecond count of the file<br><br><b>FtpFileDay(download_handle%,file_index%,date_type%)</b> - Represents the day of the week for the file.  0 represents sunday, 1 for monday and so forth until 7 for saturday.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Webcam update</td><td align="right"><font class="tiny">(Posted 2015-10-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Thanks so much to Jari for your insight and code.  I have now 
+integrated a modified version of escapi into hardwired and have linked 
+it (so far) to the hardwired textures system.  I have yet to refine the 
+code, but the basics are there, so I'm releasing because I want to show 
+off.  Anyway, a test sample can be found in capture.hb.  Naturally, if 
+you do not have a webcam, there is not much point in downloading this 
+release ;-D<br><br><u>New webcam functions</u><br><br><b>CountCaptureDevices%()</b> - Will return the number of capture device on the resident system<br><br><b>CaptureName$(capture_device%)</b>
+ - Will return the name of the capture device given in the parameter.  
+Capture devices range from 1 to the number of devices available, this 
+number can be attained using the above command.<br><br><b>StartCam(capture_device%,width%,height%)</b>
+ - Turns on a webcam ready for use and initialises an internal buffer 
+that webcam data is copied to.  The sampled webcam data will be scaled 
+up or down to the buffer depending on the size given in the parameter.  
+If you, for example choose a small resolution (50x50 for example) the 
+pixel data saved to the buffer will be faster than writing to a larger 
+resolution; but however the image detail of course will be blockier.<br><br><b>StopCam(capture_device%)</b> - Stops a capture device and frees up all memory used by it.<br><br><b>CaptureCam(capture_device%)</b>
+ - This command tells the system to to update the internal buffer with 
+the current webcam view.  Hardwired(+escapi) will then begin updating.  
+Once finished writing the new image the function below will indicate all
+ done.<br><br><b>CamDone%(capture_device%)</b> - Returns true if the webcam update has been completed since the last capturecam commande, otherwize a 0 will be returned.<br><br><b>CamToTexture(capture_device%,texture%)</b>
+ - This command will copy the pixel data from the internal buffer to a 
+pre-created texture at coordinates (0,0).  I recommend you only use this
+ command after a new frame, if you copy a buffer unnessarily you will 
+encounter a drop in frame rate.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Http Internet access 2</td><td align="right"><font class="tiny">(Posted 2015-10-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have since improved on the previous worklog...<br><br>The syntax of the function Download has slightly changed, this is the new version...<br><br><b>Download%(url$$,output_file$$="",flags%=0,temporary_file$$="")</b><br>- The url parameter is the full http url address to be downloaded.<br>- The output_file parameter defines the filename that the download will be automatically written to.<br>-
+ The flags parameter defines optional flags for this download.  For the 
+moment, the only flag available is the flag 1.  If this flag is set, 
+only the file size will be retrieved and downloading will then stop. <br>-
+ The temporary_file parameter defines the filename that the download 
+will be automatically written to if you wish it to be written to a 
+temporary file name during download time.  Once the file has been 
+completely downloaded the newly written file will be renamed to the 
+output file name.  If no temporary file name is supplied, the download 
+will be written directly to the output file.<br><br>Downloading to a 
+file now works, an example can be found using the sample test1.hb.  
+Please note that downloading to a file will automatically disable 
+downloading to memory, freeing up the system and downloading to an 
+output file on the fly.  So, if you download to a file, you cannot use 
+DownloadToBank (but you can of course load the file as usual from disk 
+once completely downloaded).<br><br><u><b>New function</b></u><br><b>GetMyDocsFolder$$()</b> - This function will return the path of the 'My Documents' folder on the resident system.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Http Internet access</td><td align="right"><font class="tiny">(Posted 2015-10-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Although Blitz3d has a way of connecting to the internet and accessing 
+the http protocol, it seems rather limited and unfriendly compared to 
+today's standards.  As part of my ongoing task to bring new life to B3D,
+ I have created a new module that facilitates http downloading.  This 
+module functions on a separate thread than the main program, so in this 
+way any downloading happens asyncronously and it does not hinder program
+ flow.  This is a work in progress, so I still have commands/functions 
+to add but the basic stuff is ready.  I plan adding uploading functions,
+ and ftp accees to this internet module.  A small example of internet 
+access can be found in the sample test1.hb<br><br><u><b>Below is a list of the functions presently available</b></u><br><br><b>Download%(url$$,output_file$$="",flags%=0)</b> - This will add a download to the download list.  Parameters are as follows...<br><br>- The url parameter is the full http url address to be downloaded.<br>-
+ The output_file parameter defines the filename that the download will 
+be automatically written to.  This is currently a work in progress and 
+only downloading to memory is possible for the moment.<br>- The flags 
+parameter defines optional flags for this download.  For the moment, the
+ only flag available is the flag 1.  If this flag is set, only the file 
+size will be retrieved and downloading will then stop. <br><br>The returned value of the download function is a unique handle for a successfully created download.<br><br><b>SetProxy(default_proxy$$)</b>
+ - This will set the proxy address for all subsequent Download command 
+calls by setting the parameter default_proxy.  If a empty string is 
+given, no proxy will be used - this is the default value for all 
+downloads.<br><br><b>SetPort(default_port_number%)</b> - Sets the 
+parameter default_port_number to the port for any subsequent Download 
+command calls.  The inital value for this parameter is 80, which is the 
+standard comms port for http activity.<br><br><b>CountDownloads%()</b> - Returns the number of currently used downloads.<br><br><b>DownloadUrl$$(download_handle%)</b> - Returns the full url given in the Download command.<br><br><b>ExtractHostName$$(url$$)</b> - This function will split a valid url string and return the domain name only.<br><br><b>ExtractPort$$(url$$)</b> - This function will return a port number if one was supplied in the url address.<br><br><b>ExtractUserName$$(url$$)</b> - This function will return a user name if one was supplied in the url address.<br><br><b>ExtractPassword$$(url$$)</b> - This function will return a password if one was supplied in the url address.<br><br><b>ExtractPath$$(url$$)</b> - This function will return the path of the url used by the http domain that is called.<br><br><b>DownloadState%(download_handle%)</b> - The returns the current state of a download. Below is the current possible returned values and thier meaning...<br><br><br>
+	 1 - UNINITIATED; This value is given to freshly created download 
+before the module begins to process it.  If the download is part of 
+several files being downloaded, it is most likely that the file is in a 
+queue and has not yet been treated.<br>	 2 - INITIATED; The module has started to work on the download, and it tempting to connect to the internet<br>
+	 3 - OPEN_ERROR; The module failed to connect to the internet.  
+Possible reasons for this could be a bad proxy name  (or of course you 
+forgot to plug your pc to your router, silly).<br>	 4 - CONNECTION_ERROR; The module failed to connect to the domain server.<br>	 5 - GET_REQUEST;  The module succesfully connected to the domain server and is now making the request for the given file.<br>	 6 - GET_REQUEST_ERROR;  The domain refused the request, was a valid URL given?<br>	 7 - PARSE_GET_REQUEST;  The internet module is inthe process of downloading the file.<br>	 8 - CLOSE_REQUEST;  The download has been completed, the internet module is in the process of cleaning up.<br>	 9 - SUCCESS_ALL_DONE;  The download is now complete and all cleanup has been done.  The current state is now in 'sleep' mode.<br>	10 - PAUSED; <i>work in progress - not yet complete</i><br>
+	11 - DELETE_OBJECT - This state is used by hardwired to signal to the 
+internet module to delete this download, including the downloaded data.<br><br><b>DownloadSize%%(download_handle%)</b>
+ - This function returns the size in bytes of a download.  If you set 
+the flag to 1 in the initial Download command, only this filesize will 
+be downloaded.<br><br><b>DownloadRead%%(download_handle%)</b> - The function will return the current number of bytes already downloaded<br> <br><b>DownloadDone%(download_handle%)</b> - This function is a shortcut function that returns 1 if the download has a SUCCESS_ALL_DONE state, otherwize it returns a 0.<br><br><b>DownloadToBank%(download_handle%)</b> - This function will create and return a bank with the downloaded data in it.<br><br><b>FreeDownload(download_handle%)</b>
+ - Use this command to free a download.  If a download is not free, any 
+downloaded data will remain in memory.  If, for example, you use the 
+DownloadToBank command on the download, it is advisable you use the 
+FreeDownload commmand after or else you will have two copies of the 
+downloaded data in your system ram.  This will not of course in any way 
+harm the system, but is an unecessary waste of space.<br><br>Please note that this internet module is only presently available in Hybrid and not the Hardwired userlib.<br><br>* I have also made some corrections to the SetWindowDefaults command.  It should now work as anticipated.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Lod terrains</td><td align="right"><font class="tiny">(Posted 2015-10-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Small update for hardwired, but it took a lot of coding.  The terrain 
+routines are based on the the original b3d lod algorithms and now behave
+ identically to the B3D original, they are dynamic and can be configured
+ with the SetTerrainDetail command - see the original B3d manual for 
+details.  Using this LOD algorithm (level of detail) a significant 
+increase in FPS can be achieved without losing out on much detail.  
+Example can be found in test8.hb...<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Additional text functions</td><td align="right"><font class="tiny">(Posted 2015-10-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Text commands now function as they should in directx 11 mode.<br><br>In
+ addition to this I have added several new text manipulaton functions.  A
+ simple demo of these functions can be found in the 
+special_text_modes.hb sample...<br><br><u><b>New functions...</b></u><br><br><b>TextRotation(initial_rotation#, additive_rotation#)</b><br>This
+ will instruct hardwired to render all subsequent text commands with a 
+rotation on the string being output.  The parameter initial_rotation 
+sets the rotation z-angle for the first character output.  In addition, a
+ value can be added to each following character by setting the 
+additive_rotation parameter.  The default values for TextRotation are 
+0,0<br><br><b>TextSpin(initial_spin#, additive_spin#)</b><br>TextSpin 
+works similarly to TextRotation, however textspin will only affect each 
+letter individually, and the spin of a character will not affect the 
+position of the following characters, unlike with a rotation.  For 
+example, using a rotation as well as a spin for the inverse value of the
+ rotation will rotate the line, but keep the characters of that line at 
+0°; therefore upright.  Many different effects can be realised with 
+these two functions.  The default values for TextSpin are 0,0.<br><br><b>TextScale(initial_scalex#,initial_scaley#,additive_scalex#,additive_scaley#)</b><br>This
+ command will use the same principles as the two above commands.  The 
+first character of a text line will begin with the font being sized by a
+ factor given in inital_scalex and initial_scaley.  Setting these two 
+values to 2 will double the size, 0.5 would of course halve the scale.  
+The last two values additive_scalex# and additive_scaley# can be used to
+ add a value to the the initial scale values for each subsequent 
+character drawn.  Set these to 0,0 for no change.  The default values 
+for TextScale are 1,1,0,0.<br><br><b>TextHandle(offset_x#,offset_y#)</b><br>This
+ last command will indicate to hardwired where on each character should 
+the 'handle' or 'pivot' be.  Rotational functions can be affected by 
+where exactly a handle is located and will rotate the rendered graphic 
+around it.  The default values for TextHandle is 0,0; which indicated 
+the top left corner of each character.  Setting the offset_x to 1 
+indicates the right hand side, and offset_y will indicate the bottom of 
+the character when set to 1.  A setting of 0.5,0.5 for example will 
+point to the centre of the character for clean spins.  Negative values 
+and values greater than 1 are accepted, and will extend handle 'outside'
+ of the character's boundaries if required.  Play with this command a 
+bit to get the idea, but used in conjuction with the above commands can 
+provide many different effects.<br><br>You will notice that in dx9 mode,
+ text is much faster than in dx11.  I have yet to optimize my code for 
+dx11, but that'll happen.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New Incdir linker directive</td><td align="right"><font class="tiny">(Posted 2015-09-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A small update today.  Two new commands have been added....<br><br><b>INCDIR dirname$</b><br><br>Incdir
+ is similar to incbin, but it will include any and all files from the 
+folder name given in the parameter.  This command is not recursive, no 
+subfolders will be added.<br><br><b>RecallFileFromDir%(dir_name$,file$)</b><br><br>Use
+ this command to recall a file from an archived folder.  The dir_name$ 
+refers to the foldername given in the incdir command (not 
+case-sensitive), the file$ is the name of the file that you wish to 
+retrieve (must be part of this folder, of course, or this function will 
+fail).  This function, if successful, will return a bank just like for 
+the incbin command.  Multiple incdirs are of course permitted if you 
+have more than one, each folder will be added to the internal archive 
+list.<br><br>The addition of these two commands will permit the user to 
+include many files in one lump, all coded into the compiled executable 
+file.<br><br>Please compile the sample hlsl_demo3.hb to an exe for a quick demo.<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New update</td><td align="right"><font class="tiny">(Posted 2015-09-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> More update info on the change since the last pre-release update.....<br><br>Text
+ handling has been greatly improved in hardwired.  Instead of using the 
+resident windows functions to draw text directly to the screen when 
+needed, my routines now create an internal texture containing each 
+character from a font, these characters for the moment are only from the
+ ascii charset, other glyphs will follow.  When rendering text, this 
+internal texture is used on 2d sprites, which are in turn rendered using
+ the directx sprite handler.  Rendering text this way is much faster, 
+and makes use of shaders - much in the same way as fastext does.  Please
+ see test2_test for a quick (and very boring) demo.  The difference in 
+speed is quite something.<br><br>I have yet to activate all of the new text related functions, but you can use the following two text functions already.<br><br><b>TextOutline(enable)</b> - Sets to true or false; will set all following text commands to draw all text with an outline colour.  Default is true.<br><b>TextAlphas(alpha#,outline_alpha#)</b>
+ - You can now set a transparency value for rendered text, the first 
+parameter will set the alpha value for the text and the second for the 
+text outline.  Values range from 0 to 1.<br><br>Update from yesterday - the bank returned by <b>RecallFile</b> now returns a valid readable bank.<br><br>I will detail more about what's new tomorrow - it's getting late here now...<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Improved shader management</td><td align="right"><font class="tiny">(Posted 2015-09-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ A new part of the shader engine I am testing is the new HLSL 
+precompiling module.  If all is good, you can now compile HLSL shader 
+code within the blitz code using the IDE.  Please see hlsl_demo.hb and 
+hlsl_demo_with_compile_error.hb for example.  Please also note the the 
+hlsl_demo_with_compile_error.hb sample program is designed NOT to work, 
+but to show that the precompiler detects and signals any errors found in
+ HLSL code. <br><br>The HLSL precompiler compiles any HLSL code integrated into it <u>before</u>
+ the program code is compiled, and the compiled shaders are incorporated
+ into the final compiled .exe code.  In this way, any shader compiling 
+time and error checking will not be necessary during runtime of the 
+program, as it will already be done :D  As you can see, the precompiler 
+considerably changes the look of the IDE.  Hlsl code can now be 
+incorporated into Hybrid's code by using the new <b>Script</b> command.<br><br>This command's syntax is the following....<br><br><b>Script identifier(entry_function$,shader_type%,flags%)</b><br><i><u>Parameters...</u></i><br><i>identifier</i>
+ - a user chosen label used to identify the script.  This unique 
+identifier is used as reference in order to be able to 'recall' the 
+shader's compiled code when in runtime.  If the identifier supplied in 
+the Script command has already been used, the compiler will return an 
+error.<br><br><i>entry_function$</i> - refers to a string designating 
+the name of the function held within the HLSL script that is called when
+ the shader is executed.  This parameter is case-sensitive, and 
+obligatory for the precompiler to work.  Failure to supply this 
+parameter or to supply an inexistant function name will result in a HLSL
+ compiler error.<br><br><i>shader type</i> - indicates the type of shader to be precompiled.  Valid parameters are...<br><br>1
+ - Compile as a vertex shader; the vertex shader will be compiled once 
+for directx 9 and for four different possible profiles in directx 11; a 
+total of 5 versions shader code. The flags parameter of course still 
+applies if you wish to disable compiling for a specific version of 
+directx.<br>2 - Compile as a pixel shader - same as above, but for pixel shaders.<br>3 - Compile as a compute shader (not yet complete)<br>4 - Compile as a vertex shader (not yet complete)<br>5 - Compile as a vertex shader (not yet complete)<br>6 - Compile as a vertex shader (not yet complete)<br><br><i>flags</i> - Options to pass to the precompiler.  Presently there are only two flags available...<br><br>1 = Do not compile this script into a directx9 compatible shader<br>2 = Do not compile this script into a directx11 compatible shader<br><br>Lines following the <b>Script</b> declaration will be treated as HLSL code up until an <b>End Script</b>
+ command.  This command will be used signal to the ide and to the 
+compiler that any following code will be treated as normal 
+blitz/hardwired code.<br><br>When you compile a Hybrid program now, if any <b>Script</b>
+ command is found in it, the precompiler will be launched automatically.
+  A window will appear, giving details of its progress and will close 
+automatically is the precompilation of the shaders is a complete 
+success.  Please note that, unless the flag to not compile is given or 
+if the shader profile is higher that the maximum version permitted for 
+dx9, all shaders will be precompiled for both directx9 and directx11 
+automatically.  If the HLSL compiler encounters any error in the HLSL 
+code, it will indicate the problem in the precompiler log window and the
+ compiler will not execute the code, returning you to the ide.<br><br><b><u>Recalling shaders</u></b><br>Once
+ run, a program can 'recall' a precompiled shader by using the 
+identifier of the shader.  There are currently two shader recall 
+commands available...<br><br><b>RecallVertexShader%(shader_name$)<br>RecallPixelShader%(shader_name$)<br></b><br><br>The
+ shader_name parameter refers to the name given as an identifier in the 
+Script command.  If the shader is found, a handle to the shader will be 
+returned by these two commands.  Use RecallVertexShader only for vertex 
+shaders and RecallPixelShader only for pixel shaders - mixing these will
+ result in an error.<br><br><b><u>Shader programming</u></b><br>Two types of inputs exist for shaders...<br><br>For
+ vertex shaders, the first kind of inputs come from the object the 
+shader is rendering; the object will send it the xyz values of each 
+vertex, along with its vertex normal xyz values, vertex colour and 
+eventual texture mapping coordinates.  The vertex shader is called for 
+each vertex and is always called before the pixel shader.  The vertex 
+shader's principal job is to calculate the screen position of the pixel 
+where a vertex lies, once the three points of a triangle from the 
+rendered object's triangle list have been calculated, the renderer will 
+call the pixel shader for every pixel between these three points.  
+However, you can program a vertex shader to do much more than that if 
+you so wish, such as lighting or instancing calcuations.<br><br>So, for 
+every time that the vertex shader is called, these input values change, 
+depending on the object being rendered.  However, during the render 
+cycle of an object, the second type of inputs can be used as global 
+variables.  These variables are actually called 'constants', as they do 
+not change not matter how many times the shader is called for the object
+ being rendered.  For a vertex shader, three constants that are 
+typically present are the world, view and projection matrices.  These 
+matrices hold the information needed for position, rotation and scalar 
+values combined of the object in question, the camera viewing it, and 
+the render viewport.  Combining these matrices along with the current 
+vertex position within the vertex shader in a matrix multiplication 
+calculation will result in the pixel coordinates.<br><br>Both vertex and
+ pixel shaders are very configurable, but it is very important to 
+remember thier role.  Vertex shaders work in turn on each vertex of a 
+mesh, pixel shaders work on each pixel of a triangle calulated by the 
+vertex shader for each triangle of the mesh's triangle list (if that 
+makes sense ;D).  So, it is important that the vertex shader output has 
+EXACTLY the same form and order as the pixel shader input.<br><br>Apart 
+from the input passed on from the vertex shaders, pixel shaders also 
+have constants.  For pixel shaders, typical constants are material 
+information (ambient,diffuse &amp; specualar colour) and lighting for 
+any lights present in the rendered scene, however the constants can 
+repesent whatever the user wishes depending on what he/she wishes to 
+calculate within the pixel shader.  The output and the final goal of the
+ pixel shader is ALWAYS a colour and alpha value of the pixel; this 
+being a four floating point value array in the order of RGBA, values 
+range from 0 to 1.<br><br>So, you can see that to really bring a shader 
+to life, you need to use constants at some point.  In Hybrid, you can 
+configure shader constants by using the <b>AddShaderConstant</b> and the <b>ValidateConstants</b> commands.  These commands should be used before rendering with the said shader in order to get correct results.<br><br>The purpose of the <b>AddShaderConstant</b>
+ is to notify Hardwired of the detail of the constants for a shader.  
+The command is used to pass info about each constant individually, and 
+in the same order as in the original shader script.  Once the complete 
+list of the constants has been made with this command use the <b>ValidateConstants</b>
+ to inform Hardwired you have finished configuring the shader.  The 
+shader will then be ready for use. Please note that some shaders do not 
+necessarily need to use constants, the necessity is at the descretion of
+ the person programming it.  See, for example, my sample hlsl_demo.hb.  
+You will notice that only the vertex shader has has constants defined 
+for it.  This is because for the pixel shader I programmed there was no 
+need for a constant.<br><br>The syntax of the AddShaderConstant command is the following<br><br><b>AddShaderConstant(shader%,constant$,type%,flags%,linked_object%,pad_it%,slot%)</b><br><br><i><u>Parameter details</u></i><br><i>shader</i> - Refers to the shader handle returned by a recall function<br><br><i>constant</i> - The name of the shader constant (given in the shader script), this is case sensitive; watch your typing.<br><br><i>type</i>
+ - The type of constant, this value indicates to hardwired the nature 
+and size of the constant being defined , the following descibes each 
+value...<br><br><u>Manually programmed constants</u><br>	1 - A four-byte floating point value<br>	2 - Two four-byte floating point values<br>	3 - Three four-byte floating point values<br>	4 - Four four-byte floating point values<br>	5= - A four-byte unsigned integer value<br>	6 - Two four-byte unsigned integer values<br>	7 - Three four-byte unsigned integer values<br>	8 - Four four-byte unsigned integer values<br>	9 - A four-byte signed integer value<br>	10, - Two four-byte signed integer values<br>	11, - Three four-byte signed integer values<br>	12, - Four four-byte signed integer values<br>	13, - A four-byte boolean value<br><u>Automatically programmed constants</u><br>	14, - A programmable matrix value (16 floating point values(4 bytes)=64 bytes in size)<br>	15, - The world matrix value (16 floating point values(4 bytes)=64 bytes in size)<br>	16, - The projection matrix value (16 floating point values(4 bytes)=64 bytes in size)<br>	17, - The view matrix value (16 floating point values(4 bytes)=64 bytes in size)<br>	18, - The world projection matrix value (16 floating point values(4 bytes)=64 bytes in size)<br>	19 - The world view matrix value (16 floating point values(4 bytes)=64 bytes in size)<br>	20 - The view projection matrix value (16 floating point values(4 bytes)=64 bytes in size)<br>	21 - The world view projection value (16 floating point values(4 bytes)=64 bytes in size)<br>	22 - A texture matrix value (16 floating point values(4 bytes)=64 bytes in size)<br>
+	23 - A light matrix value (16 floating point values(4 bytes)=64 bytes 
+in size) - Represents the closest light to the object defined in the 
+linked object parameter<br>	24 - A light matrix value (16 floating point
+ values(4 bytes)=64 bytes in size) - Represents the second closest light
+ to the object defined in the linked object parameter<br>	25 - A light 
+matrix value (16 floating point values(4 bytes)=64 bytes in size) - 
+Represents the third closest light to the object defined in the linked 
+object parameter<br>	26 - A light matrix value (16 floating point 
+values(4 bytes)=64 bytes in size) - Represents the fourth closest light 
+to the object defined in the linked object parameter<br>	27 - A light 
+matrix value (16 floating point values(4 bytes)=64 bytes in size) - 
+Represents the fifth closest light to the object defined in the linked 
+object parameter<br>	28 - A light matrix value (16 floating point 
+values(4 bytes)=64 bytes in size) - Represents the sixth closest light 
+to the object defined in the linked object parameter<br>	29 - A light 
+matrix value (16 floating point values(4 bytes)=64 bytes in size) - 
+Represents the seventh closest light to the object defined in the linked
+ object parameter<br>	30 - A light matrix value (16 floating point 
+values(4 bytes)=64 bytes in size) - Represents the eighth closest light 
+to the object defined in the linked object parameter<br><br>If a 
+constant is defined as an automatically programmed constant, Hybrid will
+ automatically take care of updating the constant when needed.  For 
+example, if you set a constant to a type n°15 (the world matrix), 
+Hardwired will automatically set the relevant constant to the rendered 
+entity's position, rotation and scalar values.<br><br><i>flags</i><br>The
+ flag parameter is used to signal hardwired to further 'treat' the value
+ before setting the constant.  The following values are valid for the 
+flag parameter<br>	0 - Value will not be treated in any way and will be preserved as-is<br>	1 - Transpose a matrix, if constant is not a matrix nothing will be done<br>	2 - Invert a matrix, if constant is not a matrix nothing will be done<br>	4 - Normalize a vector, if constant is not a vector nothing will be done<br><br>Flags 1 and 2 can be or'ed is needed to transpose AND invert a matrix.<br><br><i>linked_object%</i><br>Used
+ to tell hardwired which object is used as reference for the constant.  
+For example if you use the type 14 (programmable matrix) and set the 
+linked object to the handle of an entity (not necessarily the entity the
+ shader is linked to), Hardwired will automatically set the constant to 
+that entity's matrix (containing of course the position, rotation and 
+scalar for that entity).<br><br><i>pad_it</i> - Set to true of false.  
+Shader programming has certain rules you have to adhere to, in order to 
+able to correctly program a gfx adapter.  One of these is to remmber 
+that shaders use 'registers' to hold all varibles.  Registers are 
+sixteen bytes in length each, so if for example a float (that only takes
+ up four bytes) is used, the remaining twelve bytes can be left 'unused'
+ by the shader if 'shader packing' is not used.  Setting this parameter 
+to true will indicate that the constant should be 'padded out' so that 
+if the constant lies below the 16-byte count any remainder will be taken
+ into account so that all constants recorded in hardwired remain 
+perfectly aligned with the shader. Set to false if your shader uses some
+ form of constant packing.<br><br><i>slot</i> - Registers can be grouped
+ into 'slots' for faster access.  Grouping constants into slots can 
+improve performance, as when you update a constant, all other constants 
+that belong to the same slot will be updated at the same time.  An 
+example, here is part of one of my pixel shaders...<br><br><pre class="code">cbuffer matrices : register(b0)
+{
+	float4x4 WorldMatrix;
+	float4x4 ViewITMatrix;
+	float4x4 WorldViewMatrix;
+	float4x4 WorldViewITMatrix;
+	float4x4 TextureMatrix[8];
+}
+cbuffer lights : register(b1)
+{
+	float4 LightAmbient[8];
+	float4 LightDiffuse[8];
+	float4 LightSpecular[8];
+	float3 LightPos[8];
+}
+</pre><br><br>The register b0 refers to slot number 0, b1 for slot number 1, and so on....<br><br>This
+ all seems very compilcated but once you get the hang of it, it is quite
+ simple and logical.  In any case, once you have set-up a shader you can
+ just let it do its wonderful work and will not need to worry about 
+redefining the constants.<br><br><b>ValidateConstants(shader%)</b><br>Use this command when all constant declarations have been made, this will validate the shader and make it operable.<br><br><u>Manually programming constants</u><br>If, when declaring your constants with the <b>AddShaderConstant</b>
+ command, you choose a constant type with a manual update behaviour (see
+ type list in the post #11 of this thread) hardwired will not manage the
+ values automatically.  It will be up to the user to update the values 
+to manner he/she see fit in order to configure certain parameters that 
+may be necessary for a shader to operate.<br><br>The <b>AddShaderConstant</b>
+ command is actually a function - ie. it returns a value.  For 
+automatically updated constant types, the value returned by this 
+function was not really needed once set up, since Hardwired takes care 
+of the rest.  However, for manually updated constants, the value 
+returned is a unique identifier to a constant's handle.  The handle 
+needs to be held in a variable for later use in the initialisation of a 
+shader or in the render loop of a program.  I have now updated 
+hlsl_demo.hb to show a working example of both automatically and 
+manually updated constants.  You will remark that the constants 
+"worldMatrix", "viewMatrix" and "projectionMatrix" remain automatic.  
+However, I have included two new constants, one for the vertex shader, 
+and one for the first pixel shader - these two constants are named 
+"add_y" and "color".<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">DebugLoud
+UseDirectX11
+Graphics3D 800,600,32,2
+
+vs=RecallVertexShader("vertex_shader")
+ps=RecallPixelShader("pixel_shader")
+ps2=RecallPixelShader("pixel_shader2")
+
+AddShaderConstant vs,"worldMatrix",15
+AddShaderConstant vs,"viewMatrix",17
+AddShaderConstant vs,"projectionMatrix",16
+addy=AddShaderConstant(vs,"add_y",1,0,0,True)
+ValidateConstants vs
+
+colo=AddShaderConstant(ps,"color",4)
+ValidateConstants ps
+
+cam=CreateCamera(cam)
+cube=CreateCube()
+sph=CreateSphere()
+MoveEntity sph,-5,0,5
+
+MoveEntity cube,0,0,5
+
+AmbientLight 127,127,127
+
+EntityColor cube,255,255,255
+EntityColor sph,255,0,0
+
+EntityVertexShader cube,vs
+EntityPixelShader cube,ps
+
+EntityVertexShader sph,vs
+EntityPixelShader sph,ps2
+
+value#=0
+
+Repeat
+TurnEntity cube,.004,.01,0
+MoveEntity sph,.0001,0,0
+value=value+.0001
+SetFloatConstant addy,value
+SetVector4Constant colo,Rnd(.5)+.5,Rnd(.5)+.5,Rnd(.5)+.5,1
+
+RenderWorld
+Text 0,0,"Custom shaders are now working!!!!"
+Flip 0
+Until KeyDown(1)
+
+End
+
+
+
+HLSL vertex_shader("vs_main",1,0)
+/*
+Test comment
+*/
+cbuffer constants
+{
+	float4x4 worldMatrix;
+	float4x4 viewMatrix;
+	float4x4 projectionMatrix;
+	float4 add_y;
+}
+
+struct VS_OUTPUT
+{
+	float4 position : SV_POSITION;
+	float4 position0 : POSITION2;
+	float4 Color : COLOR;
+	float3 normal : NORMAL;
+	float2 tex : TEXCOORD0;
+};
+
+struct VS_INPUT
+{
+	float3 position : POSITION;
+	float3 normal : NORMAL;
+	float4 color : COLOR0;
+	float2 tc : TEXCOORD0;
+	float2 tc2 : TEXCOORD1;
+	float4 instance_m0 : TEXCOORD2;
+	float4 instance_m1 : TEXCOORD3;
+	float4 instance_m2 : TEXCOORD4;
+	float4 instance_m3 : TEXCOORD5;
+	float4 Color2 : COLOR1;
+};
+
+//---------------------------------------------------------------------
+// Name: vs_main()
+// Desc: The vertex shader 
+//---------------------------------------------------------------------
+VS_OUTPUT vs_main(VS_INPUT input)
+{
+	VS_OUTPUT output;
+	output.position = float4(input.position,1);
+	output.normal = input.normal;
+	output.position0 = output.position;
+
+	output.Color = input.color;
+
+	// Calculate the position of the vertex against the world, view, and projection matrices.
+	output.position = mul(output.position, worldMatrix);
+	output.position = mul(output.position, viewMatrix);
+	output.position = mul(output.position, projectionMatrix);
+
+	// Set the texture
+	output.tex = input.tc;
+
+	output.position.y=output.position.y+add_y;
+
+	return output;
+}
+End Script
+
+Script pixel_shader("ps_main",2,0)
+////////////////////////////////////////////////////////////////////////////////
+// Filename: Color.ps
+////////////////////////////////////////////////////////////////////////////////
+
+cbuffer constants
+{
+	float4 color;
+}
+
+struct VS_OUTPUT
+{
+	float4 position : SV_POSITION;
+	float4 position0 : POSITION2;
+	float4 Color : COLOR;
+	float3 normal : NORMAL;
+	float2 tex : TEXCOORD0;
+};
+
+
+float4 ps_main(VS_OUTPUT Input) : SV_TARGET
+{
+	float x2=Input.position.x;
+	int x3=x2/4.0f;
+	if ((x3*4)!=(int)x2)
+	{
+		return float4(0.0f,0.0f,0.0f,0.0f);
+	}
+	return color;
+}
+
+End Script
+
+Script pixel_shader2("ps_main",2,0)
+////////////////////////////////////////////////////////////////////////////////
+// Filename: Color.ps
+////////////////////////////////////////////////////////////////////////////////
+
+struct VS_OUTPUT
+{
+	float4 position : SV_POSITION;
+	float4 position0 : POSITION2;
+	float4 Color : COLOR;
+	float3 normal : NORMAL;
+	float2 tex : TEXCOORD0;
+};
+
+
+float4 ps_main(VS_OUTPUT Input) : SV_TARGET
+{
+	float y2=Input.position.y;
+	int y3=y2/8.0f;
+	if ((y2-(y3*8))&lt;4)
+	{
+		return float4(0.0f,0.0f,0.0f,0.0f);
+	}
+	return float4(0.0f,1.0f,0.0f,1.0f);
+}
+
+End Script
+</textarea><br><br>You will notice that the result for declaration for 
+these two constants is saved in two variables, addy and colo.  Please 
+note also that for the declaration of the add_y constant that I set the 
+pad_it parameter to true (the default is false).  The reason for this is
+ that the constant here being declared is a four-byte floating point 
+value.  However, do not forget that due to the way a gfx adapter works, 
+it only deal with 16-bit registers.  In order that the 4-byte constant 
+complies with the 16-byte rule, setting the pad_it parameter will inform
+ hardwired to make up for the other unused 12 bytes of the register.  
+Failure to do so will result in a non-aligned constant buffer and will 
+result in the program crahsing.  Programming your constants correctly is
+ very important.<br><br><div class="quote"> <br>addy=AddShaderConstant(vs,"add_y",1,0,0,True)<br> <br></div><br><br><div class="quote"> <br>colo=AddShaderConstant(ps,"color",4)<br> <br></div><br><br><br><u>Modifing manually updatable constants</u><br>Some
+ new commands are now available in Hybrid/Hardwired in order giving you 
+the ability to manually update constants, these are the following...<br><br><b>SetBoolConstant(shader_constant_handle%,value%)</b> - Will set a boolean constant to the value given in parameter 'value'<br><br><b>SetIntConstant(shader_constant_handle%,value%)</b> - Will set a integer constant to the value given in parameter 'value'<br><b>SetInt2Constant(shader_constant_handle%,value%,value2%)</b> - Will set an int constant containing two elements to the values given in parameter 'value' and 'value2'<br><b>SetInt3Constant(shader_constant_handle%,value%,value2%,value3%)</b> - Will set an int constant containing three elements to the values given in parameter 'value', 'value2' and 'value3'<br><b>SetInt4Constant(shader_constant_handle%,value%,value2%,value3%,value4%)</b> - Will set an int constant containing four elements to the values given in parameter 'value', 'value2', 'value3' and 'value4'<br><br><b>SetFloatConstant(shader_constant_handle%,float_value#)</b> - Will set a float constant to the value given in parameter 'value'<br><b>SetVector2Constant(shader_constant_handle%,x#,y#)</b> - Will set a float constant containing two elements to the values given in parameter 'value' and 'value2'<br><b>SetVector3Constant(shader_constant_handle%,x#,y#,z#)</b> - Will set a float constant containing three elements to the values given in parameter 'value', 'value2' and 'value3'<br><b>SetVector4Constant(shader_constant_handle%,x#,y#,z#,w#)</b> - Will set a floatconstant containing four elements to the values given in parameter 'value', 'value2', 'value3' and 'value4'<br><br><b>SetUnsignedIntConstant(shader_constant_handle%,value%)</b> - Will set a unsigned integer constant to the value given in parameter 'value'<br><b>SetUnsignedInt2Constant(shader_constant_handle%,value%,value2%)</b> - Will set an unsigned integer constant containing two elements to the values given in parameter 'value' and 'value2'<br><b>SetUnsignedInt3Constant(shader_constant_handle%,value%,value2%,value3%)</b>
+ - Will set an unsigned integer constant containing three elements to 
+the values given in parameter 'value', 'value2' and 'value3'<br><b>SetUnsignedInt4Constant(shader_constant_handle%,value%,value2%,value3%,value4%)</b>
+ - Will set an unsigned integer constant containing four elements to the
+ values given in parameter 'value', 'value2', 'value3' and 'value4'<br><br><b>SetMatrixConstant(shader_constant_handle%,matrix%)</b>
+ - Will set a matrixconstant to the value given in parameter 'matrix'.  
+Use the matrix commands (described in a previous thread) in order to 
+manipulate a matrix for your needs<br><br><br>In the little sample hlsl_demo.hb, you can see that I have used the commands '<b>SetFloatConstant</b>' to manually change the 'add_y' constant and '<b>SetVector4Constant </b>'
+ to manually change the 4 floating point elements of the 'color' 
+constant.  Doing this within the render loop has given me the ability to
+ demonstrate that the constants here change the y position on the screen
+ and change the output color to a random color.  A shader can of course 
+be much more sophisticated than this - I decided to keep this demo 
+simple so it's easy to understand, and that way it didn't take me long 
+to create (which is a good thing too).<br><br><b>AddShaderConstantArray%(shader%,constant$,size%,type%,flags%=0,linked_object%=0,pad_it%=1,slot%=0)</b><br><br>If
+ you have any array in a shader constant list, you can declare them with
+ this useful command.  Instead of having to declare each element of the 
+constant in question, this command will declare the constant by the 
+number of elements provided in the parameter size.  The returned value 
+is the handle for the whole array.  Elements of the array can be 
+retrieved by the function below.<br><br>A typical array in either c++ or
+ HLSL has the variable identifier directly followed by the array size, 
+surrounded by square brackets....<br><br>float colour[5]; --- this would
+ initialize an array of 5 floating point values, for example, much like a
+ blitz equivalent Dim colour(5).<br><br><b>FindConstantElement%(array%,element_number%)</b><br><br>This
+ function will return the handle of an individual element found in a 
+constant array.  The array parameter is the array handle, returned from a
+ <b>AddShaderConstantArray</b> function.  The element number parameter has to be in the range of 1 up to and including the size of the array.  The command <b>FindConstantElement</b>
+ can be used at any moment for any amount of times as long as the shader
+ exists; whether it is during initialization of your program or inside a
+ main loop.<br><br><u><b>Including binary files into your executbles</b></u><br><br><b>INCBIN filename$</b>
+ - With this new linker directive, you can indicate your intention to 
+bundle files into your compiled executable.  If the given file exists 
+the linker will automatically include the file when compiling.<br><br><b>RecallFile%(filename$)</b> - This command will recall a file previously included by the <b>INCBIN</b>
+ command.  If the filename provided (not case-sensitive) does not exist 
+within the resident archive, the returned value will be 0.  The filename
+ must be exactly the same path provided in the <b>INCBIN</b> command or 
+else it will not be found.   If the file is found a blitz bank will be 
+returned, containing the file in question.   Please see hlsl_demo2.hb 
+for an example, here you will see that the stone texture is 'saved' with
+ <b>INCBIN</b> and recalled during runtime using <b>RecallFile</b>.  The texture is then 'loaded' as a texture using the <b>LoadTextureFromBank</b>.
+  Try compiling this file to an executable instead of compiling 
+directly.  Run the exe file, you should have the same result and will no
+ longer need the texture file - this compiled executable should be 
+totally independant of the texture file in question and can be run in 
+any folder without any additional files.<br><br><u><b>PLEASE NOTE</b></u>:  <br><br>* Although the bank returned by RecallFile is 100% compatible with <b>LoadTextureFromBank</b>,
+ it isn't quite yet compatible with other bank commands.  I'm still 
+working on that but I'll solve this little problem for 100% 
+compatibility with bank related functions...<br><br>* I am aware that 
+some of the samples render lighting a bit strangely, (such as the maze 
+sample).  This is not a bug, I am currently redesigning the in-built 
+shader that renders for dx11 and, when in HWShader mode, for dx9.  The 
+vertex and pixel shader I am in the process of creating is designed to 
+'emulate' the directx9 fixed-function pipeline.  This is very complex, 
+so it takes time, but I'm getting there....<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Gamepad module</td><td align="right"><font class="tiny">(Posted 2015-07-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have decided to pause the developement of the 64-bit side of Hybrid 
+in order to create a gamepad module for hardwired.  This uses XInput 
+(part of directx), which is used in the majority of modern games for 
+gamepad input.  Although mainly used for connected xbox gamepads, 
+playstation pads are compatible also with an outside extension (for ps3 
+controller owners please see <a href="http://forums.pcsx2.net/Thread-XInput-Wrapper-for-DS3-and-Play-com-USB-Dual-DS2-Controller" target="_blank"> here</a> for more details, this works on most games too; which is great for ps3 owners that don't have a specific pc/xbox controller).<br><br>Here is a rundown of the new gamepad commands, please see gamepad.hb for example....<br><br>dxCountPads%() - Returns the number of gamepads currently connected to pc, maximum of 4<br>dxPadPower%(pad_id)
+ - Will return the current power level of a gamepad, supply the pad 
+number for parameter pad_id (from 1 min to 4 max)<br><br><u>Values returned are:</u><br>0 = Battery empty<br>1 = Battery low<br>2 = Battery medium<br>3 = Battery full<br><br>dxPadBattery%(pad_id)<br>dxPadPower%(pad_id)
+ - Will return the battery status of a gamepad, supply the pad number 
+for parameter pad_id (from 1 min to 4 max)<br><br><u>Values returned are:</u><br>0 = No pad connected<br>1 = Device is currently wired and not using battery<br>2 = Alkaline battery<br>3 = Nickel metal hydride battery<br>4 = Unknwon battery type<br><br>dxPadVibrate(pad_id%,left#,right#) - Sets pad n°pad_id to vibrate, parameters left and right are from 0-1; 1 being full vibrate<br>dxReadPad(pad_id%)
+ - Use this command to tell hardwired to read the all current inputs 
+from pad n°pad_id.  This must be called before using any subsequent 
+commands listed below...<br>dxLStickX#(pad_id%) - Returns a float value 
+from -1 to 1 relating to the left stick's x-position, -1 being far left 
+and 1 being far right<br>dxLStickY#(pad_id%) - Returns a float value 
+from -1 to 1 relating to the left stick's y-position, -1 being lowest 
+and 1 being uppermost<br>dxRStickX#(pad_id%) - Returns a float value 
+from -1 to 1 relating to the right stick's x-position, -1 being far left
+ and 1 being far right<br>dxRStickY#(pad_id%) - Returns a float value 
+from -1 to 1 relating to the right stick's y-position, -1 being lowest 
+and 1 being uppermost<br>dxPadA%(pad_id%) - Returns 1 if the A button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadB%(pad_id%) - Returns 1 if the B button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadX%(pad_id%) - Returns 1 if the X button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadY%(pad_id%) - Returns 1 if the Y button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadLTrig#(pad_id%) - Returns a float from 0 to 1 of the current position of the left trigger of pad n°pad_id<br>dxPadRTrig#(pad_id%) - Returns a float from 0 to 1 of the current position of the right trigger of pad n°pad_id<br>dxPadLShoulder%(pad_id%)
+ - Returns 1 if the left shoulder button was pressed at the moment of 
+the dxReadPad being called, 0 if not<br>dxPadRShoulder%(pad_id%) - 
+Returns 1 if the right shoulder button was pressed at the moment of the 
+dxReadPad being called, 0 if not<br>dxPadLThumb%(pad_id%) - Returns 1 if the left thumb button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadRThumb%(pad_id%) - Returns 1 if the right thumb button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadDUp%(pad_id%) - Returns 1 if the D-pad's up button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadDLeft%(pad_id%) - Returns 1 if the D-pad's left button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadDRight%(pad_id%) - Returns 1 if the D-pad's right button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadDDown%(pad_id%) - Returns 1 if the D-pad's down button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadStart%(pad_id%) - Returns 1 if the start button was pressed at the moment of the dxReadPad being called, 0 if not<br>dxPadBack%(pad_id%) - Returns 1 if the back button was pressed at the moment of the dxReadPad being called, 0 if not<br><br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First attempt at 64-bit Hybrid!</td><td align="right"><font class="tiny">(Posted 2015-05-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Okay, this is not guaranteed to work.  This update concerns mainly the 
+first prototype of the 64-bit version of Hybrid.  I have managed to 
+compile my source to 64-bit without errors, so in theory it should work.
+  However it is very possible that it will not work; I unfortunately 
+cannot test this out for my machine is a crusty old x86 model.  My 
+compiler vs2013 can luckily compile x64 versions nonetheless.  So I'm 
+giving it a go, but no promises.<br><br>What I will need is a little 
+feedback from anyone possessing a x64 machine to see if they get 
+anywhere at all with this version.  I recommend you start off easy, try 
+running/compiling a completely empty project for example and see what 
+happens.  If you have success move on from there to a simple program 
+such as<br><br><pre class="code">Print "hi"
+Delay 1000
+End
+</pre><br>Do what tests you can, but please let me know as you guys will
+ be my eyes.  If I encounter a lot of errors, I will not insist too much
+ (but I will a little) on the x64 version as I am coding blindly here.  
+In this case I will just wait until I have a x64 machine before 
+continuing down this road.<br><br><br><br><br>Many modifications have 
+had to be made in order to achieve a x64 version.  I have finally 
+removed all traces of directx7, as this is incompatible with Win64.  The
+ same applies to the directplay routines.  This means that, for the 
+moment, all commands that still used dx7 and dplay will now not work as I
+ have 'emptied' them.  The syntax still works and the program will run, 
+but the functions do nothing.  The commands that are affected by this 
+update are mainly the functions concerning 2d graphics.  However, any 
+program run in a 3d environment should work as normal (in 32-bit mode, 
+64-bit TBC).  In some respects, this update is a step backward, as some 
+commands do not work anymore - but this is also a step forward towards a
+ 64-bit version.  I feel that a 64-bit version of Hybrid will help bring
+ it up to date with modern technology, so I'm doing what I can to make 
+it so.  In any case, I will re-program all removed commands so that they
+ are compatible with non dx7.<br><br>Please note that I have not 
+released a 64-bit version of the hardwired.dll.  I consider it pointless
+ to do so as Blitz3d that would use hardwired as a userlib is by nature 
+incompatible since B3D/B+ are 32-bit.<br><br>Modifications have been 
+made to the ide to incorporate 64-bit compilation.  I have added a new 
+icon to the toolbar, and new entries to the ide menu for executing or 
+compiling and saving x64 versions.  If you try compiling a 64-bit 
+version on a 32-bit machine, this will not work as the compiler for the 
+64-bit code is itself presently 64-bit also.  I may possibly be able to 
+create the 64-bit compiler as 32-bit code - but I will see about that 
+later if possible.  In any case, to clearly separate 32 and 64-bit code I
+ have kept the two architectures apart for the debug, runtime, linker 
+and compiler code.<br><br><br><b><u>Other things worth noting</u></b><br>*
+ Font handling has now been reworked in hardwired, and the current set 
+font will be used for gui button creation (see gui_test.hb)<br>* Requesters have now been added and work just like in b+<br>*
+ The initial default window that appears when executing a Hybrid program
+ is now a hardwired window.  Before, it was created by the original B3D 
+source, but since this contained some DX7 linked code I had to replace 
+it.  This window, as before with Hybrid will not show upon running and 
+will only unhide itself if you output text or graphics to it or if an it
+ enounters a mouse or keyboard command.<br>* Joystick commands do not 
+currently work, as I have removed them.  These were part of the 
+directinput routines and so incompatible with x64.<br>* Same applies to the muliplayer commands.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Gui events</td><td align="right"><font class="tiny">(Posted 2015-05-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The gui event commands have now been added, please see the <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php?show=Events" target="_blank">B+ manual for details.</a> Have updated gui_test.hb also...<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Gui menus</td><td align="right"><font class="tiny">(Posted 2015-05-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ All the original menu commands have now been added to the GUI routines,
+ see improved gui_test.hb for an example, and of course the  <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php?show=Menus" target="_blank">BlitzPlus manual</a> for a more in-depth explaination of the following menu commands.<br><br><b>dxWindowMenu%(window%)</b><br><b>dxCreateMenu%(text$,menu_id%,parent_menu%,make_sub_menu=false%)</b><br><b>dxSetMenuText(menu%,text$)</b><br><b>dxCheckMenu(menu%)</b><br><b>dxUncheckMenu(menu%)</b><br><b>dxEnableMenu(menu%)</b><br><b>dxDisableMenu(menu%)</b><br><b>dxMenuChecked(menu%)</b><br><b>dxMenuEnabled(menu%)</b><br><b>dxMenuText$(menu%)</b><br><br><b>Please note the following:</b><br><br>*
+ Although I have completed the menu creation/edition routines, for the 
+moment I have not done the event detection routines.  So for the moment,
+ this is just for demostration puposes but menus do work nicely now.<br><br>* I have added to the previous syntax of the <b>CreateMenu</b> command.  There is a new parameter at the end of the syntax which is now the following...<br><br><b>CreateMenu( text$,menu_id,parent,make_submenu=false )</b><br><br>I
+ have added the make_submenu option to the syntax to give the user the 
+option to create a sub-menu in Hybrid.  This was to my knowledge not 
+possible in B+ so you were restricted to just a one-level menu system.  
+Now you can create sub-menus by supplying true as the submenu parameter 
+and this will signal the CreateMenu routine that the menu item being 
+created will have a submenu.  The handle returned by CreateMenu can then
+ in turn be used as a 'parent' for new items that appear in the submenu.
+  See a working example in gui_test.hb.  To keep in accordance with the 
+B+ syntax, if you do not supply a make_submenu parameter the command 
+will default it to false, and will perform the same actions as a classic
+ B+ command.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>B+ GUI Command Set Insertion</td><td align="right"><font class="tiny">(Posted 2015-05-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Hardwired is currently undergoing some serious changes as far as the 
+way it handles windows.  I am still in the process of preparing 
+Hardwired/Hybrid for the 64-bit version, and for this I will need to get
+ rid of the old directx7 commands that still exist in the Hybrid code 
+for all 2d routines.  This code I did not touch until now as these 
+commands are to all intents and purposes independant of the 3d side of 
+things.<br><br>To help bring things in-line and to increase Hardwire's all-round versatility and power I am bringing in <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">BlitzPlus's GUI command set</a>.
+  I have added almost the whole of the command set for the moment, but a
+ good part of these commands are just 'duds', that is to say that I have
+ set up the command syntax but for some the routine has not yet been 
+written.  Below is a list of the commands that have been (more or less) 
+completed  (demo in gui_test.hb).  Naturally, in Hybrid all the commands
+ below have the syntax without the preceeding 'dx'...<br><br><b>dxCreateButton%(text$,x%,y%,width%,height%,group%,style%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxCreateComboBox%(x%,y%,width%,height%,group%,style%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxSetGadgetText(gad%,text$)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxShowGadget(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxHideGadget(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxEnableGadget(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxDisableGadget(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxActivateGadget(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxGadgetText$(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxGadgetX%(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxGadgetY%(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxGadgetWidth%(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxGadgetHeight%(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxGadgetGroup%(gad%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxCreateLabel%(text$,x%,y%,width%,height%,group%,style%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxCreateProgBar%(x%,y%,width%,height%,group%,style%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxUpdateProgBar(prgbar%,progress#)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxCreateSlider%(x%,y%,width%,height%,group%,style%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxCreateWindow%(text$,x%,y%,width%,height%,group%,style%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxActiveWindow%()</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxActivateWindow(window%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxMinimizeWindow(window%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxMaximizeWindow(window%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxRestoreWindow(window%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxWindowMinimized%(window%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><b>dxWindowMaximized%(window%)</b> - <a href="http://www.blitzbasic.com/bpdocs/command_list_gui_cat.php" target="_blank">See B+ manual for more details</a><br><br>The following is a list of commands I have added to the GUI command set that I feel make useful additions...<br><br><b>dxFreeGadget(gad%)</b> - Will as the name suggest delete a given gadget<br><b>dxCountWindows()</b> -  Returns the number of open windows<br><b>dxFirstWindow()</b> - Returns the handle of the first window in internal window list or 0 if no windows currently open<br><b>dxNextWindow%(CurrentWindow%)</b> - Returns the handle of the next window in the internal window list from the window given in the CurrentWindow parameter<br><b>dxHideWindow(window%)</b> - Hide a window<br><b>dxShowWindow(window%)</b> - Show it<br><b>dxWindowToFront(window%)</b> - Self explanatory!<br><b>dxWindowToBack(window%)</b> - Also self explanatory!<br><b>dxPositionWindow(window%,x%,y%)</b> - Position a window at x,y screen coords<br><b>dxMoveWindow(window%,x%,y%)</b> - Move a window by x,y<br><b>dxResizeWindow(window%,width%,height%)</b> - Change a window's size<br><b>dxWindowWidth%(window%)</b> - Returns a window's width<br><b>dxWindowHeight%(window%)</b> - Returns a window's height<br><b>dxWindowX%(window%)</b> -  Returns a window's x coordinate<br><b>dxWindowY%(window%)</b> - Returns a window's y coordinate<br><b>dxWindowResized%(window%)</b>
+ - Returns true is window has been resized by the user since the window 
+was opened or the last dxWindowResized command on the window specified<br><b>dxWindowMoved%(window%)</b>
+ - Returns true is window has been moved by the user since the window 
+was opened or the last WindowMoved command on the window specified<br><b>dxCurrentWindow%()</b> - Returns the handle of the last window opened or the window selected with the command dxSetWindow/dxUseWindow<br><b>dxUsedWindow%()</b> - EXACTLY the same as above, I decided to create two commands that do exactly the same thing for the sake of lazy programming.<br><b>dxSetWindow%(window%)</b> - Sets current window that all following commands will use<br><b>dxUseWindow%(window%)</b> - Same as above, just a different commande name - again for the sake of lazy programming because I like both names<br><b>dxWindowTitle(win%,title$)</b> - Change the title name of a window to title$<br><br>I
+ know there is still a lot to complete in this GUI module but it should 
+come relatively fast now.  You cannot presently do much with its current
+ state, but I wanted to share my progress to show how far it is coming 
+together and that I'm not sleeping ;D<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Linker directive</td><td align="right"><font class="tiny">(Posted 2015-04-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today accounces the arrival of a special kind of Hybrid command, a 
+linker directive.  Linker directives are part of a Hybrid program but 
+are not part of the final compiled code; these are however direct 
+instrucions for the linker itself.  The linker is the part of Hybrid <i>(as with blitz3d/b+)</i>
+ that creates the final executable file once the code has been compiled 
+by the compiler, it essentially brings together the main program code, 
+the startup routines, the runtime functions(including hardwired), the 
+icons, the shaders.<br><br>There will be a small and limited number of 
+linker directives, but the commands I will add to Hybrid to be used as 
+linker directives will be aimed at enhancing the Hybrid experience and 
+at the same time help to render the final product more versatile and 
+professional looking than possible before.  These commands will be 
+completely optional, of course.<br><br>I am releasing my first linker directive today, a simple but in my opinion a very useful one...<br><br><b>ICONFILE file$</b>
+ - (Please note this command is in uppercase, I did this intentionally 
+to differentiate this command from classic style command - to show it is
+ indeed a directive and is not a part of the final program.  Please see 
+iconfile.hb<br><br>Have you ever wanted to change the icon of a .exe you
+ compiled with b3d/b+ rather than use the default blitz icon?  I know I 
+have.  You can of course use an icon editor to change the icon after 
+compiling, but I feel it is much better to be able to configure the 
+final exe icon automatically without having to re-edit the file 
+afterwards.  With this new command, changing the icon is now possible.  
+To change the icon just supply the filename of a valid .ico file, the 
+icon will be copied by the linker to the final compiled exe file.  See 
+iconfile.hb for an exciting example....<br><br><u>Please note:</u><br>You
+ can use ICONFILE as many times as you wish in your hb program, but ONLY
+ THE LAST command in your program script will be taken into account as 
+the new icon for your exe file.  If an icon filename you supply is not 
+found or is not a valid icon, the program will not compile and an error 
+message will be given saying as much. <br><br>This may seem like a small
+ addition to some but I think it really adds to Hybrid's 
+user-friendliness.  Other directives are planned, INCBIN and INCDIR.  
+Both commands will be used to be able to include files or entire 
+directories into the final compiled exe by using an archiving method.  
+Access to these 'archived files' by the program for loading 
+textures/sound/meshes/anything will be done using new commands.<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Various bug fixes</td><td align="right"><font class="tiny">(Posted 2015-04-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Mipmappng now correctly works in dx9 mode (mipmaps were not updating 
+correctly before, now behave as expected - see test6.hb for example).<br><br>More bug fixes made to 64bit int and doubles.  Even more solid.<br><br>GetVersion$()/dxGetVersion$() will now return a string variable containing version number in x.x.x.x format <i>(Major version.minor version.build number.revision number).</i>  My compiler has been set up to automatically increase and update the build number every time I re-build.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hybrid help</td><td align="right"><font class="tiny">(Posted 2015-04-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hybrid has now the help files included with it....<br><br>Some bug fixes for the new types included in Hybrid - some memory leak issues have equally been resolved.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>IDE Fix mark 2</td><td align="right"><font class="tiny">(Posted 2015-04-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A nice new splash screen appear upon loading Hybid now, gives it that more polished look.<br><br>Find and replace have now also been fixed and behave as should.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>IDE Fix</td><td align="right"><font class="tiny">(Posted 2015-04-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I have spent some time debugging the IDE for hybrid.  Some known 
+problems have now been fixed.  Pressing Return on the keyboard was 
+creating two new lines at a time, not the usual one line -&gt; corrected
+ (@GF - sorry about taking so long ;D).  Pasting from the clipboard also
+ gave unpredictable results, sometimes changing the colour and/or font 
+of the text -&gt; also corrected.<br><br>I have also now officially 
+changed the icon for Hybrid.  I have chosen the logo created by Derron a
+ while ago - and once again many thanks go to Derron.  I personally 
+think it is the best of the bunch, so here it is. Thanks to all for 
+contributing to the logo request in any case - great to have input like 
+this....<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Updated blitz commands for new types</td><td align="right"><font class="tiny">(Posted 2015-04-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Another new release today, I have been principally working on 
+converting many of the original blitz commands to use the new 
+filetypes...<br><br>OpenFile - Now will accept a unicode filename, now 
+you can create that chinese/russian filename you always wanted!  As 
+usual if you supply a normal string variable $ it will automatically be 
+converted to unicode, so compatibility is ensured.<br>ReadFile - Same applies<br>WriteFile - Again, same thing<br>FilePos - Now returns an 64-bit integer value<br>SeekFile - Accepts an 64-bit int value for large files<br>ReadDir - Takes a unicode string as parameter now<br>NextFile - Returns a unicode string<br>CurrentDir - Ditto<br>ChangeDir - Takes a unicode string as parameter<br>CreateDir - Takes a unicode string as parameter<br>DeleteDir - Takes a unicode string as parameter<br>FileType - Takes a unicode string as parameter<br>FileSize - Takes a unicode string as parameter<br>CopyFile - Takes unicode strings as parameters<br>DeleteFile  - Takes a unicode string as parameter<br>ReadAvail - Returns a 64-bit integer<br><br>The following commands/functions have now been added to incorporate file access using the new types<br><br>ReadInt64%%(stream%)<br>ReadFloat64##(stream%)<br>WriteInt64(stream%,value%%)<br>WriteFloat64(stream%,value##)<br>ReadUniLine$$(stream%)<br>ReadUniString$$(stream%)<br>WriteUniLine(stream%,value$$)<br>WriteUniString(stream%,value$$)<br><br><u><b>Unicode string manipulation</b></u><br>The following commands/functions have now been added to help manipulate unicode strings...<br><br>UniString$$(string$$,repeat%)<br>UniLeft$$(string$$,count%)<br>UniRight$$(string$$,count%)<br>UniReplace$$(string$$,from$$,to$$)<br>UniInstr%(string$$,find$$,from%)<br>UniMid$$(string$$,start%,count%)<br>UniUpper$$(string$$)<br>UniLower$$(string$$)<br>UniTrim$$(string$$)<br>UniLSet$$(string$$,size%)<br>UniRSet$$(string$$,size%)<br>UniChr$$(ascii%)<br>UniLen%(string$$)<br>UniCode%(string$$)
+ - This is the unicode string equivalent of the asc command.  I have not
+ called it UniAsc for example, as I do not wish to confuse unicode with 
+asc.  These are two different character sets.<br><br>These commands 
+function the same way as for the string manip functions for ascii 
+strings, but are for unicode strings.  You can of course use Mid$ for 
+example on a unicode string, but since mid$ works on ascii strings, the 
+parameter will be converted to a string before performing the mdi$ 
+function.  Any non-ascii character held in the unicode string would be 
+lost during conversion so a mid$ could possibly return unexpected (but 
+non crashable) results.  Hence, it is best to use the string functions 
+for string manips and unicode functions for unicode strings.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Big Hybrid update - new default types</td><td align="right"><font class="tiny">(Posted 2015-04-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have got to a stage in the recoding of the compiler code for Hybrid 
+that I can release a new version containing the base code for three new 
+default variable types.  These are the 64-bit integer, the 64-bit float 
+and the unicode string types.  These are represented by %%, ## and $$ 
+respectively.<br><br>Most of the code is now complete, although there are some holes I am still working on it is now stable enough to release.<br><br>Some commands have now been updated to take these new types into account.   I am working on updating others...<br><br>Text,
+ Print and Write now use the default unicode filetype as thier default 
+parameter type.  If of course you provide a normal string variable for 
+the command, the variable will be automatically converted to unicode so 
+compatibility in ensured.  Please note that these commands currently use
+ unicode types in 3d mode only (after a graphics3d command).  In normal 
+default 2d mode, or in the default window any unicode character that is 
+out of range of the ascii limits will not be displayed.  I have yet to 
+re-code the source for the 2d text routines so they accept unicode text.<br><br>Filesize,
+ Fileseek and FilePos are now configured for 64-bit ints, and no longer 
+32-bit ints.  This means that files above the 4gb limit can now be 
+accessed.  Again, you can use 32-bit ints as before if you so desire and
+ it will work as before with no change.<br><br>All classic Blitz maths 
+commands (sin, cos, tan, exp, log, etc...) have now been updated to 
+accept and return 64-bit floats by default, although normal floats are 
+also accepted, again automatic conversion in assured.<br><br>For the 
+moment, there are only two ways of defining a unicode character; one is 
+done by defining it the classic way as you would for a string - such as 
+string$$="hello"; this is only valid for any ascii characters of course 
+as you cannot type any non ascii characters into an ide.  Any string 
+defined using this method will be converted automatically from ascii to 
+unicode.  The second mathod is used prinicpally to assign any non ascii 
+character using the new UniChr(code%) command.  Please see 
+unicode_test.hb for an example.<br><br>For a complete list of all unicode characters, i recommend you check out <a href="http://unicode-table.com/" target="_blank"> this site</a>.<br><br>I will be shortly be working on command equivalents for ReadInt/WriteInt for the new types.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Particle emitter update</td><td align="right"><font class="tiny">(Posted 2015-03-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This worklog update is mainly for demonstrative purposes.  Please check
+ out test11.hb to see an example of my work in progress on my particle 
+emitter code.<br><br>I am in the progress of putting together a very 
+configurable particle emitter system.  A good part of it have now been 
+written, and the renderer seems stable now, so here is an example of 
+what is to come.  Since the emitter system is very configurable, you can
+ understand it will be accompanied with several commands to be able to 
+program an emitter the way you please.  I will soon publish another 
+worklog entry will full details on the commands and how to create your 
+own emitters.<br><br>Particles created by the emitters are rendered using instancers, meaning a very fast display rate.<br><br>Please
+ note, rendering sprites using the emitter system will produce bizarre 
+results for the moment.  It is totally usable but won't display 
+correctly.  This I will of course correct, I have to update my shaders 
+and incorparate the 'billboarding' technique.<br><br>Please note also 
+that for the moment particle emitters are NOT linked with Physx.  They 
+are however already looking good, and with Physx once I have 
+incorporated that also, will look even better!<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New physx update</td><td align="right"><font class="tiny">(Posted 2015-03-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After a lot of playing around with Phyx, I have my first mesh and 
+terrain routines operable.  They still need some tweaking here and there
+ but they work...<br><br>Meshes can now be inserted into the physical 
+world as static objects without losing any triangular detail.  However 
+for dynamic actors, the meshes will be converted into convex meshes 
+containing a maximum of 256 points.  This is still a lot of detail, as 
+you will notice in the new test2_physx.hb.<br><br>Terrains can also now be used as static actors in the phsical world, test2_physx.hb demonstrates this also....<br><br>Some new commands...<br><br><b>dxCreateMaterial%(static_friction#,dynamic_friction#,bounce#)</b>Create
+ a material with static and dynamic friction indices and a bounce 
+factor.  The returned material object can be applied to actors with the 
+dxStaticActor and dxDynamicActor commands<br><b>dxFreeMaterial(material%)</b> Frees up a material - This will not affect already created actors<br><br>Updated commands<br><br>dxStaticActor
+ and dxDynamic actor now have a second parameter, which is the material 
+to apply to it.  If no material is supplied, a default material of 0.5, 
+0.5, 0.5 will be used for friction and bounce.<br><br>Please note: no 
+point in trying to apply a texture to the teapots in the new demo, as 
+this mesh does not presently contain any texture mapping coords.  If you
+ wan't textures, try it out on a loaded/user created mesh for example...
+ have fun...<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>HW Physx update</td><td align="right"><font class="tiny">(Posted 2015-03-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Dynamic actor spin direction and speed are now updated as well as 
+position, see updated demo - looks even better than yesterday...<br><br>New commands/functions<br><br>dxGetVelocityX#(entity%): Returns an actors x velocity<br>dxGetVelocityY#(entity%): Returns an actors y velocity<br>dxGetVelocityZ#(entity%): Returns an actors z velocity<br>dxSetTorque(entity%,x#,y#,z#): Sets the spin for an actor in pitch, yaw and roll<br>dxGetTorqueX#(entity%): Returns an actors current local spin speed/direction on the x axis<br>dxGetTorqueY#(entity%): Returns an actors current local spin speed/direction on the y axis<br>dxGetTorqueZ#(entity%): Returns an actors current local spin speed/direction on the z axis<br>dxSetMass(entity%,mass#): Self explanatory<br>dxGetMass#(entity%): Same applies - you get the idea...<br>dxWake(entity%):
+ If a dynamic actor doesn't move for a while, Physx will consider it 
+dormant and will not check on it's activity in the future to improve 
+calculation speed.  An actor will only 'wake up' if it is woken either 
+by an outside force (i.e. another actor hitting it) or by giving this 
+command.<br>dxSleep(entity%):Manual sleep command - will put an actor to sleep immediately regardless of current velocity/spin speed<br>dxSleeping%(entity%):Returns true if currently sleeping<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Physx improvements/additions</td><td align="right"><font class="tiny">(Posted 2015-03-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Since yesterday, Physx functionalities have changed as promised.  
+dMakeActor has been removed and replaced by two different commands 
+dxStaticActor and dxDynamicActor(see below).  I have now configured Phyx
+ to accept hardwired cube and sphere entities.  Please note that 
+non-uniform scaled spheres will for the moment not be calculated 
+correctly by my routines.  I will be tightening up and adding things as 
+time goes by.  Demo test1_physx.hb has now been completely changed, much
+ more demonstrative...<br><br>What's new: <br><br>dxInitPhysx(): Will 
+load Physx dll's into the host machine and initiate it.  This HAS to be 
+the first Physx related command in a hardwired program or else any other
+ Physx related command will cause the program to crash.  dxSetGravity no
+ longer will initiate Physx and will only SetGravity and that's all.<br>dxStaticActor(entity%):
+ Will set an entity as a static entity in the Physx world, a static 
+entity will be present in the Physx world but will not be moved by Phyx.
+  A static actor is used mainly for obstacles/floors/walls - things that
+ do not move and therefore do not need to be calculated.<br>dxDynamicActor(entity%):
+ Will give an entity a dynamic presence in the Physx world and update 
+it's position/rotation as time goes on<br>dxSetVelocity(entity%,x#,y#,z#): Will set the speed of a dynamic actor in the direction of x,y,z<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Physx integration</td><td align="right"><font class="tiny">(Posted 2015-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is the first and the experimental integration of Physx into 
+hardwired.  I will of course be adding a lot to it, refining it and the 
+few existing commands may well change.  This update is mainly to show 
+that it works (if it doesn't please let me know).<br><br>The physx 
+version I have integrated into Hardwired is the latest version available
+ v3.3.2.  I have decided to adopt this one to take full advantage of its
+ power.  For the moment I am using the dll version, and not the static 
+library, so it is essential that the following dll's are found in the 
+blitz3d/bin folder or the folder of the compiled .exe file....<br><br>PhysX3_x86.dll<br>PhysX3CharacterKinematic_x86.dll<br>PhysX3Common_x86.dll<br>PhysX3Cooking_x86.dll<br><br>If
+ these files are not supplied in one of these folders you will not be 
+able to use the Physx side of Hardwired.  However, as with all vlc 
+functionality, you will still be able to use any other part of hardwired
+ without problem.  I have included these four dll's in the Hybrid\bin 
+folder.<br><br>I have also included a very very simple little demo just 
+to show physx really is running.  I hope it works, for it was a bit of a
+ b*tch to set up and link to my code.  But now I have successfully 
+linked Physx to HW, building up a command list should follow much 
+quicker.  Great stuff, it will really add to hardwire's power.  The demo
+ can be found using Hybrid, under samples\test1_physx.hb.<br><br>There are only a few commands available for the moment, so you can't do much...<br><br><b>dxPhysxPresent%()</b>:Will
+ return true if the above files have been found in one of the right 
+folders, therefore informing the program it is ideed capable of using 
+Physx<br><b>dxSetGravity(x#,y#,z#)</b>:Set the gravity for the Physx 
+world, to a strength in x,y and z direction.  This command also 
+currently initiates Physx, without this command at the beginning of any 
+Physx related code (apart from dxPhysxPresent which is independant of 
+Physx itself) the program will crash.  I will change this.<br><b>dxGetGravityX#()</b>:Returns the current gravity x value<br><b>dxGetGravityY#()</b>:Returns the current gravity y value<br><b>dxGetGravityZ#()</b>:Returns the current gravity z value<br><b>dxMakeActor(entity%)</b>:This
+ will set up any hardwired entity into the Physx world, meaning that 
+it's position and rotation will be interactive with gravity settings of 
+the physics world as well as with any other actors.  For the moment, I 
+have only configured Physx to record any entities as cubes.  Polygons, 
+spheres, etc will all become cubes in the Physx world for the moment.  
+This will soon change, this is just my prototype code for testing...<br><b>dxPhysicsAdvance(time_step#)</b>:Advance time in the physx world and update all actors' positions/rotations.  Supply time factor to advance...<br><br><u><b>I
+ will repeat - These first commands are not necessarily the definitive 
+versions, they are mainly there for demo purposes.  In any case they 
+should be stable.  If not, like always be free to let me know</b></u><br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New update</td><td align="right"><font class="tiny">(Posted 2015-03-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have been tightening up a lot of hardwire's code, and am beginning to
+ bring this back into the release bit by bit.  Many bugs have been 
+eliminated along the way, and efficiency has been improved.  More to 
+come....<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hybrid Re-mastered!</td><td align="right"><font class="tiny">(Posted 2015-01-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After some negative feedback concerning my last release, I have 
+re-programmed certain aspects of Hybrid -  here's hoping no more 
+surprise visits from Mr Blue Screen!<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Large Hybrid update</td><td align="right"><font class="tiny">(Posted 2015-01-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This update concerns principally all 2d commands.  When I began 
+integrating hardwired into the b3d source, I disabled all directx7 code 
+in order to facilitate the integration of hardwired.  This included all 
+2d commands.  <br><br>These 2d commands has now been re-established and 
+should work as before.  All 2d commands will continue to use dx7, like 
+before, as this should not conflict with the dx9/dx11 side for 3d.<br><br>There
+ is also a very nice little improvement (Hybrid only) I have made to the
+ compiler.  This concerns the default output window for an compiled exe.
+  In B3D/BlitzPlus the default window is displayed immediately even if 
+you do not want it.  I do not much like this personally, perhaps for 
+some this is fine but for me it seems a bit ugly for my requirements.  
+So now I have programmed this window to ONLY come up if the bb code 
+sends a graphical ouput instruction (print, line, etc.) or an input 
+instuction.  If none of these commands are used, the window will not 
+appear.<br><br>Examples<pre class="code">End</pre>This silly piece of code will do nothing, where as in B+/B3D it would have bought up the output window and then closed it<br><br><br><pre class="code">Print "hello"
+End</pre>This slightly less silly piece of code <b>will</b> bring up the default output window because an output command has been used on it.  It will then of course close just as quick.<br><br><br><pre class="code">Waitkey
+End</pre>This code will also bring up the default output window as an input commmand has been used on it.<br><br><br><pre class="code">Graphics3d 800,600,32,2
+Print "hello"
+</pre>This code will not bring up the default window because the Print command is called on the newly created Graphics3d window.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hybrid update</td><td align="right"><font class="tiny">(Posted 2015-01-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Changes have been made to Hybrid's compiler code to improve stability. 
+ Exe's can now be compiled without resulting in an MAV (always a good 
+thing!)<br><br>More sample files have been converted to Hybrid also...<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Colour coordination</td><td align="right"><font class="tiny">(Posted 2014-12-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ New small update out, but vital it seems, to give the user the chance 
+to change the default colour used in the IDE.  Colour requester found in
+ the edit menu of the IDE.  Once chosen, all new windows will use this 
+colour.  Saves to preferences when quitting out of IDE.<br><br><br>Enjoy...<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hybrid update</td><td align="right"><font class="tiny">(Posted 2014-12-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Hybrid now has it's own personal IDE, and it's own filetype .hb, it 
+will still read .bb files of course but will save by default any file to
+ the .hb filetype, so as to differenciate between b3d files and hybrid 
+ones.<br><br>Please report any bugs, as there will be plenty - I have restructured much and re-done the b3d compiler side of things.<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Dx11 Compatibility</td><td align="right"><font class="tiny">(Posted 2014-11-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have been spending the last week redesigning my texture/image 
+handling routines so that both the directx9 and directx11 modes are 
+easier to bring together by 'wrapping' certain dx commands.  This means 
+for me a lot less headaches in the long run since I will be able to use 
+the same routines for both directx modes.<br><br>The technical stuff 
+aside, all this means that more parts of hardwired are now functionable 
+than before in dx11 mode.  Graphics can now be written to textures using
+ the classic graphics commands (dxplot, dxline, dxoval, etc.).  Texture 
+buffers can now also equally be accessed with the usual functions 
+(dxreadpixel, dxreadpixelfast, etc.).  Text commands and 
+backbuffer/frontbuffer access should not be too far away now for dx11, 
+but not quite ready...<br><br><br>  I have also reprogrammed 
+dxCreateTorus and dxCreateTeapot - these two commands no longer use the 
+directx9 functions; this is because the two functions do not exist in 
+directx11.  So now these have been completely rewritten by myself, 
+making them usable in both dx9 and dx11 modes.  For example, the teapot 
+mesh was essentially 'grabbed' from a original dx9 mesh created by 
+microsoft's in-built function, saved as vertex/triangle data, compressed
+ and incrusted into the hardwired dll.  My routine uncompresses this 
+data, and creates a mesh from it.<br><br>So, now that compression is 
+part of hardwired I have decided to create commands to make it available
+ to any user that may find it useful.  The compression/decompression 
+algorithms are designed to work on banks, not files.  Below is a list of
+ the relative functions....<br><br><br><b>dxCompressedSize%(compressed_bank%)</b> - This will return the compressed size of the given bank<br><br><b>dxCompressBank%(uncompressed_bank%,compressed_bank%)</b>
+ - This function will compress the data in the bank given in the first 
+parameter and save the result in the bank given in the second parameter.
+  The destination bank MUST be created beforehand, and have <u><b>at least</b></u> the size give by <b>dxCompressedSize</b> in order to function correctly.  Failure to do so will most likely result in a memory access violation.<br><br><b>dxDecompressedSize%(compressed_bank%)</b>
+ - This function will return the decompressed size of the given 
+parameter.  Use this function to create the necessary bank for 
+decompression.<br><br><b>dxDecompressBank%(compressed_bank%,uncompressed_bank%)</b>
+ - Decompresses the compressed data held in bank1 into the previously 
+created bank2.  The size of the second bank is available using the 
+dxDecompressedSize() function.<br><br><b><u>Other improvements</u></b><br>*Vertex colours are now rendered when the entity/surface fx flag 2 is used<br>*My
+ graphics routines (dxplot, dxoval, dxline, dxrect) have also been 
+optimised on the dx9 side of things, results are faster than before.  <br>*Left and right shift key detection has now been fixed.<br>*XP compatibility has also been improved.  I have yet to test it out on an xp machine, but I am hoping for the best as always...<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>XP Update</td><td align="right"><font class="tiny">(Posted 2014-10-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Ok, XP Users, this may work now.  I haven't yet tested, but I think I have found out why it wasn't working before...<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>dxSaveMesh additional flags</td><td align="right"><font class="tiny">(Posted 2014-10-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have added some more flags since my last update this morning and now I
+ have uploaded again.  There are now four additional flags for 
+dxSaveMesh...<br><br><b>4 - Save textures</b><br><br>This flag will 
+signal dxSaveMesh to save all textures that the mesh and it's surfaces 
+are linked to.  The filename of a texture is defined by the texture name
+ (changeable using the command dxNameTexture, dxTextureName retrieves 
+current name for a texture.  If the texture name is an invalid filename,
+ the texture will be skipped.  If the file already exists, the file will
+ not be overwritten and the saving will be skipped also.  Please note 
+that if a texture is referenced by more than one surface, the texture in
+ question will only be saved once.<br><br><b>8 - Overwrite texture</b><br>With this flag set, textures will be overwritten if the files already exist, as opposed to the default "do not overwrite"<br><br><b>16 - Rename texture</b><br>With
+ this flag set textures will be saved in the same folder as the mesh to a
+ newly designated filename beginning with "texture_" followed by a six 
+figure number.  For example, if the filename "texture_000001.*" does not
+ exist, this will be used, if not however the number will be incremented
+ by 1 until a unused filename is found.  The extension of the file 
+depends on the texture's flag settings.  If the texture's flags 
+indicates the texture has an alpha channel, the extension will be ".png"
+ and the file format will be thusly in PNG file format.  Otherwize the 
+extension will be ".jpg" for a JPG format image.<br><br>Please note that
+ if the default filename supplied in the texture's name is a invalid 
+filename, the rename texture flag will also save the texture with a 
+newly formatted name.<br><br>Any renamed texture will automatically have thier name changed within the texture object equally.<br><br><b>32 - Force PNG</b><br>Setting
+ this flag will force the dxSaveMesh command to save any renamed texture
+ to a png format, regardless of the presence of an alpha channel within 
+the texture image.<br><br>Phew!  I hope this all makes sense (and that it works ;D)<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>dxSaveMesh</td><td align="right"><font class="tiny">(Posted 2014-10-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ For the past day I have been working on a command which is in my 
+opinion a great addition to hardwired - something that was missing from 
+b3d.  The ability to save meshes to a file.<br><br>Saving to a b3d file now works.  Below the syntax..<br><br><b>dSaveMesh%(filename$,entity%,flags%)</b><br><br>For
+ the moment, only saving to the b3d file format will work.  Be sure to 
+include the ".b3d" file extension in the filename.  Once I have included
+ the ability to save to the 3ds format or x format, the format to save 
+in will be dependant upon the file extension of the filename.  This way I
+ do not have to incorporate three different commands, all will be rolled
+ into one.<br><br>Please see dxsavemesh.bb for a simple example.<br><br>The
+ entity parameter refers to the mesh you wish to save - please note that
+ ONLY meshes can be saved for the moment.  I am also working on the 
+bones part - so for the moment this info is not saved to file; but it's 
+on its way....<br><br>The flags parameter gives options for saving to a b3d file, these options can be OR'ed...<br><br>1 - Do not save any normals information for the vertices contained within<br>2 - Do not save any colour information for the vertices contained within<br><br>More options will follow...<br>dxSaveMesh
+ can be used as a function as much as a command, it will return 0 if the
+ function fails for some reason (mesh is empty/invalid file name/entity 
+not a mesh) and 1 if the function succeeds.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Additions and corrections</td><td align="right"><font class="tiny">(Posted 2014-10-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The following corrections have been made<br><br>dxEntityX,Y and Z now return the correct value when dxreturning a local value<br>dxEntityPitch,Yaw and Roll behave similarly now<br><br>The following has been added to dxloadmesh...<br><br>Automatic
+ texture loading for b3d models - if the file contains texture 
+information hardwired will now behave identically to b3d, loading 
+automatically each texture.<br><br>Automatic brush creation - if the 
+file contains brush information (colours, shininess, texture assignment,
+ etc.), hw will now create a brush for each brush entry and assign these
+ brushes to surface that require them.<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2014-10-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Numerous corrections have been made in both hardwired and hybrid.  Some
+ visible, some not.  Improvements have also been made for machine 
+compatibility - this may work once more on windows xp....<br><br>No new commands just yet...<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2014-10-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have decided to release Hybrid as part of Hardwired.  So for every 
+new update, be it for Hardwired/Hybrid or both I will release the lot in
+ one easy to swallow losange.<br><br><br>Hybrid can be found in the 
+Hybrid folder of the Hardwired release zip archive.  The hardwired dll 
+can be found, as usual, in the root folder of the archive, I have not 
+included it in Hybrid's userlibs folder.  If you wish to copy it to the 
+userlibs folder  you can; it should be compatible.  But there is not 
+much point in doing so, for all the hw commands will be part of Hybrid's
+ runtime library.<br><br>If however you wish to use the issued hardwired
+ test demos that are in the archive zip, you will need to use the 
+userlib.  The demos use the dx prefixed commands.  The Hybrid version of
+ the commands does not have this prefix.  I have taken away the prefix 
+to ensure compatibility with hardwired and to replace the original b3d 
+commands.  Please note that you cannot mix Hybrid and Hardwired code as 
+these modules do not communicate between them.<br><br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hybrid Update</td><td align="right"><font class="tiny">(Posted 2014-10-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Hello, I have been adding a lot of previously Hardwired exclusive 
+commands/functions to Hybrid's vocabulary today.  New version has been 
+uploaded for your enjoyment...<br><br><a href="http://chipmunkplayer.free.fr/Hybrid.zip" target="_blank">Download Hybrid</a><br><br><u>HARDWIRED COMMANDS/FUNCTIONS HARDWIRED PRESENTLY ADDED</u><br>CreateTeapot<br>AutoCameraAspect<br>CameraFOV<br>GetCameraFOV<br>GetCameraAspect<br>CreateTorus<br>GetEntityFX<br>EntityWireframe<br>Pointframe<br>EntityPointframe<br>CreateText<br>3DFont<br>UpdateSurfaceNormals<br>WBuffer<br>PixelShaderVersion<br>VertexShaderVersion<br>CreatePixelShader<br>FreelShader<br>CreateVertexShader<br>EntityPixelShader<br>EntityVertexShader<br>GetLastShaderError<br>CountEntities<br>GetSurface<br>FirstEntity<br>NextEntity<br>PreviousEntity<br>GetVersion<br>GetEntityAlpha<br>FreeSurfaceAttribs<br>SurfaceFx<br>SurfaceBlend<br>SurfaceAlpha<br>SurfaceWireframe<br>SurfacePointframe<br>SurfacePixelShader<br>SurfaceVertexShader<br>SurfaceColor<br>SurfaceTexture<br>WritePixel<br>TextureSave<br>CopySurface<br>CopyImage<br>SetFilters<br>RenderToTexture<br>RenderToScreen<br>ScaleSprite<br>UseDirectX11<br>DirectX11Used<br>BufferNoise<br>BufferInvert<br>GetSurfaceBoundingRadius<br>TrisRendered<br>MaxLights<br>GetConstantTableSize<br>ConstantCount%shader<br>DeclareVertexShaderWorldConstant<br>DeclareVertexShaderViewConstant<br>DeclareVertexShaderProjConstant<br>DeclareVertexShaderWorldViewProjConstant<br>GetEntityType<br>GetFPS<br>FramesRendered<br>HideWindow<br>IsWindowMinimized<br>$GetWinVersion<br>SurfaceShininess<br>CreateMaze<br>FreeMaze<br>ReadMaze<br>SaveMesh<br>LoadMeshXFromBank<br>LoadTextureFromBank<br>PeekMemInt<br>PokeMemInt<br>LoadAnimTextureFromBank<br>LightCaster<br>EntityCaster<br>EnityShadowDetail<br>EnityShadowColor<br>EnityShadowIntensity<br>EnableShadows<br>EnityShadowCutoff<br>SetVSync<br>SetWindowDefaults<br>WinClose<br>ScreenWidth<br>ScreenHeight<br>WindowWidth<br>WindowHeight<br>WindowX<br>WindowY<br>WindowResized<br>WindowMoved<br>MeshSimplify<br>VlcPresent<br>FreeVid<br>VidLoad<br>VidDownload<br>VidTrackCount<br>VidTrackType<br>VidWidth<br>VidHeight<br>VidDuration<br>VidTexture<br>GetVidTexture<br>VidPlay<br>VidPlaying<br>VidStop<br>VidPause<br>VidGetPosition<br>VidSetPosition<br>VidMuted<br>VidMute<br>VidUnMute<br>VidGetVolume<br>VidSetVolume<br>VidGetSubtitleCount<br>VidGetAudioTrackCount<br>VidGetAudioTrackDescription<br>VidSetAudioTrack<br>VidGetSubtitleDescription<br>VidSetSubtitle<br>RequestFile<br>VidGetPlayRate<br>VidSetPlayRate<br>Dx11Present<br>BeginScene<br>EndScene<br>RenderEntity<br>RenderCls<br>GetMaxFeatureLevel<br>SoftwareEmulation<br>NoSoftwareEmulation<br>LoadAnimMesh<br>Animate<br>SetAnimTime<br>AnimTime<br>Animating<br>CountBones<br>BoneName<br>BoneX<br>BoneY<br>BoneZ<br>BonePitch<br>BoneYaw<br>BoneRoll<br>MoveBone<br>TurnBone<br>GetBoneParent<br>GetRootBone<br>CountBoneChildren<br>GetBoneChild<br>CountBoneSiblings<br>GetBoneSibling<br>ScaleBone<br>BoneScaleX<br>BoneScaleY<br>BoneScaleZ<br>CountBoneInfluences<br>GetBoneInfluenceVertex<br>GetBoneInfluenceSurface<br>GetBoneInfluenceWeight<br>FindBone<br>RenameBone<br>CountVertexInfluences<br>GetVertexInfluenceBone<br>GetVertexInfluenceWeight<br>SetBoneInfluenceWeight<br>FreeBoneInfluence<br>BoneParent<br>FreeBone<br>CountCaptureDevices<br>CaptureName<br>OpenCaptureDevice<br>CaptureWidth<br>CaptureHeight<br>UpnpSearch<br>UpnpSearchDone<br>UpnpCount<br>UpnpName<br>SetAnimKey<br>AddAnimSeq<br>EntityHWShaders<br>HWShaders<br>SurfaceHWShaders<br>EntityNegative<br>EntityTextureBoundary<br>CreateQuat<br>FreeQuat<br>QuatFromEntity<br>QuatFromPYR<br>QuatFromXYZW<br>GetQuatX<br>GetQuatY<br>GetQuatZ<br>GetQuatW<br>GetQuatPitch<br>GetQuatYaw<br>GetQuatRoll<br>QuatFromMatrix<br>QuatInverse<br>QuatNormalize<br>QuatMultiply<br>CreateMatrix<br>FreeMatrix<br>MatrixMultiply<br>MatrixInverse<br>HWWinStatus<br>CreateInstancer<br>FreeInstancer<br>InstancerCountElements<br>InstancerAddElements<br>InstancerFreeElement<br>InstancerHookEntity<br>InstancerUnhookEntity<br>InstancerPositionElement<br>InstancerElementX<br>InstancerElementY<br>InstancerElementZ<br>InstancerMoveElement<br>InstancerRotateElement<br>InstancerTurnElement<br>InstancerElementPitch<br>InstancerElementYaw<br>InstancerElementRoll<br>InstancerScaleElement<br>InstancerElementScaleX<br>InstancerElementScaleY<br>InstancerElementScaleZ<br>CreatePlane<br>Write<br>TouchscreenTouched<br>TouchscreenXPos<br>TouchscreenYPos<br>TouchscreenWidth<br>TouchscreenHeight<br>TouchscreenTime<br>GetBrushTexture<br>TFormVector<br>TFormNormal<br>CreateDouble<br>FreeDouble<br>DoubleMultiply<br>DoubleDivide<br>DoubleAdd<br>DoubleSubtract<br>DoubleToFloat<br>DoubleToInt<br>DoubleFromString<br>DoubleFromFloat<br>DoubleFromInt<br>DoubleCopy<br>DoubleToString<br>DoubleSqrt<br>DoubleSin<br>DoubleCos<br>DoubleTan<br>DoubleASin<br>DoubleACos<br>DoubleATan<br>DoubleATan2<br>DoubleSinh<br>DoubleCosh<br>DoubleTanh<br>DoubleAbs<br>DoubleLog<br>DoubleLog10<br>DoublePow<br>DoubleExp<br>DoubleCeiling<br>DoubleFloor<br>DoublePi<br>DoubleToRadians<br>DoubleToDegrees<br>DoubleSign<br>DoubleEqualLessThan<br>DoubleLessThan<br>DoubleEqualTo<br>DoubleEqualBiggerThan<br>DoubleBiggerThan<br>DoubleMod<br>MakeTrayMessage<br>MakeTrayIcon<br>HardwiredLicence<br>AutoPadding<br>AddShaderConstant<br>CountShaderConstants<br>GetShaderConstantClass<br>GetShaderConstantType<br>SetShaderConstantType<br>GetShaderConstantFlags<br>SetShaderConstantFlags<br>SetIntShader<br>SetBoolShader<br>SetFloatShader<br>SetShaderConstantEntity<br>GetShaderConstantEntity<br>SetMatrixShader%shader<br>SetFloat2Shader%shader<br>SetFloat3Shader%shader<br>SetFloat4Shader%shader<br>SetInt2Shader%shader<br>SetInt3Shader%shader<br>SetInt4Shader%shader<br>InstancerElementActivate<br>InstancerElementActivated<br>FreeInstancerElement<br>EntityGreyscale<br>EntitySepia<br>EntitySimpleBlur<br>CreateEmitter<br>EmitterAddStyle<br>EmitterCountStyles<br>EmitterSetStyleShare<br>CreateBehaviour<br>FreeBehaviour<br>BehaviourSetBirthPosition<br>BehaviourSetBirthRotation<br>BehaviourSetBirthScale<br>BehaviourSetBirthDelay<br>BehaviourSetLifeSpan<br>CopyInstancer<br>CountCollisions<br>CollisionEntity<br>EntityCollided<br>CollisionX<br>CollisionY<br>CollisionZ<br>CollisionNX<br>CollisionNY<br>CollisionNZ<br>CollisionSurface<br>CollisionTriangle<br>CollisionTime<br>CaptureWorld <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hybrid - The Hardwired compiler</td><td align="right"><font class="tiny">(Posted 2014-10-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here is the first version of a directx9/11 version of blitz3d.  It has 
+been written from a modified base coming from the blitz3d source code, 
+incorporating the hardwired library (my source).  I have decided to call
+ it Hybrid for two reasons.  First reason is I don't think I should give
+ it a blitz name, after all it is unofficial and not a BRL release.  
+Second reason, Hybrid sounds quite cool - it is after all a combination 
+of two beasts rolled into one.<br><br><br><a href="http://chipmunkplayer.free.fr/Hybrid.zip" target="_blank">Download Hybrid</a><br><br>Ok,
+ every single b3d command still "exists" for the moment, however the 
+orignal dx7 source code has been taken away.  So, for some 
+commands/functions they will do absolutely nothing.  However, for the 
+rest of these commands, they will use my hardwired source code, which is
+ fully integrated into the b3d runtime code.  I am in the process of 
+linking each command name with the hardwired functions.  So patience, 
+but they should come quite quickly.  Below is a quick list of which 
+hardwired commands are at present active.  Please note that all 
+hardwired commands/functions that use the dx prefix in the userlib will 
+not have this prefix in the compiler, effectively replacing all b3d 
+commands.  Userlibs still of course work, but may not be compatible with
+ this hybrid version of b3d.  This is because some userlibs use dx7 
+functions so will not recognise dx9 stuff.  Funnily enough, the 
+hardwired userlib should work fine with Hybrid (although I have not yet 
+tested this), but why whould you??<br><br><u>COMMANDS/FUNCTIONS CURRENTLY HARDWIRED ACTIVATED</u><br>CountGfxModes<br>GfxModeWidth<br>GfxModeHeigh<br>GfxModeDepth<br>CountGfxModes3D<br>Graphics3D<br>EndGraphics<br>FrontBuffer<br>BackBuffer<br>Flip<br>GraphicsWidth<br>GraphicsHeight<br>GraphicsDepth<br>SetBuffer<br>GraphicsBuffer<br>LockBuffer<br>UnlockBuffer<br>ReadPixel<br>WritePixel<br>ReadPixelFast<br>WritePixelFast<br>Color<br>GetColor<br>ColorRed<br>ColorGreen<br>ColorBlue<br>ClsColor<br>SetFont<br>Cls<br>Plot<br>Rect<br>Oval<br>Line<br>Text<br>CopyRect<br>LoadFont<br>FreeFont<br>StringWidth<br>StringHeight<br>Write<br>Print<br>Input<br>Locate<br>ShowPointer<br>HidePointer<br>WBuffer<br>Dither<br>AntiAlias<br>WireFrame<br>AmbientLight<br>ClearCollisions<br>Collisions<br>UpdateWorld<br>RenderWorld<br>ClearWorld<br>TrisRendered<br>CreateTexture<br>LoadTexture<br>LoadAnimTexture<br>FreeTexture<br>TextureBlend<br>TextureCoords<br>ScaleTexture<br>RotateTexture<br>PositionTexture<br>TextureWidth<br>TextureHeight<br>TextureName<br>SetCubeFace<br>TextureBuffer<br>ClearTextureFilters<br>TextureFilter<br>CreateBrush<br>FreeBrush<br>BrushColor<br>BrushAlpha<br>BrushShininess<br>BrushTexture<br>GetBrushTexture<br>BrushBlend<br>BrushFX<br>LoadMesh<br>LoadAnimMesh<br>LoadAnimSeq<br>CreateMesh<br>CreateCube<br>CreateSphere<br>CreateCylinder<br>CreateCone<br>CopyMesh<br>ScaleMesh<br>RotateMesh<br>PositionMesh<br>FitMesh<br>FlipMesh<br>UpdateNormals<br>MeshWidth<br>MeshHeight<br>MeshDepth<br>MeshesIntersect<br>CountSurfaces<br>GetSurface<br>CreateSurface<br>GetSurfaceBrush<br>GetEntityBrush<br>ClearSurface<br>PaintSurface<br>AddVertex<br>AddTriangle<br>VertexCoords<br>VertexNormal<br>VertexColor<br>VertexTexCoords<br>CountVertices<br>CountTriangles<br>VertexX<br>VertexY<br>VertexZ<br>VertexNX<br>VertexNY<br>VertexNZ<br>VertexRed<br>VertexGreen<br>VertexBlue<br>VertexAlpha<br>VertexU<br>VertexV<br>VertexW<br>TriangleVertex<br>CreateCamera<br>CameraZoom<br>CameraRange<br>CameraClsColor<br>CameraClsMode<br>CameraProjMode<br>CameraViewport<br>CameraFogColor<br>CameraFogRange<br>CameraFogMode<br>CameraProject<br>ProjectedX<br>ProjectedY<br>ProjectedZ<br>EntityInView<br>EntityPick<br>LinePick<br>CameraPick<br>PickedX<br>PickedY<br>PickedZ<br>PickedNX<br>PickedNY<br>PickedNZ<br>PickedTime<br>PickedEntity<br>PickedSurface<br>PickedTriangle<br>CreateLight<br>LightColor<br>LightRange<br>LightConeAngles<br>CreatePivot<br>CreateSprite<br>RotateSprite<br>ScaleSprite<br>HandleSprite<br>SpriteViewMode<br>CreateTerrain<br>LoadTerrain<br>TerrainSize<br>TerrainHeight<br>ModifyTerrain<br>CopyEntity<br>EntityX<br>EntityY<br>EntityZ<br>EntityPitch<br>EntityYaw<br>EntityRoll<br>GetMatElement<br>TFormPoint<br>TFormVector<br>TFormNormal<br>TFormedX<br>TFormedY<br>TFormedZ<br>VectorYaw<br>VectorPitch<br>DeltaPitch<br>DeltaYaw<br>EntityType<br>EntityPickMode<br>GetParent<br>GetEntityType<br>EntityRadius<br>EntityBox<br>EntityDistance<br>EntityCollided<br>CountCollisions<br>CollisionX<br>CollisionY<br>CollisionZ<br>CollisionNX<br>CollisionNY<br>CollisionNZ<br>CollisionTime<br>CollisionEntity<br>CollisionSurface<br>CollisionTriangle<br>MoveEntity<br>TurnEntity<br>TranslateEntity<br>PositionEntity<br>ScaleEntity<br>RotateEntity<br>PointEntity<br>AlignToVector<br>SetAnimTime<br>Animate<br>SetAnimKey<br>AddAnimSeq<br>AnimTime<br>Animating<br>EntityParent<br>CountChildren<br>GetChild<br>PaintEntity<br>EntityColor<br>EntityAlpha<br>EntityShininess<br>EntityTexture<br>EntityBlend<br>EntityFX<br>EntityOrder<br>HideEntity<br>ShowEntity<br>FreeEntity<br>NameEntity<br>EntityName<br>EntityClass<br>DebugSilent<br>DebugLoud<br>DebugHarsh<br>DebugLoudAndHarsh<br>KeyDown<br>KeyHit<br>WaitKey<br>FlushKeys<br>MouseDown<br>MouseHit<br>GetMouse<br>WaitMouse<br>MouseWait<br>MouseX<br>MouseY<br>MouseZ<br>MouseXSpeed<br>MouseYSpeed<br>MouseZSpeed<br>FlushMouse<br>MoveMouse<br><br>You
+ will notice that the hardwired debug functions have been added.  I just
+ put these in to prove that I really have recoded b3d.  As time goes by 
+of course, I will be adding the whole of the hardwired command list, and
+ all will become very clear that it is indeed a dx9/11 version.<br><br>Please
+ note the zip file does not contain the b3d help files.  Please note 
+also that for any sound oriented commands the fmod.dll file (found in 
+the bin folder) will need to reside in the same folder as a compiled exe
+ file.  This is because blitz's system uses the library fmod for sound 
+oriented functions.  The original b3d's source intgrated fmod into all 
+compiled exe's.  However, this version of fmod (a static library and not
+ a dynamic library) has not been issued with the released blitz3d 
+source.  I think this is probably because of a license restriction, at a
+ guess.  In any case, I will be looking into this - I will find a way 
+around this in time.<br><br>Not likely to be much of an update tomorrow, but it shouldn't be too long now before Hybrid has the same vocab as HW....<br><br><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>dxCaptureWorld</td><td align="right"><font class="tiny">(Posted 2014-08-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> New commmand for the day<br><br><b>dxCaptureWorld()</b>
+ - Creates a 'snapshot' of all entities for later use with 
+dxrenderworld's 'tweening'.  This means of course that the dxrenderworld
+ tween parameter now has a effect on an entity.  If an entity has been 
+'captured' in the past and the dxrenderword tween value is not 1, a 
+'tween' state will be calculated for it.  <b>Please note</b>, for the 
+moment, only position, rotation and scale will be tweened.  The rest 
+(colour, alpha, shininess and all that) will follow.  Please see 
+dxcaptureworld.bb for an example.<br><br>Numerous internal bugs have also been fixed.  HW Should be more stable overall...<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a><a href="https://www.facebook.com/BlitzHardwired" target="_blank"><img src="13255&amp;log=1897_files/facebook_24px.html"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Collision  routines</td><td align="right"><font class="tiny">(Posted 2014-08-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <u><b>New collision functions</b></u><br><br><b>dxCollisionX#(entity%,index%)</b>
+ - Returns the x world position of where collision n°index happens for 
+an entity, or 0 if no collision or if collision index does not exist<br><b>dxCollisionY#(entity%,index%)</b>
+ - Returns the y world position of where collision n°index happens for 
+an entity, or 0 if no collision or if collision index does not exist<br><b>dxCollisionZ#(entity%,index%)</b>
+ - Returns the z world position of where collision n°index happens for 
+an entity, or 0 if no collision or if collision index does not exist<br><b>dxCollisionNX#(entity%,index%)</b> - Returns the x normal of collision n°index happens for an entity, or 0 if no collision or if collision index does not exist<br><b>dxCollisionNY#(entity%,index%)</b> - Returns the y normal of collision n°index happens for an entity, or 0 if no collision or if collision index does not exist<br><b>dxCollisionNZ#(entity%,index%)</b> - Returns the z normal of collision n°index happens for an entity, or 0 if no collision or if collision index does not exist<br><b>dxCollisionSurface%(entity%,index%)</b>
+ - Returns the surface handle of collision n°index for an entity, or 0 
+if no collision or if collision index does not exist.  Only works for 
+polygon collisions.<br><b>dxCollisionTriangle%(entity%,index%)</b> - 
+Returns the triangle index of collision n°index for an entity, or 0 if 
+no collision or if collision index does not exist.  Only works for 
+polygon collisions.<br><b>dxCollisionTime#(entity%,index%)</b> - Returns the time taken for collision n°index for an entity, or 0 if no collision or if collision index does not exist.<br><br><b>Please note</b>
+ -  My collision routines are at present about 90% complete.  All b3d 
+collision routines now have their hardwired equivalent, but I have still
+ yet to perfect the polygon collision routines, they almost work now - I
+ just have to fine-tune it a bit.  You will see what I mean if you 
+switch to polygon collision mode in the dxcollisions.bb demo.  The 
+sphere and box collision methods however work at 100% (to my knowledge) 
+and act exactly like thier b3d counterparts.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Collision  routines</td><td align="right"><font class="tiny">(Posted 2014-08-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ New update out, my collision routines are nearing completion - they are
+ not at 100% quite yet but are taking shape - very good shape, see 
+dxcollisions.bb for a demo...<br><br>Some parts of the collisions 
+routines will not yet work, but should not crash either.  The rest will 
+follow, little by little for I now have the foundations of my colliision
+ detection routines.<br><br>The dxDebugHarsh routines have been 
+improved.  Any debug messages should now not precede a memory access 
+violation and quit out immediately.<br><br>A few new commands too..<br><br><b>dxCountCollisions%(entity%)</b> - Return the number of collisions detected by last dxUpdateWorld command for a given entity.<br><b>dxCollisionEntity%(entity%,index%)</b> - Return the entity handle of the collision n°index detected using entity given in parameter or 0 if not found<br><b>dxEntityCollided%(entity%,type%)</b> - Return the entity handle of the collision type given in parameter for the entity given or 0 if not found<br><br><b>dxCreateCone</b> and <b>dxCreateCylinder</b> have now been updated to concur with b3d syntax and will now behave exactly like the b3d versions.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>dxCopyInstancer</td><td align="right"><font class="tiny">(Posted 2014-08-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Have added a new instancer command...<br><br><b>dxCopyInstancer%(instancer%)</b> - Will completely make a copy of an instancer and return the copy's handle <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Texture handling bug</td><td align="right"><font class="tiny">(Posted 2014-08-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> New update - have fixed a texture freeing bug - a bug that was affecting amongst other things dxLoadTerrain. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update - dxPointEntityFix</td><td align="right"><font class="tiny">(Posted 2014-08-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> New update out - dxPointEntity should now correctly function... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update - Scale fix</td><td align="right"><font class="tiny">(Posted 2014-07-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> New update - have fixed a little scaling problem that caused inconsistency amongst other things with blitz3d's maths... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update - Shader Init Routines - DX11</td><td align="right"><font class="tiny">(Posted 2014-07-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> New update available - Shader init routines now updated for dx11 mode.  Much faster than b4....<br><br>Other problems will have to wait for another day but I will work on them of course...<br>Later... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update - Shader Init Routines</td><td align="right"><font class="tiny">(Posted 2014-07-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ First worklog entry - I intend to continue to release all updates and 
+important news here, rather than on the threads.  This will eliminate a 
+lot of the 'fluff' that only interest a certain amount of people.  
+Although I will take the time to read <b>all</b> the threads (sometimes 
+I'd even like to avoid reading some of them for some posts are complete 
+wastes of space and/or time), I can totally appreciate that some of you 
+would like to avoid having to read the threads and just get to the juicy
+ stuff.  Releasing my updates on the worklog means that my posts will 
+effectively remain the last post in the thread all the time, so will not
+ be missed by anyone thinking I have not released anything new.  I will 
+put a little notice on the blitz showcase forum for any new post on the 
+worklog.<br><br>Ok, there is a new update out.  This update contains no 
+new commands, however there is a big increase in initailisation time.  I
+ have redesigned the shader init system of HW, so that the HW shaders 
+are already compiled in the userlib and not compiled each time the dll 
+is initialised.  If you have a machine like mine, you should see a 
+significant increase in speed.<br><br>As always, any bugs let me know about them on the forum.  I not saying I'll deal with them immediately but I'll note them.<br><br><a href="http://chipmunkplayer.free.fr/release.zip" target="_blank"><img src="13255&amp;log=1897_files/hardwired_button.gif"></a><a href="http://chipmunkplayer.free.fr/libvlc.zip" target="_blank"><img src="13255&amp;log=1897_files/vlc_button.gif"></a><br><br><a href="http://chipmunkplayer.free.fr/hardwired_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/hardwired_blitzplus_help.zip" target="_blank"><img src="13255&amp;log=1897_files/download_bplus_help.gif"></a><br><a href="http://chipmunkplayer.free.fr/help/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_b3d_help.gif"></a><a href="http://chipmunkplayer.free.fr/help_blitzplus/index.htm" target="_blank"><img src="13255&amp;log=1897_files/ol_bplus_help.gif"></a>  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=phoebe8%40free%2efr&amp;lc=GB&amp;item_name=Blitz%20Hardwired&amp;currency_code=EUR&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank"><img src="13255&amp;log=1897_files/btn_donate_SM_002.gif"></a> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

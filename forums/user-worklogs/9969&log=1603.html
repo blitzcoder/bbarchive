@@ -1,0 +1,150 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Vilu</h1><h1>Ananta</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Big changes in the making</td><td align="right"><font class="tiny">(Posted 2009-05-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <b>Update priorities</b><br><br>... for the lack of a better term. <br><br>By that I mean varying levels of detail for physics and AI update timing.<br><br>The
+ basic idea is that the player ship will have a fixed priority of 1 
+(updates every frame).  AI ships nearby will have a high priority too, 
+but ships further out will have lower update priorities. Space objects 
+very far away will have a priority of, say, 16 or so. And objects that 
+only move but do not think (asteroids, planets etc.) should probably 
+update at a fixed lower priority rate. That way I could increase the 
+amount of physics entities dramatically without adverse effects to the 
+game performace.<br><br><br>How this integrates to the current collision
+ detection engine, I have no idea. The current engine requires that both
+ colliding objects have updated before collision respose can be 
+calculated properly. So I might have some trouble in implementing this 
+one. Oh well, life without challenges wouldn't be that exciting, right?<br><br>The
+ technical way to implement this is still a bit obscure. Maybe I should 
+have 3 or 4 lists with fixed priority values, and dynamically move the 
+objects between the lists as they move closer to or futher from the 
+player. Also, I need an elegant way to make sure that the objects in a 
+16-frame priority list are not all updated during the same frame, but 
+smooth them out to span all 16 frames. <br><br>All of this makes me think of...<br><br><br><b>Timing</b><br><br>Now there's a beast that requires a total rewrite. But why?<br><br>Having
+ played around with fixed time step and fathomed out the pros and cons 
+of fixed and variable time steps, I'm slowly coming to the conclusion 
+that it's definitely worth trying.<br><br>First off, I believe 
+implementing those priority lists I talked about above is possible only 
+using a fixed dt, without the need to save the last update time with 
+every object.<br>Secondly, there's a fair chance that my struggles with 
+degrading planetary orbits are over after this decision. I knew from the
+ beginning that variable physics step is a big no-no for the 
+inaccuracies it causes.<br><br>Unfortunately it will be a hell of a job 
+at this point of the project. There's a lot of logic in the game relying
+ on the current delta timer, so it might require some hacking and shaky 
+duct tape fixing to get everything in working order.<br><br>Or then again it might be better for me to abandon Ananta and join the Vega Strike team... ;) <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fly-by-wire</td><td align="right"><font class="tiny">(Posted 2009-04-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Remember <i>Independence War 2</i> and <i>Terminus</i>?
+ They were space sims that had beautiful Newtonian physics and still 
+managed to be a lot of fun. They can easily be mutually exclusive if not
+ done right.<br><br>Let's face it: Elite Frontier was innovative and 
+extremely realistic, but as a result, space flight and combat were dead 
+boring. Those games that do it right have some kind of an artificial 
+velocity limiter that bend some laws of nature but manage to get away 
+with it as space <i>sims</i>. <br><br>Ananta's latest SVN incarnation 
+features a fly-by-wire computer that controls velocity in a very subtle 
+manner, without actually breaking any laws of physics. I came up with a 
+hull-specific top velocity after which the hull starts to gradually take
+ damage. Speeding is controlled by the ship's computer, which controls 
+directional thrusters to keep the ship's velocity under the hull's speed
+ limit. The limiter can be momentarily switched off for those quick 
+escapes, trading some of the ship's integrity for the pilot's life.<br><br>In
+ a technical side, it took a lot of thinking and trigonometry to pull it
+ off in an elegant manner, but the results look quite good. The 
+directional thrusters do their best to bring a speeding ship below the 
+speed limit without crippling the pilot's control over his ship.<br><br>Those fly-by-wire functions should help tremendously with coding in some advanced AI routines as well. <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wingmen!</td><td align="right"><font class="tiny">(Posted 2009-03-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It's really not a simple task to code AI logic for Newtonian space 
+flight. After hours of pouring through physics books and sites in search
+ for useful equations, and failing countless times trying totally 
+different approaches to tackle the problem, I finally bumped into a 
+forum thread that presented a simple yet surprisingly effective idea for
+ AI chase logic.<br><br>To put it simply: predict the coordinates of 
+your ship and the target at some time in the future, draw an imaginary 
+vector between those two predicted points in space and accelerate in 
+parallel to the vector. The trick is knowing how to calculate the 
+prediction time interval for it to work at all speeds and distances.<br><br>The
+ result is far from optimal control, but in a game like this it comes 
+close enough. If it looks good enough, use it. After all, we're not JPL 
+engineers coding an autopilot logic for Mars landers.<br><br>So, the current SVN revision (140) now features a wingman who does his best to follow your ship. <br><br>Next up: combat flight AI. <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Solar system</td><td align="right"><font class="tiny">(Posted 2009-03-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> By the way, here's a sneak peek at what the solar system generator is producing right now.<br><br><img src="9969&amp;log=1603_files/solarsystem.webp"><br><br>In case you're wondering, that view kicks in if the galaxy map zoomed in enough. :) <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Trigonometry</td><td align="right"><font class="tiny">(Posted 2009-03-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I knew I should've not skipped those lessons. <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress</td><td align="right"><font class="tiny">(Posted 2009-03-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Ok, it's been a while.<br><br>The
+ project has not progressed much since the last worklog entry. And to 
+make it even more embarrasing, most of the credit for the progress goes 
+to Matt, a helping hand who volunteered to give the project a little 
+push.<br><br>He coded in a well-working procedural planet generator that
+ is fired on entrance to the solar system and populates the system with 
+stellar bodies.<br><br>So yes, now it's quite possible to jump around 
+the vast galaxy and travel through the generated space environment to 
+your heart's content.<br><br>Right now I'm putting together some 
+primitive AI routines, and I expect to see some combat action soon. 
+Also, the plan is to make the static planets orbit their suns. After 
+preliminary testing I still have trouble keeping the moons' orbits 
+stable enough for the simulation. Maybe delta timer wasn't the proper 
+choice for a timing method after all :P<br><br>I'm quite thrilled about 
+the latest great advance in BlitzMax: threading. A project of this scale
+ can surely benefit from it as soon as I get my head around it. <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Why not 3d?</td><td align="right"><font class="tiny">(Posted 2008-05-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've had numerous ravings from disappointed Elite fans about this game done in 2d, so I thought to clear it up a bit.<br><br>With
+ the help of free 3rd party modules, BlitzMax is very capable of doing 
+fast and visually appealing 3d. Still, I chose 2d. Why?<br><br>Yes, it's
+ 2d, yet I have the nerve to compare it to Elite. So go ahead and sue 
+me. Visual appearance aside, keeping the game in 2d has many benefits 
+over 3d. <br><br>Ananta started out as a one-man-project and will 
+probably stay that way for some time, at least until I get the game on 
+tracks to let it evolve by itself. 3d would mean that I'd be dependent 
+on a scarce resource of 3d modellers. Unfortunately I have neither the 
+skill, talent, will nor time to learn it by myself. <br><br>On top of 
+that, there really are no modellers out there willing to participate in a
+ casual on/off project which occasionally might not show any progress 
+for a long time. For free, might I add. Even getting a talented 2d pixel
+ artist or two to take part in this could prove to be difficult. <br><br>Most
+ importantly, 2d allows more freedom in game design. The intention is to
+ focus on the immersion of a huge, dynamic and living universe, instead 
+of polishing the glossy visual aspects of 1st person action. Keeping it 
+simple allows me to concentrate on things I feel are most important. I 
+will need every CPU cycle I can squeeze off to simulate the physics and 
+economy of the underlying universe, and in spite of what modern 
+computers are capable of, doing everything in 3d would consume more CPU 
+time and memory. <br><br>To sum it all up, as a man with a day-job (and a
+ life, mind you ;), I feel Ananta development already consumes more than
+ enough of my spare time. I barely have the time to commit to a project 
+of this scale, let alone to a full-blown 3d space sim. <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Procedurally generated galaxy teaser</td><td align="right"><font class="tiny">(Posted 2008-05-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <b>Starmap zoomed up on a "star sector":</b><br><br><img src="9969&amp;log=1603_files/starmap2_1.webp"><br><br>The star names are generated by randomly combining three syllables together. <br><br><b>A bit zoomed out...:</b><br><br><img src="9969&amp;log=1603_files/starmap2_2.webp"><br><br><br><br><b>"My God, it's full of stars!":</b><br><br><img src="9969&amp;log=1603_files/starmap2_3.webp"><br><br><br><b>Galaxy image kicking in when zoomed out far enough:</b><br><br><img src="9969&amp;log=1603_files/starmap2_4.webp"><br><br><img src="9969&amp;log=1603_files/starmap2_5.webp"><br><br><br>The
+ sector in the middle is one of 67,108,864 others in the universe. 
+They're all procedurally generated on-the-fly when the map is scrolled 
+or zoomed out. The star generation algorithm actually loads and parses a
+ grayscale image of a real galaxy, and star distribution and densities 
+are based on the brightness of a pixel associated with the specific 
+sector. A sector can have any number of stars between 0 (black pixel) 
+and 42 (white pixel).<br><br><img src="9969&amp;log=1603_files/galaxy.webp"> <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>What the game is all about?</td><td align="right"><font class="tiny">(Posted 2008-05-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Ananta is a 2d, single-player Elite-like trading/combat/exploring space
+ adventure game. I'm taking influences from the best of the space 
+trading games, but still try to create something unique. It will combine
+ the best features from Elite II Frontier, Flatspace, X-series, 
+Terminus, Hardwar and Starshatter, to name a few. Each of those games 
+excel in one or two categories, but none of them doesn't fit my idea of a
+ perfect game of this genre. Well, Ananta will not be perfect either. 
+Not without a huge budget and a team of hired developers, <b>or</b> a motivated group of talented open-source coders. It is still a one-man project and might stay that way till the end.<br><br>Trying to squeeze my development goals into a nutshell, here are some things I'm trying to achieve (or already have):<br>* A procedurally generated nearly endless universe<br>* Semi-realistic Newtonian and Keplerian physics and orbital mechanics<br>* Modular ship design with ship upgrades<br>* Dynamic supply/demand -based economy<br>* Player-owned space stations with the ability to run manufacturing or retail businesses<br>* Hired AI wingmen and cargo-runners<br>* Real-time strategic space battles with the ability to issue commands to AI ships<br>* Factions with dynamic relations towards each other<br>* Missions from factions or private employers<br><br>For those willing to read a more detailed description, head over <a href="http://code.google.com/p/ananta/wiki/vision" target="_blank">here</a> <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The beginning... not!</td><td align="right"><font class="tiny">(Posted 2008-05-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Now that the project has been under development on and off for almost 
+two years now (mostly "off" during the first year), a real game is 
+slowly starting to rise from the loose heaps of random code. So, I 
+finally decided to start a worklog as the game has progressed beyond the
+ infamous <i>point of no return</i>, where the amount of invested time and effort is getting too huge for me to chicken out anymore. <br><br>Actually
+ the project started some three years ago, but not originally with 
+BlitzMax but another game-oriented marginal language. Some two years ago
+ I decided to port the little code I had to BlitzMax. It's been a 
+really, really slow project, mainly because the damned Real Life ™ 
+getting on my way. You know, the day job, spouse, drinking with buddies,
+ etc. Now I've picked up the pace, and I believe this worklog might 
+actually make me push even harder, now that I know there might be people
+ out there expecting to see some results. :) Right now, the codebase has
+ almost 4000 lines or 130000 characters of self-written code, not 
+counting comments or empty lines. Everything critical to the game, 
+including the physics engine, is 100% homemade. A small helping hand 
+from Brucey in the form of the XML file parser wrapper and Cairo vector 
+graphics module has been needed, though ;)<br><br>The game is free and 
+open-source, and will remain that way. The source code repository and 
+some ideas about the game development can be found at the <a href="http://code.google.com/p/ananta/" target="_blank">Google Code site</a>. <br><br>The
+ repository commit log acts as a really detailed "worklog" for the game 
+(not that I expect anyone to actually browse through it!), so this 
+worklog will be mainly my channel to shamelessly promote my development 
+milestones. <br><br>While I'm pondering what parts of the game to 
+shamelessly promote, go ahead and see what the Google Code site has to 
+offer. The Subversion repository is free for anyone to checkout, compile
+ and run. The game doesn't use any commercial 3rd party modules, so it 
+should be a breeze. Also it should compile on Linux and Mac as well, 
+although it's been a while since I tried compiling it on Ubuntu. Throw 
+me a message if it doesn't. <br><br> --------------------------------<br>2d space sim in progress: <a href="http://anantagame.googlepages.com/" target="_blank">Ananta</a><br>Worklog <a href="http://www.blitzbasic.com/logs/userlog.php?user=9969&amp;log=1603" target="_blank">here</a><br><a href="http://code.google.com/p/ananta/updates/list" target="_blank">Code updates</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

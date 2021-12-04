@@ -1,0 +1,99 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for _JIM</h1><h1>Leve editor / Engine</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I have created fire!</td><td align="right"><font class="tiny">(Posted 2009-12-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ It’s been a while since my first blog post. Lots of things happened in 
+the meantime, most of them slowing down the development of the editor 
+and game engine. However, I’m back and I bring good news! Remember those
+ area checks (triggers) and scripts I was talking about at the end of my
+ previous post? Well, they’re here!<br><br>Area checks have been in 
+there for a while. Scripts were working as well about 2 weeks ago. In 
+the level editor that is. Getting them to run in the preview tab (actual
+ game simulation) was quite tricky. It took a lot more than I 
+anticipated, but now they’re getting along quite nicely.<br><br>So how 
+do those exactly work? Quite simple actually. Each prop can have an 
+unlimited number of areas defined inside and each area can have its own 
+script. For now, scripts are run only when the player enters the area. 
+In the near future, each area will be able to have lots of scripts 
+attached, based on the triggering condition: time greater than 
+something, player has certain properties, per-frame, etc.<br><br>Scripting system<br><br>The
+ scripting system is a very powerful tool and this means there’s a high 
+chance of over-using it. Scripts, unfortunately, are very slow compared 
+to compiled code, but offer a lot of customization. Obviously I’m trying
+ to keep the best of both. Instead of having scripts rule the game, I 
+plan on keeping them one-shot actions. In other terms, I mean to have 
+the scrips execute as rarely as possible and tell the engine what to do,
+ instead of having the scripts run everything. This keeps the 
+flexibility of the scripts while preserving the speed of the engine. Of 
+course, it’s not free and it’s not as easy as it sounds. In order for 
+the scripts to pull the levers, first I have to make the levers and 
+connect them to something. Time for an example! Let’s say we want to 
+control they movement of the player. The slow way would be something 
+like: “If left key is pressed, move player to left. If right key is 
+pressed, move player to the right.”. This would be defined in the 
+script, which is supposed to run every frame, check the keys and move 
+the player if necessary. Does the job, but it’s very slow. The right way
+ to do this is to run a script once that does this: “Set the left 
+movement key to: Left Key. Set the right movement key to: Right Arrow” 
+and then have the engine run according to what the script configured. 
+Advantages: the engine runs the code (fast), you can set any key for 
+movement (flexible). Disadvantages: the support for this has to be built
+ withing the engine. That means more work for me, but better speed in 
+the end.<br><br>Other stuff<br><br>Being low on “Programmer Enthusiasm”,
+ I worked on a few small examples which will come in hand quite soon. 
+One is a small (and very fast) particle system. Another is something 
+very similar in concept, but quite different inside the code. Both of 
+those are very useful when the time comes to add in the eye-candy. The 
+last experiment is a small (fast as well) pathfinding system. Not sure 
+how useful this will be in the future, but since I was bored and it only
+ took about 45 mins, I say it was well worth it. Working on a big 
+project and dealing with complicated problems really drains the 
+enthusiasm, but having completed those small experiments with exciting 
+results refills it quickly.<br><br>Got a large TO DO list and lots of inspiration, so it’s back to work for me!<br><br>If you're interested in our project, you can watch our blog here: <a href="http://www.pixel-toaster.com/blog/" target="_blank">http://www.pixel-toaster.com/blog/</a> <br><br> Andrei Jiman<br><i>If it looks unsafe, poke it with a stick. If it doesn't work, just bash it with a rock. </i><br>_______________________________________________<br>Main PC: i7 920 OC 3.8GHz, HD4870x2, 8GB DDR3 1600MHz, Windows 7 64-bit </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First entry</td><td align="right"><font class="tiny">(Posted 2009-08-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The core idea of the engine is to be: flexible, fast and easy to use.<br><br>The
+ most important for me right now is flexibility. The point is to limit 
+both artists and level designers as less as possible thus allowing them 
+to come closer to the concept they dreamed of. The catch is that 
+sometimes flexibility kills “ease of use”, meaning that those dreams 
+will be harder to reach. It will be a challenge to find the balance 
+between the two, but I can’t say I dislike challenges :) Last, but not 
+least, comes speed. This is an issue I am not quite concerned about just
+ yet since as we speak our engine is fast enough to run on low end 
+cards. I have a few tricks up my sleeve, but they are not needed at the 
+moment and I can’t afford spending time on optimizing something that 
+doesn’t exist yet.<br><br>Now let’s talk about the level editor. The 
+whole idea behind it is that it’s not “Rinni – The Elements of Xi Level 
+Editor”, it’s “Pixel Toaster Studios Level Editor”, meaning that I don’t
+ plan on using it JUST for Rinni, but for the vast majority of the 2D 
+titles that we might release in the future. The downside of this plan is
+ that it will take longer to get the tools ready, but once they’re 
+ready, it will be a breeze to come up with new titles, eliminating most 
+of the hard and redundant work. All that will be left to implement is 
+gameplay mechanics and very specific features (speaking from a 
+programming point of view, of course).<br><br>So, how does our engine 
+work? Well, it’s mostly based on “props” (I call them “props”, but you 
+can call them objects, items or whatever you like). Those “props” are 
+supposed to make pretty much all of the game, from a rock to an NPC or a
+ door.<br><br>The “prop” concept contains: one or more images that 
+define the aspect of the prop, a collision hull used for physics 
+(optional), areas that trigger scripts (optional), scripts (optional) 
+and sounds (optional). At least this is what I’ve thought about so far. 
+The concept will change once we need more stuff. As you can see, you can
+ define pretty much anything with this concept. Let’s take an NPC for 
+example: a bunch of images (the character, its shadow and probably a 
+little bird flying around him), a script that moves him around, a few 
+sounds both for him mumbling an the bird singing and an area around him 
+that triggers a quest or a chat with him.<br><br>This looks pretty 
+simple actually and most of it actually is simple to implement. However,
+ there’s a huge difference between implementing this in the game engine 
+and in the editor. Allow me to exemplify:<br><br>We’ll take a basic example of drawing 3 overlapping images that move in a given direction.<br><br>In
+ the engine we need to adjust the coordinates (for movement) and draw 
+the three images. On the other side, in the editor we must make sure you
+ can add images (and remove for that matter), you can select and 
+position images in the right place, that we allow for the changing of 
+the order the images are drawn, that we have an easy way to define the 
+direction and speed of the images and have a “preview” mode that behaves
+ like the engine above.<br><br>Things suddenly got way more complicated.
+ This is pretty much the reason level editors are made before the game 
+itself and the same reason why there’s usually more development time 
+invested into the editor instead of the game itself. <br><br> Andrei Jiman<br><i>If it looks unsafe, poke it with a stick. If it doesn't work, just bash it with a rock. </i><br>_______________________________________________<br>Main PC: i7 920 OC 3.8GHz, HD4870x2, 8GB DDR3 1600MHz, Windows 7 64-bit </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

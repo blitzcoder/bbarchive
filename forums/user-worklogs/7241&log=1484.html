@@ -1,0 +1,30 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Dreamora</h1><h1>Kamaya</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Revived</td><td align="right"><font class="tiny">(Posted 2007-07-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> So, after months of beeing dead, the old framework is beeing revived and redesigned from ground up.<br><br>Reason
+ for that is that I want to start to integrate a component based AI 
+system but as AI is dependant on "world information", I'm currently 
+planning to make it a module to Kamaya.<br><br>Kamaya is a 2D Game 
+Framework with layer support, entity support, a simplified collision 
+system with collision callback support and optimized usage of the layers
+ to give much more performance (the default collision if used correctly,
+ is lightning fast).<br><br>The system will use Universal Map Editor 
+(http://www.mapeditor.de.vu/) files as general map files but will 
+feature an optimation functionality, that will generate additional data 
+used for path find and other things.<br>Other features like warps etc 
+will base on predefined data values that the user can set within UME and
+ should drastically simplify the process of designing interactive maps.<br><br><br>The
+ whole design is based around OO with callbacks and internal object - 
+object communcation that works transparently to the user and hopefully 
+will make the framework powerfull and easy to use at the same time.<br><br><br>PART 2<br><br><br>The
+ UME loading and handling system is nearly ported over to a structure 
+that I can work with and that allows me to introduce the features 
+desired for kamaya (optmized collision system basing on Max2Ds, some 
+additional layer features to make it easier to work with them as well as
+ some special layer types).<br><br>The new features will be used through a world editor that allows easy setup of all elements that the game supports.<br>This
+ especially will include an entity editor to design interactable objects
+ and simply place them in the world without much extra coding.<br>Right 
+now I'm thinking about the possibility of adding scripting capabilities 
+through LUA or another well known scripting language to allow 
+interaction coding without the need of recompiling every time again. <br><br> ------------------------------------------------------------------------------------------------<br>Website &amp; PatchLaunch<br><a href="http://www.gayasoft.ch/" target="_blank">http://www.gayasoft.ch</a> &amp; <a href="http://www.dreamora.net/" target="_blank">http://www.dreamora.net</a><br>Development blog: <br><a href="http://gayasoft.blogspot.com/" target="_blank">http://gayasoft.blogspot.com</a> &amp; <a href="http://www.realmcrafterblog.com/" target="_blank">http://www.realmcrafterblog.com</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,194 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>        <script type="text/javascript" async="" src="334&amp;log=1859_files/ga.js"></script><script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34362789-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        </script></head><body>
+			
+			<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Foppy</h1><h1>Grand Prix</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Finished!</td><td align="right"><font class="tiny">(Posted 2013-08-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The game is finished! It took some time, mainly because I didn't do 
+anything, for a while. But the last couple of days I have been busy with
+ the finishing touches, such as a starting light sequence, title screen,
+ game over screen, and readme file.<br><br>The goal in the final game is
+ to win the gold cup by completing 8 laps (or more). Bronze and silver 
+cups can be won for 6 and 7 laps respectively. I admit, it is a 
+difficult game, in fact I myself have only won the gold cup one or two 
+times. But of course, this is a proper formula one simulation, and as 
+such it should be difficult, as is the real thing. ;)<br><br>Grand Prix can be downloaded from my website: <a href="http://www.foppygames.nl/" target="_blank">Foppygames Homepage</a>.<br><br>Or use this direct link: <a href="http://www.foppygames.nl/Downloads/grandprix.zip" target="_blank">grandprix.zip</a> (4.6 MB)<br><br><iframe src="http://www.youtube.com/embed/SkSkXLZLu6I" allowfullscreen="" width="560" height="345" frameborder="0"></iframe> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tunnel</td><td align="right"><font class="tiny">(Posted 2013-05-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A tunnel effect has been added. This consists of the following steps:<br><br>- certain road segments are marked as being part of the tunnel<br>-
+ as the first tunnel segment comes into view, an entity for the start of
+ the tunnel is created on the horizon (colored white, see first picture)<br>-
+ every N distance units the tunnel comes closer, an extra tunnel entity 
+is created (colored black); this creates the tunnel walls inside the 
+tunnel<br>- in the tunnel, grass is colored black, to fill in holes in the 'wall',<br>-
+ and the track is drawn in a darker shade than normal using something 
+like SetColor(100,100,100) instead of SetColor(255,255,255)<br><br>The 
+above is not a complete and perfect explanation, but it comes down to 
+using trickery such as black grass to create the illusion of the black 
+inner tunnel walls. Inside the tunnel, the upper part of the screen 
+(where normally the horizon is visible) should also be black, this is 
+also taken care of by the tunnel entities, which cover the top part of 
+the screen when the 'camera' is in the tunnel (as in the second 
+picture). <br><br>This tunnel has been strategically placed on a level 
+stretch of road, to avoid having to deal with drawing the roof of the 
+tunnel in case of the tunnel going up a hill. Problems here would be the
+ color of the roof, as well as the smooth outer edge. It would perhaps 
+involve drawing an elevated 'copy' of the road, using textures for the 
+roof of the tunnel. This system could then also be used for the default 
+case where you see the roof from the inside of the tunnel. However I 
+want to finish the game soon so I am sticking to the current system.<br><br>Edit:
+ In fact, a smooth edge would not be a problem, as in the current 
+implementation the tunnel is full-width, it covers the whole screen. So 
+there is no edge to be drawn. However, going up a hill, it would 
+probably look strange to still have the tunnel full-width. People would 
+start to wonder why a tunnel is there, if nothing is on top of the 
+tunnel but an empty roof. They would send me e-mails about it and I 
+would be forced to build a complete city or mountain on top of the 
+tunnel, delaying the project by years!<br><br>A small addition that may 
+be feasible is to have lights or something like that in the roof and/or 
+walls of the tunnel, to get some more things moving towards the camera 
+and increase the 3d/speed effect.<br><br><a href="http://www.foppygames.nl/worklogs/grandprix20130530.png" target="_blank"><img src="334&amp;log=1859_files/grandprix20130530_s.png"></a> <a href="http://www.foppygames.nl/worklogs/grandprix20130530_2.png" target="_blank"><img src="334&amp;log=1859_files/grandprix20130530_2s.png"></a> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Music and hills</td><td align="right"><font class="tiny">(Posted 2013-05-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have received kind permission from coda (<a href="http://coda.s3m.us/" target="_blank">coda.s3m.us</a>)
+ to use two of his songs. I have used some of his music before in my 
+games Manotrooper and Ranger and like it a lot. One song plays on the 
+title sceen, the other plays in a loop during gameplay. I used 
+Foobar2000 (<a href="http://www.foobar2000.org/" target="_blank">www.foobar2000.org</a>) to convert from MP3 to OGG for use in Blitz Max.<br><br>The
+ hills have been improved upon and now I am happy with them. Previously,
+ I would move the horizon up and down based on the height of the road on
+ the horizon. Now, it slowly scrolls up or down based on the slope the 
+player is on. This is more like the effect I pointed out in my previous 
+post (Coaster Racer).<br><br>I have added pools of oil that appear on 
+the track when a car explodes. In the near future cars will start 
+sliding when driving through them. I ran into a problem with the oil, as
+ they have to be flat on the track, but they would stick out (upright) 
+when on a hill. A 3d effect was missing. So I have made it so that based
+ on the slope of the road segment the oil is on, the sprite is scaled 
+vertically (made shorter or taller) to match the perspective of the 
+road.<br><br>Also added: 'golden' cars that blink yellow and white and have high top speed. These will give extra points when overtaken. <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Some progress</td><td align="right"><font class="tiny">(Posted 2013-05-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Added:<br><br>- skidding + smoke/dust effect when going through corner at high speed<br>- lap counting now works<br>- occasional exhaust flash + sound<br><br>Last
+ time I wrote I considered not adding a score, and to have a game 
+structure in which you have to finish a number of laps, at a selected 
+difficulty level. I have changed my mind, so the new idea is:<br><br>- keep track of score (plus this session's high-score, maybe save to disk?)<br>- endless game: it just gets more and more difficult<br>- no difficulty selection<br><br>I
+ am not completely happy yet with the hill effect. I am now thinking 
+about changing the way the background moves up or down when driving on 
+hills. In some games you see the background move up or down slowly, with
+ convincing results as seen in this example, Coaster Racer:<br><br><a href="https://www.youtube.com/watch?v=meHKtABu14U" target="_blank">https://www.youtube.com/watch?v=meHKtABu14U</a><br><br>Of course in that game the effect is extra strong because there is no ground graphic left and right of the track.<br><br>I want to try a few things to see if I can improve the hill effect in my game.<br><br>Todo:<br><br>- music <b>(done)</b><br>- experiment with hills <b>(done)</b><br>- endless game, difficulty increases per lap<br>- keep track of score and session hi-score<br>- some more smoke/damage/collision effects <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Race structure</td><td align="right"><font class="tiny">(Posted 2013-03-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This game is taking some time, because I work slowly. To speed things up, I have decided on the following game structure:<br><br>- player has to complete 10 rounds<br>- round timer starts countdown at 75 seconds<br>- for every completed lap, 50 seconds is added<br>- timer reaches zero: game over!<br>- crashing your car is not game over, but costs time<br><br>This
+ is in fact similar to Pole Position, except that I do not add the 
+qualification round, but instead have the player start at the same 
+position, or maybe at a reasonable random position. Another difference 
+is that I am considering not adding a "score" counter. You either finish
+ the game or you don't.<br><br>I can make a total of three circuits, to 
+be used as three difficulty levels: easy, medium, hard. The levels would
+ use different settings for: number of computer cars on screen, speed of
+ computer cars, number of laps to complete, and time limit. It should be
+ not too difficult for a beginning player to complete the easy level, 
+maybe after one or two tries, and it should be a real challenge, even 
+for someone who played many times, to complete the hard setting. <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Starting grid</td><td align="right"><font class="tiny">(Posted 2013-02-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Added:<br><br>- banners<br>- signs<br>- collisions can destroy car<br>- starting grid<br><br>The
+ game has been reordered to use a central type "TGameMode". This 
+controls the flow of the game, and in each state of the game takes care 
+of updating and drawing relevant objects. Adding states made it easier 
+to add a starting grid, were cars are already visible on screen but not 
+yet being updated, so they don't move. When a timer reaches zero, the 
+game switches to the next state, in which cars are updated, so they 
+start to move. I think I will add a qualification lap, as in Pole 
+Position, to determine the player's position on the starting grid.<br><br>Probably still to be added:<br><br>- qualification lap <b>(cancelled)</b><br>- race structure (how many laps, scoring, timing, etc.) <b>(endless + more difficult per lap + scoring)</b><br>- maybe more than one circuit? <b>(cancelled)</b><br>- selection of difficulty level? <b>(cancelled)</b><br>- online high scores? <b>(cancelled)</b><br>- explosions <b>(done)</b><br>- music <b>(done)</b><br>- full-screen display on different aspect ratios <b>(done)</b><br>- title screen <b>(done)</b><br>- game over screen <b>(done)</b><br><br><a href="http://www.foppygames.nl/worklogs/grandprix20130224.png" target="_blank"><img src="334&amp;log=1859_files/grandprix20130224s.png"></a> <a href="http://www.foppygames.nl/worklogs/grandprix20130224_2.png" target="_blank"><img src="334&amp;log=1859_files/grandprix20130224_2s.png"></a> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hills</td><td align="right"><font class="tiny">(Posted 2013-02-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> After Wiebo suggested it on youtube I have added hills to my game. I used the technique that was described by Lou Gorenfeld on <a href="http://www.extentofthejam.com/pseudo/" target="_blank">http://www.extentofthejam.com/pseudo/</a>
+ called "Faked Hills". It approaches hills in the same manner corners 
+are done. As the horizontal lines that make up the road are drawn, 
+starting a the bottom of the screen, a certain "DY" value is added at 
+each step to determine what will be the "Y" for the next line. Normally,
+ DY is one, which results in a flat road (watched from an angle) towards
+ the horizon. Using lower or higher values for DY (but the same value 
+for every step) will make the road look like it's going down or up. If 
+DY is increased or decreased with every step (for example using an extra
+ variable "DDY"), the road will curve up or down.<br><br>It took me some
+ time to implement this idea. I ran into a problem with the game objects
+ and their drawing order. Previously, since the road was flat, I could 
+first draw the road, and then draw all objects. The objects would appear
+ on top of the road. Now, after adding hills, this drawing order was too
+ simple, because you could see cars that were supposed to be hidden by a
+ hill.<br><br>Cars and hills had to be drawn in the correct order. It 
+also meant that the road had to be drawn from back to front, so hills 
+would actually hide objects (and road segments) by being drawn on top of
+ them. However, the details of the road are typically computed from the 
+bottom of the screen up to the horizon. So I had to first compute all 
+details of each line of the road in the normal bottom to top fashion, 
+store those in an array, and then later use that array to draw the road 
+from back to front. In the same loop that draws the road lines, game 
+objects are also drawn, whenever the Z value of the current piece of 
+track corresponds to a game object's Z value.<br><br>I then added a bit 
+of code to draw the front wheels of the car higher or lower according to
+ the current "slope". This went a bit crazy as cars in the distance that
+ were going up a steep slope would have their front wheels 10 meters up 
+in the air. This was a reminder of how "pseudo 3d" it all is... some 
+numbers used to represent angles or heights do not really make sense, 
+you just have to apply them and maybe multiply with another magic number
+ to get a nice result. The current slope is also used to increase a 
+car's acceleration, if the road is going downwards.<br><br>In order for 
+the hills to look more convincing you also have to move the horizon into
+ the opposite direction. For this to be possible you need background 
+graphics that cover a larger vertical space than would otherwise be 
+necessary. So I took the "front" horizon image (there are three) and 
+made it higher. I used the tree images I had used before to fill up the 
+extra space.<br><br>Somewhere along the way I lost the clouds. I think 
+they will be added again, but they have to be separate entities from all
+ other objects, because they act quite differently. Either that, or I 
+could just draw some clouds on the horizon images.<br><br><iframe src="http://www.youtube.com/embed/x2ZRzrAOZEw" allowfullscreen="" width="560" height="345" frameborder="0"></iframe> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New video</td><td align="right"><font class="tiny">(Posted 2013-01-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Added:<br><br>- car shadows<br>- bushes<br>- new horizon<br>- clouds <br>- more dynamic car graphics<br><br>The
+ horizon is made up of 3 images: trees, hills, and distant hills. These 
+are scrolled at slightly different speeds to give a small parallax 
+scrolling effect.<br><br>The cars are drawn using the Rect() command 
+(except for the tires, which are bitmaps). I have applied a bit of 
+rotation now when the car is steering. This makes the cars more dynamic 
+and a bit more 3d-ish.<br><br>A new video:<br><br><iframe src="http://www.youtube.com/embed/AfYpmY2YXtQ" allowfullscreen="" width="560" height="345" frameborder="0"></iframe> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Gameplay</td><td align="right"><font class="tiny">(Posted 2013-01-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I haven't yet described what the game is about, apart from it being a racing game.<br><br>The
+ player will be placed on the starting grid, together with a few CPU 
+cars. There will be a typical "START" banner. The race begins (maybe 
+there's a start sequence with lights and sounds) and everybody starts 
+driving. There's a "SCORE" counter, this keeps track of how many cars 
+the player has passed. (If a CPU car passes the player, the score is 
+decreased.) There's also a "LAP" indicator. (Counting laps done, or 
+indicating the current lap number, or counting laps remaining, there are
+ several approaches to this counter.) The goal of the game will be for 
+the player to pass as many opponents as possible in a set number of 
+laps.<br><br>There is no group of 10 or 20 cars like in real life, new 
+opponents just appear on the horizon as the player car drives on. CPU 
+cars that move off the bottom of the screen (or off the top of the 
+screen) are removed from memory. An extra margin is used at the bottom 
+of the screen so that CPU cars can actually return into view, overtaking
+ the player, if the player slows down for some reason. Actually, I think
+ there should also be a system to introduce cars at the bottom of the 
+screen.<br><br>Collisions with other cars, signs and trees (if any) will
+ probably mean "GAME OVER" if the objects hit each other at high speed. 
+Low-impact collisions will slow the player down. <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Collision system</td><td align="right"><font class="tiny">(Posted 2013-01-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Added:<br><br>- collision detection<br>- AI cars avoiding objects<br>- better looking tires<br><br>It
+ took me a while to add a next step, which happened to be collision 
+detection. This is working now. It simply checks, for each car, whether 
+that car moves into an entity (which includes other cars and signs). 
+Cars can only collide with things that are in front of them and which 
+they are closing in on (this way, instant double collisions between the 
+same objects are avoided).<br><br>Part of the collision check is the 
+'length' of the car. It occurred to me that the same function could be 
+used by the AI cars to avoid objects, by using a length that is, for 
+example, 20 times the normal value. If the function returns true, 
+there's an object within 20 car lengths ahead. The AI car then selects a
+ different lane to drive in. In doing so it does not check if a car 
+happens to be in that other lane. (I don't want to make things too 
+complicated.)<br><br>The cars are drawn using rectangles. An exception 
+on this rule has been made by using images for the tires. They now have 
+rounded corners and a simple shading effect. By changing the SetColor 
+values rapidly, a flashing effect that represents the turning of the 
+wheels is achieved. <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Retro racing game</td><td align="right"><font class="tiny">(Posted 2012-10-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ In 2003 I tried writing a pseudo 3d racer in Blitz 3D, but couldn't get
+ the corners to look convincing. Now I am trying again but in Blitz Max.
+ I found a nice overview of such games and a description of the 
+techniques involved, here:<br><br><a href="http://www.gorenfeld.net/lou/pseudo/" target="_blank">http://www.gorenfeld.net/lou/pseudo/</a><br><br>Using
+ Lou's Pseudo 3d Page as a reference I started programming, and I am 
+happy about the results so far. Below is a video. The cars are drawn 
+using rectangles. The computer controlled cars actually use the same 
+steering logic as used by the player car: they accelerate and brake to 
+reach a recommended speed for the road segment they're on, and then 
+apply steering to stay on the track. Once cars can collide I will have 
+to add code for the AI cars to avoid other cars...<br><br><iframe src="http://www.youtube.com/embed/NF6dBkGfdWs" allowfullscreen="" width="560" height="345" frameborder="0"></iframe> <br><br> ---------------<br><a href="http://www.foppygames.nl/" target="_blank">Foppygames</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for IcyDefiance</h1><h1>No Title...yet...</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Letdowns</td><td align="right"><font class="tiny">(Posted 2009-11-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Unfortunately, due to money problems, I shouldn't get the full version 
+of FastExt yet, so I have to scratch the cool looking water for the time
+ being.<br><br>Also, due to a lack of a good host (anything allowing the
+ file size to be big enough either requires payment or doesn't allow 
+direct links), I've had to scratch the automatic updater for a little 
+while.  Since I plan to update this game a lot even after it's 
+"complete", this is an essential part, but I don't want to pay much on a
+ non-profit project.  I'll look into making separate *.exe files for 
+each version that will update the game, but it might be difficult.<br><br>Expect
+ a version of the game with a mostly complete movement system 
+soon(ish)...maybe...  Actually, there's a lot of work on my website 
+right now, so generally I only have time to work on this when I don't 
+have an internet connection, so I have no idea how long it'll take to 
+get an update out.  Sorry all, but my website is more important. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2009-10-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> OK, there hasn't really been an update here for a while, so I figured I would post what I've been working on.<br><br>OK,
+ the main thing I'm trying to make perfect is the movement system.  In 
+this game, there will be two modes of movement: regular walking and hill
+ surfing.  I have the regular walking part in there perfectly now, but 
+the hill surfing is difficult to make the appropriate physics for.<br><br>For
+ those of you who haven't played Fallen Empires, hill surfing 
+is...well...it's hard to explain.  Think of running, but propelled by 
+rockets, and held about a foot or two off the ground by some sort of 
+force field to reduce friction to nearly 0.  There are also rockets to 
+propel you a ways into the air before running out of energy and having 
+to recharge, and those coupled with the forces of gravity and landing 
+the right way on a hill can propel you to insane speeds.<br><br>I've 
+also been working on the looks of the game.  The first thing was the 
+terrain, which was much too tall, with little space to roam around.  I 
+figured out there was a problem with how it was being scaled, and that's
+ been fixed.  The terrain is still a little too small to actually play 
+with, but it's perfect for testing, which is what I need for now.<br><br>I've
+ also downloaded the FastExt library, started learning how to use it, 
+and implemented some pretty good looking water!  That coupled with a 
+skybox (ripped for the library for the screenshot below, it'll be 
+replaced before I upload it as an update) and I'm starting to like the 
+scenery.<br><br>And then comes particle effects.  What FPS can be 
+complete without great particle effects for explosions and whatever?  
+The only problem is that most of my experience is with making 2D games, 
+where particle effects aren't that difficult to implement without some 
+sort of library.  I'm using ParticleWorks, but it's difficult to get the
+ settings just right.<br><br>The worst problem, however, is finding the 
+right resources.  I mean, there's not exactly an abundance of good 
+quality 3D models out there without some sort of legal strings, and the 
+ones that are there don't really fit into my game as I'm visualizing it.
+  I'm good with making my own 3D models in many cases, but I can't do 
+life forms very well at all, and I have no experience with animating, 
+though I could probably learn.<br><br>And the last thing is a little 
+technicality with the update manager: it can't delete files, only add 
+them, and it can't update itself.  I have a couple possible solutions to
+ this problem, but I'm not so sure which I'll choose yet.  Don't be 
+surprised if I don't allow an automatic update to the next version, and I
+ make you redownload the whole thing.<br><br>Well, here's the latest screenshot.  It's starting to look pretty nice.<br><br><img src="11032&amp;log=1707_files/waterAndSkyBox.webp"><br><br>The
+ only problem is the blue around the edges of the water.  Because of the
+ distortion, the part of the reflection under the terrain is showing, 
+which looks horrible because it's blue.  I'm not completely sure how to 
+fix that yet, but I'll figure it out... <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>v0.1 ready for download</td><td align="right"><font class="tiny">(Posted 2009-10-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ v0.1 is ready for download now.  So far it's just a terrain, some 
+water, some music, and a flying camera, but the background code is all 
+set for a lot more.<br><br>Why download this?  Right now, it's just to 
+mess around with, keep tabs on my project if you want, whatever.  
+Development will hopefully go somewhat quickly, so if you want automatic
+ updates you can download this too.<br><br>Meh, whatever, if you want to download it:<br>http://download219.mediafire.com/4pmtjbyytkbg/my1mdyjhmgb/FPS+game.zip<br><br>(Why don't link tags work here?)<br><br>It's
+ not much yet, so I'm not going to try to get you to download it yet.  
+Once I get something in there that makes it worth downloading, I'll tell
+ you.<br><br>I'm horrible at naming things, so it's not real obvious 
+which is the main executable.  Technically the main exe is 
+updateManager.exe, though fps.exe will run perfectly fine.  It just 
+won't check for updates.<br><br>BTW, if you're running Vista (and maybe 
+with other operating systems), you may receive a warning that the 
+program is trying to access the computer and needs admin permissions.  
+All it's doing is downloading the latest updates.  If you don't want 
+this, you can always just run the fps.exe and download updates manually.
+  I'll be uploading a new complete zip with each important update.<br><br>And
+ it's hosted at MediaFire because the host for my website won't let me 
+upload one file above 2mb.  If I use an external ftp client, I might be 
+able to up that to at least 4mb, maybe unlimited, but then I would have 
+to figure out how to use the thing.  That's simply not worth the time 
+yet. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>First entry</td><td align="right"><font class="tiny">(Posted 2009-10-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ OK, I started with BlitzBasic several years ago, before Blitz3D was 
+released, and got pretty good after a while.  I then moved on to 
+Blitz3D, but I wasn't ready to learn more yet and got sick of it.  Since
+ then I've tried and become fairly skillful at 3D modeling, 2D graphics 
+creation, and just about every aspect of web development.  Now I'm back,
+ inspired, and ready to put all my skills to work making a game.<br><br>My
+ inspiration came from Fallen Empire: Legions, from InstantAction.  The 
+movement will be similar, though not the same, but hopefully that will 
+be the biggest similarity.  I'm not out to break copyrights or anything.<br><br>So
+ far I'm mainly just working on all the behind the scenes code.  It 
+already finds the highest (if not the best) setting your graphics card 
+can handle, and automatically runs at that resolution and color depth.  
+It also automatically checks for and downloads updates each time the 
+program is run, though it can't update the main executable for a simple 
+reason: it's running.  As soon as I work around that (probably by making
+ the download manager a separate file) I'll post a download link.<br><br>I'm
+ using BlitzTiles for the terrain (thanks so much Krischan for coding it
+ and Yasha for directing me to it), and I'm using the Download file code
+ by Devils Child found in the code archives for part of the download 
+manager.  The rest (243 lines at the moment) has been programmed from 
+scratch.<br><br>I haven't made any external files from scratch yet, but 
+that's coming.  Terrain and terrain tex was generated in L3DT, but that 
+will be replaced.  The background music included with the game at the 
+moment is from the Mod Archive, but I'm not so sure about the legal 
+restrictions on them yet, so they're just being used as space holders 
+until further notice.<br><br>First screenshot:<br><br><img src="11032&amp;log=1707_files/firstScreen.webp"><br><br>Problems that I'm aware of:<br>1. Update manager can't update the main exe<br>2. Terrain is too small to do much good when objects will be moving as fast as they're going to in this game<br>3. Water is too transparent from the top.  (Easy fix, I only just noticed it.)<br><br>Other things I'm working on:<br>1.
+ The movement system.  I haven't even started it yet, but that's coming 
+as soon as I get the update manager working and a terrain that I can 
+test the movement system on.<br>2. A better looking terrain and all 
+around environment.  Blitz3D isn't really meant for stunning graphics, 
+but some particle effects like grass and dust flying when characters are
+ moving will go a long way if they don't slow down the frame rate too 
+much.  I'm not sure how exactly I'm going to obtain any of this, but I'm
+ working on it.<br><br>I'll post more as I think of it.  Now it's back to work on that update manager... <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

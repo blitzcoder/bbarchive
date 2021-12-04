@@ -1,0 +1,91 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for octothorpe</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Caffeine + Requirements = Code Complete</td><td align="right"><font class="tiny">(Posted 2006-02-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm not usually one for marathon coding sessions, but in the last 24 
+hours I've spent roughly 18 chugging through my requirements list.  As a
+ result, I've got a hackish yet functional map editor!  It could use 
+some refactoring and there are probably a few UI bugs, but it's done!<br><br>P.S. Code Complete is the title of a software development book which I remember being quite good.<br> <br><br> ------------------------------------<br><a href="http://blitzbasic.com/Community/posts.php?topic=53352" target="_blank">Container Classes in B3D</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Glad I read that book on Software Development processes</td><td align="right"><font class="tiny">(Posted 2006-02-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Now that I'm happy with the engine's functionality it's time to take 
+another crack at the editor.  This is going to be more complicated than I
+ first anticipated, so I'm going to discard my papier mache prototype 
+and make a serious attempt.<br><br>Requirements development is boring, 
+but so incredibly useful!  Thinking about every tiny little feature has 
+made me realize which will be useful and which won't be.  I've 
+simplified the parts of my program that were getting complicated and 
+planned out the parts of my program which I was avoiding thinking about.
+  The majority of the architecture is already done because I'm sharing a
+ lot of code between my game and my editor, so now it's just menial code
+ construction.<br><br>Just for fun, here's my editor's requirements list:<br><br><pre class="code">;map_grids
+;	create new map_grid (becomes the furthest background)
+;	delete map_grid (requires confirmation - cls:input"are you sure?")
+;	rearrange map_grid up/down
+;		trying to move a map_grid up when it's the first background makes it a foreground (and vice versa)
+;	set a map_grid's tileset (type in the name)
+;	set a map_grid's parallax settings
+;	resize a map_grid (max viewable area with current parallax settings are shown) (confirmation if map_grid is shrinking)
+;	toggle a map_grid's visibility
+;	left-click to select a map_grid as the currently editable one
+;physical_map_grid
+;	displays in front of all normal map_grids and uses a special tileset (can be made invisible)
+;	is automatically updated by changes made to the primary (frontmost) background map_grid
+;		when a tile on the primary is set to 0, the corresponding pmg tile is too
+;		when a tile on the primary is set to non-zero, the corresponding pmg tile is set to 1.
+;		these automatic updates only occur if the pmg's tile already contains only 0 or 1, thus preserving "special" tiles
+;spawns
+;	left-click over empty space to create an actor (prompt for class$)
+;	left-click to select an actor
+;	left-drag to move an actor
+;	keyboard button (del) to delete selected actor (requires confirmation)
+;	keyboard button (?) to toggle \facing
+;	shift-left-click to create a clone of the currently selected actor
+;portals
+;	left-drag over empty space to draw a new portal (prompt for dest_map$, dest_tx, dest_ty)
+;	left-click to select a portal
+;	left-drag to move a portal
+;	keyboard buttons (arrow keys) to resize the selected portal
+;	keyboard button (del) to delete selected portal (requires confirmation)
+;	right-click on a portal to "jump" to the destination
+;		(auto-save, load destination map, centre on the dest_pos, store info in globals for hotkey to create link portal)
+;	keyboard button (?) to create a portal linking back to the portal most recently jumped from
+;		if the new portal is not on the visible screen, pan the screen to show it
+;			(this is important because work flow may be: don't know dest coords so enter 0,0 as dest, right-click to open dest map,
+;			pan to where the portal should go, press hotkey several times wondering what's going wrong)
+;	?keyboard button (backspace) to jump back to the portal most recently jumped from
+;general
+;	show map's filename and mouseover's physical tx,ty at all times in the corner of the screen
+;	grow/shrink entire map 1 row/column at a time
+;	load, save, save as... (automatic backups, confirmation on overwrite)
+;	mousing over a tile position which is outside the currently selected map_grid's bounds should show a red X under the mouse cursor?
+;tile selector
+;	show as many whole tiles as possible
+;	buttons to scroll the palette by one row at a time (but no scroll indicator)
+;	the currently selected tile is shown elsewhere
+;simple map_grid editing tools
+;	paint a single tile with the currently selected tile with the left mouse button (pencil)
+;	select the moused-over tile as the currently selected with the right mouse button (eyedropper)
+;	pan the map with the middle mouse button (hand)</pre><br> <br><br> ------------------------------------<br><a href="http://blitzbasic.com/Community/posts.php?topic=53352" target="_blank">Container Classes in B3D</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Round 2</td><td align="right"><font class="tiny">(Posted 2006-02-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ More progress on the graphics API.  My poly-surface (as few as 
+possible) pixel-perfect sprite system is finally making me happy.  Now I
+ just have to wait and see if it'll choke in a real game.<br><br>It's 
+really cool that I made the game code modular enough to be able to run 
+the game inside my map editor.  The editor needs a lot of UI work still,
+ which I'm really not looking forward to - as I don't intend to write a 
+good UI system if it's only going to be used by the editor.<br><br>Still on my todo list:<br><br>- a few minor architecture changes<br>- map exits (walking off an edge as well as entering doors)<br>- editor functionality (manipulate spawns and map exits, tile selector, layer manipulation)<br>- simple particle effects<br>- simple in-game menu system<br>- find an artist<br>- make a real game<br> <br><br> ------------------------------------<br><a href="http://blitzbasic.com/Community/posts.php?topic=53352" target="_blank">Container Classes in B3D</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The story so far...</td><td align="right"><font class="tiny">(Posted 2005-11-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is the furtherest I've come to actually creating a game: a game 
+engine with architecture I'm happy with and a start on a map editor.<br><br>Graphically,
+ the engine supports an arbitrary number of tiled foregrounds and 
+backgrounds, each with its own parallax settings.  Testing with frame 
+limiting off presents a favourably high framerate (270 FPS) with 20 
+enemies and two tiled backgrounds.  Currently, my bottleneck seems to be
+ number of triangles being rendered for the tiled backgrounds - I may 
+have to implement a "looking-glass" class to create quads only for tiles
+ which are onscreen.<br><br>I'm stuck for ideas though.  So far the 
+gameplay is Zelda 2 inspired: short rangle melee attacks, crouching, 
+jumping, hopping backwards when hit, some hearts in the corner of the 
+screen on the HUD layer.  As much as I love the Zelda series, I'd like 
+to do something novel.  All the ideas I've had are exploration-oriented 
+and don't leave room for combat, which I'd like to incorporate.<br><br>I'd
+ like to release the source eventually, both to help people learn and to
+ provide a framework for making more 2d (platform) games.<br> <br><br> ------------------------------------<br><a href="http://blitzbasic.com/Community/posts.php?topic=53352" target="_blank">Container Classes in B3D</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Information</td><td align="right"><font class="tiny">(Posted 2005-11-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://blitzbasic.com/Community/posts.php?topic=53352" target="_blank">Primer moved to Blitz3d Tutorials forums to facilitate feedback.</a><br> <br><br> ------------------------------------<br><a href="http://blitzbasic.com/Community/posts.php?topic=53352" target="_blank">Container Classes in B3D</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

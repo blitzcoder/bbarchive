@@ -1,0 +1,1220 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>        <script type="text/javascript" async="" src="2370&amp;log=1813_files/ga.js"></script><script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34362789-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        </script></head><body>
+			
+			<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for _PJ_</h1><h1>Engine Development</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Memory Management</td><td align="right"><font class="tiny">(Posted 2012-07-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Wrapper functions for various resource handlers have been applied.<br><br>Most
+ simple are the Create/Resize/Free Bank commands. These now have wrapper
+ functions which maintain a count of the memory allocation involved. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Read/Write File Streams</td><td align="right"><font class="tiny">(Posted 2012-07-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Although essentially at their heart the methods for Reading/Writing 
+from local files and/or network streams operate in similar enough ways 
+to warrant the same codebase (B3D itself uses the same native commands 
+nByte=ReadByte(Stream) etc.), I wanted to separate them in order to 
+better manage the file resources and memory usage.<br><br>Therefore, 
+specifically for Reading/Writing to local Files has been overhauled to 
+include a Custom Type obect T_RES_FILE which contains quick-reference 
+fields for such information as FielSize, FilePath, File type and perhaps
+ in future, modified/created dates etcc.<br><br>Although this increases 
+the memory usage and workload on calling the filehandling routines, it 
+does allowfor much greater control and commuinication relating to the 
+usage of certain files.<br><br>The main difference as far as interaction
+ with other rouitines, was that instead of simply opening/closing files 
+with a 'stream' parameter, now, all such calls must give the handle of 
+the specific Type object. The stream can then be resolved as one of the 
+fields of this non-Null object instance.<br><br>The wealth of possibilities enhanced by this structure include (but are not limited to):<br><br>1) Prevention/Catching Exceptions and Errors with invalid paths, null streams etd<br>2) Identify errors of duplicate attempts to open the same file etc<br>3) Ability to correlate file streams and file paths etc. in both directions<br>4) Stream (i.e. File) size can always be referenced when dealing with the stream<br>5) More precise debugging feedback<br><br>To
+ help ease the extra steps entailed for the transition between old 
+(passing Filepath handle to return Stream handle, then use stream handle
+ for individual read/writes) and new (passing filehandle to return 
+object handle, then using object handle to resolve stream handle for use
+ by individual Read/Write) an extra (slight increase to CPU count and 
+temporary cached memory load) function method was generated to take care
+ of the necessary checks involved in error catching:<br>hst_EXP_ValidateFileObjectStream which returns either False (zero) or a valid filestream.<br><br>The
+ following checks are processed in order when a file is opened for 
+reading/writing via the new method. At any point failure triggers abort:<br>1) CheckFile Object Handle is non-zero<br>2) Check that Object Instance pointed to by handle is not Null<br><br>At
+ which point, the Object's Stream Handle field is returned and the 
+program can continue its 'usual' processing checking if Stream is valid 
+to continue reading/writing.<br><br>As an example, note the "CONFIG_ReadConfigs" Function:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Function
+ v_CONF_WriteConfigs()
+	Local 
+hto_ConfigFileResourceObjectHandle%=hto_EXP_OpenFileToWrite(tsfp_ENV_ENGINECONFIGFULLFILEPATH)
+
+	
+	Local 
+hst_ConfigFile=hst_EXP_ValidateFileObjectStream(hto_ConfigFileResourceObjectHandle)
+
+	
+	If (Not(hst_ConfigFile))
+		
+v_DBG_Debug("CONF_WriteConfigs",cm_DBG_VAL_ZERO,cm_DBG_STR_READ_NOT,"ConfigFile",Str(hst_ConfigFile),cm_DBG_FIX_ABORT,"Configuration
+ File stream handle Null. Aborting process")
+		v_EXP_CloseFile(hto_ConfigFileResourceObjectHandle)
+		Return
+	End If
+	
+	Local m_Config
+	Local m_Group
+	
+	For m_Config=0 To cm_CONF_MAXCONFIGS-1
+		For m_Group=0 To cm_CONF_MAXGROUPS-1
+			If (tam_CONF_GROUPS[m_Group]=m_Config)
+				
+;v_DBG_Debug("CONF_WriteConfigs",cm_DBG_OBJ_EXIST,cm_DBG_OBJ_SOURCE_EQU_DEST,"CONF_GROUPNAME("+Str+(m_Config)+")",s_STRING_Enquote(tas_CONF_GROUPNAME[m_Group]),cm_DBG_FIX_CREATE,"Configuration
+ Group Header identified. Writing Configuration Group header")
+				WriteLine hst_ConfigFile,tas_CONF_GROUPNAME[m_Group]
+			End If
+		Next
+		WriteLine 
+hst_ConfigFile,tas_CONF_ENTRIES[m_Config]+cs_STRING_EQUAL+s_CONF_GetConfigValue$(m_Config)
+
+	Next
+	v_EXP_CloseFile(hto_ConfigFileResourceObjectHandle)
+End Function
+</textarea><br>Of particular intertest are the function calls to:<br>hto_EXP_OpenFileToRead() - Which accepts the full file pathreturns a Type Object Handle (hto) <br>hst_EXP_ValidateFileObjectStream() - Which accepts the Type Object Handle (hto) and returns the FileStream Handle (hst)<br>and<br>v_EXP_CloseFile() which accepts the Type Object Handle (hto) <br><br><br>Compared to the old format:<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Function
+ nb_CONF_GetConfigFileExists()
+	Local 
+nb_Return=nb_EXP_CheckPath(tsfp_ENV_ENGINECONFIGFULLFILEPATH,cm_EXP_FILETYPE_FILE)
+
+	If (Not(nb_Return))
+		
+v_DBG_Debug("CONF_GetConfigFileExists",cm_DBG_VAL_ZERO,cm_DBG_OBJ_EXIST_NOT,"tsfp_ENV_ENGINECONFIGFULLFILEPATH",s_STRING_Enquote(tsfp_ENV_ENGINECONFIGFULLFILEPATH),cm_DBG_FIX_IGNORE)
+
+	End If
+	Return nb_Return
+End Function
+
+; READS CONFIGURATION SET FROM FILE
+Function v_CONF_ReadConfigs()
+	Local 
+hst_ConfigFile=hst_EXP_OpenFileToRead(tsfp_ENV_ENGINECONFIGFULLFILEPATH)
+	If (Not(hst_ConfigFile))
+		
+v_DBG_Debug("CONF_ReadConfigs",cm_DBG_VAL_ZERO,cm_DBG_STR_READ_NOT,"hst_ConfigFile",Str(hst_ConfigFile),cm_DBG_FIX_ABORT)
+
+		Return
+	End If
+	
+	Local s_Line$
+	Local m_CheckConfig
+	Local ns_Divider
+	Local s_Config$
+	Local s_NoSpaceInID$
+	Local s_NoSpaceInLine$
+	
+	While (Not(Eof(hst_ConfigFile)))
+		
+		s_Line=ReadLine(hst_ConfigFile)
+		If (s_Line&lt;&gt;cs_STRING_NULL_STRING)
+			If (Left(s_Line,1)&lt;&gt;cs_CONF_GROUP_SEPARATOR)
+				For m_CheckConfig = 0 To cm_CONF_MAXCONFIGS-1
+					s_NoSpaceInID=Lower(tas_CONF_ENTRIES[m_CheckConfig])
+					
+s_NoSpaceInID=Replace(s_NoSpaceInID,cs_STRING_SPACE,cs_STRING_NULL_STRING)
+
+					
+					
+s_NoSpaceInLine=Lower(Replace(s_Line,cs_STRING_SPACE,cs_STRING_NULL_STRING))
+
+					s_Config$=Lower(Left(s_NoSpaceInLine,Len(s_NoSpaceInID)))
+					
+					If (s_Config=s_NoSpaceInID)
+						ns_Divider=Instr(s_Line,cs_STRING_EQUAL)
+						If (ns_Divider)
+							s_Config=s_STRING_TrimStringLeft(s_Line,ns_Divider)
+							v_CONF_ApplyConfig(m_CheckConfig,s_Config)
+						Else
+							
+v_DBG_Debug("CONF_ReadConfig",cm_DBG_OBJ_EXIST_NOT,cm_DBG_VAL_ZERO,tas_CONF_ENTRIES[m_CheckConfig],s_STRING_Enquote(cs_STRING_NULL_STRING),cm_DBG_FIX_REPLACE,"Configuration
+ value missing. Assume Null")
+							v_CONF_ApplyConfig(m_CheckConfig,cs_STRING_NULL_STRING)
+						End If
+						Exit
+					Else
+						; sLine does not refer to tas_CONF_ENTRIES[m_CheckConfig]
+					End If
+				Next
+			End If
+		End If	
+	Wend	
+	v_EXP_CloseFile(hst_ConfigFile)
+	
+	v_CONF_RefreshGPUFromConfigs
+End Function
+</textarea> <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>TCP Netork &amp; Downloads</td><td align="right"><font class="tiny">(Posted 2012-03-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The network code itself was pretty poor. It worked effectively, but it 
+was undesirable in its format as it was based directly on the 'BlitzGet 
+Deluxe' code.<br><br>This meant that the 'guts' of the stream operation 
+and download capabilities were all crammed together in a single, large 
+function routine method.<br><br>Whilst this essentially made the process
+ of calling the routine for downloads simpler, it was problematic as it 
+lead to restrictions in the abililty to re-use parts of the 
+functionality with regards to opening and interrogating TCP Streams, or 
+for checking the validity and integrity of downloaded content.<br><br>Therefore
+ the function itself was split and divided between a host of 
+sub-routines which each provided a significant, separate feature of the 
+work - at every stage, integrity and success could be reported, 
+detailed, useful Debug information extracted, and, if necessary, any 
+alterations to or aborting of the process could be achieved and the 
+process re-commenced or resumed when adequately ratified.<br><br>A 
+particularly useful advantage in the reorganisation of the NET_ library 
+was that it allowsw for TCP Stream code to be used simply to read direct
+ from the stream without the necessity to download the actual file 
+contents to a local container. This should prove highly advantageous 
+when dealing with patch files and offers a heightened level of security.<br><br>Finally,
+ much of the server-client communication code that was particularly 
+relevant has been re-compiled as the WEB_ library to indicate its 
+functionality as communicating with the internet or a non-local server 
+as opposed to localised network traffic. For example, patch/update 
+downloads &amp; checking from a server source. Despite the nature of 
+this code, it is still not enforcibly restricted in anyway to internet 
+connectivity, the change of library is purely aesthetic in real terms, 
+so in the event of, say, utility software with multiple license 
+deployment, functionality to use the WEB_ code to distribute files and 
+patches from a localised server are still possible.<br><br>Whilst 
+potentially there are many similarities, and much of the NET_ code will 
+still be required and useful for such procedures, the instances where 
+connectivity is specifically aimed at a non-local Webserver, the WEB_ 
+library should contain the majority of raw functoinality necessary. 
+Making it easier to locate and address issues with such function 
+methods.<br><br>With the lack of a 'static' type declaration, some 
+constants have been 'demoted' to 'global' in order to incorporate the 
+possibility of generated paths.<br><br>Here's the NET_ library:<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;
+ THIS IS THE MAIN DOWNLOAD FUNCTION TO CALL
+Function 
+nb_NET_DownloadFile(snt_FullServerPath$,sdr_DownloadPath$=cs_STRING_NULL_STRING,sfi_FileName$=csfn_ENV_DEF_FILENAME+cs_STRING_EXT_SEPARATOR+csfe_EXP_FILEEXT_TMP,nbf_Flags=False)
+
+	;NOTE: nbf_Flags	1=Randomise UserAgent 
+	;					2=Ignore Null Filenames	(for chunked PHP result pages)
+	;					4=Use Protocol HTTP/1.1 (Else use 1.0) 
+	
+	
+	
+	; Remove Previous Download Cache File
+	v_NET_CleanUpTemporaryDownloadFile
+	
+	
+	sdr_DownloadPath=sfp_EXP_FixPath(sdr_DownloadPath,False,True)
+	
+	Local nb_IgnoreNullFilename=(nbf_Flags% And 1)&lt;&gt;0	
+	Local nb_RandomUserAgent=(nbf_Flags% And 2)&lt;&gt;0
+	Local nb_ProtocolFlag=(nbf_Flags And 4)&lt;&gt;0
+	
+	Local 
+s_Protocol$=cs_NET_PROTOCOL_HANDLE_BASE+cs_STRING_EXT_SEPARATOR+Str(nb_ProtocolFlag)
+
+	
+	Local 
+hst_TCPStream=hst_NET_CreateDownloadTCPConnection(snt_FullServerPath)
+	If (Not(hst_TCPStream))
+		; NO TCP CONECTION
+		
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_ZERO,cm_DBG_STR_READ_NOT,"hst_TCPStream,
+ 
+snt_FullServerPath",Str(hst_TCPStream)+cs_STRING_CSV+s_STRING_Enquote(snt_FullServerPath),cm_DBG_FIX_ABORT,"Could
+ not open TCP Stream")
+		Return False
+	End If
+	
+	Local snt_Domain$=snt_NET_RetrieveDomain(snt_FullServerPath)
+	
+	;Seperate Sector Path and FileName from original Server Path
+	Local nIterBytes
+	Local snt_ServerSector$=cs_STRING_NULL_STRING
+	Local snt_ServerFile$=cs_STRING_NULL_STRING
+	
+	For nIterBytes = Len(snt_FullServerPath) To 1 Step -1
+		If (Mid(snt_FullServerPath,nIterBytes, 1) = cs_STRING_WEB_SEPARATOR)
+			snt_ServerSector$ = Trim(Left(snt_FullServerPath,nIterBytes))
+			snt_ServerFile$ = Right(snt_FullServerPath$, Len(snt_FullServerPath) -
+ nIterBytes)
+			Exit
+		EndIf
+	Next
+	
+	If (snt_ServerFile = cs_STRING_NULL_STRING)
+		;NULL FileName
+		
+		
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_ZERO,cm_DBG_VAL_ILLEGAL,"snt_Server_Sector,
+ 
+snt_ServerFile,nb_IgnoreNullFileName",s_STRING_Enquote(snt_ServerSector)+cs_STRING_CSV+s_STRING_Enquote(snt_ServerFile)+cs_STRING_CSV+s_STRING_TrueOrFalse(nb_IgnoreNullFilename),cm_DBG_FIX_ABORT,"Download
+ source has Null FIlename")
+		If (nb_IgnoreNullFilename=False)
+			
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_ZERO,cm_DBG_VAL_ILLEGAL,"snt_Server_Sector,
+ 
+snt_ServerFile,nb_IgnoreNullFileName",s_STRING_Enquote(snt_ServerSector)+cs_STRING_CSV+s_STRING_Enquote(snt_ServerFile)+cs_STRING_CSV+s_STRING_TrueOrFalse(nb_IgnoreNullFilename),cm_DBG_FIX_ABORT,"Null
+ FIlename and nb_IgnoreNullFileName is False. Download Aborted")
+			v_NET_CloseTCPConnection(hst_TCPStream)
+			Return False
+		Else
+			
+v_DBG_Debug("NET_DownloadFile",cm_DBG_NOT,cm_DBG_VAL_ZERO_NOT,"nb_IgnoreNullFileName",s_STRING_Enquote(snt_ServerSector)+cs_STRING_CSV+s_STRING_Enquote(snt_ServerFile)+cs_STRING_CSV+s_STRING_TrueOrFalse(nb_IgnoreNullFilename),cm_DBG_FIX_ABORT,"Null
+ FIlename accepted")
+		End If
+	End If
+	
+	Local s_UserAgent$=ts_WEB_USER_AGENT
+	If(nb_RandomUserAgent)
+		s_UserAgent=s_WEB_GetRandomisedUserAgent$()
+	End If	
+	
+	Local 
+s_Send$=s_NET_BuildHandshakeString$(snt_ServerSector,snt_ServerFile,snt_Domain$,s_UserAgent$,s_Protocol$)
+
+	
+	v_NET_SendStreamLine(hst_TCPStream,s_Send$)
+	
+	Local ns_Reply=ns_NET_ResolveTCPStreamServerResponse(hst_TCPStream)	
+	Local nb_Action=nb_NET_GetActionByServerResponse(ns_Reply)
+	Local nb_Success
+	
+	Select (nb_Action)
+		Case cm_NET_RESPONSE_ACTION_DOWNLOAD:
+			
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_POSITIVE,cm_DBG_VAL_CHANGE_NOT,"ns_Reply",Str(ns_Reply),cm_DBG_FIX_IGNORE,"No
+ error. Server Response: OK")
+			If (nb_NET_PrepareStreamForDownload(hst_TCPStream))
+				
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_POSITIVE,cm_DBG_VAL_CHANGE_NOT,"nb_Success",s_STRING_TrueOrFalse(nb_Success),cm_DBG_FIX_ABORT,"Preparation
+ success. Commencing download")
+				nb_Success=nb_NET_DownloadFileFromStream(hst_TCPStream)
+			Else
+				
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_NEGATIVE,cm_DBG_VAL_CHANGE_NOT,"nb_Success",s_STRING_TrueOrFalse(nb_Success),cm_DBG_FIX_ABORT,"Preparation
+ failure. ownload Aborted")
+			End If
+		Case cm_NET_RESPONSE_ACTION_REDIRECT:
+			
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_UNKNOWN,cm_DBG_STR_REDIRECT,"ns_Reply",Str(ns_Reply),cm_DBG_FIX_IGNORE,"No
+ error. Server Response: Redirect")
+			v_NET_CloseTCPConnection(hst_TCPStream)
+			
+sfp_EXP_FixPath(snt_FullServerPath=snt_NET_LocateRedirectionPathFromStream(hst_TCPStream),False,True)
+
+			Return 
+nb_NET_DownloadFile(snt_FullServerPath,sdr_DownloadPath,sfi_FileName,nbf_Flags)
+
+		Default:
+			
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_NEGATIVE,cm_DBG_STR_READ_NOT,"ns_Reply",Str(ns_Reply),cm_DBG_FIX_IGNORE,"Server
+ Response: Download Denied")
+			v_NET_CloseTCPConnection(hst_TCPStream)
+			nb_Success=False
+	End Select		
+	
+	
+v_DBG_Debug("NET_DownloadFile",cm_DBG_NOT,cm_DBG_VAL_CHANGE_NOT,"nb_Success",s_STRING_TrueOrFalse(nb_Success),cm_DBG_FIX_ABORT,"Stream
+ download integrity report")
+	
+	If (nb_Success)
+		If 
+(nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+			
+			; Downloaded TEMP file exists - now let's make sure it can be copied 
+over to itsd intended destination
+			
+			
+nb_Success=nb_NET_ValidateFileDownload(sdr_DownloadPath$,sfi_FileName$)
+			
+			
+		Else
+			;DOWNLOAD HAD FAILED AT WRITING FILE - BAD PATH TO DESTINATION
+			
+			
+v_DBG_Debug("NET_DownloadFile",cm_DBG_OBJ_EXIST_NOT,cm_DBG_FAILURE,"ENV_TEMPORARYFULLFILEPATH",s_STRING_Enquote(tsfp_ENV_TEMPORARYFULLFILEPATH),cm_DBG_FIX_ABORT,"File
+ download failure")
+			
+			;DeleteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+			nb_Success=False
+		End If
+		
+	Else
+		
+		;DOWNLOAD HAD FAILED EARLIER
+		
+		
+v_DBG_Debug("NET_DownloadFile",cm_DBG_VAL_ZERO,cm_DBG_FAILURE,"nb_Success",s_STRING_TrueOrFalse(nb_Success),cm_DBG_FIX_ABORT,"Download
+ stream reported Failure")
+		
+		v_NET_CleanUpTemporaryDownloadFile
+		nb_Success=False
+	End If	
+	
+	;Clean Cache - Just in case
+	v_NET_CleanUpTemporaryDownloadFile
+	
+	; Return TRUE if File has been copied correctly
+	;Return 
+(nb_EXP_CheckPath(sfp_EXP_FixPath(sfp_EXP_FixPath(sdr_DownloadPath,True,False)+sfi_FileName,False,False),cm_EXP_FILETYPE_FILE))
+
+	Return nb_Success
+End Function 
+
+; DESTROYS TEMPORARY SCRAP FILES
+Function v_NET_CleanUpTemporaryDownloadFile()
+	If 
+(nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+		
+v_DBG_Debug("NET_CleanUpTemporaryDownloadFile",cm_DBG_VAL_ZERO_NOT,cm_DBG_OBJ_EXIST,"ENV_TEMPORARYFULLFILEPATH",s_STRING_Enquote(tsfp_ENV_TEMPORARYFULLFILEPATH),cm_DBG_FIX_REPLACE,"Clearing
+ temporary download file cache")
+		DeleteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+		Delay cns_EXP_STANDARD_DELETION_DELAY
+	End If	
+End Function	
+
+; RETURNS TRUE IF FILE DOWNLOAD WAS SUCCESSFUL. AUTOMATICALLY DESTROYS 
+TEMPORARY SCRAP FILES
+Function nb_NET_ValidateFileDownload(sdr_DownloadPath$,sfi_FileName$)
+	
+	If 
+(nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+		
+		; Temporary Download Exists
+		
+		sdr_DownloadPath=sfp_EXP_FixPath(sdr_DownloadPath,True,False)
+		If (nb_EXP_CheckPath(sdr_DownloadPath,cm_EXP_FILETYPE_DIRECTORY))
+			
+			;Path for copying is valid
+			
+			Local 
+sfp_Filepath$=sfp_EXP_FixPath(sdr_DownloadPath+sfi_FileName,False,False)
+			
+			If (nb_EXP_CheckPath(sfp_Filepath,cm_EXP_FILETYPE_FILE))
+				
+				; Download target already present
+				
+				If (Not(nb_EXP_SafeOverWrite(sfp_Filepath)))
+					
+v_DBG_Debug("NET_ValidateFileDownload",cm_DBG_PER_NOT,cm_DBG_OBJ_EXIST,"sfp_Filepath",s_STRING_Enquote(sfp_Filepath),cm_DBG_FIX_ABORT,"File
+ already exists. Overwrite was not authorised. Download Failed")
+					v_NET_CleanUpTemporaryDownloadFile
+					;Save the return value to the end for clarity
+					;Return False
+				Else
+					; Not really necessary, since Copy will overwrite the file - but it
+ may be a 'neater' way to do things
+					
+					
+v_DBG_Debug("NET_ValidateFileDownload",cm_DBG_OBJ_EXIST,cm_DBG_OBJ_SOURCE_EQU_DEST,"sfp_Filepath",s_STRING_Enquote(sfp_Filepath),cm_DBG_FIX_REPLACE
+ ,"File already exists. Downloaded file will overwrite existing")
+					
+					DeleteFile sfp_Filepath
+					Delay cns_EXP_STANDARD_DELETION_DELAY
+					
+					;Not needed since Copy will occur anyway and we have verified the 
+location...
+					;Return nb_NET_ValidateFileDownload(sdr_DownloadPath,sfi_FileName)
+					
+				End If	
+				
+			End If
+			
+			; Download OK And Path Valid for copying!
+			
+			CopyFile tsfp_ENV_TEMPORARYFULLFILEPATH,sfp_Filepath
+				; Delay to ensure copy success
+			Delay cns_EXP_STANDARD_DELETION_DELAY
+			
+			
+		End If
+	Else
+			;Bad path to download destination
+		
+			
+;v_DBG_Debug("NET_ValidateFileDownload",cm_DBG_OBJ_EXIST_NOT,cm_DBG_FAILURE,"sdr_DownloadPath",s_STRING_Enquote(sdr_DownloadPath),cm_DBG_FIX_ABORT,"Download
+ destination path not found. Download Failed")
+			;DeleteFile(tsfp_ENV_TEMPORARYFULLFILEPATH)
+			;Return False
+		
+		; Much better to build the correct path than just fail the download!
+		
+		
+v_DBG_Debug("NET_ValidateFileDownload",cm_DBG_OBJ_EXIST_NOT,cm_DBG_VAL_ILLEGAL,"sfp_Filepath",s_STRING_Enquote(sfp_Filepath),cm_DBG_FIX_CREATE,"Download
+ destination path not found. ReBuilding path Directories")
+		
+		If (Not(nb_EXP_CompleteDirPath(sdr_DownloadPath)))
+			
+v_DBG_Debug("NET_ValidateFileDownload",cm_DBG_LOCKED,cm_DBG_OBJ_EXIST_NOT,"sdr_DownloadPath",s_STRING_Enquote(sdr_DownloadPath),cm_DBG_FIX_ABORT,"Unable
+ to ReBuild Download destination path. Download aborted")
+			Return False
+		End If
+		
+		Return nb_NET_ValidateFileDownload(sdr_DownloadPath,sfi_FileName)
+		
+	End If
+	
+	; Final check - if anything went wrong with the Copy process, this will
+ show up as a failure here!
+	
+	v_NET_CleanUpTemporaryDownloadFile
+	
+	Return nb_EXP_CheckPath(sfp_Filepath,cm_EXP_FILETYPE_FILE)
+	
+End Function
+
+; DETERMINES WHICH CM_NET_RESPONSE_ACTION_* TO TAKE ACCORDING TO 
+NS_SERVERRESPONSECODE. THIS SIMPLIFIES REESPONSES INTO JUST 3 OPTIONS: 
+OK, REDIRECT OR FAIL
+Function nb_NET_GetActionByServerResponse(ns_ServerResponseCode=0)
+	Select (ns_ServerResponseCode)
+		Case cns_NET_RESPONSE_OK:
+			;nb_NET_DownloadFromStream()
+			Return cm_NET_RESPONSE_ACTION_DOWNLOAD
+		Case 
+cns_NET_RESPONSE_REDIR_MOVED,cns_NET_RESPONSE_REDIR_FOUND,cns_NET_RESPONSE_REDIR_METHOD:
+
+			Return cm_NET_RESPONSE_ACTION_REDIRECT
+			;snt_NET_LocateRedirectionPathFromStream()
+		Default:
+			;RuntimeError "Response Indicates Failure: 
+"+Str(ns_ServerResponseCode)
+			Return cm_NET_RESPONSE_ACTION_ERROR
+	End Select
+End Function	
+
+; PREPARES A STREAM FOR FILE DOWNLOAD - OBTAINS CHUNK ENCODING TYPE FROM
+ HEADER AND POPULATES gnb_NET_CURRENT_DOWNLOAD_CHUNKED AND 
+gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH%
+Function nb_NET_PrepareStreamForDownload(hst_Stream%)
+	
+	gnb_NET_CURRENT_DOWNLOAD_CHUNKED=False
+	gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH%=0
+	
+	Local n4_ContentLength=-1
+	Local nb_Chunked = False
+	
+	Local n4_Sanity=0
+	Local s_Line$
+	
+	Local ns_Pos
+	Local s_Part1$
+	Local s_Part2$
+	
+	
+v_DBG_Debug("nb_NET_PrepareStreamForDownload",cm_DBG_VAL_POSITIVE,cm_DBG_VAL_CHANGE_NOT,"hst_Stream",Str(hst_Stream),cm_DBG_FIX_IGNORE,"No
+ error. Preparing Stream for Download")
+	
+	;Recurse Bytes from stream to identify Header and Encoding Type	
+	Repeat
+		n4_Sanity=n4_Sanity+1
+		s_Line$ = Trim(s_NET_ReadStreamLine(hst_Stream))
+		
+		If (s_Line$ = cs_STRING_NULL_STRING)
+			
+v_DBG_Debug("nb_NET_PrepareStreamForDownload",cm_DBG_VAL_ZERO,cm_DBG_NOT,"s_Line",s_STRING_Enquote(s_Line),cm_DBG_FIX_IGNORE,"End
+ Of Stream Header")
+			;END OF STREAM HEADER
+			Exit
+		End If
+		
+		ns_Pos = Instr(s_Line, cs_STRING_COLON)
+		s_Part1 = Trim(Left(s_Line, ns_Pos - 1))
+		s_Part2 = Trim(Right(s_Line, Len(s_Line) - ns_Pos))
+		
+		Select (Lower(s_Part1$))
+			Case cs_NET_SERVER_MESSAGE_LENGTH:
+				n4_ContentLength = Int(s_Part2)
+			Case cs_NET_SERVER_MESSAGE_ENCODING:
+				If (Lower(s_Part2$) = cs_NET_SERVER_MESSAGE_CHUNKED)
+					nb_Chunked = True
+				End If	
+		End Select
+		
+	Until (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+	
+	If (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+		
+v_DBG_Debug("nb_NET_PrepareStreamForDownload",cm_DBG_VAL_LARGE,cm_DBG_FAILURE,"n4_sanity",Str(n4_Sanity),cm_DBG_FIX_ABORT,"Iteration
+ limit reached")
+		v_NET_CloseTCPConnection(hst_Stream)
+		Return False
+	End If	
+	
+	
+v_DBG_Debug("nb_NET_PrepareStreamForDownload",cm_DBG_NOT,cm_DBG_OBJ_EXIST,"s_part1,
+ 
+s_part2",s_STRING_Enquote(s_Part1)+cs_STRING_CSV+s_STRING_Enquote(s_Part1),cm_DBG_FIX_IGNORE,"Continuity
+ Check")
+	
+	If (Eof(hst_Stream)&lt;0)
+	;Debug("Download Failed. Connection dropped")
+		v_NET_CloseTCPConnection(hst_Stream)
+		
+v_DBG_Debug("nb_NET_PrepareStreamForDownload",cm_DBG_VAL_NEGATIVE,cm_DBG_STR_EOF,"hst_stream",Str(hst_Stream),cm_DBG_FIX_ABORT,"Unexpected
+ End Of Stream")
+		
+v_DBG_Debug("nb_NET_PrepareStreamForDownload",cm_DBG_VAL_NEGATIVE,cm_DBG_STR_DROPPED,"hst_stream",Str(hst_Stream),cm_DBG_FIX_ABORT,"Connection
+ dropped")
+		Return False
+	End If
+	
+	gnb_NET_CURRENT_DOWNLOAD_CHUNKED=nb_Chunked
+	gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH%=n4_ContentLength%
+	
+	Return hst_Stream
+	
+End Function 
+
+; AFTER A STREAM IS OPENED AND PREPPED, CALL THIS TO DOWNLOAD AN 
+ARBITRARY FILE AS DETERMINED BY THE STREAM DESTINATION
+Function nb_NET_DownloadFileFromStream(hst_Stream%)
+	Local hst_File = 
+hst_EXP_OpenFileToWrite(tsfp_ENV_TEMPORARYFULLFILEPATH,True)
+	
+	If (Not(hst_File))
+		
+v_DBG_Debug("NET_DownloadFileFromStream",cm_DBG_VAL_ZERO,cm_DBG_LOCKED,"ENV_TEMPORARYFULLFILEPATH",s_STRING_Enquote(tsfp_ENV_TEMPORARYFULLFILEPATH),cm_DBG_FIX_ABORT,"Write
+ not authorised")
+		v_NET_CloseTCPConnection(hst_Stream)
+		
+		gnb_NET_CURRENT_DOWNLOAD_CHUNKED=False
+		gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH%=0
+		
+		Return False
+	End If	
+	
+	Local nb_Success=False
+	
+	If (Not(gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH))
+		
+v_DBG_Debug("NET_DownloadFileFromStream",cm_DBG_VAL_ZERO,cm_DBG_STR_EOF,"gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH",Str(gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH),cm_DBG_FIX_IGNORE,"No
+ Content to download")
+		v_EXP_CloseFile(hst_File)
+		v_NET_CloseTCPConnection(hst_Stream)
+		
+		
+nb_Success=(nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+
+		
+	Else 
+		
+		If (Not(gnb_NET_CURRENT_DOWNLOAD_CHUNKED))
+			nb_Success=nb_NET_DownloadNonChunkedStreamToFile(hst_Stream,hst_File)
+		End If
+		
+		If (gnb_NET_CURRENT_DOWNLOAD_CHUNKED)
+			nb_Success=nb_NET_DownloadChunkedStreamToFile(hst_Stream)
+		Else
+			
+		;End of content
+			
+			
+v_DBG_Debug("NET_DownloadFileFromStream",cm_DBG_STR_CLOSED,cm_DBG_STR_READ_NOT,"hst_Stream",Str(hst_Stream),cm_DBG_FIX_ABORT,"Content
+ length downloaded before end of stream")
+			
+			v_NET_CloseTCPConnection(hst_Stream)
+			v_EXP_CloseFile(hst_File)
+			
+			nb_Success=False
+		EndIf
+	End If
+	
+	;Clean up and prevent locked files
+	gnb_NET_CURRENT_DOWNLOAD_CHUNKED=False
+	gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH%=0
+	v_EXP_CloseFile(hst_File)
+		
+	Return nb_Success 
+	
+End Function
+
+; BEGINS DOWNLOADING A STREAM IN CHUNKS
+Function nb_NET_DownloadChunkedStreamToFile(hst_TCPStream%)
+	If (Not(hst_TCPStream))
+		
+v_DBG_Debug("NET_DownloadChunkedStreamToFile",cm_DBG_STR_CLOSED,cm_DBG_OBJ_EXIST,"hst_TCPStream",Str(hst_TCPStream),cm_DBG_FIX_ABORT,"Stream
+ handle null.")
+		Return False
+	End If
+	
+	Local hst_File = 
+hst_EXP_OpenFileToWrite(tsfp_ENV_TEMPORARYFULLFILEPATH,True)
+	
+	If (Not(hst_File))
+		
+v_DBG_Debug("NET_DownloadChunkedStreamToFile",cm_DBG_PER_NOT,cm_DBG_LOCKED,"ENV_TEMPORARYFULLFILEPATH",s_STRING_Enquote(tsfp_ENV_TEMPORARYFULLFILEPATH),cm_DBG_FIX_ABORT,"Write
+ not authorised")
+		v_NET_CloseTCPConnection(hst_TCPStream)
+		Return False
+	End If	
+	
+	Local hmb_Bank = CreateBank(cns_NET_CHUNKSIZE)
+	Local n4_Sanity=0
+	Local ns_IterBits
+	Local s_Line$
+	Local ns_Pos=0
+	
+	Repeat
+		n4_Sanity=n4_Sanity+1
+		s_Line$ = Trim(Upper(s_NET_ReadStreamLine(hst_TCPStream)))
+		
+		ns_Pos = 0
+		
+		For ns_IterBits = 1 To Len(s_Line$)
+			ns_Pos = 16 * ns_Pos + Instr(cs_MATH_HEX_LIST_VALID,Mid$(s_Line, 
+ns_IterBits, 1))
+		Next
+		
+		If (Not(ns_Pos))
+				;Debug("End Of Chunk")
+			
+v_DBG_Debug("NET_DownloadChunkedStreamToFile",cm_DBG_NOT,cm_DBG_STR_READ_NOT,n4_Sanity,Str(n4_Sanity),cm_DBG_FIX_IGNORE,"End
+ Of Chunk")
+			Exit
+		End If
+		
+		Local ns_mbSize=BankSize(hmb_Bank)
+		If (ns_mbSize &lt; ns_Pos)
+			
+v_DBG_Debug("NET_DownloadChunkedStreamToFile",cm_DBG_VAL_SMALL,cm_DBG_VAL_MISMATCH,"ns_mbSize",Str(ns_mbSize),cm_DBG_FIX_REPLACE,"Increase
+ Memory Allocation to: "+Str(ns_Pos))
+			ResizeBank hmb_Bank, ns_Pos
+		End If	
+			;Debug("Download Percentage: 
+"+f_MATH_Percent(ns_pos,BankSize(mb_bank)))
+		
+		v_NET_ReadStreamBytes(hmb_Bank, hst_TCPStream, 0, ns_Pos)
+		WriteBytes hmb_Bank, hst_File, 0, ns_Pos
+		
+		ns_NET_ReadStreamShort(hst_TCPStream)
+		
+	Until (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+	
+	If (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+		
+v_DBG_Debug("NET_DownloadChunkedStreamToFile",cm_DBG_VAL_LARGE,cm_DBG_FAILURE,"n4_sanity",Str(n4_Sanity),cm_DBG_FIX_ABORT,"Iteration
+ limit reached")
+	End If	
+	
+	FreeBank hmb_Bank
+	
+	v_EXP_CloseFile(hst_File)
+	v_NET_CloseTCPConnection(hst_TCPStream)
+	
+	
+v_DBG_Debug("NET_DownloadChunkedStreamToFile",cm_DBG_NOT,cm_DBG_STR_EOF,"ns_Pos",Str(ns_Pos),cm_DBG_FIX_IGNORE,"Bytes
+ Downloaded")
+	
+	Return 
+(nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+End Function
+
+; THE REMAINING CONTENT IS DOWNLOADED NON-CHUNKED TO THE GIVEN 
+FILE-STREAM HANDLE
+Function nb_NET_DownloadNonChunkedStreamToFile(hst_TCPStream,hst_File)
+	
+	Local hmb_Bank = CreateBank(cns_NET_CHUNKSIZE)
+	Local ns_Pos = 0
+	Local n4_Sanity=0
+	Local n4_Available%=(gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH - ns_Pos)
+	
+	Repeat
+		n4_Sanity=n4_Sanity+1
+		
+		n4_Available = (gn4_NET_CURRENT_DOWNLOAD_CONTENTLENGTH - ns_Pos)
+		
+		;	Debug("Download Percentage: "+f_MATH_Percent(ns_pos,n4_available))
+		
+		If (n4_Available &gt; cns_NET_CHUNKSIZE)
+			v_NET_ReadStreamBytes hmb_Bank, hst_TCPStream, 0, cns_NET_CHUNKSIZE
+			WriteBytes hmb_Bank, hst_TCPStream, 0, cns_NET_CHUNKSIZE
+			ns_Pos = ns_Pos + cns_NET_CHUNKSIZE
+			
+			;	Debug("Download Percentage: "+f_MATH_Percent(ns_pos,n4_available))
+			
+		Else
+			
+			v_NET_ReadStreamBytes(hmb_Bank, hst_TCPStream, 0, n4_Available)
+			WriteBytes hmb_Bank, hst_TCPStream, 0, n4_Available
+			
+			ns_Pos=n4_Available
+			Exit
+		EndIf
+		
+	Until (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+		
+		If (n4_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+			
+v_DBG_Debug("NET_DownloadNonChunkedStreamToFile",cm_DBG_VAL_LARGE,cm_DBG_FAILURE,"n4_sanity",Str(n4_Sanity),cm_DBG_FIX_ABORT,"Iteration
+ limit reached")
+		End If
+		
+		FreeBank hmb_Bank
+		
+		v_EXP_CloseFile(hst_File)
+		v_NET_CloseTCPConnection(hst_TCPStream)
+		
+		;Debug("Download Percentage: "+f_MATH_Percent(ns_pos,n4_available))
+		
+		;Debug("Download completed successfully")
+		
+		
+v_DBG_Debug("NET_DownloadNonChunkedStreamToFile",cm_DBG_VAL_ZERO_NOT,cm_DBG_STR_EOF,"ns_Pos",Str(ns_Pos),cm_DBG_FIX_IGNORE,"Bytes
+ Downloaded")
+		
+		Return 
+(nb_EXP_CheckPath(tsfp_ENV_TEMPORARYFULLFILEPATH,cm_EXP_FILETYPE_FILE))
+End Function		
+; READS SET NUMBER OF BYTES FROM GIVEN STREAM INTO A BANK - THE BANK 
+MUST ALREADY EXIST
+Function 
+v_NET_ReadStreamBytes(hst_StreamHandle,hmb_BankHandle,n4_Offset=0,n4_ByteCount=1)
+
+	If (Not(hmb_BankHandle))
+		RuntimeError("v_NET_ReadStreamBytes : Bank hmb_BankHandle Null 
+Handle")
+	End If	
+	
+	If (Not(hst_StreamHandle))
+		RuntimeError("v_NET_ReadStreamBytes : Stream hst_StreamHandle Null 
+Handle")
+	End If
+	
+	If ((BankSize(hmb_BankHandle)-n4_Offset)&lt;n4_ByteCount)
+		RuntimeError("v_NET_ReadStreamBytes : Bank hmb_Bank too small")
+	End If
+	
+	ReadBytes(hmb_BankHandle,hst_StreamHandle,n4_Offset,n4_ByteCount)
+	
+End Function
+
+; WRAPPER FOR READLINE
+Function s_NET_ReadStreamLine$(hst_StreamHandle)
+	If (Not(hst_StreamHandle))
+		
+v_DBG_Debug("NET_ReadStreamLine",cm_DBG_VAL_ZERO,cm_DBG_STR_READ_NOT,"hst_StreamHandle",Str(hst_StreamHandle),cm_DBG_FIX_REPLACE,cs_DBG_FRIENDLY_FIX_REPLACE)
+
+		Return cs_STRING_NULL_STRING
+	Else	
+		Local s_Line$=ReadLine(hst_StreamHandle)
+		
+		Return s_Line	
+	End If	
+End Function
+
+; WRAPPER FOR READSTRING
+Function s_NET_ReadStreamString$(hst_StreamHandle)
+	If (Not(hst_StreamHandle))
+		RuntimeError("s_NET_ReadStreamString : Stream hst_StreamHandle Null 
+Handle")
+	End If	
+	
+	Local s_String$=ReadString(hst_StreamHandle)
+	
+	Return s_String
+	
+End Function	
+
+; WRAPPER FOR READINT
+Function n4_NET_ReadStreamInt%(hst_StreamHandle)
+	If (Not(hst_StreamHandle))
+		RuntimeError("n4_NET_ReadStreamInt : Stream hst_StreamHandle Null 
+Handle")
+	End If	
+	
+	Local n4_Int$=ReadInt(hst_StreamHandle)
+	
+	Return n4_Int
+	
+End Function	
+
+; WRAPPER FOR READSHORT
+Function ns_NET_ReadStreamShort(hst_StreamHandle)
+	If (Not(hst_StreamHandle))
+		RuntimeError("ns_NET_ReadStreamString : Stream hst_StreamHandle Null 
+Handle")
+	End If	
+	
+	Local ns_Short=ReadShort(hst_StreamHandle)
+	
+	Return ns_Short
+	
+End Function		
+
+; WRAPPER FOR READBYTE
+Function m_NET_ReadStreamByte(hst_StreamHandle)
+	If (Not(hst_StreamHandle))
+		RuntimeError("m_NET_ReadStreamByte : Stream hst_StreamHandle Null 
+Handle")
+	End If	
+	
+	Local m_Byte=ReadByte(hst_StreamHandle)
+	
+	Return m_Byte
+End Function		
+
+; WRAPPER FOR READFLOAT
+Function f_NET_ReadStreamFloat#(hst_StreamHandle)
+	If (Not(hst_StreamHandle))
+		RuntimeError("f_NET_ReadStreamFloat : Stream hst_StreamHandle Null 
+Handle")
+	End If	
+	
+	Local f_Float#=ReadFloat(hst_StreamHandle)
+	
+	Return f_Float#
+	
+End Function
+; WRAPPER FOR WRITELINE
+Function 
+v_NET_SendStreamLine(hst_TCPStream,s_Send$=cs_STRING_NULL_STRING)
+	If (Not(hst_TCPStream))
+		
+v_DBG_Debug("NET_SendStreamLine",cm_DBG_VAL_ZERO,cm_DBG_OBJ_EXIST_NOT,"hst_TCPStream",Str(hst_TCPStream),cm_DBG_FIX_ABORT,"TCP
+ Stream handle null. Send of "+s_STRING_Enquote(s_Send)+" failed")
+	Else
+		WriteLine hst_TCPStream,s_Send$
+	End If
+End Function
+
+; OBTAINS RESPONSE CODES FROM TCP SERVER AND RETURNS A SHORT 2-BYTE 
+VALUE
+Function ns_NET_ResolveTCPStreamServerResponse(hst_StreamHandle)
+	If (Not(hst_StreamHandle))
+		Return cns_NET_RESPONSE_BAD_REQUEST
+	End If
+	
+	Local sLine$ = s_NET_ReadStreamLine(hst_StreamHandle)
+	If (sLine=cs_STRING_NULL_STRING)
+		Return cns_NET_RESPONSE_BAD_REQUEST
+	End If	
+	
+	Local ns_Pos1 = Instr(sLine$,cs_STRING_SPACE)
+	Local ns_Pos2 = Instr(sLine$,cs_STRING_SPACE, ns_Pos1 + 1)
+	
+	If (Not(ns_Pos1*ns_Pos2))
+		Return cns_NET_RESPONSE_BAD_REQUEST
+	End If	
+	
+	Return Int(Mid(sLine$,ns_Pos1, ns_Pos2 - ns_Pos1))
+End Function	
+
+; OBTAINS REDIRECTION URL FROM STREAM AFTER RECEIVING A 301 CODE
+Function snt_NET_LocateRedirectionPathFromStream$(hst_Stream)
+	Local ns_Sanity=0
+	Local s_Line$
+	
+	Local Redir$
+	Local Pos
+	
+	Local snt_NewPath$
+	
+	Repeat
+		ns_Sanity=ns_Sanity+1
+		s_Line$ = Trim(ReadLine(hst_Stream))
+		
+		If (s_Line=cs_STRING_NULL_STRING)
+			ns_Sanity=cns_NET_SANITY_CLAUSE_ITERATION_MAX+1
+			Exit
+		End If	
+		
+		Pos = Instr(s_Line$,cs_STRING_COLON)
+		
+		If 
+(Lower(Trim(Left(s_Line$,Pos)))=Lower(cs_NET_SERVER_MESSAGE_REDIRECT))
+			snt_NewPath = sfp_EXP_FixPath(Trim(Right(s_Line$, Len(s_Line$) - 
+Pos)),False,True)
+			v_NET_CloseTCPConnection(hst_Stream)
+			Return snt_NewPath$
+		End If
+		
+	Until (ns_Sanity&gt;cns_NET_SANITY_CLAUSE_ITERATION_MAX)
+	
+	v_NET_CloseTCPConnection(hst_Stream)
+	
+	Return cs_STRING_NULL_STRING
+	
+End Function	
+; RESOLVES THE PROTOCOL HEADER PREFIX FROM A GIVEN URL
+Function snt_NET_GetProtocolPrefix$(snt_Path$)
+	Local ns_Inst=Instr(snt_Path,cs_NET_PROTOCOL_SUFFIX)-1
+	If (ns_Inst)
+		Return Left(snt_Path,ns_Inst+Len(cs_NET_PROTOCOL_SUFFIX))
+	End If
+	
+	Return cs_STRING_NULL_STRING
+End Function
+
+; RESOLVES THE CORRECT PORT NUMBER FOR THE GIVEN PROTOCOL DEPENDING 
+WHETHER SECURE OR UNSECURED
+Function ns_NET_GetProtocolPort(snt_Path$)
+	;Return Identified Port
+	
+	Local ns_Port=cns_NET_PORT_DEFAULT_HTTP_PORT
+	
+	Local s_Protocol$=snt_NET_GetProtocolPrefix(snt_Path)
+	If (s_Protocol&lt;&gt;cs_STRING_NULL_STRING)
+		s_Protocol=Left(s_Protocol,Instr(s_Protocol,cs_NET_PROTOCOL_SUFFIX))
+		If (Lower(s_Protocol)=Lower(cs_NET_PROTOCOL_HTTPS))
+			ns_Port=cns_NET_PORT_DEFAULT_HTTPS_PORT
+		End If
+	End If	
+	Return ns_Port
+End Function
+
+; REMOVES THE PROTOCOL HEADER FROM A GIVEN URL
+Function snt_NET_TrimProtocolHead$(snt_Path$)
+	Local snt_Trim$=snt_NET_GetProtocolPrefix(snt_Path)
+	Local snt_Sector$=s_STRING_TrimStringLeft(snt_Path,Len(snt_Trim))
+	Return snt_Sector
+End Function	
+
+; RESOLVES THE DOMAIN NAME ONLY FROM GIVEN URL
+Function snt_NET_RetrieveDomain$(snt_Path$)
+	Local s_Sectors$=snt_NET_TrimProtocolHead(snt_Path)
+	snt_Path$ = s_STRING_TrimStringRight(s_Sectors, Len(s_Sectors) - 
+Instr(s_Sectors,cs_STRING_WEB_SEPARATOR)+1)
+	Return snt_Path
+End Function
+
+; ATTEMPTS TO OPEN A CONNECTION TO DOWNLOAD FROM TCP SERVER URL AND 
+RETURNS STREAM HANDLE
+Function hst_NET_CreateDownloadTCPConnection(snt_FullServerPath$)
+	snt_FullServerPath=sfp_EXP_FixPath(snt_FullServerPath,False,True)
+	
+	Local s_Protocol=snt_NET_GetProtocolPrefix(snt_FullServerPath)
+	Local ns_Port=ns_NET_GetProtocolPort(snt_FullServerPath)
+	Local snt_Domain$=snt_NET_RetrieveDomain(snt_FullServerPath)
+	
+	
+v_DBG_Debug("NET_CreateDownloadTCPConnection",cm_DBG_NOT,cm_DBG_OBJ_EXIST,"s_Protocol,
+ ns_Port, 
+snt_Domain",s_STRING_Enquote(s_Protocol)+cs_STRING_CSV+Str(ns_Port)+cs_STRING_CSV+s_STRING_Enquote(snt_Domain),cm_DBG_FIX_IGNORE,"Attempt
+ to communicate via TCP Port")
+	
+	;Open TCP stream
+	Local hst_TCPStream = OpenTCPStream(snt_Domain$, ns_Port )
+	
+	If (Not(hst_TCPStream))
+		
+v_DBG_Debug("NET_CreateDownloadTCPConnection",cm_DBG_VAL_ZERO,cm_DBG_STR_TIMEOUT,"hst_TCPStream",Str(hst_TCPStream),cm_DBG_FIX_ABORT,"Failed
+ to open TCP Connection")
+	End If
+	
+	Return hst_TCPStream
+End Function
+; CLOSES TCP STREAM
+Function v_NET_CloseTCPConnection(hst_TCP=False)
+	If (hst_TCP)
+		
+v_DBG_Debug("NET_CloseTCPConnection",cm_DBG_STR_CLOSED,cm_DBG_OBJ_EXIST,"hst_TCP",Str(hst_TCP),cm_DBG_FIX_IGNORE,"Enforced
+ Closure")
+		CloseTCPStream(hst_TCP)
+	Else
+		
+v_DBG_Debug("NET_CloseTCPConnection",cm_DBG_STR_CLOSED,cm_DBG_OBJ_EXIST_NOT,"hst_TCP",Str(hst_TCP),cm_DBG_FIX_IGNORE,"Stream
+ Not Found")
+	End If
+End Function
+
+;JUST A WRAPPER TO AVOID INCREDIBLY LONG LINE OF CODE. THIS MUST BE ALL 
+ON ONE LINE
+Function 
+s_NET_BuildHandshakeString$(s1$,s2$,s3$,s4$,sProtocol$=cs_NET_PROTOCOL_HANDLE_HTTP10)
+
+	If ((s2&lt;&gt;cs_STRING_NULL_STRING) And 
+(s2&lt;&gt;cs_STRING_WEB_SEPARATOR))
+		s1$=sfp_EXP_FixPath(s1,True,True)
+	End If
+	
+	Local 
+s_Return$=cs_NET_LOCAL_SEND_GET$+cs_STRING_SPACE+s1$+s2$+cs_STRING_SPACE
+	
+s_Return=s_Return+cs_NET_PROTOCOL_HANDLE_HTTP11$+ts_STRING_CARRIAGE_RETURN$+cs_NET_HOST_STRING$
+
+	
+s_Return=s_Return+s3$+ts_STRING_CARRIAGE_RETURN$+cs_WEB_USERAGENT_STRING+s4$+ts_STRING_CARRIAGE_RETURN$
+
+	
+s_Return=Replace(s_Return,ts_STRING_NULL_TERMINATOR,cs_STRING_NULL_STRING)
+
+	
+	Return s_Return
+	
+End Function
+
+Function n4_NET_ReadEncryptedStreamInt%(hst_Stream,ns_Offset=0)
+	Local hmb_Bank = CreateBank(cm_MEM_WORD)
+	v_NET_ReadStreamBytes(hmb_Bank, hst_Stream, ns_Offset ,cm_MEM_WORD)
+	Local n4_Return%=PeekInt(hmb_Bank,0)
+	FreeBank hmb_Bank
+	Return n4_Return%
+End Function
+</textarea><br><br>And its sister WEB_ Library:<br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;
+ RETURNS HTTP CONTROL CODES FOPR INVALID HTML CHARACTERS
+Function s_WEB_URLEncode(s_Char$)
+	If (Not(nb_STRING_IsAlphanumericCharacter(s_Char)))
+		If (Instr(cs_WEB_ENCODED_URL_CHARACTERS,s_Char))
+			s_Char=cs_STRING_PERCENT+Str(Asc(s_Char))
+		End If
+	End If
+	Return s_Char
+End Function
+
+Function s_WEB_FixTitleForWebURL$()
+	Return Replace(cs_APP_TITLE,cs_STRING_SPACE,cs_STRING_UNDERSCORE)
+End Function	
+
+; RETURNS THE HEADER TYPE TO USE
+Function s_WEB_ProtocolHeaderString$(nb_Secure=False)
+	;Maybe deal with ftp etc. later
+	If (nb_Secure)
+		Return cs_NET_PROTOCOL_HTTPS+cs_NET_PROTOCOL_SUFFIX
+	Else
+		Return cs_NET_PROTOCOL_HTTP+cs_NET_PROTOCOL_SUFFIX
+	End If
+End Function
+	
+; RETURNS A UNIQUELY RANDOMISED USERAGENT
+Function s_WEB_GetRandomisedUserAgent$()
+	Return 
+ts_WEB_USER_AGENT$+cs_STRING_SPACE+s_STRING_Parenthesis(s_STRING_IntegerFormat(Rand(Abs(MilliSecs()Mod
+ 100000)),6))
+End Function
+
+; REMOVES DATA FOR ANY PREVIOUSLY BUILT PATCH LISTS
+Function v_WEB_ClearPreviousPatchLists()
+	Delete Each T_WEB_PATCH
+End Function
+
+; BUILDS A DATAFILE OF THE WEB CONTENT THAT NEEDS TO BE PATCHED BASED ON
+ STREAM FROM SERVER
+Function v_WEB_BuildPatchList(hst_Stream=False,nb_CloseStreamAfter=True)
+	; 	tsfp_WEBPATCH_FILES_CONTAINERDIRPATH	-	Location to download Patch 
+Files into. Folder Structure should tally from here to ROOT
+	;	tsdd_ENV_ENGINEROOTDIRPATH				-	Base Installation Root
+	
+	; Local hst_File=hst_EXP_OpenFileToRead(tsfp_WEB_PATCH_LIST_FILEPATH)	-
+	Deprecated - Info can be streamed from Server
+	
+	If (Not(hst_Stream))
+		;No patching information available
+		Return
+	End If
+	
+	v_WEB_ClearPreviousPatchLists
+	
+	Local sfp_ReadFilePath$=s_CRYPT_ReadEncryptedString(hst_Stream)
+	Local o_PATCHLIST.T_WEB_PATCH
+	
+	Local n4_PatchFileSize
+	Local s_PatchCRC$
+	
+	Local sfp_LocalFilePath$
+	Local s_LocalCRC$
+	
+	Local nb_AddFileToPatchList=False
+	
+	Local ns_ByteCount
+	
+	While (sfp_ReadFilePath&lt;&gt;cs_STRING_NULL_STRING)
+		
+		; First let's acquire the full local file path matching the patch list
+		
+sfp_LocalFilePath=sfp_EXP_FixPath(tsdd_ENV_ENGINEROOTDIRPATH,True,False)+sfp_ReadFilePath
+
+		
+		
+n4_PatchFileSize=n4_NET_ReadEncryptedStreamInt%(hst_Stream,ns_ByteCount)
+		ns_ByteCount=ns_ByteCount+1
+		
+		s_PatchCRC$=s_CRYPT_ReadEncryptedString(hst_Stream)
+		
+		nb_AddFileToPatchList=False
+		
+		; Now see if it should be patched or not
+		If (FileType(sfp_LocalFilePath))
+			If (FileSize(sfp_LocalFilePath)&lt;&gt;n4_PatchFileSize)
+				; File Size mismatch - Add to Patch List
+				nb_AddFileToPatchList=True
+			Else
+				If (s_LocalCRC&lt;&gt;s_PatchCRC)
+					; CRC Mismatch - Add to Patch List
+					nb_AddFileToPatchList=True
+				End If
+			End If
+		Else
+			; Local File does not exist - Add to Patch
+			nb_AddFileToPatchList=True	
+			
+			; Remember when Processing to include 
+EXP_BuildCompleteDirectoryPath!!!
+			
+		End If	
+		
+		If (nb_AddFileToPatchList)
+			; Create an entry for this file to the PATCH LIST
+			
+			o_PATCHLIST.T_WEB_PATCH = New T_WEB_PATCH
+			o_PATCHLIST\ihto_WEB_PATCH_SelfHandle=Handle(o_PATCHLIST.T_WEB_PATCH)
+			
+o_PATCHLIST\isdl_WEB_PATCH_RelativeDirectoryPath=sdd_EXP_GetParentDirectoryPath(sfp_ReadFilePath)
+
+			
+o_PATCHLIST\isfn_WEB_PATCH_FileName=sfn_EXP_GetFilenameNoExtension(sfp_ReadFilePath)
+
+			
+o_PATCHLIST\isfe_WEB_PATCH_FileNameExtension=sfe_EXP_GetFileExtension(sfp_ReadFilePath)
+
+		End If
+		
+		; Repeat Iteration of Patch List from Server
+		sfp_ReadFilePath$=s_CRYPT_ReadEncryptedString(hst_Stream)
+		
+	Wend
+	
+		; Close the stream if requested
+	If (nb_CloseStreamAfter)
+		v_NET_CloseTCPConnection(hst_Stream)
+	End If	
+	
+End Function
+; SETS WHETHER OR NOT TO PERFORM UPDATE CHECKING FROM CLI PARAMETERS
+Function v_WEB_InitialiseUpdate()
+	
+gnb_INIT_WEB_CHECK_DO_UPDATECHECK=Sgn(Instr(ts_INIT_COMMANDLINE,cs_WEB_CL_TRIGGER)&gt;0)
+End
+ Function
+</textarea><br><br>As may be identified, there is still an amount of 
+housekeeping top be done with these functions, mainly as in expanding, 
+dividing and re-compiling the libraries requred a lot of care so as not 
+to damage their functionality or useability. As such, there may be 
+amounts of duplication or obsolescence in a few areas - this will take 
+careful examination to identify. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Debugger Output Example</td><td align="right"><font class="tiny">(Posted 2011-12-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is the complete Debuglog output from a test run of the engine 
+Runtime Iniitialisation. The Debugger was sewt to full verbose mode and 
+there are 5 entries.<br><br>As can be seen, it is satisfactorarily well encrypted and all information was decrypted in the Debug Helper accurately.<br>If
+ this is a typical output standard, then there's an average of 110 bytes
+ per entry. These entries were all generated and written in under 1 
+second.<br><br>Although really, just 5 entries is a poor sample size to 
+truly infer any reliable statistics from, so the posting here is really 
+just an example of the encryoption and typical content of a small 
+section of the raw Debugger output.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">îßÍæÿíeéÞí^ñîåmÞ_ÙßíÞñî~ÝKíeéÞèàíÿíÞñníeéÞËíei^ËðejÞþÿýþäÿýûôuùvüúÑí^qníåi^Ëmåé^Kpej^îßÍçÿ_^ßéÚímfilkiìäãoÞíkKldãïèàÞÿj^qþíæilfæÝlkiìäcïídékäíK\ämK~ì_^ÍÿCiäéókiläãoqÞñnÿí`ãoÌîgmÿmdiëdmÌîgmmdikdípðrlGüìÿnqmàÌÞcdLßñ[L^íë`ñÞîßÍéÿßkiìäcom_éfñi^éäiKÞiäéèÖ÷ÿÞ_iÚíKpdþÿýþêÿÒV_ëéldcoí^é`[ËìdcïKÜîßÍìÿmÞé`Ûã^íæéìäíþãË~ZíèÔâÿjÞñ~íæiìîéæñÜËþì_LÍäàÝÞmàËÞ_êËÿÁédéókéìäãïÿñÞñníàãïÌnçíÿmäékäíÌîçímäékäíÿðprlÆM}þìÿuûútøö|úÑäàÝÞíàË^_êîßÍìÿíÞéàÛãÞíféldíþãËþÚíèÔâÿêÞñþíæiìniæqÜËþl_ÌÍdàÝ^í`ËÞ_êÈÿÈëãæó^édiÿ_ëãæqÞñnÿí`ãoÌîgíÿmdéëäíLîgííäékdíððrìÂMýþìÿõ÷øüøö|úQdà]ÞíàK^ßê</textarea> <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Separation Almost Complete</td><td align="right"><font class="tiny">(Posted 2011-12-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I've moved all the Engine related folders, Logfiles and Config settings etc to a subfolder.<br><br>Application
+ specific localisation can be dealt with later, as can App-specific 
+configs, App-specific version control and App-specific directory paths.<br><br>Added language option for Deutsch (Currently assuming the MS code is "DE")<br><br>Created Read Me files in all Localisation language<br><br>Removed Changelog from Read Me to its own file, but English Only.<br><br>Current tasks:<br>Re-Evaluating
+ Resource management and File Extensions. I can no longer restrict 
+various resource types to just 8 varieties, so the existing single-byte 
+approach wont cut it. Gonna get a bit messy, but shouldn't be too 
+difficult.<br><br>This also ties in with current attempts to fully 
+implement GIF Import features, Especially For use with DrawMovie as well
+ as other important file extension types.<br><br>_________________________________________________ <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Localisation concerns</td><td align="right"><font class="tiny">(Posted 2011-11-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> It's necessary to separate the fundamental engine-based Localisation with Application specific variants.<br>This has implications on the problem of unknown quantities being processed on compilation.<br><br>The same applies to User Configuration settings and the file structure.<br><br>An understanding of exactly how and where Applications need to be separated from the Engine is critical.<br><br>Possible
+ solutions may be used similar to the likes of NWN, where there are two 
+sets of initialise files. One for the core menu system, one for the 
+installation and version details, another for the gameplay itself. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Establishing the Basics</td><td align="right"><font class="tiny">(Posted 2011-11-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> A Thorough review of the previous design lead to a few major considerations:<br><br>==
+ Automatic Debugging and Error-Catching needed to be efficient, 
+versatile, informative and capable. Being too intrusive and/or too 
+confusing can be counter-productive.<br><br>== Unnecessary bulk - Snippet functions and duplicated functionality needed to be cut<br><br>== All functions and Variables needed to follow conventions<br><br>== Libraries needed to be consolidated and organised<br><br>==
+ Runtime needed to be stable, and efficient as well as allowing for 
+Localisation and/or User-Configuration and for such elements to be 
+App-dependant too.<br><br>With these considerations in mind, it was necessary to overhaul the entire project.<br>Now it's back up to speed with a complete Runtime environment with trial localisations and Auto-Update features. <br><br> ____________________<br><div class="quote">  <br>lawks a lordy, my bottom's on fire!<br> <br></div> ~<i>marksibly</i> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

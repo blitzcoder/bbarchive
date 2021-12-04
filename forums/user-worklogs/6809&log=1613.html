@@ -1,0 +1,446 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=Big5"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for ziggy</h1><h1>Next BLIde version</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>BLIde ServicePack 1 to be released</td><td align="right"><font class="tiny">(Posted 2011-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm preparing and testing a very big BLIde service pack, that will be 
+available to all BLIde Plus users at the end of January. This will be 
+the first major BLIde update since 2007. That's why I've considered this
+ update a 'service pack'.<br><br>This first service pack will update 
+several areas of the BLIde interface, will improve accessibility, will 
+fix completely all the CSC errors that are seen randomly on some 
+computers after a regular update, and will also benefit of some of the 
+new developments we have done for the new Jungle Ide engine.<br><br>This
+ service pack will also make BLIde use several threads to separate 
+lexical and syntactical parsing on several supported languages such as 
+C#, ANSI C, BLIde SDK, etc. Obviously this service pack will also 
+include all the accumulated updates and fixes. Additionally, the 
+updating system will be completely renew to a faster, smaller and more 
+reliable system we've been developing using Inno Setup.<br><br>More details to come very soon. A release candidate version could be released in some days time.<br><br>Stay tuned!<br><br>Original post if you want to contribute: <a href="http://www.blide.org/?p=571" target="_blank">http://www.blide.org/?p=571</a> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More windows dependency</td><td align="right"><font class="tiny">(Posted 2009-06-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ While I'm trying to keep every improvement and new feature on BLIde as 
+platform independent as possible (I would love to see BLIde running on 
+mono in the future), I've added a new P/Invoke call to the 
+PathRelativePathTo windows API, to improve some of the internal BLIde 
+file handling on managed solutions.<br>This new changes will improve the
+ way some files are referenced inside solutions (specially imported 
+library nodes). From next version, file referencing will use relative 
+paths when possible. Also, main nodes will be kept in a relative path to
+ the main bls, or BlideUS main file. Older ".BLIde" files will also 
+benefit from this.<br><br>This is very big step forward in making BLIde much more portable and team freindly.<br><br>----<br>EDIT:<br>Additionally
+ I've been working today on some improvements on the BLIde-BlitzMax 
+debuger. I've changed the way the 'Kill' signal is sent to the running 
+process when the debug session is canceled.<br><br>In curent BLIde 
+version, if the debug request is ignored after 30 seconds, BLIde 
+brute-force kills the running application. This is done to ensure any 
+full-screen graphic context does not leave the computer in a 'blocked' 
+status when a unhandled exception or a debugstop is thrown.<br><br>In 
+next version, BLIde will leave the application open, and will add a "T" 
+(stacktrace) and a "Q" (Quit) signal to the debug input, so the 
+application will report a call stack and primary debug information, and 
+then will naturally die (releasing also the graphic context, if any). <br><br>Why
+ this change? This will help people writing server-like applications, as
+ usually those applications are not monitorized all the time, and 
+brute-force closing them without reporting any more information was 
+making things a bit rude to work with.<br><br>EDIT2: I've been working 
+more on the Debuger, and I've solved some sync. issues with the BlitzMax
+ debuger. It seems the BlitzMax debuger sometimes and randomly ignores 
+some objectdumb requests, and that was confusing BLIde. It's been 
+solved, so BLIde won't lose sync if that happens.<br>Also, I've been 
+writing a word hilighting on the BLIde rendering engine. It's not 
+perfect, but quite usable. It works very well when used with the BLIde 
+default color schema, but may fail (still) on customized schemas. Hope 
+to have all this sorted out for this release.<br>Lot's of things going 
+on on BLIde internals. Also, next executable has been a bit more 
+optiomized and it is smaller in size and a bit faster on the JIT (so 
+launches a bit faster). <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>RC almost ready!</td><td align="right"><font class="tiny">(Posted 2009-04-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been fixing several stability issues on the current Beta version, 
+and RC1 is almost done! I wish the stable version will be released in 
+just week's time.<br>Also, got a new computer!!! Not a i7, but a good 
+QuadCore. This will be my dev machine from now on. I still keep my 
+ancient PIV for beta-testing purposes, but I did really need to upgrade 
+the machine. the more multi-thread is added to BLIde, the more I need a 
+several core's computer to ensure everything works like it should. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Just a screenshot</td><td align="right"><font class="tiny">(Posted 2009-03-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yes,a small screenshot of BLIde running the new unmanaged solution explorer:<br><img src="6809&amp;log=1613_files/blide-00-09-72.html"> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New Plugin on the way</td><td align="right"><font class="tiny">(Posted 2009-02-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ While beta-testing the forthcoming BLIde version in the private 
+beta-testing phase, I've coded a new Plugin for BLIde that simply 
+introduces intellipromt for keyhit( and keydown( keywords.<br>It was 
+just a small test of the new data-base-like based access to the keywords
+ from the internal BLIde SDK api that will be available on the next 
+BLIde version.<br><br>As I've found it super sexy and easy to follow and
+ understand, and it gives a good idea of how powerful this SDK additions
+ are, I'm attaching the plugin source code:<br><br><pre class="code">imports blide
+imports blide.sdk
+imports microsoft.visualbasic
+
+Module plugin
+	Private MI As blide.sdk.blideforms.BLIdeMenuItem
+	Sub Main()
+		'when the plugin starts, we add a menu item to enable / disable this intellipromt plugin:
+		MI = New blide.sdk.blideforms.BLIdeMenuItem(blide.sdk.Api.ToolsBarItem, "KeyHit/KeyPress intellipromt")
+		'By default the plugin is enabled:
+		mi.checked = true
+		mi.BeginGroup = True
+		'The menu item will enable/disable automatically:
+		mi.AutoToggle = True
+		'We insert the menu item at the end of the tools menu:
+		mi.InsertAfter(blide.sdk.Api.ToolsBarItem.ItemsCount - 1)
+		'We add a event handler to the keypress event of the BLIde editor window:
+		AddHandler blide.sdk.Events.EditorEvents.KeyPress, AddressOf KeyPressHandler
+	End Sub
+	
+	
+	'If the user press a key:
+	Private Sub KeyPressHandler(sender As blide.sdk.blideforms.Editor, e As system.Windows.Forms.KeyPressEventArgs)
+		'If the key is not "(" we can leave!
+		If e.KeyChar &lt;&gt; "(" Then Exit Sub
+		
+		'If the plugin is disabled, we can leave:
+		If PlugIn.MI.checked = False Then Exit Sub
+		
+		'If the file we're editing is not a blitzmax file, we can leave:
+		If ends(sender.filename, ".bmx") = False And sender.FileName &lt;&gt; "" Then  Exit Sub
+
+		'We get the current line of text on the editor window:
+		Dim TextLine As String = sender.lines(sender.TextPos.y)
+		
+		'We get a substring:
+		Dim t As String = left(TextLine, sender.TextPos.X + 1) 
+		t = trim(t)
+
+		'We check for the function name:
+		CheckFunction("KeyDown",T,sender)
+		CheckFunction("KeyHit",T,sender)
+	End Sub
+	
+	Private Function CheckFunction(FuncName As String, Line As String, ED As blide.sdk.blideforms.Editor) As Boolean
+		'If the last characters are keydown( or keyhit, we check this:
+		If ends(Line, FuncName) Then
+			'We check the character before keydown or keyhit is a separator, to avoid false positives!
+			dim tmp as string = Right(Line,len(FuncName)+1)
+			if len(tmp) = len(FuncName)+1 then
+				tmp = mid(tmp,1,1)
+			else
+				tmp = ""
+			end if
+			If (tmp &gt;= "a" And tmp &lt;= "z") Or tmp = "_" Or (tmp &gt;= "0" And tmp &lt;= "9") Or tmp = "." Then
+				'Avoid false positives!
+				return false
+			End If
+			'We show the keys list here:
+			ShowKeys(ED)
+			return true
+		Else
+			'We can leave here, nothing to do!
+			return false
+		End If
+		
+	End Function
+	
+	Private Function ends(source as string, compare as string) as boolean
+		If right(lcase(source), len(compare)) = lcase(compare) Then Return True 
+		Return False 
+	End Function
+	
+	Private Sub ShowKeys(Ed As blide.sdk.blideforms.Editor)
+		'We're about to show the list of key consts.
+		'We clear any previous intelliprompt list:
+		Ed.ClearList()	'We clear any previous list 
+
+		'We get a keyword from the database:
+		Dim KW As blide.sdk.Databases.Keyword 
+		Dim ListItems As Integer = 0 
+		KW = BLIde.sdk.Databases.Keyword.GlobalKeywords("BRL") 
+		'If we have got this keyword, we continue...
+		If kw IsNot Nothing Then 
+			For Each KW2 As blide.sdk.Databases.Keyword In kw.Children
+				If kw2.ShortName = "keycodes" And kw2.Style = "MODULE" Then
+					For Each KW3 As blide.sdk.Databases.Keyword In kw2.Children
+						If kw3.Style = "CONST" Then Ed.AddListItem(kw3.shortname, 8, kw3.bbdoc, True)
+						ListItems += 1
+					Next
+					Exit For
+				End If
+			Next
+		End If
+		If listitems &gt; 0 Then
+			Ed.ShowList(0)	'We show the list at caret position (offset 0)
+		End If
+	End Sub
+End Module</pre><br><br>:D <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More details on the BETA process</td><td align="right"><font class="tiny">(Posted 2009-02-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> We're still working on the private beta process and everything is going according to our plans. <br><br>We've
+ implemented a mechanism on BLIde to detect files being changed from 
+outside BLIde, so the files stay 'in sync' with external files, or files
+ modified by other ides/editors, etc. <br><br>I'm still working on a new
+ file system for solutions that can use template-like files with 
+parameters. The beta will be opened to everyone soon, so stay tuned... <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New BLIde version progress</td><td align="right"><font class="tiny">(Posted 2009-02-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ With the new unmanaged solutions for BLIde, BLIde will nativelly 
+support also C and C++ projects. It'll not be a priority of BLIde, but 
+mixing C, C++ and BlitzMax will be easier than ever before. Still 
+fine-tuning some areas...<br>Also, this opens the doors for BLIde to support many more additional compilers and kind of projects. <br>Now I'm testing a project written completelly on C using BLIde Plus!!!<br>:D <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Private BETA released</td><td align="right"><font class="tiny">(Posted 2009-02-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I've released the first private BETA version of the new unmanaged
+ solutions system. So everything is going as planned. Hurray! <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Progress of the new unmanaged project explorer</td><td align="right"><font class="tiny">(Posted 2009-01-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <b>Regarding the new unmanaged project explorer system:</b><br>As
+ it was planed, I've managed to handle all the file and folder renaming,
+ creation, deletion etc., so I'll start the compile/debug area of this 
+big update during next week.<br><br><b>Regarding BLIde in general:</b><br>I've
+ been making some fixes to the current BLIde engine and improving deeply
+ the windows-handler creation/deletion when working with large solutions
+ on 32 bits windows prior to Vista. When dealing with a project with a 
+BIG number of files, BLIde could be releasing handles too late, 
+affecting windows stability when several instances of BLIde where 
+opened, and the user was also running a high GDI demanding application 
+such as Adobe Photoshop.<br><br><b>Additional bugfixing:</b><br>There 
+have been some feature requests/bug reports that have also entered the 
+todo list prior to next release, so the next version will delay even 
+more... I'm sorry for that, but given the fact that next version will 
+include a new project management system, I want to be sure all the file 
+handling is secure a reliable. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Being working in the unmanaged solutions system</td><td align="right"><font class="tiny">(Posted 2009-01-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Just added a way to rename files in the unmanaged solution explorer, 
+and it was EASY. It is wonderful to make a project explorer that does 
+not have to handle anything else but files. I hope to have the folder 
+rename/create/delete functionality this week also (here a bit of 
+refactoring will be needed, so it'll take longer).<br>When this is 
+ready, i'll make the compilation and debuging part and the release will 
+be ready as a private beta, wich I hope to open to a public beta as soon
+ as AlexO, Peter Andrey etc, have done they wonderful beta-testing.<br>The release of BLIde 1.0 is near... :D <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New BLIde unmanaged projects system</td><td align="right"><font class="tiny">(Posted 2008-12-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've nearly finished the new project format and it'll be based on XML 
+schemas. I've done it this way in order for engine users be able to 
+provide project templates with their engines. This will be terribly 
+usefull for people using great 3D engines like Flow3D or Leadwers, as 
+it'll make it easy to start a new project with all DLLs and dependent 
+files in place, from the begining of the unmanaged solution. Obviously 
+this will come on a secondary step. Now I've got a preliminar solution 
+explorer, where you can see files and folders, and a new unmanaged 
+solution wizard.<br>this new unmnanaged solution system is based on the 
+project management of some C and C++ ides, instead of being based on 
+Visual Basic .net IDE, so it will give users A LOT of flexibility, but 
+BLIde will not perform any automatic dependencies management, so 
+changing a name or location of a file, will force the coder to update 
+all the references to this file 'by hand'. This introduces a easier way 
+to deal with imports and more freedom at the cost of less organization 
+control by BLIde.<br>The point is that BLIde plus users (and later blide free users) will have the opportunity to choose.<br><br>Additionally,
+ this new unmanaged solution wizard will conform the Aereo wizard 
+specification. Obviously, this wizard will have the appropiate fallbacks
+ to show properly on XP or non-aereo vista machines.<br><br>More info to
+ come soon. Me and the BLIde Beta team are still planing some areas of 
+this new project management system that should see the light of day 
+arround January as a public beta (once the private alpha and beta 
+testing phase has ended). <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Planing BLIde 1.0.0</td><td align="right"><font class="tiny">(Posted 2008-12-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After only 5 years of development, I'm preparing BLIde 1.0.0, that will
+ come with a new unmanaged project management system. Not too much to 
+say yet about this, as we're planing it with the BLIde Dev Team, but 
+hope to have it ready for the next year (I was tempted to name it BLIde 
+2009, but I think I won't...)<br>The idea is to provide a good project explorer for unmanaged projects. I'll give more feedback soon!<br><br>Meanwhile, we'll get the regular updates for BLIde Plus users. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Data register on the BLIde SDK</td><td align="right"><font class="tiny">(Posted 2008-12-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Next version of the SDK comes with a data-register where plug-ins can store, share, modify and delete data in a secure way.<br><br>source code example:<pre class="code">Imports BLIde.SDK
+Imports BLIde.SDK.BLIdeRegister
+Module PlugIn
+	Sub Main()
+		'Saving data to the BLIde Plugins register:
+		Dim S As Section = Register.AddSection("KeyHelper.sdk.dll")
+		Dim K As Key = S.AddKey("Preferences")
+		Dim V As Value = K.AddValue("BackColor")
+		V.value = "#FF0000"
+		Register.SaveChanges()
+		
+		'Getting data from the BLIde Plugins register:
+		Dim S as String = Register.GetSection("KeyHelper.sdk.dll").GetKey("Preferences").GetValue("BackColor").Value()
+		io.Msg(s)
+	End Sub 
+End Module</pre> <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Redesigning BLIde SDK</td><td align="right"><font class="tiny">(Posted 2008-12-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yes, the first release of the SDK was a bit unorganized, so I'm 
+organizing all the elements. Now Plugins will be delivered inside 
+folders with the dll version and any additional file used by the plugin 
+will be stored there! So to uninstall a plugin, it will be as easy as 
+deleting the appropiate folder. I'm also thinking on some ways to make 
+blide plugins comunicate with each other, so users can create plugins 
+that can then be used by other plugins (like libraries or modules).<br><br>Additionally,
+ I've fixed some small issues that have been reported (thanks to 
+muttley) and improving performance on the text rendering engine.<br>I hope an update will be available for BLIde Plus users in a week or so.<br><br>I'm also writting the BLIde SDK documentation. This is not my strong point... but hope to have something useful very soon! <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>solution nodes dependencie diagrams</td><td align="right"><font class="tiny">(Posted 2008-11-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I'm alpha-testing the next BLIde version, performing some fixes, and preparig everything for the next BLIde Plus update.<br><br>This
+ next upate will have a new feature that will let users inspect the 
+imports relation between files using a well organized diagram. This is a
+ screenshot:<br><img src="6809&amp;log=1613_files/blide000963a-01.html"><br><br>Also,
+ some changes to the debugger and several improvements to intelliprompt 
+have been performed. Additionally, now users can activate an option that
+ will diferenciate debug builds from release builds on the EXE filename,
+ like on the default ide, with the difference that this on BLIde will be
+ customizzable (specially for users creating host / client applications 
+that don't want to rely on different file names for different build / 
+release builds.)<br><br>I hope the next Plus version will be out during next week. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>DLL compilation being BETA tested</td><td align="right"><font class="tiny">(Posted 2008-09-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yes!! Finally, a beta is about to be released before monday with native win32 DLL compilation.<br>I've also fixed some issues reported by Plash and Gfk.<br>I'll post more information on the BLIde website when this is available for BLIde Plus users. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>integrate DLL compilation</td><td align="right"><font class="tiny">(Posted 2008-09-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm working with the current BLIde Plus beta version, while adding a 
+new feature. This new feature is the native compilation of plain win32 
+dlls directly from the IDE, using a very simple syntax, in a way anybody
+ can easilly create DLLs that can then be used on other languages (C, 
+C++, VisualBasic .net, C#, Delphi) or in BlitzMax itself. Also, I can 
+not say much about this yet, but I'm making some changes to let BLIde 
+take advantage of something new...<br>This new features will be 
+exclusive to BLIde Plus version. BLIde Free Edition will never support 
+the creation of DLLs. Also, there's not BLIde Free Edition beta version 
+available, as I'm focussing all development on the Plus version. anyway,
+ BLIde Free Edition will also be updated in some weeks with some little 
+fixes here and there. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New BlitzMax parser for BLIde</td><td align="right"><font class="tiny">(Posted 2008-08-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ That's been a long time since I don't make a major update of the 
+internal BLIde parser. I've seen lots of areas where some improvements 
+and optimizations could be done, so I've started a major internal update
+ of the BLIde core engine. This will be the 10th engine BLIde internally
+ uses (since the first QW parser on 2005?) I've updated BLIde to use the
+ compona syntax editor, wich was great but incompatible with GDI+ on 
+.net 2.0, then I switched BLIde to the Puzzle syntax editor control, 
+wich was derived from the compona one, but it had LOTS of GD issues when
+ used for some hours so... I changed it to the Actipro SyntaxEditor 
+control... Worst move I've ever done, it is a resource eater and damn 
+slow.<br>finally, I've decided to create my own parser based on the 
+original QW engine and that was the key... current BlitzMax parser 
+performs complex multi-thread operations to keep everything updated 'on 
+the fly'.<br><br>The problem with the current engine is that it is based
+ on a double-layer of software (BLIde talks to the parser driver, then 
+the parser driver talks to the text renderer). that was designed this 
+way to make any new parser engine easy to integrate on BLIde, leaving 
+BLIde in a non so engine-dependant state, but since BLIde now uses its 
+custom text parser, this has no sense, so time for a major rewrite has 
+come, and I'm sure this change will speed up BLIde and make BLIde a 
+little bit more memory friendly.<br><br>I will also add a tab to the 
+intelliprompt pop-up to diferenciate the common methods and functions 
+from the complete list of items (common / all). Visual Basic .net users 
+will understand what I'm talking about.this will make things easy when 
+dealing with the whole BlitzMax framework!<br><br>hope to have it ready soon... <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Next BLIde Version...</td><td align="right"><font class="tiny">(Posted 2008-08-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm working on the next BLIde 0.9.58-A Free Edition of BLIde, and 
+starting the alpha-testing for BLIde 0.9.58-B Plus version. This new 
+Plus version has some minor changes, some of them focused on making 
+BLIde much more SVN friendly regarding the solutions 'my' namespace 
+changing its native GUID for intermediate classes. I'm also finishing an
+ advanced parser for ANSI C and C++ with intellisense, folding and all 
+this issues you would expect on a pro IDE, so mixing BlitzMax with C and
+ C++ will be much more easy to do. Current C and C++ parser is based 
+only on hilighting scheme.<br>I'm also thinking in a way to make imports
+ on solutions platform speciffic to solve an issue with Grey Alliens 
+Framework. This is being much more complicated that I first thought 
+because this means I have to add a sort of property-per-import dialog 
+and change most of the BLIde internal mini-refractoring for solutions...
+ tedious task, but it is being done, and hope to have it ready for the 
+next plus update.<br>EDIT: import-flags are currently added for the next version :D <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Release candidate 1 out</td><td align="right"><font class="tiny">(Posted 2008-07-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yes, the latest release candidate for BLIde 0.9.57 is out. This new 
+version has a bunch of improvements on stability and speed, plus some 
+additional interesting options.<br>While the current Release Candidate 1
+ version is being tested (and surprisingly there have been no error 
+reports in the last week). We're finishing a new approach to 
+intellisense that will increase intellisense speed even more, and will 
+make some special fixes on scope-matching locals. This new approach is a
+ really big improvement on BLIde internal engine, as it can handle now 
+near 200,000 keywords with full complex inheritance relations at real 
+time on a simple pentium IV computer without any noticeable performance 
+cost. Long life to wxWidgets, irrLirch and all those enormous modules 
+that are being extremelly helpfull to optimize BLIde performance.<br><br>Also,
+ there have been some improvements on internal BLIde GDI+ handling to 
+ensure nothing is disposed too early on quad core computers, and nothing
+ is disposed too late on core-solo computers. The multiple cores 
+technology has introduced a bunch of differences on the program flow 
+between architectures when working with multithreading and this is being
+ the most unfriendly part to handle, but everything seems to be working 
+well in all kind of processors. BLIde now works nativelly on 64 bits, 
+when the computer has the 64 bits version of the .net framework. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>More beta testing progress</td><td align="right"><font class="tiny">(Posted 2008-07-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been fixing lots of small issues reported by users during this 
+week. Everything starts to shape and the next beta 0.9.55 A seems to be 
+very stable, so time to let it go and prepare an official update.<br><br>I've improved the way BLIde internally handles GDI resources to follow strict microsoft GDI+ rules.<br><br>I've fixed an issue with incbined media on solutions when a complex folder structure was pressent.<br><br>fixed also some issues on the code text auo-format algorithm<br><br>Fixed
+ some issues on the inline bug analizer, interpreting complex IF single 
+line sentences when using a NOT operator as the first operator of a 
+sub-expression.<br><br>Fixed a compatibility issue with some third party modules (wxwidgets)<br><br>Improved start-up time a little bit<br><br>Several stability issues on the internal GUI engine<br><br>Improved intellisense mechanism (faster and more precise)<br><br>Added little funcionality to the SDK api <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Still Beta-Testing</td><td align="right"><font class="tiny">(Posted 2008-06-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Hi again!<br>Next
+ BLIde version will include a long-time demanded feature that is full 
+session serialization of open documents. This is being a little bit of a
+ headache as I have to add a xml-guid based serialization algorithm to 
+the BLIde projects and solutions as the default GUI engine of BLIde 
+doesn't provide a good and reliable method to handle windows being 
+disposed as a result of a complete layout serialization. That has 
+introduced some stability issues that were present on the latest BETA 
+build (0.9.54 C). After some work in the last days all this stability 
+issues on the current BETA version have been solved, so the official 
+production release is almost here.<br><br>Also there are some 
+improvements in the advanced module builder, and a mechanism to update 
+the BLIde modules cache without having to restart BLIde, wich is great 
+and works surprisingly fast. <br><br>I've also corrected some existing 
+compatibility issues with 3th party modules, specially with a very 
+impressivle 3d module that is currently on development, and with the 
+wxwidgets port made by Brucey. BLIde was very strict about folder 
+structures on modules and that was causing some potential compatibility 
+issues with 3rth party modules. All this issues have been detected and 
+addressed.<br><br>I'm more than happy to see that BLIde can handle all 
+the official modules with intellisense and hilighting, and the HUGHE 
+wxwidgets library, and a collection of 3th party modules without any 
+performance cost. My current BLIde installation is holding about 50,000 
+keywords with complex inheritance, with their respective relationships 
+on a core-solo machine at realtime (and people still says C# is 
+slow...??)<br><br>I've also managed to optimize even more the run-time 
+intellisense. This latest improvement is specially noticeable on single 
+core processors, but it improves performance also on dual and quad core 
+machines.<br><br>finaly, I've added a tool to disable user chosen 
+modules from the intellisense engine. This is specillaly useful when 
+(like me) you have several 3D engines installed that share a very 
+similar instruction-set and you want to avoid getting intellisense based
+ on the 3 engines at the same time!<br><br>That has been a very productive week and the result is an even more robust BLIde build with improved performance.<br><br>All this work wouldn't have been possible without the help of the beta testers that are providing feedback. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New beta to come this week</td><td align="right"><font class="tiny">(Posted 2008-06-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yes, I've collected some of the issues found by BLIde users in the 
+current beta 0.9.54-a and a new build will be ready for all Blide Plus 
+testers, and BLIde Free Edition testers. None of the found bugs were 
+replicable in the current stable release, and thats really great news :D<br><br>The
+ main change of the next Beta version will be the definitive inclussion 
+of the new session serialization algorithm with some compatibility 
+issues completely fixed. The new sesion serialization algorithm will 
+allow users to store all the documents possition when a project or 
+solution is saved, restoring any existing tab group on the previouis 
+session. That's something that has been demanded for ages now, and I'm 
+glad it'll see the light very very soon.<br><br>I'm also trying to make 
+the general interface clearer, less bloated and lighter. There are some 
+ideas in this area wich I hope will make BLIde new users fell less 
+'scared' by the total amount of tools and options BLIde provides. BLIde 
+is growing on functinonality, but it has to grow also in ease of use. 
+I'm currently working on this direction.<br><br>Also, I would like to 
+integrate the wonderful BriskVM with BLIde. This is not a trivial task, 
+I'm improving the BLIde SDK and, by now, I've added the possibility to 
+programatically generate autolist on any language that can be shown 
+while the BLIde user codes. That's a great improvement (it has not been 
+easy...) but it is just the 10% of what is still remaining to be done.<br><br>Next version also will load faster and user less memory. Some improvements on this area.<br><br>Well,
+ to finish this week worklog, I'm improving the text renderer and parser
+ to be even faster (I'm now getting very close to the scintilla speed, 
+even using managed code!!!). Very interesting improvements on this area 
+are about to come very soon (with some additional improvements to the 
+general editor experience). I'm more than glad to have moved away from a
+ third party control I was using becouse it was way too slow and CPU 
+demanding.<br><br>There's still a lot of work to do on the debugger 
+area. Not sure when it'll be done, as it may requiere a major BLIde 
+update, and this is something I'll better do when the current BETA 
+raises the production status. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Next BLIde version will be 0.9.54-A</td><td align="right"><font class="tiny">(Posted 2008-06-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yes, I'm finishing a new BLIde update. This time the major changes are:<br><br><b>Cleaner code</b><br>I've
+ cleaned a lot the internal BLIde code. Five years of development had 
+converted some areas of the BLIde code a little nightmare to mantain, so
+ I've decided to clean it up as much as possible. Surprisingly, while 
+surfing trough all the code, I've managed to optimize some areas, so 
+BLIde is now a lot faster in some areas.<br><br><b>Module cache configuration</b><br>I've
+ also added a tool to 'exclude' some modules from the internal BLIde 
+database. The object of this new tool is not to make BLIde faster, as 
+BLIde is not suffering from slowdowns caused for the complexity of the 
+framework. The intention of this is to let users disable intellisense 
+for the modules they doesn't regulary use. I've got 3 3D modules 
+installed and some of them share some base functionality and I was 
+having intellisense from the 3 engines at the same time! A little bit 
+confusing!<br><br><b>BLIde SDK generates native .net DLL files</b><br>The
+ SDK can now generate native compiled .net DLLs to add functionality to 
+BLIde. I'm more than happy with this part and that has improved BLIde 
+loading time, and making the plugins source code more secure.<br><br><b>New SDK components and functionality</b><br>I've
+ added a new component to the BLIde SDK that lets the SDK coder create 
+tabbed documents in the BL欨e layout, as any other existing BLIde tool, 
+and this is done in a complete transparent way for the Plugin users. 
+I've also added a way to provide some basic intellisense to non bmx or 
+sdk files, using the SDK. the final goal is that BLIde will be able to 
+be configured to act as an IDE for virtually any language. Next step 
+will be to add function parameter hint through the SDK and folding, and 
+then... the parsers... a lot of pending work to do!!!...<br><br><b>Better intellisense</b><br>Also, I've made some improvements to the intellisense system. It is now a little bit faster and it is even more precise.<br><br><b>Improved localisation</b><br>Additionaly,
+ I've changed the Ctrl+Enter functionality to Alt+Enter, as the 
+Ctrl+Space is being used by chinese users to toggle the multilingual 
+imput text mode (wich BLIde now supports nativelly.<br><br><b>New customer tool</b><br>I've
+ also added a new little information tool in the Help panel that informs
+ about the version number of any BLIde component installed. This tool is
+ there just as a customer's support helper, so I can know what assemblys
+ are being used with BLIde when a BLIde customer reports a bug.<br><br><b>BLIde Plus to be priorized over Free Edition</b><br>Additionaly,
+ as mantaining two versions of BLIde up to date is starting to be a bit 
+of a nightmare, I've decided that the BLIde Free Edition updates will 
+come in a slower ratio than the BLIde Plus updates, so BLIde Free 
+Edition users will get updates once every 3 or 4 months, unless a 
+important stability needs to be patched urgently. This doesn't mean that
+ I've dropped the development of BLIde Free Edition, it is just not 
+priority 1 at the moment, being the priority 1 the BLIde Plus Edition.<br><br><b>New BLIde Website</b><br>This
+ has been a very productive week. I've finished the new BLIde website, 
+wich is a smaller website, based on php instead of static html, so it 
+will be easier to mantain and expand. <br><br> 秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤秤<br>Manel Ib摙ez    ||| <a href="http://www.blide.org/forum/" target="_blank">BLIde comunity</a> ||| <a href="http://www.blide.org/" target="_blank">BLIde official Web Site</a> ||| <a href="http://www.blide.org/BLIde_manual.pdf" target="_blank">BLIde manual in PDF</a> If you're using BLIde as your regular IDE for BlitzMax, please consider  <a href="http://www.blide.org/?page_id=302" target="_blank">getting the BLIde Plus! version</a> to support development. <a href="http://www.blide.org/?cat=5" target="_blank">Visit my BLIde development Blog!</a>  and get the Open Source <a href="http://sound3d.googlecode.com/" target="_blank">Sound3D module</a> for minib3d<br> <br>Dual 2 Core 2.8 (Windows 7) with ATI Mobility Radeon 4650 on a nice new Vaio :D </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

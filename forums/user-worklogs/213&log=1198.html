@@ -1,0 +1,28 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Jim Brown</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Image Packer + smPro + ImageMaster</td><td align="right"><font class="tiny">(Posted 2004-04-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Everythings done down.<br>Docs are in place.<br><br>All three programs are available as separate downloads.<br>Each zip contains a set of docs.<br>See sig.<br> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Image Packer &amp; SpriteMasterPro</td><td align="right"><font class="tiny">(Posted 2004-04-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Image Packer <br>************ <br><img src="213&amp;log=1198_files/imagepacker0.jpg"><br>Lots of changes/tweaks/bug fixes to Image Packer. <br>I'm getting some help docs together. The docs will be accessible from Image Packer via a separate HTML view window. <br>There
+ is a new 'Fit image to frames' option in the animation options. This 
+allows the image to be scaled so that it fits in nicely with the frame 
+ranges. <br><br>SpriteMaster Pro <br>****************<br><img src="213&amp;log=1198_files/smpro0.jpg"><br>This has had a major work over. Much more open-ended and flexible than before. Works a shade faster as well. <br>A few more commands/functions thrown in such as: <br><pre class="code">GetPackedImage() - extract a 2D image from a pack 
+LoadFontSet() - load/create a special text sprite 
+SpriteText - set the string for a text sprite 
+SpritesOverlap() - returns TRUE if 2 sprites are overlapping 
+CreateSprite() - create a separate sprite 
+LoadSprite() - load a separate sprite
+ChangeSprite - Change a sprites image reference
+</pre><br><br>The reason I call is 'Pro' is down to the big change in the way you access the sprites. <br><br>In the current SpriteMaster, you do this: <br><pre class="code">mypack=LoadSpritePack("mypack.png") 
+sprite=GetPackedSprite("ball".mypack) 
+PositionSprite sprite,50,40</pre>In SpriteMasterPro you now need to do:<pre class="code">mypack=LoadPack("mypack.png") 
+sprite.smSprite=GetPackedSprite("ball",mypack) 
+PositionSprite sprite,50,40</pre><br>Note: You only need to add the .smSprite when creating/loading/getting sprites. <br>See how 'PositionSprite' still looks the same. <br><br>The
+ major benefit of using the type method is I can do away with lots of 
+functions. You now have direct access to the sprite settings by looking 
+into it's type stucture. <br>This gives a much cleaner approach:<pre class="code">mypack=LoadPack("mypack.png") 
+sprite.smSprite=GetPackedSprite("ball".mypack) 
+PositionSprite sprite,Rand(40),Rand(70) 
+RotateSprite sprite,Rand(360) 
+DebugLog sprite\x ; sprites x position 
+DebugLog sprite\y ; sprites y position 
+DebugLog sprite\angle ; sprites angle</pre><br>Still sorting the docs. Once that's done I'll be zipping both Image Packer and SpriteMasterPro together.<br> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

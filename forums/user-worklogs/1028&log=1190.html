@@ -1,0 +1,1113 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for MadJack</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2005-07-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Since the last worklog<br><br>Lots of progress. Leaving aside the level development for a moment, there's been various gameplay improvements<br><br>Lots
+ of general AI improvements and fixes. For example, stopped tanks from 
+flipping end up due to collision failures, although still some probs on a
+ level which goes from very low to very high with tanks being dropped 
+(by transports),  and falling through the ground. Further optimised 
+pathfinding, general AI. Still not fast enough on big battles however. 
+Hope BMAX saves my bacon here.<br><br>Demonstrated the worthiness of the
+ AI to myself yesterday in that having cobbled together the basic 
+geometry for  level 16, I then placed two opposing hubs at opposite ends
+ of the level, gave them dropzones, one starting tank each and away it 
+went! The tanks each collected a gem, activated their respective hubs, 
+the transports brought in harvesters and then more tanks, artillery and 
+before long there was a ferocious battle happening! However blue lost 
+due to not being able to get more gems from red and they were 
+‘derezzed’.<br><br>Charged shots. Both the player and the AI can 'charge
+ up' a power shot. This adds an extra element of strategy in that any 
+blast damage will cause the player/AI to lose the charge. I've also 
+added skirmishers who like to swarm the player and stop him from 
+charging by hitting him with weak but annoying shots (although if 
+there's enough skirmishers they can destroy a tank/player.) It's also 
+quite cool during an engagement to see tanks firing the big sparkly 
+charged shells across long distance.<br><br>Implemented a basic power 
+distribution function - the player can maximise either speed, reload 
+time or shield regen but not all at the same time. So if the player 
+maximises weapons reload, they can charge up a shot faster, but they'll 
+move very slowly and make a better target. But this gives the player a 
+better way to deal with tougher stationery turrets as well. (Though the 
+player’s aim starts to jitter as the charge gets greater)<br><br>Beefed 
+up artillery so that they are more accurate and more damaging, meaning 
+the player cannot ignore falling artillery shells on the radar, except 
+at his peril. Blast damage from nearby artillery shells will also cause 
+the player to lose charge.<br><br>Bumped up heavy tank shell damage. 
+Being hit by one of these can almost kill. Much more exciting now in 
+trying to get in range of one of these things as they can fire across 
+long distances.. But they are very inaccurate across distance – most of 
+the time.<br><br>Further developed the interface, rotating rings make it
+ obvious when a player is charging, can/can't fire, speed. Interface 
+needs a few more elements but it's not too bad.<br><br>Behemoths. On 
+level11, if a tank makes it to within close range of the enemy fort, 
+then the enemy's team key is taken as 'sighted'. At that point, the 
+sighting team will reform around their hub and await the airlift in of a
+ 'behemoth'. Once 1-3 (depending on resources gathered) behemoths have 
+arrived, the team's forces advance en-masse on the enemy fort. If their 
+behemoths make it to the enemy walls, they will destroy them, allowing 
+their team's tanks in to take the key. <br><br>This is working now, but 
+is still pretty rough. Animation is a real problem – both my own dodgy 
+skills at creating effective animations but also Blitz’s limited 
+animation command set. One problem is that with such large characters, 
+it’s obvious on slopes that their feet don’t follow the terrain. 
+Obviously I can manipulate joints within the code, but it’s tricky. I’ve
+ cheated on one kind of behemoth by having it drive around rather than 
+walk. Still, the code’s working and it can be a real 'huzzah!' moment 
+when your behemoths set too on the enemy fort, allowing you to slip in 
+and steal their key!  The flipside to this is that there’s still 
+problems with units occasionally clumping and locking up. Also bug 
+testing is time consuming in such an open play environment in that it’s 
+tricky trying to recreate the conditions to bug test an intermittently 
+occurring problem<br><br>The flipside of all this is that I’ve had to 
+make some tough decisions. There’s just no way I can have everything I 
+want in the game in a reasonable timeframe, polished, stable, website 
+set up, Paypal established, not to mention converted to BMAX when the 3d
+ mod becomes available etc.. So to this end, I’ve decided to split the 
+game into 2, maybe 3 parts. Get part one out, see if there’s any 
+interest and if there is, continue. This has made things much more 
+manageable and means the end of the tunnel is in sight.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2005-01-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Since the last worklog<br><br>Essentially,
+ have reworked the core AI, completed 3 levels to a fairly high degree 
+of completeness + 2 others to a basic level, and am starting to draft 
+out geometry and scripts for the other levels.<br><br>Took a month's 
+break before Christmas (caught up with my gaming - Mafia, HL2, Vampire 
+Masquerade, Battle for Middle Earth, Morrowind, Doom3. Enjoyed Mafia the
+ best), and then spent 2 weeks after Chrissy pretty much overhauling the
+ core AI. Solved a number of long standing bugs, the game runs a little 
+faster, and it now does a better job of reacting intelligently at a 
+local and global level. Tanks patrol, guard, manoeuvre to attack, attack
+ in groups, sometimes slow to take a stationery shot, retreat if 
+overwhelmed or shields low, will collect keys and take them back to 
+their own hub, collect powerups and wait for lifters. Still a few 
+problems and it can be tricky hitting the sweet spot whereby the AI will
+ noticeably help the player, but not too much. <br><br>However, after 
+playing the working code extensively, thereâ€™s still something missing 
+and I think it comes down to the essential repetitiveness of shooting 
+shells at targets. Itâ€™s a basic problem with tank games really. I can 
+add different kinds of enemies and all sorts of power ups, bigger 
+explosions, but a more elegant option would be the option to fire single
+ shots, or to hold the mouse button for a â€˜chargedâ€™ shot. This would
+ give the player another, more skilful way to deal with distant 
+stationery targets for example. The downside is that if the player takes
+ a hit while charging, the charge is lost. Also if the player sees an AI
+ tank slow to a stop and a glow form at the end of the enemyâ€™s barrel,
+ the player will know by making a hit on the target, he can disrupt the 
+AIâ€™s â€˜charge upâ€™, introducing another element of strategy to the 
+action.<br><br>One focus I've been looking at over the last week, is 
+forts. The idea is that as gems are harvested, walls are airlifted in 
+and dropped around a team's hub (to guard against the enemy stealing the
+ team's key).  At present, an enemy will ignore a fort until it is 
+completed, and then each wall segment is flagged as a threat and tanks 
+are deployed against them, typically a lot of tanks. This presents 
+balancing issues. The fort will have guns, but they can't be so powerful
+ that the player should have no reason to move to defend it. Nor should 
+they be so weak that the player is irked. Another problem, is that if 
+the player has been expanding the team's territory aggressively, then 
+the enemy will always be busy along its own borders,- it won't spot the 
+fortress, it wonâ€™t have a full squad of units and so the playerâ€™s 
+fort is effectively redundant. <br>Need to programme for a mass attack 
+specifically I guess â€“ but I donâ€™t want it to be in too obviously a 
+scripted fashion (e.g. if level_timer = ???? then do_attackfort() ).<br><br>Designed
+ Gorgon - giant floating eye ringed by smoke and flames. As a minor 
+detail, using a spherical map and entityblend, I've managed to give the 
+eyeball a bit of a glass like appearance.<br><br>Added a simple glow to 
+each frame render. Combined the glow effect with a very faint TV static 
+pattern. Interestingly, by doing this, the screen now mimics the slight 
+graininess of film. To my eye this seems to enhance the depth and detail
+ of textured surfaces â€“ so itâ€™s an effect Iâ€™ll be keeping for the 
+final cut.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2004-11-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Since the last worklog.<br><br>Spent
+ considerable time working on the FPS portion of the game. Got 'em 
+running around and firing at the player, stepping out from behind 
+columns, running away. And then closed it off. A lesson in overreaching 
+my programming and modelling abilities, I think. If the game is to be 
+finished by next year's end, there simply isn't the time to do a FPS 
+part justice. FPS's have been done so much better elsewhere, that 
+anything I could do (modelling/AI/animation) would look/play like a 
+dog's breakfast. With that in mind, I've dropped the FPS aspect in 
+favour of focusing on Tank Universal's main appeal, exciting tank 
+battles.<br><br>Have been working on the script for Level 3. The player 
+starts in a tank at a far corner of the level. After activating a nearby
+ hub, reinforcements start to arrive. The enemy has a fort with 
+impassable forcefields. The player must first take on the fort's 
+defences and enemy tanks, expand the team's area of control, and then 
+drive down into a cave and destroy a powerstation (which explodes in a 
+fiery plume coutesy of ParticleCandy). This lowers the enemy's fields 
+and the player (and teammates) can move in. One aspect of the game I'm 
+pleased about, is that your teammates are fairly effective - they can 
+achieve some goals themselves and it's great (when pressed by the enemy 
+and shields are running low) to be able to fallback and have friendly 
+tanks give/take fire in your stead.<br><br>The endgame is that the enemy
+ hub is still protected by an inner fort. At this point, behemoths are 
+brought in. These figures need to be protected as they stride across the
+ level (from your base)and use hammers to destroy the enemy fort walls. 
+With the fort walls down, your teammates can get in, steal the enemy 
+key, return it to your hub and it's level over.<br><br>This all sounds great but it is taking a great deal of testing and AI coding. Issues such as - <br><br>How distracted should behemoths be by enemy tanks? Surely they shouldn't just ignore them?<br>What's to stop a behemoth from following a tank into a cave and getting stuck?<br>How to stop a behemoth being deployed against a target that's inacessible (and thus wandering nearby around looking gormless)<br>Need to stop/slow the walk anim if have not actually moved. Anim timing in general.<br>Walls
+ are long, a behemoth needs to be able to check for the entire length, 
+rather than just the centre proximity in order to stike<br>Need to check for height of target and choose high/medium/low melee strike<br>Need to adjust anim for going up/down hills - due to size of figure, feet obviously not matching up with terrain.<br>What happens if all behemoths are destroyed before reaching the fort?<br>What about if the enemy manages to push you back, should their fort be rebuilt? <br>Should the enemy be able to launch their own behemoths?<br>Should behemoths be able to fight other behemoths? What would that entail? Blocking moves? <br>Need to add suitable footstep sounds.<br>Need to make sure behemoths walk to a  postion on their side of a wall.<br>When should teammates be able to go to enemy hub? When 1/2/3.. walls are destroyed? Will this mean hub is always exposed?<br>If a forcefield has walls destroyed either side, shouldn't it power down?<br>When
+ a wall's destroyed, the underlying A* pathfinding should be updated. 
+But a wall that extended into unwalkable geometry shouldn't make that 
+geometry walkable when destroyed.<br>If you manage to get the enemy key,
+ and you've previously wiped out the enemy, what could be done to make 
+the drive to your own hub a bit more exciting?<br>Should behemoths be able to pick up keys? <br><br>Other issues;<br><br>Collsion
+ failure - occasionally, tanks flip up as one or more of their collision
+ pivots fail and fall through the terrain mesh. I see the latest Blitz 
+update has something about this (live in hope)<br>Occasional traffic 
+jams - sometimes (particularly in the cave) 3 or more tanks will become 
+locked against each other. I have code that should stop this, but it's 
+not working 100%<br>Firing at a ghost - odd, intermittant one this - 
+occasionally every bloody gun on the level turns towards 0,0,0 and 
+starts firing continuously. Trouble is, it doesn't always happen so 
+haven't got to grips with it yet. Suspect it's some old code causing 
+trouble in AI_updatereports()<br>Speed - with particle fx and many 
+units, framerates are starting to chug, and this on an Athon64. Problem,
+ obviously. Have done some optimisation  - but really waiting for 
+Blitzmax and either VividGL or BlitzMax 3d engine.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2004-09-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Have added various Particle Candy FX and it has really enhanced the 
+battles. I'm much more satisfied now with the tank combat - it's a lot 
+of fun and I think others will find it so too.<br><br>Part of the 
+improvements made over the last month has been to enhance the tank 
+models (skirmisher, medium, heavy, artillery). Skirmishers like to get 
+in close, Medium has a longer range, Heavy tanks move slowly but fire 
+shots that travel almost immediately to their target and can take it out
+ with one shot (luckily, they're not too accurate). The trick with heavy
+ tanks is to pound them and not approach them head on.<br><br>With all 
+the new fx and tank models, I don't think I need to think about 
+infantry, and I don't think it would have been feasible anyway.<br><br>Added
+ forcefield barriers - permeable to same side teammates - destructive to
+ others. Needs more work though, and need a power-up, power down 
+sequence.<br><br>Transports airlift in fortress walls as and when enough projector gems are collected by their team. <br><br>Gems
+ are no longer static. They're now little glyph like creatures who move 
+and can be 'bumped' by tanks. Bump a glyph and he changes colour and can
+ then be collected by a harvester.<br><br>Gem reefs are now more organic looking structures from which the glyphs spawn.<br><br>Upped the team entity limit from 100 -&gt; 200. Was running out of free slots for bullets, explosions etc..<br><br>Transports
+ now alternate between airlift dropzones when bringing in new 
+re-inforcements. Previously just went to closest dropzone.<br><br>Added switches - very basic, check for same alignment when touched, action must be written in to level_script. <br><br>Took
+ a detour and drafted up half of level 4 -  a get from a -&gt; b kind of
+ level. Level design is frustrating/time consuming. One thing's clear, 
+simpler is usually better. Really, mocking up part of level 4 has been 
+in response to my reluctance to tackle some tricky coding regarding 
+behemoths and the fortress assualt AI, but I'm working my way back round
+ to it.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2004-08-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Still working on it. Have come a long way, still a long way to go.<br><br>Managed
+ to take a week off work recently and spent much of that time (after 
+finishing off Doom3), reworking the AI and interface. Previously the LMB
+ yawed the turret, while the RMB raised or lowered turret pitch. People 
+didn't care for this.  I've now freed up the controls and yaw and pitch 
+are both affected by usual mouse movement. There's enough play such that
+ the   turret can be swung around quickly, but also accept fine 
+adjustments when, say, bombarding distant targets. Additionally, the RMB
+ will lock the gun in its current position, which is useful when you 
+don't want to lose a good firing angle. I think this is a good solution -
+ I guess a demo will put that to the test.<br><br>Tweaked the radar map 
+display. Doesn't interfere with the info its displaying, looks better 
+now and uses less objects - more multi texturing to achieve masking and 
+map plotting. I still find it difficult getting the right combo of 
+entity/texture blend though.<br><br>Added a turret direction indicator to help align the turret to the tankbase. Tweaked the shield display. <br><br>Bought
+ Sswifts 3d gui library and although I've not fully utilised it, managed
+ to easily integrate it with my message display code (which was 
+previously drawing to 2d and losing framerate as a result). Will be 
+using the arcbar function included in the library for a number of 
+readouts. I had set up an animated texture/surface routine but will look
+ at replacing it with Sswifts anibrush library. A good buy I think.<br><br>Am
+ much happier now with the standard tank AI - firstly, managed to track 
+down a bug which still had them veering into a wall (even at this late 
+stage). Tanks are not super intelligent, but they will patrol, deploy 
+against enemy sightings, attack when in range, fallback and regroup when
+ outclassed/outnumbered, avoid coming too close but will come closer if 
+supported by teammates, pick their targets based on threat value, launch
+ shells from afar and try to keep on side with their teammates. They'll 
+do some of the work for the player, but the player has to take a leading
+ role.<br><br>Rather than rely on a player's wish to blow stuff up, I've
+ also added 'projector gems' scattered about a level. On level start, 
+the player picks up one of these gems, takes it to the team's hub and 
+activates the hub. Two harvesters are then airlifted in. Harvesters are 
+speedy, pick up gems and take them to the team's hub, but only those 
+gems that have first been touched by a teammate (non-player tanks cannot
+ pick up gems, only convert them). This adds an extra wrinkle for the 
+player  - touch gems and have them collected by harvesters. AI tanks 
+will also convert gems. The more gems collected, the more units can be 
+airlifted in.<br><br>Part of the backwork for getting harvesters up and 
+running, was to insitute a unitlevel template which standardises which 
+units per alignment are flown as re-inforcements and in what order.<br><br>At
+ level start, each hub is situated in a fortress. But there's gaps in 
+the walls. As gems are collected, walls are airlifted in, making the hub
+ secure against other teams' units. However, if a team manages to 
+collect 50 gems above what's been spent on replacing destroyed units, 
+then 3 behemoths are airlifted in. These bad boys have one purpose, to 
+advance on the enemy fortress and smash down its walls, allowing enemy 
+tanks to get in and steal the hub key. If they get the key back to the 
+hub, the team that has lost its key is destroyed. Behemoths are this 
+week's focus.<br><br>One of the problems though is how to stop the 
+player from ignoring any battleline and recklessly pushing into enemy 
+territory all the way to the hub. Part of the answer to that has been 
+balancing shield strength/damage and firing rates, adding defensive 
+turrets and making the hub inaccessible. The other solution has been to 
+institute a command radius which expands (or contracts) depending on the
+ furthest a non-flying gun carrying unit is from a team's hub. Any 
+targets seen beyond this radius, although they'll be 'logged', may not 
+be deployed against. This works quite well as the player can 'push the 
+envelope' and expand the team's command radius, leading to more units 
+deployed and bigger firefights, but if a player moves too far beyond the
+ radius, they're on their own.<br><br>On the other hand, haven't quite 
+got to the epic battles I'm after. Part of this is that as the tanks 
+continually move and weave, the battlefront is not well defined.  May 
+have to look at faking some basic kind of infantry.<br><br>Other stuff: 
+bought Particle Candy - ripped out previous particlefx. Am waiting on a 
+gui like candy designer before adding final fx.<br><br>Updated the 
+editor to allow me to 'paint' A* walkable/non-walkable areas onto a 
+level. Consolidated all of a level's entity and path data into one data 
+file.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2004-04-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Since the last worklog;<br><br>A big part of my time over the last month, has been creating character assets for inclusion in level one.<br><br>Level
+ one calls for Gorgon Troopers, a Commander, technician, civilians and a
+ Big Blue Behemoth. Designing these characters has been hard work, not 
+least of all because I've had no experience in character design and the 
+large amount of time it takes me to get to a point where I feel at least
+ slightly satisfied with the results, but also in trying to move TU's 
+design forward. And my texturing skills are awful. But I'm reasonable 
+happy with the results. The technician looks suitably insectoid.<br><br>I've
+ sorted a system so that animations can have sounds/particle fx/entity 
+creations attached to particular frames. So, for example, when the 
+Behemoth swings his hammer, a thud sound can play, sparks can fly, a 
+light can appear momentarily.<br><br>Added a 'head turning' routine. 
+Nearby characters turn their heads to look at the player or other nearby
+ characters. Amazing how effective this simple trick is at enhancing the
+ AI's appearance (one small bug - occasionally a head turns 360 degrees.
+ Need to fix that.). <br><br>Additionally they can 'chat' to other 
+nearby stationery characters (if they're of the same class, alignment). 
+To keep things simple, most characters don't have facial animation - 
+being robotic, they have a 'mouth' that 'flashes' on/off in time to the 
+speech. To process speech into numbers that can drive this, I found a 
+small programme called 'Magpie'.<br><br>Tweaked and expanded the in-game
+ texture flag handling. Bought Texturemaker to assist in creating 
+animated textures (e.g. lava). Use this with Glueit to create anim 
+texture strips. Cool.<br><br>Improved my editor. Can now place static 
+soundfx emitters, particle emitters (need to upgrade the particle fx at 
+some stage - probably particle candy), and lights (DX, vertex, 
+lightmapped)<br><br>After deciding on a vertex lit level design, I had 
+experimented with 'baking' the vertex lighting in Lightwave and 
+exporting to Blitz. But the differences between what I was seeing in LW 
+versus Blitz were proving too great. To this end, I can now place vertex
+ lights in the editor, set them to cast shadows or not and render. Still
+ some issues here. Vertex lighting can give 'harsher' results than DX, 
+and vertex placement or low vertex density can give unexpected results.<br><br>The editor writes a B3d file (with vertex lighting), which is then loaded into the game.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2004-03-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> 15 March 2004<br><br>Oh God, the long haul to the top...<br><br>Spent
+ time wrestling with playing and transitioning character animations - 
+i.e. walking to running, aiming, firing, looped animations, single shot,
+ different anim speeds. This was frustrating, with animations not being 
+fully played out before the next or not being triggered at all. However,
+ seem to have been sucessful but I feel B3d's anim controls may be a 
+little on the thin side. I read others have had problems here.<br><br>The
+ other effort was to have the enemy pitch chest/gun up/down to fire at 
+targets above/below. Cheated a little in that I only pitch the 'chests' 
+of entities, rather than their arms as well (to aim)- but from the 
+player's point of view it doesn't look too bad. Had some probs with 
+pitching the chest caused the gun to go 'off-centre', but pitching the 
+chest globally seemed to solve the prob. Need to reset chest pitch when 
+not aiming as entities look very silly running around still looking up 
+or down.<br><br>Don't like being able to affect a bone only after the updateworld. <br><br>Set
+ up a footstep sound routine, using Halo's donated footstep sounds. 
+Thanks Halo - very useful. May need to do a little audio distortion to 
+make them sound more 'rezzy'.<br><br>Spent the weekend thinking about 
+and mocking up a 'secondary fire' function for the FPS part of TU. When 
+on foot, the player can tap the RMB and the 'gun' drops from view and 
+the left hand comes up holding a sort of heavy plate emitting a 
+translucent shield. The idea here is that the shield can reflect shots 
+and also deliver a powerful melee strike (if an enemy is near). This 
+needs a great deal more polish and I need to let the player know when 
+the shield is almost depleted. Want to give the player more options than
+ just shooting. A final addition to the player control will be a rocket 
+pack for short hops.<br><br>Other problems to solve; two infantry units 
+occasionally 'doing a waltz', as they try to get around each other. Or 
+falling off a wall and then trying to walk into wall to reach previous 
+postion. Not shifting position quickly enough when pursuing player.<br><br>Also need to set up a melee routine for when two enemy units get close enough.<br><br>Need
+ to 'pump up' the firefights. Not very exciting at present.  I need to 
+expand the set of animations used and also properly set up a demo 
+scenario where infantry uses cover effectively. They also don't seem to 
+be firing as many rounds per salvo as quickly as they should be. May 
+need to speed up their movement rate. Also give more evidence of their 
+working together.<br><br>Also need to replace the atrocious laser sound which quickly grates.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2004-02-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Feb 10, 2004<br><br>Hi all<br><br>One step back, one step forward since my last worklog.<br><br>As
+ I mentioned in the previous log, I've been busy designing level 1. This
+ has been important in that it has helped define the game's overall 
+appearance. It'll be the player's introduction to the world and so I've 
+designed the level to give the player a rough idea of what's going on in
+ that world - that it's a stratified society, that it's under some form 
+of martial law, that it's an abstract place.<br><br>Then spent time 
+looking at lightmapping options. If I'm going to be spending time 
+developing level geometry, I don't want to throw it all away with 
+sub-standard lightmapping. <br><br>Unfortunately, after a day of 
+tweaking, I came to the conclusion that Lightwave (6.5)'s LM was not up 
+to the job (with artifacting appearing in odd places and (predominantly,
+ at seams). I then tried a number of others, and while Giles was the 
+best of this bunch, I was unhappy with the final results for all of them
+ - particularly in providing cleanly lit polygon seams. I then tried the
+ beta of Luminescence3D, and this has given the nicest results so far, 
+along with radiosity. The release of this program has been delayed till 
+feb, but so far, this would be my choice of lightmappers.<br><br><a href="http://www.insight-concepts.com/products/development/" target="_blank">http://www.insight-concepts.com/products/development/</a><br>(note:the website's kind of corporate cheesy)<br><br><br>Spent
+ some time developing player control/animation with a rough set of 
+animations I'd developed in Lightwave. Had some problem with 'juddering'
+ when player came up against sloped polygon. I'm still learning. Player 
+also able to get to places they shouldn't - need to add invisible 
+'caulk' polygons.<br><br>Player control also threw up another problem. 
+LW directx files were not retaining correct pivot points for limbs, 
+meaning directly manipulating limbs was destroying the figure . In a 
+panic, I went back to LW and convinced myself that I could not get 
+correct pivot points to export. Then I spent  time, figuring out how to 
+get a UV mapped figure out of LW into Truespace6.5 correctly. Once I had
+ done this, I then spent time rigging a character in Truespace. I then 
+went to bed feeling I'd accomplished something. The next day I ran 
+crying back to LW as I remembered how atrocious TS's animation 
+capabilities are. So, just for kicks, I re-exported a test directx file,
+ having changed an overlooked setting, and sure enough, I got the 
+correct pivot points through to Blitz. Doh. Part of the key here, was my
+ purchase of Unwrap3d though, which is proving quite useful. Have to 
+say, Truespace has been completely useless so far - the only possible 
+use will be using its physics system for some pre-canned animations.<br><br>Unwrap3d
+ has also proven to be a way to get skinned animations through from LW 
+to Blitz, without problems.  Blitztweak has been a way to set/tweak 
+surface flags/properties as well (Unwrap doesn't seem to retain surface 
+(full)brightness when exporting to B3d). Both useful tools.<br><br>The other block of work has been development of a final design for Gorgon behemoth, soldier and Commander.<br><br><a href="http://www.blitzbasic.co.nz/Community/posts.php?topic=30050" target="_blank">http://www.blitzbasic.co.nz/Community/posts.php?topic=30050</a><br><br>
+ With my LW problems out of the way, I've gotten to a final design on 
+these three, and overall I'm pretty happy with them. Have brainstormed 
+to compile a required set of animations, and am busy animating these. <br><br>Next up, plug these into the game code and further refine the animation system.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2003-12-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Been awhile since my last worklog, but this doesn't mean there hasn't been any progress.<br><br>As
+ I mentioned in my last worklog, I've been developing an editor. It's in
+ a very rough form, I haven't used any of the excellent GUI's available,
+ it relies on simple keystrokes for input and the mouse, but it does 
+allow me to load level geometry and place entities with flags. This 
+utility has really paid off in terms of setting up test situations 
+quickly.<br><br>The editor allows me to add pathfinding nodes, connect 
+them and attach data in terms of the level of cover a node provides in 8
+ directions, and also store a separate action at each node, e.g. if an 
+infantry unit is at node31, facing in direction 3, then it should step 
+left to fire. Units can effectively hide behind a corner and pop out to 
+fire a burst, or perhaps pop up from behind a barricade. I can also set 
+patrol paths for units.<br><br>This makes it sound much more polished 
+than it really is - I've developed a chunky, malevolent 'soldier' model 
+in lightwave and have (very) quickly churned out a set of animations 
+(but they'll have to be done properly). However, in terms of choosing 
+'taking the fight to the enemy', the AI's not too bad - takes advantage 
+of positions providing cover,  tries to stay 'on-side' with its 
+teammates, will fall back if overwhelmed. It's not 100% smart, but it's 
+getting there.<br><br>The big headache at time of writing though, is 
+resolving infantry collisions. Although the level geometry will be 
+spacious and simple, there's still ample opportunity for 2 or more units
+ to become locked together and nothing destroys a player's faith in a 
+game as much as a unit trying to blindly push its way through a wall. 
+I've implemented logic that assigns priority and decides whether a unit 
+should shoulder the other aside, or attempt to go round - but it's only 
+resolving 70% of collisions so far and it looks ropeable. The 
+handling/timing/blending of  animations needs work too. Stuff like this 
+is wearying as it's time consuming in terms of stepping through running 
+code to see what's going on, but it's critical and has to work 100% or 
+it could break a level.<br><br>In addition to infantry AI, I've been 
+trying to further finalise the overall design of TU. I've redesigned 
+level 1. It's a struggle to establish a coherent look with a minimum of 
+time and polygons, that fits a backstory I'm still thinking about and in
+ terms of what I can do as an inexperienced 3d artist working on it 
+afterhours. I'm quite happy with the lighting and sky, but I'm still not
+ happy with the geometry/texturing. I've moved towards the idea of an 
+abstract world that's stratified in appearance (and society) and is 
+based a little on the idea of a circuit board and the shapes of 
+components that are found on the surface of circuit boards.<br><br>When 
+I've sorted these probs, the next stage would be the FPS controls. An 
+idea I want to implement here is a personal shield - a sort of fan that 
+unfolds in front a player (the player can still be hit from behind 
+though), is drained by enemy fire,  the player cannot fire while it's 
+deployed but can move about and can use it to 'swat' an enemy in melee 
+range - I'd hope that this would keep the FPS side interesting and 
+strategic.<br><br>If I can get to that point, then a demo might be in order to get feedback.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2003-09-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After a bit of a break with the demo release ('many a green isle needs 
+be, on the deep, wide sea of misery/work') - I've started back into TU 
+development (in between bouts of playing Steel Tide from Screaming 
+Games).<br><br>First up has been an attempt to 'unifiy' my workflow, 
+streamlining character animation, general mesh work, level geometry and 
+UV lightmapping. Previously I'd been doing all sorts of things to get 
+what I wanted, and there were all sorts of files and file formats 
+floating around, utilities, along with snippets of code. Occasionally 
+I'd clean out the root dir of C: and find I'd deleted some file called 
+test.xxx that my current code used and which I'd forgotten to rename and
+ store. No good.<br><br>I had been using Truespace 4 &amp; 6.5, one of the Blitz user developed lightmappers, + a few conversion utilities. Messy.<br><br>And
+ Truespace just wasn't cutting it - too many crashes, too cumbersome I 
+was finding for detailed vertex editing. No real transfer of surface 
+data to Blitz. It's character animation is limited in control - I was 
+finding it too time consuming just to sort a smooth walk cycle (I don't 
+know what this new 'gamemaker' is going to be like, but I'd check out 
+its character anim first before paying out). I had found a plugin 
+(motionstudio) for TS that seemed to be the character anim system that 
+TS should have had from the start - but I couldn't get an export to 
+blitz from it, and there was no mention of export in the manual! This 
+was typical of the sort of roadblocks I was finding in getting a 
+workflow sorted. <br><br>I then purchased Halo's CShop3, or rather, made
+ a donation to Halo's medical training fund as unfortunately I'm not one
+ of the few who's system doesn't experience continual freezes with the 
+software.<br><br>To cut a long story short - after testing out any 
+number of utilities/workflows/plugins and finding drawbacks with just 
+about everything - I've boiled it down to Lightwave for level and 
+general geometry creation, + character animation +lightmapping. In 
+conjunction with LW, I use Michael Reitzenstein's B3D Tweak utility, 
+which enables me to set flags, name info and preview the result before 
+import to B3D. I'd recommend that people check this utility out. This 
+now seems to be a fairly stable workflow and I'm reasonably happy.<br><br>The
+ last stage, is that I've been creating a level editor. Kind of tedious,
+ but I've found it to be more and more necessary. As my codebase has 
+grown, I've found that compile/loading times have risen and it's just 
+impractical to hard code/tweak entity positions, flags etc within a 
+level.<br><br>So the level editor can check the appearance of level 
+geometry within the game environment, but more importantly allow for 
+quick placement and flag setting for game entities, also set patrol 
+routes for tanks (which use A* pathfinding) ,node pathfinding data for 
+infantry (node data includes patrol routes, node connection data, 
+directions from which a node provides 'cover', and action appropriate at
+ node e.g. 'crouch to fire' or 'place gun atop wall to fire' ), and 
+display other info such as scan range etc.. . It would also be nice to 
+link entity attributes to some basic logic - e.g if 'level_timer &gt; 
+300 and player is within 100 units range of xyz, then spawn entity class
+ 7, sub_class 2 at xyz'<br><br>So the aim is to create the level 
+geometry in lightwave, export to B3dTweak, load up in TUeditor, place 
+entities, set flags/path, export to script_??.bb and run with game 
+engine.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2003-07-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Have been taking a bit of a break from TU dev, mainly to rest up before
+ making the descent into the hell that's known as 'character animation'.<br><br>My
+ guide on this journey has been Truespace 6.5.  He means well, but it 
+has slowly dawned on me, that he doesn't always know what he's doing and
+ so we've been taking a few wrong turns. <br><br>An example would be 
+that I had hoped to be able to hunt down any number of existing BVH 
+files 'in the wild', and 'plug them in' to my simple IK models to get 
+the motions I need quickly. Optimistic I guess. But Truespace can't 
+import BVH natively, and instead needs a 3rd party plugin which costs 
+money (then again it's not possible to match up my simple segmented IK 
+base model to a typical BVH skeleton so it's rather moot). However I had
+ gotten to the point where I could import a BVH (although with errors) 
+for a visual guide when posing.<br><br>Another example would be that 
+it's not possible to copy and paste IK keyframes to achieve a seamless 
+looped animation(!) - again a third party plugin's required here <br><br>In
+ terms of getting a simple walk cycle down, it took a weekend to learn 
+how TS works, and it's still a slow process. TS can be a bit buggy. so 
+when something goes wrong there's always the doubt that it's not the 
+input but the programme. I might be a bit of a perfectionist here - 
+looking critically at animation in some games, it's actually pretty 
+rough.<br><br>Feeling somewhat glum about all this, I was driving home 
+the other day, when I considered the heretical idea of going down the 
+'3d' sprite route. In other words, using sprites for most characters and
+ perhaps 3d jointed models for only the main characters. <br><br>This would offer a lot of advantages.<br><br>
+ I could move on from this sticking point and continue with the coding 
+of AI, scripted events and movement. And although I'd be coding for 
+sprites, there'd still be the possibility of tacking on model animation 
+later.<br><br> It would simplify the coding/work required considerably 
+and importantly, I could have large numbers of sprites on screen at 
+once. Given that I've a hankering for large scale battles involving lots
+ of tanks and troops, it's an accepted practice.<br><br>The downside is 
+that from a first person view, 3d sprites can look lame - when close up 
+(pixelisation) or when seen from an elevated viewpoint. However, good 
+level design that plays to 3d sprites strengths (such as large 
+numbers/lots of movement) could alleviate this.<br><br>Must get back to it...<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2003-06-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> How optimistic was my last worklog, still things are looking up again.<br><br>Although
+ the first level was working reasonably well, when the action heated up,
+ frame rates would drop away. At the time I put this down to my slow 
+machine, but more so to an obsolete graphics card (MatroxG400), and 
+figured that a vid card upgrade would solve the problem. And so in the 
+meantime (before making the upgrade), I decided to add a second, much 
+larger and more complex level to the demo. I also upgraded from 1.77 to 
+1.83 for the better sound and extra commands (such as gamma and 
+hideentity improvements). Duh, but a necessary duh. Of course doing both
+ os these meant all sorts of issues.<br><br>Firstly, I find 1.83 to be 
+slower than 1.77, so a few frames were dropped there. Turns out the 
+reason for the framerate drop was not the vid card though (which I 
+upgraded to a Geforce2 MX 64mb), but the large number of linepicks being
+ called each update, and the unoptimized code in general.<br><br>So with
+ this now clear, I set about firstly adapting the driving and falling 
+routines to use Blitz's collision system to keep entities on the terrain
+ mesh. Tweaks and bug fixes aplenty, one of which being occasional 
+collision failure due to mesh size. This meant that on occasion a tank 
+would sink by one corner below the terrain - not good. The fix was to 
+tidy up my terrain mesh in terms of optimising vertical extents and to 
+implement some 'backup' linepick code which can be triggered if there's a
+ problem, to keep the tank on the level. This means on occasion there is
+ some juddering, but it's infrequent and acceptable. <br><br>An 
+unexpected upside to using collisions was greater realism when vehicles 
+crest a ridge and the front drops down quickly once the crestpoint is 
+behind the centre of gravity -  wish I'd implemented collisions from the
+ start but its all been a learning experience.<br><br>The much larger 
+second level presented new problems in itself. The first issue is 
+keeping the action coming - avoiding long, boring treks for the player. 
+This is where lifters are important. When a tank grabs the key from an 
+opposing team's hub, then that team has reinforcements flown in and 
+dropped relatively near the thieving team's hub. The result is that the 
+player with a key in possession will meet unexpected resistance on the 
+long drive back and then have to fight off the enemy while the key is 
+drained by the hub.<br><br>Lifters were a headache - having them 
+successfully navigate a varied landscape, pick up and drop off units 
+sucessfully, handling other lifters getting in the way,  going elsewhere
+ if the initial dropoff is impossible (e.g. roofed area), flying 
+relatively evenly across the landscape without excessive linepicking, 
+dropped units not triggering the 'death by falling' routine and being 
+properly reset on drop off and most importantly, not getting having 
+lifters getting stuck or even on occasion flying up from underneath the 
+terrain. Sounds simple but as a unit they have one of the largest logic 
+blocks in the game.<br><br>Speaking of logic, in order to spread out the
+ updating as much as possible, I instituted a number of timers so that 
+routines could be updated say once per second, every 2 secs, 5 secs etc.
+ By these vars I could be frugal with scanner map updating, vertex 
+lighting etc.. and also AI scanning for enemies nearby, pathfinding 
+etc.. The trick though is balancing AI sensitivity with update timing is
+ a little tricky - for a big open level the AI updates can be quite long
+ as long as the tanks are seen to be moving and firing off the odd shell
+ from a distance. For more maze like levels, less responsive AI updating
+ can be apparent as tanks are at much shorter range and can come 
+suddenly into contact around corners etc..<br><br>There's still stuff to
+ do - tanks caught by friendly fire sometimes turn on their teammates; 
+tanks need to better check if a friendly is in the way before firing; if
+ the player's empty tank is destroyed but the player is still on foot; 
+then a new one's flown in for the player; the options panel needs gamma,
+ camera range and shadowmaps controls; I need to create a clean install 
+that includes only the necessary files; I need to investigate installers
+ and pak file options; need to better handle explosion light/alpha 
+falloff; and there's still the infrequent crash that I need to debug 
+through. <br><br>Demo is on the way.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2003-03-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ With the goal of a demo in sight and many of the larger problems solved
+ (although one or two still to go), I'm really started to feel good 
+about working on this project, and am looking forward to releasing a 
+playable demo (and not a 'you can only walk around and shoot things so 
+far' kind of demo as well!).<br><br>Keys are working quite well. Tanks 
+will search out their group's key and bring it back to their hub, which 
+then lights up and begins to rotate. With the lighting fx turned on this
+ looks lovely. Periodically the level script lets the opposing teams 
+know where the enemy's keys are and this ensures the tanks then come 
+trundling down from their forts and mix it up (while aerial lifters 
+bring in replacements).<br><br>If an enemy key is brought back to a hub,
+ this represents a drain on that key's team and they will attempt to 
+rush the fort to retrieve their key. Allow your key to be held by an 
+enemy hub for too long and your team is 'erased' (with some suitable 
+fx). A cutscene then sweeps the camera in to your (or the enemy's) empty
+ fort, and it's game over.<br><br>Sorted events when the player's tank 
+is destroyed. The player is placed on foot in an off-arena enclosure, 
+with a single empty tank waiting. The player can see into the arena 
+through a slot window. Enter the tank and the player can press l to 
+summon a lifter. The lifter arrives and the player's tank is carried up 
+and into the arena and dropped in front of the group's fort. The player 
+must wait to return to the battle.<br><br>Still much to do - need to sort out an alternative to the many linepicks used for getting terrain height. <br>Need to revisit the interface to add some final functionality and sharpen up the map display.<br>I notice the fixed turrets don't seem to be pitching down quite as they should. <br>Add random powerups appearing in the arena - have the basis for powerups already existing.<br>Update
+ the text message system to link to entity states (e.g. if message has 
+had low priority but is now displayed, make sure its conditions are 
+still valid for it to be displayed)<br><br>The next biggy (apart from 
+the optimising), will be the sound sorting. At the moment things just 
+emit sounds and there's no sorting - meaning sounds often cut out. Also 
+need robotic radio chatter and messages. Should be good.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2003-03-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Some good progress over the last couple of weeks and I feel I'm 
+actually getting at least within sight of releasing a playable demo. In 
+other words, a demo that has gameplay rather than being a tech demo for 
+the graphics.<br><br>Firstly, spent time on a bug hunt - I'd been 
+ignoring the bugs for a while until their random appearances were 
+meaning that I couldn't run the game for the length of time needed to 
+test out some of the higher game rules. Went through and uncovered 
+errors that surprisingly I thought would have screwed things up from the
+ start. After locking those down, I'm getting no error messages 
+(although as I speak, I've left the game running overnight to 'stress 
+test' for bugs).<br><br>Added fortress geometry to the arena level, 
+rather than 2 bare corners in the arena where the teams' hubs existed. 
+Part of the progress here was finally nailing down how to match up the 
+underlying x/y pathfinding array, entity placement, shadowmap and level 
+geometry in lightwave. This is something I should have nailed from the 
+start, but due to a mistake in my thinking, I was in slight error as to 
+my level geometry placement, meaning that tanks would often graze the 
+walls, or placement of entities would be 'off'. This is now fixed.<br><br>Have
+ reworked the team hubs. They are now large columns within the forts 
+that upon activation, emit a brilliant glow and slowly rotate. Looks 
+lovely I think. The rule for captured keys is that a holding tank will 
+now bring it back to the hub and drop it nearby. If a group's key is 
+close to an enemy hub, that team will experience a progressive drain on 
+their shields - indicated by a beam of lightning running from the key, 
+to the bottom of the hub. If all team members lose their shields, it's 
+game over for that team and they are removed from the field, along with 
+their key. If a team has had their key captured or it's being drained, 
+then all (deployable) team members are deployed to get it back, in other
+ words, a desperate assault.<br><br>To get the above to work, spent 
+quite a while on the AI. One of the problems is that if  a tank is 
+deployed against an enemy report, it will work out a path to the 
+reported position and move along it. But if an enemy is in scan range it
+ uses a 'bounding box' for in-range enemies to calculate its next goal. 
+This is good for combat, but meant that if an enemy was in range, a tank
+ might forget about powerups/keys nearby. Also, for a tank to be 
+deployed against a powerup/key, I gave the keys a threat score. This was
+ good in that tanks would then go to the powerup, but it was bad in that
+ they might also retreat from the key in the heat of battle, or start 
+firing shells at the key. Had to fix these problems.<br><br>Finally 
+though, the next big problem is game speed. I plan to lock frames at 
+30fps, but with all the bells and whistles turned off, it's still 
+struggling. The problem is linepicking the terrain mesh for 
+height/pitch/roll data, and also the many entityvisibles for the AI. 
+I've been advised I should ration the entityvisibles, but I'm not 
+willing to 'dumb down' the AI by limiting its data checking, and for a 
+tank game, entityvisible is important for intelligent manouevering and 
+firing solutions.<br>I think I'm going to take a brute approach 
+therefore, and precalculate the heights covering the playarea and store 
+them in a bank. There can be two banks - one contains just the terrain 
+(mesh) height - the other contains terrain/walls/building height data. 
+By checking values in the bank/s, it should be possible to see if an 
+obstruction(higher elevation) is present between two points.<br><br>The 
+game needs to be speedy on my current PC (as a minimum spec P3 660mhz, 
+Matrox G400), so I need to sort this out now for if I upgrade my pc, as 
+I'm planning to do, I may not be as motivated to optimise.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2003-02-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The sheer learning curve of character animation was getting me down. 
+Also the fact that remaining bugs in the vehicular side of things are 
+still coming up and biting me in the ass did not help. How much better I
+ would feel (I reasoned), if all those tweaks to lighting, interface, 
+control etc.. were done, and what would be the best way to motivate me 
+to tidy all these things up before diving fully into character 
+animation? <br><br>Answer; a demo. I'm like the next coder- reading 
+messages that people want to play your game is really the best 
+motivational boost there is, but I'll be dammed if I'll release it bug 
+infested.<br><br>To this end I've been working on a simple battle arena 
+level (the more complex and scripted Chip City level will have to wait),
+ and in this arena it's two teams, two forts, tanks, turrets, two keys 
+and lifters that bring in replacements for the casualities. Get the 
+enemy key back to your hub to win the demo.<br><br>The lifters were 
+troublesome for an evening - they seemed to enjoy moving to pick up a 
+tank, trundling to a destination and then repeatedly dropping and 
+picking up the same tank. Or two lifters would go for the same tank and 
+play tag. One unexpected side effect was that although a tankbase was 
+immobilised while being carried, the turret could still track and fire. 
+Tanks on the ground would open fire at an aerial tank while it fired 
+back - probably need to fix that, although ground units should still be 
+able to track and fire at an enemy lifter and carried tank.<br><br>Need 
+to optimise again as well - I'm using linepicks for height finding, and 
+also entityvisible for AI purposes,  but these are just killing the 
+framerate.<br><br>Other things to fix are preloading some meshes - 
+sloppy programming from me has meant some meshes are repeatedly loaded 
+for effects such as explosions, causing noticeable pauses - though the 
+pauses are also due to excessive layering of blended images as well. <br><br>Also
+ I've been deleting destroyed vehicles and then checking later for 
+collisions. Result, entity has been deleted, Blitz crashes. Either I'll 
+have to sort a mesh reusing scheme (which would be the best I suppose), 
+or simply hide 'killed' entities for a couple of cycles and then delete.<br><br>Demo sometime in the next few months...<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2003-01-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ With the vehicular side of things working quite well, I've finally 
+turned my attention to the art of character animation and pathfinding 
+for AI controlled infantry.<br><br>Character animation; a bit of a steep
+ learning curve. Spent hours trying to nail down a simple workflow to 
+take an animated skeleton from Poser3, through Milkshape (which I'm 
+going to have to register soon),into Character FX (which I'm going to 
+have to register soon), where I could attach my own mesh skin and then 
+export as a B3d (with correct scaling, animation retained,etc). <br><br>My first challenge was to sort a player_walk_while_holding_a_gun for the FPS section of the game. <br><br>Parenting
+ the camera to the animation's 'head', resulted in motion sickness. The 
+motion was not unrealistic, but what's realistic often conflicts with 
+what's playable. After removing shoulder swing and any head pitch and 
+locking the arms in position, I was able to achieve a much smoother 
+camera motion that still portrayed a walking motion and importantly, 
+matched the aim of the gun. As the player walks, the sights swing 
+slightly, but not too much to make aiming frustrating, and the shots 
+will travel to the screen centred sights.<br><br>The second challenge is infantry pathfinding.<br><br>For
+ vehicles, the level is a 128x128 array on which A* is used for 
+pathfinding. Each square is 32 units across. This is far too coarse for 
+infantry movement, as I envisage situations where the player will either
+ enter installations, or duck into alleyways where vehicles cannot 
+follow, but AI controlled infantry can. <br><br>The solution is to use 
+pathnodes - each node containing info about which other nodes are 
+accessible from that node. The levels are large, so there needs to be 
+separate node groups. The trick is to allow for infantry to use A* 
+generally for movement within a level, but if required, hook into node 
+pathfinding for areas inacessible to A*.<br><br>Of course beyond that 
+are the other issues - troops should behave differently from tanks etc -
+ need to find cover, support each other, perhaps rush the player, etc. 
+And a nice trick would be for them to take advantage of lifters -flying 
+platforms they could load up on, disembark en-masse at their 
+destination.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-12-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Sat Dec 28 2002<br><br>The Christmas Holidays - the chance to do some serious dev, although the sun outside doesn't help...<br><br>With an example level thought out, I've been coding the functions such a level would need.<br><br>Firstly
+ I've added flying 'lifters' - give them a target and a destination and 
+they'll fly to and pick up the target and drop it off at the 
+destination. These can be triggered by a script, but obviously it'd also
+ be nice if AI controlled units could call for a lifter if in trouble. <br><br>Haven't
+ coded for that (the AI calling in a lifter), and it points up a certain
+ haziness I have had about the high level gameplay rules  that can 
+really greatly alter gameplay. Some of this though, is that it's 
+difficult to know what works well or doesn't until all the gameplay 
+elements are up and I can see how they go together...<br><br>But thinking about the higher game rules (apart from tanks shooting at one another), I've added hubs and hub keys. <br><br>Each
+ team has a hub and each hub has a key. The player can pick up a key and
+ take it to a hub to activate that hub. Any dormant units for that hub, 
+will be activated. If no dormant units exist or there are not enough 
+units, an airdrop may occur. Likewise, if an activated hub has its key 
+taken away, all active units for that hub will become dormant and no 
+airdrops will occur. However, when a hub is activated, it's surrounded 
+by a force field.<br><br>But hubs and keys opened up a few problems.  I 
+realised it was smarter to create a generic inventory system, meaning 
+any entity could collect and pass items to any other entity.  Even a 
+simple inventory system has a few  wrinkles in terms of keeping 
+track/dropping/using of items. Also, now  the AI really needs to take 
+inventories into account and needs to recognise items it can collect and
+ use on the battelfield, or perhaps held by the enemy.  One benefit 
+though, is that destroyed tanks can drop inventory items - how this 
+would affect play I'm still not sure as I haven't linked any entities  
+to power-ups.<br><br>Hubs/keys/inventories throw up new  problems in the
+ gameworld -  I had destroyed the force field around my team's hub when a
+ teammate bumped against the unprotected hub, collected the key, 
+deactivated the hub and so  the teammate was deactivated as well (the 
+player cannot be deactivated) If the player was too far away and this 
+happened, it would simply appear that the allies had stopped working for
+ no real reason apart from dumb AI. <br><br>With the importance of keys 
+then, the team AI should strive to collect any keys available on the 
+battlefield, target the enemy holding a key, it should defend its own 
+hub, and if it can, target an enemy's hub shield, collect the enemy's 
+key and then attempt to take it back to its own team's hub. But this 
+should not be the main focus - I'm not trying to write UT with tanks. 
+;-)<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-12-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Developing a full level, with which to play test the bulk of the game's features. <br><br>'Chip
+ City' - a 3sq km platform surrounded by void, enemy fort on the western
+ side separating a 'business district' from a lower 'docks' area. 
+Inactive rebel fort is on the eastern side of the platform, central is 
+an enormous 'energy tower' within an inacessible area.<br><br>Player arrives - explore/destroy a few enemy tanks/turrets to raise reputation.<br><br>Reputation sufficient, a friendly field commander is flown in. Player must meet commander at inactive eastern fort.<br><br>Player
+ to retrieve key from western fort - can use a weapons upgrade down in 
+the docks area, or find the rear entrance to the base and make a stealth
+ approach, or attempt direct assault.<br><br>Return with key to activate eastern base - number of friendly units flown in. Player must help repel a small enemy attack.<br><br>Player asked to destroy database node in business district. This deactivates turret defences for an area to the south.<br><br>Defences down, player goes to southern conduit bunker - gains item/code for destroying doors/wall to energy tower compound.<br><br>Place charges at door - compound open - more allied units flown in. Massed assault on tower compound.<br><br>Player ascends stairs to tower, activates switch, turns tower from red to blue.<br><br>Player moves to northern 'broken bridges' area for pickup/ leave/finish level<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-12-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Sometimes when there's so much done but still so much left to do, it's difficult to know what to do next. <br><br>Still,
+ feel I've reached something of a milestone. Apart from infantry, all 
+the basics are there - land/air unit movement, basic attributes (such as
+ speed/acceleration/shield/reload time/battle range/scan range/no of 
+bullets in air/etc...), weapons basics, arcing shell, laser bolt, beam 
+weapon, artillery, and supporting ai, 
+patrol/guard/deploy/attack/retreat/avoid teammates/support 
+teammmates/choose target based on distance/priority/extent of nearby 
+enemies.<br><br> This means customising a new unit should be a matter of
+ building the models and attaching the right values rather than 
+programming new functions.<br><br>So by creating a map with two forts 
+with two opposing teams of twenty tanks, I was able to initiate a battle
+ whereby a far ranging aerial scout spotted the other team, units were 
+deployed and a battle ensued, with the winning team returning to their 
+standard patrol when no other enemy was visible.<br><br>This is still a 
+long way from a game though and I've needed to spend some time thinking 
+about overall flow  -  what does the player need to do to progress 
+through levels and what makes sense in the world I've created and what 
+gives the player a sense of building on their power(ups)?<br><br>A number of variations I could employ;<br><br>The
+ standard player gets from a to b and maybe has to fight/avoid a few 
+units along the way. A variation is that the player has to negotiate 
+something of a maze. Got to be careful here as there is a risk of 
+frustrating the player - solving mazes is something of a throwback to 
+the bad old days in terms of gaming I think.<br><br>Player gets from a 
+to b but maybe has to visit a location or collect an item from c (in 
+order to reach b) - classic 'get the key to exit the level'. Again the 
+player shouldn't feel that the key collecting is illogical or stems from
+ a lack of imagination on the part of the author.<br><br>A variation on 
+the above is where the item is well guarded by the enemy. The player may
+ be able to deal with the problem themselves through either direct 
+attack (perhaps by gathering nearby powerups to enhance weaponry), or 
+through a stealth approach. A stealth approach may be on foot (FPS), or 
+perhaps by giving the player the ability to mimic the enemy/cloak for 
+long enough to get in/out.<br><br>The other option on the 'well guarded key' scenario is to help the player with AI controlled allies. <br>I
+ have a couple of options here; I could simply set the two teams patrol 
+routes to overlap thus ensuring a battle occurs regardless of the 
+player. This brings up issues - why would the player then want to get 
+involved? If the friendly team repeatedly gets beaten without the 
+player's aid, what does the player do between battles? If the allies 
+repeatedly get beaten, why do they continue to attack (unless they're 
+stupid)?<br><br> Another option is to use distance - units can detect 
+bullets within scan range and deploy against the firer. Distance could 
+be set between teams such that if the player engages, the friendly team 
+will see the bullets and come to help. Also, enemy units will pursue the
+ player, so the player could initiate a battle by 'leading' the enemy 
+into range.<br><br>Another option is to use a variable called 
+'reputation'. With a high enough reputation, the player could have a 
+greater influence on an allied team's actions, e.g. patrol points 
+extending to player's position, providing a shadowing scout or escourt, 
+or simply that if a player engages an enemy, units are deployed to help.<br><br>Alternatively
+ if a player's reputation reaches critical, the friendly team gathers 
+and makes a massed attack against the enemy fort, in which the player 
+should participate if the attack is likely to be successful.<br><br>In 
+order to raise reputation, the player performs a number of 'quests' - 
+perhaps an initial task could be locating a key to 'activate' an allied 
+base and have friendly units flow in/materialise, perhaps a player just 
+needs to visit a base in order to get the next quest. Lots of options 
+here, particularly with multiple friendly bases.<br><br>To develop all 
+this, I've decided I need a few 'proof of concept' levels, which 
+'showcase' the above and will help me to work out such questions as, 
+what happens if all the allies get destroyed but the enemy still has the
+ key(?) ,  etc..<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-11-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Sunday Nov 24<br><br>Spent
+ the weekend extending the modular nature of the turret firing code. 
+Added a salvo reload time in addition to the single shot reload time - 
+so that a turret can fire a salvo of shots, and then need a user defined
+ period of time to reload.<br><br>Also set up flags for whether a turret
+ should fire arcing shells, rapid fire laser bolts (ala Star Wars), or 
+an instant 'beam weapon' kind of deathray. Need to add fx to the 
+beam/bolt weapons - such as impact glows/sparks. Did quickly code a 
+fuzzy line drawn on the lightmap mapped onto the terrain mesh, below a 
+beam - gives the impression the beam is illuminating the ground - needs 
+more work but looks ok.<br><br>The extensions also pointed up various 
+weaknesses in my AI turret aiming code (which must handle both arced 
+shell paths and straight line shots), which I've retweaked to a 
+(relatively) acceptable level.<br><br>Rehooked up the bullet/beam damage
+ code - immediately bugs aplenty as tankbases are deleted and parented 
+turrets would also be deleted but not their pointers - rewrote the 
+kill_actor() function to del with this - an entityexists() function 
+would be most helpful though.<br><br>The final result was that I could 
+have up to 20 tanks firing beams at each other and exploding into chunks
+ - it's still rough but it's getting there.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-11-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Wednesday Nov 20<br><br>Hmm
+ - if I didn't have to work and I could ignore sleep and the crushing 
+realisation of just how much work is involved in creating a game...<br><br>On
+ the other hand, what else would I be doing with blitz(?)and I think my 
+ideas are sound and I'd only likely be playing games otherwise (;-)), so
+ it's time to soldier on.<br><br>With what time I have had, I've been 
+re-organising code. Not very exciting and the temptation is to let it 
+slide, but it has to be done. <br><br>All entities now, even the mesh 
+terrain, are 'individual' members of a group (up to 8 groups). The main 
+loop consists only of two for next loops (group/member), and a select 
+case statement (entity class), which calls high level functions based on
+ the entity's class. These 'high level' functions have further 
+select/case statements based on an entity's sub-class (e.g. bullet type 
+1,2,3 etc...). Interactions between groups are based on 'sightings' - 
+any turret/searchlight/or craft can be given 'eyes' to make 'reports' on
+ which other group members can act.<br><br>To set up a tank, the code looks like this;<br><br>group = 1:member = 1:class = 7 : sub_class = 1 ; tank base<br>x_setup = 650:y_setup = 0:z_setup = 300:pitch_setup = 0: yaw_setup = 0: roll_setup = 0<br>flag_grounded = 1 ; align to terrain<br>ob_parent = 0<br>ob_alignment = 1 ; 2,3,4 = neutral<br>flag_guarding = 0:flag_manned = 1 ; flag_guarding 1,2 = static guard<br>current_speed = 0<br>obj(group,member,15) = 1 ; player control flag		<br>setup_object(group,member)<br><br>		<br>group = 1:member = 2:class = 8 : sub_class = 1 ; turret type 1<br>x_setup = 0:y_setup = 2:z_setup = 0:pitch_setup = 0:yaw_setup = 0: roll_setup = 0; local co-ords to parent <br>flag_grounded = 0; sits on tankbase<br>ob_parent = obj(1,1,0); parent is tankbase as spec'd above<br>ob_alignment = 1<br>flag_guarding = 0:flag_manned = 1<br>current_speed = 0<br>obj(group,member,15) = 1 ; player control flag		<br>setup_object(group,member)<br><br>The
+ advantages of such a modular approach are great, e.g. easily 'mix and 
+match' different turret types (or other entity types such as 
+searchlights) to different tank or fixed bases, have turrets/children 
+being destroyed independantly of their parent craft. Allow for entities 
+to parent/unparent and act independantly on demand..<br><br>The big 
+downside (and one which I haven't really addressed), is overlapping 
+collision spheres. A turret's collision radius, sitting on a flat 
+tankbase, is pretty much contained by the tankbase's spherical collision
+ radius which needs to be wide enough to avoid obvious clipping  with 
+other tanks/walls. <br><br>The other advance is towards 'teleportation'.
+ I want to avoid the player ever seeing a 'game over' message (at least 
+until the game is complete). This introduces a few playablility issues; 
+the levels are 4 sq kms. Need to avoid the player cursing the game's 
+author for forcing long (on-foot)treks after losing a tank. There should
+ be a penalty for losing a tank, but not in playability. To this end, 
+I've decided to dot 'teleports' liberally around the landscape. These 
+are 'booths' that 'pop up' out of the terrain as a player approaches (on
+ foot), and on entering they descend back into the ground (with the 
+player aboard). Then begins a rapid ride through a network of 
+psychedelic 'tubes'(which the player can control with the help of a 
+map), at the end of which the player 'pop's up' at another location. By 
+this method I hope the player will be motivated if temporarily defeated,
+ to set out again and try different tactics.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-11-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Re-ordering the code so that all elements (including lights, bullets, 
+tanks, infantry, searchlights, even the terrain) are handled in the same
+ way - as members of a group, each member calling a script based on its 
+class, its interaction with other elements based on its alignment - 
+turrets and searchlights acting as eyes within the level.<br><br>Feels 
+like going over old work - but the advantages in terms of streamlining 
+development will be worth it. Still, it's a pain having to debug through
+ all the odd/unexpected bugs that crop up. Blitz is fantastic in terms 
+of dev time, but hard out bug hunting is still to be expected.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-11-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Nov 3/2002<br>Became
+ somewhat sidetracked with tinkering and tidying up code - however 
+managed to setup searchlights that can be attached to flying craft such 
+as scouts. Looks pretty good as their searchlights play over enemy 
+tanks.<br><br>Rather than create separate code for this fx which would 
+further complicate my main loop, I've made searchlights objects that are
+ created/updated in the same way as tanks i.e. as members in a group. 
+This means setting up/updating searchlights can use code that already 
+exists.<br><br>Having decided on this, I then realised that I could go 
+further - I could make bullets/lights/turrets (all of which have their 
+own update cycles), members of groups. <br><br>At present when a tank is
+ updated, turrets are searched for and updated then. Bullets and lights 
+have separate update cycles again. This can get a bit labyrinthine. If a
+ turret or bullet was a member of a group however, it would be updated 
+as members of its group are updated. When a tank is destroyed, I'd need 
+to be careful to delete the child turret members. <br><br>Question is can I be bothered re-arranging my currently working code to suit?<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-11-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Some good progress;<br><br>Added
+ the first flying unit - an aerial scout that floats and bobs its way 
+over the landscape, averaging terrain heights to avoid collisions. 
+Shadows enemy units until needing refuelling, at which point it will 
+return to base.<br><br>In ref to the above, added a user defined offset 
+to the preset waypoints for a group, so that a tank can patrol eactly 
+between waypoints, but a scout can patrol to a waypoint extended by a 
+given min/max value.<br><br>The hope with having waypoints with offsets 
+is that conflicts will arise that make sense, i.e. a scout flying beyond
+ the normal patrol route, comes over a ridge and spots the enemy and 
+units are deployed. Hopefully with this sort of idea the conflicts will 
+be fluid yet have such 'randomness' within controllable limits.<br><br>The
+ scout's not armed - but clamping a rapid fire turret on it won't be a 
+biggy. The scout is vulnerable to fixed turrets on the ground. A nice 
+fx, would be to attach a searchlight to the scout.<br><br>Upgraded the waypoints system to increase the number of preset goalpoints (from 4 to 6). <br><br>The waypoints now also include a second set of presets for entities set to guard duty(as opposed to patrol). <br><br>Added
+ a guard flag to the setup_object() function - when set to 1 will patrol
+ guard waypoints. When set to 2, object is static until deployed, needs 
+to give way or an enemy is in range.<br><br>The static guard option is 
+in preparation for sorting out artillery units. They should wait at a 
+group's base at their initial set up position, until deployed. The 
+threat level of a sighting report will need to be very high before 
+artillery is deployed.<br><br>Artillery will be slow, nearly blind and 
+of very low courage (but will assigned a very high threat level 
+prompting the enemy to target/deploy against it), but have a great 
+battlerange and can pulverise an area. They will need to return to base 
+to reload (to avoid endless artillery fire) and once the battle is over,
+ units should return to their initial setup positions.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-10-13)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> After the daily tribs of work, there's just not enough hours left in the day...<br><br>Another set of hacked together cludges essentially, but ones that I expect to refine &amp; debug down the line sometime.<br><br>It's too late to incorporate Vorderman's physics ode - have kludged a falling behaviour<br><br>Kludged
+ a slide function for vehicles encountering a too steep a slope. I'm 
+still in two minds about this though. From the AI perspective, wouldn't 
+want tanks stuck forever trying to get up an impassable slope.<br><br>Drafted
+ the frontend menu where clicking on objects within a 3d scene moves the
+ camera and (will) open options. It's not really a frontend per se, but 
+in fact a level in itself with different interactivity. This is where 
+having taken a scripting approach really starts to payoff.<br><br>Sorted
+ level changing (between scripts e.g. script0.bb, script01.bb... - i.e. 
+clearing entities, textures, some variables and resetting as required. 
+This is not as simple as it sounds - Clearworld is only part of the 
+process.<br><br>Kludged an eject button - player can jump in and out of 
+tanks (or be blown out). Don't want the player to ever see a game over 
+message. First person movement instituted but problems abound here.<br><br>Wrote
+ script and developed simple model for static turret with high rate of 
+fire, which was quite fun (and simple using existing functions). Any 
+tanks that come within range get smashed, but tanks can fire on the 
+turret from a much greater range. However my target leading gun code is 
+still inadequate.<br><br>Redesigned the interface - <br><br>Tweaked 
+explosions. Tanks explode into a burst of chunks, sparks, along with a 
+larger shockwave using Rob's environment mapped planet glow code. The 
+trick with explosions of course, is to try and avoid obvious clipping.<br>The other idea here will be that tanks caught within the blast radius take damage, and if close enough, may be shoved off path.<br><br>I've
+ been adding to this game for about a year now (since I received Blitz 
+in Sep2001), and I'm still nowehere near finished. If you think your 
+game is going to take a lot of work, you're probably underestimating!<br><br>Phil Jones<br>New Zealand<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-08-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> AI works well enough and have turned my attention to level building.<br><br>The
+ levels are built from two main elements - a driveable floor and 
+impassable walls. The floor is detected by linepicks with which to align
+ a tank, the walls are set to polygon collision. There is an underlying 
+x/z array for A* pathfinding.<br><br>My search has been for a method to 
+quickly produce these two elements where the walls/floor fit together in
+ a seamless way. Additionally, the walls/floor must fit with the 
+underlying pathfinding array.<br><br>My solution has been to create a 
+template grid in a drawing package, divide up the floor area and block 
+in the walls. I then bring the floor and walls as separate elements into
+ a 3d modelling package and raise/lower the floor and extrude the walls.
+ Simple levels that I can develop further in the modeller.<br><br>The 
+issue with the levels is that I'm trying to provide 'classic' game 
+situations (e.g. a tank has just appeared across the canyon from you is 
+lobbing shells while enemy reinforcements are bound to show up etc..)  
+and while I want the level graphics to look good, I am just one person 
+with limited resources. To this end, I've kept the level 
+graphics/geometry simple and sombrely coloured - the idea being that the
+ computer controlled elements/dynamic lighting/important areas should be
+ in bright glowing colours to focus a player's attention. The danger to 
+avoid is forcing a player to trundle through kilometres of drab world to
+ get to the next interesting play element - that's where good level 
+design and I guess a bit of story telling/character interaction comes 
+in.<br><br>MadJack<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-08-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Unglamorous AI. Trying to avoid tanks rolling up to the enemy's feet or
+ diving into the middle of an enemy group in suicidal fashion. <br><br>Essentially,
+ each tank has a courage rating (based on shield strength, friendly 
+units nearby, type of tank). If the threat is greater than a tank's 
+courage, it will retreat. However a period of time must elapse between 
+retreats - so if it is too soon for a tank to retreat or its courage is 
+up to the job, it must attack (I had contemplated other options such as 
+defend/escourt and may add these later - but so far retreat/attack seems
+ adequate).<br><br>Attacking takes the form of drawing a 'bounding' box 
+around the nearest enemies. The corners and mid-points of the box are 
+offset by a battlerange for the tank, which is affected by its courage 
+rating - higher courage, closer battlerange. Each corner is then given a
+ score by such attributes as distance, whether the enemy is still 
+visible from that point, height above the enemy, which point was chosen 
+last time, how close the path would come to the enemy, whether a path is
+ avaiable,etc. The tank will then move to the best scoring point. If the
+ enemy comes too close, the bounding box is processed again and a new 
+point chosen.<br><br>The tricky bit is making sure that what works for 
+open plains, also works for battles within mazes. And furthermore that 
+the AI provides a challenge for the player.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-07-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> In an effort to avoid the headache that is AI, have spent time developing other (possibly easier) features.<br><br>First
+ up, have dropped in the code that allows for blended light circles (on 
+the terrain), and for simple shadow casting from walls. The entities on 
+the level are vertex lit and combined with the blended light circles, 
+very brilliant and striking lighting fx is possible. More work needed 
+however on light circle radius, intensity and fade out.<br><br>Spent 
+time looking into some sort of full screen glow effect for full bright 
+surfaces. Middling results and slow frame rates - may re-investigate 
+sometime down the line, possibly an 'advanced option' for power pc's.<br><br>Have
+ redesigned the HUD, added a turret direction indicator to the radar 
+display, redesigned the crosshairs to incorporate gun elevation, (and 
+will be) tank pitch. Aim here is for clarity over visual gadgetry. Still
+ need to finalise shield strength display- plan to allow user the 
+ability to divert firepower to regenerate shield - adds an extra 
+tactical wrinkle.<br><br>Redeveloping explosion fx - an explosion 
+includes a mesh that expands and fades, particles, lightsource, and 
+possible mesh chunks, need to sort so that template can be run for 
+different explosion types.<br><br>Next target is a demo in next couple of months.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-06-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> With pathfinding out of the way for the moment, have been spending time on AI, concentrating on unit behavour in battle.<br><br>At
+ present each unit type has a number of universal settings such as top 
+speed, acceleration, shells in air, reload time, base courage, shield 
+strength,etc.. This helps define general behavour. In addition, each 
+unit has a scan range at which an enemy unit can be detected, added to 
+the sightings list and deployed for by the commander brain. Each unit 
+also has an engagement range at which point, control is passed to the 
+script for that unit type and allows for special behavours. Each unit 
+also has a battle range, which is the preferred distance to keep from 
+the enemy and which is based on a unit's courage - high courage, close 
+battle range.<br><br>The problem is that although a battle range goes 
+someway towards intelligence, in practice it means that units tend to 
+run towards/away from each other whilst firing - not very exciting or 
+tactical or intelligent. What's needed is an overhaul of the commander 
+brain for more strategic deployment (flanking, stacked frontal assault),
+ and greater interaction between units at the script level e.g. flying 
+wedges, taking advantage of cover, 'crossing the t'. Then there's the 
+issue of tactics within confined areas (such as a maze), versus wide 
+open arenas...<br><br>Also, is it worth investing in an extensive AI, 
+when the player is at ground level, and may/will not be aware of all 
+that's going on?<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-06-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Spent a day working with various methods for having vehicles negotiate 
+around each other within the confines of a maze, without appearing too 
+stupid. <br><br>After not much success, realised a simpler solution 
+might be to add a value into the next 4 or so array positions that a 
+vehicle's path would go through. the value would be based on the unit's 
+importance, and if a vehicle found itself on a higher value square, it 
+would need to move out of the way. This works quite well, but it also 
+pointed out the importance of having a good block size in relation to 
+the unit size, to avoid unnecessay and complicating collisions. There 
+are still issues with two tanks moving diagonally and having paths that 
+cross in the centre. If this happens however, a collision counter will 
+trigger a path search and resolve the situation. Add sliding collisions 
+between vehicles and maze corridors that are always two squares apart 
+and even with huge numbers of units travelling in opposite directions, 
+I've yet to see a lock up.<br><br>Some more tweaking needed here, but 
+good progress. Next up, defining attack/defence behavoiur. At present, 
+although a tank will retreat if outmatched, the only other behaviour is 
+for tanks to roll up to each other and blast away. <br><br>A demo at some stage.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-06-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Haven't had a great deal of time lately, but have made some (simple) progress.<br><br>Have
+ reinstated the routine that linepicks the terrain mesh height (at 
+points). Linked that with a pitch/roll function, the upshot being that 
+tanks now roll up/down slopes. An issue with what should be impassable 
+steep slopes remain, but am holding off to see if a collision to slope 
+angle option becomes available. Need to keep sliding collision.<br><br>The
+ interface is now working well. With the addition of a deadzone and 
+incremental turn rate, the user can slew the turret quickly yet can also
+ finely control the aiming. The right mouse button will stop turret yaw 
+(which is useful), and allow gun pitch to be raised/lowered. A marker is
+ placed at the point of impact. This marker is not always easy to 
+distinguish so the idea is to have the sights rotate when a hit is 
+possible on an entity, and change color in response to target 
+alignment/type. <br><br>The idea with the control scheme is to simplify 
+the act of navigating/turret yaw/gun pitch. The direction of the tank is
+ keyboard controlled (turn left/right, accelerate/brake) and to this end
+ tank direction is independant of turret yaw - if you turn, your turret 
+doesn't turn with the tank and so there's no temptation to use tank 
+direction to aim the turret/gun.<br><br>Have been looking at the problem
+ of the 'stacked canyon'. The game area has an underlying x/y array for 
+pathfinding. A solution when a unit is blocked, might be for that unit 
+and the unit immediately blocking its path to fill the surrounding 
+squares with 'scores' perhaps based on unit importance, proximity to a 
+path square,etc.. If a unit then finds itself on a square with a 'score'
+ it would move to the closest, lowest score square.<br><br>Might work.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-05-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Have spent some time on the AI, and given that it's a tank game, this 
+will need to be halfway competent. Making sure vehicles act reasonably 
+intelligently is not such a simple matter.<br><br>Tanks patrol 
+goalpoints. On spotting the enemy they'll add the sighting to a team's 
+sightings list. The commander AI for that team will then set 
+deploypoints for units based on the enemy number and types reported. Any
+ remaining units will continue to patrol.<br><br>As a unit approaches 
+the enemy, it'll make a basic assessment of the threat versus its own 
+'courage' (shield strength, teammates closeby, importance of the 
+target,etc..). If the threat is higher than its courage, it'll retreat 
+to the company of other teammates and regroup at its own unitpoint. Add 
+to this an 'offside rule' - average the enemy's position and if a unit 
+strays too far beyond that (in the x and z), then the unit's courage 
+will fall.<br><br>If the enemy is out of sight but fires a shell that's 
+visible to a teammate, the enemy shooter will be added to the sightings 
+list - effectively gets around the issue of units not reacting to tank 
+shells whizzing by and not reacting until they're hit or the enemy is in
+ their field of view.<br><br>Also trying to break this all down into easy to use functions so that simple 'scripts' can be added for extra behaviours/units.<br><br>Wish me luck!<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-05-21)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Have added a basic level scripting ability, although really it's 
+another bb file using high level function calls. Allows for things like 
+spawning based on area, switch to tracking camera using a lightwave 
+camera movement dump, etc... This will be handy as the levels will be 
+built in lightwave.<br><br>Began to think about flocking/formation for 
+troops based on 'marchpoints', the idea being that every soldier has a 
+marchpoint, but that if he comes close enough to another marchpoint 
+going to the same goal, his marchpoint would become the new marchpoint. 
+However couldn't quite convince myself of the efficacy of this and after
+ doing some more reading, have decided there's a reason for this. <br><br>The
+ reason is that I've been hard-wiring my AI. What I need is a high level
+ scripting approach to the ai (like the level events scripts). Else 
+adding new behaivours later could just be too much.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tank Universal</td><td align="right"><font class="tiny">(Posted 2002-05-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ A lot of cludges, but also the working bare bones of the game. A 
+thousand and one additions/bug fixes need to be made, not to mention 
+basic content creation - levels, models, general graphics/collating 
+soundfx etc..<br><br>But it is now possible to play the game in a very 
+limited way - tanks patrol waypoints, deploy against enemies, pathfind 
+through the landscape, track and fire. <br><br>Due to the long range of 
+the shells, it's possible to blast away at incoming tanks from quite a 
+distance. In-close fighting is quite exciting as the player has to dodge
+ incoming shells, avoid obstacles and get into a good firing position. <br><br>Next
+ 'kludge' is the creation of some sort of a scripting ability to handle 
+events triggered by region/collision/deletion/time and to have events 
+trigger further events depending on variables/conditions. Want to have a
+ story develop - this will require in game sequences and also 
+non-playable cutscenes (question is, when does a script file stop being a
+ script file and might as well be a .bb file).<br><br>Have put off 
+infantry movement, as I want troops to have the ability to march in long
+ columns, scattering on contact with the enemy. I can tell this is going
+ to hurt.<br> <br><br> 'I only have one rule. Everyone codes, no-one quits. You don't finish your game, I'll shoot you myself.' <a href="http://www.tankuniversal.com/" target="_blank">http://www.tankuniversal.com</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

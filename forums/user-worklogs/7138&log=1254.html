@@ -1,0 +1,341 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Apocalypse</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Latest download and .decls</td><td align="right"><font class="tiny">(Posted 2005-04-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> www.imakegames.com/B3DHLP.dll<br><br>; Userlib<br>.lib "kernel32.dll"<br>GlobalSize%(hMem%)<br><br>.lib "B3DHLP.dll"<br>AVIBltFrameToImage% (AVIObject%, pBits%, pBBImage%, FramePtr%):"AVIBLTFRAMETOIMAGE"<br>AVIBltFrameToTex% (AVIObject%, pBits%, pBBTex%, FramePtr):"AVIBLTFRAMETOTEX"<br>AVIClose% (AVIObject%):"AVICLOSE"<br>AVICloseLib% ():"AVICLOSELIB"<br>AVIGetFrame% (AVIObject%, Pos%):"AVIGETFRAME"<br>AVIGetFrameRate% (AVIObject%):"AVIGETFRAMERATE"<br>AVIGetHeight% (AVIObject%):"AVIGETHEIGHT"<br>AVIGetImageSize% (AVIObject%):"AVIGETIMAGESIZE"<br>AVIGetTotalFrames% (AVIObject%):"AVIGETTOTALFRAMES"<br>AVIGetWidth% (AVIObject%):"AVIGETWIDTH"<br>AVIOpen% (Filename$):"AVIOPEN"<br>AVIOpenLib ():"AVIOPENLIB"<br>BankToDIB% (pBank%, width%, height%, bitcount%):"BANKTODIB"<br>BankToImage% (pBank%,pBBImage%,FramePtr%):"BANKTOIMAGE"<br>BltDIBToImage% (pDIB%, pBBImage%, FramePtr%):"BLTDIBTOIMAGE"<br>CheckTimer% (hTimer%):"CHECKTIMER"<br>DebugOut% (OutStr$):"DEBUGOUT"<br>Deg2Rad# (Degrees#):"DEG2RAD"<br>DestroyTimer% (hTimer%):"DESTROYTIMER"<br>DirExists% (DirName$):"DIREXISTS"<br>DiskSpaceFree% (Drive$):"DISKSPACEFREE"<br>DiskSpaceTotal% (Drive$):"DISKSPACETOTAL"<br>Distance# (x1#, y1#, x2#, y2#):"DISTANCE"<br>FileExists% (Filename$):"FILEEXISTS"<br>FreePointer% (pMem%):"FREEPOINTER"<br>FreeRAM% ():"FREERAM"<br>GetDIBdc% (pDIB%):"GETDIBDC"<br>GetDIBlpBits% (pDIB%):"GETDIBLPBITS"<br>Hex2Dec% (HexVal$):"HEX2DEC"<br>ImageBrightness% (pBBImage%, FramePtr%, Change%):"IMAGEBRIGHTNESS"<br>ImageToBank% (pBBImage%,FramePtr%,pBank%):"IMAGETOBANK"<br>ImageToDIB% (pBBImage%, FramePtr%):"IMAGETODIB"<br>LoadBank% (pBank%, Filename$):"LOADBANK"<br>MakeTimer% (IntPerSec$):"MAKETIMER"<br>Now$ ():"NOW"<br>OriginAngle# (x#,y#):"ORIGINANGLE"<br>Rad2Deg# (Radians#):"RAD2DEG"<br>ReadBankByte% (pBank%, Index%):"READBANKBYTE"<br>ReadBankInt% (pBank%, Index%):"READBANKINT"<br>ReadBankShort% (pBank%, Index%):"READBANKSHORT"<br>ReleaseDIB% (pDIB%):"RELEASEDIB"<br>ReleaseDLL% ():"RELEASEDLL"<br>ResetBit% (dwVal%, BitPos%):"RESETBIT"<br>SaveBank% (pBank%, Filename$):"SAVEBANK"<br>SetBit% (dwVal%, BitPos%):"SETBIT"<br>TestBit% (dwVal%, BitPos%):"TESTBIT"<br>TimeServerSet% (Host$):"TIMESERVERSET"<br>TimeServerGet$ (Host$):"TIMESERVERGET"<br>TotalRAM% ():"TOTALRAM"<br>WriteBankByte% (pBank%, Index%, inVal%):"WRITEBANKBYTE"<br>WriteBankInt% (pBank%, Index%, inVal%):"WRITEBANKINT"<br>WriteBankShort% (pBank%, Index%, inVal%):"WRITEBANKSHORT"<br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Some Fast Math Routines</td><td align="right"><font class="tiny">(Posted 2005-03-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here are some routines I added mainly because they are optimized for 
+speed plus they've helped me in the past in making enemy AI...<br><pre class="code">Graphics 640,480,0,2
+
+Print Distance (0,0,10,10)
+Print OriginAngle(10,10)
+Print Rad2Deg (OriginAngle(10,10))
+Print Deg2Rad(315)
+
+</pre><br><br>OriginAngle...<br>This function will return the angle from origin 0,0 to X,Y<br>Useful to figure out in which direction a set of coordinates<br>is from another. By taking 2 sets of coordinates and normalizing them<br>(ie: subtract X2-X1, Y2-Y1) will let you find the angle of any coordinate (X1,Y1)<br>to any other coordinate. (X2,Y2)<br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Hex2Dec Converter</td><td align="right"><font class="tiny">(Posted 2005-03-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Pretty straight forward and very FAST!<br><br><pre class="code">Graphics 640,480,0,2
+
+Print Hex2Dec ("eFFFFFFF")
+</pre><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Internet Time Function #2</td><td align="right"><font class="tiny">(Posted 2005-03-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> This function just returns the time as a string...<br><pre class="code">Graphics 640,480,0,2
+
+Print TimeServerGet("time-a.nist.gov") 
+</pre><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Internet Time Function</td><td align="right"><font class="tiny">(Posted 2005-03-22)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Here is a function to set your time from an internet clock...<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,0,2
+
+If TimeServerSet("time-a.nist.gov") = 1 Then
+	Print "Time Set"
+Else
+	Print "Unable to connect to server."
+EndIf
+
+While Not KeyHit(1)
+	
+	
+Wend
+</textarea><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Internal Changes</td><td align="right"><font class="tiny">(Posted 2005-03-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've made some internal changes to try and address some users having 
+trouble passing string data to certain functions. Also I have 
+temporarily removed the FmtStr$ function until I get it working 
+properly...<br><br>Latest Download<br>www.imakegames.com/B3DHLP.dll<br><br>Latest .decls<br><br>; Userlib<br>.lib "kernel32.dll"<br>GlobalSize%(hMem%)<br><br>.lib "B3DHLP.dll"<br>AVIBltFrameToImage% (AVIObject%, pBits%, pBBImage%, FramePtr%):"AVIBLTFRAMETOIMAGE"<br>AVIBltFrameToTex% (AVIObject%, pBits%, pBBTex%, FramePtr):"AVIBLTFRAMETOTEX"<br>AVIClose% (AVIObject%):"AVICLOSE"<br>AVICloseLib% ():"AVICLOSELIB"<br>AVIGetFrame% (AVIObject%, Pos%):"AVIGETFRAME"<br>AVIGetFrameRate% (AVIObject%):"AVIGETFRAMERATE"<br>AVIGetHeight% (AVIObject%):"AVIGETHEIGHT"<br>AVIGetImageSize% (AVIObject%):"AVIGETIMAGESIZE"<br>AVIGetTotalFrames% (AVIObject%):"AVIGETTOTALFRAMES"<br>AVIGetWidth% (AVIObject%):"AVIGETWIDTH"<br>AVIOpen% (Filename$):"AVIOPEN"<br>AVIOpenLib ():"AVIOPENLIB"<br>BankToDIB% (pBank%, width%, height%, bitcount%):"BANKTODIB"<br>BankToImage% (pBank%,pBBImage%,FramePtr%):"BANKTOIMAGE"<br>BltDIBToImage% (pDIB%, pBBImage%, FramePtr%):"BLTDIBTOIMAGE"<br>CheckTimer% (hTimer%):"CHECKTIMER"<br>DebugOut% (OutStr$):"DEBUGOUT"<br>Deg2Rad# (Degrees#):"DEG2RAD"<br>DestroyTimer% (hTimer%):"DESTROYTIMER"<br>DirExists% (DirName$):"DIREXISTS"<br>DiskSpaceFree% (Drive$):"DISKSPACEFREE"<br>DiskSpaceTotal% (Drive$):"DISKSPACETOTAL"<br>Distance# (x1#, y1#, x2#, y2#):"DISTANCE"<br>FileExists% (Filename$):"FILEEXISTS"<br>FreePointer% (pMem%):"FREEPOINTER"<br>FreeRAM% ():"FREERAM"<br>GetDIBdc% (pDIB%):"GETDIBDC"<br>GetDIBlpBits% (pDIB%):"GETDIBLPBITS"<br>Hex2Dec% (HexVal$):"HEX2DEC"<br>ImageToBank% (pBBImage%,FramePtr%,pBank%):"IMAGETOBANK"<br>ImageToDIB% (pBBImage%, FramePtr%):"IMAGETODIB"<br>LoadBank% (pBank%, Filename$):"LOADBANK"<br>MakeTimer% (IntPerSec$):"MAKETIMER"<br>Now$ ():"NOW"<br>OriginAngle# (x#,y#):"ORIGINANGLE"<br>Rad2Deg# (Radians#):"RAD2DEG"<br>ReadBankByte% (pBank%, Index%):"READBANKBYTE"<br>ReadBankInt% (pBank%, Index%):"READBANKINT"<br>ReadBankShort% (pBank%, Index%):"READBANKSHORT"<br>ReleaseDIB% (pDIB%):"RELEASEDIB"<br>ReleaseDLL% ():"RELEASEDLL"<br>ResetBit% (dwVal%, BitPos%):"RESETBIT"<br>SaveBank% (pBank%, Filename$):"SAVEBANK"<br>SetBit% (dwVal%, BitPos%):"SETBIT"<br>TestBit% (dwVal%, BitPos%):"TESTBIT"<br>TimeServerSet% (Host$):"TIMESERVERSET"<br>TimeServerGet$ (Host$):"TIMESERVERGET"<br>TotalRAM% ():"TOTALRAM"<br>WriteBankByte% (pBank%, Index%, inVal%):"WRITEBANKBYTE"<br>WriteBankInt% (pBank%, Index%, inVal%):"WRITEBANKINT"<br>WriteBankShort% (pBank%, Index%, inVal%):"WRITEBANKSHORT"<br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Six New Functions</td><td align="right"><font class="tiny">(Posted 2005-03-10)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Read and Write to Banks as if they were arrays of bytes/Shorts or Integers!...<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,0,2
+
+;Get System RAM and Free RAM
+Print FreeRAM()
+Print TotalRAM()
+
+iBank=CreateBank (40)
+
+;Read and Write from a Bank as if it were an array of Bytes/Shorts/Integers
+;WriteBankByte	-&gt; ReadBankByte
+;WriteBankShort -&gt; ReadBankShort
+;WriteBankInt   -&gt; ReadBankInt
+
+For Counter = 0 To 9
+	;Function Returns the value that was set in bank
+	Print WriteBankInt (iBank,Counter,Counter)
+Next
+
+For Counter = 0 To 9
+	;Function Returns the value read from bank
+	Print ReadBankInt(iBank, Counter)
+Next
+
+;NOTE: Bank functions will return zero if index exceeds bank memory
+
+While Not KeyHit(1)
+	
+Wend
+</textarea><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Play an AVI on a Cube</td><td align="right"><font class="tiny">(Posted 2005-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The latest feature is the ability to Blt AVI frames to a Texture. With that you can play an AVI on a spinning cube!<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics3D 640,480, 0, 2
+
+;Initialize AVI library
+AVIOpenLib
+
+;Open AVI and get handle to AVI object
+hAVI = AVIOpen("trek.avi")
+
+;These functions give info about AVI
+w=AVIGetWidth (hAVI)
+h=AVIGetHeight (hAVI)
+ims=AVIGetImageSize (hAVI)
+tf=AVIGetTotalFrames (hAVI)
+fps=AVIGetFrameRate (hAVI)
+
+;Max Total frames at 300 to keep memory usage low
+If tf&gt;300 Then tf=300
+
+;Create Holder Image
+im=CreateTexture(320,240,0, tf)
+	
+;Load All frames to bbImage
+For Counter = 1 To tf
+	
+	;Grab Frame and get a pointer to pixels
+	pBits = AVIGetFrame (hAVI,Counter)
+	If AVIBltFrameToTex(hAVI,pBits,im,Counter-1)=h Then
+		;Success
+		FreePointer pBits
+	EndIf
+	
+Next 
+
+hAVI = AVIClose(hAVI)
+AVICloseLib 
+
+;*****************************
+; 		  MAIN LOOP
+;*****************************
+;Set up Double Buffering
+SetBuffer BackBuffer()	
+
+camera=CreateCamera() 
+
+light=CreateLight() 
+RotateEntity light,90,0,0 
+
+cube=CreateCube() 
+PositionEntity cube,0,0,5 
+
+;Initialize Loop Vars
+CurFrame=0
+DrawTmr = MakeTimer (fps)
+ 
+;LoopIT
+While Not KeyHit(1)
+pitch#=0 
+yaw#=0 
+roll#=0
+	
+	If CheckTimer(DrawTmr)=1 Then
+		CurFrame=CurFrame+1
+		If CurFrame=tf Then CurFrame = 0
+		
+		; Texture cube with texture 
+		EntityTexture cube,im,CurFrame
+	
+		pitch#=pitch#+1
+		yaw#=yaw#+1
+		roll#=roll#+1
+		TurnEntity cube,pitch#,yaw#,roll# 
+	End If
+	
+	RenderWorld
+	Flip 
+
+Wend
+
+DestroyTimer DrawTmr
+ReleaseDLL
+
+</textarea><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Tweaks and Fixes</td><td align="right"><font class="tiny">(Posted 2005-03-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Tweaked the DLL to be more efficient in what/where and when DirectX 
+objects are allocated/deallocated. Clocked AVIBltFrameToImage at 4.7ms.<br><br>Need to work on some proper Docs now.<br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New AVI Demo</td><td align="right"><font class="tiny">(Posted 2005-03-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I cleaned up my demo code. This one shows how to load all the frames of
+ a short AVI clip into a multi-frame image, then play them back at 
+speed.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480, 0, 2
+
+;Initialize AVI library
+AVIOpenLib
+
+;Open AVI and get handle to AVI object
+hAVI = AVIOpen("trek.avi")
+
+;These functions give info about AVI
+w=AVIGetWidth (hAVI)
+h=AVIGetHeight (hAVI)
+ims=AVIGetImageSize (hAVI)
+tf=AVIGetTotalFrames (hAVI)
+fps=AVIGetFrameRate (hAVI)
+
+;Max Total frames at 300 to keep memory usage low
+If tf&gt;300 Then tf=300
+
+;Create Holder Image
+im=CreateImage(320,240, tf)
+	
+;Load All frames to bbImage
+For Counter = 1 To tf
+	
+	;Grab Frame and get a pointer to pixels
+	pBits = AVIGetFrame (hAVI,Counter)
+	If AVIBltFrameToImage (hAVI,pBits,im,Counter-1)=h Then
+		;Success
+		FreePointer pBits
+	EndIf
+	
+Next 
+
+hAVI = AVIClose(hAVI)
+AVICloseLib 
+
+;*****************************
+; 		  MAIN LOOP
+;*****************************
+;Set up Double Buffering
+SetBuffer BackBuffer()	
+
+;Initialize Loop Vars
+CurFrame=0
+DrawTmr = MakeTimer (fps)
+
+;LoopIT
+While Not KeyHit(1)
+
+	Cls 
+		
+	DrawBlock  im,160,120,CurFrame
+	
+	If CheckTimer(DrawTmr)=1 Then
+		CurFrame=CurFrame+1
+		If CurFrame=tf Then CurFrame = 0
+	End If
+	
+	Flip 1
+
+Wend
+
+DestroyTimer DrawTmr
+ReleaseDLL
+</textarea><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New AVI Functions</td><td align="right"><font class="tiny">(Posted 2005-03-08)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I have created several new functions for reading AVI frame information 
+and copying the frames to a BBImage. Check out the demo source here and 
+.decls at the bottom.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics 640,480,0,2
+
+;Initialize AVI library
+AVIOpenLib
+
+;Create Holder Image
+im=CreateImage(320,240)
+
+;Open AVI and get handle to AVI object
+;Substitute an AVI you have on your system
+hAVI = AVIOpen("baby.avi")
+
+;Grab 1st Frame and get a pointer to pixels
+pBits = AVIGetFrame (hAVI,1)
+
+;These functions give info about AVI
+w=AVIGetWidth (hAVI)
+h=AVIGetHeight (hAVI)
+ims=AVIGetImageSize (hAVI)
+tf=AVIGetTotalFrames (hAVI)
+fps=AVIGetFrameRate (hAVI)
+
+tmrAVI = MakeTimer(fps) 
+
+If AVIBltFrameToImage (hAVI,pBits,im,0)=h Then
+	;Success
+EndIf
+	
+;Next Frame
+nf=1
+	
+SetBuffer BackBuffer()	
+	
+While Not KeyHit(1)
+
+	DrawImage  im,160,120,0
+
+	If CheckTimer(tmrAVI) = 1 Then
+		;Increment to next AVI frame
+		nf=nf+1
+		If nf&gt;tf Then nf=1
+
+		;Get next AVI frame
+		pBits = AVIGetFrame (hAVI,nf)
+	
+		If AVIBltFrameToImage (hAVI,pBits,im,0)=h Then
+			;Free memory pointer
+			FreePointer pbits		
+		EndIf
+
+	EndIf
+	
+	Flip
+
+Wend
+
+DestroyTimer tmrAVI
+
+hAVI = AVIClose(hAVI)
+
+AVICloseLib 
+</textarea><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Still More Functions</td><td align="right"><font class="tiny">(Posted 2005-03-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Several new functions deal with taking info stored in a Bank or Image 
+and creating a DIB (Device Independent Bitmap). With a DIB you can then 
+work directly with the pixel data via a memory pointer, or Blt the data 
+using the DIB's DC...<br><br><pre class="code">Graphics 640,480,0,2
+
+im=CreateImage (320,240)
+
+SizeNeeded = ImageToBank (im,0,0)	;Pass zero for bank to return size needed
+
+bk = CreateBank(SizeNeeded)
+
+hDIB = BankToDIB(bk,320,240,32)
+hDIB2 = ImageToDIB(im,0)
+
+DIBdc = GetDIBdc (hDIB)
+pBits = GetDIBlpBits(hdib)
+
+While Not KeyHit(1)
+
+Wend
+
+ReleaseDIB hDIB
+
+</pre><br><br>YAAAWWWNN!! 2am. Time for some sleep.. :)<br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Success Accessing DX Surface Object</td><td align="right"><font class="tiny">(Posted 2005-03-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have been successful in my attempts to access Blitz's DX7 surface object for images. I have added new functions...<br><br>ImageToBank to allow the transfer of image data from a Blitz image to a memory bank...<br><br>BankToImage does the reverse...<br><br><pre class="code">Graphics 640,480,0,2
+
+im=CreateImage (320,240)
+
+SizeNeeded = ImageToBank (im,0,0)	;Pass zero for bank to return size needed
+
+bk = CreateBank(SizeNeeded)
+
+If ImageToBank(im,0,bk)=1 Then
+    Print "Image Data Transferred to Bank"
+EndIf
+
+If BankToImage(bk,im,0)=1 Then
+    Print "Image Data Transferred from Bank"
+EndIf
+
+
+While Not KeyHit(1)
+
+Wend
+
+</pre><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New Functions</td><td align="right"><font class="tiny">(Posted 2005-03-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have added a few new functions to B3DHLP.DLL...<br><br>DebugOut - Outputs a string to a debugger like WinDbg<br><br>Timer Functions - These functions allow you to create timed blocks of code that only execute every so many times/second<br>--------------------------------------------------------<br><br>CreateTimer<br>CheckTimer<br>DestroyTimer<br><br><pre class="code">Graphics 640,480,0,2
+
+hTimer = MakeTimer  (5)
+
+While Not KeyHit(1)
+	
+     If CheckTimer (hTimer) =1 Then
+	Print "This Block Executes at 5 Times/Sec"	
+     EndIf
+
+Wend
+
+DestroyTimer hTimer
+</pre><br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Beta Release</td><td align="right"><font class="tiny">(Posted 2005-03-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've started work on a helper DLL for Blitz3D and was wondering if 
+anyone would be interested in trying it out and maybe making some 
+suggestions as to added functions. I intend to release the DLL as 
+freeware when I am done. All I would ask is that I am listed in the 
+credits somewhere if you use it. <br><br>Download the DLL here...<br><br><a href="http://www.imakegames.com/B3DHLP.dll" target="_blank">http://www.imakegames.com/B3DHLP.dll</a><br><br><br>Here are the functions I've done so far...<br>---------------------------------------------<br>FmtStr$ - allows you to format a number like "#,###.00"<br>(This function suffers from Blitz's lack of extended precision)<br>DebugOut% - displays text to the debugger if one is in use (ie: WinDbg)<br><br>DiskSpaceFree - Returns free Space of HD in megabytes<br>DiskSpaceTotal - Returns total space of HD in megabytes<br><br>SetBit - Allows setting an individual bit of a variable<br>ResetBit - Allows resetting an individial bit of a variable<br>TestBit - Returns whether a bit is on or off in a variable<br><br>MakeTimer - Creates a timer which turns True at so many intervals/sec<br>CheckTimer - Checks a particular timer to see if it's interval has passed<br>DestroyTimer - Frees the memory used by the timer<br><br>FileExists% - Check to see if a file exists<br>DirExists% - Check to see if a directory exists<br><br>SaveBank - Allows you to save the entire contents of a Bank at once<br>LoadBank - Allows you to load an entire Bank's contents from a file.<br>ImageToBank - Copies the pixel data from an Image to a Bank<br>BankToImage - Copies the data from a bank to an Image<br>BankToDIB - Converts the data in a Bank to a DIB (Device Independent Bitmap)<br>ReleaseDIB - Free memory used by DIB<br>GetDIBDC% - Returns the device context of a DIB (Can be used for Blitting operations)<br>GetDIBlpBits% - Returns a memory pointer to the pixel data of a DIB<br><br><br>Here are the .decls...<br><br>; Userlib<br>.lib "B3DHLP.dll"<br>AVIBltFrameToImage% (AVIObject%, pBits%, pBBImage%, FramePtr%):"AVIBLTFRAMETOIMAGE"<br>AVIBltFrameToTex% (AVIObject%, pBits%, pBBTex%, FramePtr):"AVIBLTFRAMETOTEX"<br>AVIClose% (AVIObject%):"AVICLOSE"<br>AVICloseLib% ():"AVICLOSELIB"<br>AVIGetFrame% (AVIObject%, Pos%):"AVIGETFRAME"<br>AVIGetFrameRate% (AVIObject%):"AVIGETFRAMERATE"<br>AVIGetHeight% (AVIObject%):"AVIGETHEIGHT"<br>AVIGetImageSize% (AVIObject%):"AVIGETIMAGESIZE"<br>AVIGetTotalFrames% (AVIObject%):"AVIGETTOTALFRAMES"<br>AVIGetWidth% (AVIObject%):"AVIGETWIDTH"<br>AVIOpen% (Filename$):"AVIOPEN"<br>AVIOpenLib ():"AVIOPENLIB"<br>BankToDIB% (pBank%, width%, height%, bitcount%):"BANKTODIB"<br>BankToImage% (pBank%,pBBImage%,FramePtr%):"BANKTOIMAGE"<br>BltDIBToImage% (pDIB%, pBBImage%, FramePtr%):"BLTDIBTOIMAGE"<br>CheckTimer% (hTimer%):"CHECKTIMER"<br>DebugOut% (OutStr$):"DEBUGOUT"<br>DestroyTimer% (hTimer%):"DESTROYTIMER"<br>DirExists% (DirName$):"DIREXISTS"<br>DiskSpaceFree% (Drive$):"DISKSPACEFREE"<br>DiskSpaceTotal% (Drive$):"DISKSPACETOTAL"<br>FileExists% (Filename$):"FILEEXISTS"<br>FmtStr$ (InVal$ , pFmt$):"FMTSTR"<br>FreePointer% (pMem%):"FREEPOINTER"<br>FreeRAM% ():"FREERAM"<br>GetDIBdc% (pDIB%):"GETDIBDC"<br>GetDIBlpBits% (pDIB%):"GETDIBLPBITS"<br>ImageToBank% (pBBImage%,FramePtr%,pBank%):"IMAGETOBANK"<br>ImageToDIB% (pBBImage%, FramePtr%):"IMAGETODIB"<br>LoadBank% (pBank%, Filename$):"LOADBANK"<br>MakeTimer% (IntPerSec$):"MAKETIMER"<br>Now$ ():"NOW"<br>ReadBankByte% (pBank%, Index%):"READBANKBYTE"<br>ReadBankInt% (pBank%, Index%):"READBANKINT"<br>ReadBankShort% (pBank%, Index%):"READBANKSHORT"<br>ReleaseDIB% (pDIB%):"RELEASEDIB"<br>ReleaseDLL% ():"RELEASEDLL"<br>ResetBit% (dwVal%, BitPos%):"RESETBIT"<br>SaveBank% (pBank%, Filename$):"SAVEBANK"<br>SetBit% (dwVal%, BitPos%):"SETBIT"<br>TestBit% (dwVal%, BitPos%):"TESTBIT"<br>TotalRAM% ():"TOTALRAM"<br>WriteBankByte% (pBank%, Index%, inVal%):"WRITEBANKBYTE"<br>WriteBankInt% (pBank%, Index%, inVal%):"WRITEBANKINT"<br>WriteBankShort% (pBank%, Index%, inVal%):"WRITEBANKSHORT"<br> <br><br> -------------------------<br>Apocalypse<br><br>Desktop: TRS-80 Model 3 with 48k and Cassette Recorder<br>Laptop:  TRS-80 Model 100 with Acoustic Coupler </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

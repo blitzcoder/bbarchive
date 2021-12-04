@@ -1,0 +1,76 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"><style type="text/css">div.bbcode {padding: 8px;background: #E5E5E5;color: #000000;border: 1px dashed #B4B4BE;}</style>        <script type="text/javascript" async="" src="10142&amp;log=1876_files/ga.js"></script><script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34362789-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        </script></head><body>
+			
+			<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Scaremonger</h1><h1>Development PC Build</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Removing all the junk</td><td align="right"><font class="tiny">(Posted 2013-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The default desktop installation comes with a pile of things that I 
+will never need on my PC and some things that I want to replace.<br><br>Using the ubuntu software center, Install the following:<br>* Chromium<br><br>Using the ubuntu software center, Remove the following (and anything else you don't think you will need)<br>* Games, Firefox (+Plugins), Thunderbird, Pidgin, XChat, Transmission, Gnumeric, Orage Calendar<br><br><br>* <br><br> ________________________________________<br>... </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Installing the Hypervisor</td><td align="right"><font class="tiny">(Posted 2013-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ First you want to know if you can use hardware virtualisation. First 
+check that it is enabled in your BIOS, then use the following two 
+commands:<br><pre class="code">si@Ember:~$ egrep -c '(vmx|svm)' /proc/cpuinfo
+2
+si@Ember:~$ kvm-ok 
+INFO: /dev/kvm exists
+KVM acceleration can be used
+</pre><br>In the above example, the first command will issue 0 if you processor does not support hardware virtualisation. (Mine does).<br>The second command says that KVM can be used.<br><br>If you can use Hardware virtualisation:<br><pre class="code">$ sudo apt-get install qemu-kvm 
+$ sudo apt-get install libvirt-bin
+$ sudo apt-get install ubuntu-vm-builder
+$ sudo apt-get install bridge-utils
+$ sudo apt-get install virt-manager
+</pre><br>If you cannot then you can still use QEMU, the easiest way is to install it from the package manager.<br><br>Now give yourself some permissions (*si being my username)<br><pre class="code">$ sudo adduser si libvirtd
+$ sudo adduser si kvm
+</pre><br><br>Now Logout/Login and test it with the following:<br><pre class="code">$ virsh -c qemu:///system list
+</pre><br><br>If you have any problems, you need to get these fixed now... <br><br> ________________________________________<br>... </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>WINE and DVDDecypter</td><td align="right"><font class="tiny">(Posted 2013-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ There are two Windows applications I want to run without emulation, 
+DVDDecrypter (For Ripping my DVD's for OpenElec XBMC installed on a 
+Raspberry Pi with exFAT NAS disk attached); and a game called Sins of a 
+Solar Empire.<br><br>Installing WINE is easy:<br><pre class="code">$ sudo apt-add-repository ppa:ubuntu-wine/ppa
+$ sudo apt-get update
+$ sudo apt-get wine1.4
+</pre><br><br>Now download <a href="http://www.dvddecrypter.org.uk/" target="_blank">DVDDecrypter</a> and when prompted, open setup in WINE.<br>When
+ prompted, turn off the desktop icon (Unless you want it) and the quick 
+lauch icon. Leave destination folder as default and do not update from 
+the internet. Finish the installation without running it.<br><br>Now configure it:<br><pre class="code">$ winecfg
+</pre><br>Under applications add DVDDecrypter from the path where it installed, set it as Windows NT4 and press "Apply".<br>.<br>Install
+ a DVD in your drive and in Wine Config, select the DRIVES tab; add 
+drive D: and point it to your recently mounted DVD (/media/si/ALIENS)...<br>.<br>Load DVDDecypter, Select Mode=IFO and it should detect your Movie. Select where you want it written and go...<br><br>I Will install the game later... <br><br> ________________________________________<br>... </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Wirless - Broadcom B4311</td><td align="right"><font class="tiny">(Posted 2013-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Except Wireless on my test laptop did not work. After a few hours 
+scouring the internet I found the solution which I sort of put together 
+from bit of what others had done...<br><br>My Test laptop used to have Ubuntu 10.x on it, so I know the wifi works; so...<br><br><pre class="code">$ lspci -vvnn | grep 14e4
+
+03:00.0 Network controller [0280]: Broadcom Corporation BCM4311 802.11b/g WLAN [14e4:4311] (rev 01)
+
+</pre><br>This told me what was installed and it'll do for my testing. I can see the Chip ID: BCM4311 and PCI-ID=14e4:4311.<br><br>I looked this up on <a href="http://wireless.kernel.org/en/users/Drivers/b43#Supported_devices" target="_blank">Supported_devices</a> and installed the drivers:<br><br><pre class="code">$ sudo apt-get update
+$ sudo apt-get install firmware-b43-installer
+$ sudo apt-get install b43-fw-cutter
+</pre><br><br>Still no joy. A bit more digging and I decided to add b43 to the file /etc/modules and after a reboot this finally worked..<br><pre class="code">$ sudo nano /etc/modules
+</pre> <br><br> ________________________________________<br>... </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Installation</td><td align="right"><font class="tiny">(Posted 2013-06-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Turned out I had all sorts of problems, The minimal Install image 
+didn't work and after three different distributions i found the 
+Universal Netboot Installer to be buggy so downloaded Xubuntu Desktop 
+13.04 and burnt it to a DVD. The first DVD image had a checksum error, 
+and the second was a bad disk, but third time lucky and it installed 
+perfectly.<br><br>After 80 patches were applied I looked at getting it the way I need it... <br><br> ________________________________________<br>... </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Root OS</td><td align="right"><font class="tiny">(Posted 2013-06-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have downloaded Ubuntu Mini 13.04 from the following:<br><a href="https://help.ubuntu.com/community/Installation/MinimalCD" target="_blank">https://help.ubuntu.com/community/Installation/MinimalCD</a> <br><br>and burnt it onto a 4GB USB disk using <a href="http://unetbootin.sourceforge.net/" target="_blank">Universal Netboot Installer</a><br><br>After updating my system BIOS to allow boot from USB, I finally completed the installation.<br><br>NOTE: This requires a wired connection, not Wifi.<br><br>The partition table looks like this:<br>#1 Primary  40GB ext4 /<br>#5 Logical   4GB swap swap<br>#6 UNPARTITIONED<br><br>After installation it reboots with a cursor in the top left of the screen! - Not very helpful!<br><br>So
+ I rebooted on the USB stick holding down SHIFT and selected "Ubuntu" 
+from the grub menu and got to a login prompt. I logged in using the 
+details I provided during installation...<br><br>Now I am simply at a login prompt:<br><pre class="code">Ubuntu 13.04 ubuntu tty1
+
+ubuntu login: Scaremonger
+Password:
+Welcome to Ubuntu 13.04 (GNU/Linux 3.8.0-25-generic x86_64)
+
+ *Documentation: <a href="https://help.ubuntu.com/" target="_blank">https://help.ubuntu.com/</a>
+Scaremonger@testpc:~$ _
+</pre> <br><br> ________________________________________<br>... </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Initial post in Help</td><td align="right"><font class="tiny">(Posted 2013-06-19)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <a href="http://blitzbasic.com/Community/posts.php?topic=100645" target="_blank">Initial post in Help Community Forum</a> <br><br> ________________________________________<br>... </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

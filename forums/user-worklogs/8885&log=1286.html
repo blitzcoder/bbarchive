@@ -1,0 +1,80 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for deps</h1><h1>Worklog 1</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Yay</td><td align="right"><font class="tiny">(Posted 2006-01-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Highscores are working just fine.<br>I use the free online highscore service by Paul Leduc over at <a href="http://scores.paulleduc.com/index.php." target="_blank">http://scores.paulleduc.com/index.php.</a> The game can now publish and fetch highscores.<br><br>Some bugs have also been tracked down and killed. (except for that strange collision detection bug)<br>Some game balancing have been done too.<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Big cannon game</td><td align="right"><font class="tiny">(Posted 2006-01-05)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ MilliSecs() no longer used to time stuff. Everything is done with 
+deltatime. This means that the pause function now functions as it 
+should. (At least I haven't seen any more bugs)<br><br>One of the 
+weapons stoped to hit anything. And that is strange since all weapons 
+use the same collision detection functions. Have to try to track that 
+bug down. <br><br>Menues are slowly added to the game.<br><br>Music is 
+now added. For the moment the game loads all the OGG files found and 
+plays a random one. (when it is over it randomly selects another)<br><br>Highscore tables are probably the next thing I add.<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A new year and new projects</td><td align="right"><font class="tiny">(Posted 2006-01-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Ok. Haven't touched the code in the tetris attack clone for weeks. Maybe months. :P<br>The same for the other projects. (Except for the simple 3D engine. It's dead.)<br><br>The
+ current project is a game where you control a big cannon and have to 
+blast soldiers that jumps off planes. Or else they will run inside your 
+bunker and start pulling your power cables. (You are some sort of 
+HAL/SkyNet computer)<br>It had a rapid start and a lot of the things I 
+wanted got implemented really fast. It has been on hold for the past 
+weeks becuase of hollidays, work, sickness and other stuff but got some 
+time over today for it.<br>Things yet to be done is the menus. And a big
+ rewrite on some of the internals. I added a Pause function today and 
+it's not a smart move to use millisecs() to time things. Going to change
+ this so it uses the delta time instead. <br>( instead of doing "if 
+millisecs() &gt; something_timer then" I just do "something_timer :+ dt ;
+ if something_timer &gt; something_timer_limit then" )<br>Much easier to make things behave nicely when pausing/unpausing the game.<br><br>After
+ this project is completed (At least it looks like it got a fair chance)
+ I will probably start to make a platformer. One where the player runs 
+around and collect treasures and kill badies.<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Is it done yet?</td><td align="right"><font class="tiny">(Posted 2005-11-20)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Got multiple projects going. A 3D shooter, a simple network module, a 
+really simple 3D engine (that is used in the 3D shooter), and that 
+tetris attack inspired game I wrote about some worklog entries ago.<br><br>For
+ the moment I'm redoing the graphics on the last one. Not with clay, but
+ with Blender. And trying to make it look like clay/plastic/whatever. 
+Looks cool so far.<br><br>I'm coding the networking module just to learn
+ some more about sockets and whatnot. But I havent touched the code in a
+ couple of days now. Bnetex and Tnet is way better anyway.<br><br>The 3D
+ engine was progressing nicely at the beginning, but when I started to 
+write that 3D shooter I choped it to pieces and just took the best 
+parts. I don't know if I ever continue on that one. Lots of other 3D 
+engines out there.<br><br>What now? Finish off the graphics and then off to bed.<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>What is new?</td><td align="right"><font class="tiny">(Posted 2005-11-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Not much.<br>Got
+ a new screen. It's a 17" TFT. The colors are so bright! And sharp! 
+(compared to my old screen)  And the colors doesn't flash in purple! (My
+ old screen, a CRT, had some strange problems from time to time)<br>I 
+also got myself a router. And i reused the old CRT screen with a even 
+older computer. A Pentium 3 600mhz. But with 2 cpu's. I installed XP on 
+that thing so I have a small network now, and I can also compile my 
+blitzmax stuff for windows now. :)<br><br>Been studying extreme programming too. Interesting topic.<br><br>Back to coding. But I really should do the dishes now...<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Dev time</td><td align="right"><font class="tiny">(Posted 2005-10-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> The worst is over. About 95% of my stuff is unpacked and it starts to look like an appartment. More time for coding! Yay!<br><br>But not much more done on my little game. Got a bit side tracked by other things. Like my Forth-lookalike interpreter.<br>It
+ doesn't compile any code, it just runs it. Not that quick either. But 
+it works. I can use it as a calculator and also add new words to it from
+ within. I can also create words by hooking them up to blitzmax 
+functions using function pointers. And as of today it correctly imports 
+external files with forth code and parses them. <br><br>But it's one big
+ ugly piece of work! And I don't know how many times my computer froze 
+because of a endless loop, but it looks like I found all those nasty 
+bugs. <br><br>I will look for the famous "dragon book" the next time my 
+paycheck arrives. And a new monitor. A flat screen. This old, big, piece
+ of junk is driving me cracy with the "Yay-All-Colors-Are-Purple!" thing
+ it does from time to time.<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Busy days</td><td align="right"><font class="tiny">(Posted 2005-10-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ All my stuff has now been moved to the new appartment. Boxes and 
+furniture everywhere. Not much time left for programming but here is a 
+small update.<br><br>Music added, Options menu added, some tweaking, bugs found and, hopefully, killed.<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Yuck</td><td align="right"><font class="tiny">(Posted 2005-09-27)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I reached a point where the code that did everything "tick" was too big, ugly, and full of bugs and hacks.<br>So I rewrote it. <br>The
+ new design was much more clear and easy to extend. And some more bugs 
+was introduced. Some of them didn't make any sense. Some of them was 
+really evil.<br>But I'm almost back on track now. Almost everything the first version had is implemented.<br><br>Things left to (re)do:<br>* New graphics. everywhere.<br>* Music<br>* more/new sound effects<br>* Splash screen<br>* Intro<br>* "you beat the game!" cutscene<br>* Options menu<br>* Some new ideas I had that I think sounds cool<br>* Game play tweaking<br>* Come up with some kind of plot that really isn't necessary but would make thig game feel more complete.<br>* Bug hunting<br><br>And
+ my free time is really limited for the next week or so because I'm 
+moving to a new appartment. I must be out of this one on saturday and I 
+haven't even started to pack yet. :P<br><br>But now it's time to sleep.<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Update</td><td align="right"><font class="tiny">(Posted 2005-09-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Combos added to my game. The player gets twice as much score if a chain
+ was formed and removed right after another. And even more score if a 
+third chain was formed and removed after that. And so on. <br>Highscore system is working as well.<br>And some minor tweaks and edits here and there.<br><br>Stuff to do:<br>1) Replace the ugly graphics with some new ones made in clay.<br>2) Create some sort of intro.<br>3) Redo the menu, highscore list and splash screen. They are just black screens with some white text on. Yuck.<br><br>After that and some bug hunting, the game will be released for free. Including the source. Isn't that nice? :)<br><br>Screenshots will be added after the new graphics is done.<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>New camera!</td><td align="right"><font class="tiny">(Posted 2005-09-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ My girlfriend got a brand new digital camera. I'm going to use that to 
+create some graphics for my current project. I'm going to model things 
+in clay and take images of them. It's been done before, I know, but it's
+ fun! :)<br><br>My current project is inspired by Tetris Attack. It's 
+almost done too. Things left to do is the new graphics, an intro, some 
+game play tweaks and try to find all the bugs and jump on them until 
+they dissapears or deserves a "feature" label.<br><br>Not sure what I 
+should work on afterwards. Maybe a simple strategy game. You are a king,
+ Collect taxes, Create a small army so that other kings doesn't invade 
+you, Keep the population calm, etc. But I suck at game design. :P<br> <br><br> ----<br>The RetroRemakes Framework is the best thing since slized toast!<br><a href="http://code.google.com/p/retroremakes-framework" target="_blank">http://code.google.com/p/retroremakes-framework</a><br>My site: <a href="http://sites.google.com/site/depsweb/" target="_blank">http://sites.google.com/site/depsweb/</a> </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

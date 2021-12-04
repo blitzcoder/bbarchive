@@ -1,0 +1,383 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Sauer</h1><h1>Crystal Conquest</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Project On Hold (Cancelled)</td><td align="right"><font class="tiny">(Posted 2010-10-06)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I am sad to announce that this project is cancelled.  <br><br>The reason I am forced to do this is because of bugs in BlitzPlus regarding the graphics drivers.<br><br>Initially,
+ the game was running slowly so I decided to implement the OpenGL 
+driver.  Even though the performance was more than enough, there is an 
+annoying problem where the program crashes after I exit it.<br><br>I was then directed to a DX9 lib, but this did not function properly.<br><br>My
+ next route was to devise a way to get the DirectDraw driver to run fast
+ enough.  My solution was fullscreen mode with scaling for widescreen 
+monitors (see last post).  This worked fine until I wrote a function 
+that needed transparency using MaskImage, which did not work correctly 
+in the DirectDraw driver.  It works fine in the integrated driver and 
+OGL, but, as we established, that doesn't work.  Now, I could change my 
+button drawing routine to work with solid squares instead of nicely 
+bordered, resizable boxes, but I don't feel like I should have to settle
+ for less to fit B+'s limitations, especially when a routine like this 
+works in the other two available drivers.<br><br>I then took some advice and tried to make the game run in a B+ canvas.  Still crashes on close, and has horrible performance.<br><br>I
+ am so fed up with this.   I have spent a lot of time and energy on this
+ game and was making some great progress.  At least I can say canceling 
+it was not on my accord.<br><br>I will spend a little bit looking for 
+graphics bottlenecks in hopes I can make it run on the integrated card. 
+ If I don't find anything, and BRL doesn't step in to fix these bugs, 
+I'll will be saying goodbye to Crystal Conquest, as well as BlitzBasic 
+as a whole. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Widescreen Support</td><td align="right"><font class="tiny">(Posted 2010-10-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yesterday I added widescreen support.  Basically the user can decide 
+how much they want the screen stretched.  If there is no stretching, it 
+puts black bars around the edges.  I did it simply messing around with 
+Origin and Viewport.<br><br>Its not the greatest but it'll do.  If I 
+find an easy to implement way to add better support, I'll do so, but for
+ now I'm pleased with the result.<br><br>The one downside is that it 
+messed up my button rendering function.  I half fixed it but there's a 
+nasty bug with what looks to be transparency issues.  Still sorting that
+ one out. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Still here</td><td align="right"><font class="tiny">(Posted 2010-05-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've switched onto my other project lately, so not much progress here. 
+ This is healthy though, and seeing as I've only invested my time in two
+ projects for the past year and a half means I must be doing something 
+right.<br><br>But today I was thinking about Crystal Conquest a little, 
+and came to the realization that it is nearly done.  When I decide to 
+come back to it, it should be in its final stages.<br><br>Something concerns me though: I'm not entirely sure this game is fun to play.<br><br>Sounds
+ a bit silly, being this far into it and wondering this, but I guess I 
+never even really thought about it.  I had a vision of what I wanted the
+ game to be, made it, and here we are.  Personally, I think its a bit 
+suspenseful and certainly challenging, but its definitely difficult to 
+judge your own creations.<br><br>I guess we'll find out.  If its not 
+fun, its not fun; there was no investment lost or dream shattered.  But 
+it will be finished, it will be polished, and it will be a professional 
+production.  After all, that is what I set out to do. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Shop is done</td><td align="right"><font class="tiny">(Posted 2010-04-24)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I finished the shop where you can buy items to help you solve the 
+puzzles.  There are currently 6 items, as I decided that having an item 
+to convert to every color tile would be redundant and offer little to 
+the solving of the puzzle.<br><br>I added the credits aspect to the 
+game, and now I just have to do the end of level resolution screen next 
+to calculate how many credits the player gets from solving the puzzle.  <br><br>I
+ did run into a problem with one of the items, the Neutralizer, which 
+converts the block value to 0.  The problem is, because I'm using 
+arrays, 0 is registered as no-pick.  The solutions are simple; I can 
+think of another item or go into the architecture of the picks and 
+switch the "no pick" number to -10 or something.  I haven't quite 
+decided yet, but what I do know is that it would be really nice to have 
+dynamic arrays like in python, of a C++ vector.  I could have used a 
+linked list I guess...<br><br>Oh well, I'm going outside now. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Stages and Mapscreen</td><td align="right"><font class="tiny">(Posted 2010-03-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I took some time to edit the map screen so you can choose your 
+stage.  I also added level descriptions that are comprised of a brief 
+paragraph about the planet and the time/goal numbers.  <br><br>I still 
+have to go through and pick specific values for the time and goals, but 
+I'll do that tomorrow.  I also want to combine some elements of levels 
+with others, like having null blocks on stage 3 of the fog level or have
+ the colorless level have a closing in effect.<br><br>That's all game design stuff, which I'll do next time. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>You have to feel like an idiot sometimes</td><td align="right"><font class="tiny">(Posted 2010-03-17)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today was one of those times.  I had been looking at optimization 
+techniques, frustrated with my fog level slowing to a crawl because of 
+the tile rendering.  I had narrowed it down this far, but couldn't find a
+ viable solution.<br><br>Obviously I had my memory intensive method, but
+ I wanted to render the tiles like I was.  So I started looking into the
+ render code, which fortunately is only in 2-3 places (once for the main
+ and the other two in "special case" functions)<br><br>What I saw 
+horrified me.  My code was littered with "*32" arithmetic commands!  
+What the heck was I thinking? In my other game, I bit shifted like a 
+madman to avoid optimization problems, but in this project (most of 
+which was written around the same time) I did nothing of the sort.  Why 
+this is I cannot say, but I went through and fixed all the 
+multiplication in the rendering as well as throughout the code where I 
+deemed it unnecessary or could go with a power of 2 and bit shift.<br><br>Still
+ a problem with a rendering.  Puzzling at first, but then I looked a bit
+ closer;  I know Blitz is supposed to have a fast 2D graphics, and 9 
+tiles on a screen (even including lookup) should not cause a problem.  
+Then I looked at my previous statement: no, 9 SPRITES draw quickly.<br><br>Is
+ my tile rendering spritebased?  Yeah.  Sort of.  Half way.  The colored
+ tiles are sprites, but the numbers are written on the fly using the 
+text command.<br><br>Facepalm.<br><br>So I quickly generated a list of 
+prerendered tiles, threw them in, and imagine that.  Hums at a cheery 60
+ FPS, particle system and all, no problem.<br><br>I can't believe I 
+didn't spot it before, but I'm proud of myself for figuring it out using
+ a systematic approach.  After a day of "what was I thinking when I did 
+this" and many facepalms, the level looks beautiful and runs great. <br><br>Can't feel too bad about that. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Problems solved... somewhat</td><td align="right"><font class="tiny">(Posted 2010-03-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Thought I would go ahead and make a new entry; doesn't hurt anything.<br><br>I
+ fixed the bottleneck.  Not entirely sure why THAT was causing the 
+slowdown, especially since it always happened after a minute or two of 
+runtime, but it doesn't matter.<br><br>What I did was change the item 
+selection from clicking on buttons to simply pressing down the mouse 
+wheel.  I figure its easier on the users, to make faster picks and using
+ items quicker.  Also, its less ugly clutter at the bottom of the 
+screen, and less stuff a artist would have to do.<br><br>I also went 
+through and looked for for loops that could be broken out of, and found a
+ few.  If I just keep it in my head to be vigilant for optimizations by 
+the time I'm complete I should have a lot of them worked out.  In all 
+reality, the code is not massive by any standard (just over 1000 lines) 
+so it shouldn't be too difficult.<br><br>There's still a slowdown on the
+ fog level, and I think this is because of how I have to access the 
+array, analyze the contents, and draw the contents nine times per frame 
+(one for every tile).  There has to be a better way.<br><br>One idea I 
+had was to make a 320x320 sprite that lays on top of the grid, and the 
+different frames are the different "windows" that you can see through 
+depending on where the mouse is on the grid.  This would probably be 
+pretty fast, but take a ton of memory.  I like to try to rationalize and
+ say that the game currently takes little memory and computers are so 
+powerful, but I still can't bring myself to cope with a 100 frame, 
+320x320 sprite.  Its insanity.<br><br>So I must be creative.  These are 
+the kinds of things I like to think about before I go to bed though.  I 
+do my best thinking in the shower, so maybe tomorrow morning I'll come 
+up with something brilliant.<br><br>The good news is that the last level
+ I have to do (the closing in level) will be really easy and not 
+computationally expensive, and after that I can move on.   I'm getting 
+more and more inspired to finish the game as I get closer and closer.<br><br>I'm
+ a little curious as to what the reception will be.  I must be sure to 
+go above and beyond so I don't get railed when I decide to release the 
+alpha.<br><br>EDIT:<br>Thought I would go ahead and post an updated in 
+game shot, without the ugly buttons or tiles.  This is of planet 2, 
+Arok, and those bluish purple things are the null blocks.<br><img src="9910&amp;log=1656_files/l_9d903150c7134bf19818063487970a28.png"> <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Some progress</td><td align="right"><font class="tiny">(Posted 2010-03-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I was working on the fog level, but am currently running into a huge 
+FPS loss.  Trying to think of creative ways to overcome this.  The 
+closing in level will be easy so I'm going to take a lot of time to get 
+this level working properly without cutting corners.<br><br>EDIT:<br><br>Alright
+ well I found out that the FPS decrease has nothing to do with the fog 
+level code; its actually some bottleneck in the code.  After letting the
+ game run for a minute or two it slows to about 29 FPS, which is about 
+half of what it is supposed to run at.<br><br>First I checked to see if 
+it was in the picking mechanism and redrawing the screen (which is very 
+computationally expensive in relation to the rest of the game).  I got 
+two major optimizations in, one that breaks a for loop when deemed 
+unnecessary and the other a function that only redraws the tiles that 
+changed, not the entire grid.<br><br>Still slows to a crawl.<br><br>Now I'm going through and commenting out just about every function to isolate the problem.  More to come.<br><br>EDIT 2:<br>After
+ commenting out  a good portion of my code, I found the problem to be in
+ the item selection.  I don't know why it has the effect of slowing it 
+down after running for a few minutes, but now it doesn't slow down 
+anymore.<br><br>Now I have to implement a new item selection function.  I
+ don't mind too much because I never liked how the old one looked, and 
+this gives me an excuse to fix it.  <br><br>I expect small slow downs 
+throughout the game, but as long as it stays over 45 FPS it will be 
+fine.  The code is probably getting to a point where it could use some 
+tidying, and I'll get to that ASAP. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Particle systems, level stuff</td><td align="right"><font class="tiny">(Posted 2010-02-11)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I redid my little particle system that is used every time a 
+combination of 11 is found.  I had the traditional "throwing particles 
+around" style emitter but to make it look good, it was bogging down my 
+frame rate.  Also, I'm no expert on particles anyway so it didn't look 
+that great.<br><br>I replaced it with a simple sprite system that shows 
+an explosion.  This is simple yet effective, and any artist would be 
+able to go in and make a better suited sprite.<br><br>I also added the 
+"dummy" blocks for level 2, and the 'dead' world of level 5.  This 
+leaves shape shifting, fog, and closing in levels.  For the closing in 
+levels I'll probably convert them into dummy blocks like in level 2.<br><br>Today
+ I took the time to get some images uploaded.  I went through and found 
+all the images I got from google and found all of their sources.  Keep 
+in mind that these are probably all copyrighted, so I cannot use them 
+for the final game without the author's permission.  I more or less just
+ wanted everyone to see what effect I have in mind.<br><br>Title screen:<br><img src="9910&amp;log=1656_files/l_2112271096ee45d48ef3d07f4ba53b30.png"><br><br>And
+ a map screen, showing the shop (the space station).  This screen will 
+have level details over the planet, save button, and back to main menu 
+button somwhere too.<br><img src="9910&amp;log=1656_files/l_056e2f159b534d29b1313cc5e0aaec3c.png"><br><br>Thanks for reading. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Screens Screens Screens</td><td align="right"><font class="tiny">(Posted 2010-01-31)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I went ahead and made credits, instructions and story pages for the 
+main menu.  Then, I took the map screen and added smooth transitioning 
+from level to level.  I also added a little space station that will 
+serve as the shop.<br><br>Next up is to change the data structures to 
+match the 6 planet, three stage per planet style.  Logically, after that
+ would be the displaying this information on the map screen, and then 
+reflecting it to the main loop.<br><br>Also, as far as game design goes,
+ I'm considering making a "challenge" mode which is just a jumble of 
+strange puzzle combinations.  I think this would be good, as the 
+scenario portion of the game will be quite small.<br><br>Again, I'm 
+still sticking to the ultimate goal of having an artist come in and 
+replace nearly all of the images and make a high quality finished 
+product with lots of polish. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Did some work tonight</td><td align="right"><font class="tiny">(Posted 2010-01-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Tonight I went through the game and cleaned up the code a bit.  I was 
+seeing some inconsistency when it came to the way variables were being 
+treated.  I found my code to be well commented.<br><br>I redid the 
+graphics, again, and this time, its it.  No more graphics for me.  I 
+stated at the beginning of this project that I wanted them to be done by
+ an outside source, so I'm going to treat them as placeholders and just 
+get on with the project.<br><br>Tonight I wrote a little button function
+ which will be the main source of the program's UI.  I also made a main 
+menu with some comments depicting a 'road map' of the pages I need.<br><br>I'm
+ going to continue cleaning up the code and getting rid of some 
+redundancies.  Also, I need to change the level data structure, as I 
+want to implement three stages per planet, for a total of 18 stages.  
+The difference in the stages will be the goal number, goal score, and 
+goal time to create different levels of difficulty.<br><br>Each planet will have to have a certain special feature to the puzzle.  Here are them listed briefly:<br><br>1. No special feature, just the first level so nothing fancy (earth like planet)<br>2. A 'block' that has no value and cannot be elimated (ice planet)<br>3. A shape shifting level where some values change every now and then (red, rocky, mars like planet)<br>4. "Fog" feature where you have a limited sight around the mouse (jupiter like planet)<br>5.  No color bonuses (dead, gray planet)<br>6.  Level that slowly closes in on itself (lava planet)<br><br>There.  This post has turned into a bit of a design document.  Lets keep going shall we?<br><br>Save/Load
+ will just save progress in the game, what levels have been beaten, what
+ items you have, time logged, etc.  I may even do a high score thing for
+ fastest solutions<br><br>Story will just be a couple of static picture story boards, which I'll find some placeholders for.  Nothing big there.<br><br>The
+ shop will have numerous items.  You buy them with gold you get from 
+beating older levels at fast times; the harder the level the more gold. 
+ They are:<br>  -Block Bomb: creates a block of ones of 1 color<br>  -Randomizer: makes a new grid<br>  -Machine Coolant : gives you an extra 5 seconds<br>  -Jackhammer: breaks the ice blocks in level 2<br>  -Flare: breaks the fog in level 4<br>  -ColorConvert(Red): converts a block to red, one for each color<br>  -Zero Block: converts the block value to 0<br>  -others as I think, but thats a good base.<br><br>Blarg I'm tired, can't wait to work on this a little more tomorrow. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Video</td><td align="right"><font class="tiny">(Posted 2009-07-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Created a video and a youtube account;  here's a basic demo.  Shows a 
+rudimentary title screen, level select screen, and some of the items.<br><br>Comments are welcome on youtube or via email:<br><a href="http://www.youtube.com/watch?v=c5_8GaVh30g" target="_blank">http://www.youtube.com/watch?v=c5_8GaVh30g</a> <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Did the graphics</td><td align="right"><font class="tiny">(Posted 2009-07-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Yep, had a strange urge to do them today, and redid both the tiles and the backgrounds.<br><br>I'm
+ not entirely done with graphics... I still need to do effects for 
+menu's, transitions, and the 'specials' on each level.  For now though, 
+I'm happy with what I have and can move forth designing the levels and 
+putting the game together.<br><br>Here's a screenshot; if you feel compelled to give feedback, it would be greatly appreciated.  My email is in my signature.<br><br><img src="9910&amp;log=1656_files/l_4538355a3ec44850bba726841eebfcc0.png"> <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Little Progress</td><td align="right"><font class="tiny">(Posted 2009-06-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I'm making little progress with this game.  Still have to do the graphics.<br><br>I'm
+ making no progress anywhere when it comes to programming, as my job and
+ other interests are getting in the way of quality programming time.<br><br>Next
+ chance I get to sit down, I want to knock up a nice screenshot of what 
+I'm doing... I may even use some nice marble textures for the tiles as 
+well. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Graphics Shift</td><td align="right"><font class="tiny">(Posted 2009-05-23)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've decided to dump the majority of the graphics I got from the 
+graphics guy.  Although they looked nice, there was an inconsistency 
+with planets and backgrounds.<br><br>After re-looking at a post in the 
+forums, I downloaded the Genetixa 3 Viewer (or something like that) from
+ spiralgraphics.biz and found they have some nice textures (as well as 
+some really bad ones) and also nice planet images.  With the viewer, I 
+can resize and change the color of them, as well as edit some of the 
+procedural aspects.  <br><br>What does this mean?  Well I'm set back a 
+bit because I have to redo graphics.  I've also forgotten all the 
+special things for each level except for 1 from the previous post.  <br><br>Even
+ though its a slight setback, I still am not bored with this project 
+(something that rarely happens with me) and it is going along nicely 
+with my other project.  <br><br>I've switched my focus mostly to the 
+other project, but what I am doing is rotating projects to keep my ideas
+ fresh and prevent burnout.<br><br>That is all! <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Some Game Design Notes</td><td align="right"><font class="tiny">(Posted 2009-03-25)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been talking to my graphics guy about game design and we came up 
+with a couple of items to make the game more interesting but not 
+overbearing.<br><br>First there are six levels, each with three sub 
+levels.  The difference in the sub levels is the number to get increases
+ per level, and the time or goal may be adjusted.  This makes a 
+difficulty gradient in the three sub levels along with the six planets.<br><br>Second,
+ each planet has a special challenge based on the nature of that planet.
+  They are to add challenge and variation to the game without 
+overloading it. with gaudy features.<br><br>Small changes are some items need revision, and upon every match a little time is added to the clock.<br><br>As
+ far as coding goes I've implemented the map screen with little 
+difficulty and changed some graphics.  Next up is implementing the three
+ zones in each planet.  Then its back to the list set up before. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Status Update</td><td align="right"><font class="tiny">(Posted 2009-03-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I went ahead and added those images my buddy made me, and they look 
+great.  I believe he got a lot of them from some other online space 
+game, but I'm not too picky and I'll definitely give credit, and if 
+somehow it takes off I'll get proper permission. Least of my worries 
+right now though.<br><br>I've been so busy with school lately I haven't 
+done much on this game.  I've been working on DOF2 a little but not as 
+much as I would like to.  Next week is spring break though, so I'll have
+ plenty of time to get some work done.<br><br>I think the next step is 
+to get some alpha testing done and get some feedback on gameplay 
+enhancements.  I don't want to add too many features (as the game is 
+pretty fun as it is) but I would like a couple more things to spice it 
+up.  Then after I get some ideas I'll go into level design.<br><br><br>Thats
+ a status update, my time is limited and split between two games, but 
+I'm no where near burnt out or finished with Crystal Conquest. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>I got Help</td><td align="right"><font class="tiny">(Posted 2009-02-12)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> I have a buddy that has photoshop and claims to know how to use it well, so I assigned him the task of making the map screen.<br><br>I
+ had already made a map screen, but then when tweaking it ruined it.  
+Instead of doing it again, I found someone who could probably do a 
+better job and had better software.<br><br>If he does alright on this job I may ask him to do other backgrounds or screens. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>And another contradiction...</td><td align="right"><font class="tiny">(Posted 2009-02-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ So now I changed my mind about changing the theme.  I really hate the 
+map screen and the theme I changed it too.  I can't really describe what
+ makes it different but I absolutely can't stand it.<br><br>Also, when 
+looking at my project goals from the first post, the goal is to make 
+something of the highest quality of the casual games industry, with no 
+specification on the sales of the game.  I think that changing to 
+another theme was in attempt to ensure better sales, but that's not what
+ this project is all about is it?<br><br>Furthermore, as life gets more 
+expensive the idea of hiring an artist becomes less and less a 
+possibility.  Well, let me rephrase that... the idea of hiring a <i>really good</i>
+ artist.  There are always people that will work for cheap or royalties,
+ but just don't produce the best work.  I'll probably have to take that 
+route, so I can have at least an improvement on graphics, but not 
+necessarily sell worthy graphics.  Again, because sales are not a 
+priority, mostly just proof that a quality product is obtainable.<br><br>I'm
+ having fun finding pictures of planets, stars, nebulas, and comets and 
+implementing them into my game... and I'm always saying how fun is the 
+important part.<br><br>So space theme it stays! <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Change of Theme</td><td align="right"><font class="tiny">(Posted 2009-01-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ After reading some articles online, as well as some input from the 
+members of this forum, I've decided to change the theme of Crystal 
+Conquest from space to 'explorer' or 'adventure' theme.  It seems that 
+the space theme does not sit well with the portals.<br><br>I just 
+started working on the map screen, which is the only thing that is 
+really affected.  Since the game was going to take place on each planet,
+ I can just say its on different parts of the world.  It fits in to.<br><br>I plan on changing the story to something like this:<br><br>The
+ world's power reactors are on the fritz!  Powered by the power 
+crystals, the reactors need to be unjammed so energy can be restored to 
+the planet.  Travel the world to unjam each of the (x) elemental 
+crystals and save humanity!<br><br>Why something like this would sit better with the casual crowd is beyond me, but that's what I'm hearing.<br><br>I'm
+ currently working on this game and another application, so I get a good
+ mix and don't get burnt out.  When I get frustrated with a particular 
+aspect not working, I just switch gears and feel better.<br><br>I'm off to go work on my new map screen, which will look like some sort of global map.  Maybe I'll use Earth? <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Well nevermind then!</td><td align="right"><font class="tiny">(Posted 2009-01-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Just after posting that I wouldn't have enough time to work on this 
+project, I had one of my more productive days of late.  I basically 
+finished items, the only thing left to do is create more of them.  The 
+mechanics for how items are selected and used has been completed.<br><br>I
+ noticed after playing the game a few times that you are allowed to 
+select diagonally.  At first I thought I should hurry up and fix it but 
+after a couple plays it really opens up more opportunities for matches 
+and forces the user to plan moves by observing all of the possibilities.
+  I like it!<br><br>Another 'mistake' that worked is that I realized you
+ are able to hold down the mouse button and drag across to pick numbers.
+  This makes play more fast paced and makes larger selections easier.<br><br>Everything
+ is going swimmingly except I noticed my game runs pretty slow... a 
+whopping 25 FPS.  I'm not sure if this is acceptable (the game plays 
+fine for the most part) but I definitely need to do some streamlining to
+ get that up a bit.  I ditched my junky particle system and that helped a
+ bit but something else is slowing it down...<br><br>So far the code clocks in at 635 lines, and has been in production for 22 days.  I'm pretty happy so far with my productivity.<br><br>So next item (along with streamlining) is creating the map screen. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>And back a few steps...</td><td align="right"><font class="tiny">(Posted 2009-01-14)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> Been really busy with school, so work on this project has been designated to weekends.<br><br>Obviously less productivity is expected. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Step by Step</td><td align="right"><font class="tiny">(Posted 2009-01-09)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Yes step by step is definitely the way I am taking this project, 
+inching along piece by piece and trying to make everything as flexible 
+as possible for the artist and myself.  As I have never worked with an 
+artist before I don't know what to expect, but am trying my best to make
+ it as easy as possible for him/her.<br><br>Well I finished designing 
+the HUD (or at least a basic version of it) as well as began working on 
+the item mechanism.  I got four basic items and their functions all 
+worked out, but have done little more than tested how they will display 
+on the screen.  <br><br>In the following days I will continue working on
+ the items.  I have pretty much laid out a general outline of what needs
+ to be done.  This is strictly gameplay wise, having nothing to do with 
+final processing (resolutions, compatibility, testing etc.)<br><br>1. Items<br>2. Map Screen<br>    2.5 Mini Games, Shop, Story Development<br>3. Title Screen<br>4. Effects and loose ends<br><br>Granted
+ this is pretty general but I believe that having a plan, no matter how 
+broad, will be useful.  Also, to specifically write down everything that
+ needs to be done would be difficult and wasteful, as casual game 
+production is extremely fine tuned and sometimes ideas spawn from simple
+ testing.<br><br>Well enough of my blabbering, here's a screenshot.  
+Keep in mind that my art is awful and will all be replaced.  This can 
+however, give a general idea of what the game will look like.  Comments 
+and feedback are appreciated (as if anyone was reading this thing 
+anyway) and my e-mail is in my profile.<br><br>EDIT: IMAGE REMOVED. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Dilemma</td><td align="right"><font class="tiny">(Posted 2009-01-07)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Today I started designing my HUD for my game, and my idea was a 
+"machine" that wraps the bottom and right side of the grid.  The bottom 
+would be for displaying picked items, and the right side would have two 
+bars, one displaying time limit and the other displaying current score. 
+ <br><br>Because the game revolves around 'powering crystals' the bars should lead to a crystal, and when full, the level is complete.  <br><br>The
+ problem is that I don't know how to create proper place holders and 
+implement the bars, which should be flexible because the artist will 
+draw both the machine and the bars.  I guess in that sense it doesn't 
+really matter what I draw... I'm just going to have to re-program it 
+anyway.<br><br>I also need to begin designing the map screen as well as an improved title screen and menu. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Fonts and Title</td><td align="right"><font class="tiny">(Posted 2009-01-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I didn't have a lot of time to work on the game today, but I did find 
+some time after work to find a nice freeware font on the internet and 
+find a title screen background.<br><br>The font is sci-fi but easy to 
+read.  I may use it in the final product if everything blends well, but 
+everything graphically is still officially temporary.  The background 
+for the title screen is actually the command deck of Starship Enterprise
+ from StarTrek, so that is definitely temporary, but I do want the 
+command deck of a ship as the title screen, and so far I like the 
+atmosphere it gives.<br><br>As far as gameplay goes I noticed that as 
+the game progresses it gets extremely difficult to make matches, and the
+ reason was that the grid never reset per level, meaning the grid was 
+parched of potential matches.  I added a function to reset the grid 
+values so this was taken care of. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Molding the Prototype</td><td align="right"><font class="tiny">(Posted 2009-01-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I had written a prototype of the game using simple text based GUI and 
+display to see if the design was up to speed.  After taking some advice 
+from the forums, I believe the game now has a sufficient design plan to 
+begin creating a version with placeholder graphics.  <br><br>Today I 
+spent some time commenting and reorganizing my code.  I feel that I work
+ more efficiently when I mark off sections of my code and label all 
+functions, so I took the time to do that.  I also when online to find 
+some landscape images of each of the eight planets, for backgrounds.  <br><br>My
+ goal is to find/create placeholder graphics that are as similar as 
+possible to what I want the final product to look like, that way it'll 
+be easier on the artist when hired.<br><br>So far it appears that the main mechanics of the game are running smoothly, which is a good sign. <br><br> -Sauer </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The Beginning</td><td align="right"><font class="tiny">(Posted 2009-01-01)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Description:  A casual game where you match adjacent tiles to add to 
+eleven.  If the tiles are of the same color, then a bonus is added to 
+the score.  Each level has a score goal to reach in a set amount of 
+time; both vary from level to level.  The game also includes items to 
+use during play which can alter the time limit, goal, and numbers on the
+ board.  Items can be 'purchased' with credits earned during play, or 
+won by completing certain achievements.<br><br>Goals for Project:  
+Create a product worthy of portals or self publication.  Product should 
+meet all of the highest quality standards of the casual game industry.  
+Whether the game sells well is not a priority, but simply the practice 
+and pride of creating a noteworthy game.<br><br>Notes:  Game should be 
+fairly short, yet provide significant challenge toward the end of the 
+game.  Graphics should be crisp and professional, done by an outside 
+source.  Story is interesting, but not incredibly deep.<br><br>Story:  
+Many light-years away lies a solar system of eight planets that orbit a 
+single sun.  As the sun grew older, it became apparent that its rate of 
+growth must be controlled to avoid supernova.  To do this, StarFleet 
+Command harvested the energy of the power crystals found on every planet
+ with specially made reactors.  With all eight reactors working at full 
+capacity, the sun could be controlled and it's longevity increased.<br><br>But
+ trouble strikes when the reactors are jammed by a mysterious figure, 
+holding the planets hostage to their own sun.  It is up to you, a 
+StarFleet cadet, to visit each of the eight planets to restore the 
+crystal reactors and save the solar system. <br><br> -Sauer </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

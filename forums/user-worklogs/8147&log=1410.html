@@ -1,0 +1,668 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for oofoe</h1><h1>bb-mode for emacs</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Aha! (Autocomplete works...)</td><td align="right"><font class="tiny">(Posted 2009-12-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ OK. Now we are cooking with the gas. Through no great effort of my own 
+(although it seemed painful at the time (see below)), I now have 
+autocomplete working properly with all the defined Blitz 3D constants, 
+keywords and functions -- without having to define them all twice.<br><br>Yes,
+ OK, Visual Studio has, like, *had* this forever, and probably every 
+other Blitz editor, but it's nice to get it working here. For me, it's 
+almost magical to see the alternatives pop up when I start typing a 
+word. Extra big thanks to Tomohiro Matsuyama for his autocomplete.el 
+implementation.<br><br>Here's the latest mode. You'll also need to get autocomplete from <a href="http://github.com/m2ym/auto-complete" target="_blank">http://github.com/m2ym/auto-complete</a> if you want that to work.<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;;
+ bb-mode.el
+;; jrlf 2009-11-29
+;; Blitz3D mode -- version 2.0.0.
+
+;; References: &lt;a 
+href="http://xahlee.org/emacs/elisp_syntax_coloring.html" 
+target="_blank"&gt;http://xahlee.org/emacs/elisp_syntax_coloring.html&lt;/a&gt;
+
+
+(defvar
+ bb-blitzpath "c:/programs/Blitz3D")
+(defvar bb-help-wwwpath 
+  
+"http://www.blitzbasic.co.nz/b3ddocs/command.php?name=%s&amp;ref=comments")
+
+(defun
+ bb-comment-dwim (arg)
+  "Comment or uncomment current line or region."
+  (interactive "*P")
+  (require 'newcomment)
+  (let ((deactivate-mark nil)
+	(comment-start ";")
+	(comment-end ""))
+    (comment-dwim arg))
+)
+
+
+(defun bb-help-browse (path)
+  "( path --) Launch browser to view help file."
+
+  (browse-url (browse-url-file-url path)))
+
+(defun bb-help-function ()
+  "( --) Find and display function help."
+  (interactive)
+  (let* ((bounds (bounds-of-thing-at-point 'word))
+	 (keyword (buffer-substring (car bounds) (cdr bounds)))
+	 (h2d (format "%s/help/commands/2d_commands/%s.htm" 
+		      bb-blitzpath keyword))
+	 (h3d (format "%s/help/commands/3d_commands/%s.htm" 
+		      bb-blitzpath keyword))
+	 )
+
+    (if (file-exists-p h2d) (bb-help-browse h2d)
+      (if (file-exists-p h3d) (bb-help-browse h3d)
+	(message "No help found for %s..." keyword)))
+    )
+  )
+
+(defun bb-help-function-www ()
+  "( --) Find and display function help on the Web."
+  (interactive)
+  (let* ((bounds (bounds-of-thing-at-point 'word))
+	 (keyword (buffer-substring (car bounds) (cdr bounds)))
+	 (url (format bb-help-wwwpath keyword))
+	 )
+
+    (browse-url url))
+  )
+
+(defvar bb-constants
+  '("True" "False" "Pi") "Blitz 3D Constants")
+
+(defvar bb-keywords
+  '("Abs" "After" "And" "Before" "Case" "Const" "Data" "Default" 
+"Delete"
+    "Dim" "Each" "Else" "ElseIf" "EndIf" "Exit" "Field" "First"
+    "Float" "For" "Forever" "Function" "Global" "Gosub" "Goto" "Handle"
+    "If" "Include" "Insert" "Int" "Last" "Local" "Mod" "New" "Next" 
+"Not"
+    "Null" "Object" "Or" "Read" "Repeat" "Restore" "Return" "Sar"
+    "Select" "Sgn" "Shl" "Shr" "Step" "Str" "Then" "To" "Type"
+    "Until" "Wend" "While" "Xor")
+  "Blitz 3D Keywords")
+
+(defvar bb-functions
+  '("DebugLog" "FreeTimer" "WaitTimer" "CreateTimer" "SetEnv" "GetEnv"
+    "SystemProperty" "CommandLine" "MilliSecs" "Delay" "ExecFile"
+    "RuntimeError" "AppTitle" "Stop" "End" "RuntimeStats" "EntityClass"
+    "EntityName" "NameEntity" "FreeEntity" "ShowEntity" "HideEntity"
+    "EntityOrder" "EntityAutoFade" "EntityFX" "EntityBlend"
+    "EntityTexture" "EntityShininess" "EntityAlpha" "EntityColor"
+    "PaintEntity" "FindChild" "GetChild" "CountChildren" "EntityParent"
+    "Animating" "AnimLength" "AnimTime" "AnimSeq" "ExtractAnimSeq"
+    "AddAnimSeq" "SetAnimKey" "Animate" "SetAnimTime" "AlignToVector"
+    "PointEntity" "RotateEntity" "ScaleEntity" "PositionEntity"
+    "TranslateEntity" "TurnEntity" "MoveEntity" "CollisionTriangle"
+    "CollisionSurface" "CollisionEntity" "CollisionTime" "CollisionNZ"
+    "CollisionNY" "CollisionNX" "CollisionZ" "CollisionY" "CollisionX"
+    "CountCollisions" "EntityCollided" "EntityDistance" "EntityBox"
+    "EntityRadius" "GetEntityType" "GetParent" "EntityPickMode"
+    "EntityType" "ResetEntity" "DeltaYaw" "DeltaPitch" "VectorPitch"
+    "VectorYaw" "TFormedZ" "TFormedY" "TFormedX" "TFormNormal"
+    "TFormVector" "TFormPoint" "GetMatElement" "EntityRoll" "EntityYaw"
+    "EntityPitch" "EntityZ" "EntityY" "EntityX" "CopyEntity" "EmitSound"
+    "CreateListener" "ModifyTerrain" "TerrainHeight" "TerrainSize"
+    "TerrainZ" "TerrainY" "TerrainX" "TerrainShading" "TerrainDetail"
+    "LoadTerrain" "CreateTerrain" "CreatePlane" "CreateMirror"
+    "BSPAmbientLight" "BSPLighting" "LoadBSP" "MD2Animating"
+    "MD2AnimLength" "MD2AnimTime" "AnimateMD2" "LoadMD2" 
+"SpriteViewMode"
+    "HandleSprite" "ScaleSprite" "RotateSprite" "LoadSprite"
+    "CreateSprite" "CreatePivot" "LightConeAngles" "LightRange"
+    "LightColor" "CreateLight" "PickedTriangle" "PickedSurface"
+    "PickedEntity" "PickedTime" "PickedNZ" "PickedNY" "PickedNX" 
+"PickedZ"
+    "PickedY" "PickedX" "CameraPick" "LinePick" "EntityPick"
+    "EntityVisible" "EntityInView" "ProjectedZ" "ProjectedY" 
+"ProjectedX"
+    "CameraProject" "CameraFogMode" "CameraFogRange" "CameraFogColor"
+    "CameraViewport" "CameraProjMode" "CameraClsMode" "CameraClsColor"
+    "CameraRange" "CameraZoom" "CreateCamera" "TriangleVertex" "VertexW"
+    "VertexV" "VertexU" "VertexAlpha" "VertexBlue" "VertexGreen"
+    "VertexRed" "VertexNZ" "VertexNY" "VertexNX" "VertexZ" "VertexY"
+    "VertexX" "CountTriangles" "CountVertices" "VertexTexCoords"
+    "VertexColor" "VertexNormal" "VertexCoords" "AddTriangle" 
+"AddVertex"
+    "PaintSurface" "ClearSurface" "FindSurface" "GetEntityBrush"
+    "GetSurfaceBrush" "CreateSurface" "GetSurface" "CountSurfaces"
+    "MeshesIntersect" "MeshDepth" "MeshHeight" "MeshWidth" "LightMesh"
+    "UpdateNormals" "AddMesh" "PaintMesh" "FlipMesh" "FitMesh"
+    "PositionMesh" "RotateMesh" "ScaleMesh" "CopyMesh" "CreateCone"
+    "CreateCylinder" "CreateSphere" "CreateCube" "CreateMesh"
+    "LoadAnimSeq" "LoadAnimMesh" "LoadMesh" "BrushFX" "BrushBlend"
+    "GetBrushTexture" "BrushTexture" "BrushShininess" "BrushAlpha"
+    "BrushColor" "FreeBrush" "LoadBrush" "CreateBrush" "TextureFilter"
+    "ClearTextureFilters" "TextureBuffer" "SetCubeMode" "SetCubeFace"
+    "TextureName" "TextureHeight" "TextureWidth" "PositionTexture"
+    "RotateTexture" "ScaleTexture" "TextureCoords" "TextureBlend"
+    "FreeTexture" "LoadAnimTexture" "LoadTexture" "CreateTexture"
+    "Stats3D" "TrisRendered" "ActiveTextures" "ClearWorld" "RenderWorld"
+    "CaptureWorld" "UpdateWorld" "Collisions" "ClearCollisions"
+    "AmbientLight" "WireFrame" "AntiAlias" "Dither" "WBuffer"
+    "GfxDriverCaps3D" "HWTexUnits" "HWMultiTex" "LoaderMatrix"
+    "NetMsgData" "NetMsgTo" "NetMsgFrom" "NetMsgType" "RecvNetMsg"
+    "SendNetMsg" "NetPlayerLocal" "NetPlayerName" "DeleteNetPlayer"
+    "CreateNetPlayer" "StopNetGame" "JoinNetGame" "HostNetGame"
+    "StartNetGame" "Load3DSound" "ChannelPlaying" "ChannelPan"
+    "ChannelVolume" "ChannelPitch" "ResumeChannel" "PauseChannel"
+    "StopChannel" "PlayCDTrack" "PlayMusic" "PlaySound" "SoundPan"
+    "SoundVolume" "SoundPitch" "LoopSound" "FreeSound" "LoadSound"
+    "DirectInputEnabled" "EnableDirectInput" "FlushJoy" "JoyVDir"
+    "JoyUDir" "JoyZDir" "JoyYDir" "JoyXDir" "JoyHat" "JoyRoll" "JoyYaw"
+    "JoyPitch" "JoyV" "JoyU" "JoyZ" "JoyY" "JoyX" "JoyWait" "WaitJoy"
+    "GetJoy" "JoyHit" "JoyDown" "JoyType" "MoveMouse" "FlushMouse"
+    "MouseZSpeed" "MouseYSpeed" "MouseXSpeed" "MouseZ" "MouseY" "MouseX"
+    "MouseWait" "WaitMouse" "GetMouse" "MouseHit" "MouseDown" 
+"FlushKeys"
+    "WaitKey" "GetKey" "KeyHit" "KeyDown" "HidePointer" "ShowPointer"
+    "Locate" "Input" "Print" "Write" "ImageRectCollide" 
+"ImageRectOverlap"
+    "RectsOverlap" "ImagesCollide" "ImagesOverlap" "TFormFilter"
+    "TFormImage" "RotateImage" "ResizeImage" "ScaleImage" "ImageYHandle"
+    "ImageXHandle" "ImageHeight" "ImageWidth" "AutoMidHandle" 
+"MidHandle"
+    "HandleImage" "MaskImage" "DrawBlockRect" "DrawImageRect" 
+"TileBlock"
+    "TileImage" "DrawBlock" "DrawImage" "ImageBuffer" "GrabImage"
+    "SaveImage" "FreeImage" "LoadAnimImage" "CreateImage" "CopyImage"
+    "LoadImage" "CloseMovie" "MoviePlaying" "MovieHeight" "MovieWidth"
+    "DrawMovie" "OpenMovie" "StringHeight" "StringWidth" "FontHeight"
+    "FontWidth" "FreeFont" "LoadFont" "CopyRect" "Text" "Line" "Oval"
+    "Rect" "Plot" "Cls" "SetFont" "ClsColor" "ColorBlue" "ColorGreen"
+    "ColorRed" "GetColor" "Color" "Viewport" "Origin" "CopyPixelFast"
+    "CopyPixel" "WritePixelFast" "ReadPixelFast" "WritePixel" 
+"ReadPixel"
+    "UnlockBuffer" "LockBuffer" "SaveBuffer" "LoadBuffer" 
+"GraphicsBuffer"
+    "SetBuffer" "GraphicsDepth" "GraphicsHeight" "GraphicsWidth" "Flip"
+    "VWait" "ScanLine" "BackBuffer" "FrontBuffer" "GammaBlue" 
+"GammaGreen"
+    "GammaRed" "UpdateGamma" "SetGamma" "EndGraphics" "Graphics3D"
+    "Graphics" "Windowed3D" "GfxMode3D" "GfxMode3DExists"
+    "CountGfxModes3D" "GfxDriver3D" "TotalVidMem" "AvailVidMem"
+    "GfxModeDepth" "GfxModeHeight" "GfxModeWidth" "GfxModeExists"
+    "CountGfxModes" "SetGfxDriver" "GfxDriverName" "CountGfxDrivers"
+    "CallDLL" "WriteBytes" "ReadBytes" "PokeFloat" "PokeInt" "PokeShort"
+    "PokeByte" "PeekFloat" "PeekInt" "PeekShort" "PeekByte" "CopyBank"
+    "ResizeBank" "BankSize" "FreeBank" "CreateBank" "DeleteFile"
+    "CopyFile" "FileType" "FileSize" "DeleteDir" "CreateDir" "ChangeDir"
+    "CurrentDir" "NextFile" "CloseDir" "ReadDir" "SeekFile" "FilePos"
+    "CloseFile" "WriteFile" "ReadFile" "OpenFile" "TCPTimeouts"
+    "TCPStreamPort" "TCPStreamIP" "AcceptTCPStream" "CloseTCPServer"
+    "CreateTCPServer" "CloseTCPStream" "OpenTCPStream" "UDPTimeouts"
+    "UDPMsgPort" "UDPMsgIP" "UDPStreamPort" "UDPStreamIP" "RecvUDPMsg"
+    "SendUDPMsg" "CloseUDPStream" "CreateUDPStream" "HostIP"
+    "CountHostIPs" "DottedIP" "CopyStream" "WriteLine" "WriteString"
+    "WriteFloat" "WriteInt" "WriteShort" "WriteByte" "ReadLine"
+    "ReadString" "ReadFloat" "ReadInt" "ReadShort" "ReadByte" 
+"ReadAvail"
+    "Eof" "CurrentTime" "CurrentDate" "Bin" "Hex" "Len" "Asc" "Chr" 
+"RSet"
+    "LSet" "Trim" "Lower" "Upper" "Mid" "Instr" "Replace" "Right" "Left"
+    "String" "RndSeed" "SeedRnd" "Rand" "Rnd" "Log10" "Log" "Exp" "Ceil"
+    "Floor" "Sqr" "ATan2" "ATan" "ACos" "ASin" "Tan" "Cos" "Sin"
+    "HasFocus")
+  "Blitz 3D Functions")
+
+(defvar bb-constants-re (regexp-opt bb-constants 'words))
+(defvar bb-keywords-re  (regexp-opt bb-keywords 'words))
+(defvar bb-functions-re (regexp-opt bb-functions 'words))
+
+(setq bb-font-lock-keywords
+      (list
+	(cons bb-functions-re 'font-lock-function-name-face)
+	(cons bb-keywords-re  'font-lock-keyword-face)
+	(cons bb-constants-re 'font-lock-constant-face)
+        )
+      )
+
+;; Autocomplete.
+;; Uses autocomplete.el package from &lt;a 
+href="http://github.com/m2ym/auto-complete" 
+target="_blank"&gt;http://github.com/m2ym/auto-complete&lt;/a&gt; .
+
+(require 'auto-complete)
+
+(defun ac-bb-candidates ()
+  (append bb-constants bb-keywords bb-functions))
+
+(defvar ac-source-bb
+  '((candidates . ac-bb-candidates)))
+
+;; Wrap it all up.
+
+(define-derived-mode bb-mode fundamental-mode
+  "Blitz 3D mode"
+  "Major mode for editing Blitz Basic 3D code."
+
+  ;; Syntax highlighting.
+  (setq font-lock-defaults '(bb-font-lock-keywords))
+
+  ;; Modify keymap.
+  (define-key bb-mode-map [remap comment-dwim] 'bb-comment-dwim)
+  (define-key bb-mode-map "\C-c\C-f" 'bb-help-function)
+  (define-key bb-mode-map "\C-c\C-w" 'bb-help-function-www)
+  (define-key bb-mode-map (kbd "M-TAB") 'auto-complete)
+
+  ;; Comment: ";".
+  (modify-syntax-entry ?\; "&lt; b" bb-mode-syntax-table)
+  (modify-syntax-entry ?\n "&gt; b" bb-mode-syntax-table)
+
+  (push 'ac-source-bb ac-sources)
+  (auto-complete-mode)
+)
+
+(provide 'bb-mode)
+</textarea> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>The pain of autocomplete...</td><td align="right"><font class="tiny">(Posted 2009-12-03)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I'm trying to get autocomplete.el working with my bb-mode. The problem 
+is that I don't want to have to specify all the keywords a second time 
+to feed them to the autocompleter. I should be able to take a nice list 
+of stuff from the bb-constants, bb-keywords and bb-functions and hand it
+ over.<br><br>Unfortunately, there is (to me) serious macro magick that 
+precludes this. I'm trying to replicate what ac-define-dictionary-source
+ does, except without the big list of keywords.<br><br>So far, the 
+results have been tantalizingly frustrating -- just the default of 
+having it work inside the file is pretty darn cool -- I get these nice 
+drop downs as I type. Unfortunately for now, it's only for stuff already
+ in the file. <br><br>There has to be a way to deal with this. I'll read more about dealing with emacs macros in the morning. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Compiling and running...</td><td align="right"><font class="tiny">(Posted 2009-12-02)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Well, I think at this point I can start using Emacs for serious work in
+ Blitz3d. I've gotten compilation working! And... Not just compile, but 
+run and debug compiles (OK, ok, after getting compile, that part was 
+easy...).<br><br>Emacs' compile command really wants to find a make 
+file. You can do it other ways, but you have to set environment 
+variables (for the blitzpath) and stuff like that, which is actually 
+messier. So, here is an example Makefile, which goes in the same 
+directory as the %.bb files.<br><br><pre class="code">export blitzpath := c:/programs/blitz3d
+
+CC=c:/programs/blitz3d/bin/blitzcc 
+CFLAGS=
+
+all: fernando.exe
+
+run: fernando.bb
+	$(CC) $(CFLAGS) fernando.bb # Run mode.
+
+debug: fernando.bb
+	$(CC) $(CFLAGS) -d fernando.bb # Debug mode.
+
+fernando.exe: fernando.bb
+	$(CC) $(CFLAGS) -o fernando.exe fernando.bb # Make %.exe.
+
+clean: rm fernando.exe
+</pre><br><br>The most important part is at the top, which sets the 
+blitzpath for the compiler. Aside from that, it's pretty much a standard
+ Makefile, although I've added entries for debug and run (without 
+creating an executable).<br><br>There doesn't seem to be a way to create
+ an executable with the debugger embedded, so Emacs just waits until 
+you're through debugging. The debugger is the standard Blitz debugger. 
+There doesn't seem to be a way to get output from it for the Emacs 
+debugging methods.<br><br>Once you've got the Makefile set up, you can 
+compile with "Alt-X compile", then hit [enter]. Alternatively for run or
+ debug, say "Alt-X compile", type "run" or "debug", then [enter]. 
+Compilation errors are reported in the *compilation* buffer in Emacs. 
+Unfortunately, because Windows allows spaces in filenames, the Blitz 
+compiler has to report errors with quotes around the filename, which 
+Emacs doesn't understand by default. You can still select an error and 
+Emacs will prompt you for the correct filename (type it without the 
+quotes) and then jump to the right line of source -- almost working!<br><br>Yes,
+ this is clumsy (for now). I'm going to add shortcut keys (probably f5, 
+S-f5 and C-f5) to launch this stuff and I will probably also need to add
+ something that will build/update the Makefile for the unitiated. Emacs 
+seems to have a built in make that should serve if you don't have cygwin
+ installed, so I'm not worried about that. <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A new beginnning!</td><td align="right"><font class="tiny">(Posted 2009-11-30)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Here's a new version of my Blitz 3D Emacs mode -- this time for GNU 
+Emacs 22.2.1 (might work with Xemacs, but you'll probably have to make 
+changes).<br><br>New features:<br> * C-c C-f shows online help (don't forget to set your bb-blitzpath at the top of the file, or in your .emacs).<br> * Better and more consistent highlighting (more a function of emacs than anything I did).<br><br>Missing features:<br> * No more automatic indentation (but it was buggy, anyway).<br> * Doesn't change word case like the Blitz IDE does.<br><br><pre class="code">;; bb-mode.el
+;; jrlf 2009-11-29
+;; Blitz3D mode -- version 2.0.0.
+
+;; References: <a href="http://xahlee.org/emacs/elisp_syntax_coloring.html" target="_blank">http://xahlee.org/emacs/elisp_syntax_coloring.html</a>
+
+
+(defvar bb-blitzpath "c:/programs/Blitz3D")
+
+(defun bb-comment-dwim (arg)
+  "Comment or uncomment current line or region."
+  (interactive "*P")
+  (require 'newcomment)
+  (let ((deactivate-mark nil)
+	(comment-start ";")
+	(comment-end ""))
+    (comment-dwim arg))
+)
+
+
+(defun bb-help-browse (path)
+  "( path --) Launch browser to view help file."
+
+  (browse-url (browse-url-file-url path)))
+
+(defun bb-help-function ()
+  "( --) Find and display function help."
+  (interactive)
+  (let* ((bounds (bounds-of-thing-at-point 'word))
+	 (keyword (buffer-substring (car bounds) (cdr bounds)))
+	 (h2d (format "%s/help/commands/2d_commands/%s.htm" 
+		      bb-blitzpath keyword))
+	 (h3d (format "%s/help/commands/3d_commands/%s.htm" 
+		      bb-blitzpath keyword))
+	 )
+    (message h2d)
+    (if (file-exists-p h2d) (bb-help-browse h2d)
+      (if (file-exists-p h3d) (bb-help-browse h3d)
+	(message "No help found for %s..." keyword)))
+    )
+  )
+
+(defvar bb-constants
+  '("True" "False" "Pi") "Blitz 3D Constants")
+
+(defvar bb-keywords
+  '("Abs" "After" "And" "Before" "Case" "Const" "Data" "Default" "Delete"
+    "Dim" "Each" "Else" "ElseIf" "EndIf" "Exit" "Field" "First"
+    "Float" "For" "Forever" "Function" "Global" "Gosub" "Goto" "Handle"
+    "If" "Include" "Insert" "Int" "Last" "Local" "Mod" "New" "Next" "Not"
+    "Null" "Object" "Or" "Read" "Repeat" "Restore" "Return" "Sar"
+    "Select" "Sgn" "Shl" "Shr" "Step" "Str" "Then" "To" "Type"
+    "Until" "Wend" "While" "Xor")
+  "Blitz 3D Keywords")
+
+(defvar bb-functions
+  '("DebugLog" "FreeTimer" "WaitTimer" "CreateTimer" "SetEnv" "GetEnv"
+    "SystemProperty" "CommandLine" "MilliSecs" "Delay" "ExecFile"
+    "RuntimeError" "AppTitle" "Stop" "End" "RuntimeStats" "EntityClass"
+    "EntityName" "NameEntity" "FreeEntity" "ShowEntity" "HideEntity"
+    "EntityOrder" "EntityAutoFade" "EntityFX" "EntityBlend"
+    "EntityTexture" "EntityShininess" "EntityAlpha" "EntityColor"
+    "PaintEntity" "FindChild" "GetChild" "CountChildren" "EntityParent"
+    "Animating" "AnimLength" "AnimTime" "AnimSeq" "ExtractAnimSeq"
+    "AddAnimSeq" "SetAnimKey" "Animate" "SetAnimTime" "AlignToVector"
+    "PointEntity" "RotateEntity" "ScaleEntity" "PositionEntity"
+    "TranslateEntity" "TurnEntity" "MoveEntity" "CollisionTriangle"
+    "CollisionSurface" "CollisionEntity" "CollisionTime" "CollisionNZ"
+    "CollisionNY" "CollisionNX" "CollisionZ" "CollisionY" "CollisionX"
+    "CountCollisions" "EntityCollided" "EntityDistance" "EntityBox"
+    "EntityRadius" "GetEntityType" "GetParent" "EntityPickMode"
+    "EntityType" "ResetEntity" "DeltaYaw" "DeltaPitch" "VectorPitch"
+    "VectorYaw" "TFormedZ" "TFormedY" "TFormedX" "TFormNormal"
+    "TFormVector" "TFormPoint" "GetMatElement" "EntityRoll" "EntityYaw"
+    "EntityPitch" "EntityZ" "EntityY" "EntityX" "CopyEntity" "EmitSound"
+    "CreateListener" "ModifyTerrain" "TerrainHeight" "TerrainSize"
+    "TerrainZ" "TerrainY" "TerrainX" "TerrainShading" "TerrainDetail"
+    "LoadTerrain" "CreateTerrain" "CreatePlane" "CreateMirror"
+    "BSPAmbientLight" "BSPLighting" "LoadBSP" "MD2Animating"
+    "MD2AnimLength" "MD2AnimTime" "AnimateMD2" "LoadMD2" "SpriteViewMode"
+    "HandleSprite" "ScaleSprite" "RotateSprite" "LoadSprite"
+    "CreateSprite" "CreatePivot" "LightConeAngles" "LightRange"
+    "LightColor" "CreateLight" "PickedTriangle" "PickedSurface"
+    "PickedEntity" "PickedTime" "PickedNZ" "PickedNY" "PickedNX" "PickedZ"
+    "PickedY" "PickedX" "CameraPick" "LinePick" "EntityPick"
+    "EntityVisible" "EntityInView" "ProjectedZ" "ProjectedY" "ProjectedX"
+    "CameraProject" "CameraFogMode" "CameraFogRange" "CameraFogColor"
+    "CameraViewport" "CameraProjMode" "CameraClsMode" "CameraClsColor"
+    "CameraRange" "CameraZoom" "CreateCamera" "TriangleVertex" "VertexW"
+    "VertexV" "VertexU" "VertexAlpha" "VertexBlue" "VertexGreen"
+    "VertexRed" "VertexNZ" "VertexNY" "VertexNX" "VertexZ" "VertexY"
+    "VertexX" "CountTriangles" "CountVertices" "VertexTexCoords"
+    "VertexColor" "VertexNormal" "VertexCoords" "AddTriangle" "AddVertex"
+    "PaintSurface" "ClearSurface" "FindSurface" "GetEntityBrush"
+    "GetSurfaceBrush" "CreateSurface" "GetSurface" "CountSurfaces"
+    "MeshesIntersect" "MeshDepth" "MeshHeight" "MeshWidth" "LightMesh"
+    "UpdateNormals" "AddMesh" "PaintMesh" "FlipMesh" "FitMesh"
+    "PositionMesh" "RotateMesh" "ScaleMesh" "CopyMesh" "CreateCone"
+    "CreateCylinder" "CreateSphere" "CreateCube" "CreateMesh"
+    "LoadAnimSeq" "LoadAnimMesh" "LoadMesh" "BrushFX" "BrushBlend"
+    "GetBrushTexture" "BrushTexture" "BrushShininess" "BrushAlpha"
+    "BrushColor" "FreeBrush" "LoadBrush" "CreateBrush" "TextureFilter"
+    "ClearTextureFilters" "TextureBuffer" "SetCubeMode" "SetCubeFace"
+    "TextureName" "TextureHeight" "TextureWidth" "PositionTexture"
+    "RotateTexture" "ScaleTexture" "TextureCoords" "TextureBlend"
+    "FreeTexture" "LoadAnimTexture" "LoadTexture" "CreateTexture"
+    "Stats3D" "TrisRendered" "ActiveTextures" "ClearWorld" "RenderWorld"
+    "CaptureWorld" "UpdateWorld" "Collisions" "ClearCollisions"
+    "AmbientLight" "WireFrame" "AntiAlias" "Dither" "WBuffer"
+    "GfxDriverCaps3D" "HWTexUnits" "HWMultiTex" "LoaderMatrix"
+    "NetMsgData" "NetMsgTo" "NetMsgFrom" "NetMsgType" "RecvNetMsg"
+    "SendNetMsg" "NetPlayerLocal" "NetPlayerName" "DeleteNetPlayer"
+    "CreateNetPlayer" "StopNetGame" "JoinNetGame" "HostNetGame"
+    "StartNetGame" "Load3DSound" "ChannelPlaying" "ChannelPan"
+    "ChannelVolume" "ChannelPitch" "ResumeChannel" "PauseChannel"
+    "StopChannel" "PlayCDTrack" "PlayMusic" "PlaySound" "SoundPan"
+    "SoundVolume" "SoundPitch" "LoopSound" "FreeSound" "LoadSound"
+    "DirectInputEnabled" "EnableDirectInput" "FlushJoy" "JoyVDir"
+    "JoyUDir" "JoyZDir" "JoyYDir" "JoyXDir" "JoyHat" "JoyRoll" "JoyYaw"
+    "JoyPitch" "JoyV" "JoyU" "JoyZ" "JoyY" "JoyX" "JoyWait" "WaitJoy"
+    "GetJoy" "JoyHit" "JoyDown" "JoyType" "MoveMouse" "FlushMouse"
+    "MouseZSpeed" "MouseYSpeed" "MouseXSpeed" "MouseZ" "MouseY" "MouseX"
+    "MouseWait" "WaitMouse" "GetMouse" "MouseHit" "MouseDown" "FlushKeys"
+    "WaitKey" "GetKey" "KeyHit" "KeyDown" "HidePointer" "ShowPointer"
+    "Locate" "Input" "Print" "Write" "ImageRectCollide" "ImageRectOverlap"
+    "RectsOverlap" "ImagesCollide" "ImagesOverlap" "TFormFilter"
+    "TFormImage" "RotateImage" "ResizeImage" "ScaleImage" "ImageYHandle"
+    "ImageXHandle" "ImageHeight" "ImageWidth" "AutoMidHandle" "MidHandle"
+    "HandleImage" "MaskImage" "DrawBlockRect" "DrawImageRect" "TileBlock"
+    "TileImage" "DrawBlock" "DrawImage" "ImageBuffer" "GrabImage"
+    "SaveImage" "FreeImage" "LoadAnimImage" "CreateImage" "CopyImage"
+    "LoadImage" "CloseMovie" "MoviePlaying" "MovieHeight" "MovieWidth"
+    "DrawMovie" "OpenMovie" "StringHeight" "StringWidth" "FontHeight"
+    "FontWidth" "FreeFont" "LoadFont" "CopyRect" "Text" "Line" "Oval"
+    "Rect" "Plot" "Cls" "SetFont" "ClsColor" "ColorBlue" "ColorGreen"
+    "ColorRed" "GetColor" "Color" "Viewport" "Origin" "CopyPixelFast"
+    "CopyPixel" "WritePixelFast" "ReadPixelFast" "WritePixel" "ReadPixel"
+    "UnlockBuffer" "LockBuffer" "SaveBuffer" "LoadBuffer" "GraphicsBuffer"
+    "SetBuffer" "GraphicsDepth" "GraphicsHeight" "GraphicsWidth" "Flip"
+    "VWait" "ScanLine" "BackBuffer" "FrontBuffer" "GammaBlue" "GammaGreen"
+    "GammaRed" "UpdateGamma" "SetGamma" "EndGraphics" "Graphics3D"
+    "Graphics" "Windowed3D" "GfxMode3D" "GfxMode3DExists"
+    "CountGfxModes3D" "GfxDriver3D" "TotalVidMem" "AvailVidMem"
+    "GfxModeDepth" "GfxModeHeight" "GfxModeWidth" "GfxModeExists"
+    "CountGfxModes" "SetGfxDriver" "GfxDriverName" "CountGfxDrivers"
+    "CallDLL" "WriteBytes" "ReadBytes" "PokeFloat" "PokeInt" "PokeShort"
+    "PokeByte" "PeekFloat" "PeekInt" "PeekShort" "PeekByte" "CopyBank"
+    "ResizeBank" "BankSize" "FreeBank" "CreateBank" "DeleteFile"
+    "CopyFile" "FileType" "FileSize" "DeleteDir" "CreateDir" "ChangeDir"
+    "CurrentDir" "NextFile" "CloseDir" "ReadDir" "SeekFile" "FilePos"
+    "CloseFile" "WriteFile" "ReadFile" "OpenFile" "TCPTimeouts"
+    "TCPStreamPort" "TCPStreamIP" "AcceptTCPStream" "CloseTCPServer"
+    "CreateTCPServer" "CloseTCPStream" "OpenTCPStream" "UDPTimeouts"
+    "UDPMsgPort" "UDPMsgIP" "UDPStreamPort" "UDPStreamIP" "RecvUDPMsg"
+    "SendUDPMsg" "CloseUDPStream" "CreateUDPStream" "HostIP"
+    "CountHostIPs" "DottedIP" "CopyStream" "WriteLine" "WriteString"
+    "WriteFloat" "WriteInt" "WriteShort" "WriteByte" "ReadLine"
+    "ReadString" "ReadFloat" "ReadInt" "ReadShort" "ReadByte" "ReadAvail"
+    "Eof" "CurrentTime" "CurrentDate" "Bin" "Hex" "Len" "Asc" "Chr" "RSet"
+    "LSet" "Trim" "Lower" "Upper" "Mid" "Instr" "Replace" "Right" "Left"
+    "String" "RndSeed" "SeedRnd" "Rand" "Rnd" "Log10" "Log" "Exp" "Ceil"
+    "Floor" "Sqr" "ATan2" "ATan" "ACos" "ASin" "Tan" "Cos" "Sin"
+    "HasFocus")
+  "Blitz 3D Functions")
+
+(defvar bb-constants-re (regexp-opt bb-constants 'words))
+(defvar bb-keywords-re  (regexp-opt bb-keywords 'words))
+(defvar bb-functions-re (regexp-opt bb-functions 'words))
+
+(setq bb-font-lock-keywords
+      (list
+	(cons bb-functions-re 'font-lock-function-name-face)
+	(cons bb-keywords-re  'font-lock-keyword-face)
+	(cons bb-constants-re 'font-lock-constant-face)
+        )
+      )
+
+(define-derived-mode bb-mode fundamental-mode
+  "Blitz 3D mode"
+  "Major mode for editing Blitz Basic 3D code."
+
+  ;; Syntax highlighting.
+  (setq font-lock-defaults '(bb-font-lock-keywords))
+
+  ;; Modify keymap.
+  (define-key bb-mode-map [remap comment-dwim] 'bb-comment-dwim)
+  (define-key bb-mode-map "\C-c\C-f" 'bb-help-function)
+
+  ;; Comment: ";".
+  (modify-syntax-entry ?\; "&lt; b" bb-mode-syntax-table)
+  (modify-syntax-entry ?\n "&gt; b" bb-mode-syntax-table)
+)
+
+(provide 'bb-mode)
+</pre> <br><br>  </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>A beginning...</td><td align="right"><font class="tiny">(Posted 2006-12-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is probably a bit strange, but emacs is my editor, and I'm 
+sticking to it... ;-) This is a first stab at a Blitz3D mode for Windows
+ Xemacs.<br><br>You will want to add a file association as well.<br><br><pre class="code">(setq load-path (cons "~/.xemacs" load-path))
+(require 'b3d-mode)
+(setq auto-mode-alist (cons '("\\.bb\\'" . b3d-mode) auto-mode-alist))
+</pre><br><br>(I'm assuming that you put the file into your ~/.xemacs directory.)<br><br><textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">
+;;; b3d-mode.el --- BlitzBasic3D mode.
+
+;; Maintainer: josh
+;; Keywords: blitz
+;; See &lt;a 
+href="http://two-wugs.net/emacs/mode-tutorial.html#fontlock" 
+target="_blank"&gt;http://two-wugs.net/emacs/mode-tutorial.html#fontlock&lt;/a&gt;
+ for helpful info.
+
+;;; Code:
+
+(defvar b3d-mode-hook nil
+  "Normal hook run when entering b3d mode and many related modes.")
+
+(defvar b3d-mode-variant nil
+  "Non-nil if this buffer's major mode is a variant of b3d mode.")
+
+(defvar b3d-mode-syntax-table nil
+  "Syntax table used while in b3d mode.")
+
+(defvar b3d-mode-abbrev-table nil
+  "Abbrev table used while in b3d mode.")
+(define-abbrev-table 'b3d-mode-abbrev-table ())
+
+(if b3d-mode-syntax-table
+    ()
+  (setq b3d-mode-syntax-table (make-syntax-table))
+  (modify-syntax-entry ?_ "w" b3d-mode-syntax-table)
+  (modify-syntax-entry ?\n "&gt;   " b3d-mode-syntax-table)
+  ;; Give CR the same syntax as newline, for selective-display.
+  (modify-syntax-entry ?\^m "&gt;   " b3d-mode-syntax-table)
+  (modify-syntax-entry ?\; "&lt;   " b3d-mode-syntax-table)
+  (modify-syntax-entry ?\" "\"    " b3d-mode-syntax-table)
+  (modify-syntax-entry ?: "." b3d-mode-syntax-table)
+)
+
+(defconst b3d-font-lock-keywords-1
+  (list 
+   
+'("\\&lt;\\(A\\(?:bs\\|fter\\|nd\\)\\|Before\\|C\\(?:ase\\|onst\\)\\|D\\(?:ata\\|e\\(?:fault\\|lete\\)\\|im\\)\\|E\\(?:ach\\|lse\\(?:If\\)?\\|nd\\(?:If\\)?\\|xit\\)\\|F\\(?:alse\\|i\\(?:eld\\|rst\\)\\|loat\\|or\\(?:ever\\)?\\|unction\\)\\|G\\(?:lobal\\|o\\(?:sub\\|to\\)\\)\\|Handle\\|I\\(?:f\\|n\\(?:clude\\|sert\\|t\\)\\)\\|L\\(?:ast\\|ocal\\)\\|Mod\\|N\\(?:e\\(?:w\\|xt\\)\\|ot\\|ull\\)\\|O\\(?:bject\\|r\\)\\|Pi\\|Re\\(?:ad\\|peat\\|store\\|turn\\)\\|S\\(?:ar\\|elect\\|gn\\|h[lr]\\|t\\(?:ep\\|r\\)\\)\\|T\\(?:hen\\|o\\|rue\\|ype\\)\\|Until\\|W\\(?:end\\|hile\\)\\|Xor\\)\\&gt;"
+ . font-lock-keyword-face)
+   
+'("\\&lt;\\(A\\(?:Cos\\|Sin\\|Tan2?\\|c\\(?:ceptTCPStream\\|tiveTextures\\)\\|dd\\(?:AnimSeq\\|Mesh\\|Triangle\\|Vertex\\)\\|lignToVector\\|mbientLight\\|n\\(?:im\\(?:Length\\|Seq\\|Time\\|at\\(?:e\\(?:MD2\\)?\\|ing\\)\\)\\|tiAlias\\)\\|ppTitle\\|sc\\|utoMidHandle\\|vailVidMem\\)\\|B\\(?:SP\\(?:AmbientLight\\|Lighting\\)\\|a\\(?:ckBuffer\\|nkSize\\)\\|in\\|rush\\(?:Alpha\\|Blend\\|Color\\|FX\\|Shininess\\|Texture\\)\\)\\|C\\(?:a\\(?:llDLL\\|mera\\(?:Cls\\(?:Color\\|Mode\\)\\|Fog\\(?:Color\\|Mode\\|Range\\)\\|P\\(?:ick\\|roj\\(?:Mode\\|ect\\)\\)\\|Range\\|Viewport\\|Zoom\\)\\|ptureWorld\\)\\|eil\\|h\\(?:an\\(?:geDir\\|nel\\(?:P\\(?:an\\|itch\\|laying\\)\\|Volume\\)\\)\\|r\\)\\|l\\(?:ear\\(?:Collisions\\|Surface\\|TextureFilters\\|World\\)\\|ose\\(?:Dir\\|File\\|Movie\\|TCPS\\(?:erver\\|tream\\)\\|UDPStream\\)\\|s\\(?:Color\\)?\\)\\|o\\(?:l\\(?:lision\\(?:Entity\\|N[XYZ]\\|Surface\\|T\\(?:ime\\|riangle\\)\\|[XYZs]\\)\\|or\\(?:Blue\\|Green\\|Red\\)?\\)\\|mmandLine\\|py\\(?:Bank\\|Entity\\|File\\|Image\\|Mesh\\|Pixel\\(?:Fast\\)?\\|Rect\\|Stream\\)\\|s\\|unt\\(?:C\\(?:hildren\\|ollisions\\)\\|Gfx\\(?:Drivers\\|Modes\\(?:3D\\)?\\)\\|HostIPs\\|Surfaces\\|Triangles\\|Vertices\\)\\)\\|reate\\(?:B\\(?:ank\\|rush\\)\\|C\\(?:amera\\|one\\|ube\\|ylinder\\)\\|Dir\\|Image\\|Li\\(?:ght\\|stener\\)\\|M\\(?:esh\\|irror\\)\\|NetPlayer\\|P\\(?:ivot\\|lane\\)\\|S\\(?:p\\(?:here\\|rite\\)\\|urface\\)\\|T\\(?:CPServer\\|e\\(?:rrain\\|xture\\)\\|imer\\)\\|UDPStream\\)\\|urrent\\(?:D\\(?:ate\\|ir\\)\\|Time\\)\\)\\|D\\(?:e\\(?:bugLog\\|l\\(?:ay\\|ete\\(?:Dir\\|File\\|NetPlayer\\)\\|ta\\(?:Pitch\\|Yaw\\)\\)\\)\\|i\\(?:rectInputEnabled\\|ther\\)\\|ottedIP\\|raw\\(?:Block\\(?:Rect\\)?\\|Image\\(?:Rect\\)?\\|Movie\\)\\)\\|E\\(?:mitSound\\|n\\(?:ableDirectInput\\|d\\(?:Graphics\\)?\\|tity\\(?:A\\(?:lpha\\|utoFade\\)\\|B\\(?:lend\\|ox\\)\\|C\\(?:lass\\|ol\\(?:lided\\|or\\)\\)\\|Distance\\|FX\\|InView\\|Name\\|Order\\|P\\(?:arent\\|i\\(?:ck\\(?:Mode\\)?\\|tch\\)\\)\\|R\\(?:adius\\|oll\\)\\|Shininess\\|T\\(?:exture\\|ype\\)\\|Visible\\|Yaw\\|[XYZ]\\)\\)\\|of\\|x\\(?:ecFile\\|p\\|tractAnimSeq\\)\\)\\|F\\(?:i\\(?:le\\(?:Pos\\|Size\\|Type\\)\\|nd\\(?:Child\\|Surface\\)\\|tMesh\\)\\|l\\(?:ip\\(?:Mesh\\)?\\|oor\\|ush\\(?:Joy\\|Keys\\|Mouse\\)\\)\\|ont\\(?:Height\\|Width\\)\\|r\\(?:ee\\(?:B\\(?:ank\\|rush\\)\\|Entity\\|Font\\|Image\\|Sound\\|T\\(?:exture\\|imer\\)\\)\\|ontBuffer\\)\\)\\|G\\(?:amma\\(?:Blue\\|Green\\|Red\\)\\|et\\(?:BrushTexture\\|C\\(?:hild\\|olor\\)\\|En\\(?:tity\\(?:Brush\\|Type\\)\\|v\\)\\|Joy\\|Key\\|M\\(?:atElement\\|ouse\\)\\|Parent\\|Surface\\(?:Brush\\)?\\)\\|fx\\(?:Driver\\(?:3D\\|Caps3D\\|Name\\)\\|Mode\\(?:3D\\(?:Exists\\)?\\|Depth\\|Exists\\|Height\\|Width\\)\\)\\|ra\\(?:bImage\\|phics\\(?:3D\\|Buffer\\|Depth\\|Height\\|Width\\)?\\)\\)\\|H\\(?:W\\(?:MultiTex\\|TexUnits\\)\\|andle\\(?:Image\\|Sprite\\)\\|ex\\|ide\\(?:Entity\\|Pointer\\)\\|ost\\(?:IP\\|NetGame\\)\\)\\|I\\(?:mage\\(?:Buffer\\|Height\\|Rect\\(?:Collide\\|Overlap\\)\\|Width\\|XHandle\\|YHandle\\|s\\(?:Collide\\|Overlap\\)\\)\\|n\\(?:put\\|str\\)\\)\\|Jo\\(?:inNetGame\\|y\\(?:Down\\|H\\(?:at\\|it\\)\\|Pitch\\|Roll\\|Type\\|UDir\\|VDir\\|Wait\\|XDir\\|Y\\(?:Dir\\|aw\\)\\|ZDir\\|[UVXYZ]\\)\\)\\|Key\\(?:Down\\|Hit\\)\\|L\\(?:Set\\|e\\(?:ft\\|n\\)\\|i\\(?:ght\\(?:Co\\(?:lor\\|neAngles\\)\\|Mesh\\|Range\\)\\|ne\\(?:Pick\\)?\\)\\|o\\(?:ad\\(?:3DSound\\|Anim\\(?:Image\\|Mesh\\|Seq\\|Texture\\)\\|B\\(?:SP\\|rush\\|uffer\\)\\|Font\\|Image\\|M\\(?:D2\\|esh\\)\\|S\\(?:ound\\|prite\\)\\|Te\\(?:rrain\\|xture\\)\\|erMatrix\\)\\|c\\(?:ate\\|kBuffer\\)\\|g\\(?:10\\)?\\|opSound\\|wer\\)\\)\\|M\\(?:D2Anim\\(?:Length\\|Time\\|ating\\)\\|askImage\\|esh\\(?:Depth\\|Height\\|Width\\|esIntersect\\)\\|i\\(?:d\\(?:Handle\\)?\\|lliSecs\\)\\|o\\(?:difyTerrain\\|use\\(?:Down\\|Hit\\|Wait\\|XSpeed\\|YSpeed\\|ZSpeed\\|[XYZ]\\)\\|v\\(?:e\\(?:Entity\\|Mouse\\)\\|ie\\(?:Height\\|Playing\\|Width\\)\\)\\)\\)\\|N\\(?:ameEntity\\|e\\(?:t\\(?:Msg\\(?:Data\\|From\\|T\\(?:o\\|ype\\)\\)\\|Player\\(?:Local\\|Name\\)\\)\\|xtFile\\)\\)\\|O\\(?:pen\\(?:File\\|Movie\\|TCPStream\\)\\|rigin\\|val\\)\\|P\\(?:a\\(?:int\\(?:Entity\\|Mesh\\|Surface\\)\\|useChannel\\)\\|eek\\(?:Byte\\|Float\\|Int\\|Short\\)\\|icked\\(?:Entity\\|N[XYZ]\\|Surface\\|T\\(?:ime\\|riangle\\)\\|[XYZ]\\)\\|l\\(?:ay\\(?:CDTrack\\|Music\\|Sound\\)\\|ot\\)\\|o\\(?:intEntity\\|ke\\(?:Byte\\|Float\\|Int\\|Short\\)\\|sition\\(?:Entity\\|Mesh\\|Texture\\)\\)\\|r\\(?:int\\|ojected[XYZ]\\)\\)\\|R\\(?:Set\\|and\\|e\\(?:ad\\(?:Avail\\|Bytes?\\|Dir\\|F\\(?:ile\\|loat\\)\\|Int\\|Line\\|Pixel\\(?:Fast\\)?\\|S\\(?:hort\\|tring\\)\\)\\|c\\(?:t\\(?:sOverlap\\)?\\|v\\(?:NetMsg\\|UDPMsg\\)\\)\\|nderWorld\\|place\\|s\\(?:etEntity\\|ize\\(?:Bank\\|Image\\)\\|umeChannel\\)\\)\\|ight\\|nd\\(?:Seed\\)?\\|otate\\(?:Entity\\|Image\\|Mesh\\|Sprite\\|Texture\\)\\|untime\\(?:Error\\|Stats\\)\\)\\|S\\(?:ave\\(?:Buffer\\|Image\\)\\|ca\\(?:le\\(?:Entity\\|Image\\|Mesh\\|Sprite\\|Texture\\)\\|nLine\\)\\|e\\(?:e\\(?:dRnd\\|kFile\\)\\|nd\\(?:NetMsg\\|UDPMsg\\)\\|t\\(?:Anim\\(?:Key\\|Time\\)\\|Buffer\\|Cube\\(?:Face\\|Mode\\)\\|Env\\|Font\\|G\\(?:amma\\|fxDriver\\)\\)\\)\\|how\\(?:Entity\\|Pointer\\)\\|in\\|ound\\(?:P\\(?:an\\|itch\\)\\|Volume\\)\\|priteViewMode\\|qr\\|t\\(?:a\\(?:rtNetGame\\|ts3D\\)\\|op\\(?:Channel\\|NetGame\\)?\\|ring\\(?:Height\\|Width\\)?\\)\\|ystemProperty\\)\\|T\\(?:CP\\(?:Stream\\(?:IP\\|Port\\)\\|Timeouts\\)\\|Form\\(?:Filter\\|Image\\|Normal\\|Point\\|Vector\\|ed[XYZ]\\)\\|an\\|e\\(?:rrain\\(?:Detail\\|Height\\|S\\(?:hading\\|ize\\)\\|[XYZ]\\)\\|xt\\(?:ure\\(?:B\\(?:lend\\|uffer\\)\\|Coords\\|Filter\\|Height\\|Name\\|Width\\)\\)?\\)\\|ile\\(?:Block\\|Image\\)\\|otalVidMem\\|r\\(?:anslateEntity\\|i\\(?:angleVertex\\|m\\|sRendered\\)\\)\\|urnEntity\\)\\|U\\(?:DP\\(?:Msg\\(?:IP\\|Port\\)\\|Stream\\(?:IP\\|Port\\)\\|Timeouts\\)\\|nlockBuffer\\|p\\(?:date\\(?:Gamma\\|Normals\\|World\\)\\|per\\)\\)\\|V\\(?:Wait\\|e\\(?:ctor\\(?:Pitch\\|Yaw\\)\\|rtex\\(?:Alpha\\|Blue\\|Co\\(?:lor\\|ords\\)\\|Green\\|N\\(?:ormal\\|[XYZ]\\)\\|Red\\|TexCoords\\|[U-Z]\\)\\)\\|iewport\\)\\|W\\(?:Buffer\\|ait\\(?:Joy\\|Key\\|Mouse\\|Timer\\)\\|i\\(?:ndowed3D\\|reFrame\\)\\|rite\\(?:Bytes?\\|F\\(?:ile\\|loat\\)\\|Int\\|Line\\|Pixel\\(?:Fast\\)?\\|S\\(?:hort\\|tring\\)\\)?\\)\\)\\&gt;"
+ . font-lock-builtin-face)
+   ; These don't work quite right yet (too greedy). josh 2006-12-27
+   ; '("Function \\(\\w*\\)" . font-lock-keyword-face) ; Functions.
+   ; '("\\&lt;\\(\\w*\\)\\&gt;[ \\t]*?=" . font-lock-keyword-face) ; 
+Variable define.
+   '("\\(-?[0-9]+\\.?[0-9]*\\)" . font-lock-constant-face)
+   )
+ "Minimal highlighting expressions for b3d-mode.")
+(defvar b3d-font-lock-keywords b3d-font-lock-keywords-1
+  "Default highlighting expressions for b3d-mode.")
+
+; This is for testing of above regexps. josh 2006-12-27
+; (replace-in-string "Function brok(1.23) zon" "Function 
+\\&lt;\\(\\w*\\)\\&gt;" "XXX")
+
+
+; Indents.
+
+(setq indent-back "^[ \t]*\\(End \\|Else\\|Next\\|Wend\\)")
+(setq indent-forward "^[ 
+\t]*\\(Case\\|Default\\|Function\\|Else\\|For\\|While\\)")
+(defun b3d-indent-line ()
+  "Indent current line as Blitz 3D code."
+  (interactive)
+  (beginning-of-line)
+  (if (bobp)
+      (indent-line-to 0) ; First line is always non-indented
+    (let ((not-indented t) cur-indent)
+      (if (looking-at indent-back) ; If the line we are looking at is 
+the end of a block, then decrease the indentation
+	  (progn
+	    (save-excursion
+	      (forward-line -1)
+	      (setq cur-indent (- (current-indentation) default-tab-width)))
+	    (if (&lt; cur-indent 0) ; We can't indent past the left margin
+		(setq cur-indent 0)))
+	(save-excursion
+	  (while not-indented ; Go backwards to find hint.
+	    (forward-line -1)
+	    (if (looking-at indent-back) ; This hint indicates that we need to 
+indent at the level of the END_ token
+		(progn
+		  (setq cur-indent (current-indentation))
+		  (setq not-indented nil))
+	      (if (looking-at indent-forward) ; Need to indent an extra level.
+		  (progn
+		    (setq cur-indent (+ (current-indentation) default-tab-width)) ; Do
+ the actual indenting
+		    (setq not-indented nil))
+		(if (looking-at "^[ \t]*If.*?Then$") ; Deal with multiline If.
+		    (progn
+		      (setq cur-indent (+ (current-indentation) 
+					  default-tab-width))
+		      (setq not-indented nil))
+		 (if (bobp)
+		    (setq not-indented nil))))))))
+      (if cur-indent
+	  (indent-line-to cur-indent)
+	(indent-line-to 0))))) ; If we didn't see an indentation hint, then 
+allow no indentation
+
+
+(defvar b3d-mode-map nil
+  "Keymap for BlitzBasic3D mode. Other modes may inherit.")
+
+(if b3d-mode-map
+    ()
+  (setq b3d-mode-map (make-sparse-keymap))
+  (set-keymap-name b3d-mode-map 'b3d-mode-map)
+  (define-key b3d-mode-map "\e\t" 'ispell-complete-word)
+  (define-key b3d-mode-map "\t" 'b3d-indent-line)
+  (define-key b3d-mode-map "\n" 'b3d-indent-line)
+)
+
+
+(defun b3d-mode ()
+  "Major mode for writing BlitzBasic3D programs.
+\\{text-mode-map}
+Turning on b3d mode runs the normal hook `b3d-mode-hook'."
+  (interactive)
+  (kill-all-local-variables)
+  (use-local-map b3d-mode-map)
+  (setq default-tab-width 4)
+  (setq local-abbrev-table b3d-mode-abbrev-table)
+  (set-syntax-table b3d-mode-syntax-table)
+  (make-local-variable 'indent-line-function)
+  (setq indent-line-function 'b3d-indent-line)
+  (setq mode-name "b3d")
+  (setq major-mode 'b3d-mode)
+  (run-hooks 'b3d-mode-hook))
+
+(defun b3d-mode-hook-identify ()
+  "Mark that this mode has run `b3d-mode-hook'.
+This is how `toggle-text-mode-auto-fill' knows which buffers to operate 
+on."
+  (make-local-variable 'b3d-mode-variant)
+  (setq text-mode-variant t))
+
+(add-hook 'b3d-mode-hook 'b3d-mode-hook-identify)
+
+(provide 'b3d-mode)
+
+;;; b3d-mode.el ends here
+</textarea> <br><br>  </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

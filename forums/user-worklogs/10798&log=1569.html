@@ -1,0 +1,730 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for mtnhome3d</h1><h1>nuclear warfare</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>backup for globals</td><td align="right"><font class="tiny">(Posted 2008-01-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">;nuclear winter globals
+Global fpstimer=CreateTimer(30)
+Global movetimer=CreateTimer(500)
+Global firetimer=CreateTimer(30)
+Global frame=3
+Global x20=0
+Global grfh=GraphicsHeight()
+Global grfw=GraphicsWidth()
+Global p_e=0
+Global p_x=0
+Global p_y=0
+Global p_z=0
+Global daddy
+Global cam=CreateCamera()
+Global overheadcam=CreateCamera()
+Global radtex=CreateTexture(128,128)
+Global moon=LoadSprite("moon3.jpg",4)
+Global crosshair=LoadAnimTexture("layoutzm6.png",2,67,100,0,18)
+Global holesp=LoadSprite("bullet_hole.png",2)
+Global flash=LoadSprite("flash2.bmp",2)
+Global hudim1=LoadSprite("gun1im.png",2)
+Global hudim2=LoadSprite("gun2im.png",2)
+Global hudim3=LoadSprite("gun3im.png",2)
+Global bulmesh=LoadSprite("explosion.bmp",2)
+Global health=LoadSprite("heart.bmp",4)
+Global radarRim=LoadSprite("hud_ring.png",2)
+Global doorim=LoadSprite("dooropum.bmp",2)
+Global ladderim=LoadSprite("ladderim.bmp",2)
+Global rain=LoadSprite("rainim.bmp",2)
+Global radar=CreateSprite()
+Global gunpiv=CreatePivot()
+Global aimpiv=CreatePivot()
+Global flashpiv=CreatePivot()
+Global land=LoadTerrain("island.bmp")
+Global buildings=LoadMesh("entrance1.b3d")
+Global gun1=LoadMesh("pistol.3ds",gunpiv)
+Global gun2=LoadMesh("uzi.3ds",gunpiv)
+Global gun3=LoadMesh("mar_rifle.3ds",gunpiv)
+Global gun4=LoadMesh("uzi.3ds")
+Global gun5=LoadMesh("mar_rifle.3ds")
+Global enemymesh=LoadAnimMesh("zombie.b3d")
+Global laser=CreateMesh(gunpiv)
+Global spot=CreateLight(3,gunpiv)
+Global spot2=CopyEntity (spot)
+Global showspot
+Global gun1snd=Load3DSound("pistol-01.wav")
+Global gunchange=Load3DSound("gunreload33.wav")
+Global skybox=CreateMesh()
+Global firing=95
+Global fireinc=0
+Global cam_x#,cam_z#,cam_pitch#,cam_yaw#,cam_speed#=.5 ; Current
+Global dest_cam_x#,dest_cam_z#,dest_cam_pitch#,dest_cam_yaw# ; Destination
+Global ent_x#,ent_z#,ent_pitch#,ent_yaw#,ent_speed#=.5 ; Current
+Global dest_ent_x#,dest_ent_z#,dest_ent_pitch#,dest_ent_yaw# ; Destination  
+</textarea> <br><br> R.A.M </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>backup for data</td><td align="right"><font class="tiny">(Posted 2008-01-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">.gundata1
+Data 1499,505,2854
+.gundata2
+Data 1440,491,3216
+.enemydata
+Data 10
+Data 1499,501,2854;1
+Data 1499,501,2854;2
+Data 1499,501,2854;3
+Data 1499,501,2854;4
+Data 1499,501,2854;5
+Data 1499,501,2854;6
+Data 1499,501,2854;7
+Data 1499,501,2854;8
+Data 1499,501,2854;9
+Data 1499,501,2854;10
+Data 1499,501,2854;11
+
+;pivot data
+.pivdata
+Data 2
+Data 0,0,0,1,0; ladder pivot
+Data 0,0,0,2,1; door pivot
+</textarea> <br><br> R.A.M </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>backup for the functions</td><td align="right"><font class="tiny">(Posted 2008-01-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Function loadlevel1()
+;light=CreateLight()
+AmbientLight 0,20,20
+;LightColor light,255,255,255
+PositionEntity moon,0,500,0
+EntityOrder moon,1
+ScaleSprite moon,100,100
+EntityFX moon,11
+landtex=LoadTexture("islandtex.png")
+TerrainDetail land,9000
+ScaleTexture landtex,512,512
+EntityTexture land,landtex
+EntityType land,worldC
+ScaleEntity land,10,500,10
+PositionEntity land,0,0,0
+UpdateNormals buildings
+EntityPickMode land,2
+EntityFX land,2
+water=CreatePlane(2)
+watertex=LoadTexture("water.jpg")
+EntityTexture water,watertex
+PositionEntity water,0,395,0
+EntityAlpha water,.5
+EntityFX water,16
+PositionEntity buildings,1429,TerrainY(land,1429,0,2823)+40,2823
+EntityType buildings,worldC
+EntityPickMode buildings,2
+trees=LoadSprite("treesp.png",2)
+SpriteViewMode trees,2
+EntityFX trees,16
+HandleSprite trees,0,-.8
+For q=1 To 2000
+s.sprite= New sprite
+Repeat
+s\x=Rnd(5000)
+s\z=Rnd(5000)
+s\y=TerrainY(land,s\x,0,s\z)
+Until s\y&gt;395
+s\e=CopyEntity( trees )
+s\e2=CopyEntity( trees )
+PositionEntity s\e,s\x,s\y,s\z
+ScaleSprite s\e,Rand(20,30),Rand(40,60)
+PositionEntity s\e2,s\x,s\y,s\z
+ScaleSprite s\e2,Rand(20,30),Rand(40,60)
+RotateEntity s\e2,0,90,0
+
+Next
+FreeEntity trees
+
+daddy=CreatePivot(gunpiv)
+EntityParent daddy,0
+For i=1 To 1000
+r.sprite=New sprite
+r\e=CopyEntity(rain,gunpiv)
+EntityAutoFade r\e,1500/4,1500/2
+PositionEntity r\e,Rnd(-1500,1500),Rnd(-1500,1500),Rnd(-1500,1500)
+EntityParent r\e,daddy
+Next
+
+Restore gundata1
+Read gx
+Read gy
+Read gz
+PositionEntity gun4,gx,gy,gz
+Restore gundata2
+Read gx
+Read gy
+Read gz
+PositionEntity gun5,gx,gy,gz
+EntityType gun4,weapon1
+EntityType gun5,weapon2
+HideEntity gun5
+End Function
+
+
+Function loadlevel2()
+EntityAlpha land,0
+buildings=LoadMesh("warehouse.b3d")
+End Function
+
+Function loadchar()
+;create character
+CameraRange cam,.1,1500
+CameraFogMode cam,1
+CameraFogRange cam,5,500
+CameraFogColor cam,12,16,16
+EntityParent gunpiv,cam
+EntityParent aimpiv,cam
+EntityParent flashpiv,cam
+PositionEntity gunpiv,1,-1,2.2
+PositionEntity flashpiv,1,-1,2.5
+PositionEntity aimpiv,0,-1,10
+list=CreateListener(gunpiv)
+c.char= New char
+c\e=cam
+c\x=1490
+c\z=2850
+c\y=TerrainY(land,c\x,0,c\z)+10
+c\hp=100
+c\kills=0
+c\score=0
+c\wepN=1
+c\wep=gun1
+c\wepf=1
+ScaleMesh gun1,.2,.2,.2
+ScaleMesh gun2,.2,.2,.2
+ScaleMesh gun3,.05,.05,.05
+RotateMesh gun3,0,180,0
+MoveEntity gun3,0,0,-2
+ScaleMesh gun5,.05,.05,.05
+EntityFX gun1,8
+;RotateEntity spot,90,0,0
+LightColor spot,255,250,250
+LightRange spot,50
+LightConeAngles spot,2,45
+EntityRadius c\e,5
+PositionEntity c\e,c\x,c\y,c\z
+EntityType c\e,player
+createsight()
+End Function
+
+
+Function CreateSight()
+;by Zenith
+
+he=CreateBrush(255,0,0)
+v=CreateSurface(laser,he)
+FreeBrush he
+AddVertex ( v,0,1,0,1,0) ; top left 0,1;1,0
+AddVertex ( v,1,1,0,0,0) ; top right 1,1;1,1
+AddVertex ( v,0,-1,0,1,1) ; bottom left 0,0;,0,0
+AddVertex ( v,1,-1,0,0,1) ; bottom right 1,0;0,1
+AddTriangle( v,0,1,2)
+AddTriangle( v,3,2,1)
+TurnEntity laser,90,90,0
+MoveEntity laser,0,0,.1
+EntityFX laser,1
+EntityAlpha laser,.5
+End Function
+
+
+Function loadenemy()
+Restore enemydata
+Read numenemy
+enemymesh=LoadAnimMesh("zombie.b3d")
+For w=1 To numenemy
+SeedRnd MilliSecs()
+Read x1
+Read y1
+Read z1
+enempiv=CreatePivot()
+e.enemy= New enemy
+e\piv=CopyEntity(enempiv)
+e\e=CopyEntity(enemymesh)
+e\x=x1
+e\y=y1
+e\z=z1
+e\hp=100
+beacon=CreateCube(e\piv)
+ScaleEntity beacon,0,1000,0
+EntityFX beacon,9
+ExtractAnimSeq e\e,22,36;seq1 walk2
+ExtractAnimSeq e\e,38,47;seq2 take damage
+ExtractAnimSeq e\e,117,128;seq3 attack
+ExtractAnimSeq e\e,59,88;seq4 die
+ExtractAnimSeq e\e,2,20;seq5 walk1
+ExtractAnimSeq e\e,170,200;seq6 idle
+EntityParent e\e,e\piv
+PositionEntity e\piv,e\x,e\y,e\z
+EntityType e\e,enem
+EntityPickMode e\e,2 
+ScaleMesh e\e,.2,.2,.2
+EntityType e\e,enem
+Next
+FreeEntity enemymesh
+End Function
+
+
+Function loadpivs()
+Restore pivdata
+Read pivnum
+For q3=1 To pivnum
+Read x
+Read y
+Read z
+Read ty
+Read d
+p.pivo= New pivo
+p\e=CreatePivot()
+p\x=x
+p\y=y
+p\z=z
+p\t=ty
+p\d=d
+EntityRadius p\e,1
+Next
+End Function
+
+Function load_hud()
+hu.hud=New hud
+hu\gim1=hudim1
+hu\gim2=hudim2
+hu\gim3=hudim3
+hu\him=health
+hu\rim=radarRim
+hu\drim=doorim
+hu\lim=ladderim
+hu\radar=radar
+EntityTexture hu\radar,radtex
+HideEntity hu\gim2
+HideEntity hu\gim3
+HideEntity hu\lim
+HideEntity hu\drim
+EntityParent hu\gim1,gunpiv
+EntityParent hu\radar,gunpiv
+EntityParent hu\gim2,gunpiv
+EntityParent hu\gim3,gunpiv
+EntityParent hu\him,gunpiv
+EntityParent hu\rim,gunpiv
+EntityParent hu\lim,gunpiv
+EntityParent hu\drim,gunpiv
+PositionEntity hu\him,-2.9,2,.5
+PositionEntity hu\radar,-2.9,.5,.52
+PositionEntity hu\rim,-2.9,.5,.5
+PositionEntity hu\gim1,1,2.7,.5
+PositionEntity hu\gim2,1,2.7,.5
+PositionEntity hu\gim3,1,2.7,.5
+PositionEntity hu\drim,0,2.7,.5
+PositionEntity hu\lim,0,2.7,.5
+ScaleSprite hu\gim1,.5,.5
+ScaleSprite hu\gim2,.5,.5
+ScaleSprite hu\gim3,.5,.5
+ScaleSprite hu\him,.1,.1
+ScaleSprite hu\radar,.35,.35
+ScaleSprite hu\rim,.8,.8
+CameraViewport overheadcam,0,0,128,120;175,125
+End Function
+
+
+Function updatechar()
+For c.char=Each char
+
+DebugLog "c\x"+EntityX(c\e)
+DebugLog "c\y"+EntityY(c\e)
+DebugLog "c\z"+EntityZ(c\e)
+
+TFormPoint 0,0,2,c\e,0
+If KeyDown(200) Or KeyDown(17)
+MoveEntity c\e,0,0,2
+End If
+
+If KeyDown(203) Or KeyDown(30)
+MoveEntity c\e,-2,0,0
+End If
+
+If KeyDown(205) Or KeyDown(32)
+MoveEntity c\e,2,0,0
+End If 
+
+If KeyDown(208) Or KeyDown(31)
+MoveEntity c\e,0,0,-2
+End If
+If MouseDown(1) Or KeyDown(57)
+firing=firing+fireinc
+If firing&gt;100 firing=0
+If firing=100 firebul()
+End If 
+
+PositionEntity overheadcam,EntityX(c\e),EntityY(c\e)+100,EntityZ(c\e)
+PointEntity overheadcam,c\e
+
+If KeyDown(16) Or KeyDown(207)
+ShowEntity spot:ShowEntity spot2
+showspot=1
+Else 
+showspot=0
+HideEntity spot:HideEntity spot2
+End If
+
+If EntityCollided(c\e,weapon1)
+c\wepf=c\wepf+1
+FreeEntity gun4
+ShowEntity gun5
+
+Else If EntityCollided(c\wep,weapon2)
+c\wepf=c\wepf+1
+FreeEntity gun5
+End If
+;gunswitching
+If KeyHit(15) Or KeyHit(54) 
+c\wepN=c\wepN+1
+EmitSound gunchange,gunpiv
+End If
+
+If c\wepN&gt;c\wepf c\wepN=1
+If c\wepN=1 
+c\wep=gun1
+HideEntity gun2
+ShowEntity gun1
+HideEntity gun3
+HideEntity spot
+HideEntity spot2
+fireinc=5
+frame=3
+
+Else If c\wepN=2 And c\wepf=&gt;1
+c\wep=gun2 
+HideEntity gun1
+ShowEntity gun2
+HideEntity gun3
+fireinc=20
+frame=1
+
+Else If c\wepN=3 And c\wepf=&gt;2
+c\wep=gun3
+HideEntity gun1
+HideEntity gun2
+ShowEntity gun3
+fireinc=50
+frame=5
+End If
+
+Picked = EntityPick( gunpiv, 100 ) ;50 being max range of sight
+If Picked=0
+ScaleEntity laser,100,.02,1 ;scale it to max range
+Else
+ScaleEntity laser,EntityDistance#( gunpiv, picked ),.02,1 ;otherwise scale to range of picking
+EndIf
+
+PositionEntity moon,EntityX(c\e)+500,EntityY(c\e)+500,EntityZ(c\e)+500
+;camera controls
+mouselook()
+;GRAVITY
+TranslateEntity c\e,0,-1.5,0
+
+;update rain
+For i=1 To CountChildren(daddy)
+ child=GetChild(daddy,i)
+ ;If EntityDistance(child,c\e)&gt;1500
+ ;PositionEntity child,EntityX(c\e),EntityY(c\e),EntityZ(c\e)
+ ;RotateEntity child,EntityPitch(c\e),EntityYaw(c\e),0
+ MoveEntity child,0,Rnd(-.4),0
+ ;EndIf
+
+Next 
+Next
+End Function
+
+Function checkpivs()
+For c.char=Each char
+For p.pivo=Each pivo
+For hu.hud = Each hud
+If EntityDistance ( c\e,p\e )&lt;6
+ShowEntity hu\lim
+Else HideEntity hu\lim
+End If
+Next
+Next
+Next
+End Function
+
+
+Function updateenemy()
+For e.enemy= Each enemy
+For c.char=Each char
+SeedRnd MilliSecs()
+doing=Rnd(100)
+
+ If doing&lt;20; idle
+ If AnimSeq( e\e )&lt;&gt; 6 Animate e\e,1,.3,6,1
+Else If doing&gt;20 Or doing&lt;40;walking
+ If AnimSeq( e\e )&lt;&gt; 5 Animate e\e,1,.3,5,1
+Else If doing&gt;40 Or doing&lt;60;attacking
+ If AnimSeq( e\e )&lt;&gt; 3 Animate e\e,1,.3,3,1
+Else If doing&gt;60 Or doing&lt;80;dieing
+ If AnimSeq( e\e )&lt;&gt; 4 Animate e\e,1,.3,4,1
+Else;stumling
+ If AnimSeq( e\e )&lt;&gt; 1 Animate e\e,1,.3,1,1
+End If
+;If showspot=1 
+PointEntity e\piv,c\e
+MoveEntity e\piv,0,0,10
+;End If
+;gravity
+TranslateEntity e\piv,0,-.5,0
+DebugLog "e\x"+EntityX(e\e)
+DebugLog "e\y"+EntityY(e\e)
+DebugLog "e\z"+EntityZ(e\e)
+DebugLog "hp "+e\hp
+;DebugLog "e\pivx"+EntityX(e\piv)
+;DebugLog "e\pivy"+EntityY(e\piv)
+;DebugLog "e\pivz"+EntityZ(e\piv)
+Next
+Next
+End Function
+
+
+Function firebul()
+
+SpriteViewMode flash,2
+HandleSprite flash,1,0
+For c.char=Each char
+f.sprite=New sprite
+f\e=CopyEntity(flash,flashpiv)
+RotateEntity f\e,0,-90,0
+Next
+For c.char= Each char
+EmitSound gun1snd,gunpiv
+b.bullet= New bullet
+b\e=CopyEntity(bulmesh,gunpiv)
+b\x=0
+b\y=0
+b\z=0
+EntityParent b\e,0
+LinePick EntityX(gunpiv),EntityY(gunpiv),EntityZ(gunpiv),0,100,.5
+p_e=PickedEntity()
+p_x=PickedX()
+p_y=PickedY()
+p_z=PickedZ()
+EntityType b\e,bullet
+Next
+End Function
+
+
+Function updatebul()
+For f.sprite= Each sprite
+FreeEntity f\e
+Delete f
+Next
+For c.char= Each char
+For e.enemy= Each enemy
+For b.bullet= Each bullet
+
+MoveEntity b\e,0,0,4
+If EntityCollided( b\e,enem ) 
+e\hp=e\hp-Rnd(10)
+x20=x20+1
+End If
+
+If EntityCollided(b\e,worldC)
+h.sprite=New sprite
+h\e=CopyEntity(holesp)
+h\x=p_x
+h\y=p_y
+h\z=p_z
+PositionEntity h\e,h\x,h\y,h\z+.2
+SpriteViewMode h\e,2 
+AlignToVector h\e,-PickedNX(),-PickedNY(),-PickedNZ(),3
+FreeEntity b\e
+Delete b
+Else If b\z&gt;100
+Delete b
+FreeEntity b\e
+End If
+
+
+Next
+Next
+Next
+
+End Function
+
+
+Function updatehud()
+For c.char= Each char
+For hu.hud= Each hud
+
+If c\wep=gun1
+ShowEntity hu\gim1
+HideEntity hu\gim2
+HideEntity hu\gim3
+Else If c\wep=gun2
+HideEntity hu\gim1
+ShowEntity hu\gim2
+HideEntity hu\gim3
+Else If c\wep=gun3 
+HideEntity hu\gim1
+HideEntity hu\gim2
+ShowEntity hu\gim3
+End If
+Next 
+Next
+End Function
+
+
+
+Function mouselook()
+For c.char=Each char
+; Mouse look
+; ----------
+
+; Mouse x and y speed
+mxs=MouseXSpeed()
+mys=MouseYSpeed()
+
+; Mouse shake (total mouse movement)
+mouse_shake=Abs(((mxs+mys)/2)/1000.0)
+
+; Destination camera angle x and y values
+dest_cam_yaw#=dest_cam_yaw#-mxs
+dest_cam_pitch#=dest_cam_pitch#+mys
+
+; Current camera angle x and y values
+cam_yaw=cam_yaw+((dest_cam_yaw-cam_yaw)/5)
+cam_pitch=cam_pitch+((dest_cam_pitch-cam_pitch)/5)
+
+RotateEntity c\e,cam_pitch#,cam_yaw#,0
+;RotateEntity camera,mxs,mys,0
+
+; Rest mouse position to centre of screen
+MoveMouse 400,300
+Next
+End Function 
+
+Function MakeSkybox()
+
+;front face
+b=LoadBrush( "front5.jpg",49 )
+s=CreateSurface( skybox,b )
+AddVertex s,-1,+1,-1,0,0:AddVertex s,+1,+1,-1,1,0
+AddVertex s,+1,-1,-1,1,1:AddVertex s,-1,-1,-1,0,1
+AddTriangle s,0,1,2:AddTriangle s,0,2,3
+FreeBrush b
+;left face
+b=LoadBrush( "right5.jpg",49 )
+s=CreateSurface( skybox,b )
+AddVertex s,+1,+1,-1,0,0:AddVertex s,+1,+1,+1,1,0
+AddVertex s,+1,-1,+1,1,1:AddVertex s,+1,-1,-1,0,1
+AddTriangle s,0,1,2:AddTriangle s,0,2,3
+FreeBrush b
+;back face
+b=LoadBrush( "back5.jpg",49 )
+s=CreateSurface( skybox,b )
+AddVertex s,+1,+1,+1,0,0:AddVertex s,-1,+1,+1,1,0
+AddVertex s,-1,-1,+1,1,1:AddVertex s,+1,-1,+1,0,1
+AddTriangle s,0,1,2:AddTriangle s,0,2,3
+FreeBrush b
+;right face
+b=LoadBrush( "left5.jpg",49 )
+s=CreateSurface( skybox,b )
+AddVertex s,-1,+1,+1,0,0:AddVertex s,-1,+1,-1,1,0
+AddVertex s,-1,-1,-1,1,1:AddVertex s,-1,-1,+1,0,1
+AddTriangle s,0,1,2:AddTriangle s,0,2,3
+FreeBrush b
+;top face
+b=LoadBrush( "top5.jpg",49 )
+s=CreateSurface( skybox,b )
+AddVertex s,-1,+1,+1,0,1:AddVertex s,+1,+1,+1,0,0
+AddVertex s,+1,+1,-1,1,0:AddVertex s,-1,+1,-1,1,1
+AddTriangle s,0,1,2:AddTriangle s,0,2,3
+FreeBrush b
+;bottom face 
+b=LoadBrush( "bottom5.jpg",49 )
+s=CreateSurface( skybox,b )
+AddVertex s,-1,-1,-1,1,0:AddVertex s,+1,-1,-1,1,1
+AddVertex s,+1,-1,+1,0,1:AddVertex s,-1,-1,+1,0,0
+AddTriangle s,0,1,2:AddTriangle s,0,2,3
+FreeBrush b
+ScaleMesh skybox,800,600,500
+FlipMesh skybox
+EntityFX skybox,1
+EntityOrder skybox,10
+EntityParent skybox,0
+EntityType skybox,worldC
+End Function 
+</textarea> <br><br> R.A.M </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>backup for the main part</td><td align="right"><font class="tiny">(Posted 2008-01-29)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> <textarea class="codebox" name="code" readonly="true" rows="15" cols="80" wrap="OFF">Graphics3D 1280,1024,32,2;800,600,32,2;
+SetBuffer BackBuffer()
+AppTitle "Nuclear Warfare","thanks for playing"
+HidePointer()
+AutoMidHandle True
+
+Include "NW globals.bb"
+
+Type char
+Field e,x,y,z,hp,wepN,wep,wepf,kills,score,light
+End Type
+
+Type enemy
+Field e,x,y,z,hp,piv
+End Type
+
+Type bullet
+Field e,x,y,z
+End Type
+
+Type sprite
+Field e,e2,x,y,z
+End Type
+
+Type pivo
+Field e,x,y,z,t,d
+End Type
+
+
+Type hud
+Field gim1,gim2,gim3,him,rim,drim,lim,radar
+End Type
+
+Const worldC=1
+Const player=2
+Const enem=3
+Const bullet=4
+Const weapon1=5
+Const weapon2=6
+
+Collisions player,worldC,2,2
+Collisions player,enem,2,1
+Collisions enem,player,2,2
+Collisions enem,worldC,2,2
+Collisions bullet,enem,2,1
+Collisions bullet,worldC,2,1
+Collisions player,weapon1,2,1
+Collisions player,weapon2,2,1
+
+loadlevel1()
+loadchar()
+loadenemy()
+load_hud()
+loadpivs()
+;MakeSkybox()
+CameraClsColor cam,12,12,12
+While Not KeyHit(1)
+Cls
+If KeyHit(19) Stop;WireFrame True;
+
+updatebul()
+updatechar()
+;updateenemy()
+updatehud()
+UpdateWorld
+;HideEntity cam
+ShowEntity overheadcam
+RenderWorld
+CopyRect 0,0,128,128,0,0,BackBuffer(),TextureBuffer( radtex )
+;ShowEntity cam
+HideEntity overheadcam
+RenderWorld(.5)
+
+Text 0,0,TrisRendered()+"   ",0,0
+WaitTimer(fpstimer)
+Flip
+Wend
+End 
+
+
+Include "NW functs.bb"
+Include "NW data.bb"
+ 
+</textarea> <br><br> R.A.M </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>

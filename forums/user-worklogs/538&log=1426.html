@@ -1,0 +1,71 @@
+<!DOCTYPE >
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>The Official Blitz Website</title><link rel="styleSheet" href="../skins/granite/style.css" type="text/css"></head><body> 
+ 
+<table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="menubarleft"></td><td class="menubar"><table cellspacing="0" cellpadding="0"><tbody><tr><td>&nbsp;</td><td class="menuitemleft"></td><td class="menuitem"><a href="../../news.html" class="menuitem">News</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../index.html" class="menuitem">Forums</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../codearcs.html" class="menuitem">Code</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../user-worklogs.html" class="menuitem">Logs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../gallery.html" class="menuitem">Gallery</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../sdkspecs.html" class="menuitem">Specs</a></td><td class="menuitemright"></td><td class="menuitemleft"></td><td class="menuitem"><a href="../../search.html" class="menuitem">Search</a></td><td class="menuitemright"></td></tr></tbody></table></td><td class="menubarright"></td></tr></tbody></table><div class="main"><h1>Worklog for Chroma</h1><h1>Zama Flight Engine</h1><a href="../../user-worklogs.html">Return to Worklogs</a><br><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Still making progress</td><td align="right"><font class="tiny">(Posted 2008-04-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The flight engine is still coming along nicely.  I've posted a couple 
+of videos on YouTube.  Another cool thing is that I've been approached 
+by an individual that is willing to help me bring it to fruition.<br><br>I
+ still have a Sky Captain type game on the brain.  There's just 
+something about flying around a metropolis while shooting giant 
+robots... <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>To Do List</td><td align="right"><font class="tiny">(Posted 2007-10-04)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ This is the most serious I've ever been about completing a game, so I 
+guess I'm gonna have to make a to-do list.  A few things off the top of 
+my head are effects such as afterburner, wingtip contrails, engine glow,
+ tracer bullet trails, and dust flying up if you land in the dirt.<br><br>I'm off work for 6 days so lets see what I can get done. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Zama Flight Engine</td><td align="right"><font class="tiny">(Posted 2007-09-26)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ I've been doing a lot of aerodynamics research lately and the scary 
+thing is that I understand it now.  I now have the knowledge to write a 
+moderately realistic flight sim.  The demo I showed a couple months ago 
+is being revamped atm with all the new things I've learned.<br><br>I 
+will say one thing that if you're trying to do what I'm doing (writing a
+ flight sim)...once you figure out how to get the real angle of attack, 
+the rest falls into place.  Because without the correct AOA, nothing 
+will work.  A small hint is it's in radians in it's native form. &gt;:-)<br><br>I'm
+ still looking for an aircraft to base the game around but it's not a 
+major concern atm.  The flight engine is all that matters right now.  
+Making sure all the linear and rotational forces are computed correctly 
+is adamant.<br><br>Another cool thing I found was how to calculate the 
+G-Forces a pilot experiences.  You find this out by simply dividing the 
+Lift by the Weight of the aircraft (in Newtons).<br>If the Lift is 50000
+ and the weight is 50000 then you are under 1 Gs of force (flying 
+level).  If you're Lift is 100000 then Gs = 100000/50000 or 2 Gs.  Wings
+ can handle a lot of pressure.  It's pretty crazy. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Menial Stuffs</td><td align="right"><font class="tiny">(Posted 2007-09-18)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ Lately, I've been doing boring stuff like creating a fast lookup table 
+that will give me the correct air density based on an altitude.  This 
+way if you go above the aircraft's service ceiling you'll eventually 
+stall out.  It was pretty easy to do actually.  My next task is 
+perfecting the pitching of the plane. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Flight Engine is back ON.</td><td align="right"><font class="tiny">(Posted 2007-08-15)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> TFE was on hold while I studied for my next rank.  I'm happy to say that I passed the test WOOT!  Yay for a pay raise.<br><br>I'm
+ again cranking up the tandem flight engine again.  My last demo has the
+ basics in there but it had some major problems.  For one, the lift 
+vector was only half right.  It seems the lift vector stays 
+perpendicular to drag <b>AND</b> the wings lengthwise at the same time. 
+ I finally got it nailed so now the lift vector is working 100% 
+correctly in all phases of flight.  I have the 4 basic flight 
+characteristics of thrust, drag, lift, and gravity all modeled 
+correctly.  My next step is to model flight controls.  This shouldn't be
+ too hard because all I have to do is calculate how much torque will be 
+applied to the CG on it's respective axis based on airspeed and pilot 
+inputs.<br><br>Now that I'm well versed in flight physics (serious!).  
+I'm half tempted to use my newly purchase JV-ODE physics lib to do it 
+all.  That would be a big help with the landing gear too.  I may do a 
+test to see how it looks at least.<br><br>I'm still trying to choose the
+ airplane for the game so if you have any ideas, please post them in the
+ General Discussions forums in my Aircraft Vote thread.  I'm open to any
+ suggestions.  Once I finish the flight physics 100% and select the 
+airplane, the game should really take off.  I have like a bajillion guns
+ and cannon code, smoke effects, explosions, etc etc ready to go.<br><br>No
+ demo and no SS.  It might be a month or so before I have something to 
+show but at least I'm hitting it up.  It won't be an Air War 1946 but 
+it'll be something equally as cool. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>(Not) On hold. (Any Longer!)</td><td align="right"><font class="tiny">(Posted 2007-02-28)</font></td></tr></tbody></table></td></tr><tr><td class="posttext"> TFE is on hold atm while I study for promotion.  I'll resume work on it on March 9th.<br><br><b>EDIT:</b> Testing done!  Work is now resuming on TFE.  New demo probably in a month or so. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td class="posthead"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td>Preliminary testing.</td><td align="right"><font class="tiny">(Posted 2007-02-16)</font></td></tr></tbody></table></td></tr><tr><td class="posttext">
+ The Tandem Flight Engine is my realistic flight physics engine I've 
+been working on the past week.  No, I didn't write a flight engine in a 
+week.  I started work on this in 2002 and then took a LONG break.  I 
+picked it back up last week and made huge progress when I abandoned 
+trying to use quaternions.  I now have a working flight physics model.<br><br>My
+ favorite part at this point is landing.  You HAVE to keep the nose up 
+(positive AoA) or you bite it.  The numbers aren't totally right but 
+they're kinda close.  If I chop the throttle and give it about 8 degrees
+ AoA and keep the airspeed at around 125 knots, it comes in like a real 
+aiplane.  The lift coefficient increases with AoA increase so if you 
+nose it down at low speed you're toast.  I'll post a screenshot later 
+tonight. <br><br> [Core2D][Sprite][MaxVerlet] </td></tr></tbody></table><br></div><table width="100%"><tbody><tr><td></td></tr></tbody></table></body></html>
